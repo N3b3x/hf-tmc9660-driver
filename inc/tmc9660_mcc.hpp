@@ -2722,21 +2722,22 @@ struct HW_CONFIG {
     };
 };
 
-/// Gate Driver Configuration Register (Address 0x1E4, Block 0).
+/// Gate Driver Configuration Register (Address 0x1E4, Block 0: MCC_GDRV_CFG)
 /**
- * Configures gate driver behavior and strengths:contentReference[oaicite:182]{index=182}:contentReference[oaicite:183]{index=183}:
- * - **VS_UVLO_LVL** (bits 23:20, RW, default 0x0): VS undervoltage lockout threshold level selection:contentReference[oaicite:184]{index=184}.
- *   - Range 0-15 (4.4V to 8.1V in ~0.2V steps):contentReference[oaicite:185]{index=185}:contentReference[oaicite:186]{index=186}.
- * - **ADAPTIVE_MODE_Y2** (bit 17, RW, default 0x1): Adaptive gate drive mode for phase Y2 (enable shorter discharge based on gate voltage):contentReference[oaicite:187]{index=187}.
- * - **ADAPTIVE_MODE_UVW** (bit 16, RW, default 0x1): Adaptive mode for phases U, V, W gate drive:contentReference[oaicite:188]{index=188}.
+ * Configures gate driver behavior and strengths:
+ * - **VS_UVLO_LVL** (bits 23:20, RW, default 0x0): Sets the VS undervoltage lockout threshold level.
+ *   - Range: 0-15 (4.4V to 8.1V in ~0.2V steps).
+ * - **ADAPTIVE_MODE_Y2** (bit 17, RW, default 0x1): Enables adaptive gate drive mode for phase Y2.
+ * - **ADAPTIVE_MODE_UVW** (bit 16, RW, default 0x1): Enables adaptive gate drive mode for phases U, V, W.
  * - **IGATE_SOURCE_Y2** (bits 15:12, RW, default 0x0): Gate source current limit for high-side Y2 FET.
- * - **IGATE_SINK_Y2**   (bits 11:8,  RW, default 0x0): Gate sink current limit for low-side Y2 FET (allowed values 0-9 correspond to 25mA ... 360mA).
- * - **IGATE_SOURCE_UVW**(bits 7:4,  RW, default 0x0): Gate source current limit for high-side U/V/W FETs.
- * - **IGATE_SINK_UVW**  (bits 3:0,  RW, default 0x0): Gate sink current limit for low-side U/V/W FETs.
+ * - **IGATE_SINK_Y2** (bits 11:8, RW, default 0x0): Gate sink current limit for low-side Y2 FET.
+ * - **IGATE_SOURCE_UVW** (bits 7:4, RW, default 0x0): Gate source current limit for high-side U/V/W FETs.
+ * - **IGATE_SINK_UVW** (bits 3:0, RW, default 0x0): Gate sink current limit for low-side U/V/W FETs.
  */
 struct CFG {
     static constexpr uint16_t ADDRESS = 0x1E4;
-    /// Undervoltage threshold selection for VS (supply) – values correspond to approximately 4.4V + 0.2V * value:contentReference[oaicite:192]{index=192}:contentReference[oaicite:193]{index=193}.
+
+    /// Undervoltage threshold selection for VS (supply).
     enum class VsUvloLevel : uint8_t {
         VSUVLO_44 = 0,  ///< VS UVLO = 4.4V.
         VSUVLO_46 = 1,  ///< VS UVLO = 4.6V.
@@ -2755,30 +2756,78 @@ struct CFG {
         VSUVLO_78 = 14, ///< VS UVLO = 7.8V.
         VSUVLO_81 = 15  ///< VS UVLO = 8.1V.
     };
+
+    /// Gate source current options.
+    enum class GateSourceCurrent : uint8_t {
+        SOURCE_25MA = 0,   ///< 25mA.
+        SOURCE_50MA = 1,   ///< 50mA.
+        SOURCE_80MA = 2,   ///< 80mA.
+        SOURCE_105MA = 3,  ///< 105mA.
+        SOURCE_135MA = 4,  ///< 135mA.
+        SOURCE_160MA = 5,  ///< 160mA.
+        SOURCE_190MA = 6,  ///< 190mA.
+        SOURCE_215MA = 7,  ///< 215mA.
+        SOURCE_290MA = 8,  ///< 290mA.
+        SOURCE_360MA = 9,  ///< 360mA.
+        SOURCE_430MA = 10, ///< 430mA.
+        SOURCE_500MA = 11, ///< 500mA.
+        SOURCE_625MA = 12, ///< 625mA.
+        SOURCE_755MA = 13, ///< 755mA.
+        SOURCE_885MA = 14, ///< 885mA.
+        SOURCE_1000MA = 15 ///< 1000mA.
+    };
+
+    /// Gate sink current options.
+    enum class GateSinkCurrent : uint8_t {
+        SINK_50MA = 0,    ///< 50mA.
+        SINK_100MA = 1,   ///< 100mA.
+        SINK_160MA = 2,   ///< 160mA.
+        SINK_210MA = 3,   ///< 210mA.
+        SINK_270MA = 4,   ///< 270mA.
+        SINK_320MA = 5,   ///< 320mA.
+        SINK_380MA = 6,   ///< 380mA.
+        SINK_430MA = 7,   ///< 430mA.
+        SINK_580MA = 8,   ///< 580mA.
+        SINK_720MA = 9,   ///< 720mA.
+        SINK_860MA = 10,  ///< 860mA.
+        SINK_1000MA = 11, ///< 1000mA.
+        SINK_1250MA = 12, ///< 1250mA.
+        SINK_1510MA = 13, ///< 1510mA.
+        SINK_1770MA = 14, ///< 1770mA.
+        SINK_2000MA = 15  ///< 2000mA.
+    };
+
     union {
         uint32_t value;
         struct {
-            uint32_t IGATE_SINK_UVW   : 4;  ///< Gate sink current setting for UVW (0:25mA, ... 9:360mA).
-            uint32_t IGATE_SOURCE_UVW : 4;  ///< Gate source current setting for UVW (0:25mA, ... 9:360mA).
-            uint32_t IGATE_SINK_Y2    : 4;  ///< Gate sink current setting for Y2 channel.
-            uint32_t IGATE_SOURCE_Y2  : 4;  ///< Gate source current setting for Y2 channel.
-            uint32_t ADAPTIVE_MODE_UVW: 1;  ///< Adaptive gate discharge for UVW (1=enabled):contentReference[oaicite:197]{index=197}.
-            uint32_t ADAPTIVE_MODE_Y2 : 1;  ///< Adaptive gate discharge for Y2 (1=enabled):contentReference[oaicite:198]{index=198}.
+            GateSinkCurrent IGATE_SINK_UVW   : 4;  ///< Gate sink current setting for UVW.
+            GateSourceCurrent IGATE_SOURCE_UVW : 4;  ///< Gate source current setting for UVW.
+            GateSinkCurrent IGATE_SINK_Y2    : 4;  ///< Gate sink current setting for Y2.
+            GateSourceCurrent IGATE_SOURCE_Y2  : 4;  ///< Gate source current setting for Y2.
+            uint32_t ADAPTIVE_MODE_UVW: 1;  ///< Adaptive gate discharge for UVW (1=enabled).
+            uint32_t ADAPTIVE_MODE_Y2 : 1;  ///< Adaptive gate discharge for Y2 (1=enabled).
             uint32_t : 2;
-            VsUvloLevel VS_UVLO_LVL   : 4;  ///< VS undervoltage lockout threshold setting:contentReference[oaicite:199]{index=199}.
+            VsUvloLevel VS_UVLO_LVL   : 4;  ///< VS undervoltage lockout threshold setting.
             uint32_t : 12;
         } bits;
     };
 };
 
-/// Gate Driver Timing Register (Address 0x1E9, Block 0).
+/// Gate Driver Timing Register (Address 0x1E9, Block 0: MCC_GDRV_TIMING)
 /**
- * Configures gate driver timing parameters:
- * - **T_DRIVE_SOURCE_Y2** (bits 31:24): Gate driver source current drive time for Y2 FET.
- * - **T_DRIVE_SINK_Y2**   (bits 23:16): Gate driver sink current drive time for Y2.
- * - **T_DRIVE_SOURCE_UVW**(bits 15:8): Drive time for UVW high-sides.
- * - **T_DRIVE_SINK_UVW**  (bits 7:0): Drive time for UVW low-sides.
- * These times define how long the gate driver actively sources or sinks current during switching.
+ * Sets the T_DRIVE sink and source times for all channels.
+ * - **T_DRIVE_SOURCE_Y2** (bits 31:24): Charge time of the MOSFET for Y2 (default 0xFF).
+ *   - Description: During this time, the full gate drive current is applied.
+ *     The applied time is defined as "(1s / PWM_CLK) × (2 × TDRIVE + 5)".
+ * - **T_DRIVE_SINK_Y2** (bits 23:16): Discharge time of the MOSFET for Y2 (default 0xFF).
+ *   - Description: During this time, the full gate drive current is applied.
+ *     The applied time is defined as "(1s / PWM_CLK) × (2 × TDRIVE + 5)".
+ * - **T_DRIVE_SOURCE_UVW** (bits 15:8): Charge time of the MOSFET for UVW (default 0xFF).
+ *   - Description: During this time, the full gate drive current is applied.
+ *     The applied time is defined as "(1s / PWM_CLK) × (2 × TDRIVE + 5)".
+ * - **T_DRIVE_SINK_UVW** (bits 7:0): Discharge time of the MOSFET for UVW (default 0xFF).
+ *   - Description: During this time, the full gate drive current is applied.
+ *     The applied time is defined as "(1s / PWM_CLK) × (2 × TDRIVE + 5)".
  */
 struct TIMING {
     static constexpr uint16_t ADDRESS = 0x1E9;
@@ -2793,14 +2842,21 @@ struct TIMING {
     };
 };
 
-/// Gate Driver Blanking and Deadtime Register (Address 0x1EA, Block 0).
+/// Gate Driver Blanking and Deadtime Register (Address 0x1EA, Block 0: MCC_GDRV_BBM)
 /**
- * Configures break-before-make (deadtime) and blanking times for gate driver:
- * - **BBM_L_UVW** (bits 7:0): Deadtime for UVW low-side (ns or in clock cycles).
- * - **BBM_H_UVW** (bits 15:8): Deadtime for UVW high-side.
- * - **BBM_L_Y2** (bits 23:16): Deadtime for Y2 low-side.
- * - **BBM_H_Y2** (bits 31:24): Deadtime for Y2 high-side.
- * Ensures that when one transistor turns off, a short delay occurs before the complementary transistor turns on to avoid shoot-through.
+ * Controls the BBM_L and BBM_H times for all channels.
+ * - **BBM_H_Y2** (bits 31:24): Break Before Make time for high-side Y2 (default 0x14).
+ *   - Description: "(1s / PWM_CLK) × (BBM + 1)" for high-side MOSFET gate control.
+ *     Applies before switching from low to high. Should usually be set to zero in favor of T_DRIVE.
+ * - **BBM_L_Y2** (bits 23:16): Break Before Make time for low-side Y2 (default 0x14).
+ *   - Description: "(1s / PWM_CLK) × (BBM + 1)" for low-side MOSFET gate control.
+ *     Applies before switching from high to low. Should usually be set to zero in favor of T_DRIVE.
+ * - **BBM_H_UVW** (bits 15:8): Break Before Make time for high-side UVW (default 0x14).
+ *   - Description: "(1s / PWM_CLK) × (BBM + 1)" for high-side MOSFET gate control.
+ *     Applies before switching from low to high. Should usually be set to zero in favor of T_DRIVE.
+ * - **BBM_L_UVW** (bits 7:0): Break Before Make time for low-side UVW (default 0x14).
+ *   - Description: "(1s / PWM_CLK) × (BBM + 1)" for low-side MOSFET gate control.
+ *     Applies before switching from high to low. Should usually be set to zero in favor of T_DRIVE.
  */
 struct BBM {
     static constexpr uint16_t ADDRESS = 0x1EA;
@@ -2815,121 +2871,661 @@ struct BBM {
     };
 };
 
-/// Gate Driver Protection Register (Address 0x1EB, Block 0).
+/// Gate Driver Protection Register (Address 0x1EB, Block 0: MCC_GDRV_PROT)
 /**
- * Configures various protection features and retry behavior:
- * - **HS_RETRIES_UVW** (bits 3:2): Number of retry attempts for UVW high-side overcurrent events.
- * - **LS_RETRIES_UVW** (bits 1:0): Retry attempts for UVW low-side.
- * - **HS_RETRIES_Y2** (bits 7:6): Retry attempts for Y2 high-side.
- * - **LS_RETRIES_Y2** (bits 5:4): Retry attempts for Y2 low-side.
- * - **PWM_ON_SHORT** (bit 8): If set, allows PWM to turn on complementary transistor in short condition (active short).
- * - **TERM_SHORT** (bit 9): Short detection termination method (e.g., immediate shutdown vs regulated).
- * - **VGS_BLANKING_Y2** (bit 16): Blanking time enable for Y2 Vgs monitoring.
- * - **VGS_DEGLITCH_Y2** (bit 17): Deglitch filter enable for Y2 Vgs faults.
+ * @brief Protection settings for MCC_GDRV_PROT (Block 0, Address 0x1EB).
+ * 
+ * This structure represents the general and VGS-related protection settings.
+ * It includes bit fields for various configuration options such as retry counts,
+ * VGS blanking and deglitch times, and PWM termination behavior on faults.
+ * 
+ * Bit Field Description:
+ * - [28] TERM_PWM_ON_SHORT: Terminate PWM on other phases if a fault occurs.
+ *   - 0: OFF - Keep PWM running for other phases.
+ *   - 1: ON - Terminate PWM for other phases.
+ * 
+ * - [23:22] HS_RETRIES_Y2: High-side Y2 retry count on fault.
+ *   - 0: OFF - No retries.
+ *   - 1: ONE - 1 retry.
+ *   - 2: TWO - 2 retries.
+ *   - 3: THREE - 3 retries.
+ * 
+ * - [21:20] LS_RETRIES_Y2: Low-side Y2 retry count on fault.
+ *   - 0: OFF - No retries.
+ *   - 1: ONE - 1 retry.
+ *   - 2: TWO - 2 retries.
+ *   - 3: THREE - 3 retries.
+ * 
+ * - [19:18] HS_RETRIES_UVW: High-side UVW retry count on fault.
+ *   - 0: OFF - No retries.
+ *   - 1: ONE - 1 retry.
+ *   - 2: TWO - 2 retries.
+ *   - 3: THREE - 3 retries.
+ * 
+ * - [17:16] LS_RETRIES_UVW: Low-side UVW retry count on fault.
+ *   - 0: OFF - No retries.
+ *   - 1: ONE - 1 retry.
+ *   - 2: TWO - 2 retries.
+ *   - 3: THREE - 3 retries.
+ * 
+ * - [13:12] VGS_BLANKING_Y2: VGS short blanking time for Y2.
+ *   - 0: BLK_OFF - Off.
+ *   - 1: BLK_250NS - 0.25 µs.
+ *   - 2: BLK_500NS - 0.5 µs.
+ *   - 3: BLK_1000NS - 1 µs.
+ * 
+ * - [10:8] VGS_DEGLITCH_Y2: VGS short deglitch time for Y2.
+ *   - 0: DEG_OFF - Off.
+ *   - 1: DEG_250NS - 0.25 µs.
+ *   - 2: DEG_500NS - 0.5 µs.
+ *   - 3: DEG_1000NS - 1 µs.
+ *   - 4: DEG_2000NS - 2 µs.
+ *   - 5: DEG_4000NS - 4 µs.
+ *   - 6: DEG_6000NS - 6 µs.
+ *   - 7: DEG_8000NS - 8 µs.
+ * 
+ * - [5:4] VGS_BLANKING_UVW: VGS short blanking time for UVW.
+ *   - 0: BLK_OFF - Off.
+ *   - 1: BLK_250NS - 0.25 µs.
+ *   - 2: BLK_500NS - 0.5 µs.
+ *   - 3: BLK_1000NS - 1 µs.
+ * 
+ * - [2:0] VGS_DEGLITCH_UVW: VGS short deglitch time for UVW.
+ *   - 0: DEG_OFF - Off.
+ *   - 1: DEG_250NS - 0.25 µs.
+ *   - 2: DEG_500NS - 0.5 µs.
+ *   - 3: DEG_1000NS - 1 µs.
+ *   - 4: DEG_2000NS - 2 µs.
+ *   - 5: DEG_4000NS - 4 µs.
+ *   - 6: DEG_6000NS - 6 µs.
+ *   - 7: DEG_8000NS - 8 µs.
  */
 struct PROT {
     static constexpr uint16_t ADDRESS = 0x1EB;
+
+    /// Enum for TERM_PWM_ON_SHORT field.
+    enum class TermPwmOnShort : uint8_t {
+        OFF = 0, ///< Keep PWM running for other phases.
+        ON = 1   ///< Terminate PWM for other phases.
+    };
+
+    /// Enum for retry counts.
+    enum class RetryCount : uint8_t {
+        OFF = 0, ///< No retries.
+        ONE = 1, ///< 1 retry.
+        TWO = 2, ///< 2 retries.
+        THREE = 3 ///< 3 retries.
+    };
+
+    /// Enum for VGS blanking time.
+    enum class VgsBlanking : uint8_t {
+        BLK_OFF = 0, ///< Off.
+        BLK_250NS = 1, ///< 0.25 µs.
+        BLK_500NS = 2, ///< 0.5 µs.
+        BLK_1000NS = 3 ///< 1 µs.
+    };
+
+    /// Enum for VGS deglitch time.
+    enum class VgsDeglitch : uint8_t {
+        DEG_OFF = 0, ///< Off.
+        DEG_250NS = 1, ///< 0.25 µs.
+        DEG_500NS = 2, ///< 0.5 µs.
+        DEG_1000NS = 3, ///< 1 µs.
+        DEG_2000NS = 4, ///< 2 µs.
+        DEG_4000NS = 5, ///< 4 µs.
+        DEG_6000NS = 6, ///< 6 µs.
+        DEG_8000NS = 7 ///< 8 µs.
+    };
+
     union {
         uint32_t value;
         struct {
-            uint32_t LS_RETRIES_UVW : 2;   ///< Low-side UVW retry count on fault.
-            uint32_t HS_RETRIES_UVW : 2;   ///< High-side UVW retry count.
-            uint32_t LS_RETRIES_Y2  : 2;   ///< Low-side Y2 retry count.
-            uint32_t HS_RETRIES_Y2  : 2;   ///< High-side Y2 retry count.
-            uint32_t PWM_ON_SHORT   : 1;   ///< Allow PWM active-short (keep one transistor on during short).
-            uint32_t TERM_ON_SHORT  : 1;   ///< Terminate on short immediately if set.
-            uint32_t : 6;
-            uint32_t VGS_BLANKING_Y2 : 1;  ///< Enable gate-source voltage blanking for Y2.
-            uint32_t VGS_DEGLITCH_Y2 : 1;  ///< Enable deglitch filter for Y2 Vgs.
-            uint32_t : 14;
+            VgsDeglitch VGS_DEGLITCH_UVW : 3; ///< VGS short deglitch time for UVW.
+            VgsBlanking VGS_BLANKING_UVW : 2; ///< VGS short blanking time for UVW.
+            uint32_t : 1;
+            VgsDeglitch VGS_DEGLITCH_Y2 : 3;  ///< VGS short deglitch time for Y2.
+            VgsBlanking VGS_BLANKING_Y2 : 2;  ///< VGS short blanking time for Y2.
+            uint32_t : 2;
+            RetryCount LS_RETRIES_UVW : 2;   ///< Low-side UVW retry count on fault.
+            RetryCount HS_RETRIES_UVW : 2;   ///< High-side UVW retry count.
+            RetryCount LS_RETRIES_Y2 : 2;    ///< Low-side Y2 retry count.
+            RetryCount HS_RETRIES_Y2 : 2;    ///< High-side Y2 retry count.
+            uint32_t : 3;
+            TermPwmOnShort TERM_PWM_ON_SHORT : 1; ///< Terminate PWM on other phases if fault occurs.
+            uint32_t : 3;
         } bits;
     };
 };
 
-/// Overcurrent Protection (OCP) UVW Register (Address 0x1EC, Block 0).
+/// Overcurrent Protection (OCP) UVW Register (Address 0x1EC, Block 0: MCC_GDRV_OCP_UVW)
 /**
- * Thresholds and settings for UVW phases overcurrent protection.
- * It might hold the trip threshold currents or blank times for UVW channels.
- * (Details would come from datasheet - here represented abstractly.)
+ * Configures the overcurrent protection for phases U, V, and W.
+ * 
+ * Bit Field Description:
+ * - [27:24] HS_OCP_THRES_UVW: Threshold of the high-side overcurrent protection.
+ *   - 0: THRES_63MV (63mV)
+ *   - 1: THRES_125MV (125mV)
+ *   - 2: THRES_187MV (187mV)
+ *   - 3: THRES_248MV (248mV)
+ *   - 4: THRES_312MV (312mV)
+ *   - 5: THRES_374MV (374mV)
+ *   - 6: THRES_434MV (434mV)
+ *   - 7: THRES_504MV (504mV)
+ *   - 8: THRES_705MV (705mV)
+ *   - 9: THRES_940MV (940mV)
+ *   - 10: THRES_1180MV (1180mV)
+ *   - 11: THRES_1410MV (1410mV)
+ *   - 12: THRES_1650MV (1650mV)
+ *   - 13: THRES_1880MV (1880mV)
+ *   - 14: THRES_2110MV (2110mV)
+ *   - 15: THRES_2350MV (2350mV)
+ * 
+ * - [22:20] HS_OCP_BLANKING_UVW: OCP blanking time for high-side.
+ *   - 0: BLK_OFF (Off)
+ *   - 1: BLK_250NS (0.25µs)
+ *   - 2: BLK_500NS (0.5µs)
+ *   - 3: BLK_1000NS (1µs)
+ *   - 4: BLK_2000NS (2µs)
+ *   - 5: BLK_4000NS (4µs)
+ *   - 6: BLK_6000NS (6µs)
+ *   - 7: BLK_8000NS (8µs)
+ * 
+ * - [18:16] HS_OCP_DEGLITCH_UVW: OCP deglitch time for high-side.
+ *   - 0: DEG_OFF (Off)
+ *   - 1: DEG_250NS (0.25µs)
+ *   - 2: DEG_500NS (0.5µs)
+ *   - 3: DEG_1000NS (1µs)
+ *   - 4: DEG_2000NS (2µs)
+ *   - 5: DEG_4000NS (4µs)
+ *   - 6: DEG_6000NS (6µs)
+ *   - 7: DEG_8000NS (8µs)
+ * 
+ * - [15] LS_OCP_USE_VDS_UVW: Switches between shunt and RDSon measurement.
+ *   - 0: Use shunt measurement.
+ *   - 1: Use RDSon measurement.
+ * 
+ * - [11:8] LS_OCP_THRES_UVW: Threshold of the low-side overcurrent protection.
+ *   - 0: THRES_80_63MV (80mV SHUNT, 63mV VDS)
+ *   - 1: THRES_165_125MV (165mV SHUNT, 125mV VDS)
+ *   - 2: THRES_250_187MV (250mV SHUNT, 187mV VDS)
+ *   - 3: THRES_330_248MV (330mV SHUNT, 248mV VDS)
+ *   - 4: THRES_415_312MV (415mV SHUNT, 312mV VDS)
+ *   - 5: THRES_500_374MV (500mV SHUNT, 374mV VDS)
+ *   - 6: THRES_582_434MV (582mV SHUNT, 434mV VDS)
+ *   - 7: THRES_660_504MV (660mV SHUNT, 504mV VDS)
+ *   - 8: THRES_125_705MV (125mV SHUNT, 705mV VDS)
+ *   - 9: THRES_250_940MV (250mV SHUNT, 940mV VDS)
+ *   - 10: THRES_375_1180MV (375mV SHUNT, 1180mV VDS)
+ *   - 11: THRES_500_1410MV (500mV SHUNT, 1410mV VDS)
+ *   - 12: THRES_625_1650MV (625mV SHUNT, 1650mV VDS)
+ *   - 13: THRES_750_1880MV (750mV SHUNT, 1880mV VDS)
+ *   - 14: THRES_873_2110MV (873mV SHUNT, 2110mV VDS)
+ *   - 15: THRES_1000_2350MV (1000mV SHUNT, 2350mV VDS)
+ * 
+ * - [6:4] LS_OCP_BLANKING_UVW: OCP blanking time for low-side.
+ *   - 0: BLK_OFF (Off)
+ *   - 1: BLK_250NS (0.25µs)
+ *   - 2: BLK_500NS (0.5µs)
+ *   - 3: BLK_1000NS (1µs)
+ *   - 4: BLK_2000NS (2µs)
+ *   - 5: BLK_4000NS (4µs)
+ *   - 6: BLK_6000NS (6µs)
+ *   - 7: BLK_8000NS (8µs)
+ * 
+ * - [2:0] LS_OCP_DEGLITCH_UVW: OCP deglitch time for low-side.
+ *   - 0: DEG_OFF (Off)
+ *   - 1: DEG_250NS (0.25µs)
+ *   - 2: DEG_500NS (0.5µs)
+ *   - 3: DEG_1000NS (1µs)
+ *   - 4: DEG_2000NS (2µs)
+ *   - 5: DEG_4000NS (4µs)
+ *   - 6: DEG_6000NS (6µs)
+ *   - 7: DEG_8000NS (8µs)
  */
 struct OCP_UVW {
     static constexpr uint16_t ADDRESS = 0x1EC;
-    uint32_t value;
+
+    /// Enum for OCP thresholds.
+    enum class OcpThreshold : uint8_t {
+        THRES_63MV = 0, THRES_125MV, THRES_187MV, THRES_248MV,
+        THRES_312MV, THRES_374MV, THRES_434MV, THRES_504MV,
+        THRES_705MV, THRES_940MV, THRES_1180MV, THRES_1410MV,
+        THRES_1650MV, THRES_1880MV, THRES_2110MV, THRES_2350MV
+    };
+
+    /// Enum for blanking times.
+    enum class BlankingTime : uint8_t {
+        BLK_OFF = 0, BLK_250NS, BLK_500NS, BLK_1000NS,
+        BLK_2000NS, BLK_4000NS, BLK_6000NS, BLK_8000NS
+    };
+
+    /// Enum for deglitch times.
+    enum class DeglitchTime : uint8_t {
+        DEG_OFF = 0, DEG_250NS, DEG_500NS, DEG_1000NS,
+        DEG_2000NS, DEG_4000NS, DEG_6000NS, DEG_8000NS
+    };
+
+    union {
+        uint32_t value;
+        struct {
+            DeglitchTime LS_OCP_DEGLITCH_UVW : 3; ///< Low-side OCP deglitch time.
+            BlankingTime LS_OCP_BLANKING_UVW : 3; ///< Low-side OCP blanking time.
+            uint32_t : 2;
+            OcpThreshold LS_OCP_THRES_UVW : 4;   ///< Low-side OCP threshold.
+            uint32_t : 1;
+            uint32_t LS_OCP_USE_VDS_UVW : 1;     ///< Use RDSon measurement for low-side OCP.
+            uint32_t : 1;
+            DeglitchTime HS_OCP_DEGLITCH_UVW : 3; ///< High-side OCP deglitch time.
+            BlankingTime HS_OCP_BLANKING_UVW : 3; ///< High-side OCP blanking time.
+            uint32_t : 1;
+            OcpThreshold HS_OCP_THRES_UVW : 4;   ///< High-side OCP threshold.
+            uint32_t : 4;
+        } bits;
+    };
 };
 
-/// Overcurrent Protection (OCP) Y2 Register (Address 0x1ED, Block 0).
+
+/// Overcurrent Protection (OCP) Y2 Register (Address 0x1ED, Block 0: MCC_GDRV_OCP_Y2)
 /**
- * Thresholds/settings for Y2 phase overcurrent protection.
+ * @struct OCP_Y2
+ * @brief Represents the configuration for Overcurrent Protection (OCP) settings.
+ * 
+ * This structure encapsulates the configuration for both low-side and high-side 
+ * OCP settings, including thresholds, blanking times, and deglitch times. The 
+ * configuration is represented as a 32-bit value or as individual bit fields.
+ * 
+ * Bit field details:
+ * - **LS_OCP_DEGLITCH_Y2 (3 bits)**: Low-side OCP deglitch time. Configured using the `DeglitchTime` enum.
+ * - **LS_OCP_BLANKING_Y2 (3 bits)**: Low-side OCP blanking time. Configured using the `BlankingTime` enum.
+ * - **Reserved (2 bits)**: Reserved for future use.
+ * - **LS_OCP_THRES_Y2 (4 bits)**: Low-side OCP threshold. Configured using the `OcpThreshold` enum.
+ * - **Reserved (1 bit)**: Reserved for future use.
+ * - **LS_OCP_USE_VDS_Y2 (1 bit)**: Indicates whether RDSon measurement is used for low-side OCP.
+ * - **Reserved (1 bit)**: Reserved for future use.
+ * - **HS_OCP_DEGLITCH_Y2 (3 bits)**: High-side OCP deglitch time. Configured using the `DeglitchTime` enum.
+ * - **HS_OCP_BLANKING_Y2 (3 bits)**: High-side OCP blanking time. Configured using the `BlankingTime` enum.
+ * - **Reserved (1 bit)**: Reserved for future use.
+ * - **HS_OCP_THRES_Y2 (4 bits)**: High-side OCP threshold. Configured using the `OcpThreshold` enum.
+ * - **Reserved (4 bits)**: Reserved for future use.
+ * 
+ * The structure provides a union to access the configuration as a raw 32-bit value 
+ * or as individual bit fields for fine-grained control.
  */
 struct OCP_Y2 {
+    /**
+     * @brief The register address for the OCP_Y2 configuration.
+     */
     static constexpr uint16_t ADDRESS = 0x1ED;
-    uint32_t value;
+
+    /**
+     * @brief Enum representing the OCP threshold levels in millivolts (mV).
+     */
+    enum class OcpThreshold : uint8_t {
+        THRES_63MV = 0,   ///< Threshold: 63 mV
+        THRES_125MV,      ///< Threshold: 125 mV
+        THRES_187MV,      ///< Threshold: 187 mV
+        THRES_248MV,      ///< Threshold: 248 mV
+        THRES_312MV,      ///< Threshold: 312 mV
+        THRES_374MV,      ///< Threshold: 374 mV
+        THRES_434MV,      ///< Threshold: 434 mV
+        THRES_504MV,      ///< Threshold: 504 mV
+        THRES_705MV,      ///< Threshold: 705 mV
+        THRES_940MV,      ///< Threshold: 940 mV
+        THRES_1180MV,     ///< Threshold: 1180 mV
+        THRES_1410MV,     ///< Threshold: 1410 mV
+        THRES_1650MV,     ///< Threshold: 1650 mV
+        THRES_1880MV,     ///< Threshold: 1880 mV
+        THRES_2110MV,     ///< Threshold: 2110 mV
+        THRES_2350MV      ///< Threshold: 2350 mV
+    };
+
+    /**
+     * @brief Enum representing the blanking times in nanoseconds (ns).
+     */
+    enum class BlankingTime : uint8_t {
+        BLK_OFF = 0,      ///< Blanking time: Off
+        BLK_250NS,        ///< Blanking time: 250 ns
+        BLK_500NS,        ///< Blanking time: 500 ns
+        BLK_1000NS,       ///< Blanking time: 1000 ns
+        BLK_2000NS,       ///< Blanking time: 2000 ns
+        BLK_4000NS,       ///< Blanking time: 4000 ns
+        BLK_6000NS,       ///< Blanking time: 6000 ns
+        BLK_8000NS        ///< Blanking time: 8000 ns
+    };
+
+    /**
+     * @brief Enum representing the deglitch times in nanoseconds (ns).
+     */
+    enum class DeglitchTime : uint8_t {
+        DEG_OFF = 0,      ///< Deglitch time: Off
+        DEG_250NS,        ///< Deglitch time: 250 ns
+        DEG_500NS,        ///< Deglitch time: 500 ns
+        DEG_1000NS,       ///< Deglitch time: 1000 ns
+        DEG_2000NS,       ///< Deglitch time: 2000 ns
+        DEG_4000NS,       ///< Deglitch time: 4000 ns
+        DEG_6000NS,       ///< Deglitch time: 6000 ns
+        DEG_8000NS        ///< Deglitch time: 8000 ns
+    };
+
+    /**
+     * @union Represents the OCP configuration as a 32-bit value or as individual bit fields.
+     */
+    union {
+        uint32_t value; ///< The raw 32-bit value of the OCP configuration.
+
+        /**
+         * @brief Bit field representation of the OCP configuration.
+         */
+        struct {
+            DeglitchTime LS_OCP_DEGLITCH_Y2 : 3; ///< Low-side OCP deglitch time.
+            BlankingTime LS_OCP_BLANKING_Y2 : 3; ///< Low-side OCP blanking time.
+            uint32_t : 2;                        ///< Reserved bits.
+            OcpThreshold LS_OCP_THRES_Y2 : 4;   ///< Low-side OCP threshold.
+            uint32_t : 1;                        ///< Reserved bit.
+            uint32_t LS_OCP_USE_VDS_Y2 : 1;     ///< Use RDSon measurement for low-side OCP.
+            uint32_t : 1;                        ///< Reserved bit.
+            DeglitchTime HS_OCP_DEGLITCH_Y2 : 3; ///< High-side OCP deglitch time.
+            BlankingTime HS_OCP_BLANKING_Y2 : 3; ///< High-side OCP blanking time.
+            uint32_t : 1;                        ///< Reserved bit.
+            OcpThreshold HS_OCP_THRES_Y2 : 4;   ///< High-side OCP threshold.
+            uint32_t : 4;                        ///< Reserved bits.
+        } bits;
+    };
 };
 
-/// Protection Enable Register (Address 0x1EE, Block 0).
+/// Protection Enable Register (Address 0x1EE, Block 0: MCC_GDRV_PROT_EN)
 /**
- * Enable or disable specific protection features.
- * Each bit corresponds to a protection (overcurrent, undervoltage, thermal) enabling.
+ * Enables the protection mechanism for various fault events.
+ * Note: The respective fault needs to be set in MCC_GDRV_STATUS_EN as well.
+ *
+ * BITS & NAME          | TYPE & RESET | DESCRIPTION
+ * ---------------------|--------------|-------------------------------------------------
+ * [31] VS_UVLO_PROT    | RW, 0x0      | Disables the gate driver on VS undervoltage event.
+ * [29] VDRV_UVLO_PROT  | RW, 0x0      | Disables the gate driver on VDRV undervoltage event.
+ * [27] HS_VGS_ON_SHORT_PROT_Y2 | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (Y2 phase).
+ * [26] HS_VGS_ON_SHORT_PROT_W  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (W phase).
+ * [25] HS_VGS_ON_SHORT_PROT_V  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (V phase).
+ * [24] HS_VGS_ON_SHORT_PROT_U  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (U phase).
+ * [23] HS_VGS_OFF_SHORT_PROT_Y2| RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (Y2 phase).
+ * [22] HS_VGS_OFF_SHORT_PROT_W | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (W phase).
+ * [21] HS_VGS_OFF_SHORT_PROT_V | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (V phase).
+ * [20] HS_VGS_OFF_SHORT_PROT_U | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (U phase).
+ * [19] HS_SHORT_PROT_Y2        | RW, 0x0 | Disables the channel if an overcurrent event occurs (Y2 phase).
+ * [18] HS_SHORT_PROT_W         | RW, 0x0 | Disables the channel if an overcurrent event occurs (W phase).
+ * [17] HS_SHORT_PROT_V         | RW, 0x0 | Disables the channel if an overcurrent event occurs (V phase).
+ * [16] HS_SHORT_PROT_U         | RW, 0x0 | Disables the channel if an overcurrent event occurs (U phase).
+ * [15] BST_UVLO_PROT_Y2        | RW, 0x0 | Disables the affected phase if a bootstrap capacitor undervoltage event occurs (Y2 phase).
+ * [14] BST_UVLO_PROT_W         | RW, 0x0 | Disables the affected phase if a bootstrap capacitor undervoltage event occurs (W phase).
+ * [13] BST_UVLO_PROT_V         | RW, 0x0 | Disables the affected phase if a bootstrap capacitor undervoltage event occurs (V phase).
+ * [12] BST_UVLO_PROT_U         | RW, 0x0 | Disables the affected phase if a bootstrap capacitor undervoltage event occurs (U phase).
+ * [11] LS_VGS_ON_SHORT_PROT_Y2 | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (Y2 phase).
+ * [10] LS_VGS_ON_SHORT_PROT_W  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (W phase).
+ * [9]  LS_VGS_ON_SHORT_PROT_V  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (V phase).
+ * [8]  LS_VGS_ON_SHORT_PROT_U  | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned on (U phase).
+ * [7]  LS_VGS_OFF_SHORT_PROT_Y2| RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (Y2 phase).
+ * [6]  LS_VGS_OFF_SHORT_PROT_W | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (W phase).
+ * [5]  LS_VGS_OFF_SHORT_PROT_V | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (V phase).
+ * [4]  LS_VGS_OFF_SHORT_PROT_U | RW, 0x0 | Disables the gate driver if a gate short event occurs while the gate is turned off (U phase).
+ * [3]  LS_SHORT_PROT_Y2        | RW, 0x0 | Disables the channel if an overcurrent event occurs (Y2 phase).
+ * [2]  LS_SHORT_PROT_W         | RW, 0x0 | Disables the channel if an overcurrent event occurs (W phase).
+ * [1]  LS_SHORT_PROT_V         | RW, 0x0 | Disables the channel if an overcurrent event occurs (V phase).
+ * [0]  LS_SHORT_PROT_U         | RW, 0x0 | Disables the channel if an overcurrent event occurs (U phase).
  */
 struct PROT_ENABLE {
     static constexpr uint16_t ADDRESS = 0x1EE;
     union {
         uint32_t value;
         struct {
-            uint32_t OCP_UVW_EN : 1;  ///< Enable overcurrent protection for UVW phases.
-            uint32_t OCP_Y2_EN  : 1;  ///< Enable OCP for Y2 phase.
-            uint32_t UVLO_EN    : 1;  ///< Enable UVLO reactions.
-            uint32_t : 29;
+            uint32_t LS_SHORT_PROT_U         : 1;  ///< Disables the channel if an overcurrent event occurs (U phase).
+            uint32_t LS_SHORT_PROT_V         : 1;  ///< Disables the channel if an overcurrent event occurs (V phase).
+            uint32_t LS_SHORT_PROT_W         : 1;  ///< Disables the channel if an overcurrent event occurs (W phase).
+            uint32_t LS_SHORT_PROT_Y2        : 1;  ///< Disables the channel if an overcurrent event occurs (Y2 phase).
+            uint32_t LS_VGS_OFF_SHORT_PROT_U : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (U phase).
+            uint32_t LS_VGS_OFF_SHORT_PROT_V : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (V phase).
+            uint32_t LS_VGS_OFF_SHORT_PROT_W : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (W phase).
+            uint32_t LS_VGS_OFF_SHORT_PROT_Y2: 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (Y2 phase).
+            uint32_t LS_VGS_ON_SHORT_PROT_U  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (U phase).
+            uint32_t LS_VGS_ON_SHORT_PROT_V  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (V phase).
+            uint32_t LS_VGS_ON_SHORT_PROT_W  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (W phase).
+            uint32_t LS_VGS_ON_SHORT_PROT_Y2 : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (Y2 phase).
+            uint32_t BST_UVLO_PROT_U         : 1;  ///< Disables the affected phase if a bootstrap capacitor undervoltage event occurs (U phase).
+            uint32_t BST_UVLO_PROT_V         : 1;  ///< Disables the affected phase if a bootstrap capacitor undervoltage event occurs (V phase).
+            uint32_t BST_UVLO_PROT_W         : 1;  ///< Disables the affected phase if a bootstrap capacitor undervoltage event occurs (W phase).
+            uint32_t BST_UVLO_PROT_Y2        : 1;  ///< Disables the affected phase if a bootstrap capacitor undervoltage event occurs (Y2 phase).
+            uint32_t HS_SHORT_PROT_U         : 1;  ///< Disables the channel if an overcurrent event occurs (U phase).
+            uint32_t HS_SHORT_PROT_V         : 1;  ///< Disables the channel if an overcurrent event occurs (V phase).
+            uint32_t HS_SHORT_PROT_W         : 1;  ///< Disables the channel if an overcurrent event occurs (W phase).
+            uint32_t HS_SHORT_PROT_Y2        : 1;  ///< Disables the channel if an overcurrent event occurs (Y2 phase).
+            uint32_t HS_VGS_OFF_SHORT_PROT_U : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (U phase).
+            uint32_t HS_VGS_OFF_SHORT_PROT_V : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (V phase).
+            uint32_t HS_VGS_OFF_SHORT_PROT_W : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (W phase).
+            uint32_t HS_VGS_OFF_SHORT_PROT_Y2: 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned off (Y2 phase).
+            uint32_t HS_VGS_ON_SHORT_PROT_U  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (U phase).
+            uint32_t HS_VGS_ON_SHORT_PROT_V  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (V phase).
+            uint32_t HS_VGS_ON_SHORT_PROT_W  : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (W phase).
+            uint32_t HS_VGS_ON_SHORT_PROT_Y2 : 1;  ///< Disables the gate driver if a gate short event occurs while the gate is turned on (Y2 phase).
+            uint32_t VDRV_UVLO_PROT          : 1;  ///< Disables the gate driver on VDRV undervoltage event.
+            uint32_t : 1;
+            uint32_t VS_UVLO_PROT            : 1;  ///< Disables the gate driver on VS undervoltage event.
         } bits;
     };
 };
 
-/// Gate Driver Status Enable Register (Address 0x1EF, Block 0).
+/// Gate Driver Status Enable Register (Address 0x1EF, Block 0: MCC_GDRV_STATUS_EN)
 /**
- * Mask which status events are forwarded or cause interrupts.
- * Bits corresponding to events like charge pump ready, driver error, etc., to include in FAULT or STATUS registers.
+ * @struct STATUS_INT_ENABLE
+ * @brief Represents the STATUS_INT_ENABLE register configuration for enabling 
+ *        reporting or actions for various fault conditions in a motor driver.
+ * 
+ * This structure defines a 32-bit register with individual bit fields to enable
+ * or disable fault reporting and actions for specific conditions such as overcurrent,
+ * gate short events, bootstrap undervoltage, and more. Each bit corresponds to a 
+ * specific phase or condition.
+ * 
+ * @details
+ * - The `ADDRESS` constant specifies the register address (0x1EF).
+ * - The `value` member allows access to the entire 32-bit register as a single unit.
+ * - The `bits` member provides access to individual fault enable flags.
+ * 
+ * Bit field descriptions:
+ * - **LS_SHORT_EN_U, LS_SHORT_EN_V, LS_SHORT_EN_W, LS_SHORT_EN_Y2**: 
+ *   Enable reporting/action for overcurrent events in the respective low-side phases.
+ * - **LS_VGS_OFF_SHORT_EN_U, LS_VGS_OFF_SHORT_EN_V, LS_VGS_OFF_SHORT_EN_W, LS_VGS_OFF_SHORT_EN_Y2**: 
+ *   Enable reporting/action for gate short events while off in the respective low-side phases.
+ * - **LS_VGS_ON_SHORT_EN_U, LS_VGS_ON_SHORT_EN_V, LS_VGS_ON_SHORT_EN_W, LS_VGS_ON_SHORT_EN_Y2**: 
+ *   Enable reporting/action for gate short events while on in the respective low-side phases.
+ * - **BST_UVLO_EN_U, BST_UVLO_EN_V, BST_UVLO_EN_W, BST_UVLO_EN_Y2**: 
+ *   Enable reporting/action for bootstrap undervoltage in the respective phases.
+ * - **HS_SHORT_EN_U, HS_SHORT_EN_V, HS_SHORT_EN_W, HS_SHORT_EN_Y2**: 
+ *   Enable reporting/action for overcurrent events in the respective high-side phases.
+ * - **HS_VGS_OFF_SHORT_EN_U, HS_VGS_OFF_SHORT_EN_V, HS_VGS_OFF_SHORT_EN_W, HS_VGS_OFF_SHORT_EN_Y2**: 
+ *   Enable reporting/action for gate short events while off in the respective high-side phases.
+ * - **HS_VGS_ON_SHORT_EN_U, HS_VGS_ON_SHORT_EN_V, HS_VGS_ON_SHORT_EN_W, HS_VGS_ON_SHORT_EN_Y2**: 
+ *   Enable reporting/action for gate short events while on in the respective high-side phases.
+ * - **VDRV_UVLO_EN**: Enable reporting/action for VDRV undervoltage events.
+ * - **VDRV_UVLWRN_EN**: Enable reporting/action for VDRV undervoltage warnings.
+ * - **VS_UVLO_EN**: Enable reporting/action for VS undervoltage events.
  */
 struct STATUS_INT_ENABLE {
     static constexpr uint16_t ADDRESS = 0x1EF;
-    uint32_t mask;
-};
-
-/// Gate Driver Status Register (Address 0x1F0, Block 0).
-/**
- * Real-time status flags from the gate driver:
- * - Charge pump status, gate driver UVLO status for phases, temperature status, etc.
- * These bits reflect current state (not latched).
- */
-struct STATUS {
-    static constexpr uint16_t ADDRESS = 0x1F0;
     union {
         uint32_t value;
         struct {
-            uint32_t VSA_UVLO       : 1;  ///< Supply undervoltage (VSA) status (1 = undervoltage present).
-            uint32_t DRIVER_ERROR   : 1;  ///< Gate driver error (any channel).
-            uint32_t CHARGE_PUMP_OK : 1;  ///< Charge pump OK status (0 = fault).
-            uint32_t OTP_OK         : 1;  ///< Over-temperature (IC) status (0 = overtemp).
-            uint32_t : 28;
+            uint32_t LS_SHORT_EN_U         : 1;  ///< Enables reporting/action for overcurrent event (U phase).
+            uint32_t LS_SHORT_EN_V         : 1;  ///< Enables reporting/action for overcurrent event (V phase).
+            uint32_t LS_SHORT_EN_W         : 1;  ///< Enables reporting/action for overcurrent event (W phase).
+            uint32_t LS_SHORT_EN_Y2        : 1;  ///< Enables reporting/action for overcurrent event (Y2 phase).
+            uint32_t LS_VGS_OFF_SHORT_EN_U : 1;  ///< Enables reporting/action for gate short event while off (U phase).
+            uint32_t LS_VGS_OFF_SHORT_EN_V : 1;  ///< Enables reporting/action for gate short event while off (V phase).
+            uint32_t LS_VGS_OFF_SHORT_EN_W : 1;  ///< Enables reporting/action for gate short event while off (W phase).
+            uint32_t LS_VGS_OFF_SHORT_EN_Y2: 1;  ///< Enables reporting/action for gate short event while off (Y2 phase).
+            uint32_t LS_VGS_ON_SHORT_EN_U  : 1;  ///< Enables reporting/action for gate short event while on (U phase).
+            uint32_t LS_VGS_ON_SHORT_EN_V  : 1;  ///< Enables reporting/action for gate short event while on (V phase).
+            uint32_t LS_VGS_ON_SHORT_EN_W  : 1;  ///< Enables reporting/action for gate short event while on (W phase).
+            uint32_t LS_VGS_ON_SHORT_EN_Y2 : 1;  ///< Enables reporting/action for gate short event while on (Y2 phase).
+            uint32_t BST_UVLO_EN_U         : 1;  ///< Enables reporting/action for bootstrap undervoltage (U phase).
+            uint32_t BST_UVLO_EN_V         : 1;  ///< Enables reporting/action for bootstrap undervoltage (V phase).
+            uint32_t BST_UVLO_EN_W         : 1;  ///< Enables reporting/action for bootstrap undervoltage (W phase).
+            uint32_t BST_UVLO_EN_Y2        : 1;  ///< Enables reporting/action for bootstrap undervoltage (Y2 phase).
+            uint32_t HS_SHORT_EN_U         : 1;  ///< Enables reporting/action for overcurrent event (U phase).
+            uint32_t HS_SHORT_EN_V         : 1;  ///< Enables reporting/action for overcurrent event (V phase).
+            uint32_t HS_SHORT_EN_W         : 1;  ///< Enables reporting/action for overcurrent event (W phase).
+            uint32_t HS_SHORT_EN_Y2        : 1;  ///< Enables reporting/action for overcurrent event (Y2 phase).
+            uint32_t HS_VGS_OFF_SHORT_EN_U : 1;  ///< Enables reporting/action for gate short event while off (U phase).
+            uint32_t HS_VGS_OFF_SHORT_EN_V : 1;  ///< Enables reporting/action for gate short event while off (V phase).
+            uint32_t HS_VGS_OFF_SHORT_EN_W : 1;  ///< Enables reporting/action for gate short event while off (W phase).
+            uint32_t HS_VGS_OFF_SHORT_EN_Y2: 1;  ///< Enables reporting/action for gate short event while off (Y2 phase).
+            uint32_t HS_VGS_ON_SHORT_EN_U  : 1;  ///< Enables reporting/action for gate short event while on (U phase).
+            uint32_t HS_VGS_ON_SHORT_EN_V  : 1;  ///< Enables reporting/action for gate short event while on (V phase).
+            uint32_t HS_VGS_ON_SHORT_EN_W  : 1;  ///< Enables reporting/action for gate short event while on (W phase).
+            uint32_t HS_VGS_ON_SHORT_EN_Y2 : 1;  ///< Enables reporting/action for gate short event while on (Y2 phase).
+            uint32_t VDRV_UVLO_EN          : 1;  ///< Enables reporting/action for VDRV undervoltage event.
+            uint32_t VDRV_UVLWRN_EN        : 1;  ///< Enables reporting/action for VDRV undervoltage warning.
+            uint32_t VS_UVLO_EN            : 1;  ///< Enables reporting/action for VS undervoltage event.
         } bits;
+    };
+};
+
+/// Gate Driver Status Register (Address 0x1F0, Block 0: MCC_GDRV_STATUS)
+/**
+ * @brief Represents the status register of the MCC_GDRV_STATUS block.
+ * 
+ * This structure contains the status of various fault events, including
+ * overcurrent protection, gate short detection, and undervoltage conditions
+ * for different phases and components of the motor driver.
+ */
+struct STATUS {
+    /**
+     * @brief Address of the MCC_GDRV_STATUS register.
+     */
+    static constexpr uint16_t ADDRESS = 0x1F0;
+
+    union {
+        uint32_t value; ///< Raw 32-bit value of the status register.
+
+        struct {
+            uint32_t LS_SHORT_U         : 1;  ///< Status of the overcurrent protection (low-side, U phase).
+            uint32_t LS_SHORT_V         : 1;  ///< Status of the overcurrent protection (low-side, V phase).
+            uint32_t LS_SHORT_W         : 1;  ///< Status of the overcurrent protection (low-side, W phase).
+            uint32_t LS_SHORT_Y2        : 1;  ///< Status of the overcurrent protection (low-side, Y2 phase).
+            uint32_t LS_VGS_OFF_SHORT_U : 1;  ///< Gate short detection while off (low-side, U phase).
+            uint32_t LS_VGS_OFF_SHORT_V : 1;  ///< Gate short detection while off (low-side, V phase).
+            uint32_t LS_VGS_OFF_SHORT_W : 1;  ///< Gate short detection while off (low-side, W phase).
+            uint32_t LS_VGS_OFF_SHORT_Y2: 1;  ///< Gate short detection while off (low-side, Y2 phase).
+            uint32_t LS_VGS_ON_SHORT_U  : 1;  ///< Gate short detection while on (low-side, U phase).
+            uint32_t LS_VGS_ON_SHORT_V  : 1;  ///< Gate short detection while on (low-side, V phase).
+            uint32_t LS_VGS_ON_SHORT_W  : 1;  ///< Gate short detection while on (low-side, W phase).
+            uint32_t LS_VGS_ON_SHORT_Y2 : 1;  ///< Gate short detection while on (low-side, Y2 phase).
+            uint32_t BST_UVLO_U         : 1;  ///< Undervoltage condition of the bootstrap cap (U phase).
+            uint32_t BST_UVLO_V         : 1;  ///< Undervoltage condition of the bootstrap cap (V phase).
+            uint32_t BST_UVLO_W         : 1;  ///< Undervoltage condition of the bootstrap cap (W phase).
+            uint32_t BST_UVLO_Y2        : 1;  ///< Undervoltage condition of the bootstrap cap (Y2 phase).
+            uint32_t HS_SHORT_U         : 1;  ///< Status of the overcurrent protection (high-side, U phase).
+            uint32_t HS_SHORT_V         : 1;  ///< Status of the overcurrent protection (high-side, V phase).
+            uint32_t HS_SHORT_W         : 1;  ///< Status of the overcurrent protection (high-side, W phase).
+            uint32_t HS_SHORT_Y2        : 1;  ///< Status of the overcurrent protection (high-side, Y2 phase).
+            uint32_t HS_VGS_OFF_SHORT_U : 1;  ///< Gate short detection while off (high-side, U phase).
+            uint32_t HS_VGS_OFF_SHORT_V : 1;  ///< Gate short detection while off (high-side, V phase).
+            uint32_t HS_VGS_OFF_SHORT_W : 1;  ///< Gate short detection while off (high-side, W phase).
+            uint32_t HS_VGS_OFF_SHORT_Y2: 1;  ///< Gate short detection while off (high-side, Y2 phase).
+            uint32_t HS_VGS_ON_SHORT_U  : 1;  ///< Gate short detection while on (high-side, U phase).
+            uint32_t HS_VGS_ON_SHORT_V  : 1;  ///< Gate short detection while on (high-side, V phase).
+            uint32_t HS_VGS_ON_SHORT_W  : 1;  ///< Gate short detection while on (high-side, W phase).
+            uint32_t HS_VGS_ON_SHORT_Y2 : 1;  ///< Gate short detection while on (high-side, Y2 phase).
+            uint32_t VDRV_UVLO          : 1;  ///< Undervoltage condition of VDRV (gate drive voltage).
+            uint32_t VDRV_UVLWRN        : 1;  ///< Low voltage warning condition of VDRV (gate drive voltage).
+            uint32_t VS_UVLO            : 1;  ///< Undervoltage condition of VS (supply voltage).
+        } bits; ///< Bitfield representation of the status register.
     };
 };
 
 /// Gate Driver Fault Register (Address 0x1F1, Block 0).
 /**
- * Latched fault flags specific to the gate driver:
- * - Overcurrent events latched, driver shutdown events, etc.
- * Writing to this register might clear the faults.
+ * @brief Represents the MCC_GDRV_FAULT register (0x1F1, Block 0).
+ * 
+ * This register contains the status of various fault events in the system.
+ * 
+ * @details
+ * - **Address**: 0x1F1
+ * - **Block**: MCC_GDRV_FAULT
+ * 
+ * ### Fault Event Descriptions:
+ * 
+ * - **[31] VS_UVLO_STS (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of VS (supply voltage).
+ * 
+ * - **[30] VDRV_UVLWRN_STS (R, Reset: 0x0)**  
+ *   Indicates a low voltage warning condition of VDRV (gate drive voltage).
+ * 
+ * - **[29] VDRV_UVLO_STS (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of VDRV (gate drive voltage).
+ * 
+ * - **[19] HS_FAULT_ACTIVE_Y2 (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase Y2 that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[18] HS_FAULT_ACTIVE_W (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase W that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[17] HS_FAULT_ACTIVE_V (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase V that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[16] HS_FAULT_ACTIVE_U (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase U that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[15] BST_UVLO_STS_Y2 (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of the bootstrap capacitor on phase Y2.
+ * 
+ * - **[14] BST_UVLO_STS_W (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of the bootstrap capacitor on phase W.
+ * 
+ * - **[13] BST_UVLO_STS_V (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of the bootstrap capacitor on phase V.
+ * 
+ * - **[12] BST_UVLO_STS_U (R, Reset: 0x0)**  
+ *   Indicates an undervoltage condition of the bootstrap capacitor on phase U.
+ * 
+ * - **[3] LS_FAULT_ACTIVE_Y2 (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase Y2 that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[2] LS_FAULT_ACTIVE_W (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase W that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[1] LS_FAULT_ACTIVE_V (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase V that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
+ * 
+ * - **[0] LS_FAULT_ACTIVE_U (RW, W1C, Reset: 0x0)**  
+ *   Set if any fault occurred on phase U that triggered hardware protection.  
+ *   Clear to resume normal operation. Ensure both HS_FAULT_ACTIVE and LS_FAULT_ACTIVE are cleared simultaneously to resume operation.
  */
 struct FAULT {
     static constexpr uint16_t ADDRESS = 0x1F1;
     union {
         uint32_t value;
         struct {
-            uint32_t OCP_U_PHASE : 1;  ///< Overcurrent latched on phase U.
-            uint32_t OCP_V_PHASE : 1;  ///< Overcurrent latched on phase V.
-            uint32_t OCP_W_PHASE : 1;  ///< Overcurrent latched on phase W.
-            uint32_t OCP_Y2_PHASE: 1;  ///< Overcurrent latched on phase Y2.
-            uint32_t : 28;
+            uint32_t LS_FAULT_ACTIVE_U : 1;  ///< Low-side fault active on phase U.
+            uint32_t LS_FAULT_ACTIVE_V : 1;  ///< Low-side fault active on phase V.
+            uint32_t LS_FAULT_ACTIVE_W : 1;  ///< Low-side fault active on phase W.
+            uint32_t LS_FAULT_ACTIVE_Y2 : 1; ///< Low-side fault active on phase Y2.
+            uint32_t : 8;
+            uint32_t BST_UVLO_STS_U : 1;     ///< Bootstrap undervoltage on phase U.
+            uint32_t BST_UVLO_STS_V : 1;     ///< Bootstrap undervoltage on phase V.
+            uint32_t BST_UVLO_STS_W : 1;     ///< Bootstrap undervoltage on phase W.
+            uint32_t BST_UVLO_STS_Y2 : 1;    ///< Bootstrap undervoltage on phase Y2.
+            uint32_t HS_FAULT_ACTIVE_U : 1;  ///< High-side fault active on phase U.
+            uint32_t HS_FAULT_ACTIVE_V : 1;  ///< High-side fault active on phase V.
+            uint32_t HS_FAULT_ACTIVE_W : 1;  ///< High-side fault active on phase W.
+            uint32_t HS_FAULT_ACTIVE_Y2 : 1; ///< High-side fault active on phase Y2.
+            uint32_t : 9;
+            uint32_t VDRV_UVLO_STS : 1;      ///< Undervoltage condition of VDRV.
+            uint32_t VDRV_UVLWRN_STS : 1;    ///< Low voltage warning condition of VDRV.
+            uint32_t VS_UVLO_STS : 1;        ///< Undervoltage condition of VS.
         } bits;
     };
 };
@@ -2937,16 +3533,20 @@ struct FAULT {
 /// External Writable ADC Values (Address 0x200, Block 0: MCC_ADC_I1_I0_EXT)
 /**
  * External writable ADC values for phase currents I1 and I0.
- * - **I1**: External writable ADC value for phase I1 (bits 31:16, signed).
- * - **I0**: External writable ADC value for phase I0 (bits 15:0, signed).
+ * - **I1** (bits 31:16): External writable ADC value for phase I1.
+ *   - Type: RW, signed.
+ *   - Reset: 0x0000.
+ * - **I0** (bits 15:0): External writable ADC value for phase I0.
+ *   - Type: RW, signed.
+ *   - Reset: 0x0000.
  */
 struct ADC_I1_I0_EXT {
     static constexpr uint16_t ADDRESS = 0x200;
     union {
         uint32_t value;
         struct {
-            int16_t I1 : 16;  ///< External writable ADC value for phase I1 (signed).
-            int16_t I0 : 16;  ///< External writable ADC value for phase I0 (signed).
+            int16_t I0 : 16; ///< External writable ADC value for phase I0 (signed).
+            int16_t I1 : 16; ///< External writable ADC value for phase I1 (signed).
         } bits;
     };
 };
