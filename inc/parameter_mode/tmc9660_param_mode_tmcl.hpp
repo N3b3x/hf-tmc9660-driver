@@ -724,6 +724,24 @@ enum class MotorConfig : uint16_t {
 };
 /// @}
 
+enum class MotorConfig : uint16_t {
+    MOTOR_TYPE = 0,                ///< Motor type selection. See MotorType enum. Default: 0 (NO_MOTOR). RWE
+    MOTOR_POLE_PAIRS = 1,          ///< Number of pole pairs for motor [0-127]. Default: 1. RWE
+    MOTOR_DIRECTION = 2,           ///< Motor direction. 0: NOT_INVERTED, 1: INVERTED. Default: 0. RWE
+    MOTOR_PWM_FREQUENCY = 3,       ///< PWM frequency in Hz [10000-100000]. Default: 25000. RWE
+    COMMUTATION_MODE = 4,          ///< Motor commutation mode. See CommutationMode enum. Default: 0 (SYSTEM_OFF). RW
+    OUTPUT_VOLTAGE_LIMIT = 5,      ///< PID UQ/UD output limit for circular limiter [0-32767]. Default: 8000. RWE
+    PWM_SWITCHING_SCHEME = 307     ///< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE
+};
+/// @}
+
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Motor Types
 /// @{
 /**
@@ -897,6 +915,12 @@ enum class FeedbackSensorConfig : uint16_t {
     ABN_2_VALUE                         = 178  ///< Raw ABN 2 encoder counter value [0, 4294967295]. Read-only.
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name ABN Initialization Methods
 /// @{
@@ -1103,6 +1127,12 @@ enum class CommutationMode : uint8_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Idle Motor PWM Behavior
 /// @{
 /**
@@ -1176,6 +1206,12 @@ enum class TorqueFluxControl : uint16_t {
     FIELDWEAKENING_VOLTAGE_THRESHOLD = 310 ///< Max voltage for field weakening. 0...32767. Default: 32767. RWE
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name Torque/Flux PI Separation
 /// @{
@@ -1265,6 +1301,12 @@ enum class VelocityControl : uint16_t {
     RAMP_VELOCITY = 69                    ///< Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name Velocity Sensor Selection
 /// @{
@@ -1362,6 +1404,12 @@ enum class PositionControl : uint16_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Position Sensor Selection
 /// @{
 /**
@@ -1448,6 +1496,12 @@ enum class RamperStopConfig : uint16_t {
     EVENT_STOP_SETTINGS = 164           ///< Bitwise config for stop conditions. See EventStopSettings. Default: 0. RWE
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name Reference Switch Enable
 /// @{
@@ -1597,6 +1651,12 @@ enum class BiquadFilter : uint16_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Biquad Filter Enable/Disable
 /// @{
 /**
@@ -1644,6 +1704,12 @@ enum class FaultHandling : uint16_t {
     FAULT_HANDLER_NUMBER_OF_RETRIES = 288 ///< Max number of retries per detected fault [0...255]. Default: 5. RWE
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name Gate Driver Retry Behaviour
 /// @{
@@ -1809,6 +1875,12 @@ enum class HeartbeatMonitoring : uint16_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Heartbeat Monitoring Config
 /// @{
 /**
@@ -1953,6 +2025,12 @@ enum class ReferenceSearch : uint16_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
 /// @name Reference Search Modes
 /// @{
 /**
@@ -2045,6 +2123,12 @@ enum class StepDir : uint16_t {
     STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY = 209 ///< Max velocity for extrapolation [eRPM]. 0...2147483647. Default: 2147483647. RW
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name Step/Dir Microstep Divider Shift
 /// @{
