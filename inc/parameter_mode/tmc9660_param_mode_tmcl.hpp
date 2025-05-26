@@ -259,6 +259,146 @@ enum class RamDebugState : std::uint8_t {
     PRETRIGGER = 4  //!< Pretrigger: Capturing samples for the pretrigger.
 };
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                  //
+//     ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗    //
+//    ██╔════╝ ██║     ██╔═══██╗██╔══██╗██╔══██╗██║         ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝    //
+//    ██║  ███╗██║     ██║   ██║██████╔╝███████║██║         ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗    //
+//    ██║   ██║██║     ██║   ██║██╔══██╗██╔══██║██║         ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║    //
+//    ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║    //
+//     ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    //
+//                                                                                                                  //
+//==================================================================================================================//
+//                                            GLOBAL PARAMETERS SECTION                                             //
+//==================================================================================================================//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////
+//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
+//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
+//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
+/////////////////////////////////////////////
+
+/// @name Global Parameters – Bank 0 (System Settings)
+/// @{
+/**
+ * @brief Non-motion parameters in bank 0: communication, I/O, heartbeat, hibernation, loops, auto-start, etc.
+ *
+ * To persist changes, use STAP after setting RWE parameters.
+ */
+enum class GlobalParamBank0 : uint16_t {
+    SERIAL_ADDRESS                              =   1, ///< RS485/UART module address [1…255 odd]. Default: 1. RWE
+    SERIAL_HOST_ADDRESS                         =   2, ///< RS485/UART host address [1…255]. Default: 2. RWE
+    HEARTBEAT_MONITORING_CONFIG                 =   3, ///< 0: DISABLED, 1: UART, 2: SPI, 3: UART+SPI. Default: 0. RWE
+    HEARTBEAT_MONITORING_TIMEOUT                =   4, ///< Heartbeat timeout [ms] [1…4294967295]. Default: 100. RWE
+    IO_DIRECTION_MASK                           =   5, ///< GPIO direction mask [bit=1→output]. Default: 0. RWE
+    IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK        =   6, ///< GPIO pull-enable mask [bit=1→pull enabled]. Default: 0. RWE
+    IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK     =   7, ///< GPIO pull-dir mask [bit=1→pull-up]. Default: 0. RWE
+    WAKE_PIN_CONTROL_ENABLE                     =  10, ///< 0: DISABLED, 1: ENABLED. Default: 0. RWE
+    GO_TO_TIMEOUT_POWER_DOWN_STATE              =  11, ///< See PowerDownTimeout. Default: 0. W
+    MAIN_LOOPS                                  =  12, ///< Main loops/sec [0…4294967295]. Default: 0. R
+    TORQUE_LOOPS                                =  13, ///< Torque loops/sec [0…4294967295]. Default: 0. R
+    VELOCITY_LOOPS                              =  14, ///< Velocity loops/sec [0…4294967295]. Default: 0. R
+    AUTO_START_ENABLE                           =  77, ///< 0: DISABLED, 1: ENABLED. Default: 1. RWE
+    CLEAR_USER_VARIABLES                        =  85  ///< 0: TRY_LOAD_FROM_STORAGE, 1: CLEAR. Default: 0. RWE
+};
+/// @}
+
+/// @name Global Parameters – Bank 2 (User Variables)
+/// @{
+/**
+ * @brief User-script variables 0…15. RWE.
+ */
+enum class GlobalParamBank2 : uint16_t {
+    USER_VARIABLE_0  =   0,
+    USER_VARIABLE_1  =   1,
+    USER_VARIABLE_2  =   2,
+    USER_VARIABLE_3  =   3,
+    USER_VARIABLE_4  =   4,
+    USER_VARIABLE_5  =   5,
+    USER_VARIABLE_6  =   6,
+    USER_VARIABLE_7  =   7,
+    USER_VARIABLE_8  =   8,
+    USER_VARIABLE_9  =   9,
+    USER_VARIABLE_10 =  10,
+    USER_VARIABLE_11 =  11,
+    USER_VARIABLE_12 =  12,
+    USER_VARIABLE_13 =  13,
+    USER_VARIABLE_14 =  14,
+    USER_VARIABLE_15 =  15
+};
+/// @}
+
+/// @name Global Parameters – Bank 3 (Interrupt & Trigger Configuration)
+/// @{
+/**
+ * @brief Timer periods and input-trigger transitions for scripting interrupts.
+ */
+enum class GlobalParamBank3 : uint16_t {
+    TIMER_0_PERIOD                  =   0, ///< [ms] 0…2147483647. R/W
+    TIMER_1_PERIOD                  =   1, ///< [ms] 0…2147483647. R/W
+    TIMER_2_PERIOD                  =   2, ///< [ms] 0…2147483647. R/W
+    STOP_LEFT_TRIGGER_TRANSITION    =  10, ///< See TriggerTransition. Default: 0. R/W
+    STOP_RIGHT_TRIGGER_TRANSITION   =  11, ///< See TriggerTransition. Default: 0. R/W
+    HOME_RIGHT_TRIGGER_TRANSITION   =  12, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_0_TRIGGER_TRANSITION      =  13, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_1_TRIGGER_TRANSITION      =  14, ///< ...
+    INPUT_2_TRIGGER_TRANSITION      =  15,
+    INPUT_3_TRIGGER_TRANSITION      =  16,
+    INPUT_4_TRIGGER_TRANSITION      =  17,
+    INPUT_5_TRIGGER_TRANSITION      =  18,
+    INPUT_6_TRIGGER_TRANSITION      =  19,
+    INPUT_7_TRIGGER_TRANSITION      =  20,
+    INPUT_8_TRIGGER_TRANSITION      =  21,
+    INPUT_9_TRIGGER_TRANSITION      =  22,
+    INPUT_10_TRIGGER_TRANSITION     =  23,
+    INPUT_11_TRIGGER_TRANSITION     =  24,
+    INPUT_12_TRIGGER_TRANSITION     =  25,
+    INPUT_13_TRIGGER_TRANSITION     =  26,
+    INPUT_14_TRIGGER_TRANSITION     =  27,
+    INPUT_15_TRIGGER_TRANSITION     =  28,
+    INPUT_16_TRIGGER_TRANSITION     =  29,
+    INPUT_17_TRIGGER_TRANSITION     =  30,
+    INPUT_18_TRIGGER_TRANSITION     =  31
+};
+/// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
+/// @name Trigger Transition Options
+/// @{
+/**
+ * @brief For all “_TRIGGER_TRANSITION” params: 0=OFF, 1=RISING, 2=FALLING, 3=BOTH.
+ */
+enum class TriggerTransition : uint8_t {
+    OFF     = 0,
+    RISING  = 1,
+    FALLING = 2,
+    BOTH    = 3
+};
+/// @}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                  //
+//                              ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗                                 //
+//                              ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝                                 //
+//                              ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗                                 //
+//                              ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║                                 //
+//                              ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║                                 //
+//                              ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝                                 //
+//                                                                                                                  //
+//==================================================================================================================//
+//                                                  PARAMETERS                                                      //
+//==================================================================================================================//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
 //    ██████╗  █████╗ ████████╗███████╗    ██████╗ ██████╗ ██╗██╗   ██╗███████╗██████╗ ███████╗                     //
@@ -278,8 +418,6 @@ enum class RamDebugState : std::uint8_t {
 //    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
 //    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
 /////////////////////////////////////////////
-
-
 
 //--------------------------------------
 //  Gate Driver Parameters (Table 20)
@@ -2221,6 +2359,87 @@ enum class PowerDownTimeout : uint8_t {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
+//    ██╗███╗   ██╗████████╗███████╗██████╗ ███╗   ██╗ █████╗ ██╗                                                   //
+//    ██║████╗  ██║╚══██╔══╝██╔════╝██╔══██╗████╗  ██║██╔══██╗██║                                                   //
+//    ██║██╔██╗ ██║   ██║   █████╗  ██████╔╝██╔██╗ ██║███████║██║                                                   //
+//    ██║██║╚██╗██║   ██║   ██╔══╝  ██╔══██╗██║╚██╗██║██╔══██║██║                                                   //
+//    ██║██║ ╚████║   ██║   ███████╗██║  ██║██║ ╚████║██║  ██║███████╗                                              //
+//    ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝                                              //
+//                                                                                                                  //
+//    ███╗   ███╗███████╗ █████╗ ███████╗██╗   ██╗██████╗ ███████╗███╗   ███╗███████╗███╗   ██╗████████╗███████╗   //
+//    ████╗ ████║██╔════╝██╔══██╗██╔════╝██║   ██║██╔══██╗██╔════╝████╗ ████║██╔════╝████╗  ██║╚══██╔══╝██╔════╝   //
+//    ██╔████╔██║█████╗  ███████║███████╗██║   ██║██████╔╝█████╗  ██╔████╔██║█████╗  ██╔██╗ ██║   ██║   ███████╗   //
+//    ██║╚██╔╝██║██╔══╝  ██╔══██║╚════██║██║   ██║██╔══██╗██╔══╝  ██║╚██╔╝██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║   //
+//    ██║ ╚═╝ ██║███████╗██║  ██║███████║╚██████╔╝██║  ██║███████╗██║ ╚═╝ ██║███████╗██║ ╚████║   ██║   ███████║   //
+//    ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝   //
+//                                                                                                                  //
+//==================================================================================================================//
+//                                           INTERNAL MEASUREMENTS SECTION                                          //
+//==================================================================================================================//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////
+//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
+//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
+//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
+/////////////////////////////////////////////
+
+/// @name System Supply Parameters
+/// @{
+/**
+ * @brief Parameters for supply voltage warnings.
+ */
+enum class SystemStatusSupply : uint16_t {
+    SUPPLY_VOLTAGE = 290,                       ///< Actual supply voltage in 0.1 V units. Read-only.
+    SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD = 291, ///< Supply overvoltage warning threshold [0…1000]. RWE
+    SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD = 292 ///< Supply undervoltage warning threshold [0…1000]. RWE
+};
+/// @}
+
+/// @name Internal Measurement Parameters
+/// @{
+/**
+ * @brief Raw diagnostic values and FOC internal measurements.
+ * 
+ * These parameters provide access to interim results and measurements from the Field-Oriented Control (FOC)
+ * algorithm, as well as raw input states. They are useful for debugging and diagnostics.
+ */
+enum class InternalMeasurement : uint16_t {
+    MCC_INPUTS_RAW                 = 304, ///< Raw inputs for ABN, hall, reference switches, driver enabled, hall filtered and ABN2 or Step/Dir [0...32767]. Read-only.
+    FOC_VOLTAGE_UX                 = 305, ///< Interim result of the FOC for phase U (X in case of stepper motor) [-32768...32767]. Read-only.
+    FOC_VOLTAGE_WY                 = 306, ///< Interim result of the FOC for phase W (Y in case of stepper motor) [-32768...32767]. Read-only.
+    FOC_VOLTAGE_V                  = 307, ///< Interim result of the FOC for phase V (BLDC motor only) [-32768...32767]. Read-only.
+    FIELDWEAKENING_I               = 308, ///< I parameter for field weakening controller [0...32767]. Default: 0. RWE
+    FIELDWEAKENING_VOLTAGE_THRESHOLD = 310, ///< Maximum motor voltage allowed for field weakening [0...32767]. Default: 32767. RWE
+    FOC_CURRENT_UX                 = 311, ///< Interim measurement of the FOC for phase UX [-32768...32767]. Read-only.
+    FOC_CURRENT_V                  = 312, ///< Interim measurement of the FOC for phase V [-32768...32767]. Read-only.
+    FOC_CURRENT_WY                 = 313, ///< Interim measurement of the FOC for phase WY [-32768...32767]. Read-only.
+    FOC_VOLTAGE_UQ                 = 314, ///< Interim measurement of the FOC for Uq [-32768...32767]. Read-only.
+    FOC_CURRENT_IQ                 = 315  ///< Interim measurement of the FOC for Iq [-32768...32767]. Read-only.
+};
+/// @}
+
+/// @name Combined Diagnostic Values
+/// @{
+/**
+ * @brief Simplified combined measurement registers used during tuning.
+ * 
+ * These parameters provide compact diagnostic values primarily used during motor tuning operations.
+ * They combine multiple measurements into single 32-bit values or provide integrated measurements
+ * to facilitate data collection at lower sampling rates.
+ */
+enum class CombinedDiagnosticValues : uint16_t {
+    TORQUE_FLUX_COMBINED_TARGET_VALUES = 330, ///< Raw (unscaled) torque and flux target values combined into one 32-bit value. Used for simplified compact measurement during tuning. [0...4294967295]. Read-only.
+    TORQUE_FLUX_COMBINED_ACTUAL_VALUES = 331, ///< Raw (unscaled) torque and flux actual values combined into one 32-bit value. Used for simplified compact measurement during tuning. [0...4294967295]. Read-only.
+    VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES = 332, ///< Raw (unscaled) voltage actual values combined into one 32-bit value. Used for simplified compact measurement during tuning. [0...4294967295]. Read-only.
+    INTEGRATED_ACTUAL_TORQUE_VALUE     = 333, ///< Periodically summed up actual torque value. Used for simplified measurement with low measurement frequency during tuning operations. [0...4294967295]. Read-only.
+    INTEGRATED_ACTUAL_VELOCITY_VALUE   = 334  ///< Periodically summed up actual velocity value. Used for simplified measurement with low measurement frequency during tuning operations. [0...4294967295]. Read-only.
+};
+/// @}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                  //
 //    ███████╗██████╗ ██████╗  ██████╗ ██████╗ ███████╗         ███████╗██╗      █████╗  ██████╗ ███████╗           //
 //    ██╔════╝██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔════╝         ██╔════╝██║     ██╔══██╗██╔════╝ ██╔════╝           //
 //    █████╗  ██████╔╝██████╔╝██║   ██║██████╔╝███████╗  █████╗ █████╗  ██║     ███████║██║  ███╗███████╗           //
@@ -2239,140 +2458,143 @@ enum class PowerDownTimeout : uint8_t {
 //    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
 /////////////////////////////////////////////
 
-/// @name System Status and Supply Parameters
-/// @{
-/**
- * @brief Parameters for actual status flags and supply voltage warnings.
- */
-enum class SystemStatusSupply : uint16_t {
-    GENERAL_STATUS_FLAGS = 289,                 ///< General status flags. See GeneralStatusFlags enum. Read-only.
-    SUPPLY_VOLTAGE = 290,                       ///< Actual supply voltage in 0.1 V units. Read-only.
-    SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD = 291, ///< Supply overvoltage warning threshold [0…1000]. RWE
-    SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD = 292 ///< Supply undervoltage warning threshold [0…1000]. RWE
-};
-/// @}
-
-/// @name General Status Flags
-/// @{
-/**
- * @brief Bit flags reported via parameter GENERAL_STATUS_FLAGS.
- */
-enum class GeneralStatusFlags : uint32_t {
-    REGULATION_STOPPED              = 0x00000001,
-    REGULATION_TORQUE               = 0x00000002,
-    REGULATION_VELOCITY             = 0x00000004,
-    REGULATION_POSITION             = 0x00000008,
-    CONFIG_STORED                   = 0x00000010,
-    CONFIG_LOADED                   = 0x00000020,
-    CONFIG_READ_ONLY                = 0x00000040,
-    TMCL_SCRIPT_READ_ONLY           = 0x00000080,
-    BRAKE_CHOPPER_ACTIVE            = 0x00000100,
-    POSITION_REACHED                = 0x00000200,
-    VELOCITY_REACHED                = 0x00000400,
-    ADC_OFFSET_CALIBRATED           = 0x00000800,
-    RAMPER_LATCHED                  = 0x00001000,
-    RAMPER_EVENT_STOP_SWITCH        = 0x00002000,
-    RAMPER_EVENT_STOP_DEVIATION     = 0x00004000,
-    RAMPER_VELOCITY_REACHED         = 0x00008000,
-    RAMPER_POSITION_REACHED         = 0x00010000,
-    RAMPER_SECOND_MOVE              = 0x00020000,
-    IIT_1_ACTIVE                    = 0x00040000,
-    IIT_2_ACTIVE                    = 0x00080000,
-    REFSEARCH_FINISHED              = 0x00100000,
-    Y2_USED_FOR_BRAKING             = 0x00200000,
-    STEPDIR_INPUT_AVAILABLE         = 0x00800000,
-    RIGHT_REF_SWITCH_AVAILABLE      = 0x01000000,
-    HOME_REF_SWITCH_AVAILABLE       = 0x02000000,
-    LEFT_REF_SWITCH_AVAILABLE       = 0x04000000,
-    ABN2_FEEDBACK_AVAILABLE         = 0x08000000,
-    HALL_FEEDBACK_AVAILABLE         = 0x10000000,
-    ABN1_FEEDBACK_AVAILABLE         = 0x20000000,
-    SPI_FLASH_AVAILABLE             = 0x40000000,
-    I2C_EEPROM_AVAILABLE            = 0x80000000
-};
-/// @}
-
 /// @name Temperature and Error Flags Parameters
 /// @{
 /**
  * @brief Parameters for temperature monitoring and error flags.
  */
-enum class TemperatureAndErrorFlags : uint16_t {
-    EXTERNAL_TEMPERATURE = 293, ///< External temperature sensor reading [0-65535]. Read-only.
+enum class ErrorsAndFlags : uint16_t {
+    GENERAL_STATUS_FLAGS                    = 289, ///< General status flags. See GeneralStatusFlags enum. Read-only.
+    EXTERNAL_TEMPERATURE                    = 293, ///< External temperature sensor reading [0-65535]. Read-only.
     EXTERNAL_TEMPERATURE_SHUTDOWN_THRESHOLD = 294, ///< Shutdown threshold for external temperature [0-65535]. Default: 65535.
-    EXTERNAL_TEMPERATURE_WARNING_THRESHOLD = 295, ///< Warning threshold for external temperature [0-65535]. Default: 65535.
-    CHIP_TEMPERATURE = 296, ///< Chip temperature reading [0-65535]. Read-only.
-    CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD = 297, ///< Shutdown threshold for chip temperature [0-65535]. Default: 65535.
-    CHIP_TEMPERATURE_WARNING_THRESHOLD = 298, ///< Warning threshold for chip temperature [0-65535]. Default: 65535.
-    GENERAL_ERROR_FLAGS = 299, ///< General error flags. See GeneralErrorFlags enum. Read-only.
-    GDRV_ERROR_FLAGS = 300, ///< Gate driver error flags. See GateDriverErrorFlags enum. Read-only.
-    ADC_STATUS_FLAGS = 301 ///< ADC status flags. See AdcStatusFlags enum. Write-to-clear.
+    EXTERNAL_TEMPERATURE_WARNING_THRESHOLD  = 295, ///< Warning threshold for external temperature [0-65535]. Default: 65535.
+    CHIP_TEMPERATURE                        = 296, ///< Chip temperature reading [0-65535]. Read-only.
+    CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD     = 297, ///< Shutdown threshold for chip temperature [0-65535]. Default: 65535.
+    CHIP_TEMPERATURE_WARNING_THRESHOLD      = 298, ///< Warning threshold for chip temperature [0-65535]. Default: 65535.
+    GENERAL_ERROR_FLAGS                     = 299, ///< General error flags. See GeneralErrorFlags enum. Read-only.
+    GDRV_ERROR_FLAGS                        = 300, ///< Gate driver error flags. See GateDriverErrorFlags enum. Read-only.
+    ADC_STATUS_FLAGS                        = 301  ///< ADC status flags. See AdcStatusFlags enum. Write-to-clear.
+};
+/// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+/// @name General Status Flags
+/// @{
+/**
+ * @brief General status flags indicating system state, events, and hardware availability.
+ * 
+ * This 32-bit status register contains flags that provide information about the current system state,
+ * regulation modes, configuration status, hardware events, and available peripherals.
+ * 
+ * Most flags are read-only (R), while some can be read, written, and cleared (RWC).
+ * Flags marked as RWC can be cleared by writing a 1 to the corresponding bit.
+ */
+enum class GeneralStatusFlags : uint32_t {
+    REGULATION_STOPPED              = 0x00000001, ///< System does not regulate motion. Read-only.
+    REGULATION_TORQUE               = 0x00000002, ///< System is regulating mode torque. Read-only.
+    REGULATION_VELOCITY             = 0x00000004, ///< System is regulating mode velocity. Read-only.
+    REGULATION_POSITION             = 0x00000008, ///< System is regulating mode position. Read-only.
+    CONFIG_STORED                   = 0x00000010, ///< Config was stored successfully. Read-write-clear.
+    CONFIG_LOADED                   = 0x00000020, ///< Config was loaded successfully. Read-write-clear.
+    CONFIG_READ_ONLY                = 0x00000040, ///< Memory for config is read only. Read-only.
+    TMCL_SCRIPT_READ_ONLY           = 0x00000080, ///< Memory for TMCL script is read only. Read-only.
+    BRAKE_CHOPPER_ACTIVE            = 0x00000100, ///< Brake chopper is active. Read-only.
+    POSITION_REACHED                = 0x00000200, ///< Actual velocity and target velocity are below POSITION_REACHED_THRESHOLD. Read-only.
+    VELOCITY_REACHED                = 0x00000400, ///< Actual velocity and target velocity are below VELOCITY_REACHED_THRESHOLD. Read-only.
+    ADC_OFFSET_CALIBRATED           = 0x00000800, ///< The ADC offset was calibrated automatically (clear to recalibrate). Read-write-clear.
+    RAMPER_LATCHED                  = 0x00001000, ///< The ramper latched a position. Read-write-clear.
+    RAMPER_EVENT_STOP_SWITCH        = 0x00002000, ///< Ramper had a switch stop event. Read-only.
+    RAMPER_EVENT_STOP_DEVIATION     = 0x00004000, ///< Ramper had a deviation stop event. Read-write-clear.
+    RAMPER_VELOCITY_REACHED         = 0x00008000, ///< The ramper reached its velocity target. Read-only.
+    RAMPER_POSITION_REACHED         = 0x00010000, ///< The ramper reached its position target. Read-only.
+    RAMPER_SECOND_MOVE              = 0x00020000, ///< The ramper needed a second move to reach target. Read-write-clear.
+    IIT_1_ACTIVE                    = 0x00040000, ///< IIT 1 active. Read-only.
+    IIT_2_ACTIVE                    = 0x00080000, ///< IIT 2 active. Read-only.
+    REFSEARCH_FINISHED              = 0x00100000, ///< Reference search finished. Read-only.
+    Y2_USED_FOR_BRAKING             = 0x00200000, ///< Fourth phase used for braking. Read-only.
+    STEPDIR_INPUT_AVAILABLE         = 0x00800000, ///< Signals that StepDir is available. Read-only.
+    RIGHT_REF_SWITCH_AVAILABLE      = 0x01000000, ///< Signals that REF_R is available. Read-only.
+    HOME_REF_SWITCH_AVAILABLE       = 0x02000000, ///< Signals that REF_H is available. Read-only.
+    LEFT_REF_SWITCH_AVAILABLE       = 0x04000000, ///< Signals that REF_L is available. Read-only.
+    ABN2_FEEDBACK_AVAILABLE         = 0x08000000, ///< Signals that ABN2 feedback is available. Read-only.
+    HALL_FEEDBACK_AVAILABLE         = 0x10000000, ///< Signals that hall feedback is available. Read-only.
+    ABN1_FEEDBACK_AVAILABLE         = 0x20000000, ///< Signals that ABN1 feedback is available. Read-only.
+    SPI_FLASH_AVAILABLE             = 0x40000000, ///< Signals that an external SPI flash is available. Read-only.
+    I2C_EEPROM_AVAILABLE            = 0x80000000  ///< Signals that an external I2C EEPROM is available. Read-only.
 };
 /// @}
 
 /// @name General Error Flags
 /// @{
 /**
- * @brief Enumerates general error flags.
+ * @brief Enumerates general error flags for GENERAL_ERROR_FLAGS.
+ * 
+ * These flags indicate various error conditions in the system. Most of these flags
+ * are Read-Write-Clear (RWC), meaning they can be cleared by writing a 1 to the 
+ * corresponding bit position.
  */
 enum class GeneralErrorFlags : uint32_t {
-    CONFIG_ERROR = 0x00000001, ///< Configuration error.
-    TMCL_SCRIPT_ERROR = 0x00000002, ///< TMCL script error.
-    HOMESWITCH_NOT_FOUND = 0x00000004, ///< Home switch not found.
-    HALL_ERROR = 0x00000020, ///< Hall sensor error.
-    WATCHDOG_EVENT = 0x00000200, ///< Watchdog event.
-    EXT_TEMP_EXCEEDED = 0x00002000, ///< External temperature exceeded.
-    CHIP_TEMP_EXCEEDED = 0x00004000, ///< Chip temperature exceeded.
-    I2T_1_EXCEEDED = 0x00010000, ///< I2T limit 1 exceeded.
-    I2T_2_EXCEEDED = 0x00020000, ///< I2T limit 2 exceeded.
-    EXT_TEMP_WARNING = 0x00040000, ///< External temperature warning.
-    SUPPLY_OVERVOLTAGE_WARNING = 0x00080000, ///< Supply overvoltage warning.
-    SUPPLY_UNDERVOLTAGE_WARNING = 0x00100000, ///< Supply undervoltage warning.
-    ADC_IN_OVERVOLTAGE = 0x00200000, ///< ADC input overvoltage.
-    FAULT_RETRY_HAPPENED = 0x00400000, ///< Fault retry occurred.
-    FAULT_RETRIES_FAILED = 0x00800000, ///< Fault retries failed.
-    CHIP_TEMP_WARNING = 0x01000000, ///< Chip temperature warning.
-    HEARTBEAT_STOPPED = 0x04000000 ///< Heartbeat stopped.
+    CONFIG_ERROR                 = 0x00000001, ///< Verification of config storage failed. Read-only.
+    TMCL_SCRIPT_ERROR            = 0x00000002, ///< TMCL Script not available. Read-only.
+    HOMESWITCH_NOT_FOUND         = 0x00000004, ///< Reference search for home switch failed. Read-only.
+    HALL_ERROR                   = 0x00000020, ///< Signals an invalid hall state. Read-write-clear.
+    WATCHDOG_EVENT               = 0x00000200, ///< Watchdog reset indication. Read-write-clear.
+    EXT_TEMP_EXCEEDED            = 0x00002000, ///< External temperature exceeded. Read-write-clear.
+    CHIP_TEMP_EXCEEDED           = 0x00004000, ///< Chip temperature threshold exceeded. Read-write-clear.
+    I2T_1_EXCEEDED               = 0x00010000, ///< Signals that I²t limit 1 was exceeded. Read-write-clear.
+    I2T_2_EXCEEDED               = 0x00020000, ///< Signals that I²t limit 2 was exceeded. Read-write-clear.
+    EXT_TEMP_WARNING             = 0x00040000, ///< External temperature warning threshold exceeded. Read-write-clear.
+    SUPPLY_OVERVOLTAGE_WARNING   = 0x00080000, ///< Supply overvoltage warning threshold exceeded. Read-write-clear.
+    SUPPLY_UNDERVOLTAGE_WARNING  = 0x00100000, ///< Supply voltage below undervoltage warning threshold. Read-write-clear.
+    ADC_IN_OVERVOLTAGE           = 0x00200000, ///< ADC IN over 2V while ADC enabled. Read-write-clear.
+    FAULT_RETRY_HAPPENED         = 0x00400000, ///< The set number of max. retries was exceeded without recovering. Read-write-clear.
+    FAULT_RETRIES_FAILED         = 0x00800000, ///< All retries of a detected fault failed. Read-write-clear.
+    CHIP_TEMP_WARNING            = 0x01000000, ///< Chip temperature warning threshold exceeded. Read-write-clear.
+    HEARTBEAT_STOPPED            = 0x04000000  ///< Heartbeat stopped. Read-write-clear.
 };
 /// @}
 
 /// @name Gate Driver Error Flags
 /// @{
 /**
- * @brief Enumerates gate driver error flags.
+ * @brief Enumerates gate driver error flags for GDRV_ERROR_FLAGS.
  */
 enum class GateDriverErrorFlags : uint32_t {
-    U_LOW_SIDE_OVERCURRENT = 0x00000001, ///< U low side overcurrent.
-    V_LOW_SIDE_OVERCURRENT = 0x00000002, ///< V low side overcurrent.
-    W_LOW_SIDE_OVERCURRENT = 0x00000004, ///< W low side overcurrent.
-    Y2_LOW_SIDE_OVERCURRENT = 0x00000008, ///< Y2 low side overcurrent.
-    U_LOW_SIDE_DISCHARGE_SHORT = 0x00000010, ///< U low side discharge short.
-    V_LOW_SIDE_DISCHARGE_SHORT = 0x00000020, ///< V low side discharge short.
-    W_LOW_SIDE_DISCHARGE_SHORT = 0x00000040, ///< W low side discharge short.
-    Y2_LOW_SIDE_DISCHARGE_SHORT = 0x00000080, ///< Y2 low side discharge short.
-    U_LOW_SIDE_CHARGE_SHORT = 0x00000100, ///< U low side charge short.
-    V_LOW_SIDE_CHARGE_SHORT = 0x00000200, ///< V low side charge short.
-    W_LOW_SIDE_CHARGE_SHORT = 0x00000400, ///< W low side charge short.
-    Y2_LOW_SIDE_CHARGE_SHORT = 0x00000800, ///< Y2 low side charge short.
-    U_BOOTSTRAP_UNDERVOLTAGE = 0x00001000, ///< U bootstrap undervoltage.
-    V_BOOTSTRAP_UNDERVOLTAGE = 0x00002000, ///< V bootstrap undervoltage.
-    W_BOOTSTRAP_UNDERVOLTAGE = 0x00004000, ///< W bootstrap undervoltage.
-    Y2_BOOTSTRAP_UNDERVOLTAGE = 0x00008000, ///< Y2 bootstrap undervoltage.
-    U_HIGH_SIDE_OVERCURRENT = 0x00010000, ///< U high side overcurrent.
-    V_HIGH_SIDE_OVERCURRENT = 0x00020000, ///< V high side overcurrent.
-    W_HIGH_SIDE_OVERCURRENT = 0x00040000, ///< W high side overcurrent.
-    Y2_HIGH_SIDE_OVERCURRENT = 0x00080000, ///< Y2 high side overcurrent.
-    U_HIGH_SIDE_DISCHARGE_SHORT = 0x00100000, ///< U high side discharge short.
-    V_HIGH_SIDE_DISCHARGE_SHORT = 0x00200000, ///< V high side discharge short.
-    W_HIGH_SIDE_DISCHARGE_SHORT = 0x00400000, ///< W high side discharge short.
-    Y2_HIGH_SIDE_DISCHARGE_SHORT = 0x00800000, ///< Y2 high side discharge short.
-    U_HIGH_SIDE_CHARGE_SHORT = 0x01000000, ///< U high side charge short.
-    V_HIGH_SIDE_CHARGE_SHORT = 0x02000000, ///< V high side charge short.
-    W_HIGH_SIDE_CHARGE_SHORT = 0x04000000, ///< W high side charge short.
-    Y2_HIGH_SIDE_CHARGE_SHORT = 0x08000000, ///< Y2 high side charge short.
-    GDRV_UNDERVOLTAGE = 0x20000000, ///< Gate driver undervoltage.
-    GDRV_LOW_VOLTAGE = 0x40000000, ///< Gate driver low voltage.
-    GDRV_SUPPLY_UNDERVOLTAGE = 0x80000000 ///< Gate driver supply undervoltage.
+    U_LOW_SIDE_OVERCURRENT        = 0x00000001, ///< U low side overcurrent.
+    V_LOW_SIDE_OVERCURRENT        = 0x00000002, ///< V low side overcurrent.
+    W_LOW_SIDE_OVERCURRENT        = 0x00000004, ///< W low side overcurrent.
+    Y2_LOW_SIDE_OVERCURRENT       = 0x00000008, ///< Y2 low side overcurrent.
+    U_LOW_SIDE_DISCHARGE_SHORT    = 0x00000010, ///< U low side discharge short.
+    V_LOW_SIDE_DISCHARGE_SHORT    = 0x00000020, ///< V low side discharge short.
+    W_LOW_SIDE_DISCHARGE_SHORT    = 0x00000040, ///< W low side discharge short.
+    Y2_LOW_SIDE_DISCHARGE_SHORT   = 0x00000080, ///< Y2 low side discharge short.
+    U_LOW_SIDE_CHARGE_SHORT       = 0x00000100, ///< U low side charge short.
+    V_LOW_SIDE_CHARGE_SHORT       = 0x00000200, ///< V low side charge short.
+    W_LOW_SIDE_CHARGE_SHORT       = 0x00000400, ///< W low side charge short.
+    Y2_LOW_SIDE_CHARGE_SHORT      = 0x00000800, ///< Y2 low side charge short.
+    U_BOOTSTRAP_UNDERVOLTAGE      = 0x00001000, ///< U bootstrap undervoltage.
+    V_BOOTSTRAP_UNDERVOLTAGE      = 0x00002000, ///< V bootstrap undervoltage.
+    W_BOOTSTRAP_UNDERVOLTAGE      = 0x00004000, ///< W bootstrap undervoltage.
+    Y2_BOOTSTRAP_UNDERVOLTAGE     = 0x00008000, ///< Y2 bootstrap undervoltage.
+    U_HIGH_SIDE_OVERCURRENT       = 0x00010000, ///< U high side overcurrent.
+    V_HIGH_SIDE_OVERCURRENT       = 0x00020000, ///< V high side overcurrent.
+    W_HIGH_SIDE_OVERCURRENT       = 0x00040000, ///< W high side overcurrent.
+    Y2_HIGH_SIDE_OVERCURRENT      = 0x00080000, ///< Y2 high side overcurrent.
+    U_HIGH_SIDE_DISCHARGE_SHORT   = 0x00100000, ///< U high side discharge short.
+    V_HIGH_SIDE_DISCHARGE_SHORT   = 0x00200000, ///< V high side discharge short.
+    W_HIGH_SIDE_DISCHARGE_SHORT   = 0x00400000, ///< W high side discharge short.
+    Y2_HIGH_SIDE_DISCHARGE_SHORT  = 0x00800000, ///< Y2 high side discharge short.
+    U_HIGH_SIDE_CHARGE_SHORT      = 0x01000000, ///< U high side charge short.
+    V_HIGH_SIDE_CHARGE_SHORT      = 0x02000000, ///< V high side charge short.
+    W_HIGH_SIDE_CHARGE_SHORT      = 0x04000000, ///< W high side charge short.
+    Y2_HIGH_SIDE_CHARGE_SHORT     = 0x08000000, ///< Y2 high side charge short.
+    GDRV_UNDERVOLTAGE             = 0x20000000, ///< Gate driver undervoltage.
+    GDRV_LOW_VOLTAGE              = 0x40000000, ///< Gate driver low voltage.
+    GDRV_SUPPLY_UNDERVOLTAGE      = 0x80000000  ///< Gate driver supply undervoltage.
 };
 /// @}
 
@@ -2396,185 +2618,6 @@ enum class AdcStatusFlags : uint32_t {
     AIN3_CLIPPED = 0x00000800,
     VM_CLIPPED   = 0x00001000,
     TEMP_CLIPPED = 0x00002000
-};
-/// @}
-
-/// @name Internal Measurement Parameters
-/// @{
-/**
- * @brief Raw diagnostic values and FOC internal measurements.
- */
-enum class InternalMeasurement : uint16_t {
-    MCC_INPUTS_RAW                 = 304,
-    FOC_VOLTAGE_UX                 = 305,
-    FOC_VOLTAGE_WY                 = 306,
-    FOC_VOLTAGE_V                  = 307,
-    FIELDWEAKENING_I               = 308,
-    FIELDWEAKENING_VOLTAGE_THRESHOLD = 310,
-    FOC_CURRENT_UX                 = 311,
-    FOC_CURRENT_V                  = 312,
-    FOC_CURRENT_WY                 = 313,
-    FOC_VOLTAGE_UQ                 = 314,
-    FOC_CURRENT_IQ                 = 315
-};
-/// @}
-
-/// @name Combined Diagnostic Values
-/// @{
-/**
- * @brief Simplified combined measurement registers used during tuning.
- */
-enum class CombinedDiagnosticValues : uint16_t {
-    TORQUE_FLUX_COMBINED_TARGET_VALUES = 330,
-    TORQUE_FLUX_COMBINED_ACTUAL_VALUES = 331,
-    VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES = 332,
-    INTEGRATED_ACTUAL_TORQUE_VALUE     = 333,
-    INTEGRATED_ACTUAL_VELOCITY_VALUE   = 334
-};
-/// @}
-
-/// @name Biquad Filter Parameters
-/// @{
-/**
- * @brief Parameters for configuring biquad filters for torque and velocity.
- */
-enum class BiquadFilter : uint16_t {
-    TARGET_TORQUE_BIQUAD_FILTER_ENABLE = 318, ///< Enable target torque biquad filter [0, 1]. Default: 0.
-    TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1 = 319, ///< Target torque biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 0.
-    TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2 = 320, ///< Target torque biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 0.
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0 = 321, ///< Target torque biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 1048576.
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1 = 322, ///< Target torque biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 0.
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2 = 323, ///< Target torque biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 0.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE = 324, ///< Enable actual velocity biquad filter [0, 1]. Default: 1.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1 = 325, ///< Actual velocity biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 1849195.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2 = 326, ///< Actual velocity biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 15961938.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0 = 327, ///< Actual velocity biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 3665.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1 = 328, ///< Actual velocity biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 7329.
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2 = 329 ///< Actual velocity biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 3665.
-};
-/// @}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                  //
-//     ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗    //
-//    ██╔════╝ ██║     ██╔═══██╗██╔══██╗██╔══██╗██║         ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝    //
-//    ██║  ███╗██║     ██║   ██║██████╔╝███████║██║         ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗    //
-//    ██║   ██║██║     ██║   ██║██╔══██╗██╔══██║██║         ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║    //
-//    ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║    //
-//     ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    //
-//                                                                                                                  //
-//==================================================================================================================//
-//                                            GLOBAL PARAMETERS SECTION                                             //
-//==================================================================================================================//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////
-//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
-//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
-//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
-/////////////////////////////////////////////
-
-/// @name Global Parameters – Bank 0 (System Settings)
-/// @{
-/**
- * @brief Non-motion parameters in bank 0: communication, I/O, heartbeat, hibernation, loops, auto-start, etc.
- *
- * To persist changes, use STAP after setting RWE parameters.
- */
-enum class GlobalParamBank0 : uint16_t {
-    SERIAL_ADDRESS                              =   1, ///< RS485/UART module address [1…255 odd]. Default: 1. RWE
-    SERIAL_HOST_ADDRESS                         =   2, ///< RS485/UART host address [1…255]. Default: 2. RWE
-    HEARTBEAT_MONITORING_CONFIG                 =   3, ///< 0: DISABLED, 1: UART, 2: SPI, 3: UART+SPI. Default: 0. RWE
-    HEARTBEAT_MONITORING_TIMEOUT                =   4, ///< Heartbeat timeout [ms] [1…4294967295]. Default: 100. RWE
-    IO_DIRECTION_MASK                           =   5, ///< GPIO direction mask [bit=1→output]. Default: 0. RWE
-    IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK        =   6, ///< GPIO pull-enable mask [bit=1→pull enabled]. Default: 0. RWE
-    IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK     =   7, ///< GPIO pull-dir mask [bit=1→pull-up]. Default: 0. RWE
-    WAKE_PIN_CONTROL_ENABLE                     =  10, ///< 0: DISABLED, 1: ENABLED. Default: 0. RWE
-    GO_TO_TIMEOUT_POWER_DOWN_STATE              =  11, ///< See PowerDownTimeout. Default: 0. W
-    MAIN_LOOPS                                  =  12, ///< Main loops/sec [0…4294967295]. Default: 0. R
-    TORQUE_LOOPS                                =  13, ///< Torque loops/sec [0…4294967295]. Default: 0. R
-    VELOCITY_LOOPS                              =  14, ///< Velocity loops/sec [0…4294967295]. Default: 0. R
-    AUTO_START_ENABLE                           =  77, ///< 0: DISABLED, 1: ENABLED. Default: 1. RWE
-    CLEAR_USER_VARIABLES                        =  85  ///< 0: TRY_LOAD_FROM_STORAGE, 1: CLEAR. Default: 0. RWE
-};
-/// @}
-
-/// @name Global Parameters – Bank 2 (User Variables)
-/// @{
-/**
- * @brief User-script variables 0…15. RWE.
- */
-enum class GlobalParamBank2 : uint16_t {
-    USER_VARIABLE_0  =   0,
-    USER_VARIABLE_1  =   1,
-    USER_VARIABLE_2  =   2,
-    USER_VARIABLE_3  =   3,
-    USER_VARIABLE_4  =   4,
-    USER_VARIABLE_5  =   5,
-    USER_VARIABLE_6  =   6,
-    USER_VARIABLE_7  =   7,
-    USER_VARIABLE_8  =   8,
-    USER_VARIABLE_9  =   9,
-    USER_VARIABLE_10 =  10,
-    USER_VARIABLE_11 =  11,
-    USER_VARIABLE_12 =  12,
-    USER_VARIABLE_13 =  13,
-    USER_VARIABLE_14 =  14,
-    USER_VARIABLE_15 =  15
-};
-/// @}
-
-/// @name Global Parameters – Bank 3 (Interrupt & Trigger Configuration)
-/// @{
-/**
- * @brief Timer periods and input-trigger transitions for scripting interrupts.
- */
-enum class GlobalParamBank3 : uint16_t {
-    TIMER_0_PERIOD                  =   0, ///< [ms] 0…2147483647. R/W
-    TIMER_1_PERIOD                  =   1, ///< [ms] 0…2147483647. R/W
-    TIMER_2_PERIOD                  =   2, ///< [ms] 0…2147483647. R/W
-    STOP_LEFT_TRIGGER_TRANSITION    =  10, ///< See TriggerTransition. Default: 0. R/W
-    STOP_RIGHT_TRIGGER_TRANSITION   =  11, ///< See TriggerTransition. Default: 0. R/W
-    HOME_RIGHT_TRIGGER_TRANSITION   =  12, ///< See TriggerTransition. Default: 0. R/W
-    INPUT_0_TRIGGER_TRANSITION      =  13, ///< See TriggerTransition. Default: 0. R/W
-    INPUT_1_TRIGGER_TRANSITION      =  14, ///< ...
-    INPUT_2_TRIGGER_TRANSITION      =  15,
-    INPUT_3_TRIGGER_TRANSITION      =  16,
-    INPUT_4_TRIGGER_TRANSITION      =  17,
-    INPUT_5_TRIGGER_TRANSITION      =  18,
-    INPUT_6_TRIGGER_TRANSITION      =  19,
-    INPUT_7_TRIGGER_TRANSITION      =  20,
-    INPUT_8_TRIGGER_TRANSITION      =  21,
-    INPUT_9_TRIGGER_TRANSITION      =  22,
-    INPUT_10_TRIGGER_TRANSITION     =  23,
-    INPUT_11_TRIGGER_TRANSITION     =  24,
-    INPUT_12_TRIGGER_TRANSITION     =  25,
-    INPUT_13_TRIGGER_TRANSITION     =  26,
-    INPUT_14_TRIGGER_TRANSITION     =  27,
-    INPUT_15_TRIGGER_TRANSITION     =  28,
-    INPUT_16_TRIGGER_TRANSITION     =  29,
-    INPUT_17_TRIGGER_TRANSITION     =  30,
-    INPUT_18_TRIGGER_TRANSITION     =  31
-};
-/// @}
-
-/////////////////////////////////////////////
-//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
-//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
-//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
-/////////////////////////////////////////////
-
-/// @name Trigger Transition Options
-/// @{
-/**
- * @brief For all “_TRIGGER_TRANSITION” params: 0=OFF, 1=RISING, 2=FALLING, 3=BOTH.
- */
-enum class TriggerTransition : uint8_t {
-    OFF     = 0,
-    RISING  = 1,
-    FALLING = 2,
-    BOTH    = 3
 };
 /// @}
 
