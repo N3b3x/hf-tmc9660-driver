@@ -713,28 +713,15 @@ enum class VgsDeglitchTime : uint8_t {
  * @brief Parameters for configuring motor characteristics and drive settings.
  */
 enum class MotorConfig : uint16_t {
-    MOTOR_TYPE = 300,           ///< Motor type selection. See MotorType enum. Default: 0 (DC).
-    MOTOR_DIRECTION = 301,      ///< Motor direction. 0: FORWARD, 1: REVERSE. Default: 0.
-    MOTOR_POLE_PAIRS = 302,     ///< Number of pole pairs for BLDC/Stepper motors [1-255]. Default: 1.
-    MAX_TORQUE = 303,           ///< Maximum torque in mA [0-65535]. Default: 2000.
-    MAX_FLUX = 304,             ///< Maximum flux in mA [0-65535]. Default: 2000.
-    CURRENT_SCALING_FACTOR = 305, ///< Current scaling factor for ADCs. Default: calculated.
-    MOTOR_PWM_FREQUENCY = 306,  ///< PWM frequency in Hz [10000-100000]. Default: 25000.
-    PWM_SWITCHING_SCHEME = 307  ///< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM).
-};
-/// @}
-
-enum class MotorConfig : uint16_t {
     MOTOR_TYPE = 0,                ///< Motor type selection. See MotorType enum. Default: 0 (NO_MOTOR). RWE
     MOTOR_POLE_PAIRS = 1,          ///< Number of pole pairs for motor [0-127]. Default: 1. RWE
     MOTOR_DIRECTION = 2,           ///< Motor direction. 0: NOT_INVERTED, 1: INVERTED. Default: 0. RWE
     MOTOR_PWM_FREQUENCY = 3,       ///< PWM frequency in Hz [10000-100000]. Default: 25000. RWE
     COMMUTATION_MODE = 4,          ///< Motor commutation mode. See CommutationMode enum. Default: 0 (SYSTEM_OFF). RW
     OUTPUT_VOLTAGE_LIMIT = 5,      ///< PID UQ/UD output limit for circular limiter [0-32767]. Default: 8000. RWE
-    PWM_SWITCHING_SCHEME = 307     ///< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE
+    PWM_SWITCHING_SCHEME = 8     ///< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE
 };
 /// @}
-
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -777,6 +764,12 @@ enum class PwmSwitchingScheme : uint8_t {
 };
 /// @}
 
+/////////////////////////////////////////////
+//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
+//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
+//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
+/////////////////////////////////////////////
+
 /// @name ADC Configuration Parameters
 /// @{
 /**
@@ -790,6 +783,12 @@ enum class AdcConfig : uint16_t {
     ADC_I3_RAW = 16      ///< Raw ADC measurement for I3 shunt [-32768, 32767]. Read-only.
 };
 /// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
 
 /// @name ADC Shunt Types
 /// @{
@@ -2343,4 +2342,133 @@ enum class BiquadFilter : uint16_t {
 };
 /// @}
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                  //
+//     ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗    //
+//    ██╔════╝ ██║     ██╔═══██╗██╔══██╗██╔══██╗██║         ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝    //
+//    ██║  ███╗██║     ██║   ██║██████╔╝███████║██║         ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗    //
+//    ██║   ██║██║     ██║   ██║██╔══██╗██╔══██║██║         ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║    //
+//    ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║    //
+//     ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    //
+//                                                                                                                  //
+//==================================================================================================================//
+//                                            GLOBAL PARAMETERS SECTION                                             //
+//==================================================================================================================//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////
+//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
+//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
+//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
+/////////////////////////////////////////////
+
+/// @name Global Parameters – Bank 0 (System Settings)
+/// @{
+/**
+ * @brief Non-motion parameters in bank 0: communication, I/O, heartbeat, hibernation, loops, auto-start, etc.
+ *
+ * To persist changes, use STAP after setting RWE parameters.
+ */
+enum class GlobalParamBank0 : uint16_t {
+    SERIAL_ADDRESS                              =   1, ///< RS485/UART module address [1…255 odd]. Default: 1. RWE
+    SERIAL_HOST_ADDRESS                         =   2, ///< RS485/UART host address [1…255]. Default: 2. RWE
+    HEARTBEAT_MONITORING_CONFIG                 =   3, ///< 0: DISABLED, 1: UART, 2: SPI, 3: UART+SPI. Default: 0. RWE
+    HEARTBEAT_MONITORING_TIMEOUT                =   4, ///< Heartbeat timeout [ms] [1…4294967295]. Default: 100. RWE
+    IO_DIRECTION_MASK                           =   5, ///< GPIO direction mask [bit=1→output]. Default: 0. RWE
+    IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK        =   6, ///< GPIO pull-enable mask [bit=1→pull enabled]. Default: 0. RWE
+    IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK     =   7, ///< GPIO pull-dir mask [bit=1→pull-up]. Default: 0. RWE
+    WAKE_PIN_CONTROL_ENABLE                     =  10, ///< 0: DISABLED, 1: ENABLED. Default: 0. RWE
+    GO_TO_TIMEOUT_POWER_DOWN_STATE              =  11, ///< See PowerDownTimeout. Default: 0. W
+    MAIN_LOOPS                                  =  12, ///< Main loops/sec [0…4294967295]. Default: 0. R
+    TORQUE_LOOPS                                =  13, ///< Torque loops/sec [0…4294967295]. Default: 0. R
+    VELOCITY_LOOPS                              =  14, ///< Velocity loops/sec [0…4294967295]. Default: 0. R
+    AUTO_START_ENABLE                           =  77, ///< 0: DISABLED, 1: ENABLED. Default: 1. RWE
+    CLEAR_USER_VARIABLES                        =  85  ///< 0: TRY_LOAD_FROM_STORAGE, 1: CLEAR. Default: 0. RWE
+};
+/// @}
+
+/// @name Global Parameters – Bank 2 (User Variables)
+/// @{
+/**
+ * @brief User-script variables 0…15. RWE.
+ */
+enum class GlobalParamBank2 : uint16_t {
+    USER_VARIABLE_0  =   0,
+    USER_VARIABLE_1  =   1,
+    USER_VARIABLE_2  =   2,
+    USER_VARIABLE_3  =   3,
+    USER_VARIABLE_4  =   4,
+    USER_VARIABLE_5  =   5,
+    USER_VARIABLE_6  =   6,
+    USER_VARIABLE_7  =   7,
+    USER_VARIABLE_8  =   8,
+    USER_VARIABLE_9  =   9,
+    USER_VARIABLE_10 =  10,
+    USER_VARIABLE_11 =  11,
+    USER_VARIABLE_12 =  12,
+    USER_VARIABLE_13 =  13,
+    USER_VARIABLE_14 =  14,
+    USER_VARIABLE_15 =  15
+};
+/// @}
+
+/// @name Global Parameters – Bank 3 (Interrupt & Trigger Configuration)
+/// @{
+/**
+ * @brief Timer periods and input-trigger transitions for scripting interrupts.
+ */
+enum class GlobalParamBank3 : uint16_t {
+    TIMER_0_PERIOD                  =   0, ///< [ms] 0…2147483647. R/W
+    TIMER_1_PERIOD                  =   1, ///< [ms] 0…2147483647. R/W
+    TIMER_2_PERIOD                  =   2, ///< [ms] 0…2147483647. R/W
+    STOP_LEFT_TRIGGER_TRANSITION    =  10, ///< See TriggerTransition. Default: 0. R/W
+    STOP_RIGHT_TRIGGER_TRANSITION   =  11, ///< See TriggerTransition. Default: 0. R/W
+    HOME_RIGHT_TRIGGER_TRANSITION   =  12, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_0_TRIGGER_TRANSITION      =  13, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_1_TRIGGER_TRANSITION      =  14, ///< ...
+    INPUT_2_TRIGGER_TRANSITION      =  15,
+    INPUT_3_TRIGGER_TRANSITION      =  16,
+    INPUT_4_TRIGGER_TRANSITION      =  17,
+    INPUT_5_TRIGGER_TRANSITION      =  18,
+    INPUT_6_TRIGGER_TRANSITION      =  19,
+    INPUT_7_TRIGGER_TRANSITION      =  20,
+    INPUT_8_TRIGGER_TRANSITION      =  21,
+    INPUT_9_TRIGGER_TRANSITION      =  22,
+    INPUT_10_TRIGGER_TRANSITION     =  23,
+    INPUT_11_TRIGGER_TRANSITION     =  24,
+    INPUT_12_TRIGGER_TRANSITION     =  25,
+    INPUT_13_TRIGGER_TRANSITION     =  26,
+    INPUT_14_TRIGGER_TRANSITION     =  27,
+    INPUT_15_TRIGGER_TRANSITION     =  28,
+    INPUT_16_TRIGGER_TRANSITION     =  29,
+    INPUT_17_TRIGGER_TRANSITION     =  30,
+    INPUT_18_TRIGGER_TRANSITION     =  31
+};
+/// @}
+
+/////////////////////////////////////////////
+//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
+//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
+//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
+/////////////////////////////////////////////
+
+/// @name Trigger Transition Options
+/// @{
+/**
+ * @brief For all “_TRIGGER_TRANSITION” params: 0=OFF, 1=RISING, 2=FALLING, 3=BOTH.
+ */
+enum class TriggerTransition : uint8_t {
+    OFF     = 0,
+    RISING  = 1,
+    FALLING = 2,
+    BOTH    = 3
+};
+/// @}
+
 } // namespace tmc9660::tmcl
+
+
+
+
+
