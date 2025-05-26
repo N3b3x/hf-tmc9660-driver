@@ -279,6 +279,8 @@ enum class RamDebugState : std::uint8_t {
 //    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
 /////////////////////////////////////////////
 
+
+
 //--------------------------------------
 //  Gate Driver Parameters (Table 20)
 //--------------------------------------
@@ -2237,6 +2239,59 @@ enum class PowerDownTimeout : uint8_t {
 //    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
 /////////////////////////////////////////////
 
+/// @name System Status and Supply Parameters
+/// @{
+/**
+ * @brief Parameters for actual status flags and supply voltage warnings.
+ */
+enum class SystemStatusSupply : uint16_t {
+    GENERAL_STATUS_FLAGS = 289,                 ///< General status flags. See GeneralStatusFlags enum. Read-only.
+    SUPPLY_VOLTAGE = 290,                       ///< Actual supply voltage in 0.1 V units. Read-only.
+    SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD = 291, ///< Supply overvoltage warning threshold [0…1000]. RWE
+    SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD = 292 ///< Supply undervoltage warning threshold [0…1000]. RWE
+};
+/// @}
+
+/// @name General Status Flags
+/// @{
+/**
+ * @brief Bit flags reported via parameter GENERAL_STATUS_FLAGS.
+ */
+enum class GeneralStatusFlags : uint32_t {
+    REGULATION_STOPPED              = 0x00000001,
+    REGULATION_TORQUE               = 0x00000002,
+    REGULATION_VELOCITY             = 0x00000004,
+    REGULATION_POSITION             = 0x00000008,
+    CONFIG_STORED                   = 0x00000010,
+    CONFIG_LOADED                   = 0x00000020,
+    CONFIG_READ_ONLY                = 0x00000040,
+    TMCL_SCRIPT_READ_ONLY           = 0x00000080,
+    BRAKE_CHOPPER_ACTIVE            = 0x00000100,
+    POSITION_REACHED                = 0x00000200,
+    VELOCITY_REACHED                = 0x00000400,
+    ADC_OFFSET_CALIBRATED           = 0x00000800,
+    RAMPER_LATCHED                  = 0x00001000,
+    RAMPER_EVENT_STOP_SWITCH        = 0x00002000,
+    RAMPER_EVENT_STOP_DEVIATION     = 0x00004000,
+    RAMPER_VELOCITY_REACHED         = 0x00008000,
+    RAMPER_POSITION_REACHED         = 0x00010000,
+    RAMPER_SECOND_MOVE              = 0x00020000,
+    IIT_1_ACTIVE                    = 0x00040000,
+    IIT_2_ACTIVE                    = 0x00080000,
+    REFSEARCH_FINISHED              = 0x00100000,
+    Y2_USED_FOR_BRAKING             = 0x00200000,
+    STEPDIR_INPUT_AVAILABLE         = 0x00800000,
+    RIGHT_REF_SWITCH_AVAILABLE      = 0x01000000,
+    HOME_REF_SWITCH_AVAILABLE       = 0x02000000,
+    LEFT_REF_SWITCH_AVAILABLE       = 0x04000000,
+    ABN2_FEEDBACK_AVAILABLE         = 0x08000000,
+    HALL_FEEDBACK_AVAILABLE         = 0x10000000,
+    ABN1_FEEDBACK_AVAILABLE         = 0x20000000,
+    SPI_FLASH_AVAILABLE             = 0x40000000,
+    I2C_EEPROM_AVAILABLE            = 0x80000000
+};
+/// @}
+
 /// @name Temperature and Error Flags Parameters
 /// @{
 /**
@@ -2318,6 +2373,63 @@ enum class GateDriverErrorFlags : uint32_t {
     GDRV_UNDERVOLTAGE = 0x20000000, ///< Gate driver undervoltage.
     GDRV_LOW_VOLTAGE = 0x40000000, ///< Gate driver low voltage.
     GDRV_SUPPLY_UNDERVOLTAGE = 0x80000000 ///< Gate driver supply undervoltage.
+};
+/// @}
+
+/// @name ADC Status Flags
+/// @{
+/**
+ * @brief Bit flags reported via parameter ADC_STATUS_FLAGS.
+ */
+enum class AdcStatusFlags : uint32_t {
+    I0_CLIPPED   = 0x00000001,
+    I1_CLIPPED   = 0x00000002,
+    I2_CLIPPED   = 0x00000004,
+    I3_CLIPPED   = 0x00000008,
+    U0_CLIPPED   = 0x00000010,
+    U1_CLIPPED   = 0x00000020,
+    U2_CLIPPED   = 0x00000040,
+    U3_CLIPPED   = 0x00000080,
+    AIN0_CLIPPED = 0x00000100,
+    AIN1_CLIPPED = 0x00000200,
+    AIN2_CLIPPED = 0x00000400,
+    AIN3_CLIPPED = 0x00000800,
+    VM_CLIPPED   = 0x00001000,
+    TEMP_CLIPPED = 0x00002000
+};
+/// @}
+
+/// @name Internal Measurement Parameters
+/// @{
+/**
+ * @brief Raw diagnostic values and FOC internal measurements.
+ */
+enum class InternalMeasurement : uint16_t {
+    MCC_INPUTS_RAW                 = 304,
+    FOC_VOLTAGE_UX                 = 305,
+    FOC_VOLTAGE_WY                 = 306,
+    FOC_VOLTAGE_V                  = 307,
+    FIELDWEAKENING_I               = 308,
+    FIELDWEAKENING_VOLTAGE_THRESHOLD = 310,
+    FOC_CURRENT_UX                 = 311,
+    FOC_CURRENT_V                  = 312,
+    FOC_CURRENT_WY                 = 313,
+    FOC_VOLTAGE_UQ                 = 314,
+    FOC_CURRENT_IQ                 = 315
+};
+/// @}
+
+/// @name Combined Diagnostic Values
+/// @{
+/**
+ * @brief Simplified combined measurement registers used during tuning.
+ */
+enum class CombinedDiagnosticValues : uint16_t {
+    TORQUE_FLUX_COMBINED_TARGET_VALUES = 330,
+    TORQUE_FLUX_COMBINED_ACTUAL_VALUES = 331,
+    VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES = 332,
+    INTEGRATED_ACTUAL_TORQUE_VALUE     = 333,
+    INTEGRATED_ACTUAL_VELOCITY_VALUE   = 334
 };
 /// @}
 
