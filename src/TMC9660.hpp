@@ -93,6 +93,13 @@ public:
         FORWARD = 0,  /**< Normal rotation direction. */
         REVERSE = 1   /**< Inverted rotation direction. */
     };
+    /// Heartbeat watchdog modes for communication monitoring
+    enum class HeartbeatMode : uint8_t { WATCHDOG_DISABLE = 0, WATCHDOG_ENABLE = 1 };
+    /// Power-down sleep periods
+    enum class PowerDownPeriod : uint8_t { PERIOD_1 = 0, PERIOD_2, PERIOD_3, PERIOD_4, PERIOD_5, PERIOD_6 };
+    /// Fault retry and final actions
+    enum class FaultRetryAction : uint8_t { NO_RETRY = 0, RETRY = 1 };
+    enum class FaultFinalAction : uint8_t { DISABLE_MOTOR = 0, KEEP_RUNNING = 1 };
 
     /**
      * @brief Construct a TMC9660 driver instance.
@@ -933,10 +940,10 @@ public:
     //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O)           **//
     //***************************************************************************
     struct GPIO {
-        bool setMode(uint8_t pin, bool output, bool enablePull = false, bool pullUp = true) noexcept;
+        bool setMode(uint8_t pin, bool output, bool pullEnable = false, bool pullUp = true) noexcept;
         bool writePin(uint8_t pin, bool value) noexcept;
-        bool readDigitalPin(uint8_t pin, bool &value) noexcept;
-        bool readAnalogPin(uint8_t pin, uint16_t &value) noexcept;
+        bool readDigital(uint8_t pin, bool &value) noexcept;
+        bool readAnalog(uint8_t pin, uint16_t &value) noexcept;
     private:
         friend class TMC9660;
         explicit GPIO(TMC9660& parent) noexcept : driver(parent) {}
@@ -944,7 +951,7 @@ public:
     } gpio{*this};
 
     //***************************************************************************
-    //**                  SUBSYSTEM: Power Management                          **//
+    //**               SUBSYSTEM: Power Management                          **//
     //***************************************************************************
     struct Power {
         bool enableWakePin(bool enable) noexcept;
@@ -959,7 +966,7 @@ public:
     //**                SUBSYSTEM: Fault Handling and Retry                    **//
     //***************************************************************************
     struct Fault {
-        bool configureBehaviour(FaultRetryAction retryAction, FaultFinalAction finalAction, uint8_t retries) noexcept;
+        bool configure(FaultRetryAction retryAction, FaultFinalAction finalAction, uint8_t retries) noexcept;
     private:
         friend class TMC9660;
         explicit Fault(TMC9660& parent) noexcept : driver(parent) {}
