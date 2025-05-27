@@ -310,12 +310,12 @@ inline const char* to_string(RamDebugState s) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
-//     ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗    //
-//    ██╔════╝ ██║     ██╔═══██╗██╔══██╗██╔══██╗██║         ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝    //
-//    ██║  ███╗██║     ██║   ██║██████╔╝███████║██║         ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗    //
-//    ██║   ██║██║     ██║   ██║██╔══██╗██╔══██║██║         ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║    //
-//    ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║    //
-//     ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝    //
+//     ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗     //
+//    ██╔════╝ ██║     ██╔═══██╗██╔══██╗██╔══██╗██║         ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝     //
+//    ██║  ███╗██║     ██║   ██║██████╔╝███████║██║         ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗     //
+//    ██║   ██║██║     ██║   ██║██╔══██╗██╔══██║██║         ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║     //
+//    ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║     //
+//     ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝     //
 //                                                                                                                  //
 //==================================================================================================================//
 //                                            GLOBAL PARAMETERS SECTION                                             //
@@ -337,20 +337,20 @@ inline const char* to_string(RamDebugState s) {
  * To persist changes, use STAP after setting RWE parameters.
  */
 #define GLOBAL_PARAM_BANK0_LIST(X) \
-    X(SERIAL_ADDRESS,                         1,  /*!< RS485/UART module address [1…255 odd]. Default: 1. RWE */) \
-    X(SERIAL_HOST_ADDRESS,                    2,  /*!< RS485/UART host address [1…255]. Default: 2. RWE */) \
-    X(HEARTBEAT_MONITORING_CONFIG,            3,  /*!< 0: DISABLED, 1: UART, 2: SPI, 3: UART+SPI. Default: 0. RWE */) \
-    X(HEARTBEAT_MONITORING_TIMEOUT,           4,  /*!< Heartbeat timeout [ms] [1…4294967295]. Default: 100. RWE */) \
-    X(IO_DIRECTION_MASK,                      5,  /*!< GPIO direction mask [bit=1→output]. Default: 0. RWE */) \
-    X(IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK,   6,  /*!< GPIO pull-enable mask [bit=1→pull enabled]. Default: 0. RWE */) \
-    X(IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK,7,  /*!< GPIO pull-dir mask [bit=1→pull-up]. Default: 0. RWE */) \
-    X(WAKE_PIN_CONTROL_ENABLE,               10, /*!< 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(GO_TO_TIMEOUT_POWER_DOWN_STATE,        11, /*!< See PowerDownTimeout. Default: 0. W */) \
-    X(MAIN_LOOPS,                           12, /*!< Main loops/sec [0…4294967295]. Default: 0. R */) \
-    X(TORQUE_LOOPS,                         13, /*!< Torque loops/sec [0…4294967295]. Default: 0. R */) \
-    X(VELOCITY_LOOPS,                       14, /*!< Velocity loops/sec [0…4294967295]. Default: 0. R */) \
-    X(AUTO_START_ENABLE,                    77, /*!< 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
-    X(CLEAR_USER_VARIABLES,                 85, /*!< 0: TRY_LOAD_FROM_STORAGE, 1: CLEAR. Default: 0. RWE */)
+    X(SERIAL_ADDRESS,                          1,  /*!< RS485/UART module address [1…255 odd]. Default: 1. RWE */) \
+    X(SERIAL_HOST_ADDRESS,                     2,  /*!< RS485/UART host address [1…255]. Default: 2. RWE */) \
+    X(HEARTBEAT_MONITORING_CONFIG,             3,  /*!< 0: DISABLED, 1: UART, 2: SPI, 3: UART+SPI. Default: 0. RWE */) \
+    X(HEARTBEAT_MONITORING_TIMEOUT,            4,  /*!< Heartbeat timeout [ms] [1…4294967295]. Default: 100. RWE */) \
+    X(IO_DIRECTION_MASK,                       5,  /*!< GPIO direction mask [bit=1→output]. Default: 0. RWE */) \
+    X(IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK,    6,  /*!< GPIO pull-enable mask [bit=1→pull enabled]. Default: 0. RWE */) \
+    X(IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK, 7,  /*!< GPIO pull-dir mask [bit=1→pull-up]. Default: 0. RWE */) \
+    X(WAKE_PIN_CONTROL_ENABLE,                10,  /*!< 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    X(GO_TO_TIMEOUT_POWER_DOWN_STATE,         11,  /*!< See PowerDownTimeout. Default: 0. W */) \
+    X(MAIN_LOOPS,                             12,  /*!< Main loops/sec [0…4294967295]. Default: 0. R */) \
+    X(TORQUE_LOOPS,                           13,  /*!< Torque loops/sec [0…4294967295]. Default: 0. R */) \
+    X(VELOCITY_LOOPS,                         14,  /*!< Velocity loops/sec [0…4294967295]. Default: 0. R */) \
+    X(AUTO_START_ENABLE,                      77,  /*!< 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
+    X(CLEAR_USER_VARIABLES,                   85,  /*!< 0: TRY_LOAD_FROM_STORAGE, 1: CLEAR. Default: 0. RWE */)
 
 enum class GlobalParamBank0 : std::uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -465,17 +465,41 @@ inline const char* to_string(GlobalParamBank3 p) {
 
 /// @name Trigger Transition Options
 /// @{
+//--------------------------------------
+//  Trigger Transition Options
+//--------------------------------------
 /**
- * @brief For all “_TRIGGER_TRANSITION” params: 0=OFF, 1=RISING, 2=FALLING, 3=BOTH.
+ * @brief For all "_TRIGGER_TRANSITION" params: 0=OFF, 1=RISING, 2=FALLING, 3=BOTH.
+ * 
+ * NUMBER | NAME    | DESCRIPTION
+ * ------ | ------- | -----------
+ * 0      | OFF     | No trigger transition.
+ * 1      | RISING  | Trigger on rising edge.
+ * 2      | FALLING | Trigger on falling edge.
+ * 3      | BOTH    | Trigger on both rising and falling edges.
  */
-enum class TriggerTransition : uint8_t {
-    OFF     = 0,
-    RISING  = 1,
-    FALLING = 2,
-    BOTH    = 3
-};
-/// @}
+#define TRIGGER_TRANSITION_LIST(X) \
+    X(OFF,     0, /*!< No trigger transition. */) \
+    X(RISING,  1, /*!< Trigger on rising edge. */) \
+    X(FALLING, 2, /*!< Trigger on falling edge. */) \
+    X(BOTH,    3, /*!< Trigger on both rising and falling edges. */)
 
+enum class TriggerTransition : uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    TRIGGER_TRANSITION_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(TriggerTransition e) {
+    switch(e) {
+        #define X(NAME, VALUE, DOC) case TriggerTransition::NAME: return #NAME;
+        TRIGGER_TRANSITION_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef TRIGGER_TRANSITION_LIST
+/// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
@@ -490,7 +514,6 @@ enum class TriggerTransition : uint8_t {
 //                                                  PARAMETERS                                                      //
 //==================================================================================================================//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
@@ -516,7 +539,7 @@ enum class TriggerTransition : uint8_t {
 //  Gate Driver Parameters (Table 20)
 //--------------------------------------
 /**
- * @brief Gate driver timer and current settings (Table 20).
+ * @brief Parameters for gate driver timer and current settings (Table 20).
  *
  * These parameters configure the MOSFET gate driver for the TMC9660, including output polarity, break-before-make timing,
  * adaptive drive time, drive times, current limits, and bootstrap current limit.
@@ -543,23 +566,23 @@ enum class TriggerTransition : uint8_t {
  *  249  | BOOTSTRAP_CURRENT_LIMIT          | See ::tmc9660::tmcl::BootstrapCurrentLimit
  */
 #define GATE_DRIVER_LIST(X) \
-    X(PWM_L_OUTPUT_POLARITY, 233,           /*!< PWM_L output polarity. 0: ACTIVE_HIGH, 1: ACTIVE_LOW. */) \
-    X(PWM_H_OUTPUT_POLARITY, 234,           /*!< PWM_H output polarity. 0: ACTIVE_HIGH, 1: ACTIVE_LOW. */) \
-    X(BREAK_BEFORE_MAKE_TIME_LOW_UVW, 235,  /*!< Break-before-make time for low side UVW [8.33ns units] 0...255. */) \
+    X(PWM_L_OUTPUT_POLARITY,           233, /*!< PWM_L output polarity. 0: ACTIVE_HIGH, 1: ACTIVE_LOW. */) \
+    X(PWM_H_OUTPUT_POLARITY,           234, /*!< PWM_H output polarity. 0: ACTIVE_HIGH, 1: ACTIVE_LOW. */) \
+    X(BREAK_BEFORE_MAKE_TIME_LOW_UVW,  235, /*!< Break-before-make time for low side UVW [8.33ns units] 0...255. */) \
     X(BREAK_BEFORE_MAKE_TIME_HIGH_UVW, 236, /*!< Break-before-make time for high side UVW [8.33ns units] 0...255. */) \
-    X(BREAK_BEFORE_MAKE_TIME_LOW_Y2, 237,   /*!< Break-before-make time for low side Y2 [8.33ns units] 0...255. */) \
-    X(BREAK_BEFORE_MAKE_TIME_HIGH_Y2, 238,  /*!< Break-before-make time for high side Y2 [8.33ns units] 0...255. */) \
-    X(USE_ADAPTIVE_DRIVE_TIME_UVW, 239,     /*!< Adaptive drive time UVW. 0: DISABLED, 1: ENABLED. */) \
-    X(USE_ADAPTIVE_DRIVE_TIME_Y2, 240,      /*!< Adaptive drive time Y2. 0: DISABLED, 1: ENABLED. */) \
-    X(DRIVE_TIME_SINK_UVW, 241,             /*!< Discharge time UVW [0...255] (1s/120MHz) × (2×value+3). */) \
-    X(DRIVE_TIME_SOURCE_UVW, 242,           /*!< Charge time UVW [0...255] (1s/120MHz) × (2×value+3). */) \
-    X(DRIVE_TIME_SINK_Y2, 243,              /*!< Discharge time Y2 [0...255] (1s/120MHz) × (2×value+3). */) \
-    X(DRIVE_TIME_SOURCE_Y2, 244,            /*!< Charge time Y2 [0...255] (1s/120MHz) × (2×value+3). */) \
-    X(UVW_SINK_CURRENT, 245,                /*!< See GateCurrentSink. */) \
-    X(UVW_SOURCE_CURRENT, 246,              /*!< See GateCurrentSource. */) \
-    X(Y2_SINK_CURRENT, 247,                 /*!< See GateCurrentSink. */) \
-    X(Y2_SOURCE_CURRENT, 248,               /*!< See GateCurrentSource. */) \
-    X(BOOTSTRAP_CURRENT_LIMIT, 249,         /*!< See BootstrapCurrentLimit. */)
+    X(BREAK_BEFORE_MAKE_TIME_LOW_Y2,   237, /*!< Break-before-make time for low side Y2 [8.33ns units] 0...255. */) \
+    X(BREAK_BEFORE_MAKE_TIME_HIGH_Y2,  238, /*!< Break-before-make time for high side Y2 [8.33ns units] 0...255. */) \
+    X(USE_ADAPTIVE_DRIVE_TIME_UVW,     239, /*!< Adaptive drive time UVW. 0: DISABLED, 1: ENABLED. */) \
+    X(USE_ADAPTIVE_DRIVE_TIME_Y2,      240, /*!< Adaptive drive time Y2. 0: DISABLED, 1: ENABLED. */) \
+    X(DRIVE_TIME_SINK_UVW,             241, /*!< Discharge time UVW [0...255] (1s/120MHz) × (2×value+3). */) \
+    X(DRIVE_TIME_SOURCE_UVW,           242, /*!< Charge time UVW [0...255] (1s/120MHz) × (2×value+3). */) \
+    X(DRIVE_TIME_SINK_Y2,              243, /*!< Discharge time Y2 [0...255] (1s/120MHz) × (2×value+3). */) \
+    X(DRIVE_TIME_SOURCE_Y2,            244, /*!< Charge time Y2 [0...255] (1s/120MHz) × (2×value+3). */) \
+    X(UVW_SINK_CURRENT,                245, /*!< See GateCurrentSink. */) \
+    X(UVW_SOURCE_CURRENT,              246, /*!< See GateCurrentSource. */) \
+    X(Y2_SINK_CURRENT,                 247, /*!< See GateCurrentSink. */) \
+    X(Y2_SOURCE_CURRENT,               248, /*!< See GateCurrentSource. */) \
+    X(BOOTSTRAP_CURRENT_LIMIT,         249, /*!< See BootstrapCurrentLimit. */)
 
 enum class GateDriver : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -575,7 +598,6 @@ inline const char* to_string(GateDriver gd) {
         default: return "UNKNOWN";
     }
 }
-#undef GATE_DRIVER_LIST
 
 
 /////////////////////////////////////////////
@@ -786,24 +808,24 @@ inline const char* to_string(BootstrapCurrentLimit s) {
  *    271  | Y2_LOW_SIDE_USE_VDS      | Use VDS measurement for Y2 phase low side. 0: DISABLED, 1: ENABLED. Default: 1.
  */
 #define OVERCURRENT_PROTECTION_LIST(X) \
-    X(UVW_LOW_SIDE_ENABLE, 254,      /*!< Enable overcurrent protection for UVW phases low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
-    X(UVW_HIGH_SIDE_ENABLE, 255,     /*!< Enable overcurrent protection for UVW phases high side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
-    X(Y2_LOW_SIDE_ENABLE, 256,       /*!< Enable overcurrent protection for Y2 phase low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
-    X(Y2_HIGH_SIDE_ENABLE, 257,      /*!< Enable overcurrent protection for Y2 phase high side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
-    X(UVW_LOW_SIDE_THRESHOLD, 258,   /*!< Threshold for UVW phases low side [0-15]. Default: 0. */) \
-    X(UVW_HIGH_SIDE_THRESHOLD, 259,  /*!< Threshold for UVW phases high side [0-15]. Default: 0. */) \
-    X(Y2_LOW_SIDE_THRESHOLD, 260,    /*!< Threshold for Y2 phase low side [0-15]. Default: 0. */) \
-    X(Y2_HIGH_SIDE_THRESHOLD, 261,   /*!< Threshold for Y2 phase high side [0-15]. Default: 0. */) \
-    X(UVW_LOW_SIDE_BLANKING, 262,    /*!< Blanking time for UVW phases low side [0-7]. Default: 2. */) \
-    X(UVW_HIGH_SIDE_BLANKING, 263,   /*!< Blanking time for UVW phases high side [0-7]. Default: 2. */) \
-    X(Y2_LOW_SIDE_BLANKING, 264,     /*!< Blanking time for Y2 phase low side [0-7]. Default: 2. */) \
-    X(Y2_HIGH_SIDE_BLANKING, 265,    /*!< Blanking time for Y2 phase high side [0-7]. Default: 2. */) \
-    X(UVW_LOW_SIDE_DEGLITCH, 266,    /*!< Deglitch time for UVW phases low side [0-7]. Default: 6. */) \
-    X(UVW_HIGH_SIDE_DEGLITCH, 267,   /*!< Deglitch time for UVW phases high side [0-7]. Default: 6. */) \
-    X(Y2_LOW_SIDE_DEGLITCH, 268,     /*!< Deglitch time for Y2 phase low side [0-7]. Default: 6. */) \
-    X(Y2_HIGH_SIDE_DEGLITCH, 269,    /*!< Deglitch time for Y2 phase high side [0-7]. Default: 6. */) \
-    X(UVW_LOW_SIDE_USE_VDS, 270,     /*!< Use VDS measurement for UVW phases low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
-    X(Y2_LOW_SIDE_USE_VDS, 271,      /*!< Use VDS measurement for Y2 phase low side. 0: DISABLED, 1: ENABLED. Default: 1. */)
+    X(UVW_LOW_SIDE_ENABLE,     254, /*!< Enable overcurrent protection for UVW phases low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
+    X(UVW_HIGH_SIDE_ENABLE,    255, /*!< Enable overcurrent protection for UVW phases high side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
+    X(Y2_LOW_SIDE_ENABLE,      256, /*!< Enable overcurrent protection for Y2 phase low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
+    X(Y2_HIGH_SIDE_ENABLE,     257, /*!< Enable overcurrent protection for Y2 phase high side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
+    X(UVW_LOW_SIDE_THRESHOLD,  258, /*!< Threshold for UVW phases low side [0-15]. Default: 0. */) \
+    X(UVW_HIGH_SIDE_THRESHOLD, 259, /*!< Threshold for UVW phases high side [0-15]. Default: 0. */) \
+    X(Y2_LOW_SIDE_THRESHOLD,   260, /*!< Threshold for Y2 phase low side [0-15]. Default: 0. */) \
+    X(Y2_HIGH_SIDE_THRESHOLD,  261, /*!< Threshold for Y2 phase high side [0-15]. Default: 0. */) \
+    X(UVW_LOW_SIDE_BLANKING,   262, /*!< Blanking time for UVW phases low side [0-7]. Default: 2. */) \
+    X(UVW_HIGH_SIDE_BLANKING,  263, /*!< Blanking time for UVW phases high side [0-7]. Default: 2. */) \
+    X(Y2_LOW_SIDE_BLANKING,    264, /*!< Blanking time for Y2 phase low side [0-7]. Default: 2. */) \
+    X(Y2_HIGH_SIDE_BLANKING,   265, /*!< Blanking time for Y2 phase high side [0-7]. Default: 2. */) \
+    X(UVW_LOW_SIDE_DEGLITCH,   266, /*!< Deglitch time for UVW phases low side [0-7]. Default: 6. */) \
+    X(UVW_HIGH_SIDE_DEGLITCH,  267, /*!< Deglitch time for UVW phases high side [0-7]. Default: 6. */) \
+    X(Y2_LOW_SIDE_DEGLITCH,    268, /*!< Deglitch time for Y2 phase low side [0-7]. Default: 6. */) \
+    X(Y2_HIGH_SIDE_DEGLITCH,   269, /*!< Deglitch time for Y2 phase high side [0-7]. Default: 6. */) \
+    X(UVW_LOW_SIDE_USE_VDS,    270, /*!< Use VDS measurement for UVW phases low side. 0: DISABLED, 1: ENABLED. Default: 1. */) \
+    X(Y2_LOW_SIDE_USE_VDS,     271, /*!< Use VDS measurement for Y2 phase low side. 0: DISABLED, 1: ENABLED. Default: 1. */)
 
 enum class OvercurrentProtection : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -819,7 +841,6 @@ inline const char* to_string(OvercurrentProtection p) {
         default: return "UNKNOWN";
     }
 }
-#undef OVERCURRENT_PROTECTION_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -1038,7 +1059,6 @@ inline const char* to_string(UndervoltageProtection p) {
         default: return "UNKNOWN";
     }
 }
-#undef UNDERVOLTAGE_PROTECTION_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -1186,7 +1206,6 @@ inline const char* to_string(VgsShortProtection p) {
         default: return "UNKNOWN";
     }
 }
-#undef VGS_SHORT_PROTECTION_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -1344,13 +1363,13 @@ inline const char* to_string(VgsDeglitchTime t) {
  *     8   | PWM_SWITCHING_SCHEME  | PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE
  */
 #define MOTOR_CONFIG_LIST(X) \
-    X(MOTOR_TYPE, 0,               /*!< Motor type selection. See MotorType enum. Default: 0 (NO_MOTOR). RWE */) \
-    X(MOTOR_POLE_PAIRS, 1,         /*!< Number of pole pairs for motor [0-127]. Default: 1. RWE */) \
-    X(MOTOR_DIRECTION, 2,          /*!< Motor direction. 0: NOT_INVERTED, 1: INVERTED. Default: 0. RWE */) \
-    X(MOTOR_PWM_FREQUENCY, 3,      /*!< PWM frequency in Hz [10000-100000]. Default: 25000. RWE */) \
-    X(COMMUTATION_MODE, 4,         /*!< Motor commutation mode. See CommutationMode enum. Default: 0 (SYSTEM_OFF). RW */) \
-    X(OUTPUT_VOLTAGE_LIMIT, 5,     /*!< PID UQ/UD output limit for circular limiter [0-32767]. Default: 8000. RWE */) \
-    X(PWM_SWITCHING_SCHEME, 8,     /*!< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE */)
+    X(MOTOR_TYPE,            0, /*!< Motor type selection. See MotorType enum. Default: 0 (NO_MOTOR). RWE */) \
+    X(MOTOR_POLE_PAIRS,      1, /*!< Number of pole pairs for motor [0-127]. Default: 1. RWE */) \
+    X(MOTOR_DIRECTION,       2, /*!< Motor direction. 0: NOT_INVERTED, 1: INVERTED. Default: 0. RWE */) \
+    X(MOTOR_PWM_FREQUENCY,   3, /*!< PWM frequency in Hz [10000-100000]. Default: 25000. RWE */) \
+    X(COMMUTATION_MODE,      4, /*!< Motor commutation mode. See CommutationMode enum. Default: 0 (SYSTEM_OFF). RW */) \
+    X(OUTPUT_VOLTAGE_LIMIT,  5, /*!< PID UQ/UD output limit for circular limiter [0-32767]. Default: 8000. RWE */) \
+    X(PWM_SWITCHING_SCHEME,  8, /*!< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE */)
 
 enum class MotorConfig : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -1366,7 +1385,6 @@ inline const char* to_string(MotorConfig config) {
         default: return "UNKNOWN";
     }
 }
-#undef MOTOR_CONFIG_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -1516,7 +1534,6 @@ inline const char* to_string(AdcConfig config) {
         default: return "UNKNOWN";
     }
 }
-#undef ADC_CONFIG_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -1582,7 +1599,7 @@ inline const char* to_string(AdcShuntType t) {
     X(STANDARD_STEPPER,   20000,  /*!< Standard frequency for high-inductance stepper motors */) \
     X(FAST_BLDC,          50000,  /*!< For fast-spinning BLDC motors (>10,000 RPM) */) \
     X(ULTRA_FAST_BLDC,   100000,  /*!< For very high-speed or low-inductance BLDC motors */) \
-    X(MINIMUM_SILENT,     20000,  /*!< Minimum frequency to avoid audible switching noise */)
+    X(MINIMUM_SILENT,     20001,  /*!< Minimum frequency to avoid audible switching noise */)
 
 enum class PwmFrequency : uint32_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -1607,7 +1624,7 @@ inline const char* to_string(PwmFrequency f) {
 //    █████╗  █████╗  █████╗  ██║  ██║██████╔╝███████║██║     █████╔╝                                               //
 //    ██╔══╝  ██╔══╝  ██╔══╝  ██║  ██║██╔══██╗██╔══██║██║     ██╔═██╗                                               //
 //    ██║     ███████╗███████╗██████╔╝██████╔╝██║  ██║╚██████╗██║  ██╗                                              //
-//    ╚══════╝╚══════╝╚══════╝╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝                                              //
+//    ╚═╝     ╚══════╝╚══════╝╚═════╝ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝                                              //
 //                                                                                                                  //
 //     ███████╗███████╗███╗   ██╗███████╗ ██████╗ ██████╗ ███████╗                                                  //
 //     ██╔════╝██╔════╝████╗  ██║██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                  //
@@ -1751,7 +1768,6 @@ inline const char* to_string(FeedbackSensorConfig config) {
         default: return "UNKNOWN";
     }
 }
-#undef FEEDBACK_SENSOR_CONFIG_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -2317,7 +2333,6 @@ inline const char* to_string(TorqueFluxControl config) {
         default: return "UNKNOWN";
     }
 }
-#undef TORQUE_FLUX_CONTROL_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -2464,41 +2479,41 @@ inline const char* to_string(CurrentPiNormalization norm) {
  *    69   | RAMP_VELOCITY                 | Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R
  */
 #define VELOCITY_CONTROL_LIST(X) \
-    X(VELOCITY_SENSOR_SELECTION, 123,      /*!< Feedback source for velocity PI regulator. See VelocitySensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE */) \
-    X(TARGET_VELOCITY,           124,      /*!< Target velocity value. Write to activate velocity regulation. -134217728...134217727. Default: 0. RW */) \
-    X(ACTUAL_VELOCITY,           125,      /*!< Actual velocity value. -2147483648...2147483647. Default: 0. R */) \
-    X(VELOCITY_P,                127,      /*!< P parameter for velocity PI regulator. 0...32767. Default: 800. RWE */) \
-    X(VELOCITY_I,                128,      /*!< I parameter for velocity PI regulator. 0...32767. Default: 1. RWE */) \
-    X(VELOCITY_NORM_P,           129,      /*!< P normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE */) \
-    X(VELOCITY_NORM_I,           130,      /*!< I normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE */) \
-    X(VELOCITY_PI_INTEGRATOR,    131,      /*!< Integrated error of velocity PI regulator. -2147483648...2147483647. Default: 0. R */) \
-    X(VELOCITY_PI_ERROR,         132,      /*!< Velocity PI regulator error. -2147483648...2147483647. Default: 0. R */) \
-    X(VELOCITY_SCALING_FACTOR,   133,      /*!< Scaling factor for velocity to real-world units. 1...2047. Default: 1. RWE */) \
-    X(VELOCITY_LOOP_DOWNSAMPLING,135,      /*!< Downsampling factor for velocity controller. 0...127. Default: 5. RWE */) \
-    X(VELOCITY_METER_SWITCH_THRESHOLD,137, /*!< Threshold for switching from period to frequency velocity meter. 0...134217727. Default: 2000. RWE */) \
-    X(VELOCITY_METER_SWITCH_HYSTERESIS,138, /*!< Hysteresis for switching back to period meter. 0...65535. Default: 500. RWE */) \
-    X(VELOCITY_METER_MODE,       139,      /*!< Currently used velocity meter mode. See VelocityMeterMode. Default: 0. R */) \
-    X(OPENLOOP_ANGLE,            45,       /*!< Phi_e calculated by ramper hardware (openloop modes). -32768...32767. Default: 0. R */) \
-    X(ACCELERATION_FF_GAIN,      50,       /*!< Gain for acceleration feedforward. 0...65535. Default: 8. RWE */) \
-    X(ACCELERATION_FF_SHIFT,     51,       /*!< Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE */) \
-    X(RAMP_ENABLE,               52,       /*!< Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(DIRECT_VELOCITY_MODE,      53,       /*!< Direct velocity control mode. 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
-    X(RAMP_AMAX,                 54,       /*!< Max acceleration (top part of ramp). 1...8388607. Default: 1000. RWE */) \
-    X(RAMP_A1,                   55,       /*!< First acceleration in ramp. 1...8388607. Default: 8000. RWE */) \
-    X(RAMP_A2,                   56,       /*!< Second acceleration in ramp. 1...8388607. Default: 4000. RWE */) \
-    X(RAMP_DMAX,                 57,       /*!< Max deceleration (top part of ramp). 1...8388607. Default: 1000. RWE */) \
-    X(RAMP_D1,                   58,       /*!< Second deceleration in ramp. 1...8388607. Default: 8000. RWE */) \
-    X(RAMP_D2,                   59,       /*!< First deceleration in ramp. 1...8388607. Default: 8000. RWE */) \
-    X(RAMP_VMAX,                 60,       /*!< Max velocity of ramp. 0...134217727. Default: 134217727. RWE */) \
-    X(RAMP_V1,                   61,       /*!< Velocity threshold for A1/D1 to A2/D2. 0...134217727. Default: 0. RWE */) \
-    X(RAMP_V2,                   62,       /*!< Velocity threshold for A2/D2 to AMAX/DMAX. 0...134217727. Default: 0. RWE */) \
-    X(RAMP_VSTART,               63,       /*!< Start velocity of ramp. 0...8388607. Default: 0. RWE */) \
-    X(RAMP_VSTOP,                64,       /*!< Stop velocity of ramp. 1...8388607. Default: 1. RWE */) \
-    X(RAMP_TVMAX,                65,       /*!< Min time at VMAX before deceleration. 0...65535. Default: 0. RWE */) \
-    X(RAMP_TZEROWAIT,            66,       /*!< Wait time at end of ramp. 0...65535. Default: 0. RWE */) \
-    X(ACCELERATION_FEEDFORWARD_ENABLE,67,  /*!< Enable acceleration feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(VELOCITY_FEEDFORWARD_ENABLE,68,      /*!< Enable velocity feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(RAMP_VELOCITY,             69        /*!< Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R */)
+    X(VELOCITY_SENSOR_SELECTION,          123, /*!< Feedback source for velocity PI regulator. See VelocitySensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE */) \
+    X(TARGET_VELOCITY,                    124, /*!< Target velocity value. Write to activate velocity regulation. -134217728...134217727. Default: 0. RW */) \
+    X(ACTUAL_VELOCITY,                    125, /*!< Actual velocity value. -2147483648...2147483647. Default: 0. R */) \
+    X(VELOCITY_P,                         127, /*!< P parameter for velocity PI regulator. 0...32767. Default: 800. RWE */) \
+    X(VELOCITY_I,                         128, /*!< I parameter for velocity PI regulator. 0...32767. Default: 1. RWE */) \
+    X(VELOCITY_NORM_P,                    129, /*!< P normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE */) \
+    X(VELOCITY_NORM_I,                    130, /*!< I normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE */) \
+    X(VELOCITY_PI_INTEGRATOR,             131, /*!< Integrated error of velocity PI regulator. -2147483648...2147483647. Default: 0. R */) \
+    X(VELOCITY_PI_ERROR,                  132, /*!< Velocity PI regulator error. -2147483648...2147483647. Default: 0. R */) \
+    X(VELOCITY_SCALING_FACTOR,            133, /*!< Scaling factor for velocity to real-world units. 1...2047. Default: 1. RWE */) \
+    X(VELOCITY_LOOP_DOWNSAMPLING,         135, /*!< Downsampling factor for velocity controller. 0...127. Default: 5. RWE */) \
+    X(VELOCITY_METER_SWITCH_THRESHOLD,    137, /*!< Threshold for switching from period to frequency velocity meter. 0...134217727. Default: 2000. RWE */) \
+    X(VELOCITY_METER_SWITCH_HYSTERESIS,   138, /*!< Hysteresis for switching back to period meter. 0...65535. Default: 500. RWE */) \
+    X(VELOCITY_METER_MODE,                139, /*!< Currently used velocity meter mode. See VelocityMeterMode. Default: 0. R */) \
+    X(OPENLOOP_ANGLE,                      45, /*!< Phi_e calculated by ramper hardware (openloop modes). -32768...32767. Default: 0. R */) \
+    X(ACCELERATION_FF_GAIN,                50, /*!< Gain for acceleration feedforward. 0...65535. Default: 8. RWE */) \
+    X(ACCELERATION_FF_SHIFT,               51, /*!< Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE */) \
+    X(RAMP_ENABLE,                         52, /*!< Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    X(DIRECT_VELOCITY_MODE,                53, /*!< Direct velocity control mode. 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
+    X(RAMP_AMAX,                           54, /*!< Max acceleration (top part of ramp). 1...8388607. Default: 1000. RWE */) \
+    X(RAMP_A1,                             55, /*!< First acceleration in ramp. 1...8388607. Default: 8000. RWE */) \
+    X(RAMP_A2,                             56, /*!< Second acceleration in ramp. 1...8388607. Default: 4000. RWE */) \
+    X(RAMP_DMAX,                           57, /*!< Max deceleration (top part of ramp). 1...8388607. Default: 1000. RWE */) \
+    X(RAMP_D1,                             58, /*!< Second deceleration in ramp. 1...8388607. Default: 8000. RWE */) \
+    X(RAMP_D2,                             59, /*!< First deceleration in ramp. 1...8388607. Default: 8000. RWE */) \
+    X(RAMP_VMAX,                           60, /*!< Max velocity of ramp. 0...134217727. Default: 134217727. RWE */) \
+    X(RAMP_V1,                             61, /*!< Velocity threshold for A1/D1 to A2/D2. 0...134217727. Default: 0. RWE */) \
+    X(RAMP_V2,                             62, /*!< Velocity threshold for A2/D2 to AMAX/DMAX. 0...134217727. Default: 0. RWE */) \
+    X(RAMP_VSTART,                         63, /*!< Start velocity of ramp. 0...8388607. Default: 0. RWE */) \
+    X(RAMP_VSTOP,                          64, /*!< Stop velocity of ramp. 1...8388607. Default: 1. RWE */) \
+    X(RAMP_TVMAX,                          65, /*!< Min time at VMAX before deceleration. 0...65535. Default: 0. RWE */) \
+    X(RAMP_TZEROWAIT,                      66, /*!< Wait time at end of ramp. 0...65535. Default: 0. RWE */) \
+    X(ACCELERATION_FEEDFORWARD_ENABLE,     67, /*!< Enable acceleration feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    X(VELOCITY_FEEDFORWARD_ENABLE,         68, /*!< Enable velocity feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    X(RAMP_VELOCITY,                       69, /*!< Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R */)
 
 enum class VelocityControl : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -2514,7 +2529,6 @@ inline const char* to_string(VelocityControl config) {
         default: return "UNKNOWN";
     }
 }
-#undef VELOCITY_CONTROL_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -2666,7 +2680,7 @@ inline const char* to_string(VelocityMeterMode mode) {
     X(SHIFT_12_BIT, 3, /*!< Shift right by 12 bits. */) \
     X(SHIFT_16_BIT, 4, /*!< Shift right by 16 bits. */) \
     X(SHIFT_20_BIT, 5, /*!< Shift right by 20 bits. */) \
-    X(SHIFT_24_BIT, 6  /*!< Shift right by 24 bits. */)
+    X(SHIFT_24_BIT, 6,  /*!< Shift right by 24 bits. */)
 
 enum class AccelerationFfShift : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -2753,7 +2767,6 @@ inline const char* to_string(PositionControl config) {
         default: return "UNKNOWN";
     }
 }
-#undef POSITION_CONTROL_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -2909,7 +2922,7 @@ inline const char* to_string(PositionPiNorm norm) {
     X(REFERENCE_SWITCH_ENABLE,           161, /*!< Bitwise enable for stopping on reference switch. See ReferenceSwitchEnable. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_POLARITY_AND_SWAP,162, /*!< Bitwise config for switch polarity/swap. See ReferenceSwitchPolaritySwap. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_LATCH_SETTINGS,   163, /*!< Bitwise config for latch behavior. See ReferenceSwitchLatchSettings. Default: 0. RWE */) \
-    X(EVENT_STOP_SETTINGS,               164  /*!< Bitwise config for stop conditions. See EventStopSettings. Default: 0. RWE */)
+    X(EVENT_STOP_SETTINGS,               164, /*!< Bitwise config for stop conditions. See EventStopSettings. Default: 0. RWE */)
 
 enum class RamperStopConfig : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -2925,7 +2938,6 @@ inline const char* to_string(RamperStopConfig config) {
         default: return "UNKNOWN";
     }
 }
-#undef RAMPER_STOP_CONFIG_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -3025,7 +3037,7 @@ inline const char* to_string(ReferenceSwitchEnable enable) {
     X(L_R_SWAPPED_H_AND_L_INVERTED,  12,  /*!< Left and right switches swapped, home and left inverted. */) \
     X(L_R_SWAPPED,                   13,  /*!< Left and right switches swapped. */) \
     X(L_R_SWAPPED_H_AND_R_INVERTED,  14,  /*!< Left and right switches swapped, home and right inverted. */) \
-    X(L_R_SWAPPED_H_R_AND_L_INVERTED,15   /*!< Left and right switches swapped, home, right, and left inverted. */)
+    X(L_R_SWAPPED_H_R_AND_L_INVERTED,15,  /*!< Left and right switches swapped, home, right, and left inverted. */)
 
 enum class ReferenceSwitchPolaritySwap : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3088,7 +3100,7 @@ inline const char* to_string(ReferenceSwitchPolaritySwap config) {
     X(H_BOTH_EDGES,                12, /*!< Latch on both edges of home switch. */) \
     X(H_BOTH_L_R_RISING_EDGE,      13, /*!< Latch on both edges of home and rising edge of left/right switches. */) \
     X(H_BOTH_L_R_FALLING_EDGE,     14, /*!< Latch on both edges of home and falling edge of left/right switches. */) \
-    X(H_L_R_BOTH_EDGES,            15  /*!< Latch on both edges of home and left/right switches. */)
+    X(H_L_R_BOTH_EDGES,            15, /*!< Latch on both edges of home and left/right switches. */)
 
 enum class ReferenceSwitchLatchSettings : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3135,7 +3147,7 @@ inline const char* to_string(ReferenceSwitchLatchSettings setting) {
     X(STOP_ON_VEL_DEVIATION,             4, /*!< Stop on velocity deviation. */) \
     X(STOP_ON_VEL_DEVIATION_SOFT_STOP,   5, /*!< Stop on velocity deviation, soft stop. */) \
     X(STOP_ON_POS_VEL_DEVIATION,         6, /*!< Stop on position or velocity deviation. */) \
-    X(STOP_ON_POS_VEL_DEVIATION_SOFT_STOP, 7 /*!< Stop on position or velocity deviation, soft stop. */)
+    X(STOP_ON_POS_VEL_DEVIATION_SOFT_STOP, 7, /*!< Stop on position or velocity deviation, soft stop. */)
 
 enum class EventStopSettings : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3176,6 +3188,9 @@ inline const char* to_string(EventStopSettings setting) {
 
 /// @name Biquad Filter Parameters
 /// @{
+//--------------------------------------
+//  Biquad Filter Parameters
+//--------------------------------------
 /**
  * @brief Parameters for configuring biquad filters for torque and velocity control loops.
  *
@@ -3192,21 +3207,50 @@ inline const char* to_string(EventStopSettings setting) {
  *
  * The velocity biquad filter (enabled by default) filters the actual velocity used as input for the velocity controller.
  * The torque biquad filter can be enabled to filter the target torque value.
+ *
+ * NUMBER | NAME                             | DESCRIPTION
+ * ------ | -------------------------------- | -----------------------------------------------
+ * 318    | TARGET_TORQUE_BIQUAD_FILTER_ENABLE      | Enable target torque biquad filter. 0: DISABLED, 1: ENABLED. Default: 0. RWE
+ * 319    | TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1    | Target torque biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE
+ * 320    | TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2    | Target torque biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE
+ * 321    | TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0    | Target torque biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 1048576. RWE
+ * 322    | TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1    | Target torque biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE
+ * 323    | TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2    | Target torque biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE
+ * 324    | ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE    | Enable actual velocity biquad filter. 0: DISABLED, 1: ENABLED. Default: 1. RWE
+ * 325    | ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1  | Actual velocity biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 1849195. RWE
+ * 326    | ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2  | Actual velocity biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 15961938. RWE
+ * 327    | ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0  | Actual velocity biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 3665. RWE
+ * 328    | ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1  | Actual velocity biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 7329. RWE
+ * 329    | ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2  | Actual velocity biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 3665. RWE
  */
+#define BIQUAD_FILTER_LIST(X) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_ENABLE,     318, /*!< Enable target torque biquad filter. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1,   319, /*!< Target torque biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE */) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2,   320, /*!< Target torque biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE */) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0,   321, /*!< Target torque biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 1048576. RWE */) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1,   322, /*!< Target torque biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE */) \
+    X(TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2,   323, /*!< Target torque biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE,   324, /*!< Enable actual velocity biquad filter. 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1, 325, /*!< Actual velocity biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 1849195. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2, 326, /*!< Actual velocity biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 15961938. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0, 327, /*!< Actual velocity biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 3665. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1, 328, /*!< Actual velocity biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 7329. RWE */) \
+    X(ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2, 329,  /*!< Actual velocity biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 3665. RWE */)
+
 enum class BiquadFilter : uint16_t {
-    TARGET_TORQUE_BIQUAD_FILTER_ENABLE = 318,      ///< Enable target torque biquad filter. 0: DISABLED, 1: ENABLED. Default: 0. RWE
-    TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1 = 319,    ///< Target torque biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE
-    TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2 = 320,    ///< Target torque biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0 = 321,    ///< Target torque biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 1048576. RWE
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1 = 322,    ///< Target torque biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 0. RWE
-    TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2 = 323,    ///< Target torque biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 0. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE = 324,    ///< Enable actual velocity biquad filter. 0: DISABLED, 1: ENABLED. Default: 1. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1 = 325,  ///< Actual velocity biquad filter aCoeff_1 [-2147483648, 2147483647]. Default: 1849195. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2 = 326,  ///< Actual velocity biquad filter aCoeff_2 [-2147483648, 2147483647]. Default: 15961938. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0 = 327,  ///< Actual velocity biquad filter bCoeff_0 [-2147483648, 2147483647]. Default: 3665. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1 = 328,  ///< Actual velocity biquad filter bCoeff_1 [-2147483648, 2147483647]. Default: 7329. RWE
-    ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2 = 329   ///< Actual velocity biquad filter bCoeff_2 [-2147483648, 2147483647]. Default: 3665. RWE
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    BIQUAD_FILTER_LIST(X)
+    #undef X
 };
+
+inline const char* to_string(BiquadFilter e) {
+    switch(e) {
+        #define X(NAME, VALUE, DOC) case BiquadFilter::NAME: return #NAME;
+        BIQUAD_FILTER_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
 /// @}
 
 /////////////////////////////////////////////
@@ -3309,7 +3353,6 @@ inline const char* to_string(FaultHandling config) {
         default: return "UNKNOWN";
     }
 }
-#undef FAULT_HANDLING_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -3373,7 +3416,7 @@ inline const char* to_string(GdrvRetryBehaviour behaviour) {
     X(OPEN_CIRCUIT,                       0, /*!< Switch off and discharge LS/HS gates; motor spins freely. */) \
     X(ELECTRICAL_BRAKING,                 1, /*!< Switch off and, if possible, enable LS/HS gates for electrical braking. */) \
     X(MECHANICAL_BRAKING_AND_OPEN_CIRCUIT,2, /*!< Switch off, discharge LS/HS gates, and engage mechanical brake if configured. */) \
-    X(MECHANICAL_AND_ELECTRICAL_BRAKING,  3  /*!< Switch off, enable LS/HS gates if possible, and engage mechanical brake if configured. */)
+    X(MECHANICAL_AND_ELECTRICAL_BRAKING,  3, /*!< Switch off, enable LS/HS gates if possible, and engage mechanical brake if configured. */)
 
 enum class DriveFaultBehaviour : std::uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3454,7 +3497,7 @@ inline const char* to_string(DriveFaultBehaviour behaviour) {
     X(RESET_IIT_SUMS,                  230, /*!< Write to reset both IIT sums. Default: 0. */) \
     X(ACTUAL_TOTAL_MOTOR_CURRENT,      231, /*!< Total current through motor windings [mA]. Default: 0. */)
 
-enum class IitMonitor : uint8_t {
+enum class IitMonitor : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     IIT_MONITOR_LIST(X)
     #undef X
@@ -3468,7 +3511,6 @@ inline const char* to_string(IitMonitor e) {
         default: return "UNKNOWN";
     }
 }
-#undef IIT_MONITOR_LIST
 /// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3513,24 +3555,24 @@ inline const char* to_string(IitMonitor e) {
  * - To restart after shutdown, clear the corresponding error flag.
  *
  * Table — Temperature Protection Parameters:
- *  NUMBER | NAME                                | DESCRIPTION
- *  ------ | ----------------------------------- | -----------------------------------------------------------------
- *   293   | EXTERNAL_TEMPERATURE               | External temperature sensor value [0...65535].
+ *  NUMBER | NAME                                  | DESCRIPTION
+ *  ------ | ------------------------------------- | -----------------------------------------------------------------
+ *   293   | EXTERNAL_TEMPERATURE                  | External temperature sensor value [0...65535].
  *   294   | EXTERNAL_TEMPERATURE_SHUTDOWN_THRESHOLD | Shutdown threshold for external temperature [0...65535]. Default: 65535.
  *   295   | EXTERNAL_TEMPERATURE_WARNING_THRESHOLD  | Warning threshold for external temperature [0...65535]. Default: 65535.
- *   296   | CHIP_TEMPERATURE                   | Internal chip temperature value [0...65535].
- *   297   | CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD | Shutdown threshold for chip temperature [0...65535]. Default: 65535.
- *   298   | CHIP_TEMPERATURE_WARNING_THRESHOLD  | Warning threshold for chip temperature [0...65535]. Default: 65535.
+ *   296   | CHIP_TEMPERATURE                      | Internal chip temperature value [0...65535].
+ *   297   | CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD   | Shutdown threshold for chip temperature [0...65535]. Default: 65535.
+ *   298   | CHIP_TEMPERATURE_WARNING_THRESHOLD    | Warning threshold for chip temperature [0...65535]. Default: 65535.
  */
 #define TEMPERATURE_PROTECTION_LIST(X) \
-    X(EXTERNAL_TEMPERATURE, 293, /*!< External temperature sensor value [0...65535]. */) \
+    X(EXTERNAL_TEMPERATURE,                    293, /*!< External temperature sensor value [0...65535]. */) \
     X(EXTERNAL_TEMPERATURE_SHUTDOWN_THRESHOLD, 294, /*!< Shutdown threshold for external temperature [0...65535]. Default: 65535. */) \
-    X(EXTERNAL_TEMPERATURE_WARNING_THRESHOLD, 295, /*!< Warning threshold for external temperature [0...65535]. Default: 65535. */) \
-    X(CHIP_TEMPERATURE, 296, /*!< Internal chip temperature value [0...65535]. */) \
-    X(CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD, 297, /*!< Shutdown threshold for chip temperature [0...65535]. Default: 65535. */) \
-    X(CHIP_TEMPERATURE_WARNING_THRESHOLD, 298 /*!< Warning threshold for chip temperature [0...65535]. Default: 65535. */)
+    X(EXTERNAL_TEMPERATURE_WARNING_THRESHOLD,  295, /*!< Warning threshold for external temperature [0...65535]. Default: 65535. */) \
+    X(CHIP_TEMPERATURE,                        296, /*!< Internal chip temperature value [0...65535]. */) \
+    X(CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD,     297, /*!< Shutdown threshold for chip temperature [0...65535]. Default: 65535. */) \
+    X(CHIP_TEMPERATURE_WARNING_THRESHOLD,      298, /*!< Warning threshold for chip temperature [0...65535]. Default: 65535. */)
 
-enum class TemperatureProtection : uint8_t {
+enum class TemperatureProtection : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     TEMPERATURE_PROTECTION_LIST(X)
     #undef X
@@ -3544,7 +3586,6 @@ inline const char* to_string(TemperatureProtection e) {
         default: return "UNKNOWN";
     }
 }
-#undef TEMPERATURE_PROTECTION_LIST
 /// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3610,7 +3651,6 @@ inline const char* to_string(HeartbeatMonitoring e) {
         default: return "UNKNOWN";
     }
 }
-#undef HEARTBEAT_MONITORING_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -3704,7 +3744,7 @@ inline const char* to_string(HeartbeatMonitoringConfig e) {
     X(BRAKE_CHOPPER_VOLTAGE_LIMIT, 213, /*!< Voltage limit [0.1V] to activate brake chopper. 50...1000. Default: 260. RWE */) \
     X(BRAKE_CHOPPER_HYSTERESIS,    214, /*!< Hysteresis [0.1V] for deactivation. 0...50. Default: 5. RWE */)
 
-enum class BrakeChopper : uint8_t {
+enum class BrakeChopper : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     BRAKE_CHOPPER_LIST(X)
     #undef X
@@ -3718,7 +3758,6 @@ inline const char* to_string(BrakeChopper e) {
         default: return "UNKNOWN";
     }
 }
-#undef BRAKE_CHOPPER_LIST
 /// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3792,7 +3831,6 @@ inline const char* to_string(MechanicalBrake e) {
         default: return "UNKNOWN";
     }
 }
-#undef MECHANICAL_BRAKE_LIST
 /// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3845,12 +3883,12 @@ inline const char* to_string(MechanicalBrake e) {
  *   170   | LAST_REFERENCE_POSITION       | Last reference position [-2147483648...2147483647]. Default: 0.
  */
 #define REFERENCE_SEARCH_LIST(X) \
-    X(REFERENCE_SWITCH_SEARCH_MODE, 165, /*!< Reference search mode. See ReferenceSearchMode. Default: 0. */) \
+    X(REFERENCE_SWITCH_SEARCH_MODE,  165, /*!< Reference search mode. See ReferenceSearchMode. Default: 0. */) \
     X(REFERENCE_SWITCH_SEARCH_SPEED, 166, /*!< Speed for reference search [-134217728...134217727]. Default: 0. */) \
-    X(REFERENCE_SWITCH_SPEED, 167, /*!< Lower speed for accurate switch positioning [-134217728...134217727]. Default: 0. */) \
-    X(RIGHT_LIMIT_SWITCH_POSITION, 168, /*!< Position of right limit switch [-2147483648...2147483647]. Default: 0. */) \
-    X(HOME_SWITCH_POSITION, 169, /*!< Position of home switch [-2147483648...2147483647]. Default: 0. */) \
-    X(LAST_REFERENCE_POSITION, 170 /*!< Last reference position [-2147483648...2147483647]. Default: 0. */)
+    X(REFERENCE_SWITCH_SPEED,        167, /*!< Lower speed for accurate switch positioning [-134217728...134217727]. Default: 0. */) \
+    X(RIGHT_LIMIT_SWITCH_POSITION,   168, /*!< Position of right limit switch [-2147483648...2147483647]. Default: 0. */) \
+    X(HOME_SWITCH_POSITION,          169, /*!< Position of home switch [-2147483648...2147483647]. Default: 0. */) \
+    X(LAST_REFERENCE_POSITION,       170, /*!< Last reference position [-2147483648...2147483647]. Default: 0. */)
 
 enum class ReferenceSearch : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3866,7 +3904,6 @@ inline const char* to_string(ReferenceSearch e) {
         default: return "UNKNOWN";
     }
 }
-#undef REFERENCE_SEARCH_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -3903,7 +3940,7 @@ inline const char* to_string(ReferenceSearch e) {
     X(HOME_SWITCH_NEG_DIR_LEFT_END_SWITCH,   5, /*!< Search home switch in negative direction, turn if left end detected. */) \
     X(HOME_SWITCH_POS_DIR_RIGHT_END_SWITCH,  6, /*!< Search home switch in positive direction, turn if right end detected. */) \
     X(HOME_SWITCH_NEG_DIR_IGNORE_END_SWITCH, 7, /*!< Search home switch in negative direction, ignore end switch. */) \
-    X(HOME_SWITCH_POS_DIR_IGNORE_END_SWITCH, 8  /*!< Search home switch in positive direction, ignore end switch. */)
+    X(HOME_SWITCH_POS_DIR_IGNORE_END_SWITCH, 8, /*!< Search home switch in positive direction, ignore end switch. */)
 
 enum class ReferenceSearchMode : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4068,9 +4105,9 @@ inline const char* to_string(ReferenceSearchStatus e) {
     X(STEP_DIR_ENABLE, 206, /*!< Enable STEP/DIR input. 0: DISABLED, 1: ENABLED. Default: 0. RW */) \
     X(STEP_DIR_EXTRAPOLATION_ENABLE, 207, /*!< Enable extrapolation. 0: DISABLED, 1: ENABLED. Default: 0. RW */) \
     X(STEP_DIR_STEP_SIGNAL_TIMEOUT_LIMIT, 208, /*!< Step signal timeout limit [ms]. 1...2000. Default: 1000. RW */) \
-    X(STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY, 209 /*!< Max velocity for extrapolation [eRPM]. 0...2147483647. Default: 2147483647. RW */)
+    X(STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY, 209, /*!< Max velocity for extrapolation [eRPM]. 0...2147483647. Default: 2147483647. RW */)
 
-enum class StepDir : uint8_t {
+enum class StepDir : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     STEP_DIR_LIST(X)
     #undef X
@@ -4084,7 +4121,6 @@ inline const char* to_string(StepDir e) {
         default: return "UNKNOWN";
     }
 }
-#undef STEP_DIR_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -4128,7 +4164,7 @@ inline const char* to_string(StepDir e) {
     X(STEP_MODE_1_128TH, 7, /*!< 1/128 step */) \
     X(STEP_MODE_1_256TH, 8, /*!< 1/256 step */) \
     X(STEP_MODE_1_512TH, 9, /*!< 1/512 step */) \
-    X(STEP_MODE_1_1024TH, 10 /*!< 1/1024 step */)
+    X(STEP_MODE_1_1024TH, 10, /*!< 1/1024 step */)
 
 enum class StepDirStepDividerShift : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4195,7 +4231,7 @@ inline const char* to_string(StepDirStepDividerShift e) {
  */
 #define HIBERNATION_WAKEUP_LIST(X) \
     X(WAKE_PIN_CONTROL_ENABLE, 10, /*!< Enable WAKE pin control. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(GO_TO_TIMEOUT_POWER_DOWN_STATE, 11 /*!< Enter power-down for a predefined time. See PowerDownTimeout. Default: 0. W */)
+    X(GO_TO_TIMEOUT_POWER_DOWN_STATE, 11, /*!< Enter power-down for a predefined time. See PowerDownTimeout. Default: 0. W */)
 
 enum class HibernationWakeup : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4211,7 +4247,6 @@ inline const char* to_string(HibernationWakeup e) {
         default: return "UNKNOWN";
     }
 }
-#undef HIBERNATION_WAKEUP_LIST
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -4247,7 +4282,7 @@ inline const char* to_string(HibernationWakeup e) {
     X(T_4_SEC, 4, /*!< 4 seconds */) \
     X(T_8_SEC, 5, /*!< 8 seconds */) \
     X(T_16_SEC, 6, /*!< 16 seconds */) \
-    X(T_32_SEC, 7 /*!< 32 seconds */)
+    X(T_32_SEC, 7, /*!< 32 seconds */)
 
 enum class PowerDownTimeout : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4309,7 +4344,7 @@ inline const char* to_string(PowerDownTimeout e) {
 #define SYSTEM_STATUS_SUPPLY_LIST(X) \
     X(SUPPLY_VOLTAGE, 290, /*!< Actual supply voltage in 0.1 V units. Read-only. */) \
     X(SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD, 291, /*!< Supply overvoltage warning threshold [0…1000]. RWE */) \
-    X(SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD, 292 /*!< Supply undervoltage warning threshold [0…1000]. RWE */)
+    X(SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD, 292, /*!< Supply undervoltage warning threshold [0…1000]. RWE */)
 
 enum class SystemStatusSupply : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4325,7 +4360,6 @@ inline const char* to_string(SystemStatusSupply e) {
         default: return "UNKNOWN";
     }
 }
-#undef SYSTEM_STATUS_SUPPLY_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -4370,7 +4404,7 @@ inline const char* to_string(SystemStatusSupply e) {
     X(FOC_CURRENT_V, 312, /*!< Interim measurement of the FOC for phase V [-32768...32767]. Read-only. */) \
     X(FOC_CURRENT_WY, 313, /*!< Interim measurement of the FOC for phase WY [-32768...32767]. Read-only. */) \
     X(FOC_VOLTAGE_UQ, 314, /*!< Interim measurement of the FOC for Uq [-32768...32767]. Read-only. */) \
-    X(FOC_CURRENT_IQ, 315 /*!< Interim measurement of the FOC for Iq [-32768...32767]. Read-only. */)
+    X(FOC_CURRENT_IQ, 315, /*!< Interim measurement of the FOC for Iq [-32768...32767]. Read-only. */)
 
 enum class InternalMeasurement : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4420,7 +4454,7 @@ inline const char* to_string(InternalMeasurement e) {
     X(TORQUE_FLUX_COMBINED_ACTUAL_VALUES, 331, /*!< Raw (unscaled) torque and flux actual values combined into one 32-bit value. Used for simplified compact measurement during tuning. [0...4294967295]. Read-only. */) \
     X(VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES, 332, /*!< Raw (unscaled) voltage actual values combined into one 32-bit value. Used for simplified compact measurement during tuning. [0...4294967295]. Read-only. */) \
     X(INTEGRATED_ACTUAL_TORQUE_VALUE, 333, /*!< Periodically summed up actual torque value. Used for simplified measurement with low measurement frequency during tuning operations. [0...4294967295]. Read-only. */) \
-    X(INTEGRATED_ACTUAL_VELOCITY_VALUE, 334 /*!< Periodically summed up actual velocity value. Used for simplified measurement with low measurement frequency during tuning operations. [0...4294967295]. Read-only. */)
+    X(INTEGRATED_ACTUAL_VELOCITY_VALUE, 334, /*!< Periodically summed up actual velocity value. Used for simplified measurement with low measurement frequency during tuning operations. [0...4294967295]. Read-only. */)
 
 enum class CombinedDiagnosticValues : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4490,7 +4524,7 @@ inline const char* to_string(CombinedDiagnosticValues e) {
     X(CHIP_TEMPERATURE_WARNING_THRESHOLD, 298, /*!< Warning threshold for chip temperature [0-65535]. Default: 65535. */) \
     X(GENERAL_ERROR_FLAGS, 299, /*!< General error flags. See GeneralErrorFlags enum. Read-only. */) \
     X(GDRV_ERROR_FLAGS, 300, /*!< Gate driver error flags. See GateDriverErrorFlags enum. Read-only. */) \
-    X(ADC_STATUS_FLAGS, 301 /*!< ADC status flags. See AdcStatusFlags enum. Write-to-clear. */)
+    X(ADC_STATUS_FLAGS, 301, /*!< ADC status flags. See AdcStatusFlags enum. Write-to-clear. */)
 
 enum class ErrorsAndFlags : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4506,7 +4540,6 @@ inline const char* to_string(ErrorsAndFlags e) {
         default: return "UNKNOWN";
     }
 }
-#undef ERRORS_AND_FLAGS_LIST
 /// @}
 
 /////////////////////////////////////////////
@@ -4596,7 +4629,7 @@ inline const char* to_string(ErrorsAndFlags e) {
     X(HALL_FEEDBACK_AVAILABLE,         FLAG(28), /*!< Signals that hall feedback is available. Read-only. */) \
     X(ABN1_FEEDBACK_AVAILABLE,         FLAG(29), /*!< Signals that ABN1 feedback is available. Read-only. */) \
     X(SPI_FLASH_AVAILABLE,             FLAG(30), /*!< Signals that an external SPI flash is available. Read-only. */) \
-    X(I2C_EEPROM_AVAILABLE,            FLAG(31)  /*!< Signals that an external I2C EEPROM is available. Read-only. */)
+    X(I2C_EEPROM_AVAILABLE,            FLAG(31), /*!< Signals that an external I2C EEPROM is available. Read-only. */)
 
 enum class GeneralStatusFlags : uint32_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4664,7 +4697,7 @@ inline const char* to_string(GeneralStatusFlags e) {
     X(FAULT_RETRY_HAPPENED,         FLAG(22), /*!< The set number of max. retries was exceeded without recovering. Read-write-clear. */) \
     X(FAULT_RETRIES_FAILED,         FLAG(23), /*!< All retries of a detected fault failed. Read-write-clear. */) \
     X(CHIP_TEMP_WARNING,            FLAG(24), /*!< Chip temperature warning threshold exceeded. Read-write-clear. */) \
-    X(HEARTBEAT_STOPPED,            FLAG(26)  /*!< Heartbeat stopped. Read-write-clear. */)
+    X(HEARTBEAT_STOPPED,            FLAG(26), /*!< Heartbeat stopped. Read-write-clear. */)
 
 enum class GeneralErrorFlags : uint32_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4756,7 +4789,7 @@ inline const char* to_string(GeneralErrorFlags e) {
     X(Y2_HIGH_SIDE_CHARGE_SHORT,     FLAG(27), /*!< Y2 high side charge short. */) \
     X(GDRV_UNDERVOLTAGE,             FLAG(29), /*!< Gate driver undervoltage. */) \
     X(GDRV_LOW_VOLTAGE,              FLAG(30), /*!< Gate driver low voltage. */) \
-    X(GDRV_SUPPLY_UNDERVOLTAGE,      FLAG(31)  /*!< Gate driver supply undervoltage. */)
+    X(GDRV_SUPPLY_UNDERVOLTAGE,      FLAG(31), /*!< Gate driver supply undervoltage. */)
 
 enum class GateDriverErrorFlags : uint32_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4814,7 +4847,7 @@ inline const char* to_string(GateDriverErrorFlags e) {
     X(AIN2_CLIPPED, 0x00000400, /*!< No description provided. */) \
     X(AIN3_CLIPPED, 0x00000800, /*!< No description provided. */) \
     X(VM_CLIPPED,   0x00001000, /*!< No description provided. */) \
-    X(TEMP_CLIPPED, 0x00002000  /*!< No description provided. */)
+    X(TEMP_CLIPPED, 0x00002000, /*!< No description provided. */)
 
 enum class AdcStatusFlags : uint32_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -4832,6 +4865,121 @@ inline const char* to_string(AdcStatusFlags e) {
 }
 #undef ADC_STATUS_FLAGS_LIST
 /// @}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                  //
+//                              ██████╗  █████╗ ██████╗  █████╗ ███╗   ███╗███████╗                                 //
+//                              ██╔══██╗██╔══██╗██╔══██╗██╔══██╗████╗ ████║██╔════╝                                 //
+//                              ██████╔╝███████║██████╔╝███████║██╔████╔██║███████╗                                 //
+//                              ██╔═══╝ ██╔══██║██╔══██╗██╔══██║██║╚██╔╝██║╚════██║                                 //
+//                              ██║     ██║  ██║██║  ██║██║  ██║██║ ╚═╝ ██║███████║                                 //
+//                              ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝                                 //
+//                                                                                                                  //
+//==================================================================================================================//
+//                                                  PARAMETERS                                                      //
+//==================================================================================================================//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+enum class Parameters : uint16_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+
+    // Gate driver - parameters and configurations
+    GATE_DRIVER_LIST(X)
+    
+    // Gate driver - Overcurrent protection settings
+    OVERCURRENT_PROTECTION_LIST(X)
+
+    // Gate driver - Undervoltage (UVLO) protection settings
+    UNDERVOLTAGE_PROTECTION_LIST(X)
+
+    // Gate driver - Gate-to-source (VGS) short-circuit protection settings
+    VGS_SHORT_PROTECTION_LIST(X)
+    
+    // Motor configuration and drive settings
+    MOTOR_CONFIG_LIST(X)
+    
+    // ADC configuration for motor current measurement
+    ADC_CONFIG_LIST(X)
+    
+    // Feedback sensors (ABN, Hall, SPI encoders)
+    FEEDBACK_SENSOR_CONFIG_LIST(X)
+    
+    // Torque & flux control loops
+    TORQUE_FLUX_CONTROL_LIST(X)
+    
+    // Velocity control & ramping
+    VELOCITY_CONTROL_LIST(X)
+    
+    // Position control & ramping
+    POSITION_CONTROL_LIST(X)
+    
+    // Ramper stop conditions & reference switch
+    RAMPER_STOP_CONFIG_LIST(X)
+    
+    // Biquad filter parameters
+    BIQUAD_FILTER_LIST(X)
+    
+    // Fault-handling / retry behavior
+    FAULT_HANDLING_LIST(X)
+    
+    // I²t monitoring
+    IIT_MONITOR_LIST(X)
+    
+    // Temperature protection
+    TEMPERATURE_PROTECTION_LIST(X)
+    
+    // Heartbeat monitoring
+    HEARTBEAT_MONITORING_LIST(X)
+    
+    // Brake chopper settings
+    BRAKE_CHOPPER_LIST(X)
+    
+    // Mechanical brake parameters
+    MECHANICAL_BRAKE_LIST(X)
+    
+    // Automatic homing / reference search
+    REFERENCE_SEARCH_LIST(X)
+    
+    // STEP/DIR interface
+    STEP_DIR_LIST(X)
+    
+    // Hibernation & wakeup
+    HIBERNATION_WAKEUP_LIST(X)
+    
+    // System status and supply monitoring
+    SYSTEM_STATUS_SUPPLY_LIST(X)
+    
+    // Error flags and status monitoring
+    ERRORS_AND_FLAGS_LIST(X)
+
+    #undef X
+};
+
+/* ───────────── Clean-up (optional but tidy) ───────────── */
+// Undefine all parameter-section X-macros to avoid polluting the global namespace.
+#undef GATE_DRIVER_LIST
+#undef OVERCURRENT_PROTECTION_LIST
+#undef UNDERVOLTAGE_PROTECTION_LIST
+#undef VGS_SHORT_PROTECTION_LIST
+#undef MOTOR_CONFIG_LIST
+#undef ADC_CONFIG_LIST
+#undef FEEDBACK_SENSOR_CONFIG_LIST
+#undef TORQUE_FLUX_CONTROL_LIST
+#undef VELOCITY_CONTROL_LIST
+#undef POSITION_CONTROL_LIST
+#undef RAMPER_STOP_CONFIG_LIST
+#undef BIQUAD_FILTER_LIST
+#undef FAULT_HANDLING_LIST
+#undef IIT_MONITOR_LIST
+#undef TEMPERATURE_PROTECTION_LIST
+#undef HEARTBEAT_MONITORING_LIST
+#undef BRAKE_CHOPPER_LIST
+#undef MECHANICAL_BRAKE_LIST
+#undef REFERENCE_SEARCH_LIST
+#undef STEP_DIR_LIST
+#undef HIBERNATION_WAKEUP_LIST
+#undef SYSTEM_STATUS_SUPPLY_LIST
+#undef ERRORS_AND_FLAGS_LIST
 
 } // namespace tmc9660::tmcl
 
