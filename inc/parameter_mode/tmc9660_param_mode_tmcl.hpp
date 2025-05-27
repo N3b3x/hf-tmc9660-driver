@@ -420,7 +420,7 @@ inline const char* to_string(GlobalParamBank2 p) {
     X(TIMER_2_PERIOD, 2,   /*!< [ms] 0…2147483647. R/W */) \
     X(STOP_LEFT_TRIGGER_TRANSITION, 10,  /*!< See TriggerTransition. Default: 0. R/W */) \
     X(STOP_RIGHT_TRIGGER_TRANSITION, 11, /*!< See TriggerTransition. Default: 0. R/W */) \
-    X(HOME_RIGHT_TRIGGER_TRANSITION, 12, /*!< See TriggerTransition. Default: 0. R/W */) \
+    X(HOME_TRIGGER_TRANSITION, 12,       /*!< See TriggerTransition. Default: 0. R/W */) \
     X(INPUT_0_TRIGGER_TRANSITION, 13,  /*!< See TriggerTransition. Default: 0. R/W */) \
     X(INPUT_1_TRIGGER_TRANSITION, 14,  /*!< See TriggerTransition. Default: 0. R/W */) \
     X(INPUT_2_TRIGGER_TRANSITION, 15,  /*!< See TriggerTransition. Default: 0. R/W */) \
@@ -1399,16 +1399,18 @@ inline const char* to_string(MotorConfig config) {
  * @brief Enumerates supported motor types.
  *
  * Table — Motor Types:
- *  NUMBER | NAME     | DESCRIPTION
- *  ------ | -------- | ---------------------------
- *     0   | DC       | DC motor
- *     1   | BLDC     | Brushless DC motor
- *     2   | STEPPER  | Stepper motor
+ *  NUMBER | NAME           | DESCRIPTION
+ *  ------ | -------------- | ---------------------------
+ *     0   | NO_MOTOR       | No motor selected
+ *     1   | DC_MOTOR       | DC motor
+ *     2   | STEPPER_MOTOR  | Stepper motor
+ *     3   | BLDC_MOTOR     | Brushless DC motor
  */
 #define MOTOR_TYPE_LIST(X) \
-    X(DC,      0, /*!< DC motor */) \
-    X(BLDC,    1, /*!< Brushless DC motor */) \
-    X(STEPPER, 2, /*!< Stepper motor */)
+    X(NO_MOTOR,      0, /*!< No motor selected */) \
+    X(DC_MOTOR,      1, /*!< DC motor */) \
+    X(STEPPER_MOTOR, 2, /*!< Stepper motor */) \
+    X(BLDC_MOTOR,    3, /*!< Brushless DC motor */)
 
 enum class MotorType : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -1505,20 +1507,70 @@ inline const char* to_string(PwmSwitchingScheme scheme) {
  * @brief Parameters for configuring ADCs for motor current measurement.
  *
  * Table — ADC Configuration Parameters:
- *  NUMBER | NAME           | DESCRIPTION
- *  ------ | -------------- | -----------------------------------------------------------------
- *    12   | ADC_SHUNT_TYPE | Shunt type for ADC measurements. See AdcShuntType enum. Default: 4 (BOTTOM_SHUNTS).
- *    13   | ADC_I0_RAW     | Raw ADC measurement for I0 shunt [-32768, 32767]. Read-only.
- *    14   | ADC_I1_RAW     | Raw ADC measurement for I1 shunt [-32768, 32767]. Read-only.
- *    15   | ADC_I2_RAW     | Raw ADC measurement for I2 shunt [-32768, 32767]. Read-only.
- *    16   | ADC_I3_RAW     | Raw ADC measurement for I3 shunt [-32768, 32767]. Read-only.
+ *  NUMBER | NAME                       | DESCRIPTION
+ *  ------ | -------------------------- | -----------------------------------------------------------------
+ *    12   | ADC_SHUNT_TYPE             | Shunt type for ADC measurements. See AdcShuntType enum. Default: 4 (BOTTOM_SHUNTS).
+ *    13   | ADC_I0_RAW                 | Raw ADC measurement for I0 shunt [-32768, 32767]. Read-only.
+ *    14   | ADC_I1_RAW                 | Raw ADC measurement for I1 shunt [-32768, 32767]. Read-only.
+ *    15   | ADC_I2_RAW                 | Raw ADC measurement for I2 shunt [-32768, 32767]. Read-only.
+ *    16   | ADC_I3_RAW                 | Raw ADC measurement for I3 shunt [-32768, 32767]. Read-only.
+ *    17   | CSA_GAIN_ADC_I0_TO_ADC_I2  | Current sense amplifier gain for ADC I0, I1 and I2. See CsaGain enum. Default: 1 (GAIN_10X).
+ *    18   | CSA_GAIN_ADC_I3            | Current sense amplifier gain for ADC I3. See CsaGain enum. Default: 1 (GAIN_10X).
+ *    19   | CSA_FILTER_ADC_I0_TO_ADC_I2| Current sense amplifier filter for ADC I0, I1 and I2. See CsaFilter enum. Default: 0 (T_0_55_MICROSEC).
+ *    20   | CSA_FILTER_ADC_I3          | Current sense amplifier filter for ADC I3. See CsaFilter enum. Default: 0 (T_0_55_MICROSEC).
+ *    21   | CURRENT_SCALING_FACTOR     | Current scaling factor converting internal units to real-world units [1, 65535]. Default: 520.
+ *    22   | PHASE_UX1_ADC_MAPPING      | Mapping ADC to UX1. See AdcMapping enum. Default: 0 (ADC_I0).
+ *    23   | PHASE_VX2_ADC_MAPPING      | Mapping ADC to VX2. See AdcMapping enum. Default: 1 (ADC_I1).
+ *    24   | PHASE_WY1_ADC_MAPPING      | Mapping ADC to WY1. See AdcMapping enum. Default: 2 (ADC_I2).
+ *    25   | PHASE_Y2_ADC_MAPPING       | Mapping ADC to Y2. See AdcMapping enum. Default: 3 (ADC_I3).
+ *    26   | ADC_I0_SCALE               | Scaling applied to ADC I0 [1, 32767]. Default: 1024.
+ *    27   | ADC_I1_SCALE               | Scaling applied to ADC I1 [1, 32767]. Default: 1024.
+ *    28   | ADC_I2_SCALE               | Scaling applied to ADC I2 [1, 32767]. Default: 1024.
+ *    29   | ADC_I3_SCALE               | Scaling applied to ADC I3 [1, 32767]. Default: 1024.
+ *    30   | ADC_I0_INVERTED            | Invert the reading of ADC I0. 0: NOT_INVERTED, 1: INVERTED. Default: 1.
+ *    31   | ADC_I1_INVERTED            | Invert the reading of ADC I1. 0: NOT_INVERTED, 1: INVERTED. Default: 1.
+ *    32   | ADC_I2_INVERTED            | Invert the reading of ADC I2. 0: NOT_INVERTED, 1: INVERTED. Default: 1.
+ *    33   | ADC_I3_INVERTED            | Invert the reading of ADC I3. 0: NOT_INVERTED, 1: INVERTED. Default: 1.
+ *    34   | ADC_I0_OFFSET              | Offset applied to ADC I0 measurement [-32768, 32767]. Default: 0.
+ *    35   | ADC_I1_OFFSET              | Offset applied to ADC I1 measurement [-32768, 32767]. Default: 0.
+ *    36   | ADC_I2_OFFSET              | Offset applied to ADC I2 measurement [-32768, 32767]. Default: 0.
+ *    37   | ADC_I3_OFFSET              | Offset applied to ADC I3 measurement [-32768, 32767]. Default: 0.
+ *    38   | ADC_I0                     | Scaled and offset compensated ADC I0 measurement [-32768, 32767]. Read-only.
+ *    39   | ADC_I1                     | Scaled and offset compensated ADC I1 measurement [-32768, 32767]. Read-only.
+ *    40   | ADC_I2                     | Scaled and offset compensated ADC I2 measurement [-32768, 32767]. Read-only.
+ *    41   | ADC_I3                     | Scaled and offset compensated ADC I3 measurement [-32768, 32767]. Read-only.
  */
 #define ADC_CONFIG_LIST(X) \
-    X(ADC_SHUNT_TYPE, 12, /*!< Shunt type for ADC measurements. See AdcShuntType enum. Default: 4 (BOTTOM_SHUNTS). */) \
-    X(ADC_I0_RAW,     13, /*!< Raw ADC measurement for I0 shunt [-32768, 32767]. Read-only. */) \
-    X(ADC_I1_RAW,     14, /*!< Raw ADC measurement for I1 shunt [-32768, 32767]. Read-only. */) \
-    X(ADC_I2_RAW,     15, /*!< Raw ADC measurement for I2 shunt [-32768, 32767]. Read-only. */) \
-    X(ADC_I3_RAW,     16, /*!< Raw ADC measurement for I3 shunt [-32768, 32767]. Read-only. */)
+    X(ADC_SHUNT_TYPE,             12, /*!< Shunt type for ADC measurements. See AdcShuntType enum. Default: 4 (BOTTOM_SHUNTS). */) \
+    X(ADC_I0_RAW,                 13, /*!< Raw ADC measurement for I0 shunt [-32768, 32767]. Read-only. */) \
+    X(ADC_I1_RAW,                 14, /*!< Raw ADC measurement for I1 shunt [-32768, 32767]. Read-only. */) \
+    X(ADC_I2_RAW,                 15, /*!< Raw ADC measurement for I2 shunt [-32768, 32767]. Read-only. */) \
+    X(ADC_I3_RAW,                 16, /*!< Raw ADC measurement for I3 shunt [-32768, 32767]. Read-only. */) \
+    X(CSA_GAIN_ADC_I0_TO_ADC_I2,  17, /*!< Current sense amplifier gain for ADC I0, I1 and I2. See CsaGain enum. Default: 1 (GAIN_10X). */) \
+    X(CSA_GAIN_ADC_I3,            18, /*!< Current sense amplifier gain for ADC I3. See CsaGain enum. Default: 1 (GAIN_10X). */) \
+    X(CSA_FILTER_ADC_I0_TO_ADC_I2,19, /*!< Current sense amplifier filter for ADC I0, I1 and I2. See CsaFilter enum. Default: 0 (T_0_55_MICROSEC). */) \
+    X(CSA_FILTER_ADC_I3,          20, /*!< Current sense amplifier filter for ADC I3. See CsaFilter enum. Default: 0 (T_0_55_MICROSEC). */) \
+    X(CURRENT_SCALING_FACTOR,     21, /*!< Current scaling factor converting internal units to real-world units [1, 65535]. Default: 520. */) \
+    X(PHASE_UX1_ADC_MAPPING,      22, /*!< Mapping ADC to UX1. See AdcMapping enum. Default: 0 (ADC_I0). */) \
+    X(PHASE_VX2_ADC_MAPPING,      23, /*!< Mapping ADC to VX2. See AdcMapping enum. Default: 1 (ADC_I1). */) \
+    X(PHASE_WY1_ADC_MAPPING,      24, /*!< Mapping ADC to WY1. See AdcMapping enum. Default: 2 (ADC_I2). */) \
+    X(PHASE_Y2_ADC_MAPPING,       25, /*!< Mapping ADC to Y2. See AdcMapping enum. Default: 3 (ADC_I3). */) \
+    X(ADC_I0_SCALE,               26, /*!< Scaling applied to ADC I0 [1, 32767]. Default: 1024. */) \
+    X(ADC_I1_SCALE,               27, /*!< Scaling applied to ADC I1 [1, 32767]. Default: 1024. */) \
+    X(ADC_I2_SCALE,               28, /*!< Scaling applied to ADC I2 [1, 32767]. Default: 1024. */) \
+    X(ADC_I3_SCALE,               29, /*!< Scaling applied to ADC I3 [1, 32767]. Default: 1024. */) \
+    X(ADC_I0_INVERTED,            30, /*!< Invert the reading of ADC I0. 0: NOT_INVERTED, 1: INVERTED. Default: 1. */) \
+    X(ADC_I1_INVERTED,            31, /*!< Invert the reading of ADC I1. 0: NOT_INVERTED, 1: INVERTED. Default: 1. */) \
+    X(ADC_I2_INVERTED,            32, /*!< Invert the reading of ADC I2. 0: NOT_INVERTED, 1: INVERTED. Default: 1. */) \
+    X(ADC_I3_INVERTED,            33, /*!< Invert the reading of ADC I3. 0: NOT_INVERTED, 1: INVERTED. Default: 1. */) \
+    X(ADC_I0_OFFSET,              34, /*!< Offset applied to ADC I0 measurement [-32768, 32767]. Default: 0. */) \
+    X(ADC_I1_OFFSET,              35, /*!< Offset applied to ADC I1 measurement [-32768, 32767]. Default: 0. */) \
+    X(ADC_I2_OFFSET,              36, /*!< Offset applied to ADC I2 measurement [-32768, 32767]. Default: 0. */) \
+    X(ADC_I3_OFFSET,              37, /*!< Offset applied to ADC I3 measurement [-32768, 32767]. Default: 0. */) \
+    X(ADC_I0,                     38, /*!< Scaled and offset compensated ADC I0 measurement [-32768, 32767]. Read-only. */) \
+    X(ADC_I1,                     39, /*!< Scaled and offset compensated ADC I1 measurement [-32768, 32767]. Read-only. */) \
+    X(ADC_I2,                     40, /*!< Scaled and offset compensated ADC I2 measurement [-32768, 32767]. Read-only. */) \
+    X(ADC_I3,                     41, /*!< Scaled and offset compensated ADC I3 measurement [-32768, 32767]. Read-only. */)
 
 enum class AdcConfig : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -1578,6 +1630,148 @@ inline const char* to_string(AdcShuntType t) {
     }
 }
 #undef ADC_SHUNT_TYPE_LIST
+
+//--------------------------------------
+//  Current Sense Amplifier Gain
+//--------------------------------------
+/**
+ * @brief Enumerates current sense amplifier gain settings.
+ *
+ * Table — Current Sense Amplifier Gain:
+ *  NUMBER | NAME              | DESCRIPTION
+ *  ------ | ----------------- | -----------------------------------------------
+ *     0   | GAIN_5X           | 5x gain
+ *     1   | GAIN_10X          | 10x gain
+ *     2   | GAIN_20X          | 20x gain
+ *     3   | GAIN_40X          | 40x gain
+ *     4   | GAIN_1X_BYPASS_CSA| 1x gain (bypass CSA)
+ */
+#define CSA_GAIN_LIST(X) \
+    X(GAIN_5X,           0, /*!< 5x gain */) \
+    X(GAIN_10X,          1, /*!< 10x gain */) \
+    X(GAIN_20X,          2, /*!< 20x gain */) \
+    X(GAIN_40X,          3, /*!< 40x gain */) \
+    X(GAIN_1X_BYPASS_CSA, 4, /*!< 1x gain (bypass CSA) */)
+
+enum class CsaGain : uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    CSA_GAIN_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(CsaGain g) {
+    switch(g) {
+        #define X(NAME, VALUE, DOC) case CsaGain::NAME: return #NAME;
+        CSA_GAIN_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef CSA_GAIN_LIST
+
+//--------------------------------------
+//  Current Sense Amplifier Filter
+//--------------------------------------
+/**
+ * @brief Enumerates current sense amplifier filter settings.
+ *
+ * Table — Current Sense Amplifier Filter:
+ *  NUMBER | NAME              | DESCRIPTION
+ *  ------ | ----------------- | -----------------------------------------------
+ *     0   | T_0_55_MICROSEC   | 0.55 μs filter time
+ *     1   | T_0_75_MICROSEC   | 0.75 μs filter time
+ *     2   | T_1_0_MICROSEC    | 1.0 μs filter time
+ *     3   | T_1_35_MICROSEC   | 1.35 μs filter time
+ */
+#define CSA_FILTER_LIST(X) \
+    X(T_0_55_MICROSEC, 0, /*!< 0.55 μs filter time */) \
+    X(T_0_75_MICROSEC, 1, /*!< 0.75 μs filter time */) \
+    X(T_1_0_MICROSEC,  2, /*!< 1.0 μs filter time */) \
+    X(T_1_35_MICROSEC, 3, /*!< 1.35 μs filter time */)
+
+enum class CsaFilter : uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    CSA_FILTER_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(CsaFilter f) {
+    switch(f) {
+        #define X(NAME, VALUE, DOC) case CsaFilter::NAME: return #NAME;
+        CSA_FILTER_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef CSA_FILTER_LIST
+
+//--------------------------------------
+//  ADC Mapping
+//--------------------------------------
+/**
+ * @brief Enumerates ADC mapping options for motor phases.
+ *
+ * Table — ADC Mapping:
+ *  NUMBER | NAME    | DESCRIPTION
+ *  ------ | ------- | -----------------------------------------------
+ *     0   | ADC_I0  | Map to ADC I0
+ *     1   | ADC_I1  | Map to ADC I1
+ *     2   | ADC_I2  | Map to ADC I2
+ *     3   | ADC_I3  | Map to ADC I3
+ */
+#define ADC_MAPPING_LIST(X) \
+    X(ADC_I0, 0, /*!< Map to ADC I0 */) \
+    X(ADC_I1, 1, /*!< Map to ADC I1 */) \
+    X(ADC_I2, 2, /*!< Map to ADC I2 */) \
+    X(ADC_I3, 3, /*!< Map to ADC I3 */)
+
+enum class AdcMapping : uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    ADC_MAPPING_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(AdcMapping m) {
+    switch(m) {
+        #define X(NAME, VALUE, DOC) case AdcMapping::NAME: return #NAME;
+        ADC_MAPPING_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef ADC_MAPPING_LIST
+
+//--------------------------------------
+//  ADC Inversion Settings
+//--------------------------------------
+/**
+ * @brief Enumerates ADC inversion settings.
+ *
+ * Table — ADC Inversion Settings:
+ *  NUMBER | NAME          | DESCRIPTION
+ *  ------ | ------------- | -----------------------------------------------
+ *     0   | NOT_INVERTED  | Normal reading (not inverted)
+ *     1   | INVERTED      | Inverted reading
+ */
+#define ADC_INVERSION_LIST(X) \
+    X(NOT_INVERTED, 0, /*!< Normal reading (not inverted) */) \
+    X(INVERTED,     1, /*!< Inverted reading */)
+
+enum class AdcInversion : uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    ADC_INVERSION_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(AdcInversion i) {
+    switch(i) {
+        #define X(NAME, VALUE, DOC) case AdcInversion::NAME: return #NAME;
+        ADC_INVERSION_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef ADC_INVERSION_LIST
 
 //--------------------------------------
 //  PWM Frequency Configuration
@@ -2166,6 +2360,7 @@ inline const char* to_string(Direction direction) {
  *     6   | FOC_HALL_SENSOR             | FOC with Hall sensor feedback.
  *     7   | RESERVED                    | Reserved.
  *     8   | FOC_SPI_ENC                 | FOC with SPI encoder feedback.
+ *     9   | IDLE_MOTOR_PWM_BEHAVIOR     | Idle motor PWM behavior.
  */
 #define COMMUTATION_MODE_LIST(X) \
     X(SYSTEM_OFF,                  0, /*!< System off (default after power-on/reset). */) \
@@ -2176,7 +2371,8 @@ inline const char* to_string(Direction direction) {
     X(FOC_ABN,                     5, /*!< FOC with ABN encoder feedback. */) \
     X(FOC_HALL_SENSOR,             6, /*!< FOC with Hall sensor feedback. */) \
     X(RESERVED,                    7, /*!< Reserved. */) \
-    X(FOC_SPI_ENC,                 8, /*!< FOC with SPI encoder feedback. */)
+    X(FOC_SPI_ENC,                 8, /*!< FOC with SPI encoder feedback. */) \
+    X(IDLE_MOTOR_PWM_BEHAVIOR,     9, /*!< Idle motor PWM behavior. */)
 
 enum class CommutationMode : std::uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -2457,6 +2653,8 @@ inline const char* to_string(CurrentPiNormalization norm) {
  *   138   | VELOCITY_METER_SWITCH_HYSTERESIS | Hysteresis for switching back to period meter. 0...65535. Default: 500. RWE
  *   139   | VELOCITY_METER_MODE           | Currently used velocity meter mode. See VelocityMeterMode. Default: 0. R
  *    45   | OPENLOOP_ANGLE                | Phi_e calculated by ramper hardware (openloop modes). -32768...32767. Default: 0. R
+ *    46   | OPENLOOP_CURRENT              | Openloop current applied in openloop, current mode [mA]. 0...65535. Default: 1000. RWE
+ *    47   | OPENLOOP_VOLTAGE              | Openloop voltage applied in openloop, voltage mode. 0...16383. Default: 0. RWE
  *    50   | ACCELERATION_FF_GAIN          | Gain for acceleration feedforward. 0...65535. Default: 8. RWE
  *    51   | ACCELERATION_FF_SHIFT         | Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE
  *    52   | RAMP_ENABLE                   | Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE
@@ -2477,6 +2675,7 @@ inline const char* to_string(CurrentPiNormalization norm) {
  *    67   | ACCELERATION_FEEDFORWARD_ENABLE | Enable acceleration feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE
  *    68   | VELOCITY_FEEDFORWARD_ENABLE   | Enable velocity feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE
  *    69   | RAMP_VELOCITY                 | Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R
+ *    70   | RAMP_VELOCITY_ERROR            | Error of ramp velocity controller. -134217727...134217727. Default: 0. R
  */
 #define VELOCITY_CONTROL_LIST(X) \
     X(VELOCITY_SENSOR_SELECTION,          123, /*!< Feedback source for velocity PI regulator. See VelocitySensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE */) \
@@ -2494,6 +2693,8 @@ inline const char* to_string(CurrentPiNormalization norm) {
     X(VELOCITY_METER_SWITCH_HYSTERESIS,   138, /*!< Hysteresis for switching back to period meter. 0...65535. Default: 500. RWE */) \
     X(VELOCITY_METER_MODE,                139, /*!< Currently used velocity meter mode. See VelocityMeterMode. Default: 0. R */) \
     X(OPENLOOP_ANGLE,                      45, /*!< Phi_e calculated by ramper hardware (openloop modes). -32768...32767. Default: 0. R */) \
+    X(OPENLOOP_CURRENT,                    46, /*!< Openloop current applied in openloop, current mode [mA]. 0...65535. Default: 1000. RWE */) \
+    X(OPENLOOP_VOLTAGE,                    47, /*!< Openloop voltage applied in openloop, voltage mode. 0...16383. Default: 0. RWE */) \
     X(ACCELERATION_FF_GAIN,                50, /*!< Gain for acceleration feedforward. 0...65535. Default: 8. RWE */) \
     X(ACCELERATION_FF_SHIFT,               51, /*!< Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE */) \
     X(RAMP_ENABLE,                         52, /*!< Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
@@ -2513,7 +2714,8 @@ inline const char* to_string(CurrentPiNormalization norm) {
     X(RAMP_TZEROWAIT,                      66, /*!< Wait time at end of ramp. 0...65535. Default: 0. RWE */) \
     X(ACCELERATION_FEEDFORWARD_ENABLE,     67, /*!< Enable acceleration feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
     X(VELOCITY_FEEDFORWARD_ENABLE,         68, /*!< Enable velocity feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(RAMP_VELOCITY,                       69, /*!< Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R */)
+    X(RAMP_VELOCITY,                       69, /*!< Target velocity calculated by ramp controller. -134217727...134217727. Default: 0. R */) \
+    X(RAMP_POSITION,                       70, /*!< Target position calculated by ramp controller. -2147483648...2147483647. Default: 0. R */) \
 
 enum class VelocityControl : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,

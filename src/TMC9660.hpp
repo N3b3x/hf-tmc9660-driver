@@ -6,6 +6,8 @@
 #include <vector>
 #include <span>
 
+#include "../inc/parameter_mode/tmc9660_param_mode_tmcl.hpp"
+
 /**
  * @brief Abstract communication interface for sending/receiving TMCL datagrams (64-bit) to the TMC9660.
  * 
@@ -72,27 +74,6 @@ public:
  */
 class TMC9660 {
 public:
-    /// Motor types supported by the TMC9660.
-    enum class MotorType : uint8_t {
-        DC = 0,      /**< Brushed DC motor. */
-        BLDC = 1,    /**< Brushless DC (3-phase) motor. */
-        STEPPER = 2  /**< Two-phase bipolar stepper motor. */
-    };
-    /// Commutation modes for motor control (for BLDC/stepper primarily).
-    enum class CommutationMode : uint8_t {
-        SYSTEM_OFF = 0,                    /**< System off (outputs disabled, motor free). */
-        FOC_OPENLOOP_VOLTAGE = 3,          /**< Open-loop voltage mode (constant duty cycle output). */
-        FOC_OPENLOOP_CURRENT = 4,          /**< Open-loop current mode (constant current to motor). */
-        FOC_ENCODER = 5,                   /**< FOC with ABN encoder feedback. */
-        FOC_HALL = 6,                      /**< FOC with Hall sensor feedback. */
-        FOC_SPI_ENCODER = 8                /**< FOC with SPI-based encoder feedback. */
-        // Note: Modes 1,2 are special states for all FETs on (low or high side) typically for idle/braking; mode 7 is reserved.
-    };
-    /// Motor direction setting (for DC motors or direction inversion).
-    enum class MotorDirection : uint8_t {
-        FORWARD = 0,  /**< Normal rotation direction. */
-        REVERSE = 1   /**< Inverted rotation direction. */
-    };
     /// Heartbeat watchdog modes for communication monitoring
     enum class HeartbeatMode : uint8_t { WATCHDOG_DISABLE = 0, WATCHDOG_ENABLE = 1 };
     /// Power-down sleep periods
@@ -120,7 +101,7 @@ public:
      * @param motorIndex Index of the motor/axis (0 or 1). Typically 0 unless the device controls multiple axes.
      * @return true if the parameter was successfully written (acknowledged by the device), false if an error occurred.
      */
-    [[nodiscard]] bool writeParameter(uint16_t id, uint32_t value, uint8_t motorIndex = 0) noexcept;
+    [[nodiscard]] bool writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex = 0) noexcept;
     /**
      * @brief Read an axis (motor-specific) parameter from the TMC9660.
      * @param id Parameter ID number to read.
@@ -128,7 +109,7 @@ public:
      * @param motorIndex Index of the motor/axis (0 or 1).
      * @return true if the parameter was successfully read (device responded), false on error.
      */
-    [[nodiscard]] bool readParameter(uint16_t id, uint32_t& value, uint8_t motorIndex = 0) noexcept;
+    [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id, uint32_t& value, uint8_t motorIndex = 0) noexcept;
     /**
      * @brief Set (write) a global parameter on the TMC9660.
      * @param id Global parameter ID number.
@@ -136,7 +117,7 @@ public:
      * @param value 32-bit value to write.
      * @return true if successfully written, false if an error occurred.
      */
-    [[nodiscard]] bool writeGlobalParameter(uint16_t id, uint8_t bank, uint32_t value) noexcept;
+    [[nodiscard]] bool writeGlobalParameter(tmc9660::tmcl::Parameters id, uint8_t bank, uint32_t value) noexcept;
     /**
      * @brief Read a global parameter from the TMC9660.
      * @param id Global parameter ID number.
@@ -144,7 +125,7 @@ public:
      * @param[out] value Reference to store the read 32-bit value.
      * @return true if read successfully, false on error.
      */
-    [[nodiscard]] bool readGlobalParameter(uint16_t id, uint8_t bank, uint32_t& value) noexcept;
+    [[nodiscard]] bool readGlobalParameter(tmc9660::tmcl::Parameters id, uint8_t bank, uint32_t& value) noexcept;
 
     //***************************************************************************
     //**                  SUBSYSTEM: Motor Configuration                       **//
@@ -161,8 +142,8 @@ public:
          * @param polePairs For BLDC motors, number of pole pairs. For stepper or DC, this can be set to 1.
          * @return true if the motor type was set successfully, false if communication or device error.
          */
-        bool setType(MotorType type, uint8_t polePairs = 1) noexcept;
-        
+        bool setType(tmc9660::tmcl::MotorType type, uint8_t polePairs = 1) noexcept;
+
         /**
          * @brief Set the motor direction inversion.
          * 
@@ -170,8 +151,8 @@ public:
          * @param direction MotorDirection (FORWARD or REVERSE).
          * @return true if successfully set.
          */
-        bool setDirection(MotorDirection direction) noexcept;
-        
+        bool setDirection(tmc9660::tmcl::MotorDirection direction) noexcept;
+
         /**
          * @brief Set the PWM frequency for the motor driver.
          * @param frequencyHz PWM frequency in Hertz (allowed range 10kHz to 100kHz).
@@ -218,7 +199,7 @@ public:
          *       For open-loop modes, additional parameters must be set (OPENLOOP_VOLTAGE or OPENLOOP_CURRENT).
          *       For sensor-based modes, the appropriate sensor must be configured before enabling this mode.
          */
-        bool setCommutationMode(CommutationMode mode) noexcept;
+        bool setCommutationMode(tmc9660::tmcl::CommutationMode mode) noexcept;
 
         /**
          * @brief Set the maximum allowed motor current (torque limit).
@@ -229,11 +210,292 @@ public:
          */
         bool setMaxCurrent(uint16_t milliamps) noexcept;
 
+        /**
+         * @brief Set the maximum allowed flux current for BLDC/stepper motors.
+         * 
+         * This sets the MAX_FLUX parameter which limits the flux-producing current component.
+         * Important for field-weakening operation and stepper motor control.
+         * @param milliamps Maximum flux current in milliamps.
+         * @return true on success, false on error.
+         */
+        bool setMaxFluxCurrent(uint16_t milliamps) noexcept;
+
+        /**
+         * @brief Limit the motor’s peak flux (|Ψ|max) used by the torque controller.
+         *
+         * Maps to the register pair MAX_FLUX / FLUX_LIMIT_ENABLE and is essential
+         * for high-speed field-weakening operation.                                   
+         * @param mWb  Maximum flux in milli-Weber (0 … 32767).
+         * @return true on success.
+         */
+        bool setMaxFlux(uint16_t mWb) noexcept;
+
+        /**
+         * @brief Configure field-weakening (automatic flux reduction above a knee speed).
+         *
+         * @param startRPM   Electrical RPM where weakening starts.
+         * @param slope      Weakening slope (dΨ/dω) as signed 16-bit value.
+         * @param minFlux    Minimum allowed flux in mWb.
+         * @return true on success.
+         *
+         * Registers: WEAKENING_FACTOR, FIELD_WEAKENING_ENABLE :contentReference[oaicite:0]{index=0}
+         */
+        bool configureFieldWeakening(uint16_t startRPM,
+                                    int16_t  slope,
+                                    uint16_t minFlux) noexcept;
+
+
+        /**
+         * @brief Configure the ADC shunt type for current measurement.
+         * 
+         * Sets the current sense resistor configuration for motor phase current sensing.
+         * @param shuntType Type of shunt configuration:
+         *                  0: INLINE_UVW - Inline shunts on all phases
+         *                  1: INLINE_VW - Inline shunts on V and W phases only
+         *                  2: INLINE_UW - Inline shunts on U and W phases only
+         *                  3: INLINE_UV - Inline shunts on U and V phases only
+         *                  4: BOTTOM_SHUNTS - Low-side (bottom) shunts configuration
+         * @return true if successfully configured.
+         */
+        bool setADCShuntType(uint8_t shuntType) noexcept;
+
+        /**
+         * @brief Set the current scaling factor for ADC measurements.
+         * 
+         * The scaling factor converts ADC readings to real-world current values in milliamps.
+         * When set correctly, all current-related parameters (target torque, actual torque, etc.) are in mA.
+         * 
+         * @param scalingFactor Scaling factor calculated using:
+         *                      For RMS: Factor ≈ 27.62 / (GCSA × RShunt)
+         *                      For Peak: Factor ≈ 39.06 / (GCSA × RShunt)
+         * @return true if successfully set.
+         */
+        bool setCurrentScalingFactor(float scalingFactor) noexcept;
+
+        /**
+         * @brief Configure the ADC inversion settings for each phase.
+         * 
+         * Sets whether each ADC input should be inverted based on motor type and shunt configuration.
+         * See Table 24 in the documentation for recommended settings.
+         * 
+         * @param invertADC0 True to invert ADC0 readings
+         * @param invertADC1 True to invert ADC1 readings
+         * @param invertADC2 True to invert ADC2 readings
+         * @param invertADC3 True to invert ADC3 readings (if used)
+         * @return true if successfully configured.
+         */
+        bool configureADCInversion(bool invertADC0, bool invertADC1, bool invertADC2, bool invertADC3 = false) noexcept;
+
+        /**
+         * @brief Set the gain for the current sense amplifiers.
+         * 
+         * Configures the gain for the internal current sense amplifiers to match your shunt resistor values.
+         * 
+         * @param gainADC0_1 Gain setting for ADC channels I0 and I1 (0-31)
+         * @param gainADC2_3 Gain setting for ADC channels I2 and I3 (0-31)
+         * @return true if successfully set.
+         */
+        bool setCurrentSenseAmplifierGain(uint8_t gainADC0_1, uint8_t gainADC2_3) noexcept;
+
+        /**
+         * @brief Set scaling factors for individual ADC channels to account for shunt resistor tolerances.
+         * 
+         * Fine-tunes the scaling for each ADC channel to compensate for component variations.
+         * 
+         * @param scaleADC0 Scaling factor for ADC I0 (default: 1.0)
+         * @param scaleADC1 Scaling factor for ADC I1 (default: 1.0)
+         * @param scaleADC2 Scaling factor for ADC I2 (default: 1.0)
+         * @param scaleADC3 Scaling factor for ADC I3 (default: 1.0)
+         * @return true if successfully set.
+         */
+        bool setADCScalingFactors(float scaleADC0 = 1.0f, float scaleADC1 = 1.0f, 
+                                  float scaleADC2 = 1.0f, float scaleADC3 = 1.0f) noexcept;
+
+        /**
+         * @brief Configure velocity loop downsampling to adjust control loop frequency.
+         * 
+         * Slows down the velocity control loop relative to the PWM frequency by the specified factor.
+         * 
+         * @param divider Downsampling divider (1 = no downsampling, 2 = half frequency, etc.)
+         * @return true if successfully configured.
+         */
+        bool setVelocityLoopDownsampling(uint8_t divider) noexcept;
+
+        /**
+         * @brief Configure position loop downsampling relative to velocity loop.
+         * 
+         * Further slows down the position control loop relative to the velocity loop by the specified factor.
+         * 
+         * @param divider Downsampling divider (1 = same as velocity loop, 2 = half frequency, etc.)
+         * @return true if successfully configured.
+         */
+        bool setPositionLoopDownsampling(uint8_t divider) noexcept;
+
+        /**
+         * @brief Calibrate the ADC offsets for current measurement.
+         * 
+         * Initiates a calibration sequence for the current sensing ADCs.
+         * Motor must be stationary and commutation mode set to off before calibration.
+         * 
+         * @param waitForCompletion If true, wait until calibration is completed
+         * @param timeoutMs Timeout in milliseconds if waiting for completion
+         * @return true if calibration was started (and completed if waitForCompletion is true)
+         */
+        bool calibrateADCOffsets(bool waitForCompletion = false, uint32_t timeoutMs = 1000) noexcept;
+
     private:
         friend class TMC9660;
         explicit MotorConfig(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
     } motorConfig{*this};
+    
+    //***************************************************************************
+    //**                  SUBSYSTEM: Gate Driver                              **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for configuring the MOSFET gate driver
+     */
+    struct GateDriver {
+        /**
+         * @brief Configure the gate driver output currents and timing (drive strength and dead time).
+         * 
+         * This function adjusts the gate driver for external MOSFETs. It sets the sink/source current levels and the deadtime (break-before-make).
+         * @param sinkLevel Drive sink current level (0-15 corresponding to ~50mA up to 2000mA).
+         * @param sourceLevel Drive source current level (0-15 corresponding to ~25mA up to 1000mA).
+         * @param deadTimeNs Dead-time in nanoseconds (approximately). The value will be quantized to the nearest supported step (8.33ns units).
+         * @return true if the configuration commands were sent successfully.
+         */
+        bool configure(uint8_t sinkLevel, uint8_t sourceLevel, uint16_t deadTimeNs) noexcept;
+        
+        /**
+         * @brief Set the gate driver output polarity.
+         * 
+         * By default, the PWM_L and PWM_H outputs are active-high. This function can invert those outputs if needed by external gate circuits.
+         * @param lowActive True to invert the low-side gate outputs (active low), false for active high.
+         * @param highActive True to invert the high-side gate outputs, false for active high.
+         * @return true if the polarity was set successfully.
+         */
+        bool setOutputPolarity(bool lowActive, bool highActive) noexcept;
+
+        /**
+         * @brief Configure the overcurrent protection blanking time for UVW phases.
+         * 
+         * Sets the blanking time for overcurrent protection to filter out transient spikes during switching events.
+         * 
+         * @param lowSideTime Blanking time for the low side of UVW phases:
+         *                    0: OFF, 1: 0.25μs, 2: 0.5μs, 3: 1μs, 4: 2μs, 5: 4μs, 6: 6μs, 7: 8μs
+         * @param highSideTime Blanking time for the high side of UVW phases (same range as lowSideTime)
+         * @return true if successfully configured
+         */
+        bool setOvercurrentBlankingUVW(uint8_t lowSideTime, uint8_t highSideTime) noexcept;
+
+        /**
+         * @brief Configure the overcurrent protection blanking time for Y2 phase.
+         * 
+         * @param lowSideTime Blanking time for the low side of Y2 phase (0-7)
+         * @param highSideTime Blanking time for the high side of Y2 phase (0-7)
+         * @return true if successfully configured
+         */
+        bool setOvercurrentBlankingY2(uint8_t lowSideTime, uint8_t highSideTime) noexcept;
+
+        /**
+         * @brief Configure the overcurrent protection deglitch time for UVW phases.
+         * 
+         * Sets how long an overcurrent condition must persist before triggering protection.
+         * 
+         * @param lowSideTime Deglitch time for the low side of UVW phases:
+         *                    0: OFF, 1: 0.25μs, 2: 0.5μs, 3: 1μs, 4: 2μs, 5: 4μs, 6: 6μs, 7: 8μs
+         * @param highSideTime Deglitch time for the high side of UVW phases (same range)
+         * @return true if successfully configured
+         */
+        bool setOvercurrentDeglitchUVW(uint8_t lowSideTime, uint8_t highSideTime) noexcept;
+
+        /**
+         * @brief Configure the overcurrent protection deglitch time for Y2 phase.
+         * 
+         * @param lowSideTime Deglitch time for the low side of Y2 phase (0-7)
+         * @param highSideTime Deglitch time for the high side of Y2 phase (0-7)
+         * @return true if successfully configured
+         */
+        bool setOvercurrentDeglitchY2(uint8_t lowSideTime, uint8_t highSideTime) noexcept;
+
+        /**
+         * @brief Enable or disable VDS monitoring for overcurrent protection on UVW low side.
+         * 
+         * @param enable True to enable VDS measurement for overcurrent protection
+         * @return true if successfully configured
+         */
+        bool enableVdsMonitoringUVWLow(bool enable) noexcept;
+
+        /**
+         * @brief Enable or disable VDS monitoring for overcurrent protection on Y2 low side.
+         * 
+         * @param enable True to enable VDS measurement for overcurrent protection
+         * @return true if successfully configured
+         */
+        bool enableVdsMonitoringY2Low(bool enable) noexcept;
+
+        /**
+         * @brief Configure undervoltage protection settings.
+         * 
+         * @param supplyLevel Supply voltage (VS) protection level (0-16, 0 disables)
+         * @param enableVdrv Enable driver voltage (VDRV) protection
+         * @param enableBstUVW Enable bootstrap capacitor protection for UVW phases
+         * @param enableBstY2 Enable bootstrap capacitor protection for Y2 phase
+         * @return true if successfully configured
+         */
+        bool configureUndervoltageProtection(uint8_t supplyLevel, bool enableVdrv, 
+                                            bool enableBstUVW, bool enableBstY2) noexcept;
+
+        /**
+         * @brief Configure gate-to-source short protection for UVW phases.
+         * 
+         * @param enableLowSideOn Enable protection for ON transition of low side
+         * @param enableLowSideOff Enable protection for OFF transition of low side
+         * @param enableHighSideOn Enable protection for ON transition of high side
+         * @param enableHighSideOff Enable protection for OFF transition of high side
+         * @return true if successfully configured
+         */
+        bool configureVgsShortProtectionUVW(bool enableLowSideOn, bool enableLowSideOff,
+                                           bool enableHighSideOn, bool enableHighSideOff) noexcept;
+
+        /**
+         * @brief Configure gate-to-source short protection for Y2 phase.
+         * 
+         * @param enableLowSideOn Enable protection for ON transition of low side
+         * @param enableLowSideOff Enable protection for OFF transition of low side
+         * @param enableHighSideOn Enable protection for ON transition of high side
+         * @param enableHighSideOff Enable protection for OFF transition of high side
+         * @return true if successfully configured
+         */
+        bool configureVgsShortProtectionY2(bool enableLowSideOn, bool enableLowSideOff,
+                                          bool enableHighSideOn, bool enableHighSideOff) noexcept;
+
+        /**
+         * @brief Set gate-to-source short protection blanking time.
+         * 
+         * @param uvwTime Blanking time for UVW phases:
+         *               0: OFF, 1: 0.25μs, 2: 0.5μs, 3: 1μs
+         * @param y2Time Blanking time for Y2 phase (same range)
+         * @return true if successfully configured
+         */
+        bool setVgsShortBlankingTime(uint8_t uvwTime, uint8_t y2Time) noexcept;
+
+        /**
+         * @brief Set gate-to-source short protection deglitch time.
+         * 
+         * @param uvwTime Deglitch time for UVW phases:
+         *               0: OFF, 1: 0.25μs, 2: 0.5μs, 3: 1μs, 4: 2μs, 5: 4μs, 6: 6μs, 7: 8μs
+         * @param y2Time Deglitch time for Y2 phase (same range)
+         * @return true if successfully configured
+         */
+        bool setVgsShortDeglitchTime(uint8_t uvwTime, uint8_t y2Time) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit GateDriver(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } gateDriver{*this};
 
     //***************************************************************************
     //**                  SUBSYSTEM: Motor Control                            **//
@@ -422,7 +684,28 @@ public:
          * @return true if the parameters were set successfully.
          */
         bool setVelocityLoopGains(uint16_t p, uint16_t i) noexcept;
-        
+
+        /**
+         * @brief Full PI tuning for the position loop.
+         * @param p  Proportional gain.
+         * @param i  Integral gain.
+         */
+        bool setPositionLoopGains(uint16_t p, uint16_t i) noexcept;   ///< POSITION_P / POSITION_I :contentReference[oaicite:1]{index=1}
+
+        /**
+         * @brief Normalisation (bit-shift) for velocity PI terms.
+         * @param pShift  0–3 ⇒ {NO_SHIFT,8,16,24 bit}.
+         * @param iShift  0–3 ⇒ {8,16,24,32 bit}.
+         */
+        bool setVelocityNormalization(uint8_t pShift,
+                                    uint8_t iShift) noexcept;       ///< VELOCITY_NORM_P / VELOCITY_NORM_I :contentReference[oaicite:2]{index=2}
+
+        /**
+         * @brief Normalisation (bit-shift) for position PI terms.
+         */
+        bool setPositionNormalization(uint8_t pShift,
+                                    uint8_t iShift) noexcept;       ///< POSITION_NORM_P / POSITION_NORM_I :contentReference[oaicite:3]{index=3}
+
         /**
          * @brief Set the tuning parameters for the position control loop (P controller).
          * @param p Gain P for position controller.
@@ -437,38 +720,66 @@ public:
     } focControl{*this};
 
     //***************************************************************************
-    //**                  SUBSYSTEM: Gate Driver                              **//
+    //**                  SUBSYSTEM: Motion Ramp                               **//
     //***************************************************************************
     /**
-     * @brief Subsystem for configuring the MOSFET gate driver
+     * @brief Hardware 8-segment acceleration/dec-acc profile controller.
      */
-    struct GateDriver {
+    struct Ramp {
         /**
-         * @brief Configure the gate driver output currents and timing (drive strength and dead time).
-         * 
-         * This function adjusts the gate driver for external MOSFETs. It sets the sink/source current limits and the deadtime (break-before-make).
-         * @param sinkLevel Drive sink current level (0-15 corresponding to ~50mA up to 2000mA).
-         * @param sourceLevel Drive source current level (0-15 corresponding to ~25mA up to 1000mA).
-         * @param deadTimeNs Dead-time in nanoseconds (approximately). The value will be quantized to the nearest supported step (8.33ns units).
-         * @return true if the configuration commands were sent successfully.
+         * @brief Enable or disable the ramp generator block.
          */
-        bool configure(uint8_t sinkLevel, uint8_t sourceLevel, uint16_t deadTimeNs) noexcept;
-        
+        bool enable(bool on) noexcept;                             ///< RAMP_ENABLE :contentReference[oaicite:4]{index=4}
+
         /**
-         * @brief Set the gate driver output polarity.
-         * 
-         * By default, the PWM_L and PWM_H outputs are active-high. This function can invert those outputs if needed by external gate circuits.
-         * @param lowActive True to invert the low-side gate outputs (active low), false for active high.
-         * @param highActive True to invert the high-side gate outputs, false for active high.
-         * @return true if the polarity was set successfully.
+         * @brief Set acceleration segments A1, A2, Amax (µ units/s²).
          */
-        bool setOutputPolarity(bool lowActive, bool highActive) noexcept;
+        bool setAcceleration(uint32_t a1,
+                             uint32_t a2,
+                             uint32_t aMax) noexcept;             ///< RAMP_A1/A2/AMAX :contentReference[oaicite:5]{index=5}
+
+        /**
+         * @brief Set deceleration segments D1, D2, Dmax (µ units/s²).
+         */
+        bool setDeceleration(uint32_t d1,
+                             uint32_t d2,
+                             uint32_t dMax) noexcept;             ///< RAMP_D1/D2/DMAX :contentReference[oaicite:6]{index=6}
+
+        /**
+         * @brief Configure velocity thresholds and limits.
+         */
+        bool setVelocities(uint32_t vStart,
+                           uint32_t vStop,
+                           uint32_t v1,
+                           uint32_t v2,
+                           uint32_t vMax) noexcept;               ///< RAMP_V* set :contentReference[oaicite:7]{index=7}
+
+        /**
+         * @brief Timing constraints at Vmax and between moves.
+         */
+        bool setTiming(uint16_t tVmaxCycles,
+                       uint16_t tZeroWaitCycles) noexcept;        ///< RAMP_TVMAX / RAMP_TZEROWAIT :contentReference[oaicite:8]{index=8}
+
+        /**
+         * @brief Enable hardware feed-forward terms.
+         * @param accelGain  ACCELERATION_FF_GAIN (0…65535)
+         * @param accelShift ACCELERATION_FF_SHIFT enum 0…6
+         * @param enableVelFF Enable the VELOCITY_FEEDFORWARD feature.
+         */
+        bool enableFeedForward(uint16_t accelGain,
+                               uint8_t  accelShift,
+                               bool     enableVelFF) noexcept;     ///< ACCELERATION_FF_* & VELOCITY_FEEDFORWARD_ENABLE :contentReference[oaicite:9]{index=9}
+
+        /**
+         * @brief Direct-velocity mode instead of classic PI velocity loop.
+         */
+        bool setDirectVelocityMode(bool enable) noexcept;          ///< DIRECT_VELOCITY_MODE :contentReference[oaicite:10]{index=10}
 
     private:
         friend class TMC9660;
-        explicit GateDriver(TMC9660& parent) noexcept : driver(parent) {}
+        explicit Ramp(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } gateDriver{*this};
+    } ramp{*this};
 
     //***************************************************************************
     //**                  SUBSYSTEM: Sensors                                  **//
@@ -477,6 +788,18 @@ public:
      * @brief Subsystem for feedback sensor configuration
      */
     struct FeedbackSense {
+        /**
+         * @brief Select which sensor supplies the velocity loop.
+         *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
+         */
+        bool selectVelocitySensor(uint8_t sel) noexcept;               ///< VELOCITY_SENSOR_SELECTION :contentReference[oaicite:14]{index=14}
+
+        /**
+         * @brief Select which sensor supplies the position loop.
+         *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
+         */
+        bool selectPositionSensor(uint8_t sel) noexcept;               ///< POSITION_SENSOR_SELECTION :contentReference[oaicite:15]{index=15}
+
         /**
          * @brief Configure digital Hall sensors for BLDC commutation.
          * 
@@ -623,9 +946,46 @@ public:
 
     private:
         friend class TMC9660;
-        explicit Sensors(TMC9660& parent) noexcept : driver(parent) {}
+        explicit FeedbackSense(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } FeedbackSense{*this};
+    } feedbackSense{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Stop / Event                              **//
+    //***************************************************************************
+    /**
+     * @brief Configure automatic stop/latch behaviour for deviation, switches.
+     */
+    struct StopEvents {
+        /**
+         * @brief Stop when ramp target deviates from actual > thresholds.
+         */
+        bool enableDeviationStop(uint32_t maxVelError,
+                                 uint32_t maxPosError,
+                                 bool     softStop=true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS :contentReference[oaicite:11]{index=11}
+
+        /**
+         * @brief Configure reference / limit-switch inputs.
+         * @param mask  Bit-mask 0…7 ; see REFERENCE_SWITCH_ENABLE.
+         * @param invertL,R,H    invert individual polarities.
+         * @param swapLR         swap left/right wiring.
+         */
+        bool configureReferenceSwitches(uint8_t mask,
+                                        bool invertL,
+                                        bool invertR,
+                                        bool invertH,
+                                        bool swapLR) noexcept;    ///< REFERENCE_SWITCH_* :contentReference[oaicite:12]{index=12}
+
+        /**
+         * @brief Read and clear the latched position from a switch event.
+         */
+        bool getAndClearLatchedPosition(int32_t& pos) noexcept;    ///< LATCH_POSITION / RAMPER_LATCHED :contentReference[oaicite:13]{index=13}
+
+    private:
+        friend class TMC9660;
+        explicit StopEvents(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } stopEvents{*this};
 
     //***************************************************************************
     //**                  SUBSYSTEM: Protection                               **//
@@ -913,6 +1273,16 @@ public:
      * @brief Subsystem for Step/Dir input interface configuration.
      */
     struct StepDir {
+        /**
+         * @brief Enable/disable the STEP/DIR hardware interface.
+         */
+        bool enableInterface(bool on) noexcept;                        ///< BOOT_CONFIG.STEPDIR_ENABLE (datasheet)
+
+        /**
+         * @brief Configure micro-step resolution (full-step divided by 1…256).
+         */
+        bool setMicrostepResolution(uint16_t µSteps) noexcept;         ///< MICROSTEP_RESOLUTION (Parameter-mode DS)
+
         bool enableExtrapolation(bool enable) noexcept;
         bool setSignalTimeout(uint16_t timeout_ms) noexcept;
         bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
@@ -921,6 +1291,24 @@ public:
         explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
     } stepDir{*this};
+
+
+    //***************************************************************************
+    //**                SUBSYSTEM: FLASH STORAGE                             **//
+    //***************************************************************************
+
+    /**
+     * @brief Persist all RAM parameters to on-chip flash.
+     *
+     *      Wraps PARAMETER_STORAGE_* commands so your application can
+     *      survive resets, matching the “Save to NVM” button in GUI-tools.
+     */
+    struct NvmStorage {
+        bool storeToFlash()            noexcept;   ///< PARAM_SAVE_ALL
+        bool recallFromFlash()         noexcept;   ///< PARAM_RESTORE_ALL
+        bool eraseFlashBank(uint8_t n) noexcept;   ///< PARAM_ERASE_BANK
+    } nvm{};
+
 
     //***************************************************************************
     //**                SUBSYSTEM: Heartbeat (Watchdog)                        **//
