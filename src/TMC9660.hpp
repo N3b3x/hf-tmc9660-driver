@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <array>
 #include <vector>
+#include <span>
 
 /**
  * @brief Abstract communication interface for sending/receiving TMCL datagrams (64-bit) to the TMC9660.
@@ -970,6 +971,44 @@ public:
 private:
     TMC9660CommInterface& comm_;  ///< Communication interface (transport) for sending/receiving data.
     uint8_t address_;            ///< Module address (0-127). Used primarily for UART multi-drop addressing.
+
+    struct Datagram {
+        uint8_t  op{};
+        uint16_t type{};
+        uint8_t  motor{};
+        uint32_t value{};
+
+        void toSpi(std::span<uint8_t, 8> out) const noexcept {
+            out[0] = op;
+            out[1] = static_cast<uint8_t>(type >> 8);
+            out[2] = static_cast<uint8_t>(type);
+            out[3] = motor;
+            out[4] = static_cast<uint8_t>(value >> 24);
+            out[5] = static_cast<uint8_t>(value >> 16);
+            out[6] = static_cast<uint8_t>(value >> 8);
+            out[7] = static_cast<uint8_t>(value);
+        }
+
+        static constexpr uint8_t checksum(const uint8_t* bytes, size_t n) noexcept {
+            uint8_t sum = 0;
+            for (size_t i = 0; i < n; ++i)
+                sum += bytes[i];
+            return sum;
+        }
+
+        void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
+            out[0] = addr & 0x7Fu; // sync bit cleared
+            out[1] = op;
+            out[2] = static_cast<uint8_t>(type >> 8);
+            out[3] = static_cast<uint8_t>(type);
+            out[4] = motor;
+            out[5] = static_cast<uint8_t>(value >> 24);
+            out[6] = static_cast<uint8_t>(value >> 16);
+            out[7] = static_cast<uint8_t>(value >> 8);
+            out[8] = static_cast<uint8_t>(value);
+            out[8] = checksum(out.data(), 8);
+        }
+    };
 
     // Helper: pack a TMCL command into 8 bytes and send/receive.
     bool sendCommand(uint8_t opcode, uint16_t type, uint8_t motor, uint32_t value, uint32_t* reply = nullptr) noexcept;
