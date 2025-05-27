@@ -327,18 +327,10 @@ int32_t TMC9660::getActualPosition() {
 }
 
 bool TMC9660::sendCommand(uint8_t opcode, uint16_t type, uint8_t motor, uint32_t value, uint32_t* reply) {
-    // Prepare 8-byte command datagram
+    Datagram d{opcode, type, motor, value};
     std::array<uint8_t, 8> tx{};
     std::array<uint8_t, 8> rx{};
-    tx[0] = opcode;
-    tx[1] = static_cast<uint8_t>((type >> 8) & 0xFF);
-    tx[2] = static_cast<uint8_t>(type & 0xFF);
-    tx[3] = motor;
-    tx[4] = static_cast<uint8_t>((value >> 24) & 0xFF);
-    tx[5] = static_cast<uint8_t>((value >> 16) & 0xFF);
-    tx[6] = static_cast<uint8_t>((value >> 8) & 0xFF);
-    tx[7] = static_cast<uint8_t>(value & 0xFF);
-    // Perform the data transfer via the communication interface
+    d.toSpi(tx);
     bool success = comm_.transferDatagram(tx, rx);
     if (!success) {
         return false;
