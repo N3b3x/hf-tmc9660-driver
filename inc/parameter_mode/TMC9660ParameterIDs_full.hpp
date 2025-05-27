@@ -10,34 +10,6 @@
 
 namespace tmc9660 {
 
-/// VGS short protection deglitch time options
-/**
- * @brief Gate-source short protection deglitch time settings
- * @details Configures the deglitch time for VGS short detection
- */
-enum class VgsDeglitchTime : uint8_t {
-    OFF             = 0, ///< No deglitch filtering
-    T_0_25_MICROSEC = 1, ///< 0.25µs deglitch time
-    T_0_5_MICROSEC  = 2, ///< 0.5µs deglitch time
-    T_1_MICROSEC    = 3, ///< 1.0µs deglitch time
-    T_2_MICROSEC    = 4, ///< 2.0µs deglitch time
-    T_4_MICROSEC    = 5, ///< 4.0µs deglitch time
-    T_6_MICROSEC    = 6, ///< 6.0µs deglitch time
-    T_8_MICROSEC    = 7  ///< 8.0µs deglitch time
-};
-
-/// Fault behavior configuration options
-/**
- * @brief System behavior after fault conditions
- * @details Defines how the system should respond to fault conditions
- */
-enum class FaultBehavior : uint8_t {
-    OPEN_CIRCUIT                        = 0, ///< Switch off and discharge gates (motor spins freely)
-    ELECTRICAL_BRAKING                  = 1, ///< Switch off and enable LS/HS gates for braking
-    MECHANICAL_BRAKING_AND_OPEN_CIRCUIT = 2, ///< Switch off, discharge gates, engage mechanical brake
-    MECHANICAL_AND_ELECTRICAL_BRAKING   = 3  ///< Switch off, enable LS/HS gates, engage mechanical brake
-};
-
 /// Parameter IDs for TMC9660
 /**
  * @brief Complete list of accessible parameters

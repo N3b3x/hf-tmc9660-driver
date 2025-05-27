@@ -343,24 +343,24 @@ enum class GlobalParamBank3 : uint16_t {
     STOP_RIGHT_TRIGGER_TRANSITION   =  11, ///< See TriggerTransition. Default: 0. R/W
     HOME_RIGHT_TRIGGER_TRANSITION   =  12, ///< See TriggerTransition. Default: 0. R/W
     INPUT_0_TRIGGER_TRANSITION      =  13, ///< See TriggerTransition. Default: 0. R/W
-    INPUT_1_TRIGGER_TRANSITION      =  14, ///< ...
-    INPUT_2_TRIGGER_TRANSITION      =  15,
-    INPUT_3_TRIGGER_TRANSITION      =  16,
-    INPUT_4_TRIGGER_TRANSITION      =  17,
-    INPUT_5_TRIGGER_TRANSITION      =  18,
-    INPUT_6_TRIGGER_TRANSITION      =  19,
-    INPUT_7_TRIGGER_TRANSITION      =  20,
-    INPUT_8_TRIGGER_TRANSITION      =  21,
-    INPUT_9_TRIGGER_TRANSITION      =  22,
-    INPUT_10_TRIGGER_TRANSITION     =  23,
-    INPUT_11_TRIGGER_TRANSITION     =  24,
-    INPUT_12_TRIGGER_TRANSITION     =  25,
-    INPUT_13_TRIGGER_TRANSITION     =  26,
-    INPUT_14_TRIGGER_TRANSITION     =  27,
-    INPUT_15_TRIGGER_TRANSITION     =  28,
-    INPUT_16_TRIGGER_TRANSITION     =  29,
-    INPUT_17_TRIGGER_TRANSITION     =  30,
-    INPUT_18_TRIGGER_TRANSITION     =  31
+    INPUT_1_TRIGGER_TRANSITION      =  14, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_2_TRIGGER_TRANSITION      =  15, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_3_TRIGGER_TRANSITION      =  16, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_4_TRIGGER_TRANSITION      =  17, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_5_TRIGGER_TRANSITION      =  18, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_6_TRIGGER_TRANSITION      =  19, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_7_TRIGGER_TRANSITION      =  20, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_8_TRIGGER_TRANSITION      =  21, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_9_TRIGGER_TRANSITION      =  22, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_10_TRIGGER_TRANSITION     =  23, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_11_TRIGGER_TRANSITION     =  24, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_12_TRIGGER_TRANSITION     =  25, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_13_TRIGGER_TRANSITION     =  26, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_14_TRIGGER_TRANSITION     =  27, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_15_TRIGGER_TRANSITION     =  28, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_16_TRIGGER_TRANSITION     =  29, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_17_TRIGGER_TRANSITION     =  30, ///< See TriggerTransition. Default: 0. R/W
+    INPUT_18_TRIGGER_TRANSITION     =  31  ///< See TriggerTransition. Default: 0. R/W
 };
 /// @}
 
