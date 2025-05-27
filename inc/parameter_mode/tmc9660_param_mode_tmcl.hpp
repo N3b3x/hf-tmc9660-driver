@@ -104,60 +104,73 @@ namespace tmc9660::tmcl {
  * Each command lists the *TYPE*, *MOTOR/BANK*, and *VALUE* fields as per Table 18.
  * For scripting-related commands, see the manual for further details.
  */
-enum class Op : std::uint8_t {
-    MST                 =   3,  //!< Stop motor movement. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    SAP                 =   5,  //!< Set Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: value.
-    GAP                 =   6,  //!< Get Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -.
-    STAP                =   7,  //!< Store All Parameters. TYPE: 0xFFF, MOTOR/BANK: 0xF, VALUE: 0xFFFFFFFF.
-    SGP                 =   9,  //!< Set Global Parameter. TYPE: parameter, MOTOR/BANK: 0,2,3, VALUE: value.
-    GGP                 =  10,  //!< Get Global Parameter. TYPE: parameter, MOTOR/BANK: -, VALUE: -.
-    RFS                 =  13,  //!< Reference Search. TYPE: START|STOP|STATUS, MOTOR/BANK: 0, VALUE: -.
-    SIO                 =  14,  //!< Set IO. TYPE: port number, MOTOR/BANK: 0, VALUE: 0,1.
-    GIO                 =  15,  //!< Get IO. TYPE: port number, MOTOR/BANK: 0 (digital) or 1 (analog), VALUE: -.
-    CALC                =  19,  //!< Arithmetic operation. TYPE: operation, MOTOR/BANK: -, VALUE: value.
-    COMP                =  20,  //!< Compare accumulator. TYPE: -, MOTOR/BANK: -, VALUE: value.
-    JC                  =  21,  //!< Jump Conditional. TYPE: condition, MOTOR/BANK: -, VALUE: address.
-    JA                  =  22,  //!< Jump Absolute. TYPE: -, MOTOR/BANK: -, VALUE: address.
-    CSUB                =  23,  //!< Call Subroutine. TYPE: -, MOTOR/BANK: -, VALUE: address.
-    RSUB                =  24,  //!< Return from Subroutine. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    EI                  =  25,  //!< Enable Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: interrupt number.
-    DI                  =  26,  //!< Disable Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: interrupt number.
-    WAIT                =  27,  //!< Wait. TYPE: condition, MOTOR/BANK: -, VALUE: ticks.
-    STOP                =  28,  //!< Stop Script Execution. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    CALCX               =  33,  //!< Arithmetic accumulator <-> X-register. TYPE: type, MOTOR/BANK: -, VALUE: -.
-    AAP                 =  34,  //!< Accumulator to Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -.
-    AGP                 =  35,  //!< Accumulator to Global Parameter. TYPE: parameter, MOTOR/BANK: 0,2,3, VALUE: -.
-    CLE                 =  36,  //!< Clear Error Flag. TYPE: flag, MOTOR/BANK: -, VALUE: -.
-    VECT                =  37,  //!< Define Interrupt Vector. TYPE: interrupt number, MOTOR/BANK: -, VALUE: address.
-    RETI                =  38,  //!< Return from Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    CALCVV              =  40,  //!< UserVar ∘ UserVar arithmetic. TYPE: type, MOTOR/BANK: user variable 1, VALUE: user variable 2.
-    CALCVA              =  41,  //!< UserVar ∘ Accumulator. TYPE: type, MOTOR/BANK: user variable, VALUE: -.
-    CALCAV              =  42,  //!< Accumulator ∘ UserVar. TYPE: type, MOTOR/BANK: user variable, VALUE: -.
-    CALCVX              =  43,  //!< UserVar ∘ X-register. TYPE: type, MOTOR/BANK: user variable, VALUE: -.
-    CALCXV              =  44,  //!< X-register ∘ UserVar. TYPE: type, MOTOR/BANK: user variable, VALUE: -.
-    CALCV               =  45,  //!< UserVar ∘ literal value. TYPE: type, MOTOR/BANK: -, VALUE: value.
-    RST                 =  48,  //!< Restart script from address. TYPE: -, MOTOR/BANK: -, VALUE: address.
-    DJNZ                =  49,  //!< Decrement-and-Jump if not zero. TYPE: user variable, MOTOR/BANK: -, VALUE: address.
-    SIV                 =  55,  //!< Set Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: value.
-    GIV                 =  56,  //!< Get Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    AIV                 =  57,  //!< Accumulator to Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: -.
+#define OP_LIST(X) \
+    X(MST, 3,  /*!< Stop motor movement. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(SAP, 5,  /*!< Set Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: value. */) \
+    X(GAP, 6,  /*!< Get Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -. */) \
+    X(STAP, 7, /*!< Store All Parameters. TYPE: 0xFFF, MOTOR/BANK: 0xF, VALUE: 0xFFFFFFFF. */) \
+    X(SGP, 9,  /*!< Set Global Parameter. TYPE: parameter, MOTOR/BANK: 0,2,3, VALUE: value. */) \
+    X(GGP, 10, /*!< Get Global Parameter. TYPE: parameter, MOTOR/BANK: -, VALUE: -. */) \
+    X(RFS, 13, /*!< Reference Search. TYPE: START|STOP|STATUS, MOTOR/BANK: 0, VALUE: -. */) \
+    X(SIO, 14, /*!< Set IO. TYPE: port number, MOTOR/BANK: 0, VALUE: 0,1. */) \
+    X(GIO, 15, /*!< Get IO. TYPE: port number, MOTOR/BANK: 0 (digital) or 1 (analog), VALUE: -. */) \
+    X(CALC, 19, /*!< Arithmetic operation. TYPE: operation, MOTOR/BANK: -, VALUE: value. */) \
+    X(COMP, 20, /*!< Compare accumulator. TYPE: -, MOTOR/BANK: -, VALUE: value. */) \
+    X(JC, 21,   /*!< Jump Conditional. TYPE: condition, MOTOR/BANK: -, VALUE: address. */) \
+    X(JA, 22,   /*!< Jump Absolute. TYPE: -, MOTOR/BANK: -, VALUE: address. */) \
+    X(CSUB, 23, /*!< Call Subroutine. TYPE: -, MOTOR/BANK: -, VALUE: address. */) \
+    X(RSUB, 24, /*!< Return from Subroutine. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(EI, 25,   /*!< Enable Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: interrupt number. */) \
+    X(DI, 26,   /*!< Disable Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: interrupt number. */) \
+    X(WAIT, 27, /*!< Wait. TYPE: condition, MOTOR/BANK: -, VALUE: ticks. */) \
+    X(STOP, 28, /*!< Stop Script Execution. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(CALCX, 33,/*!< Arithmetic accumulator <-> X-register. TYPE: type, MOTOR/BANK: -, VALUE: -. */) \
+    X(AAP, 34,  /*!< Accumulator to Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -. */) \
+    X(AGP, 35,  /*!< Accumulator to Global Parameter. TYPE: parameter, MOTOR/BANK: 0,2,3, VALUE: -. */) \
+    X(CLE, 36,  /*!< Clear Error Flag. TYPE: flag, MOTOR/BANK: -, VALUE: -. */) \
+    X(VECT, 37, /*!< Define Interrupt Vector. TYPE: interrupt number, MOTOR/BANK: -, VALUE: address. */) \
+    X(RETI, 38, /*!< Return from Interrupt. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(CALCVV, 40,/*!< UserVar ∘ UserVar arithmetic. TYPE: type, MOTOR/BANK: user variable 1, VALUE: user variable 2. */) \
+    X(CALCVA, 41,/*!< UserVar ∘ Accumulator. TYPE: type, MOTOR/BANK: user variable, VALUE: -. */) \
+    X(CALCAV, 42,/*!< Accumulator ∘ UserVar. TYPE: type, MOTOR/BANK: user variable, VALUE: -. */) \
+    X(CALCVX, 43,/*!< UserVar ∘ X-register. TYPE: type, MOTOR/BANK: user variable, VALUE: -. */) \
+    X(CALCXV, 44,/*!< X-register ∘ UserVar. TYPE: type, MOTOR/BANK: user variable, VALUE: -. */) \
+    X(CALCV, 45, /*!< UserVar ∘ literal value. TYPE: type, MOTOR/BANK: -, VALUE: value. */) \
+    X(RST, 48,  /*!< Restart script from address. TYPE: -, MOTOR/BANK: -, VALUE: address. */) \
+    X(DJNZ, 49, /*!< Decrement-and-Jump if not zero. TYPE: user variable, MOTOR/BANK: -, VALUE: address. */) \
+    X(SIV, 55,  /*!< Set Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: value. */) \
+    X(GIV, 56,  /*!< Get Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(AIV, 57,  /*!< Accumulator to Indexed Variable. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(ApplStop, 128, /*!< Stop running TMCL program. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(ApplRun, 129,  /*!< Run/continue TMCL program. TYPE: 0 (current addr) or 1 (specified), MOTOR/BANK: -, VALUE: address. */) \
+    X(ApplStep, 130, /*!< Execute single TMCL instruction. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(ApplReset, 131,/*!< Reset program counter. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(DownloadStart, 132, /*!< Enter download (script upload) mode. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(DownloadEnd, 133,   /*!< Leave download mode. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(ReadMem, 134,       /*!< Read script word at address. TYPE: -, MOTOR/BANK: -, VALUE: address. */) \
+    X(GetStatusScript, 135, /*!< Get script status. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(GetVersion, 136,    /*!< Get firmware version string. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(FactoryDefault, 137,/*!< Erase stored config & reset. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
+    X(Breakpoint, 141,    /*!< Manage breakpoints. TYPE: 0 (add), 1 (del), 2 (del all), 3 (get max), MOTOR/BANK: -, VALUE: address. */) \
+    X(RamDebug, 142,      /*!< RAMDebug Control. TYPE/MOTOR/BANK/VALUE: see Table 16. */) \
+    X(GetInfo, 157,       /*!< Generic info (ID, version, etc.). TYPE: 0 (ID), 1 (Version), MOTOR/BANK: -, VALUE: -. */) \
+    X(Boot, 242,          /*!< Exit to bootloader. TYPE: 0x81, MOTOR/BANK: 0x92, VALUE: 0xA3B4C5D6. */)
 
-    // High-level application control
-    ApplStop            = 128, //!< Stop running TMCL program. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    ApplRun             = 129, //!< Run/continue TMCL program. TYPE: 0 (current addr) or 1 (specified), MOTOR/BANK: -, VALUE: address.
-    ApplStep            = 130, //!< Execute single TMCL instruction. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    ApplReset           = 131, //!< Reset program counter. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    DownloadStart       = 132, //!< Enter download (script upload) mode. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    DownloadEnd         = 133, //!< Leave download mode. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    ReadMem             = 134, //!< Read script word at address. TYPE: -, MOTOR/BANK: -, VALUE: address.
-    GetStatusScript     = 135, //!< Get script status. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    GetVersion          = 136, //!< Get firmware version string. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    FactoryDefault      = 137, //!< Erase stored config & reset. TYPE: -, MOTOR/BANK: -, VALUE: -.
-    Breakpoint          = 141, //!< Manage breakpoints. TYPE: 0 (add), 1 (del), 2 (del all), 3 (get max), MOTOR/BANK: -, VALUE: address.
-    RamDebug            = 142, //!< RAMDebug Control. TYPE/MOTOR/BANK/VALUE: see Table 16.
-    GetInfo             = 157, //!< Generic info (ID, version, etc.). TYPE: 0 (ID), 1 (Version), MOTOR/BANK: -, VALUE: -.
-    Boot                = 242  //!< Exit to bootloader. TYPE: 0x81, MOTOR/BANK: 0x92, VALUE: 0xA3B4C5D6.
+enum class Op : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    OP_LIST(X)
+    #undef X
 };
+
+inline const char* to_string(Op op) {
+    switch(op) {
+        #define X(NAME, VALUE, DOC) case Op::NAME: return #NAME;
+        OP_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef OP_LIST
 
 //--------------------------------------
 //  TMCL reply codes (Table 19)
@@ -179,18 +192,33 @@ enum class Op : std::uint8_t {
  *     9   | REPLY_MAX_EXCEEDED          | Maximum limit exceeded (e.g., too many breakpoints).
  *    10   | REPLY_DOWNLOAD_NOT_POSSIBLE | Download operation not possible (misuse or memory full).
  */
+#define REPLY_CODE_LIST(X) \
+    X(REPLY_OK, 100,                   /*!< Command executed successfully. */) \
+    X(REPLY_CMD_LOADED, 101,           /*!< Command loaded successfully. */) \
+    X(REPLY_CHKERR, 1,                 /*!< Check error occurred (e.g., checksum error). */) \
+    X(REPLY_INVALID_CMD, 2,            /*!< Invalid command received (unknown command number). */) \
+    X(REPLY_WRONG_TYPE, 3,             /*!< Wrong type of data received (TYPE field invalid). */) \
+    X(REPLY_INVALID_VALUE, 4,          /*!< Invalid value received (VALUE field out of range). */) \
+    X(REPLY_CMD_NOT_AVAILABLE, 6,      /*!< Command not available (not supported in this mode). */) \
+    X(REPLY_CMD_LOAD_ERROR, 7,         /*!< Error occurred while loading command (storage error). */) \
+    X(REPLY_MAX_EXCEEDED, 9,           /*!< Maximum limit exceeded (e.g., too many breakpoints). */) \
+    X(REPLY_DOWNLOAD_NOT_POSSIBLE, 10, /*!< Download operation not possible (misuse or memory full). */)
+
 enum class ReplyCode : std::uint8_t {
-    REPLY_OK                       = 100, //!< Command executed successfully.
-    REPLY_CMD_LOADED               = 101, //!< Command loaded successfully.
-    REPLY_CHKERR                   =   1, //!< Check error occurred (e.g., checksum error).
-    REPLY_INVALID_CMD              =   2, //!< Invalid command received (unknown command number).
-    REPLY_WRONG_TYPE               =   3, //!< Wrong type of data received (TYPE field invalid).
-    REPLY_INVALID_VALUE            =   4, //!< Invalid value received (VALUE field out of range).
-    REPLY_CMD_NOT_AVAILABLE        =   6, //!< Command not available (not supported in this mode).
-    REPLY_CMD_LOAD_ERROR           =   7, //!< Error occurred while loading command (storage error).
-    REPLY_MAX_EXCEEDED             =   9, //!< Maximum limit exceeded (e.g., too many breakpoints).
-    REPLY_DOWNLOAD_NOT_POSSIBLE    =  10  //!< Download operation not possible (misuse or memory full).
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    REPLY_CODE_LIST(X)
+    #undef X
 };
+
+inline const char* to_string(ReplyCode rc) {
+    switch(rc) {
+        #define X(NAME, VALUE, DOC) case ReplyCode::NAME: return #NAME;
+        REPLY_CODE_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef REPLY_CODE_LIST
 
 //--------------------------------------
 //  RAMDebug sub‑commands / type codes (Table 16)
@@ -218,22 +246,37 @@ enum class ReplyCode : std::uint8_t {
  *    13   | SET_PRETRIGGER_COUNT| -                                               | Number                                                                | Set total number of pretrigger samples (not per-channel).
  *    14   | GET_PRETRIGGER_COUNT| -                                               | -                                                                     | Get total number of pretrigger samples.
  */
+#define RAMDEBUG_TYPE_LIST(X) \
+    X(INITIALISE_RESET, 0,       /*!< Initialize and reset RAMDebug configuration & buffers. */) \
+    X(SET_SAMPLE_COUNT, 1,       /*!< VALUE: Number of samples to collect in total (not per-channel). */) \
+    X(SET_PRESCALER, 3,          /*!< VALUE: Prescale value. Sets divider for sampling rate (divider = VALUE+1). */) \
+    X(SET_CHANNEL, 4,            /*!< Configure capture channel. TYPE: 0=Disabled, 1=Parameter, 3=Global parameter. MOTOR/BANK: 0xFF000000. VALUE: AP/GP number (0x00000FFF). */) \
+    X(SET_TRIGGER_CHANNEL, 5,    /*!< Specify trigger source. TYPE: 0=Disabled, 1=Parameter, 3=Global parameter. MOTOR/BANK: 0xFF000000. VALUE: AP/GP number (0x00000FFF). */) \
+    X(SET_TRIGGER_MASK_SHIFT, 6, /*!< Specify mask and shift for trigger value. MOTOR/BANK: Shift. VALUE: Mask. */) \
+    X(ENABLE_TRIGGER, 7,         /*!< Start measurement by enabling trigger. TYPE: 0=Unconditional, 1=Rising edge signed, 2=Falling edge signed, 3=Dual edge signed, 4=Rising edge unsigned, 5=Falling edge unsigned, 6=Both edge unsigned. VALUE: Threshold. */) \
+    X(GET_STATE, 8,              /*!< Request state of RAMDebug (see RamDebugState). */) \
+    X(READ_SAMPLE, 9,            /*!< Download sampled values. MOTOR/BANK: Index. */) \
+    X(GET_INFO, 10,              /*!< Read general info. VALUE: 0=Max channels, 1=Buffer size, 2=RAMDebug frequency, 3=Captured sample count, 4=Prescaler value on trigger event. */) \
+    X(GET_CHANNEL_TYPE, 11,      /*!< Read channel type info. MOTOR/BANK: Index. */) \
+    X(GET_CHANNEL_ADDRESS, 12,   /*!< Read channel address. MOTOR/BANK: Index. */) \
+    X(SET_PRETRIGGER_COUNT, 13,  /*!< Set total number of pretrigger samples (not per-channel). VALUE: Number of samples. */) \
+    X(GET_PRETRIGGER_COUNT, 14,  /*!< Get total number of pretrigger samples. */)
+
 enum class RamDebugType : std::uint8_t {
-    INITIALISE_RESET            =  0, //!< Initialize and reset RAMDebug configuration & buffers.
-    SET_SAMPLE_COUNT            =  1, //!< VALUE: Number of samples to collect in total (not per-channel).
-    SET_PRESCALER               =  3, //!< VALUE: Prescale value. Sets divider for sampling rate (divider = VALUE+1).
-    SET_CHANNEL                 =  4, //!< Configure capture channel. TYPE: 0=Disabled, 1=Parameter, 3=Global parameter. MOTOR/BANK: 0xFF000000. VALUE: AP/GP number (0x00000FFF).
-    SET_TRIGGER_CHANNEL         =  5, //!< Specify trigger source. TYPE: 0=Disabled, 1=Parameter, 3=Global parameter. MOTOR/BANK: 0xFF000000. VALUE: AP/GP number (0x00000FFF).
-    SET_TRIGGER_MASK_SHIFT      =  6, //!< Specify mask and shift for trigger value. MOTOR/BANK: Shift. VALUE: Mask.
-    ENABLE_TRIGGER              =  7, //!< Start measurement by enabling trigger. TYPE: 0=Unconditional, 1=Rising edge signed, 2=Falling edge signed, 3=Dual edge signed, 4=Rising edge unsigned, 5=Falling edge unsigned, 6=Both edge unsigned. VALUE: Threshold.
-    GET_STATE                   =  8, //!< Request state of RAMDebug (see RamDebugState).
-    READ_SAMPLE                 =  9, //!< Download sampled values. MOTOR/BANK: Index.
-    GET_INFO                    = 10, //!< Read general info. VALUE: 0=Max channels, 1=Buffer size, 2=RAMDebug frequency, 3=Captured sample count, 4=Prescaler value on trigger event.
-    GET_CHANNEL_TYPE            = 11, //!< Read channel type info. MOTOR/BANK: Index.
-    GET_CHANNEL_ADDRESS         = 12, //!< Read channel address. MOTOR/BANK: Index.
-    SET_PRETRIGGER_COUNT        = 13, //!< Set total number of pretrigger samples (not per-channel). VALUE: Number of samples.
-    GET_PRETRIGGER_COUNT        = 14  //!< Get total number of pretrigger samples.
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    RAMDEBUG_TYPE_LIST(X)
+    #undef X
 };
+
+inline const char* to_string(RamDebugType t) {
+    switch(t) {
+        #define X(NAME, VALUE, DOC) case RamDebugType::NAME: return #NAME;
+        RAMDEBUG_TYPE_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef RAMDEBUG_TYPE_LIST
 
 //--------------------------------------
 //  RAMDebug state machine (Table 17)
@@ -251,13 +294,28 @@ enum class RamDebugType : std::uint8_t {
  *     3   | Complete   | RAMDebug has finished capturing samples. The data can now be downloaded using type code 9.
  *     4   | Pretrigger | RAMDebug is capturing samples for the pretrigger.
  */
+#define RAMDEBUG_STATE_LIST(X) \
+    X(IDLE, 0,       /*!< Idle: RAMDebug is not running and can be configured. Use type code 0 to enter this state. */) \
+    X(TRIGGER, 1,    /*!< Trigger: Waiting for the trigger event. Ensure this state before updating trigger value. */) \
+    X(CAPTURE, 2,    /*!< Capture: RAMDebug has been triggered and is capturing samples. */) \
+    X(COMPLETE, 3,   /*!< Complete: Finished capturing samples. Data can be downloaded using type code 9. */) \
+    X(PRETRIGGER, 4, /*!< Pretrigger: Capturing samples for the pretrigger. */)
+
 enum class RamDebugState : std::uint8_t {
-    IDLE       = 0, //!< Idle: RAMDebug is not running and can be configured. Use type code 0 to enter this state.
-    TRIGGER    = 1, //!< Trigger: Waiting for the trigger event. Ensure this state before updating trigger value.
-    CAPTURE    = 2, //!< Capture: RAMDebug has been triggered and is capturing samples.
-    COMPLETE   = 3, //!< Complete: Finished capturing samples. Data can be downloaded using type code 9.
-    PRETRIGGER = 4  //!< Pretrigger: Capturing samples for the pretrigger.
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    RAMDEBUG_STATE_LIST(X)
+    #undef X
 };
+
+inline const char* to_string(RamDebugState s) {
+    switch(s) {
+        #define X(NAME, VALUE, DOC) case RamDebugState::NAME: return #NAME;
+        RAMDEBUG_STATE_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef RAMDEBUG_STATE_LIST
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
