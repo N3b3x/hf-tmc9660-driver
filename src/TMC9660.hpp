@@ -101,9 +101,9 @@ public:
      */
     TMC9660(TMC9660CommInterface& comm, uint8_t address = 0) noexcept;
 
-    //================================================
-    // -------- Core Parameter Access Methods --------
-    //================================================
+    //***************************************************************************
+    //**               CORE PARAMETER ACCESS METHODS                         **//
+    //***************************************************************************
 
     /**
      * @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
@@ -138,555 +138,832 @@ public:
      */
     [[nodiscard]] bool readGlobalParameter(uint16_t id, uint8_t bank, uint32_t& value) noexcept;
 
-    //==========================================================
-    // -------- Motor Configuration and Control Methods --------
-    //==========================================================
-
+    //***************************************************************************
+    //**                  SUBSYSTEM: Motor Configuration                       **//
+    //***************************************************************************
     /**
-     * @brief Configure the motor type (DC, BLDC, or stepper) and basic motor settings.
-     * 
-     * This sets the MOTOR_TYPE parameter and optionally related parameters like pole pairs for BLDC or microstep settings for steppers.
-     * @param type MotorType (DC, BLDC, STEPPER).
-     * @param polePairs For BLDC motors, number of pole pairs. For stepper or DC, this can be set to 1.
-     * @return true if the motor type was set successfully, false if communication or device error.
+     * @brief Subsystem for configuring motor type and basic settings
      */
-    bool configureMotorType(MotorType type, uint8_t polePairs = 1) noexcept;
+    struct MotorConfig {
+        /**
+         * @brief Configure the motor type (DC, BLDC, or stepper) and basic motor settings.
+         * 
+         * This sets the MOTOR_TYPE parameter and optionally related parameters like pole pairs for BLDC or microstep settings for steppers.
+         * @param type MotorType (DC, BLDC, STEPPER).
+         * @param polePairs For BLDC motors, number of pole pairs. For stepper or DC, this can be set to 1.
+         * @return true if the motor type was set successfully, false if communication or device error.
+         */
+        bool setType(MotorType type, uint8_t polePairs = 1) noexcept;
+        
+        /**
+         * @brief Set the motor direction inversion.
+         * 
+         * This configures the MOTOR_DIRECTION parameter which inverts the meaning of "forward" direction for the motor.
+         * @param direction MotorDirection (FORWARD or REVERSE).
+         * @return true if successfully set.
+         */
+        bool setDirection(MotorDirection direction) noexcept;
+        
+        /**
+         * @brief Set the PWM frequency for the motor driver.
+         * @param frequencyHz PWM frequency in Hertz (allowed range 10kHz to 100kHz).
+         * @return true if set successfully, false if an error occurred.
+         */
+        bool setPWMFrequency(uint32_t frequencyHz) noexcept;
+        
+        /**
+         * @brief Set the PWM switching scheme for the motor driver.
+         * 
+         * This configures how the PWM signals are generated for driving the motor phases.
+         * Different schemes offer varying trade-offs between voltage utilization, switching losses,
+         * and current measurement windows.
+         * 
+         * @param scheme PWM switching scheme:
+         *               0: STANDARD - Standard PWM modulation (86% max voltage for BLDC)
+         *               1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced load on FETs)
+         *               2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for BLDC, extended current measurement window)
+         * @return true if set successfully, false if an error occurred.
+         * 
+         * @note For BLDC motors, SVPWM and Flat Bottom schemes allow full voltage utilization.
+         *       For Stepper/DC motors, only standard and flat bottom modes are available with 100% duty cycle.
+         */
+        bool setPWMSwitchingScheme(uint8_t scheme) noexcept;
+        
+        /**
+         * @brief Configure the commutation mode for the motor.
+         * 
+         * This sets how the motor is driven: e.g., open-loop or closed-loop FOC with various sensor feedback options.
+         * Typically used for BLDC or stepper motors. For DC motors, commutation modes are not applicable except for
+         * sensor feedback in velocity/position control modes.
+         * 
+         * @param mode A CommutationMode value defining the motor control strategy:
+         *             - SYSTEM_OFF: Motor disabled (default state after power-on/reset)
+         *             - FOC_OPENLOOP_VOLTAGE: Constant duty cycle (voltage) control without feedback
+         *             - FOC_OPENLOOP_CURRENT: Constant current control without position feedback
+         *             - FOC_ENCODER: Field-oriented control with ABN encoder feedback
+         *             - FOC_HALL: Field-oriented control with Hall sensor feedback
+         *             - FOC_SPI_ENCODER: Field-oriented control with SPI encoder feedback
+         * 
+         * @return true if the mode was applied successfully.
+         * 
+         * @note When using SYSTEM_OFF, the behavior is controlled by IDLE_MOTOR_PWM_BEHAVIOR parameter.
+         *       For open-loop modes, additional parameters must be set (OPENLOOP_VOLTAGE or OPENLOOP_CURRENT).
+         *       For sensor-based modes, the appropriate sensor must be configured before enabling this mode.
+         */
+        bool setCommutationMode(CommutationMode mode) noexcept;
+
+        /**
+         * @brief Set the maximum allowed motor current (torque limit).
+         * 
+         * This sets the MAX_TORQUE parameter which limits the peak current/torque that the controller will deliver to the motor.
+         * @param milliamps Maximum current in milliamps.
+         * @return true on success, false on error.
+         */
+        bool setMaxCurrent(uint16_t milliamps) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit MotorConfig(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } motorConfig{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Motor Control                            **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for controlling motor motion
+     */
+    struct MotorControl {
+        /**
+         * @brief Stop any motor motion immediately.
+         * 
+         * Sends the "MST" (motor stop) command which should stop any ongoing movement or ramp. This does not disable the motor driver, 
+         * but halts the velocity/position motion.
+         * @return true if the stop command was acknowledged, false if not.
+         */
+        bool stop() noexcept;
+
+        /**
+         * @brief Set a target torque (current) for torque control mode.
+         * 
+         * Writing a target torque will engage the torque control loop (current control) of the TMC9660. The motor will attempt to output 
+         * the requested current (torque) up to the maximum limits.
+         * @param milliamps Desired motor current in mA (positive for forward torque, negative for reverse torque).
+         * @return true if the target was sent successfully.
+         */
+        bool setTargetTorque(int16_t milliamps) noexcept;
+
+        /**
+         * @brief Set a target velocity for velocity control mode.
+         * 
+         * Writing a target velocity engages the velocity control loop. The motor will ramp to and hold the specified velocity if possible.
+         * An appropriate sensor (like Hall or encoder) is required for closed-loop velocity mode on BLDC/stepper. For DC motors, an encoder is needed for velocity feedback.
+         * @param velocity Target velocity value. The unit is in internal ticks (position counts per second) unless scaled via parameters.
+         * @return true if the target velocity was sent successfully.
+         */
+        bool setTargetVelocity(int32_t velocity) noexcept;
+
+        /**
+         * @brief Set a target position for position control mode.
+         * 
+         * Writing a target position engages the position control loop. The motor will move to the specified position using the internal motion controller and ramp generator.
+         * Requires a position sensor (incremental encoder or equivalent) to be configured.
+         * @param position Target position in internal units (ticks).
+         * @return true if the target position was sent successfully.
+         */
+        bool setTargetPosition(int32_t position) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit MotorControl(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } motorControl{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Current Measurement                      **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for configuring ADC-based current measurement
+     */
+    struct CurrentSensing {
+        /**
+         * @brief Configure the ADC shunt type for current measurement.
+         * 
+         * Sets the shunt resistor configuration used for motor current sensing.
+         * 
+         * @param shuntType Shunt configuration:
+         *        0: INLINE_UVW - Inline shunts on all phases
+         *        1: INLINE_VW - Inline shunts on V and W phases only
+         *        2: INLINE_UW - Inline shunts on U and W phases only
+         *        3: INLINE_UV - Inline shunts on U and V phases only
+         *        4: BOTTOM_SHUNTS - Low-side (bottom) shunts configuration
+         * @return true if configuration was successful
+         */
+        bool setShuntType(uint8_t shuntType) noexcept;
+
+        /**
+         * @brief Set the current scaling factor for accurate current measurement.
+         * 
+         * The scaling factor converts ADC readings to real-world current values in milliamps.
+         * Calculated using: Factor = 1024 × 2.5 × 1000 / ((2^16-1) × GCSA × RShunt)
+         * 
+         * @param scalingFactor Scaling factor to convert ADC readings to mA.
+         *        For RMS current: Factor ≈ 27.62 / (GCSA × RShunt)
+         *        For Peak current: Factor ≈ 39.06 / (GCSA × RShunt)
+         * @return true if set successfully
+         */
+        bool setScalingFactor(float scalingFactor) noexcept;
+
+        /**
+         * @brief Configure the ADC mapping and inversion for motor phases.
+         * 
+         * Maps ADC inputs to motor phases and sets inversion flags based on motor type
+         * and current sensing configuration.
+         * 
+         * @param invertADC0 Set true to invert ADC0 readings
+         * @param invertADC1 Set true to invert ADC1 readings
+         * @param invertADC2 Set true to invert ADC2 readings
+         * @param invertADC3 Set true to invert ADC3 readings (if used)
+         * @return true if configuration was successful
+         */
+        bool configureADCInversion(bool invertADC0, bool invertADC1, bool invertADC2, bool invertADC3 = false) noexcept;
+
+        /**
+         * @brief Configure the current sense amplifier (CSA) gain.
+         * 
+         * Sets the gain for the internal current sense amplifiers.
+         * 
+         * @param gainADC0_1 Gain setting for ADC I0 and I1 channels (0-31)
+         * @param gainADC2_3 Gain setting for ADC I2 and I3 channels (0-31)
+         * @return true if gains were set successfully
+         */
+        bool setCSAGain(uint8_t gainADC0_1, uint8_t gainADC2_3) noexcept;
+
+        /**
+         * @brief Calibrate the ADC offsets for current measurement.
+         * 
+         * Initiates a calibration sequence for the ADCs. This should be done:
+         * 1. With the motor stationary
+         * 2. With the commutation mode set to off
+         * 
+         * @param waitForCompletion If true, wait until calibration is completed
+         * @param timeoutMs Timeout in milliseconds if waiting for completion
+         * @return true if calibration was started (and completed if waitForCompletion is true)
+         */
+        bool calibrateOffsets(bool waitForCompletion = false, uint32_t timeoutMs = 1000) noexcept;
+
+        /**
+         * @brief Check if ADC offset calibration has been completed.
+         * 
+         * @param[out] isCalibrated Set to true if calibration is complete
+         * @return true if the status was read successfully
+         */
+        bool getCalibrationStatus(bool& isCalibrated) noexcept;
+
+        /**
+         * @brief Set individual ADC scaling factors to account for shunt resistor tolerances.
+         * 
+         * @param scaleADC0 Scaling factor for ADC I0 (default: 1.0)
+         * @param scaleADC1 Scaling factor for ADC I1 (default: 1.0)
+         * @param scaleADC2 Scaling factor for ADC I2 (default: 1.0)
+         * @param scaleADC3 Scaling factor for ADC I3 (default: 1.0)
+         * @return true if scales were set successfully
+         */
+        bool setADCScalingFactors(float scaleADC0 = 1.0f, float scaleADC1 = 1.0f, 
+                                  float scaleADC2 = 1.0f, float scaleADC3 = 1.0f) noexcept;
+
+        /**
+         * @brief Read the raw ADC values for current measurement.
+         * 
+         * @param[out] adc0 Raw value from ADC I0
+         * @param[out] adc1 Raw value from ADC I1
+         * @param[out] adc2 Raw value from ADC I2
+         * @param[out] adc3 Raw value from ADC I3
+         * @return true if all values were read successfully
+         */
+        bool readRawValues(int16_t& adc0, int16_t& adc1, int16_t& adc2, int16_t& adc3) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit CurrentSensing(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } currentSensing{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: FOC Control                              **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for Field-Oriented Control tuning
+     */
+    struct FOCControl {
+        /**
+         * @brief Set the tuning parameters for the current (torque/flux) PI controller.
+         * @param p Gain P for current (torque) controller.
+         * @param i Gain I for current (torque) controller.
+         * @param separateFlux If true, assume separate flux PI controller and set its gains similarly (requires chip support).
+         * @param fluxP (Optional) P gain for flux controller, if separateFlux is true.
+         * @param fluxI (Optional) I gain for flux controller, if separateFlux is true.
+         * @return true if the parameters were set successfully.
+         */
+        bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separateFlux = false, uint16_t fluxP = 0, uint16_t fluxI = 0) noexcept;
+        
+        /**
+         * @brief Set the tuning parameters for the velocity PI controller.
+         * @param p Gain P for velocity controller.
+         * @param i Gain I for velocity controller.
+         * @return true if the parameters were set successfully.
+         */
+        bool setVelocityLoopGains(uint16_t p, uint16_t i) noexcept;
+        
+        /**
+         * @brief Set the tuning parameters for the position control loop (P controller).
+         * @param p Gain P for position controller.
+         * @return true if successfully set.
+         */
+        bool setPositionGain(uint16_t p) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit FOCControl(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } focControl{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Gate Driver                              **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for configuring the MOSFET gate driver
+     */
+    struct GateDriver {
+        /**
+         * @brief Configure the gate driver output currents and timing (drive strength and dead time).
+         * 
+         * This function adjusts the gate driver for external MOSFETs. It sets the sink/source current limits and the deadtime (break-before-make).
+         * @param sinkLevel Drive sink current level (0-15 corresponding to ~50mA up to 2000mA).
+         * @param sourceLevel Drive source current level (0-15 corresponding to ~25mA up to 1000mA).
+         * @param deadTimeNs Dead-time in nanoseconds (approximately). The value will be quantized to the nearest supported step (8.33ns units).
+         * @return true if the configuration commands were sent successfully.
+         */
+        bool configure(uint8_t sinkLevel, uint8_t sourceLevel, uint16_t deadTimeNs) noexcept;
+        
+        /**
+         * @brief Set the gate driver output polarity.
+         * 
+         * By default, the PWM_L and PWM_H outputs are active-high. This function can invert those outputs if needed by external gate circuits.
+         * @param lowActive True to invert the low-side gate outputs (active low), false for active high.
+         * @param highActive True to invert the high-side gate outputs, false for active high.
+         * @return true if the polarity was set successfully.
+         */
+        bool setOutputPolarity(bool lowActive, bool highActive) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit GateDriver(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } gateDriver{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Sensors                                  **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for feedback sensor configuration
+     */
+    struct FeedbackSense {
+        /**
+         * @brief Configure digital Hall sensors for BLDC commutation.
+         * 
+         * This enables Hall sensor inputs as the feedback for commutation. Typically used with CommutationMode::FOC_HALL.
+         * @param sectorOffset Hall sensor 60-degree/sector offset (0-5):
+         *                     0: 0°, 1: 60°, 2: 120°, 3: 180°, 4: 240°, 5: 300°
+         *                     This combines both the 120° order offset and 180° polarity offset.
+         * @param inverted If true, invert the interpretation of hall sensor signals.
+         * @param enableExtrapolation If true, enable hall extrapolation for higher resolution position signal.
+         * @param filterLength Digital filter length (0-255) for hall sensor inputs.
+         * @return true if Hall sensor feedback is configured successfully.
+         */
+        bool configureHall(uint8_t sectorOffset = 0, bool inverted = false, 
+                           bool enableExtrapolation = false, uint8_t filterLength = 0) noexcept;
+
+        /**
+         * @brief Set Hall sensor position offsets for improved accuracy.
+         * 
+         * Compensates for Hall sensor mounting tolerances by setting precise electrical angle offsets.
+         * 
+         * @param offset0 Offset for 0° Hall position (-32768 to 32767)
+         * @param offset60 Offset for 60° Hall position (-32768 to 32767)
+         * @param offset120 Offset for 120° Hall position (-32768 to 32767)
+         * @param offset180 Offset for 180° Hall position (-32768 to 32767)
+         * @param offset240 Offset for 240° Hall position (-32768 to 32767)
+         * @param offset300 Offset for 300° Hall position (-32768 to 32767)
+         * @param globalOffset Additional global offset applied to all positions (-32768 to 32767)
+         * @return true if Hall position offsets were set successfully.
+         */
+        bool setHallPositionOffsets(int16_t offset0 = 0, int16_t offset60 = 10922, int16_t offset120 = 21845,
+                                   int16_t offset180 = -32768, int16_t offset240 = -21846, int16_t offset300 = -10923,
+                                   int16_t globalOffset = 0) noexcept;
+
+        /**
+         * @brief Configure an ABN incremental encoder for feedback.
+         * 
+         * Sets up an incremental quadrature encoder with optional index (N) channel for position and velocity feedback.
+         * @param countsPerRev Encoder resolution (counts per revolution, 0-16777215).
+         * @param inverted If true, invert the encoder direction.
+         * @param nChannelInverted If true, invert the N-channel signal (active low instead of active high).
+         * @return true if encoder parameters were set successfully.
+         */
+        bool configureABNEncoder(uint32_t countsPerRev, bool inverted = false, bool nChannelInverted = false) noexcept;
+
+        /**
+         * @brief Configure ABN encoder initialization method.
+         * 
+         * Sets the method used to align the ABN encoder with the rotor's absolute position.
+         * 
+         * @param initMethod Initialization method:
+         *                   0: FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING - Forces rotor to phi_e zero with active swing
+         *                   1: FORCED_PHI_E_90_ZERO - Forces rotor to 90° then 0° positions
+         *                   2: USE_HALL - Uses Hall sensor transitions to align encoder
+         *                   3: USE_N_CHANNEL_OFFSET - Uses N-channel with offset to align encoder
+         * @param initDelay Delay in milliseconds to wait for mechanical oscillations to stop (1000-10000)
+         * @param initVelocity Velocity used during N-channel initialization (-200000 to 200000)
+         * @param nChannelOffset Offset between phi_e zero and encoder index pulse position (-32768 to 32767)
+         * @return true if ABN initialization parameters were set successfully.
+         */
+        bool configureABNInitialization(uint8_t initMethod = 0, uint16_t initDelay = 1000,
+                                       int32_t initVelocity = 5, int16_t nChannelOffset = 0) noexcept;
+
+        /**
+         * @brief Configure N-channel filtering for ABN encoder.
+         * 
+         * Sets up filtering for the N-channel (index pulse) to handle imprecise encoders.
+         * 
+         * @param filterMode N-channel filtering mode:
+         *                   0: FILTERING_OFF - No filtering
+         *                   1: N_EVENT_ON_A_HIGH_B_HIGH - N event only when A and B are high
+         *                   2: N_EVENT_ON_A_HIGH_B_LOW - N event only when A is high and B is low
+         *                   3: N_EVENT_ON_A_LOW_B_HIGH - N event only when A is low and B is high
+         *                   4: N_EVENT_ON_A_LOW_B_LOW - N event only when A and B are low
+         * @param clearOnNextNull If true, clear position counter on next N-channel event.
+         * @return true if N-channel settings were applied successfully.
+         */
+        bool configureABNNChannel(uint8_t filterMode = 0, bool clearOnNextNull = false) noexcept;
+
+        /**
+         * @brief Configure a SPI-based encoder for feedback.
+         * 
+         * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for position feedback.
+         * 
+         * @param cmdSize Size of SPI transfer frame (1-16 bytes).
+         * @param csSettleTimeNs CS settle time in nanoseconds (0-6375).
+         * @param csIdleTimeUs CS idle time between frames in microseconds (0-102).
+         * @return true if configured successfully.
+         */
+        bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0, uint8_t csIdleTimeUs = 0) noexcept;
+
+        /**
+         * @brief Configure SPI encoder data format and processing.
+         * 
+         * Sets up how the position data is extracted from the SPI encoder response.
+         * 
+         * @param positionMask Bit mask to extract position from SPI response.
+         * @param positionShift Right shift value to apply to position counter.
+         * @param invertDirection If true, invert the direction of the SPI encoder.
+         * @return true if configuration was successful.
+         */
+        bool configureSPIEncoderDataFormat(uint32_t positionMask, uint8_t positionShift = 0, bool invertDirection = false) noexcept;
+
+        /**
+         * @brief Set up SPI encoder request data for continuous transfer mode.
+         * 
+         * Sets the data to be sent to the SPI encoder during position acquisition.
+         * 
+         * @param requestData Array of data bytes to send to the encoder.
+         * @param size Size of the request data (1-16 bytes).
+         * @return true if transfer data was set successfully.
+         */
+        bool setSPIEncoderRequestData(const uint8_t* requestData, uint8_t size) noexcept;
+
+        /**
+         * @brief Configure SPI encoder initialization method.
+         * 
+         * Sets how the SPI encoder is initialized for commutation.
+         * 
+         * @param initMethod Initialization method (0-3, similar to ABN initialization methods).
+         * @param offset Manual offset value if using offset-based initialization.
+         * @return true if initialization method was set successfully.
+         */
+        bool configureSPIEncoderInitialization(uint8_t initMethod, int16_t offset = 0) noexcept;
+
+        /**
+         * @brief Enable or disable SPI encoder lookup table correction.
+         * 
+         * Enables the lookup table-based correction for encoder nonlinearity.
+         * 
+         * @param enable If true, enable LUT correction.
+         * @param shiftFactor Common shift factor for all LUT entries.
+         * @return true if LUT settings were applied successfully.
+         */
+        bool setSPIEncoderLUTCorrection(bool enable, int8_t shiftFactor = 0) noexcept;
+
+        /**
+         * @brief Upload a single entry to the SPI encoder correction lookup table.
+         * 
+         * @param index Index in the LUT (0-255).
+         * @param value Correction value (-128 to 127).
+         * @return true if the entry was uploaded successfully.
+         */
+        bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Sensors(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } FeedbackSense{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Protection                               **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for motor protection features
+     */
+    struct Protection {
+        /**
+         * @brief Configure overvoltage and undervoltage protection thresholds.
+         * @param overVoltThreshold Over-voltage warning threshold in units of 0.1V.
+         * @param underVoltThreshold Under-voltage warning threshold in units of 0.1V.
+         * @return true if thresholds were set successfully.
+         */
+        bool configureVoltage(uint16_t overVoltThreshold, uint16_t underVoltThreshold) noexcept;
+
+        /**
+         * @brief Configure over-temperature protection thresholds.
+         * 
+         * The TMC9660 has an internal temperature sensor and supports an external analog temperature sensor.
+         * This function sets warning and shutdown thresholds for the internal sensor.
+         * @param warningDegC Warning threshold in °C for chip temperature.
+         * @param shutdownDegC Shutdown (fault) threshold in °C for chip temperature.
+         * @return true if set successfully.
+         */
+        bool configureTemperature(float warningDegC, float shutdownDegC) noexcept;
+
+        /**
+         * @brief Enable or disable overcurrent protection on the driver outputs.
+         * 
+         * This controls the internal gate driver overcurrent detection (e.g., comparators) for various FETs.
+         * @param enabled True to enable overcurrent protection (shut down drivers on overcurrent), false to disable.
+         * @return true if command was sent successfully.
+         */
+        bool setOvercurrentEnabled(bool enabled) noexcept;
+
+        /**
+         * @brief Configure the two I²t monitoring windows for motor current.
+         * @param timeConstant1_ms Time constant for first window in milliseconds.
+         * @param continuousCurrent1_A Continuous current limit for first window in amps.
+         * @param timeConstant2_ms Time constant for second window in milliseconds.
+         * @param continuousCurrent2_A Continuous current limit for second window in amps.
+         * @return true if configuration was successful.
+         */
+        bool configureI2t(uint16_t timeConstant1_ms, float continuousCurrent1_A,
+                          uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
+        
+        /**
+         * @brief Reset the integrated I²t sum accumulators.
+         * @return true if reset was successful.
+         */
+        bool resetI2tState() noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Protection(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } protection{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Script                                   **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for TMCL script execution control
+     */
+    struct Script {
+        /**
+         * @brief Upload a TMCL script to the TMC9660's internal memory.
+         * 
+         * This enters download mode, writes a series of instructions to the device memory, and exits download mode.
+         * The script will typically run on device startup or when triggered.
+         * @param scriptData Vector of 32-bit instructions representing the TMCL script.
+         * @return true if the script was uploaded successfully.
+         */
+        bool upload(const std::vector<uint32_t>& scriptData) noexcept;
+
+        /**
+         * @brief Start or restart execution of the stored script.
+         * @param address The address from which to start execution (usually 0 for beginning of script).
+         * @return true if the command to start the script was sent.
+         */
+        bool start(uint16_t address = 0) noexcept;
+        
+        /**
+         * @brief Stop execution of the running script.
+         * @return true if the stop command was sent successfully.
+         */
+        bool stop() noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Script(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } script{*this};
+
+    //***************************************************************************
+    //**                  SUBSYSTEM: Debug                                    **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for debug and data logging features
+     */
+    struct Debug {
+        /**
+         * @brief Initialize and configure the RAMDebug feature (data logging).
+         * 
+         * This sends a command to initialize the RAM debug system and reset any previous configurations.
+         * @param sampleCount Number of samples to collect in the buffer.
+         * @return true if the RAM debug was initialized properly.
+         */
+        bool initRAMDebug(uint32_t sampleCount) noexcept;
+
+        /**
+         * @brief Start capturing data using RAMDebug.
+         * @return true if the capture started successfully.
+         */
+        bool startRAMDebugCapture() noexcept;
+
+        /**
+         * @brief Read a captured sample from RAMDebug buffer.
+         * @param index Sample index to read (0-based).
+         * @param[out] data Variable to store the 32-bit sample data.
+         * @return true if the data was read successfully.
+         */
+        bool readRAMDebugData(uint32_t index, uint32_t& data) noexcept;
+
+        /**
+         * @brief Get the current state of the RAM debug engine.
+         * @param[out] isRunning Will be set to true if capture is ongoing, false if stopped or idle.
+         * @return true if the status was retrieved successfully.
+         */
+        bool getRAMDebugStatus(bool& isRunning) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Debug(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } debug{*this};
     
+    //***************************************************************************
+    //**                  SUBSYSTEM: Telemetry & Status                        **//
+    //***************************************************************************
     /**
-     * @brief Set the motor direction inversion.
-     * 
-     * This configures the MOTOR_DIRECTION parameter which inverts the meaning of "forward" direction for the motor.
-     * @param direction MotorDirection (FORWARD or REVERSE).
-     * @return true if successfully set.
+     * @brief Subsystem for reading various telemetry and status information from the driver.
      */
-    bool setMotorDirection(MotorDirection direction) noexcept;
-    
+    struct Telemetry {
+        /**
+         * @brief Read the internal chip temperature.
+         * @return Chip temperature in degrees Celsius.
+         * 
+         * If reading the temperature fails, this returns a negative value (e.g. -273) to indicate an error.
+         * The temperature is computed from the raw sensor reading using the formula: T(°C) = value * 0.01615 - 268.15.
+         */
+        float getChipTemperature() noexcept;
+
+        /**
+         * @brief Read the current motor current (torque current).
+         * @return Motor current in milliamps (mA). Returns 0 if unable to read.
+         */
+        int16_t getMotorCurrent() noexcept;
+
+        /**
+         * @brief Read the current supply (bus) voltage.
+         * @return Supply voltage in volts. Returns a negative value if unable to read.
+         */
+        float getSupplyVoltage() noexcept;
+
+        /**
+         * @brief Read the measured actual velocity of the motor.
+         * @return The actual velocity in internal units (typically encoder counts per second). Returns 0 if not available.
+         */
+        int32_t getActualVelocity() noexcept;
+
+        /**
+         * @brief Read the measured actual position of the motor.
+         * @return The actual position in internal units (encoder counts). Returns 0 if not available.
+         */
+        int32_t getActualPosition() noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Telemetry(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } telemetry{*this};
+
+    //***************************************************************************
+    //**                      SUBSYSTEM: Brake Chopper                         **//
+    //***************************************************************************
     /**
-     * @brief Set the PWM frequency for the motor driver.
-     * @param frequencyHz PWM frequency in Hertz (allowed range 10kHz to 100kHz).
-     * @return true if set successfully, false if an error occurred.
+     * @brief Subsystem controlling the brake chopper and mechanical brake features.
      */
-    bool setPWMFrequency(uint32_t frequencyHz) noexcept;
-    
+    struct Brake {
+        /**
+         * @brief Enable or disable the brake chopper functionality.
+         * @param enable True to enable the brake chopper, false to disable it.
+         * @return True if the command was sent and acknowledged.
+         */
+        bool enableChopper(bool enable) noexcept;
+
+        /**
+         * @brief Set the overvoltage threshold for the brake chopper.
+         * @param voltage Threshold voltage in volts (5.0 to 100.0 V).
+         * @return True if the parameter was written successfully.
+         */
+        bool setVoltageLimit(float voltage) noexcept;
+
+        /**
+         * @brief Set the hysteresis for the brake chopper threshold.
+         * @param voltage Hysteresis in volts (0.0 to 5.0 V).
+         * @return True if the parameter was written successfully.
+         */
+        bool setHysteresis(float voltage) noexcept;
+
+        /**
+         * @brief Trigger a release of the mechanical brake.
+         * @return True if the command was sent successfully.
+         */
+        bool release() noexcept;
+
+        /**
+         * @brief Engage (lock) the mechanical brake.
+         * @return True if the command was sent successfully.
+         */
+        bool engage() noexcept;
+
+        /**
+         * @brief Set the PWM duty cycle for releasing the brake.
+         * @param percent Duty cycle (0 to 99%).
+         * @return True if the parameter was written successfully.
+         */
+        bool setReleasingDutyCycle(uint8_t percent) noexcept;
+
+        /**
+         * @brief Set the PWM duty cycle for holding the brake released.
+         * @param percent Duty cycle (0 to 99%).
+         * @return True if the parameter was written successfully.
+         */
+        bool setHoldingDutyCycle(uint8_t percent) noexcept;
+
+        /**
+         * @brief Set the duration of the brake release initial phase.
+         * @param milliseconds Duration in ms (0 to 65535).
+         * @return True if the parameter was written successfully.
+         */
+        bool setReleasingDuration(uint16_t milliseconds) noexcept;
+
+        /**
+         * @brief Invert or normalize the brake output signal polarity.
+         * @param invert True to invert the brake output, false for normal.
+         * @return True if the parameter was written successfully.
+         */
+        bool invertOutput(bool invert) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Brake(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } brake{*this};
+
+    //***************************************************************************
+    //**                   SUBSYSTEM: I²t Overload Protection                  **//
+    //***************************************************************************
     /**
-     * @brief Set the PWM switching scheme for the motor driver.
-     * 
-     * This configures how the PWM signals are generated for driving the motor phases.
-     * Different schemes offer varying trade-offs between voltage utilization, switching losses,
-     * and current measurement windows.
-     * 
-     * @param scheme PWM switching scheme:
-     *               0: STANDARD - Standard PWM modulation (86% max voltage for BLDC)
-     *               1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced load on FETs)
-     *               2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for BLDC, extended current measurement window)
-     * @return true if set successfully, false if an error occurred.
-     * 
-     * @note For BLDC motors, SVPWM and Flat Bottom schemes allow full voltage utilization.
-     *       For Stepper/DC motors, only standard and flat bottom modes are available with 100% duty cycle.
+     * @brief Subsystem for motor overload (I²t) protection configuration.
      */
-    bool setPWMSwitchingScheme(uint8_t scheme) noexcept;
+    struct IIT {
+        /**
+         * @brief Configure the two I²t monitoring windows for motor current.
+         */
+        bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
+                       uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
+        /**
+         * @brief Reset the integrated I²t sum accumulators.
+         */
+        bool resetIntegralState() noexcept;
+    private:
+        friend class TMC9660;
+        explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } iit{*this};
+
+    //***************************************************************************
+    //**              SUBSYSTEM: Step/Dir Input Extrapolation                  **//
+    //***************************************************************************
     /**
-     * @brief Configure the commutation mode for the motor.
-     * 
-     * This sets how the motor is driven: e.g., open-loop or closed-loop FOC with various sensor feedback options.
-     * Typically used for BLDC or stepper motors. For DC motors, commutation modes are not applicable except for
-     * sensor feedback in velocity/position control modes.
-     * 
-     * @param mode A CommutationMode value defining the motor control strategy:
-     *             - SYSTEM_OFF: Motor disabled (default state after power-on/reset)
-     *             - FOC_OPENLOOP_VOLTAGE: Constant duty cycle (voltage) control without feedback
-     *             - FOC_OPENLOOP_CURRENT: Constant current control without position feedback
-     *             - FOC_ENCODER: Field-oriented control with ABN encoder feedback
-     *             - FOC_HALL: Field-oriented control with Hall sensor feedback
-     *             - FOC_SPI_ENCODER: Field-oriented control with SPI encoder feedback
-     * 
-     * @return true if the mode was applied successfully.
-     * 
-     * @note When using SYSTEM_OFF, the behavior is controlled by IDLE_MOTOR_PWM_BEHAVIOR parameter.
-     *       For open-loop modes, additional parameters must be set (OPENLOOP_VOLTAGE or OPENLOOP_CURRENT).
-     *       For sensor-based modes, the appropriate sensor must be configured before enabling this mode.
+     * @brief Subsystem for Step/Dir input interface configuration.
      */
-    bool setCommutationMode(CommutationMode mode) noexcept;
+    struct StepDir {
+        bool enableExtrapolation(bool enable) noexcept;
+        bool setSignalTimeout(uint16_t timeout_ms) noexcept;
+        bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
+    private:
+        friend class TMC9660;
+        explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } stepDir{*this};
 
+    //***************************************************************************
+    //**                SUBSYSTEM: Heartbeat (Watchdog)                        **//
+    //***************************************************************************
     /**
-     * @brief Set the maximum allowed motor current (torque limit).
-     * 
-     * This sets the MAX_TORQUE parameter which limits the peak current/torque that the controller will deliver to the motor.
-     * @param milliamps Maximum current in milliamps.
-     * @return true on success, false on error.
+     * @brief Subsystem for the communication heartbeat monitor (watchdog).
      */
-    bool setMaxCurrent(uint16_t milliamps) noexcept;
+    struct Heartbeat {
+        bool configure(HeartbeatMode mode, uint32_t timeout_ms) noexcept;
+    private:
+        friend class TMC9660;
+        explicit Heartbeat(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } heartbeat{*this};
 
-    /**
-     * @brief Stop any motor motion immediately.
-     * 
-     * Sends the "MST" (motor stop) command which should stop any ongoing movement or ramp. This does not disable the motor driver, 
-     * but halts the velocity/position motion.
-     * @return true if the stop command was acknowledged, false if not.
-     */
-    bool stopMotor() noexcept;
+    //***************************************************************************
+    //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O)           **//
+    //***************************************************************************
+    struct GPIO {
+        bool setMode(uint8_t pin, bool output, bool enablePull = false, bool pullUp = true) noexcept;
+        bool writePin(uint8_t pin, bool value) noexcept;
+        bool readDigitalPin(uint8_t pin, bool &value) noexcept;
+        bool readAnalogPin(uint8_t pin, uint16_t &value) noexcept;
+    private:
+        friend class TMC9660;
+        explicit GPIO(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } gpio{*this};
 
-    /**
-     * @brief Set a target torque (current) for torque control mode.
-     * 
-     * Writing a target torque will engage the torque control loop (current control) of the TMC9660. The motor will attempt to output 
-     * the requested current (torque) up to the maximum limits.
-     * @param milliamps Desired motor current in mA (positive for forward torque, negative for reverse torque).
-     * @return true if the target was sent successfully.
-     */
-    bool setTargetTorque(int16_t milliamps) noexcept;
+    //***************************************************************************
+    //**                  SUBSYSTEM: Power Management                          **//
+    //***************************************************************************
+    struct Power {
+        bool enableWakePin(bool enable) noexcept;
+        bool enterPowerDown(PowerDownPeriod period) noexcept;
+    private:
+        friend class TMC9660;
+        explicit Power(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } power{*this};
 
-    /**
-     * @brief Set a target velocity for velocity control mode.
-     * 
-     * Writing a target velocity engages the velocity control loop. The motor will ramp to and hold the specified velocity if possible.
-     * An appropriate sensor (like Hall or encoder) is required for closed-loop velocity mode on BLDC/stepper. For DC motors, an encoder is needed for velocity feedback.
-     * @param velocity Target velocity value. The unit is in internal ticks (position counts per second) unless scaled via parameters.
-     * @return true if the target velocity was sent successfully.
-     */
-    bool setTargetVelocity(int32_t velocity) noexcept;
-
-    /**
-     * @brief Set a target position for position control mode.
-     * 
-     * Writing a target position engages the position control loop. The motor will move to the specified position using the internal motion controller and ramp generator.
-     * Requires a position sensor (incremental encoder or equivalent) to be configured.
-     * @param position Target position in internal units (ticks).
-     * @return true if the target position was sent successfully.
-     */
-    bool setTargetPosition(int32_t position) noexcept;
-
-    //==================================================
-    // -------- ADC Setup for Current Measurement ------
-    //==================================================
-
-    /**
-     * @brief Configure the ADC shunt type for current measurement.
-     * 
-     * Sets the shunt resistor configuration used for motor current sensing.
-     * 
-     * @param shuntType Shunt configuration:
-     *        0: INLINE_UVW - Inline shunts on all phases
-     *        1: INLINE_VW - Inline shunts on V and W phases only
-     *        2: INLINE_UW - Inline shunts on U and W phases only
-     *        3: INLINE_UV - Inline shunts on U and V phases only
-     *        4: BOTTOM_SHUNTS - Low-side (bottom) shunts configuration
-     * @return true if configuration was successful
-     */
-    bool configureADCShuntType(uint8_t shuntType) noexcept;
-
-    /**
-     * @brief Set the current scaling factor for accurate current measurement.
-     * 
-     * The scaling factor converts ADC readings to real-world current values in milliamps.
-     * Calculated using: Factor = 1024 × 2.5 × 1000 / ((2^16-1) × GCSA × RShunt)
-     * 
-     * @param scalingFactor Scaling factor to convert ADC readings to mA.
-     *        For RMS current: Factor ≈ 27.62 / (GCSA × RShunt)
-     *        For Peak current: Factor ≈ 39.06 / (GCSA × RShunt)
-     * @return true if set successfully
-     */
-    bool setCurrentScalingFactor(float scalingFactor) noexcept;
-
-    /**
-     * @brief Configure the ADC mapping and inversion for motor phases.
-     * 
-     * Maps ADC inputs to motor phases and sets inversion flags based on motor type
-     * and current sensing configuration.
-     * 
-     * @param invertADC0 Set true to invert ADC0 readings
-     * @param invertADC1 Set true to invert ADC1 readings
-     * @param invertADC2 Set true to invert ADC2 readings
-     * @param invertADC3 Set true to invert ADC3 readings (if used)
-     * @return true if configuration was successful
-     */
-    bool configureADCInversion(bool invertADC0, bool invertADC1, bool invertADC2, bool invertADC3 = false) noexcept;
-
-    /**
-     * @brief Configure the current sense amplifier (CSA) gain.
-     * 
-     * Sets the gain for the internal current sense amplifiers.
-     * 
-     * @param gainADC0_1 Gain setting for ADC I0 and I1 channels (0-31)
-     * @param gainADC2_3 Gain setting for ADC I2 and I3 channels (0-31)
-     * @return true if gains were set successfully
-     */
-    bool configureCSAGain(uint8_t gainADC0_1, uint8_t gainADC2_3) noexcept;
-
-    /**
-     * @brief Calibrate the ADC offsets for current measurement.
-     * 
-     * Initiates a calibration sequence for the ADCs. This should be done:
-     * 1. With the motor stationary
-     * 2. With the commutation mode set to off
-     * 
-     * @param waitForCompletion If true, wait until calibration is completed
-     * @param timeoutMs Timeout in milliseconds if waiting for completion
-     * @return true if calibration was started (and completed if waitForCompletion is true)
-     */
-    bool calibrateADCOffsets(bool waitForCompletion = false, uint32_t timeoutMs = 1000) noexcept;
-
-    /**
-     * @brief Check if ADC offset calibration has been completed.
-     * 
-     * @param[out] isCalibrated Set to true if calibration is complete
-     * @return true if the status was read successfully
-     */
-    bool getADCCalibrationStatus(bool& isCalibrated) noexcept;
-
-    /**
-     * @brief Set individual ADC scaling factors to account for shunt resistor tolerances.
-     * 
-     * @param scaleADC0 Scaling factor for ADC I0 (default: 1.0)
-     * @param scaleADC1 Scaling factor for ADC I1 (default: 1.0)
-     * @param scaleADC2 Scaling factor for ADC I2 (default: 1.0)
-     * @param scaleADC3 Scaling factor for ADC I3 (default: 1.0)
-     * @return true if scales were set successfully
-     */
-    bool setADCScalingFactors(float scaleADC0 = 1.0f, float scaleADC1 = 1.0f, 
-                              float scaleADC2 = 1.0f, float scaleADC3 = 1.0f) noexcept;
-
-    /**
-     * @brief Read the raw ADC values for current measurement.
-     * 
-     * @param[out] adc0 Raw value from ADC I0
-     * @param[out] adc1 Raw value from ADC I1
-     * @param[out] adc2 Raw value from ADC I2
-     * @param[out] adc3 Raw value from ADC I3
-     * @return true if all values were read successfully
-     */
-    bool readRawADCValues(int16_t& adc0, int16_t& adc1, int16_t& adc2, int16_t& adc3) noexcept;
-
-    //==================================================
-    // -------- FOC Tuning and Controller Gains --------
-    //==================================================
-
-    /**
-     * @brief Set the tuning parameters for the current (torque/flux) PI controller.
-     * @param p Gain P for current (torque) controller.
-     * @param i Gain I for current (torque) controller.
-     * @param separateFlux If true, assume separate flux PI controller and set its gains similarly (requires chip support).
-     * @param fluxP (Optional) P gain for flux controller, if separateFlux is true.
-     * @param fluxI (Optional) I gain for flux controller, if separateFlux is true.
-     * @return true if the parameters were set successfully.
-     */
-    bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separateFlux = false, uint16_t fluxP = 0, uint16_t fluxI = 0) noexcept;
-    /**
-     * @brief Set the tuning parameters for the velocity PI controller.
-     * @param p Gain P for velocity controller.
-     * @param i Gain I for velocity controller.
-     * @return true if the parameters were set successfully.
-     */
-    bool setVelocityLoopGains(uint16_t p, uint16_t i) noexcept;
-    /**
-     * @brief Set the tuning parameters for the position control loop (P controller).
-     * @param p Gain P for position controller.
-     * @return true if successfully set.
-     */
-    bool setPositionGain(uint16_t p) noexcept;
-
-    //==================================================
-    // -------- Gate Driver Settings --------
-    //==================================================
-
-    /**
-     * @brief Configure the gate driver output currents and timing (drive strength and dead time).
-     * 
-     * This function adjusts the gate driver for external MOSFETs. It sets the sink/source current limits and the deadtime (break-before-make).
-     * @param sinkLevel Drive sink current level (0-15 corresponding to ~50mA up to 2000mA).
-     * @param sourceLevel Drive source current level (0-15 corresponding to ~25mA up to 1000mA).
-     * @param deadTimeNs Dead-time in nanoseconds (approximately). The value will be quantized to the nearest supported step (8.33ns units).
-     * @return true if the configuration commands were sent successfully.
-     */
-    bool configureGateDriver(uint8_t sinkLevel, uint8_t sourceLevel, uint16_t deadTimeNs) noexcept;
-    /**
-     * @brief Set the gate driver output polarity.
-     * 
-     * By default, the PWM_L and PWM_H outputs are active-high. This function can invert those outputs if needed by external gate circuits.
-     * @param lowActive True to invert the low-side gate outputs (active low), false for active high.
-     * @param highActive True to invert the high-side gate outputs, false for active high.
-     * @return true if the polarity was set successfully.
-     */
-    bool setGateOutputPolarity(bool lowActive, bool highActive) noexcept;
-
-    //==================================================
-    // -------- Feedback Sensors Configuration --------
-    //==================================================
-
-    /**
-     * @brief Configure digital Hall sensors for BLDC commutation.
-     * 
-     * This enables Hall sensor inputs as the feedback for commutation. Typically used with CommutationMode::FOC_HALL.
-     * @param sectorOffset Hall sensor 60-degree/sector offset (0-5):
-     *                     0: 0°, 1: 60°, 2: 120°, 3: 180°, 4: 240°, 5: 300°
-     *                     This combines both the 120° order offset and 180° polarity offset.
-     * @param inverted If true, invert the interpretation of hall sensor signals.
-     * @param enableExtrapolation If true, enable hall extrapolation for higher resolution position signal.
-     * @param filterLength Digital filter length (0-255) for hall sensor inputs.
-     * @return true if Hall sensor feedback is configured successfully.
-     */
-    bool configureHallSensors(uint8_t sectorOffset = 0, bool inverted = false, 
-                              bool enableExtrapolation = false, uint8_t filterLength = 0) noexcept;
-
-    /**
-     * @brief Set Hall sensor position offsets for improved accuracy.
-     * 
-     * Compensates for Hall sensor mounting tolerances by setting precise electrical angle offsets.
-     * 
-     * @param offset0 Offset for 0° Hall position (-32768 to 32767)
-     * @param offset60 Offset for 60° Hall position (-32768 to 32767)
-     * @param offset120 Offset for 120° Hall position (-32768 to 32767)
-     * @param offset180 Offset for 180° Hall position (-32768 to 32767)
-     * @param offset240 Offset for 240° Hall position (-32768 to 32767)
-     * @param offset300 Offset for 300° Hall position (-32768 to 32767)
-     * @param globalOffset Additional global offset applied to all positions (-32768 to 32767)
-     * @return true if Hall position offsets were set successfully.
-     */
-    bool setHallPositionOffsets(int16_t offset0 = 0, int16_t offset60 = 10922, int16_t offset120 = 21845,
-                               int16_t offset180 = -32768, int16_t offset240 = -21846, int16_t offset300 = -10923,
-                               int16_t globalOffset = 0) noexcept;
-
-    /**
-     * @brief Configure an ABN incremental encoder for feedback.
-     * 
-     * Sets up an incremental quadrature encoder with optional index (N) channel for position and velocity feedback.
-     * @param countsPerRev Encoder resolution (counts per revolution, 0-16777215).
-     * @param inverted If true, invert the encoder direction.
-     * @param nChannelInverted If true, invert the N-channel signal (active low instead of active high).
-     * @return true if encoder parameters were set successfully.
-     */
-    bool configureEncoder(uint32_t countsPerRev, bool inverted = false, bool nChannelInverted = false) noexcept;
-
-    /**
-     * @brief Configure ABN encoder initialization method.
-     * 
-     * Sets the method used to align the ABN encoder with the rotor's absolute position.
-     * 
-     * @param initMethod Initialization method:
-     *                   0: FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING - Forces rotor to phi_e zero with active swing
-     *                   1: FORCED_PHI_E_90_ZERO - Forces rotor to 90° then 0° positions
-     *                   2: USE_HALL - Uses Hall sensor transitions to align encoder
-     *                   3: USE_N_CHANNEL_OFFSET - Uses N-channel with offset to align encoder
-     * @param initDelay Delay in milliseconds to wait for mechanical oscillations to stop (1000-10000)
-     * @param initVelocity Velocity used during N-channel initialization (-200000 to 200000)
-     * @param nChannelOffset Offset between phi_e zero and encoder index pulse position (-32768 to 32767)
-     * @return true if ABN initialization parameters were set successfully.
-     */
-    bool configureABNInitialization(uint8_t initMethod = 0, uint16_t initDelay = 1000,
-                                   int32_t initVelocity = 5, int16_t nChannelOffset = 0) noexcept;
-
-    /**
-     * @brief Configure N-channel filtering for ABN encoder.
-     * 
-     * Sets up filtering for the N-channel (index pulse) to handle imprecise encoders.
-     * 
-     * @param filterMode N-channel filtering mode:
-     *                   0: FILTERING_OFF - No filtering
-     *                   1: N_EVENT_ON_A_HIGH_B_HIGH - N event only when A and B are high
-     *                   2: N_EVENT_ON_A_HIGH_B_LOW - N event only when A is high and B is low
-     *                   3: N_EVENT_ON_A_LOW_B_HIGH - N event only when A is low and B is high
-     *                   4: N_EVENT_ON_A_LOW_B_LOW - N event only when A and B are low
-     * @param clearOnNextNull If true, clear position counter on next N-channel event.
-     * @return true if N-channel settings were applied successfully.
-     */
-    bool configureABNNChannel(uint8_t filterMode = 0, bool clearOnNextNull = false) noexcept;
-
-    /**
-     * @brief Configure a SPI-based encoder for feedback.
-     * 
-     * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for position feedback.
-     * 
-     * @param cmdSize Size of SPI transfer frame (1-16 bytes).
-     * @param csSettleTimeNs CS settle time in nanoseconds (0-6375).
-     * @param csIdleTimeUs CS idle time between frames in microseconds (0-102).
-     * @return true if configured successfully.
-     */
-    bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0, uint8_t csIdleTimeUs = 0) noexcept;
-
-    /**
-     * @brief Configure SPI encoder data format and processing.
-     * 
-     * Sets up how the position data is extracted from the SPI encoder response.
-     * 
-     * @param positionMask Bit mask to extract position from SPI response.
-     * @param positionShift Right shift value to apply to position counter.
-     * @param invertDirection If true, invert the direction of the SPI encoder.
-     * @return true if configuration was successful.
-     */
-    bool configureSPIEncoderDataFormat(uint32_t positionMask, uint8_t positionShift = 0, bool invertDirection = false) noexcept;
-
-    /**
-     * @brief Set up SPI encoder request data for continuous transfer mode.
-     * 
-     * Sets the data to be sent to the SPI encoder during position acquisition.
-     * 
-     * @param requestData Array of data bytes to send to the encoder.
-     * @param size Size of the request data (1-16 bytes).
-     * @return true if transfer data was set successfully.
-     */
-    bool setSPIEncoderRequestData(const uint8_t* requestData, uint8_t size) noexcept;
-
-    /**
-     * @brief Configure SPI encoder initialization method.
-     * 
-     * Sets how the SPI encoder is initialized for commutation.
-     * 
-     * @param initMethod Initialization method (0-3, similar to ABN initialization methods).
-     * @param offset Manual offset value if using offset-based initialization.
-     * @return true if initialization method was set successfully.
-     */
-    bool configureSPIEncoderInitialization(uint8_t initMethod, int16_t offset = 0) noexcept;
-
-    /**
-     * @brief Enable or disable SPI encoder lookup table correction.
-     * 
-     * Enables the lookup table-based correction for encoder nonlinearity.
-     * 
-     * @param enable If true, enable LUT correction.
-     * @param shiftFactor Common shift factor for all LUT entries.
-     * @return true if LUT settings were applied successfully.
-     */
-    bool setSPIEncoderLUTCorrection(bool enable, int8_t shiftFactor = 0) noexcept;
-
-    /**
-     * @brief Upload a single entry to the SPI encoder correction lookup table.
-     * 
-     * @param index Index in the LUT (0-255).
-     * @param value Correction value (-128 to 127).
-     * @return true if the entry was uploaded successfully.
-     */
-    bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
-
-
-    //==================================================
-    // -------- Protection and Fault Handling --------
-    //==================================================
-
-    /**
-     * @brief Configure overvoltage and undervoltage protection thresholds.
-     * @param overVoltThreshold Over-voltage warning threshold in units of 0.1V.
-     * @param underVoltThreshold Under-voltage warning threshold in units of 0.1V.
-     * @return true if thresholds were set successfully.
-     */
-    bool configureVoltageProtection(uint16_t overVoltThreshold, uint16_t underVoltThreshold) noexcept;
-
-    /**
-     * @brief Configure over-temperature protection thresholds.
-     * 
-     * The TMC9660 has an internal temperature sensor and supports an external analog temperature sensor.
-     * This function sets warning and shutdown thresholds for the internal sensor.
-     * @param warningDegC Warning threshold in °C for chip temperature.
-     * @param shutdownDegC Shutdown (fault) threshold in °C for chip temperature.
-     * @return true if set successfully.
-     */
-    bool configureTemperatureProtection(float warningDegC, float shutdownDegC) noexcept;
-
-    /**
-     * @brief Enable or disable overcurrent protection on the driver outputs.
-     * 
-     * This controls the internal gate driver overcurrent detection (e.g., comparators) for various FETs.
-     * @param enabled True to enable overcurrent protection (shut down drivers on overcurrent), false to disable.
-     * @return true if command was sent successfully.
-     */
-    bool setOvercurrentProtectionEnabled(bool enabled) noexcept;
-
-    //==================================================
-    // -------- Script Execution Control --------
-    //==================================================
-
-    /**
-     * @brief Upload a TMCL script to the TMC9660's internal memory.
-     * 
-     * This enters download mode, writes a series of instructions to the device memory, and exits download mode.
-     * The script will typically run on device startup or when triggered.
-     * @param scriptData Vector of 32-bit instructions representing the TMCL script.
-     * @return true if the script was uploaded successfully.
-     */
-    bool uploadScript(const std::vector<uint32_t>& scriptData) noexcept;
-
-    /**
-     * @brief Start or restart execution of the stored script.
-     * @param address The address from which to start execution (usually 0 for beginning of script).
-     * @return true if the command to start the script was sent.
-     */
-    bool startScript(uint16_t address = 0) noexcept;
-    
-    /**
-     * @brief Stop execution of the running script.
-     * @return true if the stop command was sent successfully.
-     */
-    bool stopScriptExecution() noexcept;
-
-    //==================================================
-    // -------- RAM Debugging (Data Logging) --------
-    //==================================================
-
-    /**
-     * @brief Initialize and configure the RAMDebug feature (data logging).
-     * 
-     * This sends a command to initialize the RAM debug system and reset any previous configurations.
-     * @param sampleCount Number of samples to collect in the buffer.
-     * @return true if the RAM debug was initialized properly.
-     */
-    bool initRAMDebug(uint32_t sampleCount) noexcept;
-
-    /**
-     * @brief Start capturing data using RAMDebug.
-     * @return true if the capture started successfully.
-     */
-    bool startRAMDebugCapture() noexcept;
-
-    /**
-     * @brief Read a captured sample from RAMDebug buffer.
-     * @param index Sample index to read (0-based).
-     * @param[out] data Variable to store the 32-bit sample data.
-     * @return true if the data was read successfully.
-     */
-    bool readRAMDebugData(uint32_t index, uint32_t& data) noexcept;
-
-    /**
-     * @brief Get the current state of the RAM debug engine.
-     * @param[out] isRunning Will be set to true if capture is ongoing, false if stopped or idle.
-     * @return true if the status was retrieved successfully.
-     */
-    bool getRAMDebugStatus(bool& isRunning) noexcept;
-
-    //==================================================
-    // -------- Telemetry and Status Reading --------
-    //==================================================
-
-    /**
-     * @brief Read the internal chip temperature.
-     * @return Chip temperature in degrees Celsius.
-     * 
-     * If reading the temperature fails, this returns a negative value (e.g. -273) to indicate an error.
-     * The temperature is computed from the raw sensor reading using the formula: T(°C) = value * 0.01615 - 268.15.
-     */
-    float getChipTemperature() noexcept;
-
-    /**
-     * @brief Read the current motor current (torque current).
-     * @return Motor current in milliamps (mA). Returns 0 if unable to read.
-     */
-    int16_t getMotorCurrent() noexcept;
-
-    /**
-     * @brief Read the current supply (bus) voltage.
-     * @return Supply voltage in volts. Returns a negative value if unable to read.
-     */
-    float getSupplyVoltage() noexcept;
-
-    /**
-     * @brief Read the measured actual velocity of the motor.
-     * @return The actual velocity in internal units (typically encoder counts per second). Returns 0 if not available.
-     */
-    int32_t getActualVelocity() noexcept;
-
-    /**
-     * @brief Read the measured actual position of the motor.
-     * @return The actual position in internal units (encoder counts). Returns 0 if not available.
-     */
-    int32_t getActualPosition() noexcept;
+    //***************************************************************************
+    //**                SUBSYSTEM: Fault Handling and Retry                    **//
+    //***************************************************************************
+    struct Fault {
+        bool configureBehaviour(FaultRetryAction retryAction, FaultFinalAction finalAction, uint8_t retries) noexcept;
+    private:
+        friend class TMC9660;
+        explicit Fault(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } fault{*this};
 
     //==================================================
     //==================================================

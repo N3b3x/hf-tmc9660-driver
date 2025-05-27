@@ -161,34 +161,31 @@ bool TMC9660::setGateOutputPolarity(bool lowActive, bool highActive) {
     return ok;
 }
 
-bool TMC9660::configureHallSensors(uint8_t hallOrder, bool inverted) {
-    if (hallOrder > 5) hallOrder = 0; // valid values 0-5 corresponding to 0°,60°,120°,180°,240°,300°
+bool TMC9660::configureHallSensors(uint8_t sectorOffset, bool inverted, bool enableExtrapolation, uint8_t filterLength) noexcept {
+    if (sectorOffset > 5) sectorOffset = 0; // valid 0-5
     bool ok = true;
-    // Set Hall sector offset (param 75) and invert direction (param 83).
-    ok &= writeParameter(75, hallOrder);
+    ok &= writeParameter(75, sectorOffset);
     ok &= writeParameter(83, inverted ? 1u : 0u);
-    // Optionally, hall signal filtering (param 76) or extrapolation (param 84) could be set here. Using defaults.
+    ok &= writeParameter(76, filterLength);
+    ok &= writeParameter(84, enableExtrapolation ? 1u : 0u);
     return ok;
 }
 
-bool TMC9660::configureEncoder(uint32_t countsPerRev, bool inverted) {
-    bool ok = true;
-    // Set ABN encoder steps per rotation (CPR) – parameter 90.
+bool TMC9660::configureEncoder(uint32_t countsPerRev, bool inverted, bool nChannelInverted) noexcept {
     uint32_t steps = countsPerRev;
-    if (steps > 0xFFFFFF) steps = 0xFFFFFF; // limit to 24-bit max
+    if (steps > 0xFFFFFF) steps = 0xFFFFFF;
+    bool ok = true;
     ok &= writeParameter(90, steps);
-    // Set encoder direction inversion – parameter 91.
     ok &= writeParameter(91, inverted ? 1u : 0u);
-    // (Optionally configure index channel offset, filtering, etc., via parameters 96-98 if needed.)
+    ok &= writeParameter(92, nChannelInverted ? 1u : 0u);
     return ok;
 }
 
-bool TMC9660::configureSPIEncoder(uint8_t mode) {
+bool TMC9660::configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs, uint8_t csIdleTimeUs) noexcept {
     bool ok = true;
-    // Assuming parameter 180 selects SPI encoder mode/enable (this depends on the specific encoder support).
-    ok &= writeParameter(180, mode);
-    // Set chip-select settle delay (parameter 181) to 0 (or default).
-    ok &= writeParameter(181, 0);
+    ok &= writeParameter(180, cmdSize);
+    ok &= writeParameter(181, csSettleTimeNs);
+    ok &= writeParameter(182, csIdleTimeUs);
     return ok;
 }
 
