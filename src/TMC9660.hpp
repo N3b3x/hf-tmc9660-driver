@@ -138,7 +138,8 @@ public:
          * @brief Configure the motor type (DC, BLDC, or stepper) and basic motor settings.
          * 
          * This sets the MOTOR_TYPE parameter and optionally related parameters like pole pairs for BLDC or microstep settings for steppers.
-         * @param type MotorType (DC, BLDC, STEPPER).
+         * Note that the BLDC option also covers PMSM motors since they use the same three-phase commutation scheme.
+         * @param type MotorType (DC, BLDC/PMSM, STEPPER).
          * @param polePairs For BLDC motors, number of pole pairs. For stepper or DC, this can be set to 1.
          * @return true if the motor type was set successfully, false if communication or device error.
          */
@@ -845,6 +846,23 @@ public:
         bool configureABNEncoder(uint32_t countsPerRev, bool inverted = false, bool nChannelInverted = false) noexcept;
 
         /**
+         * @brief Configure the secondary ABN encoder input.
+         *
+         * This allows the use of a second incremental encoder or a geared
+         * encoder setup. It writes ABN_2_* parameters to set the resolution,
+         * direction and optional gear ratio.
+         *
+         * @param countsPerRev Encoder resolution in counts per revolution.
+         * @param inverted     True to invert the encoder direction.
+         * @param gearRatio    Gear ratio between the second encoder and the
+         *                     motor shaft. Use 1 if directly coupled.
+         * @return true if all parameters were written successfully.
+         */
+        bool configureSecondaryABNEncoder(uint32_t countsPerRev,
+                                          bool inverted = false,
+                                          uint8_t gearRatio = 1) noexcept;
+
+        /**
          * @brief Configure ABN encoder initialization method.
          * 
          * Sets the method used to align the ABN encoder with the rotor's absolute position.
@@ -1164,6 +1182,41 @@ public:
          */
         int32_t getActualPosition() noexcept;
 
+        /**
+         * @brief Read the GENERAL_STATUS_FLAGS register.
+         * @param[out] flags Bit mask of current status flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralStatusFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Read the GENERAL_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralErrorFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Read the GDRV_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current gate driver error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGateDriverErrorFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Clear bits in the GENERAL_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear (write-1-to-clear).
+         * @return true if the mask was written successfully.
+         */
+        bool clearGeneralErrorFlags(uint32_t mask) noexcept;
+
+        /**
+         * @brief Clear bits in the GDRV_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear.
+         * @return true if the mask was written successfully.
+         */
+        bool clearGateDriverErrorFlags(uint32_t mask) noexcept;
+
     private:
         friend class TMC9660;
         explicit Telemetry(TMC9660& parent) noexcept : driver(parent) {}
@@ -1244,27 +1297,6 @@ public:
         TMC9660& driver;
     } brake{*this};
 
-    //***************************************************************************
-    //**                   SUBSYSTEM: I²t Overload Protection                  **//
-    //***************************************************************************
-    /**
-     * @brief Subsystem for motor overload (I²t) protection configuration.
-     */
-    struct IIT {
-        /**
-         * @brief Configure the two I²t monitoring windows for motor current.
-         */
-        bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
-                       uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
-        /**
-         * @brief Reset the integrated I²t sum accumulators.
-         */
-        bool resetIntegralState() noexcept;
-    private:
-        friend class TMC9660;
-        explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
-        TMC9660& driver;
-    } iit{*this};
 
     //***************************************************************************
     //**              SUBSYSTEM: Step/Dir Input Extrapolation                  **//
@@ -1283,8 +1315,30 @@ public:
          */
         bool setMicrostepResolution(uint16_t µSteps) noexcept;         ///< MICROSTEP_RESOLUTION (Parameter-mode DS)
 
+        /**
+         * @brief Enable or disable step/dir velocity extrapolation.
+         *
+         * When enabled the controller continues to extrapolate position from
+         * the last received step pulses, allowing short interruptions on the
+         * input signals.
+         * @param enable True to enable extrapolation.
+         * @return True if the command was written successfully.
+         */
         bool enableExtrapolation(bool enable) noexcept;
+
+        /**
+         * @brief Timeout in milliseconds after which extrapolation stops if no
+         *        new step pulses are received.
+         * @param timeout_ms Timeout value in ms.
+         * @return True if the parameter was written successfully.
+         */
         bool setSignalTimeout(uint16_t timeout_ms) noexcept;
+
+        /**
+         * @brief Maximum electrical RPM for which extrapolation is applied.
+         * @param eRPM Maximum extrapolation velocity in electrical RPM.
+         * @return True on success.
+         */
         bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
     private:
         friend class TMC9660;
