@@ -1,6 +1,6 @@
-# Ignore JSON files
-*.json
+# # Ignore JSON files
+# *.json
 
-# Ignore dot-directories anywhere, except .git
-**/.*/
-!/.git/
+# # Ignore dot-directories anywhere, except .git
+# **/.*/
+# !/.git/
