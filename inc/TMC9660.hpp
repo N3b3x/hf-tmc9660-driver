@@ -1272,18 +1272,250 @@ public:
          * @return true if read.
          */
         bool getRightLimitSwitchPosition(int32_t& position) noexcept;
+
         /**
          * @brief Read home-switch position.
          * @param[out] position Position value.
          * @return true if read.
          */
         bool getHomeSwitchPosition(int32_t& position) noexcept;
+
         /**
          * @brief Read last reference position.
          * @param[out] position Position value.
          * @return true if read.
          */
         bool getLastReferencePosition(int32_t& position) noexcept;
+
+        //-------------------------------------------------------------------------
+        // Additional FOC telemetry and tuning parameters (305–334)
+        //-------------------------------------------------------------------------
+
+        /// @name Raw Inputs (read-only)
+        ///@{
+        // Raw inputs for ABN, hall, reference switches, driver enabled,
+        // hall filtered and ABN2 or Step/Dir (Parameter 304: MCC_INPUTS_RAW)
+        bool getMccInputsRaw(uint16_t& inputs) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::MCC_INPUTS_RAW, v)) return false;
+            inputs = static_cast<uint16_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Intermediate FOC Voltages (read-only)
+        ///@{
+        bool getFocVoltageUx(int16_t& voltage) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UX, v)) return false;
+            voltage = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocVoltageWy(int16_t& voltage) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_WY, v)) return false;
+            voltage = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocVoltageV(int16_t& voltage) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_V, v)) return false;
+            voltage = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocVoltageUq(int16_t& voltage) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UQ, v)) return false;
+            voltage = static_cast<int16_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Field-weakening (read/write)
+        ///@{
+        bool setFieldWeakeningI(uint16_t milliamps) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I, milliamps);
+        }
+        bool getFieldWeakeningI(uint16_t& milliamps) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I, v)) return false;
+            milliamps = static_cast<uint16_t>(v);
+            return true;
+        }
+        bool setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, voltage);
+        }
+        bool getFieldWeakeningVoltageThreshold(uint16_t& voltage) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, v)) return false;
+            voltage = static_cast<uint16_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Intermediate FOC Currents (read-only)
+        ///@{
+        bool getFocCurrentUx(int16_t& milliamps) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_UX, v)) return false;
+            milliamps = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocCurrentV(int16_t& milliamps) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_V, v)) return false;
+            milliamps = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocCurrentWy(int16_t& milliamps) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_WY, v)) return false;
+            milliamps = static_cast<int16_t>(v);
+            return true;
+        }
+        bool getFocCurrentIq(int16_t& milliamps) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_IQ, v)) return false;
+            milliamps = static_cast<int16_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Target Torque Biquad Filter (read/write)
+        ///@{
+        bool setTargetTorqueBiquadFilterEnable(bool enable) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE, enable);
+        }
+        bool getTargetTorqueBiquadFilterEnable(bool& enable) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE, v)) return false;
+            enable = (v != 0);
+            return true;
+        }
+        bool setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1, static_cast<uint32_t>(coeff));
+        }
+        bool getTargetTorqueBiquadFilterACoeff1(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2, static_cast<uint32_t>(coeff));
+        }
+        bool getTargetTorqueBiquadFilterACoeff2(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0, static_cast<uint32_t>(coeff));
+        }
+        bool getTargetTorqueBiquadFilterBCoeff0(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1, static_cast<uint32_t>(coeff));
+        }
+        bool getTargetTorqueBiquadFilterBCoeff1(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2, static_cast<uint32_t>(coeff));
+        }
+        bool getTargetTorqueBiquadFilterBCoeff2(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Actual Velocity Biquad Filter (read/write)
+        ///@{
+        bool setActualVelocityBiquadFilterEnable(bool enable) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE, enable);
+        }
+        bool getActualVelocityBiquadFilterEnable(bool& enable) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE, v)) return false;
+            enable = (v != 0);
+            return true;
+        }
+        bool setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1, static_cast<uint32_t>(coeff));
+        }
+        bool getActualVelocityBiquadFilterACoeff1(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2, static_cast<uint32_t>(coeff));
+        }
+        bool getActualVelocityBiquadFilterACoeff2(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0, static_cast<uint32_t>(coeff));
+        }
+        bool getActualVelocityBiquadFilterBCoeff0(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1, static_cast<uint32_t>(coeff));
+        }
+        bool getActualVelocityBiquadFilterBCoeff1(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        bool setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2, static_cast<uint32_t>(coeff));
+        }
+        bool getActualVelocityBiquadFilterBCoeff2(int32_t& coeff) noexcept {
+            uint32_t v;
+            if(!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2, v)) return false;
+            coeff = static_cast<int32_t>(v);
+            return true;
+        }
+        ///@}
+
+        /// @name Combined & integrated raw measurements (read-only)
+        ///@{
+        bool getTorqueFluxCombinedTargetValues(uint32_t& value) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_TARGET_VALUES, value);
+        }
+        bool getTorqueFluxCombinedActualValues(uint32_t& value) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_ACTUAL_VALUES, value);
+        }
+        bool getVoltageDqCombinedActualValues(uint32_t& value) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES, value);
+        }
+        bool getIntegratedActualTorqueValue(uint32_t& value) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_TORQUE_VALUE, value);
+        }
+        bool getIntegratedActualVelocityValue(uint32_t& value) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_VELOCITY_VALUE, value);
+        }
+        ///@}
+
 
     private:
         friend class TMC9660;
@@ -1420,6 +1652,10 @@ public:
          */
         bool selectPositionSensor(uint8_t sel) noexcept;               ///< POSITION_SENSOR_SELECTION :contentReference[oaicite:15]{index=15}
 
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // HALL sensors (digital Hall)
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
         /**
          * @brief Configure digital Hall sensors for BLDC commutation.
          * 
@@ -1462,6 +1698,10 @@ public:
          */
         bool getHallPhiE(int16_t& phiE) noexcept;
 
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // ABN encoders (ABN1, ABN2)
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
         /**
          * @brief Configure an ABN incremental encoder for feedback.
          * 
@@ -1473,6 +1713,58 @@ public:
          */
         bool configureABNEncoder(uint32_t countsPerRev, tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED, 
                      tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+
+        /**
+         * @brief Configure ABN encoder initialization method.
+         * 
+         * Sets the method used to align the ABN encoder with the rotor's absolute position.
+         * 
+         * @param initMethod Initialization method (tmc9660::tmcl::AbnInitMethod):
+         *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, FORCED_PHI_E_90_ZERO, USE_HALL, USE_N_CHANNEL_OFFSET
+         * @param initDelay Delay in milliseconds to wait for mechanical oscillations to stop (1000-10000)
+         * @param initVelocity Velocity used during N-channel initialization (-200000 to 200000)
+         * @param nChannelOffset Offset between phi_e zero and encoder index pulse position (-32768 to 32767)
+         * @return true if ABN initialization parameters were set successfully.
+         */
+        bool configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, 
+                        uint16_t initDelay = 1000, int32_t initVelocity = 5, int16_t nChannelOffset = 0) noexcept;
+
+        /**
+         * @brief Read the current state of ABN encoder initialization.
+         * @param[out] state Current initialization state (tmc9660::tmcl::AbnInitState):
+         *                   IDLE, BUSY, WAIT, DONE
+         * @return true if the state was read successfully.
+         */
+        bool getABNInitializationState(tmc9660::tmcl::AbnInitState& state) noexcept;
+
+        /**
+         * @brief Read the electrical angle (phi_e) calculated from ABN feedback.
+         * @param[out] phiE Electrical angle (-32768 to 32767).
+         * @return true if the value was read successfully.
+         */
+        bool getABNPhiE(int16_t& phiE) noexcept;
+
+        /**
+         * @brief Read the raw ABN encoder internal counter value.
+         * @param[out] value Raw counter value (0-16777215).
+         * @return true if the value was read successfully.
+         */
+        bool getABNRawValue(uint32_t& value) noexcept;
+
+        /**
+         * @brief Configure N-channel filtering for ABN encoder.
+         * 
+         * Sets up filtering for the N-channel (index pulse) to handle imprecise encoders.
+         * 
+         * @param filterMode N-channel filtering mode (tmc9660::tmcl::AbnNChannelFiltering):
+         *                   FILTERING_OFF, N_EVENT_ON_A_HIGH_B_HIGH, N_EVENT_ON_A_HIGH_B_LOW, N_EVENT_ON_A_LOW_B_HIGH, N_EVENT_ON_A_LOW_B_LOW
+         * @param clearOnNextNull If true, clear position counter on next N-channel event (tmc9660::tmcl::EnableDisable).
+         * @return true if N-channel settings were applied successfully.
+         */
+        bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode = tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, 
+                      tmc9660::tmcl::EnableDisable clearOnNextNull = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
         /**
          * @brief Configure the secondary ABN encoder input.
@@ -1491,6 +1783,28 @@ public:
                           tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
                           uint8_t gearRatio = 1) noexcept;
 
+        // ABN-2 (secondary encoder) getters
+        /**
+         * @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
+         * @param[out] counts CPR value.
+         * @return true if read successful.
+         */
+        bool getSecondaryABNCountsPerRev(uint32_t& counts) noexcept;
+
+        /**
+         * @brief Read ABN_2_DIRECTION (normal/inverted).
+         * @param[out] dir Direction (tmc9660::tmcl::Direction).
+         * @return true if read successful.
+         */
+        bool getSecondaryABNDirection(tmc9660::tmcl::Direction& dir) noexcept;
+
+        /**
+         * @brief Read ABN_2_GEAR_RATIO (1…255).
+         * @param[out] ratio Gear ratio.
+         * @return true if read successful.
+         */
+        bool getSecondaryABNGearRatio(uint8_t& ratio) noexcept;
+
         /**
          * @brief Enable or disable the secondary ABN encoder.
          * @param enable True to enable, false to disable.
@@ -1505,41 +1819,12 @@ public:
          */
         bool getSecondaryABNEncoderValue(uint32_t& value) noexcept;
 
-        /**
-         * @brief Configure ABN encoder initialization method.
-         * 
-         * Sets the method used to align the ABN encoder with the rotor's absolute position.
-         * 
-         * @param initMethod Initialization method (tmc9660::tmcl::AbnInitMethod):
-         *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, FORCED_PHI_E_90_ZERO, USE_HALL, USE_N_CHANNEL_OFFSET
-         * @param initDelay Delay in milliseconds to wait for mechanical oscillations to stop (1000-10000)
-         * @param initVelocity Velocity used during N-channel initialization (-200000 to 200000)
-         * @param nChannelOffset Offset between phi_e zero and encoder index pulse position (-32768 to 32767)
-         * @return true if ABN initialization parameters were set successfully.
-         */
-        bool configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, 
-                        uint16_t initDelay = 1000, int32_t initVelocity = 5, int16_t nChannelOffset = 0) noexcept;
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-        /**
-         * @brief Read the electrical angle (phi_e) calculated from ABN feedback.
-         * @param[out] phiE Electrical angle (-32768 to 32767).
-         * @return true if the value was read successfully.
-         */
-        bool getABNPhiE(int16_t& phiE) noexcept;
-
-        /**
-         * @brief Configure N-channel filtering for ABN encoder.
-         * 
-         * Sets up filtering for the N-channel (index pulse) to handle imprecise encoders.
-         * 
-         * @param filterMode N-channel filtering mode (tmc9660::tmcl::AbnNChannelFiltering):
-         *                   FILTERING_OFF, N_EVENT_ON_A_HIGH_B_HIGH, N_EVENT_ON_A_HIGH_B_LOW, N_EVENT_ON_A_LOW_B_HIGH, N_EVENT_ON_A_LOW_B_LOW
-         * @param clearOnNextNull If true, clear position counter on next N-channel event (tmc9660::tmcl::EnableDisable).
-         * @return true if N-channel settings were applied successfully.
-         */
-        bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode = tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, 
-                      tmc9660::tmcl::EnableDisable clearOnNextNull = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
-
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // SPI encoder timing & frame size
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        
         /**
          * @brief Configure a SPI-based encoder for feedback.
          * 
@@ -1607,27 +1892,519 @@ public:
          * @return true if the entry was uploaded successfully.
          */
         bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
+        
+        // SPI encoder timing & frame size
+        /**
+         * @brief Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).
+         */
+        bool getSPIEncoderCSSettleDelay(uint16_t& timeNs) noexcept;
 
         /**
-         * @brief Read the current state of ABN encoder initialization.
-         * @param[out] state Current initialization state (tmc9660::tmcl::AbnInitState):
-         *                   IDLE, BUSY, WAIT, DONE
-         * @return true if the state was read successfully.
+         * @brief Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).
          */
-        bool getABNInitializationState(tmc9660::tmcl::AbnInitState& state) noexcept;
+        bool getSPIEncoderCSIdleDelay(uint8_t& timeUs) noexcept;
 
         /**
-         * @brief Read the raw ABN encoder internal counter value.
-         * @param[out] value Raw counter value (0-16777215).
-         * @return true if the value was read successfully.
+         * @brief Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).
          */
-        bool getABNRawValue(uint32_t& value) noexcept;
+        bool getSPIEncoderMainCmdSize(uint8_t& size) noexcept;
+
+        /**
+         * @brief Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).
+         */
+        bool getSPIEncoderSecondaryCmdSize(uint8_t& size) noexcept;
+
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // SPI encoder data & status
+        /**
+         * @brief Read SPI_ENCODER_POSITION_COUNTER_MASK.
+         */
+        bool getSPIEncoderPositionMask(uint32_t& mask) noexcept;
+
+        /**
+         * @brief Read SPI_ENCODER_POSITION_COUNTER_SHIFT.
+         */
+        bool getSPIEncoderPositionShift(uint8_t& shift) noexcept;
+
+        /**
+         * @brief Read SPI_ENCODER_POSITION_COUNTER_VALUE.
+         */
+        bool getSPIEncoderPositionValue(uint32_t& value) noexcept;
+
+        /**
+         * @brief Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).
+         */
+        bool getSPIEncoderCommutationAngle(int16_t& angle) noexcept;
+
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // SPI encoder initialization & offset
+        /**
+         * @brief Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.
+         */
+        bool getSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod& method,
+                                        int16_t& offset) noexcept;
+
+        /**
+         * @brief Read SPI_ENCODER_DIRECTION.
+         */
+        bool getSPIEncoderDirection(tmc9660::tmcl::Direction& dir) noexcept;
+
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        // SPI LUT
+        /**
+         * @brief Read SPI_LUT_ADDRESS_SELECT.
+         */
+        bool getSPIEncoderLUTAddress(uint8_t& address) noexcept;
+
+        /**
+         * @brief Read SPI_LUT_DATA.
+         */
+        bool getSPIEncoderLUTData(int8_t& data) noexcept;
+
+        /**
+         * @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
+         */
+        bool getSPIEncoderLUTShiftFactor(int8_t& shiftFactor) noexcept;
+
+        //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     private:
         friend class TMC9660;
         explicit FeedbackSense(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
     } feedbackSense{*this};
+
+
+    //***************************************************************************
+    //**              SUBSYSTEM: Step/Dir Input Extrapolation                **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for controlling the STEP/DIR pulse input interface.
+     *
+     * Enables stepper-style control using external STEP and DIR pulses, with support for:
+     * - Signal extrapolation to interpolate between pulses
+     * - Velocity feed-forward
+     * - Microstep resolution configuration
+     *
+     * Refer to Parameter IDs #205–#209 (Table 48), and STEP/DIR section, p. 95:contentReference[oaicite:2]{index=2}
+     */
+    struct StepDir {
+
+        /**
+         * @brief Configure microstep resolution for each STEP pulse.
+         *
+         * @param µSteps Microsteps per full step (e.g. 256 = 1/256 resolution)
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_STEP_DIVIDER_SHIFT`
+         *   (shift of incoming step pulse count)
+         */
+        bool setMicrostepResolution(tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept;
+        
+        /**
+         * @brief Enable or disable the STEP/DIR interface.
+         *
+         * @param on true = enable, false = disable
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_ENABLE`
+         * - Boot option: Table 11:contentReference[oaicite:3]{index=3}
+         */
+        bool enableInterface(bool on) noexcept;
+
+        /**
+         * @brief Enable signal extrapolation between STEP pulses.
+         *
+         * @param enable true = enable extrapolation
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_EXTRAPOLATE`
+         * - Behavior described on p. 96, Fig. 27
+         */
+        bool enableExtrapolation(bool enable) noexcept;
+
+        /**
+         * @brief Timeout before extrapolated motion stops after last pulse.
+         *
+         * @param timeout_ms Timeout in milliseconds
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_STEP_SIGNAL_TIMEOUT_LIMIT`
+         */
+        bool setSignalTimeout(uint16_t timeout_ms) noexcept;
+
+        /**
+         * @brief Set maximum allowed extrapolation velocity.
+         *
+         * @param eRPM Max electrical RPM before extrapolation is disabled
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_MAXIMUM_EXTRAPOLATION_VELOCITY`
+         */
+        bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
+
+        /**
+         * @brief Enable hardware feed-forward terms and set gain/shift.
+         *
+         * This allows the ramp generator to use feed-forward terms for velocity and acceleration.
+         * @param enableVelFF Enable the VELOCITY_FEEDFORWARD feature (VELOCITY_FEEDFORWARD_ENABLE)
+         * @return true on success
+         */
+        bool enableVelocityFeedForward(bool enableVelFF) noexcept;
+        
+    private:
+        friend class TMC9660;
+        explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } stepDir{*this};
+
+    //***************************************************************************
+    //**                      SUBSYSTEM: Brake Chopper                       **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem controlling the brake chopper and mechanical brake features.
+     */
+    struct Brake {
+        /**
+         * @brief Enable or disable the brake chopper functionality.
+         * @param enable True to enable the brake chopper, false to disable it.
+         * @return True if the command was sent and acknowledged.
+         */
+        bool enableChopper(bool enable) noexcept;
+
+        /**
+         * @brief Set the overvoltage threshold for the brake chopper.
+         * @param voltage Threshold voltage in volts (5.0 to 100.0 V).
+         * @return True if the parameter was written successfully.
+         */
+        bool setVoltageLimit(float voltage) noexcept;
+
+        /**
+         * @brief Set the hysteresis for the brake chopper threshold.
+         * @param voltage Hysteresis in volts (0.0 to 5.0 V).
+         * @return True if the parameter was written successfully.
+         */
+        bool setHysteresis(float voltage) noexcept;
+
+        /**
+         * @brief Trigger a release of the mechanical brake.
+         * @return True if the command was sent successfully.
+         */
+        bool release() noexcept;
+
+        /**
+         * @brief Engage (lock) the mechanical brake.
+         * @return True if the command was sent successfully.
+         */
+        bool engage() noexcept;
+
+        /**
+         * @brief Set the PWM duty cycle for releasing the brake.
+         * @param percent Duty cycle (0 to 99%).
+         * @return True if the parameter was written successfully.
+         */
+        bool setReleasingDutyCycle(uint8_t percent) noexcept;
+
+        /**
+         * @brief Set the PWM duty cycle for holding the brake released.
+         * @param percent Duty cycle (0 to 99%).
+         * @return True if the parameter was written successfully.
+         */
+        bool setHoldingDutyCycle(uint8_t percent) noexcept;
+
+        /**
+         * @brief Set the duration of the brake release initial phase.
+         * @param milliseconds Duration in ms (0 to 65535).
+         * @return True if the parameter was written successfully.
+         */
+        bool setReleasingDuration(uint16_t milliseconds) noexcept;
+
+        /**
+         * @brief Invert or normalize the brake output signal polarity.
+         * @param invert True to invert the brake output, false for normal.
+         * @return True if the parameter was written successfully.
+         */
+        bool invertOutput(bool invert) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit Brake(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } brake{*this};
+
+    //***************************************************************************
+    //**                   SUBSYSTEM: I²t Overload Protection                **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for motor thermal overload protection via I²t integration.
+     *
+     * Configures two independent I²t windows that monitor integrated current over time
+     * (in A²·ms) to detect thermal overloads. If either limit is exceeded, a fault is triggered.
+     *
+     * - Refer to: Parameters #224–#228 (Table 41)
+     * - Manual: “IIT” section, p. 86
+     * - Related fault flags: `IIT_1_EXCEEDED`, `IIT_2_EXCEEDED`
+     */
+    struct IIT {
+        /**
+         * @brief Configure the two I²t monitoring windows.
+         *
+         * @param timeConstant1_ms Time constant for window 1 [ms]
+         * @param continuousCurrent1_A Current limit for window 1 [A]
+         * @param timeConstant2_ms Time constant for window 2 [ms]
+         * @param continuousCurrent2_A Current limit for window 2 [A]
+         * @return true if parameters written successfully
+         *
+         * - THERMAL_WINDING_TIME_CONSTANT_1/2
+         * - IIT_LIMIT_1/2
+         */
+        bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
+                       uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
+
+        /**
+         * @brief Reset both I²t accumulators to zero.
+         * - RESET_IIT_SUMS
+         */
+        bool resetIntegralState() noexcept {
+            return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 0, 0);
+        }
+
+        /**
+         * @brief Set the winding time constant for window 1.
+         * - THERMAL_WINDING_TIME_CONSTANT_1
+         */
+        bool setThermalWindingTimeConstant1(uint16_t ms) noexcept {
+            return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, ms);
+        }
+        /**
+         * @brief Get the winding time constant for window 1.
+         */
+        bool getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
+            uint32_t v;
+            if(!driver.readGlobalParameter(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, v)) return false;
+            ms = static_cast<uint16_t>(v);
+            return true;
+        }
+
+        /**
+         * @brief Set the I²t limit for window 1.
+         * - IIT_LIMIT_1
+         */
+        bool setLimit1(uint32_t limit) noexcept {
+            return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0, limit);
+        }
+        /**
+         * @brief Get the I²t limit for window 1.
+         */
+        bool getLimit1(uint32_t &limit) noexcept {
+            return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0, limit);
+        }
+
+        /**
+         * @brief Set the winding time constant for window 2.
+         * - THERMAL_WINDING_TIME_CONSTANT_2
+         */
+        bool setThermalWindingTimeConstant2(uint16_t ms) noexcept {
+            return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, ms);
+        }
+        /**
+         * @brief Get the winding time constant for window 2.
+         */
+        bool getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
+            uint32_t v;
+            if(!driver.readGlobalParameter(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, v)) return false;
+            ms = static_cast<uint16_t>(v);
+            return true;
+        }
+
+        /**
+         * @brief Set the I²t limit for window 2.
+         * - IIT_LIMIT_2
+         */
+        bool setLimit2(uint32_t limit) noexcept {
+            return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0, limit);
+        }
+        /**
+         * @brief Get the I²t limit for window 2.
+         */
+        bool getLimit2(uint32_t &limit) noexcept {
+            return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0, limit);
+        }
+
+        /**
+         * @brief Read the total motor current (torque+flux).
+         * - ACTUAL_TOTAL_MOTOR_CURRENT
+         */
+        bool getActualTotalMotorCurrent(uint32_t &current, uint8_t motorIndex = 0) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_TOTAL_MOTOR_CURRENT, current, motorIndex);
+        }
+
+        /**
+         * @brief Read the current integrated sum of window 1.
+         * - IIT_SUM_1
+         */
+        bool getSum1(uint32_t &sum) noexcept {
+            return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_1, 0, sum);
+        }
+
+        /**
+         * @brief Read the current integrated sum of window 2.
+         * - IIT_SUM_2
+         */
+        bool getSum2(uint32_t &sum) noexcept {
+            return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0, sum);
+        }
+
+    private:
+        friend class TMC9660;
+        explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } iit{*this};
+    
+    //***************************************************************************
+    //**                  SUBSYSTEM: Telemetry & Status                        **//
+    //***************************************************************************
+    /**
+     * @brief Subsystem for reading various telemetry and status information from the driver.
+     */
+    struct Telemetry {
+        /**
+         * @brief Read the GENERAL_STATUS_FLAGS register.
+         * @param[out] flags Bit mask of current status flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralStatusFlags(uint32_t& flags) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::GENERAL_STATUS_FLAGS, flags);
+        }
+
+        /**
+         * @brief Read the current supply (bus) voltage.
+         * @return Supply voltage in volts. Returns a negative value if unable to read.
+         */
+        float getSupplyVoltage() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::SUPPLY_VOLTAGE, v))
+                return -1.0f;
+            // Parameter is in 0.1 V units
+            return static_cast<float>(v) * 0.1f;
+        }
+
+        /**
+         * @brief Read the internal chip temperature.
+         * @return Chip temperature in degrees Celsius.
+         *         Returns a negative value (e.g. -273) on read error.
+         *         Formula: T(°C) = raw * 0.01615 - 268.15
+         */
+        float getChipTemperature() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE, v))
+                return -273.0f;
+            return static_cast<float>(v) * 0.01615f - 268.15f;
+        }
+
+        /**
+         * @brief Read the current motor current (torque current).
+         * @return Motor current in milliamps (mA). Returns 0 if unable to read.
+         */
+        int16_t getMotorCurrent() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_TOTAL_MOTOR_CURRENT, v))
+                return 0;
+            return static_cast<int16_t>(v);
+        }
+
+        /**
+         * @brief Read the measured actual velocity of the motor.
+         * @return The actual velocity in internal units. Returns 0 if not available.
+         */
+        int32_t getActualVelocity() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_VELOCITY, v))
+                return 0;
+            return static_cast<int32_t>(v);
+        }
+
+        /**
+         * @brief Read the measured actual position of the motor.
+         * @return The actual position in internal units. Returns 0 if not available.
+         */
+        int32_t getActualPosition() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_POSITION, v))
+                return 0;
+            return static_cast<int32_t>(v);
+        }
+
+        /**
+         * @brief Read the GENERAL_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralErrorFlags(uint32_t& flags) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::GENERAL_ERROR_FLAGS, flags);
+        }
+
+        /**
+         * @brief Read the GDRV_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current gate driver error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGateDriverErrorFlags(uint32_t& flags) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::GDRV_ERROR_FLAGS, flags);
+        }
+
+        /**
+         * @brief Clear bits in the GENERAL_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear (write-1-to-clear).
+         * @return true if the mask was written successfully.
+         */
+        bool clearGeneralErrorFlags(uint32_t mask) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::GENERAL_ERROR_FLAGS, mask);
+        }
+
+        /**
+         * @brief Clear bits in the GDRV_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear (write-1-to-clear).
+         * @return true if the mask was written successfully.
+         */
+        bool clearGateDriverErrorFlags(uint32_t mask) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::GDRV_ERROR_FLAGS, mask);
+        }
+
+        /**
+         * @brief Read the ADC_STATUS_FLAGS register (clipped ADC channels).
+         * @param[out] flags Bit mask of clipping status.
+         * @return true if read successfully.
+         */
+        bool getADCStatusFlags(uint32_t& flags) noexcept {
+            return driver.readParameter(tmc9660::tmcl::Parameters::ADC_STATUS_FLAGS, flags);
+        }
+
+        /**
+         * @brief Clear bits in the ADC_STATUS_FLAGS register (write-1-to-clear).
+         * @param mask Bit mask of clipping flags to clear.
+         * @return true if the mask was written successfully.
+         */
+        bool clearADCStatusFlags(uint32_t mask) noexcept {
+            return driver.writeParameter(tmc9660::tmcl::Parameters::ADC_STATUS_FLAGS, mask);
+        }
+
+        /**
+         * @brief Read the external temperature sensor raw value.
+         * @return Raw external temperature. Returns 0 if unable to read.
+         */
+        uint16_t getExternalTemperature() noexcept {
+            uint32_t v;
+            if (!driver.readParameter(tmc9660::tmcl::Parameters::EXTERNAL_TEMPERATURE, v))
+                return 0;
+            return static_cast<uint16_t>(v);
+        }
+
+    private:
+        friend class TMC9660;
+        explicit Telemetry(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    } telemetry{*this};
 
     //***************************************************************************
     //**                  SUBSYSTEM: Stop / Event                              **//
@@ -1883,210 +2660,6 @@ public:
         explicit Telemetry(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
     } telemetry{*this};
-
-    //***************************************************************************
-    //**                      SUBSYSTEM: Brake Chopper                         **//
-    //***************************************************************************
-    /**
-     * @brief Subsystem controlling the brake chopper and mechanical brake features.
-     */
-    struct Brake {
-        /**
-         * @brief Enable or disable the brake chopper functionality.
-         * @param enable True to enable the brake chopper, false to disable it.
-         * @return True if the command was sent and acknowledged.
-         */
-        bool enableChopper(bool enable) noexcept;
-
-        /**
-         * @brief Set the overvoltage threshold for the brake chopper.
-         * @param voltage Threshold voltage in volts (5.0 to 100.0 V).
-         * @return True if the parameter was written successfully.
-         */
-        bool setVoltageLimit(float voltage) noexcept;
-
-        /**
-         * @brief Set the hysteresis for the brake chopper threshold.
-         * @param voltage Hysteresis in volts (0.0 to 5.0 V).
-         * @return True if the parameter was written successfully.
-         */
-        bool setHysteresis(float voltage) noexcept;
-
-        /**
-         * @brief Trigger a release of the mechanical brake.
-         * @return True if the command was sent successfully.
-         */
-        bool release() noexcept;
-
-        /**
-         * @brief Engage (lock) the mechanical brake.
-         * @return True if the command was sent successfully.
-         */
-        bool engage() noexcept;
-
-        /**
-         * @brief Set the PWM duty cycle for releasing the brake.
-         * @param percent Duty cycle (0 to 99%).
-         * @return True if the parameter was written successfully.
-         */
-        bool setReleasingDutyCycle(uint8_t percent) noexcept;
-
-        /**
-         * @brief Set the PWM duty cycle for holding the brake released.
-         * @param percent Duty cycle (0 to 99%).
-         * @return True if the parameter was written successfully.
-         */
-        bool setHoldingDutyCycle(uint8_t percent) noexcept;
-
-        /**
-         * @brief Set the duration of the brake release initial phase.
-         * @param milliseconds Duration in ms (0 to 65535).
-         * @return True if the parameter was written successfully.
-         */
-        bool setReleasingDuration(uint16_t milliseconds) noexcept;
-
-        /**
-         * @brief Invert or normalize the brake output signal polarity.
-         * @param invert True to invert the brake output, false for normal.
-         * @return True if the parameter was written successfully.
-         */
-        bool invertOutput(bool invert) noexcept;
-
-    private:
-        friend class TMC9660;
-        explicit Brake(TMC9660& parent) noexcept : driver(parent) {}
-        TMC9660& driver;
-    } brake{*this};
-
-    //***************************************************************************
-    //**                   SUBSYSTEM: I²t Overload Protection                  **//
-    //***************************************************************************
-    /**
-     * @brief Subsystem for motor thermal overload protection via I²t integration.
-     *
-     * Configures two independent I²t windows that monitor integrated current over time
-     * (in A²·ms) to detect thermal overloads. If either limit is exceeded, a fault is triggered.
-     *
-     * - Refer to: Parameters #224–#228 (Table 41)
-     * - Manual: “IIT” section, p. 86:contentReference[oaicite:1]{index=1}
-     * - Related fault flags: `IIT_1_EXCEEDED`, `IIT_2_EXCEEDED`
-     */
-    struct IIT {
-        /**
-         * @brief Configure the two I²t monitoring windows for motor current.
-         *
-         * @param timeConstant1_ms Time constant for fast window [ms]
-         * @param continuousCurrent1_A Continuous current limit for window 1 [A]
-         * @param timeConstant2_ms Time constant for slow window [ms]
-         * @param continuousCurrent2_A Continuous current limit for window 2 [A]
-         * @return true if parameters written successfully
-         *
-         * Parameters:
-         * - `THERMAL_WINDING_TIME_CONSTANT_1/2`
-         * - `IIT_LIMIT_1/2`
-         */
-        bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
-                    uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
-
-        /**
-         * @brief Reset the integrated current monitoring accumulators.
-         *
-         * Clears the internal counters of both I²t windows to 0.
-         * Use this after a thermal fault is acknowledged.
-         *
-         * - Parameter: `RESET_IIT_SUMS`
-         */
-        bool resetIntegralState() noexcept;
-
-    private:
-        friend class TMC9660;
-        explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
-        TMC9660& driver;
-    } iit{*this};
-
-
-    //***************************************************************************
-    //**              SUBSYSTEM: Step/Dir Input Extrapolation                  **//
-    //***************************************************************************
-    /**
-     * @brief Subsystem for controlling the STEP/DIR pulse input interface.
-     *
-     * Enables stepper-style control using external STEP and DIR pulses, with support for:
-     * - Signal extrapolation to interpolate between pulses
-     * - Velocity feed-forward
-     * - Microstep resolution configuration
-     *
-     * Refer to Parameter IDs #205–#209 (Table 48), and STEP/DIR section, p. 95:contentReference[oaicite:2]{index=2}
-     */
-    struct StepDir {
-        /**
-         * @brief Enable or disable the STEP/DIR interface.
-         *
-         * @param on true = enable, false = disable
-         * @return true on success
-         *
-         * - Parameter: `STEPDIR_ENABLE`
-         * - Boot option: Table 11:contentReference[oaicite:3]{index=3}
-         */
-        bool enableInterface(bool on) noexcept;
-
-        /**
-         * @brief Configure microstep resolution for each STEP pulse.
-         *
-         * @param µSteps Microsteps per full step (e.g. 256 = 1/256 resolution)
-         * @return true on success
-         *
-         * - Parameter: `STEPDIR_STEP_DIVIDER_SHIFT`
-         *   (shift of incoming step pulse count)
-         */
-        bool setMicrostepResolution(uint16_t µSteps) noexcept;
-
-        /**
-         * @brief Enable or disable velocity feed-forward calculation.
-         *
-         * @param enable true = enable, false = disable
-         * @return true on success
-         *
-         * - Parameter: `VELOCITY_FEEDFORWARD_ENABLE`
-         */
-        bool enableVelocityFeedforward(bool enable) noexcept;
-
-        /**
-         * @brief Enable signal extrapolation between STEP pulses.
-         *
-         * @param enable true = enable extrapolation
-         * @return true on success
-         *
-         * - Parameter: `STEPDIR_EXTRAPOLATE`
-         * - Behavior described on p. 96, Fig. 27:contentReference[oaicite:4]{index=4}
-         */
-        bool enableExtrapolation(bool enable) noexcept;
-
-        /**
-         * @brief Timeout before extrapolated motion stops after last pulse.
-         *
-         * @param timeout_ms Timeout in milliseconds
-         * @return true on success
-         *
-         * - Parameter: `STEPDIR_STEP_SIGNAL_TIMEOUT_LIMIT`
-         */
-        bool setSignalTimeout(uint16_t timeout_ms) noexcept;
-
-        /**
-         * @brief Set maximum allowed extrapolation velocity.
-         *
-         * @param eRPM Max electrical RPM before extrapolation is disabled
-         * @return true on success
-         *
-         * - Parameter: `STEPDIR_MAXIMUM_EXTRAPOLATION_VELOCITY`
-         */
-        bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
-
-    private:
-        friend class TMC9660;
-        explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
-        TMC9660& driver;
-    } stepDir{*this};
 
     //***************************************************************************
     //**                SUBSYSTEM: FLASH STORAGE                             **//
