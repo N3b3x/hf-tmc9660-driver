@@ -1492,303 +1492,72 @@ public:
     ///@{
     // Raw inputs for ABN, hall, reference switches, driver enabled,
     // hall filtered and ABN2 or Step/Dir (Parameter 304: MCC_INPUTS_RAW)
-    bool getMccInputsRaw(uint16_t &inputs) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::MCC_INPUTS_RAW, v))
-        return false;
-      inputs = static_cast<uint16_t>(v);
-      return true;
-    }
+    bool getMccInputsRaw(uint16_t &inputs) noexcept;
     ///@}
 
     /// @name Intermediate FOC Voltages (read-only)
     ///@{
-    bool getFocVoltageUx(int16_t &voltage) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UX, v))
-        return false;
-      voltage = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocVoltageWy(int16_t &voltage) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_WY, v))
-        return false;
-      voltage = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocVoltageV(int16_t &voltage) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_V, v))
-        return false;
-      voltage = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocVoltageUq(int16_t &voltage) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UQ, v))
-        return false;
-      voltage = static_cast<int16_t>(v);
-      return true;
-    }
+    bool getFocVoltageUx(int16_t &voltage) noexcept;
+    bool getFocVoltageWy(int16_t &voltage) noexcept;
+    bool getFocVoltageV(int16_t &voltage) noexcept;
+    bool getFocVoltageUq(int16_t &voltage) noexcept;
     ///@}
 
     /// @name Field-weakening (read/write)
     ///@{
-    bool setFieldWeakeningI(uint16_t milliamps) noexcept {
-      return driver.writeParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I,
-                                   milliamps);
-    }
-    bool getFieldWeakeningI(uint16_t &milliamps) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I, v))
-        return false;
-      milliamps = static_cast<uint16_t>(v);
-      return true;
-    }
-    bool setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, voltage);
-    }
-    bool getFieldWeakeningVoltageThreshold(uint16_t &voltage) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, v))
-        return false;
-      voltage = static_cast<uint16_t>(v);
-      return true;
-    }
+    bool setFieldWeakeningI(uint16_t milliamps) noexcept;
+    bool getFieldWeakeningI(uint16_t &milliamps) noexcept;
+    bool setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept;
+    bool getFieldWeakeningVoltageThreshold(uint16_t &voltage) noexcept;
     ///@}
 
     /// @name Intermediate FOC Currents (read-only)
     ///@{
-    bool getFocCurrentUx(int16_t &milliamps) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_UX, v))
-        return false;
-      milliamps = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocCurrentV(int16_t &milliamps) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_V, v))
-        return false;
-      milliamps = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocCurrentWy(int16_t &milliamps) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_WY, v))
-        return false;
-      milliamps = static_cast<int16_t>(v);
-      return true;
-    }
-    bool getFocCurrentIq(int16_t &milliamps) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_IQ, v))
-        return false;
-      milliamps = static_cast<int16_t>(v);
-      return true;
-    }
+    bool getFocCurrentUx(int16_t &milliamps) noexcept;
+    bool getFocCurrentV(int16_t &milliamps) noexcept;
+    bool getFocCurrentWy(int16_t &milliamps) noexcept;
+    bool getFocCurrentIq(int16_t &milliamps) noexcept;
     ///@}
 
     /// @name Target Torque Biquad Filter (read/write)
     ///@{
-    bool setTargetTorqueBiquadFilterEnable(bool enable) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE,
-          enable);
-    }
-    bool getTargetTorqueBiquadFilterEnable(bool &enable) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE, v))
-        return false;
-      enable = (v != 0);
-      return true;
-    }
-    bool setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getTargetTorqueBiquadFilterACoeff1(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getTargetTorqueBiquadFilterACoeff2(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getTargetTorqueBiquadFilterBCoeff0(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getTargetTorqueBiquadFilterBCoeff1(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getTargetTorqueBiquadFilterBCoeff2(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
+    bool setTargetTorqueBiquadFilterEnable(bool enable) noexcept;
+    bool getTargetTorqueBiquadFilterEnable(bool &enable) noexcept;
+    bool setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterACoeff1(int32_t &coeff) noexcept;
+    bool setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterACoeff2(int32_t &coeff) noexcept;
+    bool setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff0(int32_t &coeff) noexcept;
+    bool setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff1(int32_t &coeff) noexcept;
+    bool setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff2(int32_t &coeff) noexcept;
     ///@}
 
     /// @name Actual Velocity Biquad Filter (read/write)
     ///@{
-    bool setActualVelocityBiquadFilterEnable(bool enable) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE,
-          enable);
-    }
-    bool getActualVelocityBiquadFilterEnable(bool &enable) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE,
-              v))
-        return false;
-      enable = (v != 0);
-      return true;
-    }
-    bool setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getActualVelocityBiquadFilterACoeff1(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getActualVelocityBiquadFilterACoeff2(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getActualVelocityBiquadFilterBCoeff0(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getActualVelocityBiquadFilterBCoeff1(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
-    bool setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept {
-      return driver.writeParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2,
-          static_cast<uint32_t>(coeff));
-    }
-    bool getActualVelocityBiquadFilterBCoeff2(int32_t &coeff) noexcept {
-      uint32_t v;
-      if (!driver.readParameter(
-              tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2,
-              v))
-        return false;
-      coeff = static_cast<int32_t>(v);
-      return true;
-    }
+    bool setActualVelocityBiquadFilterEnable(bool enable) noexcept;
+    bool getActualVelocityBiquadFilterEnable(bool &enable) noexcept;
+    bool setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterACoeff1(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterACoeff2(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff0(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff1(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff2(int32_t &coeff) noexcept;
     ///@}
 
     /// @name Combined & integrated raw measurements (read-only)
     ///@{
-    bool getTorqueFluxCombinedTargetValues(uint32_t &value) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_TARGET_VALUES, value);
-    }
-    bool getTorqueFluxCombinedActualValues(uint32_t &value) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_ACTUAL_VALUES, value);
-    }
-    bool getVoltageDqCombinedActualValues(uint32_t &value) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES, value);
-    }
-    bool getIntegratedActualTorqueValue(uint32_t &value) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_TORQUE_VALUE, value);
-    }
-    bool getIntegratedActualVelocityValue(uint32_t &value) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_VELOCITY_VALUE, value);
-    }
+    bool getTorqueFluxCombinedTargetValues(uint32_t &value) noexcept;
+    bool getTorqueFluxCombinedActualValues(uint32_t &value) noexcept;
+    bool getVoltageDqCombinedActualValues(uint32_t &value) noexcept;
+    bool getIntegratedActualTorqueValue(uint32_t &value) noexcept;
+    bool getIntegratedActualVelocityValue(uint32_t &value) noexcept;
     ///@}
 
   private:
@@ -2497,111 +2266,66 @@ public:
      * @brief Reset both I²t accumulators to zero.
      * - RESET_IIT_SUMS
      */
-    bool resetIntegralState() noexcept {
-      return driver.writeGlobalParameter(
-          tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 0, 0);
-    }
+    bool resetIntegralState() noexcept;
 
     /**
      * @brief Set the winding time constant for window 1.
      * - THERMAL_WINDING_TIME_CONSTANT_1
      */
-    bool setThermalWindingTimeConstant1(uint16_t ms) noexcept {
-      return driver.writeGlobalParameter(
-          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, ms);
-    }
+    bool setThermalWindingTimeConstant1(uint16_t ms) noexcept;
     /**
      * @brief Get the winding time constant for window 1.
      */
-    bool getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
-      uint32_t v;
-      if (!driver.readGlobalParameter(
-              tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, v))
-        return false;
-      ms = static_cast<uint16_t>(v);
-      return true;
-    }
+    bool getThermalWindingTimeConstant1(uint16_t &ms) noexcept;
 
     /**
      * @brief Set the I²t limit for window 1.
      * - IIT_LIMIT_1
      */
-    bool setLimit1(uint32_t limit) noexcept {
-      return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1,
-                                         0, limit);
-    }
+    bool setLimit1(uint32_t limit) noexcept;
     /**
      * @brief Get the I²t limit for window 1.
      */
-    bool getLimit1(uint32_t &limit) noexcept {
-      return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1,
-                                        0, limit);
-    }
+    bool getLimit1(uint32_t &limit) noexcept;
 
     /**
      * @brief Set the winding time constant for window 2.
      * - THERMAL_WINDING_TIME_CONSTANT_2
      */
-    bool setThermalWindingTimeConstant2(uint16_t ms) noexcept {
-      return driver.writeGlobalParameter(
-          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, ms);
-    }
+    bool setThermalWindingTimeConstant2(uint16_t ms) noexcept;
     /**
      * @brief Get the winding time constant for window 2.
      */
-    bool getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
-      uint32_t v;
-      if (!driver.readGlobalParameter(
-              tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, v))
-        return false;
-      ms = static_cast<uint16_t>(v);
-      return true;
-    }
+    bool getThermalWindingTimeConstant2(uint16_t &ms) noexcept;
 
     /**
      * @brief Set the I²t limit for window 2.
      * - IIT_LIMIT_2
      */
-    bool setLimit2(uint32_t limit) noexcept {
-      return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2,
-                                         0, limit);
-    }
+    bool setLimit2(uint32_t limit) noexcept;
     /**
      * @brief Get the I²t limit for window 2.
      */
-    bool getLimit2(uint32_t &limit) noexcept {
-      return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2,
-                                        0, limit);
-    }
+    bool getLimit2(uint32_t &limit) noexcept;
 
     /**
      * @brief Read the total motor current (torque+flux).
      * - ACTUAL_TOTAL_MOTOR_CURRENT
      */
     bool getActualTotalMotorCurrent(uint32_t &current,
-                                    uint8_t motorIndex = 0) noexcept {
-      return driver.readParameter(
-          tmc9660::tmcl::Parameters::ACTUAL_TOTAL_MOTOR_CURRENT, current,
-          motorIndex);
-    }
+                                    uint8_t motorIndex = 0) noexcept;
 
     /**
      * @brief Read the current integrated sum of window 1.
      * - IIT_SUM_1
      */
-    bool getSum1(uint32_t &sum) noexcept {
-      return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_1, 0,
-                                        sum);
-    }
+    bool getSum1(uint32_t &sum) noexcept;
 
     /**
      * @brief Read the current integrated sum of window 2.
      * - IIT_SUM_2
      */
-    bool getSum2(uint32_t &sum) noexcept {
-      return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0,
-                                        sum);
-    }
+    bool getSum2(uint32_t &sum) noexcept;
 
   private:
     friend class TMC9660;
