@@ -221,16 +221,6 @@ public:
         bool setMaxFluxCurrent(uint16_t milliamps) noexcept;
 
         /**
-         * @brief Limit the motor’s peak flux (|Ψ|max) used by the torque controller.
-         *
-         * Maps to the register pair MAX_FLUX / FLUX_LIMIT_ENABLE and is essential
-         * for high-speed field-weakening operation.                                   
-         * @param mWb  Maximum flux in milli-Weber (0 … 32767).
-         * @return true on success.
-         */
-        bool setMaxFlux(uint16_t mWb) noexcept;
-
-        /**
          * @brief Configure field-weakening (automatic flux reduction above a knee speed).
          *
          * @param startRPM   Electrical RPM where weakening starts.
@@ -879,6 +869,19 @@ public:
         bool configureABNNChannel(uint8_t filterMode = 0, bool clearOnNextNull = false) noexcept;
 
         /**
+         * @brief Configure an ABN encoder with 2 channels for feedback.
+         * 
+         * Sets up a 2nd channel ABN encoder (e.g., quadrature encoder) for position and velocity feedback.
+         * 
+         * @param cpr Counts per revolution of the encoder (0-16777215).
+         * @param inverted If true, invert the direction of the encoder.
+         * @param gearRatio Gear ratio applied to the encoder counts (default: 1).
+         * @return true if configured successfully.
+         */
+        bool configureABNEncoder2(uint32_t cpr,bool inverted=false,
+                                uint16_t gearRatio=1) noexcept;
+
+        /**
          * @brief Configure a SPI-based encoder for feedback.
          * 
          * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for position feedback.
@@ -1087,7 +1090,7 @@ public:
     /**
      * @brief Subsystem for debug and data logging features
      */
-    struct Debug {
+    struct RamDebug {
         /**
          * @brief Initialize and configure the RAMDebug feature (data logging).
          * 
@@ -1095,13 +1098,13 @@ public:
          * @param sampleCount Number of samples to collect in the buffer.
          * @return true if the RAM debug was initialized properly.
          */
-        bool initRAMDebug(uint32_t sampleCount) noexcept;
+        bool init(uint32_t sampleCount) noexcept;
 
         /**
          * @brief Start capturing data using RAMDebug.
          * @return true if the capture started successfully.
          */
-        bool startRAMDebugCapture() noexcept;
+        bool startCapture() noexcept;
 
         /**
          * @brief Read a captured sample from RAMDebug buffer.
@@ -1109,21 +1112,21 @@ public:
          * @param[out] data Variable to store the 32-bit sample data.
          * @return true if the data was read successfully.
          */
-        bool readRAMDebugData(uint32_t index, uint32_t& data) noexcept;
+        bool readData(uint32_t index, uint32_t& data) noexcept;
 
         /**
          * @brief Get the current state of the RAM debug engine.
          * @param[out] isRunning Will be set to true if capture is ongoing, false if stopped or idle.
          * @return true if the status was retrieved successfully.
          */
-        bool getRAMDebugStatus(bool& isRunning) noexcept;
+        bool getStatus(bool& isRunning) noexcept;
 
     private:
         friend class TMC9660;
-        explicit Debug(TMC9660& parent) noexcept : driver(parent) {}
+        explicit RamDebug(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } debug{*this};
-    
+    } ramDebug{*this};
+
     //***************************************************************************
     //**                  SUBSYSTEM: Telemetry & Status                        **//
     //***************************************************************************
@@ -1248,118 +1251,342 @@ public:
     //**                   SUBSYSTEM: I²t Overload Protection                  **//
     //***************************************************************************
     /**
-     * @brief Subsystem for motor overload (I²t) protection configuration.
+     * @brief Subsystem for motor thermal overload protection via I²t integration.
+     *
+     * Configures two independent I²t windows that monitor integrated current over time
+     * (in A²·ms) to detect thermal overloads. If either limit is exceeded, a fault is triggered.
+     *
+     * - Refer to: Parameters #224–#228 (Table 41)
+     * - Manual: “IIT” section, p. 86:contentReference[oaicite:1]{index=1}
+     * - Related fault flags: `IIT_1_EXCEEDED`, `IIT_2_EXCEEDED`
      */
     struct IIT {
         /**
          * @brief Configure the two I²t monitoring windows for motor current.
+         *
+         * @param timeConstant1_ms Time constant for fast window [ms]
+         * @param continuousCurrent1_A Continuous current limit for window 1 [A]
+         * @param timeConstant2_ms Time constant for slow window [ms]
+         * @param continuousCurrent2_A Continuous current limit for window 2 [A]
+         * @return true if parameters written successfully
+         *
+         * Parameters:
+         * - `THERMAL_WINDING_TIME_CONSTANT_1/2`
+         * - `IIT_LIMIT_1/2`
          */
         bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
-                       uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
+                    uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
+
         /**
-         * @brief Reset the integrated I²t sum accumulators.
+         * @brief Reset the integrated current monitoring accumulators.
+         *
+         * Clears the internal counters of both I²t windows to 0.
+         * Use this after a thermal fault is acknowledged.
+         *
+         * - Parameter: `RESET_IIT_SUMS`
          */
         bool resetIntegralState() noexcept;
+
     private:
         friend class TMC9660;
         explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } iit{*this};
+    };
+
 
     //***************************************************************************
     //**              SUBSYSTEM: Step/Dir Input Extrapolation                  **//
     //***************************************************************************
     /**
-     * @brief Subsystem for Step/Dir input interface configuration.
+     * @brief Subsystem for controlling the STEP/DIR pulse input interface.
+     *
+     * Enables stepper-style control using external STEP and DIR pulses, with support for:
+     * - Signal extrapolation to interpolate between pulses
+     * - Velocity feed-forward
+     * - Microstep resolution configuration
+     *
+     * Refer to Parameter IDs #205–#209 (Table 48), and STEP/DIR section, p. 95:contentReference[oaicite:2]{index=2}
      */
     struct StepDir {
         /**
-         * @brief Enable/disable the STEP/DIR hardware interface.
+         * @brief Enable or disable the STEP/DIR interface.
+         *
+         * @param on true = enable, false = disable
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_ENABLE`
+         * - Boot option: Table 11:contentReference[oaicite:3]{index=3}
          */
-        bool enableInterface(bool on) noexcept;                        ///< BOOT_CONFIG.STEPDIR_ENABLE (datasheet)
+        bool enableInterface(bool on) noexcept;
 
         /**
-         * @brief Configure micro-step resolution (full-step divided by 1…256).
+         * @brief Configure microstep resolution for each STEP pulse.
+         *
+         * @param µSteps Microsteps per full step (e.g. 256 = 1/256 resolution)
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_STEP_DIVIDER_SHIFT`
+         *   (shift of incoming step pulse count)
          */
-        bool setMicrostepResolution(uint16_t µSteps) noexcept;         ///< MICROSTEP_RESOLUTION (Parameter-mode DS)
+        bool setMicrostepResolution(uint16_t µSteps) noexcept;
 
+        /**
+         * @brief Enable or disable velocity feed-forward calculation.
+         *
+         * @param enable true = enable, false = disable
+         * @return true on success
+         *
+         * - Parameter: `VELOCITY_FEEDFORWARD_ENABLE`
+         */
+        bool enableVelocityFeedforward(bool enable) noexcept;
+
+        /**
+         * @brief Enable signal extrapolation between STEP pulses.
+         *
+         * @param enable true = enable extrapolation
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_EXTRAPOLATE`
+         * - Behavior described on p. 96, Fig. 27:contentReference[oaicite:4]{index=4}
+         */
         bool enableExtrapolation(bool enable) noexcept;
+
+        /**
+         * @brief Timeout before extrapolated motion stops after last pulse.
+         *
+         * @param timeout_ms Timeout in milliseconds
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_STEP_SIGNAL_TIMEOUT_LIMIT`
+         */
         bool setSignalTimeout(uint16_t timeout_ms) noexcept;
+
+        /**
+         * @brief Set maximum allowed extrapolation velocity.
+         *
+         * @param eRPM Max electrical RPM before extrapolation is disabled
+         * @return true on success
+         *
+         * - Parameter: `STEPDIR_MAXIMUM_EXTRAPOLATION_VELOCITY`
+         */
         bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
+
     private:
         friend class TMC9660;
         explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } stepDir{*this};
-
+    };
 
     //***************************************************************************
     //**                SUBSYSTEM: FLASH STORAGE                             **//
     //***************************************************************************
 
     /**
-     * @brief Persist all RAM parameters to on-chip flash.
+     * @brief Subsystem for storing and recalling parameters from nonvolatile flash.
      *
-     *      Wraps PARAMETER_STORAGE_* commands so your application can
-     *      survive resets, matching the “Save to NVM” button in GUI-tools.
+     * This API wraps STAP (0xFFF) and FactoryDefault commands. Use it to
+     * persist all RWE parameters across power cycles, matching the functionality of
+     * the “Save to Flash” button in GUI tools.
+     *
+     * WARNING: Requires that external memory is configured via BOOT_CONFIG.
+     * Refer to: “Storing System Settings” section, p. 15:contentReference[oaicite:5]{index=5}
      */
     struct NvmStorage {
-        bool storeToFlash()            noexcept;   ///< PARAM_SAVE_ALL
-        bool recallFromFlash()         noexcept;   ///< PARAM_RESTORE_ALL
-        bool eraseFlashBank(uint8_t n) noexcept;   ///< PARAM_ERASE_BANK
-    } nvm{};
+        /**
+         * @brief Store all writable parameters to flash or EEPROM.
+         *
+         * @return true if the operation completed without error.
+         *
+         * Internally sends `STAP` (type=0xFFF) to save parameters.
+         */
+        bool storeToFlash() noexcept;
+
+        /**
+         * @brief Restore parameters previously saved to NVM.
+         *
+         * @return true if configuration was successfully recalled.
+         *
+         * Sets CONFIG_LOADED flag in GENERAL_STATUS_FLAGS if success.
+         */
+        bool recallFromFlash() noexcept;
+
+        /**
+         * @brief Erase a configuration bank from external memory.
+         *
+         * @param n Index of the flash bank to erase (typically 0)
+         * @return true if erase command sent successfully.
+         *
+         * Use before re-storing to flash if stale config causes issues.
+         */
+        bool eraseFlashBank(uint8_t n) noexcept;
+
+    private:
+        friend class TMC9660;
+        explicit NvmStorage(TMC9660& parent) noexcept : driver(parent) {}
+        TMC9660& driver;
+    };
 
 
     //***************************************************************************
     //**                SUBSYSTEM: Heartbeat (Watchdog)                        **//
     //***************************************************************************
     /**
-     * @brief Subsystem for the communication heartbeat monitor (watchdog).
+     * @brief Subsystem for configuring the communication watchdog (heartbeat).
+     *
+     * If enabled, the TMC9660 monitors the time since the last command.
+     * If no communication occurs before timeout expires, the chip faults or disables motor outputs.
+     *
+     * Refer to Parameters #10 & #11 in Global Bank 0 (Table 43), p. 89:contentReference[oaicite:6]{index=6}
      */
     struct Heartbeat {
+        /**
+         * @brief Enable the heartbeat monitor and set timeout.
+         *
+         * @param mode ENABLE or DISABLE the watchdog
+         * @param timeout_ms Timeout in milliseconds
+         * @return true if both values written successfully
+         *
+         * - Parameters:
+         *   - `HEARTBEAT_MONITORING_CONFIG`
+         *   - `HEARTBEAT_MONITORING_TIMEOUT`
+         */
         bool configure(HeartbeatMode mode, uint32_t timeout_ms) noexcept;
+
     private:
         friend class TMC9660;
         explicit Heartbeat(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } heartbeat{*this};
+    };
+
 
     //***************************************************************************
     //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O)           **//
     //***************************************************************************
+    /**
+    * @brief Subsystem for configuring general-purpose IOs (GPIOs).
+    *
+    * Pins can be configured as digital inputs, digital outputs, or analog inputs.
+    * The input pull-up/down resistors and output state can also be controlled.
+    *
+    * Refer to GPIO section and TMCL commands SIO / GIO (Table 18), p. 19:contentReference[oaicite:7]{index=7}
+    */
     struct GPIO {
-        bool setMode(uint8_t pin, bool output, bool pullEnable = false, bool pullUp = true) noexcept;
+        /**
+         * @brief Configure a GPIO pin as input or output.
+         *
+         * @param pin GPIO index (e.g. GPIO0..GPIO18)
+         * @param output Set to true to make the pin output, false = input
+         * @param pullEnable Enable pull resistor
+         * @param pullUp true = pull-up, false = pull-down
+         * @return true if configuration applied successfully
+         */
+        bool setMode(uint8_t pin, bool output,
+                    bool pullEnable = false,
+                    bool pullUp = true) noexcept;
+
+        /**
+         * @brief Write a digital value to a configured output pin.
+         * @param pin GPIO pin index
+         * @param value true = high, false = low
+         * @return true if write succeeded
+         */
         bool writePin(uint8_t pin, bool value) noexcept;
+
+        /**
+         * @brief Read a digital input pin.
+         * @param pin GPIO pin index
+         * @param[out] value Logic level read from the pin
+         * @return true on successful read
+         */
         bool readDigital(uint8_t pin, bool &value) noexcept;
+
+        /**
+         * @brief Read an analog input (e.g. external temperature or potentiometer).
+         * @param pin ADC input index
+         * @param[out] value Raw ADC value (typically 0–65535)
+         * @return true on success
+         *
+         * - Analog reads typically apply to AIN3, used with external thermistors.
+         */
         bool readAnalog(uint8_t pin, uint16_t &value) noexcept;
+
     private:
         friend class TMC9660;
         explicit GPIO(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } gpio{*this};
+    };
 
     //***************************************************************************
     //**               SUBSYSTEM: Power Management                          **//
     //***************************************************************************
+    /**
+     * @brief Subsystem for entering low-power hibernation mode and configuring wake.
+     *
+     * The TMC9660 supports timed power-down and wake-on-pin. These features reduce power when idle.
+     *
+     * - See Section “Hibernation and Wakeup” p. 101:contentReference[oaicite:8]{index=8}
+     * - Wake behavior depends on BOOT_CONFIG + pin wiring
+     */
     struct Power {
+        /**
+         * @brief Enable or disable the external wake-up pin.
+         * @param enable true = enable pin
+         * @return true on success
+         *
+         * - Parameter: `ENABLE_WAKE_PIN`
+         */
         bool enableWakePin(bool enable) noexcept;
+
+        /**
+         * @brief Put the chip into power-down mode for a set duration.
+         * @param period Enum selecting one of 6 durations (e.g. PERIOD_1 = 250 ms)
+         * @return true on success
+         *
+         * - Parameter: `GO_TO_TIMEOUT_POWER_DOWN_STATE`
+         */
         bool enterPowerDown(PowerDownPeriod period) noexcept;
+
     private:
         friend class TMC9660;
         explicit Power(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } power{*this};
+    };
+
 
     //***************************************************************************
     //**                SUBSYSTEM: Fault Handling and Retry                    **//
     //***************************************************************************
+    /**
+     * @brief Subsystem for configuring automatic fault retry logic.
+     *
+     * When a protection fault occurs (e.g., OCP, UVLO), the TMC9660 can either:
+     * - retry commutation (up to a configured limit)
+     * - or disable the motor permanently
+     *
+     * Refer to Table 40 (p. 84), parameters:
+     * - FAULT_RECOVERY_RETRIES
+     * - FAULT_RETRY_ACTION
+     * - FAULT_FINAL_ACTION:contentReference[oaicite:9]{index=9}
+     */
     struct Fault {
-        bool configure(FaultRetryAction retryAction, FaultFinalAction finalAction, uint8_t retries) noexcept;
+        /**
+         * @brief Configure retry behavior after a motor fault.
+         *
+         * @param retryAction Whether to retry once or continue immediately
+         * @param finalAction Behavior after final fault (disable outputs vs. keep driving)
+         * @param retries Number of retry attempts before giving up (0–255)
+         * @return true on success
+         */
+        bool configure(FaultRetryAction retryAction,
+                    FaultFinalAction finalAction,
+                    uint8_t retries) noexcept;
+
     private:
         friend class TMC9660;
         explicit Fault(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    } fault{*this};
+    };
+
 
     //==================================================
     //==================================================
