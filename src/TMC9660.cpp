@@ -181,6 +181,18 @@ bool TMC9660::configureEncoder(uint32_t countsPerRev, bool inverted, bool nChann
     return ok;
 }
 
+bool TMC9660::configureSecondaryABNEncoder(uint32_t countsPerRev, bool inverted, uint8_t gearRatio) noexcept {
+    uint32_t steps = countsPerRev;
+    if (steps > 0xFFFFFF) steps = 0xFFFFFF;
+    if (gearRatio == 0) gearRatio = 1;
+    bool ok = true;
+    ok &= writeParameter(174, steps);
+    ok &= writeParameter(175, inverted ? 1u : 0u);
+    ok &= writeParameter(176, gearRatio);
+    ok &= writeParameter(177, 1u);
+    return ok;
+}
+
 bool TMC9660::configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs, uint8_t csIdleTimeUs) noexcept {
     bool ok = true;
     ok &= writeParameter(180, cmdSize);
@@ -324,6 +336,26 @@ int32_t TMC9660::getActualPosition() {
     }
     int32_t position = static_cast<int32_t>(raw);
     return position;
+}
+
+bool TMC9660::getGeneralStatusFlags(uint32_t& flags) {
+    return readParameter(289, flags);
+}
+
+bool TMC9660::getGeneralErrorFlags(uint32_t& flags) {
+    return readParameter(299, flags);
+}
+
+bool TMC9660::getGateDriverErrorFlags(uint32_t& flags) {
+    return readParameter(300, flags);
+}
+
+bool TMC9660::clearGeneralErrorFlags(uint32_t mask) {
+    return writeParameter(299, mask);
+}
+
+bool TMC9660::clearGateDriverErrorFlags(uint32_t mask) {
+    return writeParameter(300, mask);
 }
 
 bool TMC9660::sendCommand(uint8_t opcode, uint16_t type, uint8_t motor, uint32_t value, uint32_t* reply) {

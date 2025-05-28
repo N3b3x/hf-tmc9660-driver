@@ -138,7 +138,8 @@ public:
          * @brief Configure the motor type (DC, BLDC, or stepper) and basic motor settings.
          * 
          * This sets the MOTOR_TYPE parameter and optionally related parameters like pole pairs for BLDC or microstep settings for steppers.
-         * @param type MotorType (DC, BLDC, STEPPER).
+         * Note that the BLDC option also covers PMSM motors since they use the same three-phase commutation scheme.
+         * @param type MotorType (DC, BLDC/PMSM, STEPPER).
          * @param polePairs For BLDC motors, number of pole pairs. For stepper or DC, this can be set to 1.
          * @return true if the motor type was set successfully, false if communication or device error.
          */
@@ -835,6 +836,23 @@ public:
         bool configureABNEncoder(uint32_t countsPerRev, bool inverted = false, bool nChannelInverted = false) noexcept;
 
         /**
+         * @brief Configure the secondary ABN encoder input.
+         *
+         * This allows the use of a second incremental encoder or a geared
+         * encoder setup. It writes ABN_2_* parameters to set the resolution,
+         * direction and optional gear ratio.
+         *
+         * @param countsPerRev Encoder resolution in counts per revolution.
+         * @param inverted     True to invert the encoder direction.
+         * @param gearRatio    Gear ratio between the second encoder and the
+         *                     motor shaft. Use 1 if directly coupled.
+         * @return true if all parameters were written successfully.
+         */
+        bool configureSecondaryABNEncoder(uint32_t countsPerRev,
+                                          bool inverted = false,
+                                          uint8_t gearRatio = 1) noexcept;
+
+        /**
          * @brief Configure ABN encoder initialization method.
          * 
          * Sets the method used to align the ABN encoder with the rotor's absolute position.
@@ -1167,6 +1185,41 @@ public:
          */
         int32_t getActualPosition() noexcept;
 
+        /**
+         * @brief Read the GENERAL_STATUS_FLAGS register.
+         * @param[out] flags Bit mask of current status flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralStatusFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Read the GENERAL_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGeneralErrorFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Read the GDRV_ERROR_FLAGS register.
+         * @param[out] flags Bit mask of current gate driver error flags.
+         * @return true if the flags were read successfully.
+         */
+        bool getGateDriverErrorFlags(uint32_t& flags) noexcept;
+
+        /**
+         * @brief Clear bits in the GENERAL_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear (write-1-to-clear).
+         * @return true if the mask was written successfully.
+         */
+        bool clearGeneralErrorFlags(uint32_t mask) noexcept;
+
+        /**
+         * @brief Clear bits in the GDRV_ERROR_FLAGS register.
+         * @param mask Bit mask of flags to clear.
+         * @return true if the mask was written successfully.
+         */
+        bool clearGateDriverErrorFlags(uint32_t mask) noexcept;
+
     private:
         friend class TMC9660;
         explicit Telemetry(TMC9660& parent) noexcept : driver(parent) {}
@@ -1291,7 +1344,7 @@ public:
         friend class TMC9660;
         explicit IIT(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } iit{*this};
 
 
     //***************************************************************************
@@ -1375,7 +1428,7 @@ public:
         friend class TMC9660;
         explicit StepDir(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } stepDir{*this};
 
     //***************************************************************************
     //**                SUBSYSTEM: FLASH STORAGE                             **//
@@ -1424,7 +1477,7 @@ public:
         friend class TMC9660;
         explicit NvmStorage(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } nvmStorage{*this};
 
 
     //***************************************************************************
@@ -1456,7 +1509,7 @@ public:
         friend class TMC9660;
         explicit Heartbeat(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } heartbeat{*this};
 
 
     //***************************************************************************
@@ -1514,7 +1567,7 @@ public:
         friend class TMC9660;
         explicit GPIO(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } gpio{*this};
 
     //***************************************************************************
     //**               SUBSYSTEM: Power Management                          **//
@@ -1550,7 +1603,7 @@ public:
         friend class TMC9660;
         explicit Power(TMC9660& parent) noexcept : driver(parent) {}
         TMC9660& driver;
-    };
+    } power{*this};
 
 
     //***************************************************************************
