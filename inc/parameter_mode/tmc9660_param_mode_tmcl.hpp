@@ -605,6 +605,37 @@ inline const char* to_string(GateDriver gd) {
 //    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
 //    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
 /////////////////////////////////////////////
+//--------------------------------------
+//  PWM Output Polarity (Table)
+//--------------------------------------
+/**
+ * @brief 
+ *
+ * Table — PWM Output Polarity:
+ *  NUMBER | NAME          | DESCRIPTION
+ *  ------ | ------------- | -----------------------------------------------------------------
+ *     0   | ACTIVE_HIGH   | PWM output is active high.
+ *     1   | ACTIVE_LOW    | PWM output is active low.
+ */
+#define PWM_OUTPUT_POLARITY_LIST(X) \
+    X(ACTIVE_HIGH, 0, /*!< PWM output is active high. */) \
+    X(ACTIVE_LOW,  1, /*!< PWM output is active low. */)
+
+enum class PwmOutputPolarity : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    PWM_OUTPUT_POLARITY_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(PwmOutputPolarity p) {
+    switch(p) {
+        #define X(NAME, VALUE, DOC) case PwmOutputPolarity::NAME: return #NAME;
+        PWM_OUTPUT_POLARITY_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef PWM_OUTPUT_POLARITY_LIST
 
 //--------------------------------------
 //  Gate Current Sink (Table)
@@ -2884,15 +2915,15 @@ inline const char* to_string(VelocityMeterMode mode) {
     X(SHIFT_20_BIT, 5, /*!< Shift right by 20 bits. */) \
     X(SHIFT_24_BIT, 6,  /*!< Shift right by 24 bits. */)
 
-enum class AccelerationFfShift : uint8_t {
+enum class AccelerationFFShift : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     ACCELERATION_FF_SHIFT_LIST(X)
     #undef X
 };
 
-inline const char* to_string(AccelerationFfShift shift) {
+inline const char* to_string(AccelerationFFShift shift) {
     switch(shift) {
-        #define X(NAME, VALUE, DOC) case AccelerationFfShift::NAME: return #NAME;
+        #define X(NAME, VALUE, DOC) case AccelerationFFShift::NAME: return #NAME;
         ACCELERATION_FF_SHIFT_LIST(X)
         #undef X
         default: return "UNKNOWN";
@@ -4144,15 +4175,15 @@ inline const char* to_string(ReferenceSearch e) {
     X(HOME_SWITCH_NEG_DIR_IGNORE_END_SWITCH, 7, /*!< Search home switch in negative direction, ignore end switch. */) \
     X(HOME_SWITCH_POS_DIR_IGNORE_END_SWITCH, 8, /*!< Search home switch in positive direction, ignore end switch. */)
 
-enum class ReferenceSearchMode : uint8_t {
+enum class ReferenceSwitchSearchMode : uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
     REFERENCE_SEARCH_MODE_LIST(X)
     #undef X
 };
 
-inline const char* to_string(ReferenceSearchMode e) {
+inline const char* to_string(ReferenceSwitchSearchMode e) {
     switch(e) {
-        #define X(NAME, VALUE, DOC) case ReferenceSearchMode::NAME: return #NAME;
+        #define X(NAME, VALUE, DOC) case ReferenceSwitchSearchMode::NAME: return #NAME;
         REFERENCE_SEARCH_MODE_LIST(X)
         #undef X
         default: return "UNKNOWN";
