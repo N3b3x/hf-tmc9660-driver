@@ -2836,42 +2836,6 @@ public:
         TMC9660& driver;
     } power{*this};
 
-
-    //***************************************************************************
-    //**                SUBSYSTEM: Fault Handling and Retry                    **//
-    //***************************************************************************
-    /**
-     * @brief Subsystem for configuring automatic fault retry logic.
-     *
-     * When a protection fault occurs (e.g., OCP, UVLO), the TMC9660 can either:
-     * - retry commutation (up to a configured limit)
-     * - or disable the motor permanently
-     *
-     * Refer to Table 40 (p. 84), parameters:
-     * - FAULT_RECOVERY_RETRIES
-     * - FAULT_RETRY_ACTION
-     * - FAULT_FINAL_ACTION:contentReference[oaicite:9]{index=9}
-     */
-    struct Fault {
-        /**
-         * @brief Configure retry behavior after a motor fault.
-         *
-         * @param retryAction Whether to retry once or continue immediately
-         * @param finalAction Behavior after final fault (disable outputs vs. keep driving)
-         * @param retries Number of retry attempts before giving up (0–255)
-         * @return true on success
-         */
-        bool configure(FaultRetryAction retryAction,
-                    FaultFinalAction finalAction,
-                    uint8_t retries) noexcept;
-
-    private:
-        friend class TMC9660;
-        explicit Fault(TMC9660& parent) noexcept : driver(parent) {}
-        TMC9660& driver;
-    };
-
-
     //==================================================
     // PRIVATE MEMBERS
     //==================================================
