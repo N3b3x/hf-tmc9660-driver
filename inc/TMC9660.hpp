@@ -6,7 +6,7 @@
 #include <vector>
 #include <span>
 
-#include "../inc/parameter_mode/tmc9660_param_mode_tmcl.hpp"
+#include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
 /**
  * @brief Abstract communication interface for sending/receiving TMCL datagrams (64-bit) to the TMC9660.
@@ -160,7 +160,61 @@ public:
          * @return true if set successfully, false if an error occurred.
          */
         bool setPWMFrequency(uint32_t frequencyHz) noexcept;
-        
+         
+        /**
+         * @brief Configure the commutation mode for the motor.
+         * 
+         * This sets how the motor is driven: e.g., open-loop or closed-loop FOC with various sensor feedback options.
+         * Typically used for BLDC or stepper motors. For DC motors, commutation modes are not applicable except for
+         * sensor feedback in velocity/position control modes.
+         * 
+         * @param mode A CommutationMode value defining the motor control strategy:
+         *             - SYSTEM_OFF: Motor disabled (default state after power-on/reset)
+         *             - SYSTEM_OFF_LOW_SIDE_FETS_ON: All low-side FETs ON (brake)
+         *             - SYSTEM_OFF_HIGH_SIDE_FETS_ON: All high-side FETs ON
+         *             - FOC_OPENLOOP_VOLTAGE: Constant duty cycle (voltage) control without feedback
+         *             - FOC_OPENLOOP_CURRENT: Constant current control without position feedback
+         *             - FOC_ENCODER: Field-oriented control with ABN encoder feedback
+         *             - FOC_HALL: Field-oriented control with Hall sensor feedback
+         *             - FOC_SPI_ENCODER: Field-oriented control with SPI encoder feedback
+         * 
+         * @return true if the mode was applied successfully.
+         * 
+         * @note When using SYSTEM_OFF, the behavior is controlled by IDLE_MOTOR_PWM_BEHAVIOR parameter.
+         *       For open-loop modes, additional parameters must be set (OPENLOOP_VOLTAGE or OPENLOOP_CURRENT).
+         *       For sensor-based modes, the appropriate sensor must be configured before enabling this mode.
+         */
+        bool setCommutationMode(tmc9660::tmcl::CommutationMode mode) noexcept;
+
+        /**
+         * @brief Set the output voltage limit for the FOC controller.
+         * 
+         * This parameter limits the maximum Uq/ Ud output of the FOC controller (PID output circular limiter).
+         * 
+         * @param limit Output voltage limit (0 ... 32767, default 8000).
+         * @return true if the parameter was set successfully.
+         */
+        bool setOutputVoltageLimit(uint16_t limit) noexcept;
+
+        /**
+         * @brief Set the maximum allowed motor current (torque limit).
+         * 
+         * This sets the MAX_TORQUE parameter which limits the peak current/torque that the controller will deliver to the motor.
+         * @param milliamps Maximum current in milliamps.
+         * @return true on success, false on error.
+         */
+        bool setMaxTorqueCurrent(uint16_t milliamps) noexcept;
+
+        /**
+         * @brief Set the maximum allowed flux current for BLDC/stepper motors.
+         * 
+         * This sets the MAX_FLUX parameter which limits the flux-producing current component.
+         * Important for field-weakening operation and stepper motor control.
+         * @param milliamps Maximum flux current in milliamps.
+         * @return true on success, false on error.
+         */
+        bool setMaxFluxCurrent(uint16_t milliamps) noexcept;
+
         /**
          * @brief Set the PWM switching scheme for the motor driver.
          * 
@@ -177,50 +231,18 @@ public:
          * @note For BLDC motors, SVPWM and Flat Bottom schemes allow full voltage utilization.
          *       For Stepper/DC motors, only standard and flat bottom modes are available with 100% duty cycle.
          */
-        bool setPWMSwitchingScheme(uint8_t scheme) noexcept;
-        
+        bool setPWMSwitchingScheme(tmc9660::tmcl::PwmSwitchingScheme scheme) noexcept;
+                
         /**
-         * @brief Configure the commutation mode for the motor.
+         * @brief Configure PWM behavior when the motor is idle (System Off mode).
          * 
-         * This sets how the motor is driven: e.g., open-loop or closed-loop FOC with various sensor feedback options.
-         * Typically used for BLDC or stepper motors. For DC motors, commutation modes are not applicable except for
-         * sensor feedback in velocity/position control modes.
+         * Sets whether the PWM outputs are active (all phases same voltage) or off (high-Z) when commutation mode is SYSTEM_OFF.
          * 
-         * @param mode A CommutationMode value defining the motor control strategy:
-         *             - SYSTEM_OFF: Motor disabled (default state after power-on/reset)
-         *             - FOC_OPENLOOP_VOLTAGE: Constant duty cycle (voltage) control without feedback
-         *             - FOC_OPENLOOP_CURRENT: Constant current control without position feedback
-         *             - FOC_ENCODER: Field-oriented control with ABN encoder feedback
-         *             - FOC_HALL: Field-oriented control with Hall sensor feedback
-         *             - FOC_SPI_ENCODER: Field-oriented control with SPI encoder feedback
-         * 
-         * @return true if the mode was applied successfully.
-         * 
-         * @note When using SYSTEM_OFF, the behavior is controlled by IDLE_MOTOR_PWM_BEHAVIOR parameter.
-         *       For open-loop modes, additional parameters must be set (OPENLOOP_VOLTAGE or OPENLOOP_CURRENT).
-         *       For sensor-based modes, the appropriate sensor must be configured before enabling this mode.
+         * @param pwmOffWhenIdle True to turn PWM off (high-Z) when idle, false to keep PWM on.
+         * @return true if the parameter was set successfully.
          */
-        bool setCommutationMode(tmc9660::tmcl::CommutationMode mode) noexcept;
-
-        /**
-         * @brief Set the maximum allowed motor current (torque limit).
-         * 
-         * This sets the MAX_TORQUE parameter which limits the peak current/torque that the controller will deliver to the motor.
-         * @param milliamps Maximum current in milliamps.
-         * @return true on success, false on error.
-         */
-        bool setMaxCurrent(uint16_t milliamps) noexcept;
-
-        /**
-         * @brief Set the maximum allowed flux current for BLDC/stepper motors.
-         * 
-         * This sets the MAX_FLUX parameter which limits the flux-producing current component.
-         * Important for field-weakening operation and stepper motor control.
-         * @param milliamps Maximum flux current in milliamps.
-         * @return true on success, false on error.
-         */
-        bool setMaxFluxCurrent(uint16_t milliamps) noexcept;
-
+        bool setIdleMotorPWMBehavior(bool pwmOffWhenIdle) noexcept;
+       
         /**
          * @brief Configure field-weakening (automatic flux reduction above a knee speed).
          *
@@ -234,7 +256,6 @@ public:
         bool configureFieldWeakening(uint16_t startRPM,
                                     int16_t  slope,
                                     uint16_t minFlux) noexcept;
-
 
         /**
          * @brief Configure the ADC shunt type for current measurement.
@@ -548,57 +569,94 @@ public:
      */
     struct CurrentSensing {
         /**
-         * @brief Configure the ADC shunt type for current measurement.
-         * 
-         * Sets the shunt resistor configuration used for motor current sensing.
-         * 
-         * @param shuntType Shunt configuration:
-         *        0: INLINE_UVW - Inline shunts on all phases
-         *        1: INLINE_VW - Inline shunts on V and W phases only
-         *        2: INLINE_UW - Inline shunts on U and W phases only
-         *        3: INLINE_UV - Inline shunts on U and V phases only
-         *        4: BOTTOM_SHUNTS - Low-side (bottom) shunts configuration
-         * @return true if configuration was successful
+         * @brief Set the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
+         * @param shuntType 0: INLINE_UVW, 1: INLINE_VW, 2: INLINE_UW, 3: INLINE_UV, 4: BOTTOM_SHUNTS
+         * @return true if successful
          */
         bool setShuntType(uint8_t shuntType) noexcept;
 
         /**
-         * @brief Set the current scaling factor for accurate current measurement.
-         * 
-         * The scaling factor converts ADC readings to real-world current values in milliamps.
-         * Calculated using: Factor = 1024 × 2.5 × 1000 / ((2^16-1) × GCSA × RShunt)
-         * 
-         * @param scalingFactor Scaling factor to convert ADC readings to mA.
-         *        For RMS current: Factor ≈ 27.62 / (GCSA × RShunt)
-         *        For Peak current: Factor ≈ 39.06 / (GCSA × RShunt)
-         * @return true if set successfully
+         * @brief Read raw ADC values (Parameters 13-16: ADC_I0_RAW ... ADC_I3_RAW).
+         * @param[out] adc0 Raw ADC I0
+         * @param[out] adc1 Raw ADC I1
+         * @param[out] adc2 Raw ADC I2
+         * @param[out] adc3 Raw ADC I3
+         * @return true if all values were read successfully
          */
-        bool setScalingFactor(float scalingFactor) noexcept;
+        bool readRaw(int16_t& adc0, int16_t& adc1, int16_t& adc2, int16_t& adc3) noexcept;
 
         /**
-         * @brief Configure the ADC mapping and inversion for motor phases.
-         * 
-         * Maps ADC inputs to motor phases and sets inversion flags based on motor type
-         * and current sensing configuration.
-         * 
-         * @param invertADC0 Set true to invert ADC0 readings
-         * @param invertADC1 Set true to invert ADC1 readings
-         * @param invertADC2 Set true to invert ADC2 readings
-         * @param invertADC3 Set true to invert ADC3 readings (if used)
-         * @return true if configuration was successful
+         * @brief Set current sense amplifier gain (Parameters 17/18: CSA_GAIN_ADC_I0_TO_ADC_I2, CSA_GAIN_ADC_I3).
+         * @param gain012 Gain for ADC I0/I1/I2 (0-4)
+         * @param gain3 Gain for ADC I3 (0-4)
+         * @return true if successful
          */
-        bool configureADCInversion(bool invertADC0, bool invertADC1, bool invertADC2, bool invertADC3 = false) noexcept;
+        bool setCSAGain(uint8_t gain012, uint8_t gain3) noexcept;
 
         /**
-         * @brief Configure the current sense amplifier (CSA) gain.
-         * 
-         * Sets the gain for the internal current sense amplifiers.
-         * 
-         * @param gainADC0_1 Gain setting for ADC I0 and I1 channels (0-31)
-         * @param gainADC2_3 Gain setting for ADC I2 and I3 channels (0-31)
-         * @return true if gains were set successfully
+         * @brief Set current sense amplifier filter (Parameters 19/20: CSA_FILTER_ADC_I0_TO_ADC_I2, CSA_FILTER_ADC_I3).
+         * @param filter012 Filter for ADC I0/I1/I2 (0-3)
+         * @param filter3 Filter for ADC I3 (0-3)
+         * @return true if successful
          */
-        bool setCSAGain(uint8_t gainADC0_1, uint8_t gainADC2_3) noexcept;
+        bool setCSAFilter(uint8_t filter012, uint8_t filter3) noexcept;
+
+        /**
+         * @brief Set current scaling factor (Parameter 21: CURRENT_SCALING_FACTOR).
+         * @param scalingFactor Scaling factor (1...65535)
+         * @return true if successful
+         */
+        bool setScalingFactor(uint16_t scalingFactor) noexcept;
+
+        /**
+         * @brief Set ADC mapping for each phase (Parameters 22-25: PHASE_UX1_ADC_MAPPING ... PHASE_Y2_ADC_MAPPING).
+         * @param ux1 0-3 (ADC_I0...ADC_I3)
+         * @param vx2 0-3
+         * @param wy1 0-3
+         * @param y2  0-3
+         * @return true if all mappings were set successfully
+         */
+        bool setPhaseAdcMapping(uint8_t ux1, uint8_t vx2, uint8_t wy1, uint8_t y2) noexcept;
+
+        /**
+         * @brief Set individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE ... ADC_I3_SCALE).
+         * @param scale0 1...32767
+         * @param scale1 1...32767
+         * @param scale2 1...32767
+         * @param scale3 1...32767
+         * @return true if all scales were set successfully
+         */
+        bool setADCScalingFactors(uint16_t scale0, uint16_t scale1, uint16_t scale2, uint16_t scale3) noexcept;
+
+        /**
+         * @brief Set ADC inversion (Parameters 30-33: ADC_I0_INVERTED ... ADC_I3_INVERTED).
+         * @param inv0 0/1
+         * @param inv1 0/1
+         * @param inv2 0/1
+         * @param inv3 0/1
+         * @return true if all inversion flags were set successfully
+         */
+        bool setADCInversion(bool inv0, bool inv1, bool inv2, bool inv3) noexcept;
+
+        /**
+         * @brief Set ADC offset (Parameters 34-37: ADC_I0_OFFSET ... ADC_I3_OFFSET).
+         * @param offset0 -32768...32767
+         * @param offset1 -32768...32767
+         * @param offset2 -32768...32767
+         * @param offset3 -32768...32767
+         * @return true if all offsets were set successfully
+         */
+        bool setADCOffsets(int16_t offset0, int16_t offset1, int16_t offset2, int16_t offset3) noexcept;
+
+        /**
+         * @brief Read scaled and offset-compensated ADC values (Parameters 38-41: ADC_I0 ... ADC_I3).
+         * @param[out] adc0 Scaled/offset ADC I0
+         * @param[out] adc1 Scaled/offset ADC I1
+         * @param[out] adc2 Scaled/offset ADC I2
+         * @param[out] adc3 Scaled/offset ADC I3
+         * @return true if all values were read successfully
+         */
+        bool readScaled(int16_t& adc0, int16_t& adc1, int16_t& adc2, int16_t& adc3) noexcept;
 
         /**
          * @brief Calibrate the ADC offsets for current measurement.
@@ -620,29 +678,6 @@ public:
          * @return true if the status was read successfully
          */
         bool getCalibrationStatus(bool& isCalibrated) noexcept;
-
-        /**
-         * @brief Set individual ADC scaling factors to account for shunt resistor tolerances.
-         * 
-         * @param scaleADC0 Scaling factor for ADC I0 (default: 1.0)
-         * @param scaleADC1 Scaling factor for ADC I1 (default: 1.0)
-         * @param scaleADC2 Scaling factor for ADC I2 (default: 1.0)
-         * @param scaleADC3 Scaling factor for ADC I3 (default: 1.0)
-         * @return true if scales were set successfully
-         */
-        bool setADCScalingFactors(float scaleADC0 = 1.0f, float scaleADC1 = 1.0f, 
-                                  float scaleADC2 = 1.0f, float scaleADC3 = 1.0f) noexcept;
-
-        /**
-         * @brief Read the raw ADC values for current measurement.
-         * 
-         * @param[out] adc0 Raw value from ADC I0
-         * @param[out] adc1 Raw value from ADC I1
-         * @param[out] adc2 Raw value from ADC I2
-         * @param[out] adc3 Raw value from ADC I3
-         * @return true if all values were read successfully
-         */
-        bool readRawValues(int16_t& adc0, int16_t& adc1, int16_t& adc2, int16_t& adc3) noexcept;
 
     private:
         friend class TMC9660;
