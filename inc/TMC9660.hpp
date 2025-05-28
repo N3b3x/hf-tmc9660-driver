@@ -222,10 +222,9 @@ public:
      * utilization, switching losses, and current measurement windows.
      *
      * @param scheme PWM switching scheme:
-     *               0: STANDARD - Standard PWM modulation (86% max voltage for
-     * BLDC) 1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced
-     * load on FETs) 2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for
-     * BLDC, extended current measurement window)
+         *               0: STANDARD - Standard PWM modulation (86% max voltage for BLDC)
+         *               1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced load on FETs)
+         *               2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for BLDC, extended current measurement window)
      * @return true if set successfully, false if an error occurred.
      *
      * @note For BLDC motors, SVPWM and Flat Bottom schemes allow full voltage
@@ -246,40 +245,30 @@ public:
      * @return true if the parameter was set successfully.
      *
      * @note Selection guide by motor type:
-     * | Motor type   | Typical goal when idle         | Best-fit setting     |
-     * Why it's usually preferred                   | | ------------ |
-     * ------------------------------ | -------------------- |
-     * -------------------------------------------- | | **Stepper**  | Hold a
-     * fixed shaft position    | **PWM on**          | • Energizing both
-     * windings gives full static | |              | (avoid back-driving) | (all
-     * coils          | torque                                       | | | |
-     * energized)          | • Prevents the load or gravity from shifting | | |
-     * |                      | the rotor                                    |
-     * |              |                                |                      |
-     * • Draws continuous current, heating the      | |              | | | motor
-     * and wasting power—turn it off if you   | |              | | | don't need
-     * holding torque                    | | ------------ |
-     * ------------------------------ | -------------------- |
-     * -------------------------------------------- | | **BLDC**     | Usually
-     * want the rotor to      | **PWM off**         | • With the bridge inactive
-     * the stator        | | **(3-phase)**| coast freely or be gently      |
-     * (high-Z)            | doesn't pull current, avoiding battery       | | |
-     * braked by external friction    |                      | drain and heating
-     * | |              |                                | | • If you need
-     * static holding/braking torque  | |              | | | (rare for
-     * sensorless BLDC), keep PWM on      | |              | | | or switch to
-     * active braking instead          | | ------------ |
-     * ------------------------------ | -------------------- |
-     * -------------------------------------------- | | **Brushed**  | Let the
-     * armature coast; no     | **PWM off**         | • Disconnecting the
-     * H-bridge removes any     | | **DC**       | holding torque exists anyway
-     * | (high-Z)            | quiescent current                            | |
-     * |                                |                      | • Keeping PWM
-     * on shorts the terminals        | |              | | | (dynamic braking)
-     * and stops the shaft        | |              | |                      |
-     * quickly but wastes energy and can cause      | |              | | | regen
-     * currents—use only if you need that     | |              | | | fast
-     * passive brake                           |
+         * | Motor type   | Typical goal when idle         | Best-fit setting     | Why it's usually preferred                   |
+         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
+         * | **Stepper**  | Hold a fixed shaft position    | **PWM on**          | • Energizing both windings gives full static |
+         * |              | (avoid back-driving)           | (all coils          | torque                                       |
+         * |              |                                | energized)          | • Prevents the load or gravity from shifting |
+         * |              |                                |                      | the rotor                                    |
+         * |              |                                |                      | • Draws continuous current, heating the      |
+         * |              |                                |                      | motor and wasting power—turn it off if you   |
+         * |              |                                |                      | don't need holding torque                    |
+         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
+         * | **BLDC**     | Usually want the rotor to      | **PWM off**         | • With the bridge inactive the stator        |
+         * | **(3-phase)**| coast freely or be gently      | (high-Z)            | doesn't pull current, avoiding battery       |
+         * |              | braked by external friction    |                      | drain and heating                            |
+         * |              |                                |                      | • If you need static holding/braking torque  |
+         * |              |                                |                      | (rare for sensorless BLDC), keep PWM on      |
+         * |              |                                |                      | or switch to active braking instead          |
+         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
+         * | **Brushed**  | Let the armature coast; no     | **PWM off**         | • Disconnecting the H-bridge removes any     |
+         * | **DC**       | holding torque exists anyway   | (high-Z)            | quiescent current                            |
+         * |              |                                |                      | • Keeping PWM on shorts the terminals        |
+         * |              |                                |                      | (dynamic braking) and stops the shaft        |
+         * |              |                                |                      | quickly but wastes energy and can cause      |
+         * |              |                                |                      | regen currents—use only if you need that     |
+         * |              |                                |                      | fast passive brake                           |
      *
      * There isn't a single "best" choice that fits every motor type or
      * application—you're really deciding between:
