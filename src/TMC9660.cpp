@@ -485,4 +485,384 @@ uint16_t TMC9660::Telemetry::getExternalTemperature() noexcept {
     return 0;
   return static_cast<uint16_t>(v);
 }
+
+//-------------------------------------------------------------------------
+// FOCControl inline helpers moved from header
+//-------------------------------------------------------------------------
+
+bool TMC9660::FOCControl::getMccInputsRaw(uint16_t &inputs) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::MCC_INPUTS_RAW, v))
+    return false;
+  inputs = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocVoltageUx(int16_t &voltage) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UX, v))
+    return false;
+  voltage = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocVoltageWy(int16_t &voltage) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_WY, v))
+    return false;
+  voltage = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocVoltageV(int16_t &voltage) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_V, v))
+    return false;
+  voltage = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocVoltageUq(int16_t &voltage) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_VOLTAGE_UQ, v))
+    return false;
+  voltage = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setFieldWeakeningI(uint16_t milliamps) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I,
+                               milliamps);
+}
+
+bool TMC9660::FOCControl::getFieldWeakeningI(uint16_t &milliamps) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FIELDWEAKENING_I, v))
+    return false;
+  milliamps = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, voltage);
+}
+
+bool TMC9660::FOCControl::getFieldWeakeningVoltageThreshold(uint16_t &voltage) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::FIELDWEAKENING_VOLTAGE_THRESHOLD, v))
+    return false;
+  voltage = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocCurrentUx(int16_t &milliamps) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_UX, v))
+    return false;
+  milliamps = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocCurrentV(int16_t &milliamps) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_V, v))
+    return false;
+  milliamps = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocCurrentWy(int16_t &milliamps) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_WY, v))
+    return false;
+  milliamps = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getFocCurrentIq(int16_t &milliamps) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::FOC_CURRENT_IQ, v))
+    return false;
+  milliamps = static_cast<int16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterEnable(bool enable) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE, enable);
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterEnable(bool &enable) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ENABLE, v))
+    return false;
+  enable = (v != 0);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterACoeff1(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_1, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterACoeff2(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_ACOEFF_2, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterBCoeff0(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_0, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterBCoeff1(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_1, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getTargetTorqueBiquadFilterBCoeff2(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::TARGET_TORQUE_BIQUAD_FILTER_BCOEFF_2, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterEnable(bool enable) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE, enable);
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterEnable(bool &enable) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ENABLE, v))
+    return false;
+  enable = (v != 0);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterACoeff1(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_1, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterACoeff2(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_ACOEFF_2, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterBCoeff0(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_0, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterBCoeff1(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_1, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2,
+      static_cast<uint32_t>(coeff));
+}
+
+bool TMC9660::FOCControl::getActualVelocityBiquadFilterBCoeff2(int32_t &coeff) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::ACTUAL_VELOCITY_BIQUAD_FILTER_BCOEFF_2, v))
+    return false;
+  coeff = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getTorqueFluxCombinedTargetValues(uint32_t &value) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_TARGET_VALUES, value);
+}
+
+bool TMC9660::FOCControl::getTorqueFluxCombinedActualValues(uint32_t &value) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::TORQUE_FLUX_COMBINED_ACTUAL_VALUES, value);
+}
+
+bool TMC9660::FOCControl::getVoltageDqCombinedActualValues(uint32_t &value) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::VOLTAGE_D_Q_COMBINED_ACTUAL_VALUES, value);
+}
+
+bool TMC9660::FOCControl::getIntegratedActualTorqueValue(uint32_t &value) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_TORQUE_VALUE, value);
+}
+
+bool TMC9660::FOCControl::getIntegratedActualVelocityValue(uint32_t &value) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_VELOCITY_VALUE, value);
+}
+
+//-------------------------------------------------------------------------
+// IIT inline helpers moved from header
+//-------------------------------------------------------------------------
+
+bool TMC9660::IIT::resetIntegralState() noexcept {
+  return driver.writeGlobalParameter(
+      tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 0, 0);
+}
+
+bool TMC9660::IIT::setThermalWindingTimeConstant1(uint16_t ms) noexcept {
+  return driver.writeGlobalParameter(
+      tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, ms);
+}
+
+bool TMC9660::IIT::getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
+  uint32_t v;
+  if (!driver.readGlobalParameter(
+          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, v))
+    return false;
+  ms = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::IIT::setLimit1(uint32_t limit) noexcept {
+  return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
+                                     limit);
+}
+
+bool TMC9660::IIT::getLimit1(uint32_t &limit) noexcept {
+  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
+                                    limit);
+}
+
+bool TMC9660::IIT::setThermalWindingTimeConstant2(uint16_t ms) noexcept {
+  return driver.writeGlobalParameter(
+      tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, ms);
+}
+
+bool TMC9660::IIT::getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
+  uint32_t v;
+  if (!driver.readGlobalParameter(
+          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, v))
+    return false;
+  ms = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::IIT::setLimit2(uint32_t limit) noexcept {
+  return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
+                                     limit);
+}
+
+bool TMC9660::IIT::getLimit2(uint32_t &limit) noexcept {
+  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
+                                    limit);
+}
+
+bool TMC9660::IIT::getActualTotalMotorCurrent(uint32_t &current,
+                                              uint8_t motorIndex) noexcept {
+  return driver.readParameter(
+      tmc9660::tmcl::Parameters::ACTUAL_TOTAL_MOTOR_CURRENT, current,
+      motorIndex);
+}
+
+bool TMC9660::IIT::getSum1(uint32_t &sum) noexcept {
+  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_1, 0,
+                                    sum);
+}
+
+bool TMC9660::IIT::getSum2(uint32_t &sum) noexcept {
+  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0,
+                                    sum);
+}
 // TMC9660.cpp - Implementation of TMC9660 motor controller interface
