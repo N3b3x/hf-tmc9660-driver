@@ -341,8 +341,7 @@ public:
     //  * @param minFlux    Minimum allowed flux in mWb.
     //  * @return true on success.
     //  *
-    //  * Registers: WEAKENING_FACTOR, FIELD_WEAKENING_ENABLE
-    //  :contentReference[oaicite:0]{index=0}
+    //  * Registers: WEAKENING_FACTOR, FIELD_WEAKENING_ENABLE (see datasheet)
     //  */
     // bool configureFieldWeakening(uint16_t startRPM,
     //                             int16_t  slope,
@@ -1684,17 +1683,31 @@ public:
      * @brief Select which sensor supplies the velocity loop.
      *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
      */
+    /**
+     * @brief Select which sensor supplies the velocity loop.
+     *
+     * @param sel Sensor selection value. See the VELOCITY_SENSOR_SELECTION
+     *            parameter in the datasheet.
+     * @return true on success
+     */
     bool selectVelocitySensor(
         uint8_t sel) noexcept; ///< VELOCITY_SENSOR_SELECTION
-                               ///< :contentReference[oaicite:14]{index=14}
+                               ///< @see Datasheet parameter VELOCITY_SENSOR_SELECTION
 
     /**
      * @brief Select which sensor supplies the position loop.
      *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
      */
+    /**
+     * @brief Select which sensor supplies the position loop.
+     *
+     * @param sel Sensor selection value. See the POSITION_SENSOR_SELECTION
+     *            parameter in the datasheet.
+     * @return true on success
+     */
     bool selectPositionSensor(
         uint8_t sel) noexcept; ///< POSITION_SENSOR_SELECTION
-                               ///< :contentReference[oaicite:15]{index=15}
+                               ///< @see Datasheet parameter POSITION_SENSOR_SELECTION
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  HALL sensors (digital Hall)
@@ -2080,8 +2093,8 @@ public:
    * - Velocity feed-forward
    * - Microstep resolution configuration
    *
-   * Refer to Parameter IDs #205–#209 (Table 48), and STEP/DIR section,
-   * p. 95:contentReference[oaicite:2]{index=2}
+   * Refer to Parameter IDs #205–#209 (Table 48). See datasheet page 95 for
+   * details on the STEP/DIR interface.
    */
   struct StepDir {
 
@@ -2104,7 +2117,7 @@ public:
      * @return true on success
      *
      * - Parameter: `STEPDIR_ENABLE`
-     * - Boot option: Table 11:contentReference[oaicite:3]{index=3}
+     * - Boot option: see datasheet Table 11
      */
     bool enableInterface(bool on) noexcept;
 
@@ -2447,11 +2460,22 @@ public:
     /**
      * @brief Stop when ramp target deviates from actual > thresholds.
      */
+    /**
+     * @brief Stop when ramp target deviates from actual values beyond the
+     *        allowed thresholds.
+     *
+     * @param maxVelError Maximum allowed velocity error.
+     * @param maxPosError Maximum allowed position error.
+     * @param softStop Use soft stop instead of immediate stop when true.
+     * @return true on success
+     *
+     * @see EVENT_STOP_SETTINGS and STOP_ON_*_DEVIATION in the datasheet.
+     */
     bool enableDeviationStop(
         uint32_t maxVelError, uint32_t maxPosError,
         bool softStop =
             true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS
-                            ///< :contentReference[oaicite:11]{index=11}
+                            ///< @see Datasheet EVENT_STOP_SETTINGS
 
     /**
      * @brief Configure reference / limit-switch inputs.
@@ -2459,17 +2483,34 @@ public:
      * @param invertL,R,H    invert individual polarities.
      * @param swapLR         swap left/right wiring.
      */
+    /**
+     * @brief Configure reference and limit switch inputs.
+     *
+     * @param mask    Bit mask of switches to enable (see REFERENCE_SWITCH_ENABLE).
+     * @param invertL Invert left switch polarity.
+     * @param invertR Invert right switch polarity.
+     * @param invertH Invert home switch polarity.
+     * @param swapLR  Swap left and right wiring.
+     * @return true on success
+     *
+     * @see REFERENCE_SWITCH_* parameters in the datasheet.
+     */
     bool configureReferenceSwitches(
         uint8_t mask, bool invertL, bool invertR, bool invertH,
         bool swapLR) noexcept; ///< REFERENCE_SWITCH_*
-                               ///< :contentReference[oaicite:12]{index=12}
+                               ///< @see Datasheet REFERENCE_SWITCH_ENABLE
 
     /**
      * @brief Read and clear the latched position from a switch event.
+     *
+     * @param[out] pos Latched position value.
+     * @return true on success
+     *
+     * @see LATCH_POSITION / RAMPER_LATCHED in the datasheet.
      */
     bool getAndClearLatchedPosition(
         int32_t &pos) noexcept; ///< LATCH_POSITION / RAMPER_LATCHED
-                                ///< :contentReference[oaicite:13]{index=13}
+                                ///< @see Datasheet LATCH_POSITION
 
   private:
     friend class TMC9660;
@@ -2643,8 +2684,8 @@ public:
    * of the “Save to Flash” button in GUI tools.
    *
    * WARNING: Requires that external memory is configured via BOOT_CONFIG.
-   * Refer to: “Storing System Settings” section,
-   * p. 15:contentReference[oaicite:5]{index=5}
+   * Refer to the "Storing System Settings" section in the datasheet
+   * (see page 15).
    */
   struct NvmStorage {
     /**
@@ -2691,8 +2732,8 @@ public:
    * If no communication occurs before timeout expires, the chip faults or
    * disables motor outputs.
    *
-   * Refer to Parameters #10 & #11 in Global Bank 0 (Table 43),
-   * p. 89:contentReference[oaicite:6]{index=6}
+   * Refer to Parameters #10 & #11 in Global Bank 0 (Table 43).
+   * See datasheet page 89 for details.
    */
   struct Heartbeat {
     /**
@@ -2724,8 +2765,8 @@ public:
    * inputs. The input pull-up/down resistors and output state can also be
    * controlled.
    *
-   * Refer to GPIO section and TMCL commands SIO / GIO (Table 18),
-   * p. 19:contentReference[oaicite:7]{index=7}
+   * Refer to the GPIO section and TMCL commands SIO / GIO (Table 18).
+   * See datasheet page 19.
    */
   struct GPIO {
     /**
@@ -2782,9 +2823,8 @@ public:
    * The TMC9660 supports timed power-down and wake-on-pin. These features
    * reduce power when idle.
    *
-   * - See Section “Hibernation and Wakeup”
-   * p. 101:contentReference[oaicite:8]{index=8}
-   * - Wake behavior depends on BOOT_CONFIG + pin wiring
+   * - See the "Hibernation and Wakeup" section (datasheet page 101).
+   * - Wake behavior depends on BOOT_CONFIG and external wiring.
    */
   struct Power {
     /**
