@@ -865,4 +865,233 @@ bool TMC9660::IIT::getSum2(uint32_t &sum) noexcept {
   return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0,
                                     sum);
 }
+
+//-------------------------------------------------------------------------
+// Global parameter helpers
+//-------------------------------------------------------------------------
+
+bool TMC9660::Globals::writeBank0(tmc9660::tmcl::GlobalParamBank0 param,
+                                  uint32_t value) noexcept {
+  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 0, value);
+}
+
+bool TMC9660::Globals::readBank0(tmc9660::tmcl::GlobalParamBank0 param,
+                                 uint32_t &value) noexcept {
+  return driver.readGlobalParameter(static_cast<uint16_t>(param), 0, value);
+}
+
+bool TMC9660::Globals::writeBank2(tmc9660::tmcl::GlobalParamBank2 param,
+                                  int32_t value) noexcept {
+  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 2,
+                                     static_cast<uint32_t>(value));
+}
+
+bool TMC9660::Globals::readBank2(tmc9660::tmcl::GlobalParamBank2 param,
+                                 int32_t &value) noexcept {
+  uint32_t tmp;
+  if (!driver.readGlobalParameter(static_cast<uint16_t>(param), 2, tmp))
+    return false;
+  value = static_cast<int32_t>(tmp);
+  return true;
+}
+
+bool TMC9660::Globals::writeBank3(tmc9660::tmcl::GlobalParamBank3 param,
+                                  uint32_t value) noexcept {
+  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 3, value);
+}
+
+bool TMC9660::Globals::readBank3(tmc9660::tmcl::GlobalParamBank3 param,
+                                 uint32_t &value) noexcept {
+  return driver.readGlobalParameter(static_cast<uint16_t>(param), 3, value);
+}
+
+//-------------------------------------------------------------------------
+// High level global parameter helpers
+//-------------------------------------------------------------------------
+
+bool TMC9660::Globals::setSerialAddress(uint8_t address) noexcept {
+  return writeBank0(tmc9660::tmcl::GlobalParamBank0::SERIAL_ADDRESS, address);
+}
+
+bool TMC9660::Globals::getSerialAddress(uint8_t &address) noexcept {
+  uint32_t tmp;
+  if (!readBank0(tmc9660::tmcl::GlobalParamBank0::SERIAL_ADDRESS, tmp))
+    return false;
+  address = static_cast<uint8_t>(tmp);
+  return true;
+}
+
+bool TMC9660::Globals::setHostAddress(uint8_t address) noexcept {
+  return writeBank0(tmc9660::tmcl::GlobalParamBank0::SERIAL_HOST_ADDRESS,
+                    address);
+}
+
+bool TMC9660::Globals::getHostAddress(uint8_t &address) noexcept {
+  uint32_t tmp;
+  if (!readBank0(tmc9660::tmcl::GlobalParamBank0::SERIAL_HOST_ADDRESS, tmp))
+    return false;
+  address = static_cast<uint8_t>(tmp);
+  return true;
+}
+
+bool TMC9660::Globals::configureHeartbeat(
+    tmc9660::tmcl::HeartbeatMonitoringConfig iface,
+    uint32_t timeout_ms) noexcept {
+  bool ok = writeBank0(
+      tmc9660::tmcl::GlobalParamBank0::HEARTBEAT_MONITORING_CONFIG,
+      static_cast<uint32_t>(iface));
+  ok &=
+      writeBank0(tmc9660::tmcl::GlobalParamBank0::HEARTBEAT_MONITORING_TIMEOUT,
+                 timeout_ms);
+  return ok;
+}
+
+bool TMC9660::Globals::getHeartbeat(
+    tmc9660::tmcl::HeartbeatMonitoringConfig &iface,
+    uint32_t &timeout_ms) noexcept {
+  uint32_t cfg;
+  bool ok = readBank0(
+      tmc9660::tmcl::GlobalParamBank0::HEARTBEAT_MONITORING_CONFIG, cfg);
+  iface = static_cast<tmc9660::tmcl::HeartbeatMonitoringConfig>(cfg);
+  ok &= readBank0(
+      tmc9660::tmcl::GlobalParamBank0::HEARTBEAT_MONITORING_TIMEOUT,
+      timeout_ms);
+  return ok;
+}
+
+bool TMC9660::Globals::setIODirectionMask(uint32_t mask) noexcept {
+  return writeBank0(tmc9660::tmcl::GlobalParamBank0::IO_DIRECTION_MASK, mask);
+}
+
+bool TMC9660::Globals::getIODirectionMask(uint32_t &mask) noexcept {
+  return readBank0(tmc9660::tmcl::GlobalParamBank0::IO_DIRECTION_MASK, mask);
+}
+
+bool TMC9660::Globals::setPullEnableMask(uint32_t mask) noexcept {
+  return writeBank0(
+      tmc9660::tmcl::GlobalParamBank0::IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK,
+      mask);
+}
+
+bool TMC9660::Globals::getPullEnableMask(uint32_t &mask) noexcept {
+  return readBank0(
+      tmc9660::tmcl::GlobalParamBank0::IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK,
+      mask);
+}
+
+bool TMC9660::Globals::setPullDirectionMask(uint32_t mask) noexcept {
+  return writeBank0(
+      tmc9660::tmcl::GlobalParamBank0::IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK,
+      mask);
+}
+
+bool TMC9660::Globals::getPullDirectionMask(uint32_t &mask) noexcept {
+  return readBank0(
+      tmc9660::tmcl::GlobalParamBank0::IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK,
+      mask);
+}
+
+bool TMC9660::Globals::setAutoStart(bool enable) noexcept {
+  return writeBank0(tmc9660::tmcl::GlobalParamBank0::AUTO_START_ENABLE,
+                    enable ? 1u : 0u);
+}
+
+bool TMC9660::Globals::getAutoStart(bool &enable) noexcept {
+  uint32_t tmp;
+  if (!readBank0(tmc9660::tmcl::GlobalParamBank0::AUTO_START_ENABLE, tmp))
+    return false;
+  enable = (tmp != 0);
+  return true;
+}
+
+bool TMC9660::Globals::setClearUserVariables(bool clear) noexcept {
+  return writeBank0(tmc9660::tmcl::GlobalParamBank0::CLEAR_USER_VARIABLES,
+                    clear ? 1u : 0u);
+}
+
+bool TMC9660::Globals::getClearUserVariables(bool &clear) noexcept {
+  uint32_t tmp;
+  if (!readBank0(tmc9660::tmcl::GlobalParamBank0::CLEAR_USER_VARIABLES, tmp))
+    return false;
+  clear = (tmp != 0);
+  return true;
+}
+
+bool TMC9660::Globals::setUserVariable(uint8_t index, int32_t value) noexcept {
+  if (index > 15)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank2>(index);
+  return writeBank2(param, value);
+}
+
+bool TMC9660::Globals::getUserVariable(uint8_t index, int32_t &value) noexcept {
+  if (index > 15)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank2>(index);
+  return readBank2(param, value);
+}
+
+bool TMC9660::Globals::setTimerPeriod(uint8_t timer, uint32_t period_ms) noexcept {
+  if (timer > 2)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank3>(timer);
+  return writeBank3(param, period_ms);
+}
+
+bool TMC9660::Globals::getTimerPeriod(uint8_t timer, uint32_t &period_ms) noexcept {
+  if (timer > 2)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank3>(timer);
+  return readBank3(param, period_ms);
+}
+
+bool TMC9660::Globals::setInputTrigger(
+    uint8_t index, tmc9660::tmcl::TriggerTransition transition) noexcept {
+  if (index > 18)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank3>(
+      static_cast<uint16_t>(tmc9660::tmcl::GlobalParamBank3::INPUT_0_TRIGGER_TRANSITION) +
+      index);
+  return writeBank3(param, static_cast<uint32_t>(transition));
+}
+
+bool TMC9660::Globals::getInputTrigger(
+    uint8_t index, tmc9660::tmcl::TriggerTransition &transition) noexcept {
+  if (index > 18)
+    return false;
+  auto param = static_cast<tmc9660::tmcl::GlobalParamBank3>(
+      static_cast<uint16_t>(tmc9660::tmcl::GlobalParamBank3::INPUT_0_TRIGGER_TRANSITION) +
+      index);
+  uint32_t tmp;
+  if (!readBank3(param, tmp))
+    return false;
+  transition = static_cast<tmc9660::tmcl::TriggerTransition>(tmp);
+  return true;
+}
+
+//-------------------------------------------------------------------------
+// Heartbeat and Power helpers (wrapping Globals)
+//-------------------------------------------------------------------------
+
+bool TMC9660::Heartbeat::configure(HeartbeatMode mode,
+                                   uint32_t timeout_ms) noexcept {
+  using tmc9660::tmcl::HeartbeatMonitoringConfig;
+  HeartbeatMonitoringConfig cfg =
+      (mode == HeartbeatMode::WATCHDOG_ENABLE)
+          ? HeartbeatMonitoringConfig::TMCL_UART_AND_SPI_INTERFACE
+          : HeartbeatMonitoringConfig::DISABLED;
+  return driver.globals.configureHeartbeat(cfg, timeout_ms);
+}
+
+bool TMC9660::Power::enableWakePin(bool enable) noexcept {
+  return driver.globals.writeBank0(
+      tmc9660::tmcl::GlobalParamBank0::WAKE_PIN_CONTROL_ENABLE,
+      enable ? 1u : 0u);
+}
+
+bool TMC9660::Power::enterPowerDown(PowerDownPeriod period) noexcept {
+  return driver.globals.writeBank0(
+      tmc9660::tmcl::GlobalParamBank0::GO_TO_TIMEOUT_POWER_DOWN_STATE,
+      static_cast<uint32_t>(period));
+}
 // TMC9660.cpp - Implementation of TMC9660 motor controller interface
