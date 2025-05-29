@@ -215,8 +215,7 @@ public:
      * utilization. For Stepper/DC motors, only standard and flat bottom modes
      * are available with 100% duty cycle.
      */
-    bool
-    setPWMSwitchingScheme(tmc9660::tmcl::PwmSwitchingScheme scheme) noexcept;
+    bool setPWMSwitchingScheme(tmc9660::tmcl::PwmSwitchingScheme scheme) noexcept;
 
     /** @brief Configure PWM behavior when the motor is idle (System Off mode).
      *
@@ -286,8 +285,7 @@ public:
      * So, "most ideal" depends entirely on your idle behavior requirements:
      * holding torque = **ON**, low power coast = **OFF**.
      */
-    bool setIdleMotorPWMBehavior(
-        tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle = tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
+    bool setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle = tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
 
   private:
     friend class TMC9660;
@@ -745,9 +743,8 @@ public:
      * enum).
      * @return true if successfully configured.
      */
-    bool
-    setVgsShortBlankingTime(tmc9660::tmcl::VgsBlankingTime uvwTime,
-                            tmc9660::tmcl::VgsBlankingTime y2Time) noexcept;
+    bool setVgsShortBlankingTime(tmc9660::tmcl::VgsBlankingTime uvwTime,
+                                    tmc9660::tmcl::VgsBlankingTime y2Time) noexcept;
 
     /** @brief Set gate-to-source short protection deglitch time.
      *
@@ -757,9 +754,8 @@ public:
      * enum).
      * @return true if successfully configured.
      */
-    bool
-    setVgsShortDeglitchTime(tmc9660::tmcl::VgsDeglitchTime uvwTime,
-                            tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept;
+    bool setVgsShortDeglitchTime(tmc9660::tmcl::VgsDeglitchTime uvwTime,
+                                    tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept;
 
     /** @brief Configure fault retry behavior.
      *
@@ -767,8 +763,7 @@ public:
      * (tmc9660::tmcl::GdrvRetryBehaviour enum).
      * @return true if successfully configured.
      */
-    bool
-    setRetryBehavior(tmc9660::tmcl::GdrvRetryBehaviour retryBehavior) noexcept;
+    bool setRetryBehavior(tmc9660::tmcl::GdrvRetryBehaviour retryBehavior) noexcept;
 
     /** @brief Configure drive fault behavior.
      *
@@ -919,8 +914,7 @@ public:
      * @param[out] sel Sensor selection.
      * @return true if read.
      */
-    bool
-    getVelocitySensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
+    bool getVelocitySensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
 
     /** @brief Set target velocity.
      * @param velocity Target velocity (internal units).
@@ -1057,8 +1051,7 @@ public:
      * @param[out] sel Sensor selection.
      * @return true if read.
      */
-    bool
-    getPositionSensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
+    bool getPositionSensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
 
     /** @brief Set target position.
      * @param position Desired position (internal units).
@@ -1243,14 +1236,12 @@ public:
      * @param settings Stop conditions.
      * @return true if written.
      */
-    bool
-    setEventStopSettings(tmc9660::tmcl::EventStopSettings settings) noexcept;
+    bool setEventStopSettings(tmc9660::tmcl::EventStopSettings settings) noexcept;
     /** @brief Read event-stop settings.
      * @param[out] settings Stop conditions.
      * @return true if read.
      */
-    bool
-    getEventStopSettings(tmc9660::tmcl::EventStopSettings &settings) noexcept;
+    bool getEventStopSettings(tmc9660::tmcl::EventStopSettings &settings) noexcept;
 
     /** @brief Set reference search mode.
      * @param mode Search sequence.
@@ -1455,10 +1446,9 @@ public:
      * @param accelFFShift ACCELERATION_FF_SHIFT enum
      * (tmc9660::tmcl::AccelerationFFShift)
      */
-    bool
-    enableFeedForward(bool enableVelFF, bool enableAccelFF,
-                      uint16_t accelFFGain,
-                      tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept;
+    bool enableFeedForward(bool enableVelFF, bool enableAccelFF,
+                            uint16_t accelFFGain,
+                            tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept;
 
     /** @brief Direct-velocity mode instead of classic PI velocity loop.
      * @param enable True to enable direct velocity mode (DIRECT_VELOCITY_MODE)
@@ -1590,12 +1580,9 @@ public:
      * instead of active high) (tmc9660::tmcl::EnableDisable).
      * @return true if encoder parameters were set successfully.
      */
-    bool
-    configureABNEncoder(uint32_t countsPerRev,
-                        tmc9660::tmcl::Direction inverted =
-                            tmc9660::tmcl::Direction::NOT_INVERTED,
-                        tmc9660::tmcl::EnableDisable nChannelInverted =
-                            tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+    bool configureABNEncoder(uint32_t countsPerRev,
+                            tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
+                            tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
 
     /** @brief Configure ABN encoder initialization method.
      *
@@ -1614,8 +1601,7 @@ public:
      * @return true if ABN initialization parameters were set successfully.
      */
     bool configureABNInitialization(
-        tmc9660::tmcl::AbnInitMethod initMethod =
-            tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
+        tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
         uint16_t initDelay = 1000, int32_t initVelocity = 5,
         int16_t nChannelOffset = 0) noexcept;
 
@@ -1651,11 +1637,10 @@ public:
      * event (tmc9660::tmcl::EnableDisable).
      * @return true if N-channel settings were applied successfully.
      */
-    bool
-    configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode =
-                             tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
-                         tmc9660::tmcl::EnableDisable clearOnNextNull =
-                             tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+    bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode =
+                                tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
+                                tmc9660::tmcl::EnableDisable clearOnNextNull =
+                                tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -1674,9 +1659,9 @@ public:
      */
     bool
     configureSecondaryABNEncoder(uint32_t countsPerRev,
-                                 tmc9660::tmcl::Direction inverted =
-                                     tmc9660::tmcl::Direction::NOT_INVERTED,
-                                 uint8_t gearRatio = 1) noexcept;
+                                    tmc9660::tmcl::Direction inverted =
+                                    tmc9660::tmcl::Direction::NOT_INVERTED,
+                                    uint8_t gearRatio = 1) noexcept;
 
     // ABN-2 (secondary encoder) getters
     /** @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
