@@ -2756,6 +2756,120 @@ public:
   } heartbeat{*this};
 
   //***************************************************************************
+  //**                   SUBSYSTEM: Global Parameter Access                **//
+  //***************************************************************************
+  /**
+   * @brief Convenience helpers for reading and writing global parameters.
+   *
+   * The TMC9660 groups non-motion parameters into banks. This subsystem
+   * provides simple wrappers to access them using the enum classes defined in
+   * `tmc9660_param_mode_tmcl.hpp`.
+   */
+  struct Globals {
+    /// Write a value to bank 0 (system settings).
+    bool writeBank0(tmc9660::tmcl::GlobalParamBank0 param,
+                    uint32_t value) noexcept;
+
+    /// Read a value from bank 0 (system settings).
+    bool readBank0(tmc9660::tmcl::GlobalParamBank0 param,
+                   uint32_t &value) noexcept;
+
+    /// Write a signed user variable in bank 2.
+    bool writeBank2(tmc9660::tmcl::GlobalParamBank2 param,
+                    int32_t value) noexcept;
+
+    /// Read a signed user variable from bank 2.
+    bool readBank2(tmc9660::tmcl::GlobalParamBank2 param,
+                   int32_t &value) noexcept;
+
+    /// Write a value to bank 3 (interrupt configuration).
+    bool writeBank3(tmc9660::tmcl::GlobalParamBank3 param,
+                    uint32_t value) noexcept;
+
+    /// Read a value from bank 3 (interrupt configuration).
+    bool readBank3(tmc9660::tmcl::GlobalParamBank3 param,
+                   uint32_t &value) noexcept;
+
+    // High level helpers --------------------------------------------------
+    /// Set module serial address (bank0:SERIAL_ADDRESS).
+    bool setSerialAddress(uint8_t address) noexcept;
+
+    /// Get module serial address (bank0:SERIAL_ADDRESS).
+    bool getSerialAddress(uint8_t &address) noexcept;
+
+    /// Set host serial address (bank0:SERIAL_HOST_ADDRESS).
+    bool setHostAddress(uint8_t address) noexcept;
+
+    /// Get host serial address (bank0:SERIAL_HOST_ADDRESS).
+    bool getHostAddress(uint8_t &address) noexcept;
+
+    /// Configure heartbeat monitoring interface and timeout.
+    bool configureHeartbeat(
+        tmc9660::tmcl::HeartbeatMonitoringConfig iface,
+        uint32_t timeout_ms) noexcept;
+
+    /// Read heartbeat monitoring configuration.
+    bool getHeartbeat(
+        tmc9660::tmcl::HeartbeatMonitoringConfig &iface,
+        uint32_t &timeout_ms) noexcept;
+
+    /// Set GPIO direction mask (bank0:IO_DIRECTION_MASK).
+    bool setIODirectionMask(uint32_t mask) noexcept;
+
+    /// Get GPIO direction mask (bank0:IO_DIRECTION_MASK).
+    bool getIODirectionMask(uint32_t &mask) noexcept;
+
+    /// Set pull-up/down enable mask (bank0:IO_INPUT_PULLUP_PULLDOWN_ENABLE_MASK).
+    bool setPullEnableMask(uint32_t mask) noexcept;
+
+    /// Get pull-up/down enable mask.
+    bool getPullEnableMask(uint32_t &mask) noexcept;
+
+    /// Set pull direction mask (bank0:IO_INPUT_PULLUP_PULLDOWN_DIRECTION_MASK).
+    bool setPullDirectionMask(uint32_t mask) noexcept;
+
+    /// Get pull direction mask.
+    bool getPullDirectionMask(uint32_t &mask) noexcept;
+
+    /// Enable or disable auto-start of stored program (bank0:AUTO_START_ENABLE).
+    bool setAutoStart(bool enable) noexcept;
+
+    /// Read auto-start enable flag.
+    bool getAutoStart(bool &enable) noexcept;
+
+    /// Configure clearing of user variables on startup (bank0:CLEAR_USER_VARIABLES).
+    bool setClearUserVariables(bool clear) noexcept;
+
+    /// Get clear-user-variable flag.
+    bool getClearUserVariables(bool &clear) noexcept;
+
+    /// Set user variable by index (bank2).
+    bool setUserVariable(uint8_t index, int32_t value) noexcept;
+
+    /// Read user variable by index (bank2).
+    bool getUserVariable(uint8_t index, int32_t &value) noexcept;
+
+    /// Set interrupt timer period (bank3).
+    bool setTimerPeriod(uint8_t timer, uint32_t period_ms) noexcept;
+
+    /// Get interrupt timer period (bank3).
+    bool getTimerPeriod(uint8_t timer, uint32_t &period_ms) noexcept;
+
+    /// Set trigger transition for digital input n (bank3 INPUT_n_TRIGGER_TRANSITION).
+    bool setInputTrigger(uint8_t index,
+                         tmc9660::tmcl::TriggerTransition transition) noexcept;
+
+    /// Get trigger transition for digital input n.
+    bool getInputTrigger(uint8_t index,
+                         tmc9660::tmcl::TriggerTransition &transition) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit Globals(TMC9660 &parent) noexcept : driver(parent) {}
+    TMC9660 &driver;
+  } globals{*this};
+
+  //***************************************************************************
   //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O) **//
   //***************************************************************************
   /**
