@@ -9,9 +9,7 @@
 #include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
-/**
- * @brief Main class representing a TMC9660 motor driver in Parameter Mode.
- *
+/** @brief Main class representing a TMC9660 motor driver in Parameter Mode.
  * Provides high-level functions to configure and control the TMC9660's
  * features. The class uses a TMC9660CommInterface for communication, making it
  * agnostic to the physical layer.
@@ -25,12 +23,12 @@
  */
 class TMC9660 {
 public:
-  /// Heartbeat watchdog modes for communication monitoring
+  /// @brief Heartbeat watchdog modes for communication monitoring
   enum class HeartbeatMode : uint8_t {
     WATCHDOG_DISABLE = 0,
     WATCHDOG_ENABLE = 1
   };
-  /// Power-down sleep periods
+  /// @brief Power-down sleep periods
   enum class PowerDownPeriod : uint8_t {
     PERIOD_1 = 0,
     PERIOD_2,
@@ -39,13 +37,12 @@ public:
     PERIOD_5,
     PERIOD_6
   };
-  /// Fault retry and final actions
+  /// @brief Fault retry and final actions
   enum class FaultRetryAction : uint8_t { NO_RETRY = 0, RETRY = 1 };
+  /// @brief Fault final actions
   enum class FaultFinalAction : uint8_t { DISABLE_MOTOR = 0, KEEP_RUNNING = 1 };
 
-  /**
-   * @brief Construct a TMC9660 driver instance.
-   *
+  /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
    * @param address (Optional) Module address if multiple TMC9660 devices are on
@@ -57,8 +54,7 @@ public:
   //**               CORE PARAMETER ACCESS METHODS                         **//
   //***************************************************************************
 
-  /**
-   * @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
+  /** @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
    * @param id Parameter ID number (see TMC9660 documentation for the full
    * list).
    * @param value 32-bit value to write to the parameter.
@@ -70,8 +66,7 @@ public:
   [[nodiscard]] bool writeParameter(tmc9660::tmcl::Parameters id,
                                     uint32_t value,
                                     uint8_t motorIndex = 0) noexcept;
-  /**
-   * @brief Read an axis (motor-specific) parameter from the TMC9660.
+  /** @brief Read an axis (motor-specific) parameter from the TMC9660.
    * @param id Parameter ID number to read.
    * @param[out] value Reference to store the 32-bit parameter value read.
    * @param motorIndex Index of the motor/axis (0 or 1).
@@ -81,8 +76,7 @@ public:
   [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id,
                                    uint32_t &value,
                                    uint8_t motorIndex = 0) noexcept;
-  /**
-   * @brief Set (write) a global parameter on the TMC9660.
+  /** @brief Set (write) a global parameter on the TMC9660.
    * @param id Global parameter ID number.
    * @param bank Bank number for global parameter (some global parameters are
    * grouped in banks, otherwise 0).
@@ -92,8 +86,7 @@ public:
   [[nodiscard]] bool writeGlobalParameter(tmc9660::tmcl::Parameters id,
                                           uint8_t bank,
                                           uint32_t value) noexcept;
-  /**
-   * @brief Read a global parameter from the TMC9660.
+  /** @brief Read a global parameter from the TMC9660.
    * @param id Global parameter ID number.
    * @param bank Bank number or index associated with the parameter.
    * @param[out] value Reference to store the read 32-bit value.
@@ -104,14 +97,11 @@ public:
                                          uint32_t &value) noexcept;
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Motor Configuration **//
+  //**                  SUBSYSTEM: Motor Configuration                     **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for configuring motor type and basic settings
-   */
+  /** @brief Subsystem for configuring motor type and basic settings */
   struct MotorConfig {
-    /**
-     * @brief Configure the motor type (DC, BLDC, or stepper) and basic motor
+    /** @brief Configure the motor type (DC, BLDC, or stepper) and basic motor
      * settings.
      *
      * This sets the MOTOR_TYPE parameter and optionally related parameters like
@@ -126,8 +116,7 @@ public:
      */
     bool setType(tmc9660::tmcl::MotorType type, uint8_t polePairs = 1) noexcept;
 
-    /**
-     * @brief Set the motor direction inversion.
+    /** @brief Set the motor direction inversion.
      *
      * This configures the MOTOR_DIRECTION parameter which inverts the meaning
      * of "forward" direction for the motor.
@@ -136,16 +125,14 @@ public:
      */
     bool setDirection(tmc9660::tmcl::MotorDirection direction) noexcept;
 
-    /**
-     * @brief Set the PWM frequency for the motor driver.
+    /** @brief Set the PWM frequency for the motor driver.
      * @param frequencyHz PWM frequency in Hertz (allowed range 10kHz to
      * 100kHz).
      * @return true if set successfully, false if an error occurred.
      */
     bool setPWMFrequency(uint32_t frequencyHz) noexcept;
 
-    /**
-     * @brief Configure the commutation mode for the motor.
+    /** @brief Configure the commutation mode for the motor.
      *
      * This sets how the motor is driven: e.g., open-loop or closed-loop FOC
      * with various sensor feedback options. Typically used for BLDC or stepper
@@ -177,8 +164,7 @@ public:
      */
     bool setCommutationMode(tmc9660::tmcl::CommutationMode mode) noexcept;
 
-    /**
-     * @brief Set the output voltage limit for the FOC controller.
+    /** @brief Set the output voltage limit for the FOC controller.
      *
      * This parameter limits the maximum Uq/ Ud output of the FOC controller
      * (PID output circular limiter).
@@ -188,8 +174,7 @@ public:
      */
     bool setOutputVoltageLimit(uint16_t limit) noexcept;
 
-    /**
-     * @brief Set the maximum allowed motor current (torque limit).
+    /** @brief Set the maximum allowed motor current (torque limit).
      *
      * This sets the MAX_TORQUE parameter which limits the peak current/torque
      * that the controller will deliver to the motor.
@@ -201,8 +186,7 @@ public:
      */
     bool setMaxTorqueCurrent(uint16_t milliamps) noexcept;
 
-    /**
-     * @brief Set the maximum allowed flux current for BLDC/stepper motors.
+    /** @brief Set the maximum allowed flux current for BLDC/stepper motors.
      *
      * This sets the MAX_FLUX parameter which limits the flux-producing current
      * component. Important for field-weakening operation and stepper motor
@@ -214,8 +198,8 @@ public:
      * operation of the current regulator.
      */
     bool setMaxFluxCurrent(uint16_t milliamps) noexcept;
-    /**
-     * @brief Set the PWM switching scheme for the motor driver.
+
+    /** @brief Set the PWM switching scheme for the motor driver.
      *
      * This configures how the PWM signals are generated for driving the motor
      * phases. Different schemes offer varying trade-offs between voltage
@@ -234,8 +218,7 @@ public:
     bool
     setPWMSwitchingScheme(tmc9660::tmcl::PwmSwitchingScheme scheme) noexcept;
 
-    /**
-     * @brief Configure PWM behavior when the motor is idle (System Off mode).
+    /** @brief Configure PWM behavior when the motor is idle (System Off mode).
      *
      * Controls whether motor phases are driven or high-impedance when
      * commutation is disabled.
@@ -304,48 +287,7 @@ public:
      * holding torque = **ON**, low power coast = **OFF**.
      */
     bool setIdleMotorPWMBehavior(
-        tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle = tmc9660::tmcl::
-            IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
-
-    // /**
-    //  * @brief Configure velocity loop downsampling to adjust control loop
-    //  frequency.
-    //  *
-    //  * Slows down the velocity control loop relative to the PWM frequency by
-    //  the specified factor.
-    //  *
-    //  * @param divider Downsampling divider (1 = no downsampling, 2 = half
-    //  frequency, etc.)
-    //  * @return true if successfully configured.
-    //  */
-    // bool setVelocityLoopDownsampling(uint8_t divider) noexcept;
-
-    // /**
-    //  * @brief Configure position loop downsampling relative to velocity loop.
-    //  *
-    //  * Further slows down the position control loop relative to the velocity
-    //  loop by the specified factor.
-    //  *
-    //  * @param divider Downsampling divider (1 = same as velocity loop, 2 =
-    //  half frequency, etc.)
-    //  * @return true if successfully configured.
-    //  */
-    // bool setPositionLoopDownsampling(uint8_t divider) noexcept;
-
-    // /**
-    //  * @brief Configure field-weakening (automatic flux reduction above a
-    //  knee speed).
-    //  *
-    //  * @param startRPM   Electrical RPM where weakening starts.
-    //  * @param slope      Weakening slope (dΨ/dω) as signed 16-bit value.
-    //  * @param minFlux    Minimum allowed flux in mWb.
-    //  * @return true on success.
-    //  *
-    //  * Registers: WEAKENING_FACTOR, FIELD_WEAKENING_ENABLE (see datasheet)
-    //  */
-    // bool configureFieldWeakening(uint16_t startRPM,
-    //                             int16_t  slope,
-    //                             uint16_t minFlux) noexcept;
+        tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle = tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
 
   private:
     friend class TMC9660;
@@ -356,26 +298,23 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Current Measurement                      **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for configuring ADC-based current measurement
+
+  /** @brief Subsystem for configuring ADC-based current measurement
    */
   struct CurrentSensing {
-    /**
-     * @brief Set the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
+    /** @brief Set the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
      * @param shuntType AdcShuntType enum value
      * @return true if successful
      */
     bool setShuntType(tmc9660::tmcl::AdcShuntType shuntType) noexcept;
 
-    /**
-     * @brief Get the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
+    /** @brief Get the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
      * @param[out] shuntType AdcShuntType enum value
      * @return true if successful
      */
     bool getShuntType(tmc9660::tmcl::AdcShuntType &shuntType) noexcept;
 
-    /**
-     * @brief Read raw ADC values (Parameters 13-16: ADC_I0_RAW ... ADC_I3_RAW).
+    /** @brief Read raw ADC values (Parameters 13-16: ADC_I0_RAW ... ADC_I3_RAW).
      * @param[out] adc0 Raw ADC I0
      * @param[out] adc1 Raw ADC I1
      * @param[out] adc2 Raw ADC I2
@@ -385,8 +324,7 @@ public:
     bool readRaw(int16_t &adc0, int16_t &adc1, int16_t &adc2,
                  int16_t &adc3) noexcept;
 
-    /**
-     * @brief Set current sense amplifier gain (Parameters 17/18:
+    /** @brief Set current sense amplifier gain (Parameters 17/18:
      * CSA_GAIN_ADC_I0_TO_ADC_I2, CSA_GAIN_ADC_I3).
      * @param gain012 CsaGain enum value for ADC I0/I1/I2
      * @param gain3 CsaGain enum value for ADC I3
@@ -395,8 +333,7 @@ public:
     bool setCSAGain(tmc9660::tmcl::CsaGain gain012,
                     tmc9660::tmcl::CsaGain gain3) noexcept;
 
-    /**
-     * @brief Get current sense amplifier gain (Parameters 17/18:
+    /** @brief Get current sense amplifier gain (Parameters 17/18:
      * CSA_GAIN_ADC_I0_TO_ADC_I2, CSA_GAIN_ADC_I3).
      * @param[out] gain012 CsaGain enum value for ADC I0/I1/I2
      * @param[out] gain3 CsaGain enum value for ADC I3
@@ -405,8 +342,7 @@ public:
     bool getCSAGain(tmc9660::tmcl::CsaGain &gain012,
                     tmc9660::tmcl::CsaGain &gain3) noexcept;
 
-    /**
-     * @brief Set current sense amplifier filter (Parameters 19/20:
+    /** @brief Set current sense amplifier filter (Parameters 19/20:
      * CSA_FILTER_ADC_I0_TO_ADC_I2, CSA_FILTER_ADC_I3).
      * @param filter012 CsaFilter enum value for ADC I0/I1/I2
      * @param filter3 CsaFilter enum value for ADC I3
@@ -415,8 +351,7 @@ public:
     bool setCSAFilter(tmc9660::tmcl::CsaFilter filter012,
                       tmc9660::tmcl::CsaFilter filter3) noexcept;
 
-    /**
-     * @brief Get current sense amplifier filter (Parameters 19/20:
+    /** @brief Get current sense amplifier filter (Parameters 19/20:
      * CSA_FILTER_ADC_I0_TO_ADC_I2, CSA_FILTER_ADC_I3).
      * @param[out] filter012 CsaFilter enum value for ADC I0/I1/I2
      * @param[out] filter3 CsaFilter enum value for ADC I3
@@ -425,22 +360,19 @@ public:
     bool getCSAFilter(tmc9660::tmcl::CsaFilter &filter012,
                       tmc9660::tmcl::CsaFilter &filter3) noexcept;
 
-    /**
-     * @brief Set current scaling factor (Parameter 21: CURRENT_SCALING_FACTOR).
+    /** @brief Set current scaling factor (Parameter 21: CURRENT_SCALING_FACTOR).
      * @param scalingFactor Scaling factor (1...65535)
      * @return true if successful
      */
     bool setScalingFactor(uint16_t scalingFactor) noexcept;
 
-    /**
-     * @brief Get current scaling factor (Parameter 21: CURRENT_SCALING_FACTOR).
+    /** @brief Get current scaling factor (Parameter 21: CURRENT_SCALING_FACTOR).
      * @param[out] scalingFactor Scaling factor (1...65535)
      * @return true if successful
      */
     bool getScalingFactor(uint16_t &scalingFactor) noexcept;
 
-    /**
-     * @brief Set ADC mapping for each phase (Parameters 22-25:
+    /** @brief Set ADC mapping for each phase (Parameters 22-25:
      * PHASE_UX1_ADC_MAPPING ... PHASE_Y2_ADC_MAPPING).
      * @param ux1 AdcMapping enum value for UX1
      * @param vx2 AdcMapping enum value for VX2
@@ -453,8 +385,7 @@ public:
                             tmc9660::tmcl::AdcMapping wy1,
                             tmc9660::tmcl::AdcMapping y2) noexcept;
 
-    /**
-     * @brief Get ADC mapping for each phase (Parameters 22-25:
+    /** @brief Get ADC mapping for each phase (Parameters 22-25:
      * PHASE_UX1_ADC_MAPPING ... PHASE_Y2_ADC_MAPPING).
      * @param[out] ux1 AdcMapping enum value for UX1
      * @param[out] vx2 AdcMapping enum value for VX2
@@ -467,8 +398,7 @@ public:
                             tmc9660::tmcl::AdcMapping &wy1,
                             tmc9660::tmcl::AdcMapping &y2) noexcept;
 
-    /**
-     * @brief Set individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE
+    /** @brief Set individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE
      * ... ADC_I3_SCALE).
      * @param scale0 Scaling factor for ADC I0 (1...32767)
      * @param scale1 Scaling factor for ADC I1 (1...32767)
@@ -479,8 +409,7 @@ public:
     bool setScalingFactors(uint16_t scale0, uint16_t scale1, uint16_t scale2,
                            uint16_t scale3) noexcept;
 
-    /**
-     * @brief Get individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE
+    /** @brief Get individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE
      * ... ADC_I3_SCALE).
      * @param[out] scale0 Scaling factor for ADC I0 (1...32767)
      * @param[out] scale1 Scaling factor for ADC I1 (1...32767)
@@ -491,8 +420,7 @@ public:
     bool getScalingFactors(uint16_t &scale0, uint16_t &scale1, uint16_t &scale2,
                            uint16_t &scale3) noexcept;
 
-    /**
-     * @brief Set ADC inversion (Parameters 30-33: ADC_I0_INVERTED ...
+    /** @brief Set ADC inversion (Parameters 30-33: ADC_I0_INVERTED ...
      * ADC_I3_INVERTED).
      * @param inv0 AdcInversion enum value for ADC I0
      * @param inv1 AdcInversion enum value for ADC I1
@@ -505,8 +433,7 @@ public:
                       tmc9660::tmcl::AdcInversion inv2,
                       tmc9660::tmcl::AdcInversion inv3) noexcept;
 
-    /**
-     * @brief Get ADC inversion (Parameters 30-33: ADC_I0_INVERTED ...
+    /** @brief Get ADC inversion (Parameters 30-33: ADC_I0_INVERTED ...
      * ADC_I3_INVERTED).
      * @param[out] inv0 AdcInversion enum value for ADC I0
      * @param[out] inv1 AdcInversion enum value for ADC I1
@@ -519,8 +446,7 @@ public:
                       tmc9660::tmcl::AdcInversion &inv2,
                       tmc9660::tmcl::AdcInversion &inv3) noexcept;
 
-    /**
-     * @brief Set ADC offset (Parameters 34-37: ADC_I0_OFFSET ...
+    /** @brief Set ADC offset (Parameters 34-37: ADC_I0_OFFSET ...
      * ADC_I3_OFFSET).
      * @param offset0 Offset for ADC I0 (-32768...32767)
      * @param offset1 Offset for ADC I1 (-32768...32767)
@@ -531,8 +457,7 @@ public:
     bool setOffsets(int16_t offset0, int16_t offset1, int16_t offset2,
                     int16_t offset3) noexcept;
 
-    /**
-     * @brief Get ADC offset (Parameters 34-37: ADC_I0_OFFSET ...
+    /** @brief Get ADC offset (Parameters 34-37: ADC_I0_OFFSET ...
      * ADC_I3_OFFSET).
      * @param[out] offset0 Offset for ADC I0 (-32768...32767)
      * @param[out] offset1 Offset for ADC I1 (-32768...32767)
@@ -543,8 +468,7 @@ public:
     bool getOffsets(int16_t &offset0, int16_t &offset1, int16_t &offset2,
                     int16_t &offset3) noexcept;
 
-    /**
-     * @brief Read scaled and offset-compensated ADC values (Parameters 38-41:
+    /** @brief Read scaled and offset-compensated ADC values (Parameters 38-41:
      * ADC_I0 ... ADC_I3).
      * @param[out] adc0 Scaled/offset ADC I0
      * @param[out] adc1 Scaled/offset ADC I1
@@ -555,8 +479,7 @@ public:
     bool readScaledAndOffset(int16_t &adc0, int16_t &adc1, int16_t &adc2,
                              int16_t &adc3) noexcept;
 
-    /**
-     * @brief Calibrate the ADC offsets for current measurement.
+    /** @brief Calibrate the ADC offsets for current measurement.
      *
      * Initiates a calibration sequence for the ADCs. This should be done:
      * 1. With the motor stationary
@@ -570,8 +493,7 @@ public:
     bool calibrateOffsets(bool waitForCompletion = false,
                           uint32_t timeoutMs = 1000) noexcept;
 
-    /**
-     * @brief Check if ADC offset calibration has been completed.
+    /** @brief Check if ADC offset calibration has been completed.
      *
      * @param[out] isCalibrated Set to true if calibration is complete
      * @return true if the status was read successfully
@@ -587,12 +509,11 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Gate Driver                              **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for configuring the MOSFET gate driver
+
+  /** @brief Subsystem for configuring the MOSFET gate driver
    */
   struct GateDriver {
-    /**
-     * @brief Set the gate driver output polarity.
+    /** @brief Set the gate driver output polarity.
      *
      * Configures the PWM_L and PWM_H output polarity.
      * @param lowSide Polarity for the low-side gate outputs
@@ -604,8 +525,7 @@ public:
     bool setOutputPolarity(tmc9660::tmcl::PwmOutputPolarity lowSide,
                            tmc9660::tmcl::PwmOutputPolarity highSide) noexcept;
 
-    /**
-     * @brief Configure the break-before-make timing for the gate driver.
+    /** @brief Configure the break-before-make timing for the gate driver.
      *
      * Sets the timing for switching between high and low sides of the gate
      * driver.
@@ -623,8 +543,7 @@ public:
                                         uint8_t lowSideY2,
                                         uint8_t highSideY2) noexcept;
 
-    /**
-     * @brief Enable or disable adaptive drive time for UVW and Y2 phases.
+    /** @brief Enable or disable adaptive drive time for UVW and Y2 phases.
      *
      * Adaptive drive time shortens the discharge cycle by monitoring gate
      * voltages.
@@ -634,8 +553,7 @@ public:
      */
     bool enableAdaptiveDriveTime(bool enableUVW, bool enableY2) noexcept;
 
-    /**
-     * @brief Configure drive times for UVW and Y2 phases.
+    /** @brief Configure drive times for UVW and Y2 phases.
      *
      * Sets the discharge and charge times for the gate driver.
      * @param sinkTimeUVW Discharge time for UVW phases (0 ... 255). Default:
@@ -649,8 +567,7 @@ public:
     bool configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourceTimeUVW,
                              uint8_t sinkTimeY2, uint8_t sourceTimeY2) noexcept;
 
-    /**
-     * @brief Configure gate driver current limits for UVW and Y2 phases.
+    /** @brief Configure gate driver current limits for UVW and Y2 phases.
      *
      * Sets the maximum sink and source currents for the gate driver.
      * @param sinkCurrentUVW Sink current for UVW phases (GateCurrentSink enum).
@@ -667,8 +584,7 @@ public:
         tmc9660::tmcl::GateCurrentSink sinkCurrentY2,
         tmc9660::tmcl::GateCurrentSource sourceCurrentY2) noexcept;
 
-    /**
-     * @brief Configure bootstrap current limit.
+    /** @brief Configure bootstrap current limit.
      *
      * Sets the maximum current for the bootstrap capacitor.
      * @param limit Bootstrap current limit (BootstrapCurrentLimit enum).
@@ -677,8 +593,7 @@ public:
     bool configureBootstrapCurrentLimit(
         tmc9660::tmcl::BootstrapCurrentLimit limit) noexcept;
 
-    /**
-     * @brief Configure undervoltage protection settings.
+    /** @brief Configure undervoltage protection settings.
      *
      * @param supplyLevel Supply voltage (VS) protection level
      * (tmc9660::tmcl::UndervoltageLevel enum).
@@ -696,8 +611,7 @@ public:
         tmc9660::tmcl::UndervoltageEnable enableBstUVW,
         tmc9660::tmcl::UndervoltageEnable enableBstY2) noexcept;
 
-    /**
-     * @brief Enable or disable overcurrent protection for UVW and Y2 phases.
+    /** @brief Enable or disable overcurrent protection for UVW and Y2 phases.
      *
      * @param enableUVWLowSide Enable protection for UVW low side
      * (tmc9660::tmcl::OvercurrentEnable enum).
@@ -715,8 +629,7 @@ public:
         tmc9660::tmcl::OvercurrentEnable enableY2LowSide,
         tmc9660::tmcl::OvercurrentEnable enableY2HighSide) noexcept;
 
-    /**
-     * @brief Configure overcurrent protection thresholds for UVW and Y2 phases.
+    /** @brief Configure overcurrent protection thresholds for UVW and Y2 phases.
      *
      * @param uvwLowSideThreshold Threshold for UVW low side
      * (tmc9660::tmcl::OvercurrentThreshold enum).
@@ -734,8 +647,7 @@ public:
         tmc9660::tmcl::OvercurrentThreshold y2LowSideThreshold,
         tmc9660::tmcl::OvercurrentThreshold y2HighSideThreshold) noexcept;
 
-    /**
-     * @brief Configure the overcurrent protection blanking time for UVW and Y2
+    /** @brief Configure the overcurrent protection blanking time for UVW and Y2
      * phases.
      *
      * Sets the blanking time for overcurrent protection to filter out transient
@@ -756,8 +668,7 @@ public:
         tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
         tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
 
-    /**
-     * @brief Configure the overcurrent protection deglitch time for UVW and Y2
+    /** @brief Configure the overcurrent protection deglitch time for UVW and Y2
      * phases.
      *
      * Sets how long an overcurrent condition must persist before triggering
@@ -778,8 +689,7 @@ public:
         tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
         tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
 
-    /**
-     * @brief Enable or disable VDS monitoring for overcurrent protection on UVW
+    /** @brief Enable or disable VDS monitoring for overcurrent protection on UVW
      * and Y2 low sides.
      *
      * @param uvwEnable True to enable VDS measurement for overcurrent
@@ -791,8 +701,7 @@ public:
     bool enableVdsMonitoringLow(tmc9660::tmcl::VdsUsage uvwEnable,
                                 tmc9660::tmcl::VdsUsage y2Enable) noexcept;
 
-    /**
-     * @brief Configure gate-to-source short protection for UVW phases.
+    /** @brief Configure gate-to-source short protection for UVW phases.
      *
      * @param enableLowSideOn Enable protection for ON transition of low side
      * (tmc9660::tmcl::VgsShortEnable enum).
@@ -810,8 +719,7 @@ public:
         tmc9660::tmcl::VgsShortEnable enableHighSideOn,
         tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
 
-    /**
-     * @brief Configure gate-to-source short protection for Y2 phase.
+    /** @brief Configure gate-to-source short protection for Y2 phase.
      *
      * @param enableLowSideOn Enable protection for ON transition of low side
      * (tmc9660::tmcl::VgsShortEnable enum).
@@ -829,8 +737,7 @@ public:
         tmc9660::tmcl::VgsShortEnable enableHighSideOn,
         tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
 
-    /**
-     * @brief Set gate-to-source short protection blanking time.
+    /** @brief Set gate-to-source short protection blanking time.
      *
      * @param uvwTime Blanking time for UVW phases
      * (tmc9660::tmcl::VgsBlankingTime enum).
@@ -842,8 +749,7 @@ public:
     setVgsShortBlankingTime(tmc9660::tmcl::VgsBlankingTime uvwTime,
                             tmc9660::tmcl::VgsBlankingTime y2Time) noexcept;
 
-    /**
-     * @brief Set gate-to-source short protection deglitch time.
+    /** @brief Set gate-to-source short protection deglitch time.
      *
      * @param uvwTime Deglitch time for UVW phases
      * (tmc9660::tmcl::VgsDeglitchTime enum).
@@ -855,8 +761,7 @@ public:
     setVgsShortDeglitchTime(tmc9660::tmcl::VgsDeglitchTime uvwTime,
                             tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept;
 
-    /**
-     * @brief Configure fault retry behavior.
+    /** @brief Configure fault retry behavior.
      *
      * @param retryBehavior Retry behavior after a fault
      * (tmc9660::tmcl::GdrvRetryBehaviour enum).
@@ -865,8 +770,7 @@ public:
     bool
     setRetryBehavior(tmc9660::tmcl::GdrvRetryBehaviour retryBehavior) noexcept;
 
-    /**
-     * @brief Configure drive fault behavior.
+    /** @brief Configure drive fault behavior.
      *
      * @param faultBehavior Behavior after all retries fail
      * (tmc9660::tmcl::DriveFaultBehavior enum).
@@ -875,8 +779,7 @@ public:
     bool setDriveFaultBehavior(
         tmc9660::tmcl::DriveFaultBehaviour faultBehavior) noexcept;
 
-    /**
-     * @brief Set the maximum number of retries for fault handling.
+    /** @brief Set the maximum number of retries for fault handling.
      *
      * @param retries Maximum number of retries (0-255).
      * @return true if successfully configured.
@@ -892,8 +795,8 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: FOC Control                              **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for FOC control: torque/flux, velocity, position loops,
+
+  /** @brief Subsystem for FOC control: torque/flux, velocity, position loops,
    *        open‐loop support, and reference switch / stop-event parameters.
    *
    * Covers TMCL parameters:
@@ -907,66 +810,56 @@ public:
     //-------------------------------------------------------------------------
     // Torque / Flux control (104–120)
     //-------------------------------------------------------------------------
-    /**
-     * @brief Stop torque/flux control (SYSTEM_OFF).
+    /** @brief Stop torque/flux control (SYSTEM_OFF).
      * @return true on success.
      */
     bool stop() noexcept;
 
-    /**
-     * @brief Set desired torque.
+    /** @brief Set desired torque.
      * @param milliamps Target torque in mA.
      * @return true if written.
      */
     bool setTargetTorque(int16_t milliamps) noexcept;
-    /**
-     * @brief Read actual torque.
+    /** @brief Read actual torque.
      * @param[out] milliamps Actual torque in mA.
      * @return true if read.
      */
     bool getActualTorque(int16_t &milliamps) noexcept;
 
-    /**
-     * @brief Set desired flux current.
+    /** @brief Set desired flux current.
      * @param milliamps Target flux in mA.
      * @return true if written.
      */
     bool setTargetFlux(int16_t milliamps) noexcept;
-    /**
-     * @brief Read actual flux current.
+    /** @brief Read actual flux current.
      * @param[out] milliamps Actual flux in mA.
      * @return true if read.
      */
     bool getActualFlux(int32_t &milliamps) noexcept;
 
-    /**
-     * @brief Set torque offset (feed-forward).
+    /** @brief Set torque offset (feed-forward).
      * @param milliamps Offset in mA.
      * @return true if written.
      */
     bool setTorqueOffset(int16_t milliamps) noexcept;
-    /**
-     * @brief Read torque offset.
+    /** @brief Read torque offset.
      * @param[out] milliamps Offset in mA.
      * @return true if read.
      */
     bool getTorqueOffset(int16_t &milliamps) noexcept;
 
-    /**
-     * @brief Set flux offset (feed-forward).
+    /** @brief Set flux offset (feed-forward).
      * @param milliamps Offset in mA.
      * @return true if written.
      */
     bool setFluxOffset(int16_t milliamps) noexcept;
-    /**
-     * @brief Read flux offset.
+    /** @brief Read flux offset.
      * @param[out] milliamps Offset in mA.
      * @return true if read.
      */
     bool getFluxOffset(int16_t &milliamps) noexcept;
 
-    /**
-     * @brief Configure current-loop PI gains.
+    /** @brief Configure current-loop PI gains.
      * @param p          Proportional gain for torque (and flux if not
      * separate).
      * @param i          Integral gain for torque (and flux if not separate).
@@ -977,16 +870,14 @@ public:
      */
     bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separate = false,
                              uint16_t fluxP = 0, uint16_t fluxI = 0) noexcept;
-    /**
-     * @brief Select combined or separate torque/flux PI parameters.
+    /** @brief Select combined or separate torque/flux PI parameters.
      * @param sep Separation mode.
      * @return true if written.
      */
     bool setTorqueFluxPiSeparation(
         tmc9660::tmcl::TorqueFluxPiSeparation sep) noexcept;
 
-    /**
-     * @brief Set normalization for current-PI outputs.
+    /** @brief Set normalization for current-PI outputs.
      * @param pNorm Normalization for P-term.
      * @param iNorm Normalization for I-term.
      * @return true if written.
@@ -995,26 +886,22 @@ public:
         tmc9660::tmcl::CurrentPiNormalization pNorm,
         tmc9660::tmcl::CurrentPiNormalization iNorm) noexcept;
 
-    /**
-     * @brief Read torque PI error.
+    /** @brief Read torque PI error.
      * @param[out] error Current torque-PI error.
      * @return true if read.
      */
     bool getTorquePiError(int32_t &error) noexcept;
-    /**
-     * @brief Read flux PI error.
+    /** @brief Read flux PI error.
      * @param[out] error Current flux-PI error.
      * @return true if read.
      */
     bool getFluxPiError(int32_t &error) noexcept;
-    /**
-     * @brief Read torque-PI integrator state.
+    /** @brief Read torque-PI integrator state.
      * @param[out] integrator Integrator value.
      * @return true if read.
      */
     bool getTorquePiIntegrator(int32_t &integrator) noexcept;
-    /**
-     * @brief Read flux-PI integrator state.
+    /** @brief Read flux-PI integrator state.
      * @param[out] integrator Integrator value.
      * @return true if read.
      */
@@ -1023,55 +910,47 @@ public:
     //-------------------------------------------------------------------------
     // Velocity control (123–139)
     //-------------------------------------------------------------------------
-    /**
-     * @brief Select velocity feedback sensor.
+    /** @brief Select velocity feedback sensor.
      * @param sel Sensor selection.
      * @return true if written.
      */
     bool setVelocitySensor(tmc9660::tmcl::VelocitySensorSelection sel) noexcept;
-    /**
-     * @brief Read velocity feedback sensor.
+    /** @brief Read velocity feedback sensor.
      * @param[out] sel Sensor selection.
      * @return true if read.
      */
     bool
     getVelocitySensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
 
-    /**
-     * @brief Set target velocity.
+    /** @brief Set target velocity.
      * @param velocity Target velocity (internal units).
      * @return true if written.
      */
     bool setTargetVelocity(int32_t velocity) noexcept;
-    /**
-     * @brief Read actual velocity.
+    /** @brief Read actual velocity.
      * @param[out] velocity Measured velocity.
      * @return true if read.
      */
     bool getActualVelocity(int32_t &velocity) noexcept;
 
-    /**
-     * @brief Set velocity offset.
+    /** @brief Set velocity offset.
      * @param offset Offset in RPM.
      * @return true if written.
      */
     bool setVelocityOffset(int32_t offset) noexcept;
-    /**
-     * @brief Read velocity offset.
+    /** @brief Read velocity offset.
      * @param[out] offset Offset in RPM.
      * @return true if read.
      */
     bool getVelocityOffset(int32_t &offset) noexcept;
 
-    /**
-     * @brief Configure velocity PI gains.
+    /** @brief Configure velocity PI gains.
      * @param p P gain.
      * @param i I gain.
      * @return true if written.
      */
     bool setVelocityLoopGains(uint16_t p, uint16_t i) noexcept;
-    /**
-     * @brief Set velocity PI normalization.
+    /** @brief Set velocity PI normalization.
      * @param pNorm P-term norm.
      * @param iNorm I-term norm.
      * @return true if written.
@@ -1079,42 +958,36 @@ public:
     bool setVelocityNormalization(tmc9660::tmcl::VelocityPiNorm pNorm,
                                   tmc9660::tmcl::VelocityPiNorm iNorm) noexcept;
 
-    /**
-     * @brief Read velocity-PI integrator.
+    /** @brief Read velocity-PI integrator.
      * @param[out] integrator Integrator value.
      * @return true if read.
      */
     bool getVelocityPiIntegrator(int32_t &integrator) noexcept;
-    /**
-     * @brief Read velocity-PI error.
+    /** @brief Read velocity-PI error.
      * @param[out] error PI error.
      * @return true if read.
      */
     bool getVelocityPiError(int32_t &error) noexcept;
 
-    /**
-     * @brief Set velocity scaling factor.
+    /** @brief Set velocity scaling factor.
      * @param factor Scale factor.
      * @return true if written.
      */
     bool setVelocityScalingFactor(uint16_t factor) noexcept;
-    /**
-     * @brief Read velocity scaling factor.
+    /** @brief Read velocity scaling factor.
      * @param[out] factor Scale factor.
      * @return true if read.
      */
     bool getVelocityScalingFactor(uint16_t &factor) noexcept;
 
-    /**
-     * @brief Configure stop-on-velocity-deviation.
+    /** @brief Configure stop-on-velocity-deviation.
      * @param maxError Max allowed deviation.
      * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
     bool setStopOnVelocityDeviation(uint32_t maxError,
                                     bool softStop = true) noexcept;
-    /**
-     * @brief Read stop-on-velocity-deviation settings.
+    /** @brief Read stop-on-velocity-deviation settings.
      * @param[out] maxError Configured max deviation.
      * @param[out] softStop Soft/hard stop flag.
      * @return true if read.
@@ -1122,60 +995,51 @@ public:
     bool getStopOnVelocityDeviation(uint32_t &maxError,
                                     bool &softStop) noexcept;
 
-    /**
-     * @brief Set velocity loop downsampling.
+    /** @brief Set velocity loop downsampling.
      * @param divider Downsample factor.
      * @return true if written.
      */
     bool setVelocityLoopDownsampling(uint8_t divider) noexcept;
-    /**
-     * @brief Read velocity loop downsampling.
+    /** @brief Read velocity loop downsampling.
      * @param[out] divider Factor.
      * @return true if read.
      */
     bool getVelocityLoopDownsampling(uint8_t &divider) noexcept;
 
-    /**
-     * @brief Set velocity reached threshold.
+    /** @brief Set velocity reached threshold.
      * @param threshold Threshold value.
      * @return true if written.
      */
     bool setVelocityReachedThreshold(uint32_t threshold) noexcept;
-    /**
-     * @brief Read velocity reached threshold.
+    /** @brief Read velocity reached threshold.
      * @param[out] threshold Threshold.
      * @return true if read.
      */
     bool getVelocityReachedThreshold(uint32_t &threshold) noexcept;
 
-    /**
-     * @brief Set velocity meter switch threshold.
+    /** @brief Set velocity meter switch threshold.
      * @param threshold Threshold value.
      * @return true if written.
      */
     bool setVelocityMeterSwitchThreshold(uint32_t threshold) noexcept;
-    /**
-     * @brief Read velocity meter switch threshold.
+    /** @brief Read velocity meter switch threshold.
      * @param[out] threshold Threshold.
      * @return true if read.
      */
     bool getVelocityMeterSwitchThreshold(uint32_t &threshold) noexcept;
 
-    /**
-     * @brief Set velocity meter hysteresis.
+    /** @brief Set velocity meter hysteresis.
      * @param hysteresis Hysteresis value.
      * @return true if written.
      */
     bool setVelocityMeterSwitchHysteresis(uint16_t hysteresis) noexcept;
-    /**
-     * @brief Read velocity meter hysteresis.
+    /** @brief Read velocity meter hysteresis.
      * @param[out] hysteresis Hysteresis.
      * @return true if read.
      */
     bool getVelocityMeterSwitchHysteresis(uint16_t &hysteresis) noexcept;
 
-    /**
-     * @brief Read current velocity meter mode.
+    /** @brief Read current velocity meter mode.
      * @param[out] mode Current mode.
      * @return true if read.
      */
@@ -1184,55 +1048,47 @@ public:
     //-------------------------------------------------------------------------
     // Position control (142–157)
     //-------------------------------------------------------------------------
-    /**
-     * @brief Select position feedback sensor.
+    /** @brief Select position feedback sensor.
      * @param sel Sensor selection.
      * @return true if written.
      */
     bool setPositionSensor(tmc9660::tmcl::VelocitySensorSelection sel) noexcept;
-    /**
-     * @brief Read position feedback sensor.
+    /** @brief Read position feedback sensor.
      * @param[out] sel Sensor selection.
      * @return true if read.
      */
     bool
     getPositionSensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
 
-    /**
-     * @brief Set target position.
+    /** @brief Set target position.
      * @param position Desired position (internal units).
      * @return true if written.
      */
     bool setTargetPosition(int32_t position) noexcept;
-    /**
-     * @brief Read actual position.
+    /** @brief Read actual position.
      * @param[out] position Measured position.
      * @return true if read.
      */
     bool getActualPosition(int32_t &position) noexcept;
 
-    /**
-     * @brief Set position scaling factor.
+    /** @brief Set position scaling factor.
      * @param factor Scale factor.
      * @return true if written.
      */
     bool setPositionScalingFactor(uint16_t factor) noexcept;
-    /**
-     * @brief Read position scaling factor.
+    /** @brief Read position scaling factor.
      * @param[out] factor Scale factor.
      * @return true if read.
      */
     bool getPositionScalingFactor(uint16_t &factor) noexcept;
 
-    /**
-     * @brief Configure position PI gains.
+    /** @brief Configure position PI gains.
      * @param p P gain.
      * @param i I gain.
      * @return true if written.
      */
     bool setPositionLoopGains(uint16_t p, uint16_t i) noexcept;
-    /**
-     * @brief Set position PI normalization.
+    /** @brief Set position PI normalization.
      * @param pNorm P-term norm.
      * @param iNorm I-term norm.
      * @return true if written.
@@ -1240,29 +1096,25 @@ public:
     bool setPositionNormalization(tmc9660::tmcl::VelocityPiNorm pNorm,
                                   tmc9660::tmcl::VelocityPiNorm iNorm) noexcept;
 
-    /**
-     * @brief Read position-PI integrator.
+    /** @brief Read position-PI integrator.
      * @param[out] integrator Integrator value.
      * @return true if read.
      */
     bool getPositionPiIntegrator(int32_t &integrator) noexcept;
-    /**
-     * @brief Read position-PI error.
+    /** @brief Read position-PI error.
      * @param[out] error PI error.
      * @return true if read.
      */
     bool getPositionPiError(int32_t &error) noexcept;
 
-    /**
-     * @brief Configure stop-on-position-deviation.
+    /** @brief Configure stop-on-position-deviation.
      * @param maxError Max allowed deviation.
      * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
     bool setStopOnPositionDeviation(uint32_t maxError,
                                     bool softStop = true) noexcept;
-    /**
-     * @brief Read stop-on-position-deviation settings.
+    /** @brief Read stop-on-position-deviation settings.
      * @param[out] maxError Configured max deviation.
      * @param[out] softStop Soft/hard stop flag.
      * @return true if read.
@@ -1270,53 +1122,45 @@ public:
     bool getStopOnPositionDeviation(uint32_t &maxError,
                                     bool &softStop) noexcept;
 
-    /**
-     * @brief Set position loop downsampling.
+    /** @brief Set position loop downsampling.
      * @param divider Downsample factor.
      * @return true if written.
      */
     bool setPositionLoopDownsampling(uint8_t divider) noexcept;
-    /**
-     * @brief Read position loop downsampling.
+    /** @brief Read position loop downsampling.
      * @param[out] divider Factor.
      * @return true if read.
      */
     bool getPositionLoopDownsampling(uint8_t &divider) noexcept;
 
-    /**
-     * @brief Set low position limit.
+    /** @brief Set low position limit.
      * @param limit Minimum allowed position.
      * @return true if written.
      */
     bool setPositionLimitLow(int32_t limit) noexcept;
-    /**
-     * @brief Read low position limit.
+    /** @brief Read low position limit.
      * @param[out] limit Minimum allowed position.
      * @return true if read.
      */
     bool getPositionLimitLow(int32_t &limit) noexcept;
 
-    /**
-     * @brief Set high position limit.
+    /** @brief Set high position limit.
      * @param limit Maximum allowed position.
      * @return true if written.
      */
     bool setPositionLimitHigh(int32_t limit) noexcept;
-    /**
-     * @brief Read high position limit.
+    /** @brief Read high position limit.
      * @param[out] limit Maximum allowed position.
      * @return true if read.
      */
     bool getPositionLimitHigh(int32_t &limit) noexcept;
 
-    /**
-     * @brief Set position reached threshold.
+    /** @brief Set position reached threshold.
      * @param threshold Latch threshold.
      * @return true if written.
      */
     bool setPositionReachedThreshold(uint32_t threshold) noexcept;
-    /**
-     * @brief Read position reached threshold.
+    /** @brief Read position reached threshold.
      * @param[out] threshold Latch threshold.
      * @return true if read.
      */
@@ -1325,34 +1169,29 @@ public:
     //-------------------------------------------------------------------------
     // Open‐loop support (45–47)
     //-------------------------------------------------------------------------
-    /**
-     * @brief Read open-loop angle.
+    /** @brief Read open-loop angle.
      * @param[out] angle Electrical angle.
      * @return true if read.
      */
     bool getOpenloopAngle(int16_t &angle) noexcept;
 
-    /**
-     * @brief Set open-loop current.
+    /** @brief Set open-loop current.
      * @param milliamps Current in mA.
      * @return true if written.
      */
     bool setOpenloopCurrent(uint16_t milliamps) noexcept;
-    /**
-     * @brief Read open-loop current.
+    /** @brief Read open-loop current.
      * @param[out] milliamps Current in mA.
      * @return true if read.
      */
     bool getOpenloopCurrent(uint16_t &milliamps) noexcept;
 
-    /**
-     * @brief Set open-loop voltage.
+    /** @brief Set open-loop voltage.
      * @param voltage Voltage unit (0…32767).
      * @return true if written.
      */
     bool setOpenloopVoltage(uint16_t voltage) noexcept;
-    /**
-     * @brief Read open-loop voltage.
+    /** @brief Read open-loop voltage.
      * @param[out] voltage Voltage unit.
      * @return true if read.
      */
@@ -1361,123 +1200,106 @@ public:
     //-------------------------------------------------------------------------
     // Ref switch & stop-event (161–170)
     //-------------------------------------------------------------------------
-    /**
-     * @brief Enable/disable reference switch stops.
+    /** @brief Enable/disable reference switch stops.
      * @param enable Bitmask of switch stops.
      * @return true if written.
      */
     bool setReferenceSwitchEnable(
         tmc9660::tmcl::ReferenceSwitchEnable enable) noexcept;
-    /**
-     * @brief Read reference switch enable mask.
+    /** @brief Read reference switch enable mask.
      * @param[out] enable Mask.
      * @return true if read.
      */
     bool getReferenceSwitchEnable(
         tmc9660::tmcl::ReferenceSwitchEnable &enable) noexcept;
 
-    /**
-     * @brief Configure switch polarity and swap.
+    /** @brief Configure switch polarity and swap.
      * @param config Polarity/swap config.
      * @return true if written.
      */
     bool setReferenceSwitchPolaritySwap(
         tmc9660::tmcl::ReferenceSwitchPolaritySwap config) noexcept;
-    /**
-     * @brief Read switch polarity/swap config.
+    /** @brief Read switch polarity/swap config.
      * @param[out] config Config.
      * @return true if read.
      */
     bool getReferenceSwitchPolaritySwap(
         tmc9660::tmcl::ReferenceSwitchPolaritySwap &config) noexcept;
 
-    /**
-     * @brief Configure switch latch settings.
+    /** @brief Configure switch latch settings.
      * @param setting Latch behavior.
      * @return true if written.
      */
     bool setReferenceSwitchLatchSettings(
         tmc9660::tmcl::ReferenceSwitchLatchSettings setting) noexcept;
-    /**
-     * @brief Read switch latch settings.
+    /** @brief Read switch latch settings.
      * @param[out] setting Latch behavior.
      * @return true if read.
      */
     bool getReferenceSwitchLatchSettings(
         tmc9660::tmcl::ReferenceSwitchLatchSettings &setting) noexcept;
 
-    /**
-     * @brief Configure event-stop settings.
+    /** @brief Configure event-stop settings.
      * @param settings Stop conditions.
      * @return true if written.
      */
     bool
     setEventStopSettings(tmc9660::tmcl::EventStopSettings settings) noexcept;
-    /**
-     * @brief Read event-stop settings.
+    /** @brief Read event-stop settings.
      * @param[out] settings Stop conditions.
      * @return true if read.
      */
     bool
     getEventStopSettings(tmc9660::tmcl::EventStopSettings &settings) noexcept;
 
-    /**
-     * @brief Set reference search mode.
+    /** @brief Set reference search mode.
      * @param mode Search sequence.
      * @return true if written.
      */
     bool setReferenceSwitchSearchMode(
         tmc9660::tmcl::ReferenceSwitchSearchMode mode) noexcept;
-    /**
-     * @brief Read reference search mode.
+    /** @brief Read reference search mode.
      * @param[out] mode Search sequence.
      * @return true if read.
      */
     bool getReferenceSwitchSearchMode(
         tmc9660::tmcl::ReferenceSwitchSearchMode &mode) noexcept;
 
-    /**
-     * @brief Set reference search speed.
+    /** @brief Set reference search speed.
      * @param speed Search velocity.
      * @return true if written.
      */
     bool setReferenceSwitchSearchSpeed(int32_t speed) noexcept;
-    /**
-     * @brief Read reference search speed.
+    /** @brief Read reference search speed.
      * @param[out] speed Search velocity.
      * @return true if read.
      */
     bool getReferenceSwitchSearchSpeed(int32_t &speed) noexcept;
 
-    /**
-     * @brief Set reference positioning speed.
+    /** @brief Set reference positioning speed.
      * @param speed Approach speed.
      * @return true if written.
      */
     bool setReferenceSwitchSpeed(int32_t speed) noexcept;
-    /**
-     * @brief Read reference positioning speed.
+    /** @brief Read reference positioning speed.
      * @param[out] speed Approach speed.
      * @return true if read.
      */
     bool getReferenceSwitchSpeed(int32_t &speed) noexcept;
 
-    /**
-     * @brief Read right-limit-switch position.
+    /** @brief Read right-limit-switch position.
      * @param[out] position Position value.
      * @return true if read.
      */
     bool getRightLimitSwitchPosition(int32_t &position) noexcept;
 
-    /**
-     * @brief Read home-switch position.
+    /** @brief Read home-switch position.
      * @param[out] position Position value.
      * @return true if read.
      */
     bool getHomeSwitchPosition(int32_t &position) noexcept;
 
-    /**
-     * @brief Read last reference position.
+    /** @brief Read last reference position.
      * @param[out] position Position value.
      * @return true if read.
      */
@@ -1566,10 +1388,10 @@ public:
   } focControl{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Motion Ramp **//
+  //**                  SUBSYSTEM: Motion Ramp                             **//
   //***************************************************************************
-  /**
-   * @brief Hardware 8-segment acceleration/dec-acc profile controller.
+
+  /** @brief Hardware 8-segment acceleration/dec-acc profile controller.
    *
    * Covers all ramp generator and feedforward parameters:
    * - ACCELERATION_FF_GAIN (50)
@@ -1586,30 +1408,26 @@ public:
    * - RAMP_POSITION (70)
    */
   struct Ramp {
-    /**
-     * @brief Enable or disable the ramp generator block.
+    /** @brief Enable or disable the ramp generator block.
      * @param on True to enable, false to disable (RAMP_ENABLE).
      */
     bool enable(bool on) noexcept;
 
-    /**
-     * @brief Set acceleration segments A1, A2, Amax (µ units/s²).
+    /** @brief Set acceleration segments A1, A2, Amax (µ units/s²).
      * @param a1 First acceleration (RAMP_A1)
      * @param a2 Second acceleration (RAMP_A2)
      * @param aMax Top acceleration (RAMP_AMAX)
      */
     bool setAcceleration(uint32_t a1, uint32_t a2, uint32_t aMax) noexcept;
 
-    /**
-     * @brief Set deceleration segments D1, D2, Dmax (µ units/s²).
+    /** @brief Set deceleration segments D1, D2, Dmax (µ units/s²).
      * @param d1 Second deceleration (RAMP_D1)
      * @param d2 First deceleration (RAMP_D2)
      * @param dMax Top deceleration (RAMP_DMAX)
      */
     bool setDeceleration(uint32_t d1, uint32_t d2, uint32_t dMax) noexcept;
 
-    /**
-     * @brief Configure velocity thresholds and limits.
+    /** @brief Configure velocity thresholds and limits.
      * @param vStart Start velocity (RAMP_VSTART)
      * @param vStop Stop velocity (RAMP_VSTOP)
      * @param v1 Velocity threshold 1 (RAMP_V1)
@@ -1619,15 +1437,13 @@ public:
     bool setVelocities(uint32_t vStart, uint32_t vStop, uint32_t v1,
                        uint32_t v2, uint32_t vMax) noexcept;
 
-    /**
-     * @brief Timing constraints at Vmax and between moves.
+    /** @brief Timing constraints at Vmax and between moves.
      * @param tVmaxCycles Minimum time at VMAX (RAMP_TVMAX)
      * @param tZeroWaitCycles Wait time at end of ramp (RAMP_TZEROWAIT)
      */
     bool setTiming(uint16_t tVmaxCycles, uint16_t tZeroWaitCycles) noexcept;
 
-    /**
-     * @brief Enable hardware feed-forward terms and set gain/shift.
+    /** @brief Enable hardware feed-forward terms and set gain/shift.
      *
      * This allows the ramp generator to use feed-forward terms for velocity and
      * acceleration.
@@ -1644,22 +1460,19 @@ public:
                       uint16_t accelFFGain,
                       tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept;
 
-    /**
-     * @brief Direct-velocity mode instead of classic PI velocity loop.
+    /** @brief Direct-velocity mode instead of classic PI velocity loop.
      * @param enable True to enable direct velocity mode (DIRECT_VELOCITY_MODE)
      */
     bool setDirectVelocityMode(bool enable) noexcept;
 
-    /**
-     * @brief Get the current target velocity calculated by the ramp controller.
+    /** @brief Get the current target velocity calculated by the ramp controller.
      * @param[out] velocity The current ramp target velocity (RAMP_VELOCITY,
      * param 69)
      * @return true if the value was read successfully.
      */
     bool getRampVelocity(int32_t &velocity) noexcept;
 
-    /**
-     * @brief Get the current target position calculated by the ramp controller.
+    /** @brief Get the current target position calculated by the ramp controller.
      * @param[out] position The current ramp target position (RAMP_POSITION,
      * param 70)
      * @return true if the value was read successfully.
@@ -1675,16 +1488,14 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Sensors                                  **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for feedback sensor configuration
+
+  /** @brief Subsystem for feedback sensor configuration
    */
   struct FeedbackSense {
-    /**
-     * @brief Select which sensor supplies the velocity loop.
+    /** @brief Select which sensor supplies the velocity loop.
      *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
      */
-    /**
-     * @brief Select which sensor supplies the velocity loop.
+    /** @brief Select which sensor supplies the velocity loop.
      *
      * @param sel Sensor selection value. See the VELOCITY_SENSOR_SELECTION
      *            parameter in the datasheet.
@@ -1694,12 +1505,10 @@ public:
         uint8_t sel) noexcept; ///< VELOCITY_SENSOR_SELECTION
                                ///< @see Datasheet parameter VELOCITY_SENSOR_SELECTION
 
-    /**
-     * @brief Select which sensor supplies the position loop.
+    /** @brief Select which sensor supplies the position loop.
      *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
      */
-    /**
-     * @brief Select which sensor supplies the position loop.
+    /** @brief Select which sensor supplies the position loop.
      *
      * @param sel Sensor selection value. See the POSITION_SENSOR_SELECTION
      *            parameter in the datasheet.
@@ -1713,8 +1522,7 @@ public:
     //  HALL sensors (digital Hall)
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    /**
-     * @brief Configure digital Hall sensors for BLDC commutation.
+    /** @brief Configure digital Hall sensors for BLDC commutation.
      *
      * This enables Hall sensor inputs as the feedback for commutation.
      * Typically used with tmc9660::tmcl::CommutationMode::FOC_HALL.
@@ -1738,8 +1546,7 @@ public:
                            tmc9660::tmcl::EnableDisable::DISABLED,
                        uint8_t filterLength = 0) noexcept;
 
-    /**
-     * @brief Set Hall sensor position offsets for improved accuracy.
+    /** @brief Set Hall sensor position offsets for improved accuracy.
      *
      * Compensates for Hall sensor mounting tolerances by setting precise
      * electrical angle offsets.
@@ -1761,8 +1568,7 @@ public:
                                 int16_t offset300 = -10923,
                                 int16_t globalOffset = 0) noexcept;
 
-    /**
-     * @brief Read the electrical angle (phi_e) calculated from Hall feedback.
+    /** @brief Read the electrical angle (phi_e) calculated from Hall feedback.
      * @param[out] phiE Electrical angle (-32768 to 32767).
      * @return true if the value was read successfully.
      */
@@ -1772,8 +1578,7 @@ public:
     //  ABN encoders (ABN1, ABN2)
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    /**
-     * @brief Configure an ABN incremental encoder for feedback.
+    /** @brief Configure an ABN incremental encoder for feedback.
      *
      * Sets up an incremental quadrature encoder with optional index (N) channel
      * for position and velocity feedback.
@@ -1792,8 +1597,7 @@ public:
                         tmc9660::tmcl::EnableDisable nChannelInverted =
                             tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
 
-    /**
-     * @brief Configure ABN encoder initialization method.
+    /** @brief Configure ABN encoder initialization method.
      *
      * Sets the method used to align the ABN encoder with the rotor's absolute
      * position.
@@ -1815,30 +1619,26 @@ public:
         uint16_t initDelay = 1000, int32_t initVelocity = 5,
         int16_t nChannelOffset = 0) noexcept;
 
-    /**
-     * @brief Read the current state of ABN encoder initialization.
+    /** @brief Read the current state of ABN encoder initialization.
      * @param[out] state Current initialization state
      * (tmc9660::tmcl::AbnInitState): IDLE, BUSY, WAIT, DONE
      * @return true if the state was read successfully.
      */
     bool getABNInitializationState(tmc9660::tmcl::AbnInitState &state) noexcept;
 
-    /**
-     * @brief Read the electrical angle (phi_e) calculated from ABN feedback.
+    /** @brief Read the electrical angle (phi_e) calculated from ABN feedback.
      * @param[out] phiE Electrical angle (-32768 to 32767).
      * @return true if the value was read successfully.
      */
     bool getABNPhiE(int16_t &phiE) noexcept;
 
-    /**
-     * @brief Read the raw ABN encoder internal counter value.
+    /** @brief Read the raw ABN encoder internal counter value.
      * @param[out] value Raw counter value (0-16777215).
      * @return true if the value was read successfully.
      */
     bool getABNRawValue(uint32_t &value) noexcept;
 
-    /**
-     * @brief Configure N-channel filtering for ABN encoder.
+    /** @brief Configure N-channel filtering for ABN encoder.
      *
      * Sets up filtering for the N-channel (index pulse) to handle imprecise
      * encoders.
@@ -1859,8 +1659,7 @@ public:
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    /**
-     * @brief Configure the secondary ABN encoder input.
+    /** @brief Configure the secondary ABN encoder input.
      *
      * This allows the use of a second incremental encoder or a geared
      * encoder setup. It writes ABN_2_* parameters to set the resolution,
@@ -1880,36 +1679,31 @@ public:
                                  uint8_t gearRatio = 1) noexcept;
 
     // ABN-2 (secondary encoder) getters
-    /**
-     * @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
+    /** @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
      * @param[out] counts CPR value.
      * @return true if read successful.
      */
     bool getSecondaryABNCountsPerRev(uint32_t &counts) noexcept;
 
-    /**
-     * @brief Read ABN_2_DIRECTION (normal/inverted).
+    /** @brief Read ABN_2_DIRECTION (normal/inverted).
      * @param[out] dir Direction (tmc9660::tmcl::Direction).
      * @return true if read successful.
      */
     bool getSecondaryABNDirection(tmc9660::tmcl::Direction &dir) noexcept;
 
-    /**
-     * @brief Read ABN_2_GEAR_RATIO (1…255).
+    /** @brief Read ABN_2_GEAR_RATIO (1…255).
      * @param[out] ratio Gear ratio.
      * @return true if read successful.
      */
     bool getSecondaryABNGearRatio(uint8_t &ratio) noexcept;
 
-    /**
-     * @brief Enable or disable the secondary ABN encoder.
+    /** @brief Enable or disable the secondary ABN encoder.
      * @param enable True to enable, false to disable.
      * @return true if the operation was successful.
      */
     bool setSecondaryABNEncoderEnabled(bool enable) noexcept;
 
-    /**
-     * @brief Read the raw ABN2 encoder internal counter value.
+    /** @brief Read the raw ABN2 encoder internal counter value.
      * @param[out] value Raw counter value (0-4294967295).
      * @return true if the value was read successfully.
      */
@@ -1921,8 +1715,7 @@ public:
     //  SPI encoder timing & frame size
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    /**
-     * @brief Configure a SPI-based encoder for feedback.
+    /** @brief Configure a SPI-based encoder for feedback.
      *
      * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for
      * position feedback.
@@ -1935,8 +1728,7 @@ public:
     bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0,
                              uint8_t csIdleTimeUs = 0) noexcept;
 
-    /**
-     * @brief Configure SPI encoder data format and processing.
+    /** @brief Configure SPI encoder data format and processing.
      *
      * Sets up how the position data is extracted from the SPI encoder response.
      *
@@ -1951,8 +1743,7 @@ public:
         tmc9660::tmcl::Direction invertDirection =
             tmc9660::tmcl::Direction::NOT_INVERTED) noexcept;
 
-    /**
-     * @brief Set up SPI encoder request data for continuous transfer mode.
+    /** @brief Set up SPI encoder request data for continuous transfer mode.
      *
      * Sets the data to be sent to the SPI encoder during position acquisition.
      *
@@ -1963,8 +1754,7 @@ public:
     bool setSPIEncoderRequestData(const uint8_t *requestData,
                                   uint8_t size) noexcept;
 
-    /**
-     * @brief Configure SPI encoder initialization method.
+    /** @brief Configure SPI encoder initialization method.
      *
      * Sets how the SPI encoder is initialized for commutation.
      *
@@ -1978,8 +1768,7 @@ public:
     configureSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod initMethod,
                                       int16_t offset = 0) noexcept;
 
-    /**
-     * @brief Enable or disable SPI encoder lookup table correction.
+    /** @brief Enable or disable SPI encoder lookup table correction.
      *
      * Enables the lookup table-based correction for encoder nonlinearity.
      *
@@ -1991,8 +1780,7 @@ public:
     bool setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable,
                                     int8_t shiftFactor = 0) noexcept;
 
-    /**
-     * @brief Upload a single entry to the SPI encoder correction lookup table.
+    /** @brief Upload a single entry to the SPI encoder correction lookup table.
      *
      * @param index Index in the LUT (0-255).
      * @param value Correction value (-128 to 127).
@@ -2001,75 +1789,62 @@ public:
     bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
 
     // SPI encoder timing & frame size
-    /**
-     * @brief Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).
+    /** @brief Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).
      */
     bool getSPIEncoderCSSettleDelay(uint16_t &timeNs) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).
+    /** @brief Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).
      */
     bool getSPIEncoderCSIdleDelay(uint8_t &timeUs) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).
+    /** @brief Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).
      */
     bool getSPIEncoderMainCmdSize(uint8_t &size) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).
+    /** @brief Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).
      */
     bool getSPIEncoderSecondaryCmdSize(uint8_t &size) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  SPI encoder data & status
-    /**
-     * @brief Read SPI_ENCODER_POSITION_COUNTER_MASK.
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_MASK.
      */
     bool getSPIEncoderPositionMask(uint32_t &mask) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_POSITION_COUNTER_SHIFT.
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_SHIFT.
      */
     bool getSPIEncoderPositionShift(uint8_t &shift) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_POSITION_COUNTER_VALUE.
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_VALUE.
      */
     bool getSPIEncoderPositionValue(uint32_t &value) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).
+    /** @brief Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).
      */
     bool getSPIEncoderCommutationAngle(int16_t &angle) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  SPI encoder initialization & offset
-    /**
-     * @brief Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.
+    /** @brief Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.
      */
     bool getSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod &method,
                                      int16_t &offset) noexcept;
 
-    /**
-     * @brief Read SPI_ENCODER_DIRECTION.
+    /** @brief Read SPI_ENCODER_DIRECTION.
      */
     bool getSPIEncoderDirection(tmc9660::tmcl::Direction &dir) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  SPI LUT
-    /**
-     * @brief Read SPI_LUT_ADDRESS_SELECT.
+    /** @brief Read SPI_LUT_ADDRESS_SELECT.
      */
     bool getSPIEncoderLUTAddress(uint8_t &address) noexcept;
 
-    /**
-     * @brief Read SPI_LUT_DATA.
+    /** @brief Read SPI_LUT_DATA.
      */
     bool getSPIEncoderLUTData(int8_t &data) noexcept;
 
-    /**
-     * @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
+    /** @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
      */
     bool getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) noexcept;
 
@@ -2084,8 +1859,8 @@ public:
   //***************************************************************************
   //**              SUBSYSTEM: Step/Dir Input Extrapolation                **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for controlling the STEP/DIR pulse input interface.
+
+  /** @brief Subsystem for controlling the STEP/DIR pulse input interface.
    *
    * Enables stepper-style control using external STEP and DIR pulses, with
    * support for:
@@ -2098,8 +1873,7 @@ public:
    */
   struct StepDir {
 
-    /**
-     * @brief Configure microstep resolution for each STEP pulse.
+    /** @brief Configure microstep resolution for each STEP pulse.
      *
      * @param µSteps Microsteps per full step (e.g. 256 = 1/256 resolution)
      * @return true on success
@@ -2110,8 +1884,7 @@ public:
     bool setMicrostepResolution(
         tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept;
 
-    /**
-     * @brief Enable or disable the STEP/DIR interface.
+    /** @brief Enable or disable the STEP/DIR interface.
      *
      * @param on true = enable, false = disable
      * @return true on success
@@ -2121,8 +1894,7 @@ public:
      */
     bool enableInterface(bool on) noexcept;
 
-    /**
-     * @brief Enable signal extrapolation between STEP pulses.
+    /** @brief Enable signal extrapolation between STEP pulses.
      *
      * @param enable true = enable extrapolation
      * @return true on success
@@ -2132,8 +1904,7 @@ public:
      */
     bool enableExtrapolation(bool enable) noexcept;
 
-    /**
-     * @brief Timeout before extrapolated motion stops after last pulse.
+    /** @brief Timeout before extrapolated motion stops after last pulse.
      *
      * @param timeout_ms Timeout in milliseconds
      * @return true on success
@@ -2142,8 +1913,7 @@ public:
      */
     bool setSignalTimeout(uint16_t timeout_ms) noexcept;
 
-    /**
-     * @brief Set maximum allowed extrapolation velocity.
+    /** @brief Set maximum allowed extrapolation velocity.
      *
      * @param eRPM Max electrical RPM before extrapolation is disabled
      * @return true on success
@@ -2152,8 +1922,7 @@ public:
      */
     bool setMaxExtrapolationVelocity(uint32_t eRPM) noexcept;
 
-    /**
-     * @brief Enable hardware feed-forward terms and set gain/shift.
+    /** @brief Enable hardware feed-forward terms and set gain/shift.
      *
      * This allows the ramp generator to use feed-forward terms for velocity and
      * acceleration.
@@ -2172,67 +1941,58 @@ public:
   //***************************************************************************
   //**                      SUBSYSTEM: Brake Chopper                       **//
   //***************************************************************************
-  /**
-   * @brief Subsystem controlling the brake chopper and mechanical brake
+
+  /** @brief Subsystem controlling the brake chopper and mechanical brake
    * features.
    */
   struct Brake {
-    /**
-     * @brief Enable or disable the brake chopper functionality.
+    /** @brief Enable or disable the brake chopper functionality.
      * @param enable True to enable the brake chopper, false to disable it.
      * @return True if the command was sent and acknowledged.
      */
     bool enableChopper(bool enable) noexcept;
 
-    /**
-     * @brief Set the overvoltage threshold for the brake chopper.
+    /** @brief Set the overvoltage threshold for the brake chopper.
      * @param voltage Threshold voltage in volts (5.0 to 100.0 V).
      * @return True if the parameter was written successfully.
      */
     bool setVoltageLimit(float voltage) noexcept;
 
-    /**
-     * @brief Set the hysteresis for the brake chopper threshold.
+    /** @brief Set the hysteresis for the brake chopper threshold.
      * @param voltage Hysteresis in volts (0.0 to 5.0 V).
      * @return True if the parameter was written successfully.
      */
     bool setHysteresis(float voltage) noexcept;
 
-    /**
-     * @brief Trigger a release of the mechanical brake.
+    /** @brief Trigger a release of the mechanical brake.
      * @return True if the command was sent successfully.
      */
     bool release() noexcept;
 
-    /**
-     * @brief Engage (lock) the mechanical brake.
+    /** @brief Engage (lock) the mechanical brake.
      * @return True if the command was sent successfully.
      */
     bool engage() noexcept;
 
-    /**
-     * @brief Set the PWM duty cycle for releasing the brake.
+    /** @brief Set the PWM duty cycle for releasing the brake.
      * @param percent Duty cycle (0 to 99%).
      * @return True if the parameter was written successfully.
      */
     bool setReleasingDutyCycle(uint8_t percent) noexcept;
 
-    /**
-     * @brief Set the PWM duty cycle for holding the brake released.
+    /** @brief Set the PWM duty cycle for holding the brake released.
      * @param percent Duty cycle (0 to 99%).
      * @return True if the parameter was written successfully.
      */
     bool setHoldingDutyCycle(uint8_t percent) noexcept;
 
-    /**
-     * @brief Set the duration of the brake release initial phase.
+    /** @brief Set the duration of the brake release initial phase.
      * @param milliseconds Duration in ms (0 to 65535).
      * @return True if the parameter was written successfully.
      */
     bool setReleasingDuration(uint16_t milliseconds) noexcept;
 
-    /**
-     * @brief Invert or normalize the brake output signal polarity.
+    /** @brief Invert or normalize the brake output signal polarity.
      * @param invert True to invert the brake output, false for normal.
      * @return True if the parameter was written successfully.
      */
@@ -2247,8 +2007,8 @@ public:
   //***************************************************************************
   //**                   SUBSYSTEM: I²t Overload Protection                **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for motor thermal overload protection via I²t integration.
+
+  /** @brief Subsystem for motor thermal overload protection via I²t integration.
    *
    * Configures two independent I²t windows that monitor integrated current over
    * time (in A²·ms) to detect thermal overloads. If either limit is exceeded, a
@@ -2259,8 +2019,7 @@ public:
    * - Related fault flags: `IIT_1_EXCEEDED`, `IIT_2_EXCEEDED`
    */
   struct IIT {
-    /**
-     * @brief Configure the two I²t monitoring windows.
+    /** @brief Configure the two I²t monitoring windows.
      *
      * @param timeConstant1_ms Time constant for window 1 [ms]
      * @param continuousCurrent1_A Current limit for window 1 [A]
@@ -2275,67 +2034,55 @@ public:
                    uint16_t timeConstant2_ms,
                    float continuousCurrent2_A) noexcept;
 
-    /**
-     * @brief Reset both I²t accumulators to zero.
+    /** @brief Reset both I²t accumulators to zero.
      * - RESET_IIT_SUMS
      */
     bool resetIntegralState() noexcept;
 
-    /**
-     * @brief Set the winding time constant for window 1.
+    /** @brief Set the winding time constant for window 1.
      * - THERMAL_WINDING_TIME_CONSTANT_1
      */
     bool setThermalWindingTimeConstant1(uint16_t ms) noexcept;
-    /**
-     * @brief Get the winding time constant for window 1.
+    /** @brief Get the winding time constant for window 1.
      */
     bool getThermalWindingTimeConstant1(uint16_t &ms) noexcept;
 
-    /**
-     * @brief Set the I²t limit for window 1.
+    /** @brief Set the I²t limit for window 1.
      * - IIT_LIMIT_1
      */
     bool setLimit1(uint32_t limit) noexcept;
-    /**
-     * @brief Get the I²t limit for window 1.
+    /** @brief Get the I²t limit for window 1.
      */
     bool getLimit1(uint32_t &limit) noexcept;
 
-    /**
-     * @brief Set the winding time constant for window 2.
+    /** @brief Set the winding time constant for window 2.
      * - THERMAL_WINDING_TIME_CONSTANT_2
      */
     bool setThermalWindingTimeConstant2(uint16_t ms) noexcept;
-    /**
-     * @brief Get the winding time constant for window 2.
+    /** @brief Get the winding time constant for window 2.
      */
     bool getThermalWindingTimeConstant2(uint16_t &ms) noexcept;
 
-    /**
-     * @brief Set the I²t limit for window 2.
+    /** @brief Set the I²t limit for window 2.
      * - IIT_LIMIT_2
      */
     bool setLimit2(uint32_t limit) noexcept;
-    /**
-     * @brief Get the I²t limit for window 2.
+    /** @brief Get the I²t limit for window 2.
      */
     bool getLimit2(uint32_t &limit) noexcept;
 
-    /**
-     * @brief Read the total motor current (torque+flux).
+    /** @brief Read the total motor current (torque+flux).
      * - ACTUAL_TOTAL_MOTOR_CURRENT
      */
     bool getActualTotalMotorCurrent(uint32_t &current,
                                     uint8_t motorIndex = 0) noexcept;
 
-    /**
-     * @brief Read the current integrated sum of window 1.
+    /** @brief Read the current integrated sum of window 1.
      * - IIT_SUM_1
      */
     bool getSum1(uint32_t &sum) noexcept;
 
-    /**
-     * @brief Read the current integrated sum of window 2.
+    /** @brief Read the current integrated sum of window 2.
      * - IIT_SUM_2
      */
     bool getSum2(uint32_t &sum) noexcept;
@@ -2346,100 +2093,87 @@ public:
     TMC9660 &driver;
   } iit{*this};
 
-  //***************************************************************************
-  //**                  SUBSYSTEM: Telemetry & Status **//
-  //***************************************************************************
-  /**
-   * @brief Subsystem for reading various telemetry and status information from
+  //===========================================================================
+  //==                  SUBSYSTEM: Telemetry & Status ==//
+  //===========================================================================
+
+  /** @brief Subsystem for reading various telemetry and status information from
    * the driver.
    */
   struct Telemetry {
-    /**
-     * @brief Read the GENERAL_STATUS_FLAGS register.
+    /** @brief Read the GENERAL_STATUS_FLAGS register.
      * @param[out] flags Bit mask of current status flags.
      * @return true if the flags were read successfully.
      */
     bool getGeneralStatusFlags(uint32_t &flags) noexcept;
 
-    /**
-     * @brief Read the current supply (bus) voltage.
+    /** @brief Read the current supply (bus) voltage.
      * @return Supply voltage in volts. Returns a negative value if unable to
      * read.
      */
     float getSupplyVoltage() noexcept;
 
-    /**
-     * @brief Read the internal chip temperature.
+    /** @brief Read the internal chip temperature.
      * @return Chip temperature in degrees Celsius.
      *         Returns a negative value (e.g. -273) on read error.
      *         Formula: T(°C) = raw * 0.01615 - 268.15
      */
     float getChipTemperature() noexcept;
 
-    /**
-     * @brief Read the current motor current (torque current).
+    /** @brief Read the current motor current (torque current).
      * @return Motor current in milliamps (mA). Returns 0 if unable to read.
      */
     int16_t getMotorCurrent() noexcept;
 
-    /**
-     * @brief Read the measured actual velocity of the motor.
+    /** @brief Read the measured actual velocity of the motor.
      * @return The actual velocity in internal units. Returns 0 if not
      * available.
      */
     int32_t getActualVelocity() noexcept;
 
-    /**
-     * @brief Read the measured actual position of the motor.
+    /** @brief Read the measured actual position of the motor.
      * @return The actual position in internal units. Returns 0 if not
      * available.
      */
     int32_t getActualPosition() noexcept;
 
-    /**
-     * @brief Read the GENERAL_ERROR_FLAGS register.
+    /** @brief Read the GENERAL_ERROR_FLAGS register.
      * @param[out] flags Bit mask of current error flags.
      * @return true if the flags were read successfully.
      */
     bool getGeneralErrorFlags(uint32_t &flags) noexcept;
 
-    /**
-     * @brief Read the GDRV_ERROR_FLAGS register.
+    /** @brief Read the GDRV_ERROR_FLAGS register.
      * @param[out] flags Bit mask of current gate driver error flags.
      * @return true if the flags were read successfully.
      */
     bool getGateDriverErrorFlags(uint32_t &flags) noexcept;
 
-    /**
-     * @brief Clear bits in the GENERAL_ERROR_FLAGS register.
+    /** @brief Clear bits in the GENERAL_ERROR_FLAGS register.
      * @param mask Bit mask of flags to clear (write-1-to-clear).
      * @return true if the mask was written successfully.
      */
     bool clearGeneralErrorFlags(uint32_t mask) noexcept;
 
-    /**
-     * @brief Clear bits in the GDRV_ERROR_FLAGS register.
+    /** @brief Clear bits in the GDRV_ERROR_FLAGS register.
      * @param mask Bit mask of flags to clear (write-1-to-clear).
      * @return true if the mask was written successfully.
      */
     bool clearGateDriverErrorFlags(uint32_t mask) noexcept;
 
-    /**
-     * @brief Read the ADC_STATUS_FLAGS register (clipped ADC channels).
+    /** @brief Read the ADC_STATUS_FLAGS register (clipped ADC channels).
      * @param[out] flags Bit mask of clipping status.
      * @return true if read successfully.
      */
     bool getADCStatusFlags(uint32_t &flags) noexcept;
 
-    /**
-     * @brief Clear bits in the ADC_STATUS_FLAGS register (write-1-to-clear).
+    /** @brief Clear bits in the ADC_STATUS_FLAGS register (write-1-to-clear).
      * @param mask Bit mask of clipping flags to clear.
      * @return true if the mask was written successfully.
      */
     bool clearADCStatusFlags(uint32_t mask) noexcept;
 
-    /**
-     * @brief Read the external temperature sensor raw value.
+    /** @brief Read the external temperature sensor raw value.
      * @return Raw external temperature. Returns 0 if unable to read.
      */
     uint16_t getExternalTemperature() noexcept;
@@ -2453,15 +2187,13 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Stop / Event **//
   //***************************************************************************
-  /**
-   * @brief Configure automatic stop/latch behaviour for deviation, switches.
+
+  /** @brief Configure automatic stop/latch behaviour for deviation, switches.
    */
   struct StopEvents {
-    /**
-     * @brief Stop when ramp target deviates from actual > thresholds.
+    /** @brief Stop when ramp target deviates from actual > thresholds.
      */
-    /**
-     * @brief Stop when ramp target deviates from actual values beyond the
+    /** @brief Stop when ramp target deviates from actual values beyond the
      *        allowed thresholds.
      *
      * @param maxVelError Maximum allowed velocity error.
@@ -2473,18 +2205,15 @@ public:
      */
     bool enableDeviationStop(
         uint32_t maxVelError, uint32_t maxPosError,
-        bool softStop =
-            true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS
+        bool softStop = true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS
                             ///< @see Datasheet EVENT_STOP_SETTINGS
 
-    /**
-     * @brief Configure reference / limit-switch inputs.
+    /** @brief Configure reference / limit-switch inputs.
      * @param mask  Bit-mask 0…7 ; see REFERENCE_SWITCH_ENABLE.
      * @param invertL,R,H    invert individual polarities.
      * @param swapLR         swap left/right wiring.
      */
-    /**
-     * @brief Configure reference and limit switch inputs.
+    /** @brief Configure reference and limit switch inputs.
      *
      * @param mask    Bit mask of switches to enable (see REFERENCE_SWITCH_ENABLE).
      * @param invertL Invert left switch polarity.
@@ -2500,8 +2229,7 @@ public:
         bool swapLR) noexcept; ///< REFERENCE_SWITCH_*
                                ///< @see Datasheet REFERENCE_SWITCH_ENABLE
 
-    /**
-     * @brief Read and clear the latched position from a switch event.
+    /** @brief Read and clear the latched position from a switch event.
      *
      * @param[out] pos Latched position value.
      * @return true on success
@@ -2518,15 +2246,14 @@ public:
     TMC9660 &driver;
   } stopEvents{*this};
 
-  //***************************************************************************
-  //**                  SUBSYSTEM: Protection                               **//
-  //***************************************************************************
-  /**
-   * @brief Subsystem for motor protection features
+  //===========================================================================
+  //==                  SUBSYSTEM: Protection                               ==//
+  //===========================================================================
+
+  /** @brief Subsystem for motor protection features
    */
   struct Protection {
-    /**
-     * @brief Configure overvoltage and undervoltage protection thresholds.
+    /** @brief Configure overvoltage and undervoltage protection thresholds.
      * @param overVoltThreshold Over-voltage warning threshold in units of 0.1V.
      * @param underVoltThreshold Under-voltage warning threshold in units of
      * 0.1V.
@@ -2535,8 +2262,7 @@ public:
     bool configureVoltage(uint16_t overVoltThreshold,
                           uint16_t underVoltThreshold) noexcept;
 
-    /**
-     * @brief Configure over-temperature protection thresholds.
+    /** @brief Configure over-temperature protection thresholds.
      *
      * The TMC9660 has an internal temperature sensor and supports an external
      * analog temperature sensor. This function sets warning and shutdown
@@ -2548,8 +2274,7 @@ public:
      */
     bool configureTemperature(float warningDegC, float shutdownDegC) noexcept;
 
-    /**
-     * @brief Enable or disable overcurrent protection on the driver outputs.
+    /** @brief Enable or disable overcurrent protection on the driver outputs.
      *
      * This controls the internal gate driver overcurrent detection (e.g.,
      * comparators) for various FETs.
@@ -2559,8 +2284,7 @@ public:
      */
     bool setOvercurrentEnabled(bool enabled) noexcept;
 
-    /**
-     * @brief Configure the two I²t monitoring windows for motor current.
+    /** @brief Configure the two I²t monitoring windows for motor current.
      * @param timeConstant1_ms Time constant for first window in milliseconds.
      * @param continuousCurrent1_A Continuous current limit for first window in
      * amps.
@@ -2573,8 +2297,7 @@ public:
                       uint16_t timeConstant2_ms,
                       float continuousCurrent2_A) noexcept;
 
-    /**
-     * @brief Reset the integrated I²t sum accumulators.
+    /** @brief Reset the integrated I²t sum accumulators.
      * @return true if reset was successful.
      */
     bool resetI2tState() noexcept;
@@ -2585,15 +2308,14 @@ public:
     TMC9660 &driver;
   } protection{*this};
 
-  //***************************************************************************
-  //**                  SUBSYSTEM: Script                                   **//
-  //***************************************************************************
-  /**
-   * @brief Subsystem for TMCL script execution control
+  //===========================================================================
+  //==                  SUBSYSTEM: Script                                   ==//
+  //===========================================================================
+
+  /** @brief Subsystem for TMCL script execution control
    */
   struct Script {
-    /**
-     * @brief Upload a TMCL script to the TMC9660's internal memory.
+    /** @brief Upload a TMCL script to the TMC9660's internal memory.
      *
      * This enters download mode, writes a series of instructions to the device
      * memory, and exits download mode. The script will typically run on device
@@ -2604,16 +2326,14 @@ public:
      */
     bool upload(const std::vector<uint32_t> &scriptData) noexcept;
 
-    /**
-     * @brief Start or restart execution of the stored script.
+    /** @brief Start or restart execution of the stored script.
      * @param address The address from which to start execution (usually 0 for
      * beginning of script).
      * @return true if the command to start the script was sent.
      */
     bool start(uint16_t address = 0) noexcept;
 
-    /**
-     * @brief Stop execution of the running script.
+    /** @brief Stop execution of the running script.
      * @return true if the stop command was sent successfully.
      */
     bool stop() noexcept;
@@ -2627,12 +2347,10 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Debug                                    **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for debug and data logging features
+  /** @brief Subsystem for debug and data logging features
    */
   struct RamDebug {
-    /**
-     * @brief Initialize and configure the RAMDebug feature (data logging).
+    /** @brief Initialize and configure the RAMDebug feature (data logging).
      *
      * This sends a command to initialize the RAM debug system and reset any
      * previous configurations.
@@ -2641,22 +2359,19 @@ public:
      */
     bool init(uint32_t sampleCount) noexcept;
 
-    /**
-     * @brief Start capturing data using RAMDebug.
+    /** @brief Start capturing data using RAMDebug.
      * @return true if the capture started successfully.
      */
     bool startCapture() noexcept;
 
-    /**
-     * @brief Read a captured sample from RAMDebug buffer.
+    /** @brief Read a captured sample from RAMDebug buffer.
      * @param index Sample index to read (0-based).
      * @param[out] data Variable to store the 32-bit sample data.
      * @return true if the data was read successfully.
      */
     bool readData(uint32_t index, uint32_t &data) noexcept;
 
-    /**
-     * @brief Get the current state of the RAM debug engine.
+    /** @brief Get the current state of the RAM debug engine.
      * @param[out] isRunning Will be set to true if capture is ongoing, false if
      * stopped or idle.
      * @return true if the status was retrieved successfully.
@@ -2669,14 +2384,11 @@ public:
     TMC9660 &driver;
   } ramDebug{*this};
 
-  //***************************************************************************
+  //===========================================================================
+  //**                SUBSYSTEM: FLASH STORAGE                             ==//
+  //=========================================================================== 
 
-  //***************************************************************************
-  //**                SUBSYSTEM: FLASH STORAGE                             **//
-  //***************************************************************************
-
-  /**
-   * @brief Subsystem for storing and recalling parameters from nonvolatile
+  /** @brief Subsystem for storing and recalling parameters from nonvolatile
    * flash.
    *
    * This API wraps STAP (0xFFF) and FactoryDefault commands. Use it to
@@ -2688,8 +2400,7 @@ public:
    * (see page 15).
    */
   struct NvmStorage {
-    /**
-     * @brief Store all writable parameters to flash or EEPROM.
+    /** @brief Store all writable parameters to flash or EEPROM.
      *
      * @return true if the operation completed without error.
      *
@@ -2697,8 +2408,7 @@ public:
      */
     bool storeToFlash() noexcept;
 
-    /**
-     * @brief Restore parameters previously saved to NVM.
+    /** @brief Restore parameters previously saved to NVM.
      *
      * @return true if configuration was successfully recalled.
      *
@@ -2706,8 +2416,7 @@ public:
      */
     bool recallFromFlash() noexcept;
 
-    /**
-     * @brief Erase a configuration bank from external memory.
+    /** @brief Erase a configuration bank from external memory.
      *
      * @param n Index of the flash bank to erase (typically 0)
      * @return true if erase command sent successfully.
@@ -2722,11 +2431,11 @@ public:
     TMC9660 &driver;
   } nvmStorage{*this};
 
-  //***************************************************************************
-  //**                SUBSYSTEM: Heartbeat (Watchdog) **//
-  //***************************************************************************
-  /**
-   * @brief Subsystem for configuring the communication watchdog (heartbeat).
+  //===========================================================================
+  //==                SUBSYSTEM: Heartbeat (Watchdog)                       ==//
+  //===========================================================================
+  
+  /** @brief Subsystem for configuring the communication watchdog (heartbeat).
    *
    * If enabled, the TMC9660 monitors the time since the last command.
    * If no communication occurs before timeout expires, the chip faults or
@@ -2736,8 +2445,7 @@ public:
    * See datasheet page 89 for details.
    */
   struct Heartbeat {
-    /**
-     * @brief Enable the heartbeat monitor and set timeout.
+    /** @brief Enable the heartbeat monitor and set timeout.
      *
      * @param mode ENABLE or DISABLE the watchdog
      * @param timeout_ms Timeout in milliseconds
@@ -2758,8 +2466,8 @@ public:
   //***************************************************************************
   //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O) **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for configuring general-purpose IOs (GPIOs).
+
+  /** @brief Subsystem for configuring general-purpose IOs (GPIOs).
    *
    * Pins can be configured as digital inputs, digital outputs, or analog
    * inputs. The input pull-up/down resistors and output state can also be
@@ -2769,8 +2477,7 @@ public:
    * See datasheet page 19.
    */
   struct GPIO {
-    /**
-     * @brief Configure a GPIO pin as input or output.
+    /** @brief Configure a GPIO pin as input or output.
      *
      * @param pin GPIO index (e.g. GPIO0..GPIO18)
      * @param output Set to true to make the pin output, false = input
@@ -2781,24 +2488,21 @@ public:
     bool setMode(uint8_t pin, bool output, bool pullEnable = false,
                  bool pullUp = true) noexcept;
 
-    /**
-     * @brief Write a digital value to a configured output pin.
+    /** @brief Write a digital value to a configured output pin.
      * @param pin GPIO pin index
      * @param value true = high, false = low
      * @return true if write succeeded
      */
     bool writePin(uint8_t pin, bool value) noexcept;
 
-    /**
-     * @brief Read a digital input pin.
+    /** @brief Read a digital input pin.
      * @param pin GPIO pin index
      * @param[out] value Logic level read from the pin
      * @return true on successful read
      */
     bool readDigital(uint8_t pin, bool &value) noexcept;
 
-    /**
-     * @brief Read an analog input (e.g. external temperature or potentiometer).
+    /** @brief Read an analog input (e.g. external temperature or potentiometer).
      * @param pin ADC input index
      * @param[out] value Raw ADC value (typically 0–65535)
      * @return true on success
@@ -2816,8 +2520,8 @@ public:
   //***************************************************************************
   //**               SUBSYSTEM: Power Management                          **//
   //***************************************************************************
-  /**
-   * @brief Subsystem for entering low-power hibernation mode and configuring
+
+  /** @brief Subsystem for entering low-power hibernation mode and configuring
    * wake.
    *
    * The TMC9660 supports timed power-down and wake-on-pin. These features
@@ -2827,8 +2531,7 @@ public:
    * - Wake behavior depends on BOOT_CONFIG and external wiring.
    */
   struct Power {
-    /**
-     * @brief Enable or disable the external wake-up pin.
+    /** @brief Enable or disable the external wake-up pin.
      * @param enable true = enable pin
      * @return true on success
      *
@@ -2836,8 +2539,7 @@ public:
      */
     bool enableWakePin(bool enable) noexcept;
 
-    /**
-     * @brief Put the chip into power-down mode for a set duration.
+    /** @brief Put the chip into power-down mode for a set duration.
      * @param period Enum selecting one of 6 durations (e.g. PERIOD_1 = 250 ms)
      * @return true on success
      *
