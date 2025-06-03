@@ -25,6 +25,39 @@ bool TMC9660::readGlobalParameter(GlobalParamBankVariant id, uint8_t bank, uint3
   return this->sendCommand(tmc9660::tmcl::Op::GGP, paramId, bank, 0, &value);
 }
 
+bool TMC9660::FeedbackSense::selectVelocitySensor(uint8_t sel) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_SENSOR_SELECTION,
+      static_cast<uint32_t>(sel));
+}
+
+bool TMC9660::FeedbackSense::selectPositionSensor(uint8_t sel) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_SENSOR_SELECTION,
+      static_cast<uint32_t>(sel));
+}
+
+bool TMC9660::FeedbackSense::configureHall(
+    tmc9660::tmcl::HallSectorOffset sectorOffset,
+    tmc9660::tmcl::Direction inverted,
+    tmc9660::tmcl::EnableDisable enableExtrapolation,
+    uint8_t filterLength) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::HALL_SECTOR_OFFSET,
+      static_cast<uint32_t>(sectorOffset));
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::HALL_INVERT_DIRECTION,
+      static_cast<uint32_t>(inverted));
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::HALL_EXTRAPOLATION_ENABLE,
+      enableExtrapolation == tmc9660::tmcl::EnableDisable::ENABLED ? 1u : 0u);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::HALL_FILTER_LENGTH,
+      static_cast<uint32_t>(filterLength));
+  return ok;
+}
+
 bool TMC9660::FeedbackSense::setHallPositionOffsets(
     int16_t offset0, int16_t offset60, int16_t offset120, int16_t offset180,
     int16_t offset240, int16_t offset300, int16_t globalOffset) noexcept {
@@ -173,7 +206,7 @@ bool TMC9660::FeedbackSense::getSecondaryABNDirection(
 bool TMC9660::FeedbackSense::getSecondaryABNGearRatio(uint8_t &ratio) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(
-          tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO),
+          tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO,
           tmp))
     return false;
   ratio = static_cast<uint8_t>(tmp);
