@@ -1931,6 +1931,25 @@ public:
     TMC9660 &driver;
   } stepDir{*this};
 
+  //***********************************************************************
+  //**                    SUBSYSTEM: Reference Search                   **//
+  //***********************************************************************
+
+  /** @brief Subsystem for executing a reference search (homing) routine. */
+  struct ReferenceSearch {
+    /// Start the reference search procedure.
+    bool start() noexcept;
+    /// Abort an ongoing reference search.
+    bool stop() noexcept;
+    /// Query the current reference search status code.
+    bool getStatus(tmc9660::tmcl::ReferenceSearchStatus &status) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit ReferenceSearch(TMC9660 &parent) noexcept : driver(parent) {}
+    TMC9660 &driver;
+  } referenceSearch{*this};
+
   //***************************************************************************
   //**                      SUBSYSTEM: Brake Chopper                       **//
   //***************************************************************************
