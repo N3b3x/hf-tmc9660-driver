@@ -520,15 +520,22 @@ bool TMC9660::uploadScript(const std::vector<uint32_t> &scriptData) {
 //-------------------------------------------------------------------------
 
 bool TMC9660::Script::upload(const std::vector<uint32_t> &scriptData) noexcept {
-  return false; // Placeholder for actual upload logic
+  if (!driver.sendCommand(tmc9660::tmcl::Op::DOWNLOAD_START, 0, 0, 0, nullptr))
+    return false;
+  for (uint32_t instr : scriptData) {
+    if (!driver.sendCommand(tmc9660::tmcl::Op::NOP, 0, 0, instr, nullptr))
+      return false;
+  }
+  return driver.sendCommand(tmc9660::tmcl::Op::DOWNLOAD_END, 0, 0, 0, nullptr);
 }
 
 bool TMC9660::Script::start(uint16_t address) noexcept {
-  return false; // Placeholder for actual start logic
+  uint16_t type = (address == 0) ? 0 : 1;
+  return driver.sendCommand(tmc9660::tmcl::Op::APPL_RUN, type, 0, address, nullptr);
 }
 
-bool TMC9660::Script::stop() noexcept { 
-  return false; // Placeholder for actual stop logic
+bool TMC9660::Script::stop() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::APPL_STOP, 0, 0, 0, nullptr);
 }
 
 //-------------------------------------------------------------------------
@@ -566,22 +573,19 @@ bool TMC9660::RamDebug::getStatus(bool &isRunning) noexcept {
 }
 
 bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
-                          uint32_t value, uint32_t *reply) {
-  Datagram d{opcode, type, motor, value};
-  std::array<uint8_t, 8> tx{};
-  std::array<uint8_t, 8> rx{};
-  d.toSpi(tx);
-  bool success = comm_.transferDatagram(tx, rx);
-  if (!success) {mc9660::tmcl::Op::
+                          uint32_t value, uint32_t *reply) noexcept {
+  TMCLFrame tx{};
+  tx.opcode = static_cast<uint8_t>(opcode);
+  tx.type   = type;
+  tx.motor  = motor;
+  tx.value  = value;
+
+  TMCLFrame rx{};
+  if (!comm_.transferDatagram(tx, rx))
     return false;
-  }
-  if (reply != nullptr) {
-    uint32_t respVal = (static_cast<uint32_t>(rx[4]) << 24) |
-                       (static_cast<uint32_t>(rx[5]) << 16) |
-                       (static_cast<uint32_t>(rx[6]) << 8) |
-                       (static_cast<uint32_t>(rx[7]));
-    *reply = respVal;
-  }
+
+  if (reply)
+    *reply = rx.value;
   return true;
 }
 
@@ -2291,6 +2295,36 @@ bool TMC9660::StepDir::enableVelocityFeedForward(bool enableVelFF) noexcept {
   return driver.writeParameter(
       tmc9660::tmcl::Parameters::VELOCITY_FEEDFORWARD_ENABLE,
       enableVelFF ? 1u : 0u);
+}
+
+//-------------------------------------------------------------------------
+// ReferenceSearch subsystem implementations
+//-------------------------------------------------------------------------
+
+bool TMC9660::ReferenceSearch::start() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::RFS,
+                            static_cast<uint16_t>(
+                                tmc9660::tmcl::ReferenceSearchCommand::START),
+                            0, 0, nullptr);
+}
+
+bool TMC9660::ReferenceSearch::stop() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::RFS,
+                            static_cast<uint16_t>(
+                                tmc9660::tmcl::ReferenceSearchCommand::STOP),
+                            0, 0, nullptr);
+}
+
+bool TMC9660::ReferenceSearch::getStatus(
+    tmc9660::tmcl::ReferenceSearchStatus &status) noexcept {
+  uint32_t val = 0;
+  if (!driver.sendCommand(tmc9660::tmcl::Op::RFS,
+                          static_cast<uint16_t>(
+                              tmc9660::tmcl::ReferenceSearchCommand::STATUS),
+                          0, 0, &val))
+    return false;
+  status = static_cast<tmc9660::tmcl::ReferenceSearchStatus>(val & 0xFF);
+  return true;
 }
 
 //-------------------------------------------------------------------------
