@@ -24,7 +24,7 @@ int main() {
     }
 
     // 2. Configure Hall sensor feedback (assuming standard hall sequence, not inverted).
-    driver.configureHallSensors(0, false);
+    driver.configureHall();
 
     // 3. Set commutation mode to FOC with Hall feedback.
     driver.setCommutationMode(TMC9660::CommutationMode::FOC_HALL);
