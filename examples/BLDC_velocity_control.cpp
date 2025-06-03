@@ -26,7 +26,7 @@ int main() {
     driver.setMaxCurrent(1500);
 
     // 3. Configure an encoder for velocity feedback (e.g., 1024 counts per revolution).
-    driver.configureEncoder(1024, false);
+    driver.configureABNEncoder(1024);
 
     // 4. For DC motor, use open-loop current mode to drive the H-bridge.
     driver.setCommutationMode(TMC9660::CommutationMode::FOC_OPENLOOP_CURRENT);
