@@ -25,6 +25,7 @@ static constexpr uint8_t OP_DOWNLOAD_START = 132;
 static constexpr uint8_t OP_DOWNLOAD_END = 133;
 static constexpr uint8_t OP_READ_MEM = 134;
 static constexpr uint8_t OP_GET_SCRIPT_STATUS = 135;
+static constexpr uint8_t OP_FACTORY_DEFAULT = 137;
 
 TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address)
     : comm_(comm), address_(address & 0x7F) // ensure address is 7-bit
@@ -2469,6 +2470,35 @@ bool TMC9660::Globals::getInputTrigger(
     return false;
   transition = static_cast<tmc9660::tmcl::TriggerTransition>(tmp);
   return true;
+}
+
+//-------------------------------------------------------------------------
+// NvmStorage helpers
+//-------------------------------------------------------------------------
+
+bool TMC9660::NvmStorage::storeToFlash() noexcept {
+  // Use STAP command with fixed fields as documented in the TMCL manual
+  return driver.sendCommand(OP_STAP, 0x0FFF, 0x0F, 0xFFFFFFFF, nullptr);
+}
+
+bool TMC9660::NvmStorage::recallFromFlash() noexcept {
+  // Trigger a configuration reload from external memory using FactoryDefault
+  if (!driver.sendCommand(OP_FACTORY_DEFAULT, 0, 0, 0, nullptr))
+    return false;
+  // Give the controller some time to process and then check status flag
+  using namespace std::chrono_literals;
+  std::this_thread::sleep_for(50ms);
+  uint32_t flags = 0;
+  if (!driver.getGeneralStatusFlags(flags))
+    return false;
+  constexpr uint32_t CONFIG_LOADED_MASK =
+      1u << static_cast<uint8_t>(tmc9660::tmcl::GeneralStatusFlags::CONFIG_LOADED);
+  return (flags & CONFIG_LOADED_MASK) != 0;
+}
+
+bool TMC9660::NvmStorage::eraseFlashBank(uint8_t n) noexcept {
+  // Erase specified flash bank via FactoryDefault with type field as bank index
+  return driver.sendCommand(OP_FACTORY_DEFAULT, n, 0, 0, nullptr);
 }
 
 //-------------------------------------------------------------------------
