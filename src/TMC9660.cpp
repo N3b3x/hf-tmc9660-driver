@@ -1372,6 +1372,116 @@ bool TMC9660::FOCControl::getActualPosition(int32_t &position) noexcept {
   return true;
 }
 
+bool TMC9660::FOCControl::setStopOnVelocityDeviation(uint32_t maxError,
+                                                     bool softStop) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::STOP_ON_VELOCITY_DEVIATION, maxError);
+  auto setting = softStop
+                     ? tmc9660::tmcl::EventStopSettings::STOP_ON_VEL_DEVIATION_SOFT_STOP
+                     : tmc9660::tmcl::EventStopSettings::STOP_ON_VEL_DEVIATION;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::EVENT_STOP_SETTINGS,
+                              static_cast<uint32_t>(setting));
+  return ok;
+}
+
+bool TMC9660::FOCControl::getStopOnVelocityDeviation(uint32_t &maxError,
+                                                     bool &softStop) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::STOP_ON_VELOCITY_DEVIATION, v))
+    return false;
+  maxError = v;
+  uint32_t mode;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::EVENT_STOP_SETTINGS,
+                            mode))
+    return false;
+  softStop = (mode ==
+              static_cast<uint32_t>(
+                  tmc9660::tmcl::EventStopSettings::STOP_ON_VEL_DEVIATION_SOFT_STOP));
+  return true;
+}
+
+bool TMC9660::FOCControl::setStopOnPositionDeviation(uint32_t maxError,
+                                                      bool softStop) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::STOP_ON_POSITION_DEVIATION, maxError);
+  auto setting = softStop
+                     ? tmc9660::tmcl::EventStopSettings::STOP_ON_POS_VEL_DEVIATION_SOFT_STOP
+                     : tmc9660::tmcl::EventStopSettings::STOP_ON_POS_VEL_DEVIATION;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::EVENT_STOP_SETTINGS,
+                              static_cast<uint32_t>(setting));
+  return ok;
+}
+
+bool TMC9660::FOCControl::getStopOnPositionDeviation(uint32_t &maxError,
+                                                      bool &softStop) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::STOP_ON_POSITION_DEVIATION, v))
+    return false;
+  maxError = v;
+  uint32_t mode;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::EVENT_STOP_SETTINGS,
+                            mode))
+    return false;
+  softStop = (mode == static_cast<uint32_t>(
+                          tmc9660::tmcl::EventStopSettings::STOP_ON_POS_VEL_DEVIATION_SOFT_STOP));
+  return true;
+}
+
+bool TMC9660::FOCControl::setVelocityLoopDownsampling(uint8_t divider) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_LOOP_DOWNSAMPLING, divider);
+}
+
+bool TMC9660::FOCControl::getVelocityLoopDownsampling(uint8_t &divider) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::VELOCITY_LOOP_DOWNSAMPLING, v))
+    return false;
+  divider = static_cast<uint8_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setVelocityMeterSwitchThreshold(uint32_t threshold) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_METER_SWITCH_THRESHOLD, threshold);
+}
+
+bool TMC9660::FOCControl::getVelocityMeterSwitchThreshold(uint32_t &threshold) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::VELOCITY_METER_SWITCH_THRESHOLD, v))
+    return false;
+  threshold = v;
+  return true;
+}
+
+bool TMC9660::FOCControl::setVelocityMeterSwitchHysteresis(uint16_t hysteresis) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_METER_SWITCH_HYSTERESIS, hysteresis);
+}
+
+bool TMC9660::FOCControl::getVelocityMeterSwitchHysteresis(uint16_t &hysteresis) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::VELOCITY_METER_SWITCH_HYSTERESIS, v))
+    return false;
+  hysteresis = static_cast<uint16_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::getVelocityMeterMode(
+    tmc9660::tmcl::VelocityMeterMode &mode) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::VELOCITY_METER_MODE, v))
+    return false;
+  mode = static_cast<tmc9660::tmcl::VelocityMeterMode>(v);
+  return true;
+}
+
 bool TMC9660::FOCControl::getOpenloopAngle(int16_t &angle) noexcept {
   uint32_t v;
   if (!driver.readParameter(tmc9660::tmcl::Parameters::OPENLOOP_ANGLE, v))
