@@ -531,11 +531,43 @@ bool TMC9660::Script::upload(const std::vector<uint32_t> &scriptData) noexcept {
 
 bool TMC9660::Script::start(uint16_t address) noexcept {
   uint16_t type = (address == 0) ? 0 : 1;
-  return driver.sendCommand(tmc9660::tmcl::Op::APPL_RUN, type, 0, address, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::ApplRun, type, 0, address, nullptr);
 }
 
 bool TMC9660::Script::stop() noexcept {
-  return driver.sendCommand(tmc9660::tmcl::Op::APPL_STOP, 0, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::ApplStop, 0, 0, 0, nullptr);
+}
+
+bool TMC9660::Script::step() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::ApplStep, 0, 0, 0, nullptr);
+}
+
+bool TMC9660::Script::reset() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::ApplReset, 0, 0, 0, nullptr);
+}
+
+bool TMC9660::Script::getStatus(uint32_t &status) noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::GetStatusScript, 0, 0, 0, &status);
+}
+
+bool TMC9660::Script::readMemory(uint16_t address, uint32_t &value) noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::ReadMem, 0, 0, address, &value);
+}
+
+bool TMC9660::Script::addBreakpoint(uint16_t address) noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::Breakpoint, 0, 0, address, nullptr);
+}
+
+bool TMC9660::Script::removeBreakpoint(uint16_t address) noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::Breakpoint, 1, 0, address, nullptr);
+}
+
+bool TMC9660::Script::clearBreakpoints() noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::Breakpoint, 2, 0, 0, nullptr);
+}
+
+bool TMC9660::Script::getMaxBreakpointCount(uint32_t &count) noexcept {
+  return driver.sendCommand(tmc9660::tmcl::Op::Breakpoint, 3, 0, 0, &count);
 }
 
 //-------------------------------------------------------------------------

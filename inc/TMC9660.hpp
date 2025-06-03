@@ -2350,6 +2350,56 @@ public:
      */
     bool stop() noexcept;
 
+    /** @brief Execute a single TMCL instruction of the loaded script.
+     *
+     * Uses the `ApplStep` opcode which advances the interpreter by one
+     * instruction. Useful for debugging scripts in real time.
+     */
+    bool step() noexcept;
+
+    /** @brief Reset the TMCL program counter.
+     *
+     * Sends the `ApplReset` command which stops execution and resets the
+     * script to the beginning.
+     */
+    bool reset() noexcept;
+
+    /** @brief Query the execution state of the running script.
+     * @param[out] status Raw status value returned by `GetStatusScript`.
+     * @return true if the status value was retrieved successfully.
+     */
+    bool getStatus(uint32_t &status) noexcept;
+
+    /** @brief Read a 32-bit instruction from script memory.
+     * @param address Instruction address to read.
+     * @param[out] value Returned 32-bit TMCL instruction word.
+     * @return true on success.
+     */
+    bool readMemory(uint16_t address, uint32_t &value) noexcept;
+
+    /** @brief Add a breakpoint at the given address.
+     * @param address Instruction address where execution should break.
+     * @return true if the breakpoint was set.
+     */
+    bool addBreakpoint(uint16_t address) noexcept;
+
+    /** @brief Remove a previously set breakpoint.
+     * @param address Address of the breakpoint to remove.
+     * @return true if removed successfully.
+     */
+    bool removeBreakpoint(uint16_t address) noexcept;
+
+    /** @brief Remove all breakpoints from the script.
+     * @return true if the command succeeded.
+     */
+    bool clearBreakpoints() noexcept;
+
+    /** @brief Query the maximum number of supported breakpoints.
+     * @param[out] count Maximum breakpoint count reported by the device.
+     * @return true on success.
+     */
+    bool getMaxBreakpointCount(uint32_t &count) noexcept;
+
   private:
     friend class TMC9660;
     explicit Script(TMC9660 &parent) noexcept : driver(parent) {}
