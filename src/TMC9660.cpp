@@ -1,5 +1,7 @@
 #include "TMC9660.hpp"
 #include <cmath>
+#include <chrono>
+#include <thread>
 
 // Define TMCL operation codes for convenience
 static constexpr uint8_t OP_NOP = 0;
@@ -797,6 +799,45 @@ bool TMC9660::FeedbackSense::readScaledAndOffset(int16_t &adc0, int16_t &adc1,
   if (!driver.readParameter(tmc9660::tmcl::Parameters::ADC_I3, tmp))
     return false;
   adc3 = static_cast<int16_t>(tmp);
+  return true;
+}
+
+bool TMC9660::CurrentSensing::calibrateOffsets(bool waitForCompletion,
+                                               uint32_t timeoutMs) noexcept {
+  using tmc9660::tmcl::Parameters;
+  using tmc9660::tmcl::GeneralStatusFlags;
+  // Clear the calibrated flag to trigger a new calibration cycle
+  if (!driver.writeParameter(Parameters::GENERAL_STATUS_FLAGS,
+                             static_cast<uint32_t>(
+                                 GeneralStatusFlags::ADC_OFFSET_CALIBRATED)))
+    return false;
+
+  if (!waitForCompletion)
+    return true;
+
+  auto start = std::chrono::steady_clock::now();
+  bool done = false;
+  while (true) {
+    if (!getCalibrationStatus(done))
+      return false;
+    if (done)
+      return true;
+    if (std::chrono::steady_clock::now() - start >=
+        std::chrono::milliseconds(timeoutMs))
+      return false;
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+}
+
+bool TMC9660::CurrentSensing::getCalibrationStatus(bool &isCalibrated) noexcept {
+  uint32_t flags;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::GENERAL_STATUS_FLAGS,
+                            flags))
+    return false;
+  isCalibrated =
+      (flags & static_cast<uint32_t>(
+                   tmc9660::tmcl::GeneralStatusFlags::ADC_OFFSET_CALIBRATED)) !=
+      0;
   return true;
 }
 
@@ -1802,6 +1843,245 @@ bool TMC9660::FOCControl::getIntegratedActualTorqueValue(uint32_t &value) noexce
 bool TMC9660::FOCControl::getIntegratedActualVelocityValue(uint32_t &value) noexcept {
   return driver.readParameter(
       tmc9660::tmcl::Parameters::INTEGRATED_ACTUAL_VELOCITY_VALUE, value);
+}
+
+//-------------------------------------------------------------------------
+// Ramp subsystem implementations
+//-------------------------------------------------------------------------
+
+bool TMC9660::Ramp::enable(bool on) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_ENABLE,
+                               on ? 1u : 0u);
+}
+
+bool TMC9660::Ramp::setAcceleration(uint32_t a1, uint32_t a2,
+                                    uint32_t aMax) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_A1, a1);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_A2, a2);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_AMAX, aMax);
+  return ok;
+}
+
+bool TMC9660::Ramp::setDeceleration(uint32_t d1, uint32_t d2,
+                                    uint32_t dMax) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_D1, d1);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_D2, d2);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_DMAX, dMax);
+  return ok;
+}
+
+bool TMC9660::Ramp::setVelocities(uint32_t vStart, uint32_t vStop, uint32_t v1,
+                                  uint32_t v2, uint32_t vMax) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_VSTART, vStart);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_VSTOP, vStop);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_V1, v1);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_V2, v2);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_VMAX, vMax);
+  return ok;
+}
+
+bool TMC9660::Ramp::setTiming(uint16_t tVmaxCycles,
+                              uint16_t tZeroWaitCycles) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_TVMAX,
+                              tVmaxCycles);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::RAMP_TZEROWAIT,
+                              tZeroWaitCycles);
+  return ok;
+}
+
+bool TMC9660::Ramp::enableFeedForward(
+    bool enableVelFF, bool enableAccelFF, uint16_t accelFFGain,
+    tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_FEEDFORWARD_ENABLE,
+      enableVelFF ? 1u : 0u);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::ACCELERATION_FEEDFORWARD_ENABLE,
+      enableAccelFF ? 1u : 0u);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ACCELERATION_FF_GAIN,
+                              accelFFGain);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ACCELERATION_FF_SHIFT,
+                              static_cast<uint32_t>(accelFFShift));
+  return ok;
+}
+
+bool TMC9660::Ramp::setDirectVelocityMode(bool enable) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::DIRECT_VELOCITY_MODE,
+                               enable ? 1u : 0u);
+}
+
+bool TMC9660::Ramp::getRampVelocity(int32_t &velocity) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::RAMP_VELOCITY, v))
+    return false;
+  velocity = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::Ramp::getRampPosition(int32_t &position) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::RAMP_POSITION, v))
+    return false;
+  position = static_cast<int32_t>(v);
+  return true;
+}
+
+//-------------------------------------------------------------------------
+// StepDir subsystem implementations
+//-------------------------------------------------------------------------
+
+bool TMC9660::StepDir::setMicrostepResolution(
+    tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::STEP_DIR_STEP_DIVIDER_SHIFT,
+      static_cast<uint32_t>(µSteps));
+}
+
+bool TMC9660::StepDir::enableInterface(bool on) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_ENABLE,
+                               on ? 1u : 0u);
+}
+
+bool TMC9660::StepDir::enableExtrapolation(bool enable) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::STEP_DIR_EXTRAPOLATION_ENABLE,
+      enable ? 1u : 0u);
+}
+
+bool TMC9660::StepDir::setSignalTimeout(uint16_t timeout_ms) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::STEP_DIR_STEP_SIGNAL_TIMEOUT_LIMIT,
+      timeout_ms);
+}
+
+bool TMC9660::StepDir::setMaxExtrapolationVelocity(uint32_t eRPM) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY,
+      eRPM);
+}
+
+bool TMC9660::StepDir::enableVelocityFeedForward(bool enableVelFF) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::VELOCITY_FEEDFORWARD_ENABLE,
+      enableVelFF ? 1u : 0u);
+}
+
+//-------------------------------------------------------------------------
+// Brake subsystem implementations
+//-------------------------------------------------------------------------
+
+bool TMC9660::Brake::enableChopper(bool enable) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::BRAKE_CHOPPER_ENABLE,
+                               enable ? 1u : 0u);
+}
+
+bool TMC9660::Brake::setVoltageLimit(float voltage) noexcept {
+  uint32_t raw = static_cast<uint32_t>(voltage * 10.0f + 0.5f);
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::BRAKE_CHOPPER_VOLTAGE_LIMIT, raw);
+}
+
+bool TMC9660::Brake::setHysteresis(float voltage) noexcept {
+  uint32_t raw = static_cast<uint32_t>(voltage * 10.0f + 0.5f);
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::BRAKE_CHOPPER_HYSTERESIS, raw);
+}
+
+bool TMC9660::Brake::release() noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::RELEASE_BRAKE, 1u);
+}
+
+bool TMC9660::Brake::engage() noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::RELEASE_BRAKE, 0u);
+}
+
+bool TMC9660::Brake::setReleasingDutyCycle(uint8_t percent) noexcept {
+  if (percent > 99)
+    percent = 99;
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::BRAKE_RELEASING_DUTY_CYCLE, percent);
+}
+
+bool TMC9660::Brake::setHoldingDutyCycle(uint8_t percent) noexcept {
+  if (percent > 99)
+    percent = 99;
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::BRAKE_HOLDING_DUTY_CYCLE, percent);
+}
+
+bool TMC9660::Brake::setReleasingDuration(uint16_t milliseconds) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::BRAKE_RELEASING_DURATION, milliseconds);
+}
+
+bool TMC9660::Brake::invertOutput(bool invert) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::INVERT_BRAKE_OUTPUT,
+                               invert ? 1u : 0u);
+}
+
+//-------------------------------------------------------------------------
+// StopEvents subsystem implementations
+//-------------------------------------------------------------------------
+
+bool TMC9660::StopEvents::enableDeviationStop(uint32_t maxVelError,
+                                              uint32_t maxPosError,
+                                              bool softStop) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::STOP_ON_VELOCITY_DEVIATION, maxVelError);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::STOP_ON_POSITION_DEVIATION, maxPosError);
+
+  using tmc9660::tmcl::EventStopSettings;
+  bool vel = maxVelError != 0;
+  bool pos = maxPosError != 0;
+  EventStopSettings setting = EventStopSettings::DO_HARD_STOP;
+  if (vel && pos)
+    setting = softStop ? EventStopSettings::STOP_ON_POS_VEL_DEVIATION_SOFT_STOP
+                       : EventStopSettings::STOP_ON_POS_VEL_DEVIATION;
+  else if (pos)
+    setting = softStop ? EventStopSettings::STOP_ON_POS_DEVIATION_SOFT_STOP
+                       : EventStopSettings::STOP_ON_POS_DEVIATION;
+  else if (vel)
+    setting = softStop ? EventStopSettings::STOP_ON_VEL_DEVIATION_SOFT_STOP
+                       : EventStopSettings::STOP_ON_VEL_DEVIATION;
+  else
+    setting = softStop ? EventStopSettings::DO_SOFT_STOP
+                       : EventStopSettings::DO_HARD_STOP;
+
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::EVENT_STOP_SETTINGS,
+                              static_cast<uint32_t>(setting));
+  return ok;
+}
+
+bool TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL,
+                                                     bool invertR, bool invertH,
+                                                     bool swapLR) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::REFERENCE_SWITCH_ENABLE,
+                              mask);
+  uint8_t cfg = (invertL ? 1u : 0u) | (invertR ? 2u : 0u) |
+                (invertH ? 4u : 0u) | (swapLR ? 8u : 0u);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::REFERENCE_SWITCH_POLARITY_AND_SWAP, cfg);
+  return ok;
+}
+
+bool TMC9660::StopEvents::getAndClearLatchedPosition(int32_t &pos) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(tmc9660::tmcl::Parameters::LATCH_POSITION, v))
+    return false;
+  pos = static_cast<int32_t>(v);
+  driver.writeParameter(
+      tmc9660::tmcl::Parameters::GENERAL_STATUS_FLAGS,
+      static_cast<uint32_t>(
+          tmc9660::tmcl::GeneralStatusFlags::RAMPER_LATCHED));
+  return true;
 }
 
 //-------------------------------------------------------------------------
