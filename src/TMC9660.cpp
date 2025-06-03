@@ -3,195 +3,26 @@
 #include <chrono>
 #include <thread>
 
-// Define TMCL operation codes for convenience
-static constexpr uint8_t OP_NOP = 0;
-static constexpr uint8_t OP_MST = 3;
-static constexpr uint8_t OP_SAP = 5;
-static constexpr uint8_t OP_GAP = 6;
-static constexpr uint8_t OP_STAP = 7; // Store All Parameters (not used here)
-static constexpr uint8_t OP_SGP = 9;
-static constexpr uint8_t OP_GGP = 10;
-static constexpr uint8_t OP_RFS = 13; // Reference Search (not explicitly used)
-static constexpr uint8_t OP_SIO = 14; // Set IO (not used)
-static constexpr uint8_t OP_GIO = 15; // Get IO (not used)
-static constexpr uint8_t OP_RAMDEBUG = 142;
-static constexpr uint8_t OP_STOP_SCRIPT = 28;
-static constexpr uint8_t OP_CALCX = 33; // Arithmetic operations (script use)
-static constexpr uint8_t OP_AAP = 34; // Accumulator to Axis Parameter (script)
-static constexpr uint8_t OP_AGP =
-    35; // Accumulator to Global Parameter (script)
-static constexpr uint8_t OP_RST = 48; // Restart script from address
-static constexpr uint8_t OP_DOWNLOAD_START = 132;
-static constexpr uint8_t OP_DOWNLOAD_END = 133;
-static constexpr uint8_t OP_READ_MEM = 134;
-static constexpr uint8_t OP_GET_SCRIPT_STATUS = 135;
-static constexpr uint8_t OP_FACTORY_DEFAULT = 137;
-
 TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address)
     : comm_(comm), address_(address & 0x7F) // ensure address is 7-bit
-{}
+{ }
 
-bool TMC9660::writeParameter(uint16_t id, uint32_t value, uint8_t motorIndex) {
-  return sendCommand(OP_SAP, id, motorIndex, value, nullptr);
+bool TMC9660::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex) noexcept {
+  return sendCommand(tmc9660::tmcl::Op::SAP, static_cast<uint16_t>(id), motorIndex, value, nullptr);
 }
 
-bool TMC9660::readParameter(uint16_t id, uint32_t &value, uint8_t motorIndex) {
-  return sendCommand(OP_GAP, id, motorIndex, 0, &value);
+bool TMC9660::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value, uint8_t motorIndex) noexcept {
+  return this->sendCommand(tmc9660::tmcl::Op::GAP, static_cast<uint16_t>(id), motorIndex, 0, &value);
 }
 
-bool TMC9660::writeGlobalParameter(uint16_t id, uint8_t bank, uint32_t value) {
-  return sendCommand(OP_SGP, id, bank, value, nullptr);
+bool TMC9660::writeGlobalParameter(GlobalParamBankVariant id, uint8_t bank, uint32_t value) noexcept {
+  uint16_t paramId = std::visit([](auto&& arg) -> uint16_t { return static_cast<uint16_t>(arg); }, id);
+  return this->sendCommand(tmc9660::tmcl::Op::SGP, paramId, bank, value, nullptr);
 }
 
-bool TMC9660::readGlobalParameter(uint16_t id, uint8_t bank, uint32_t &value) {
-  return sendCommand(OP_GGP, id, bank, 0, &value);
-}
-
-bool TMC9660::configureMotorType(MotorType type, uint8_t polePairs) {
-  // Set motor type
-  uint16_t typeVal = static_cast<uint16_t>(type);
-  if (!writeParameter(0, typeVal)) {
-    return false;
-  }
-  // If BLDC or Stepper, set pole pairs (for stepper, treat as 1 pole pair by
-  // default).
-  if (type == MotorType::BLDC || type == MotorType::STEPPER) {
-    if (!writeParameter(1, polePairs)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-bool TMC9660::setMotorDirection(MotorDirection direction) {
-  return writeParameter(2, static_cast<uint32_t>(direction));
-}
-
-bool TMC9660::setPWMFrequency(uint32_t frequencyHz) {
-  // PWM frequency parameter (in Hz).
-  return writeParameter(3, frequencyHz);
-}
-
-bool TMC9660::setCommutationMode(CommutationMode mode) {
-  return writeParameter(4, static_cast<uint32_t>(mode));
-}
-
-bool TMC9660::setMaxCurrent(uint16_t milliamps) {
-  // MAX_TORQUE parameter (ID 6) in mA
-  return writeParameter(6, static_cast<uint32_t>(milliamps));
-}
-
-bool TMC9660::stopMotor() {
-  // Send an MST (stop) command.
-  return sendCommand(OP_MST, 0, 0, 0, nullptr);
-}
-
-bool TMC9660::setTargetTorque(int16_t milliamps) {
-  int32_t temp = milliamps;
-  uint32_t val = static_cast<uint32_t>(temp);
-  return writeParameter(104, val);
-}
-
-bool TMC9660::setTargetVelocity(int32_t velocity) {
-  uint32_t val = static_cast<uint32_t>(velocity);
-  return writeParameter(124, val);
-}
-
-bool TMC9660::setTargetPosition(int32_t position) {
-  uint32_t val = static_cast<uint32_t>(position);
-  return writeParameter(143, val);
-}
-
-bool TMC9660::setCurrentLoopGains(uint16_t p, uint16_t i, bool separateFlux,
-                                  uint16_t fluxP, uint16_t fluxI) {
-  bool ok = true;
-  if (separateFlux) {
-    // Enable separate torque/flux PI control parameters
-    ok &= writeParameter(113, 1);
-    // Set torque PI gains
-    ok &= writeParameter(109, p);
-    ok &= writeParameter(110, i);
-    // Set flux PI gains (if provided; otherwise use same as torque if fluxP or
-    // fluxI is zero)
-    uint16_t useFluxP = (fluxP != 0 ? fluxP : p);
-    uint16_t useFluxI = (fluxI != 0 ? fluxI : i);
-    ok &= writeParameter(111, useFluxP);
-    ok &= writeParameter(112, useFluxI);
-  } else {
-    // Use combined torque/flux PI parameters
-    ok &= writeParameter(113, 0);
-    ok &= writeParameter(109, p);
-    ok &= writeParameter(110, i);
-    // When combined, flux PI uses the same values as torque PI (no separate
-    // settings needed).
-  }
-  return ok;
-}
-
-bool TMC9660::setVelocityLoopGains(uint16_t p, uint16_t i) {
-  bool ok = true;
-  ok &= writeParameter(127, p);
-  ok &= writeParameter(128, i);
-  return ok;
-}
-
-bool TMC9660::setPositionGain(uint16_t p) { return writeParameter(146, p); }
-
-bool TMC9660::configureGateDriver(uint8_t sinkLevel, uint8_t sourceLevel,
-                                  uint16_t deadTimeNs) {
-  if (sinkLevel > 15)
-    sinkLevel = 15;
-  if (sourceLevel > 15)
-    sourceLevel = 15;
-  // Calculate dead-time value (in units of ~8.33 ns per step).
-  int deadSteps = static_cast<int>(std::lround(deadTimeNs / 8.33));
-  if (deadSteps < 0)
-    deadSteps = 0;
-  if (deadSteps > 255)
-    deadSteps = 255;
-  uint8_t dt = static_cast<uint8_t>(deadSteps);
-  bool ok = true;
-  // Set break-before-make time for all FETs (both UVW and Y2, low and high
-  // sides) to the same value.
-  ok &= writeParameter(235, dt);
-  ok &= writeParameter(236, dt);
-  ok &= writeParameter(237, dt);
-  ok &= writeParameter(238, dt);
-  // Set gate driver sink/source current levels for UVW and Y2 phases.
-  ok &= writeParameter(245, sinkLevel);
-  ok &= writeParameter(246, sourceLevel);
-  ok &= writeParameter(247, sinkLevel);
-  ok &= writeParameter(248, sourceLevel);
-  return ok;
-}
-
-bool TMC9660::setGateOutputPolarity(bool lowActive, bool highActive) {
-  bool ok = true;
-  ok &= writeParameter(233, lowActive ? 1u : 0u);
-  ok &= writeParameter(234, highActive ? 1u : 0u);
-  return ok;
-}
-
-bool TMC9660::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset,
-                            tmc9660::tmcl::Direction inverted,
-                            tmc9660::tmcl::EnableDisable enableExtrapolation,
-                            uint8_t filterLength) noexcept {
-  uint8_t off = static_cast<uint8_t>(sectorOffset);
-  if (off > 5)
-    off = 0; // valid 0-5
-  bool ok = true;
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::HALL_SECTOR_OFFSET), off);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::HALL_INVERT_DIRECTION),
-      inverted == tmc9660::tmcl::Direction::INVERTED ? 1u : 0u);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::HALL_FILTER_LENGTH),
-      filterLength);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::HALL_EXTRAPOLATION_ENABLE),
-      enableExtrapolation == tmc9660::tmcl::EnableDisable::ENABLED ? 1u : 0u);
-  return ok;
+bool TMC9660::readGlobalParameter(GlobalParamBankVariant id, uint8_t bank, uint32_t &value) noexcept {
+  uint16_t paramId = std::visit([](auto&& arg) -> uint16_t { return static_cast<uint16_t>(arg); }, id);
+  return this->sendCommand(tmc9660::tmcl::Op::GGP, paramId, bank, 0, &value);
 }
 
 bool TMC9660::FeedbackSense::setHallPositionOffsets(
@@ -230,7 +61,7 @@ bool TMC9660::FeedbackSense::getHallPhiE(int16_t &phiE) noexcept {
   return true;
 }
 
-bool TMC9660::configureABNEncoder(
+bool TMC9660::FeedbackSense::configureABNEncoder(
     uint32_t countsPerRev,
     tmc9660::tmcl::Direction inverted,
     tmc9660::tmcl::EnableDisable nChannelInverted) noexcept {
@@ -238,36 +69,14 @@ bool TMC9660::configureABNEncoder(
   if (steps > 0xFFFFFF)
     steps = 0xFFFFFF;
   bool ok = true;
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_STEPS), steps);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_DIRECTION),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::ABN_1_STEPS, steps);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::ABN_1_DIRECTION,
       inverted == tmc9660::tmcl::Direction::INVERTED ? 1u : 0u);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_INVERTED),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_INVERTED,
       nChannelInverted == tmc9660::tmcl::EnableDisable::ENABLED ? 1u : 0u);
-  return ok;
-}
-
-bool TMC9660::configureSecondaryABNEncoder(uint32_t countsPerRev,
-                                           tmc9660::tmcl::Direction inverted,
-                                           uint8_t gearRatio) noexcept {
-  uint32_t steps = countsPerRev;
-  if (steps > 0xFFFFFF)
-    steps = 0xFFFFFF;
-  if (gearRatio == 0)
-    gearRatio = 1;
-  bool ok = true;
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_STEPS), steps);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_DIRECTION),
-      inverted == tmc9660::tmcl::Direction::INVERTED ? 1u : 0u);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO),
-      gearRatio);
-  ok &= writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_ENABLE), 1u);
   return ok;
 }
 
@@ -276,16 +85,16 @@ bool TMC9660::FeedbackSense::configureABNInitialization(
     int32_t initVelocity, int16_t nChannelOffset) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_INIT_METHOD),
+      tmc9660::tmcl::Parameters::ABN_1_INIT_METHOD,
       static_cast<uint32_t>(initMethod));
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_INIT_DELAY),
+      tmc9660::tmcl::Parameters::ABN_1_INIT_DELAY,
       initDelay);
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_INIT_VELOCITY),
+      tmc9660::tmcl::Parameters::ABN_1_INIT_VELOCITY,
       static_cast<uint32_t>(initVelocity));
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_PHI_E_OFFSET),
+      tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_PHI_E_OFFSET,
       static_cast<uint32_t>(static_cast<int32_t>(nChannelOffset)));
   return ok;
 }
@@ -294,7 +103,7 @@ bool TMC9660::FeedbackSense::getABNInitializationState(
     tmc9660::tmcl::AbnInitState &state) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(
-          static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_INIT_STATE),
+          tmc9660::tmcl::Parameters::ABN_1_INIT_STATE,
           tmp))
     return false;
   state = static_cast<tmc9660::tmcl::AbnInitState>(tmp);
@@ -304,7 +113,7 @@ bool TMC9660::FeedbackSense::getABNInitializationState(
 bool TMC9660::FeedbackSense::getABNPhiE(int16_t &phiE) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(
-          static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_PHI_E), tmp))
+          tmc9660::tmcl::Parameters::ABN_1_PHI_E, tmp))
     return false;
   phiE = static_cast<int16_t>(tmp);
   return true;
@@ -312,33 +121,49 @@ bool TMC9660::FeedbackSense::getABNPhiE(int16_t &phiE) noexcept {
 
 bool TMC9660::FeedbackSense::getABNRawValue(uint32_t &value) noexcept {
   return driver.readParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_VALUE), value);
+      tmc9660::tmcl::Parameters::ABN_1_VALUE, value);
 }
 
 bool TMC9660::FeedbackSense::configureABNNChannel(
     tmc9660::tmcl::AbnNChannelFiltering filterMode,
     tmc9660::tmcl::EnableDisable clearOnNextNull) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_FILTERING),
-      static_cast<uint32_t>(filterMode));
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_1_CLEAR_ON_NEXT_NULL),
-      clearOnNextNull == tmc9660::tmcl::EnableDisable::ENABLED ? 1u : 0u);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_1_N_CHANNEL_FILTERING,
+                                static_cast<uint32_t>(filterMode));
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_1_CLEAR_ON_NEXT_NULL,
+          clearOnNextNull == tmc9660::tmcl::EnableDisable::ENABLED ? 1u : 0u);
+  return ok;
+}
+
+bool TMC9660::FeedbackSense::configureSecondaryABNEncoder(uint32_t countsPerRev,
+                                           tmc9660::tmcl::Direction inverted,
+                                           uint8_t gearRatio) noexcept {
+  uint32_t steps = countsPerRev;
+  if (steps > 0xFFFFFF)
+    steps = 0xFFFFFF;
+  if (gearRatio == 0)
+    gearRatio = 1;
+
+  bool ok = true;
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_2_STEPS, steps);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_2_DIRECTION,
+                                inverted == tmc9660::tmcl::Direction::INVERTED ? 1u : 0u);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO, gearRatio);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::ABN_2_ENABLE, 1u);
   return ok;
 }
 
 bool TMC9660::FeedbackSense::getSecondaryABNCountsPerRev(
     uint32_t &counts) noexcept {
   return driver.readParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_STEPS), counts);
+      tmc9660::tmcl::Parameters::ABN_2_STEPS, counts);
 }
 
 bool TMC9660::FeedbackSense::getSecondaryABNDirection(
     tmc9660::tmcl::Direction &dir) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(
-          static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_DIRECTION),
+          tmc9660::tmcl::Parameters::ABN_2_DIRECTION,
           tmp))
     return false;
   dir = static_cast<tmc9660::tmcl::Direction>(tmp);
@@ -348,7 +173,7 @@ bool TMC9660::FeedbackSense::getSecondaryABNDirection(
 bool TMC9660::FeedbackSense::getSecondaryABNGearRatio(uint8_t &ratio) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(
-          static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO),
+          tmc9660::tmcl::Parameters::ABN_2_GEAR_RATIO),
           tmp))
     return false;
   ratio = static_cast<uint8_t>(tmp);
@@ -357,14 +182,23 @@ bool TMC9660::FeedbackSense::getSecondaryABNGearRatio(uint8_t &ratio) noexcept {
 
 bool TMC9660::FeedbackSense::setSecondaryABNEncoderEnabled(bool enable) noexcept {
   return driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_ENABLE),
+      tmc9660::tmcl::Parameters::ABN_2_ENABLE,
       enable ? 1u : 0u);
 }
 
 bool TMC9660::FeedbackSense::getSecondaryABNEncoderValue(
     uint32_t &value) noexcept {
   return driver.readParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::ABN_2_VALUE), value);
+      tmc9660::tmcl::Parameters::ABN_2_VALUE, value);
+}
+
+bool TMC9660::FeedbackSense::configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs,
+                                  uint8_t csIdleTimeUs) noexcept {
+  bool ok = true;
+  ok &= driver.writeParameter(180, cmdSize);
+  ok &= driver.writeParameter(181, csSettleTimeNs);
+  ok &= driver.writeParameter(182, csIdleTimeUs);
+  return ok;
 }
 
 bool TMC9660::FeedbackSense::configureSPIEncoderDataFormat(
@@ -559,29 +393,20 @@ bool TMC9660::FeedbackSense::getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) no
   return true;
 }
 
-bool TMC9660::configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs,
-                                  uint8_t csIdleTimeUs) noexcept {
-  bool ok = true;
-  ok &= writeParameter(180, cmdSize);
-  ok &= writeParameter(181, csSettleTimeNs);
-  ok &= writeParameter(182, csIdleTimeUs);
-  return ok;
-}
-
 bool TMC9660::Protection::configureVoltage(uint16_t overVoltThreshold,
-                                           uint16_t underVoltThreshold) {
+                                           uint16_t underVoltThreshold) noexcept{
   bool ok = true;
-  ok &= driver.writeGlobalParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD,
       0, overVoltThreshold);
-  ok &= driver.writeGlobalParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD,
       0, underVoltThreshold);
   return ok;
 }
 
 bool TMC9660::Protection::configureTemperature(float warningDegC,
-                                               float shutdownDegC) {
+                                               float shutdownDegC) noexcept{
   // Convert Celsius to raw sensor units: val = (Temp + 268.15) / 0.01615
   float warnVal = (warningDegC + 268.15f) / 0.01615f;
   float shutVal = (shutdownDegC + 268.15f) / 0.01615f;
@@ -596,11 +421,11 @@ bool TMC9660::Protection::configureTemperature(float warningDegC,
   uint16_t warnRaw = static_cast<uint16_t>(std::lround(warnVal));
   uint16_t shutRaw = static_cast<uint16_t>(std::lround(shutVal));
   bool ok = true;
-  ok &= driver.writeGlobalParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_WARNING_THRESHOLD),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_WARNING_THRESHOLD,
       0, warnRaw);
-  ok &= driver.writeGlobalParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD),
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD,
       0, shutRaw);
   return ok;
 }
@@ -608,19 +433,10 @@ bool TMC9660::Protection::configureTemperature(float warningDegC,
 bool TMC9660::Protection::setOvercurrentEnabled(bool enabled) {
   uint8_t val = enabled ? 1 : 0;
   bool ok = true;
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_UVW_LOW),
-      val);
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_UVW_HIGH),
-      val);
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_Y2_LOW),
-      val);
-  ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_Y2_HIGH),
-      val);
-  return ok;
+  tmc9660::tmcl::OvercurrentEnable temp = enabled ? tmc9660::tmcl::OvercurrentEnable::ENABLED : 
+      tmc9660::tmcl::OvercurrentEnable::DISABLED; 
+
+ return driver.gateDriver.enableOvercurrentProtection(temp,temp,temp,temp);
 }
 
 bool TMC9660::Protection::configureI2t(uint16_t timeConstant1_ms,
@@ -629,78 +445,40 @@ bool TMC9660::Protection::configureI2t(uint16_t timeConstant1_ms,
                                        float continuousCurrent2_A) {
   bool ok = true;
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1),
+      tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1,
       timeConstant1_ms);
   uint32_t limit1 = static_cast<uint32_t>(continuousCurrent1_A * continuousCurrent1_A * timeConstant1_ms);
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::IIT_LIMIT_1), limit1);
+      tmc9660::tmcl::Parameters::IIT_LIMIT_1, limit1);
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2),
+      tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2,
       timeConstant2_ms);
   uint32_t limit2 = static_cast<uint32_t>(continuousCurrent2_A * continuousCurrent2_A * timeConstant2_ms);
   ok &= driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::IIT_LIMIT_2), limit2);
+      tmc9660::tmcl::Parameters::IIT_LIMIT_2, limit2);
   return ok;
 }
 
 bool TMC9660::Protection::resetI2tState() {
   return driver.writeParameter(
-      static_cast<uint16_t>(tmc9660::tmcl::Parameters::RESET_IIT_SUMS), 1u);
+      tmc9660::tmcl::Parameters::RESET_IIT_SUMS), 1u);
 }
 
 bool TMC9660::uploadScript(const std::vector<uint32_t> &scriptData) {
   // Enter script download mode
-  if (!sendCommand(OP_DOWNLOAD_START, 0, 0, 0, nullptr)) {
+  if (!sendCommand(tmc9660::tmcl::Op::DOWNLOAD_START, 0, 0, 0, nullptr)) {
     return false;
   }
   // Send each 32-bit instruction (as a value in a NOP command frame).
   for (uint32_t instr : scriptData) {
-    if (!sendCommand(OP_NOP, 0, 0, instr, nullptr)) {
+    if (!sendCommand(tmc9660::tmcl::Op::NOP, 0, 0, instr, nullptr)) {
       return false;
     }
   }
   // Exit download mode
-  if (!sendCommand(OP_DOWNLOAD_END, 0, 0, 0, nullptr)) {
+  if (!sendCommand(tmc9660::tmcl::Op::DOWNLOAD_END, 0, 0, 0, nullptr)) {
     return false;
   }
-  return true;
-}
-
-bool TMC9660::startScript(uint16_t address) {
-  // Use RST command to start script at given address
-  return sendCommand(OP_RST, 0, 0, address, nullptr);
-}
-
-bool TMC9660::stopScriptExecution() {
-  return sendCommand(OP_STOP_SCRIPT, 0, 0, 0, nullptr);
-}
-
-bool TMC9660::initRAMDebug(uint32_t sampleCount) {
-  bool ok = true;
-  // Initialize/reset RAM debug
-  ok &= sendCommand(OP_RAMDEBUG, 0, 0, 0, nullptr);
-  // Set number of samples to capture
-  ok &= sendCommand(OP_RAMDEBUG, 1, 0, sampleCount, nullptr);
-  return ok;
-}
-
-bool TMC9660::startRAMDebugCapture() {
-  return sendCommand(OP_RAMDEBUG, 6, 0, 0, nullptr);
-}
-
-bool TMC9660::readRAMDebugData(uint32_t index, uint32_t &data) {
-  // Use ReadMem command to read memory at given index (assuming index is an
-  // address in the debug buffer)
-  return sendCommand(OP_READ_MEM, 0, 0, index, &data);
-}
-
-bool TMC9660::getRAMDebugStatus(bool &isRunning) {
-  uint32_t state = 0;
-  if (!sendCommand(OP_RAMDEBUG, 8, 0, 0, &state)) {
-    return false;
-  }
-  // Interpret state: assume 0 = Idle, non-zero = Running
-  isRunning = (state != 0);
   return true;
 }
 
@@ -709,111 +487,59 @@ bool TMC9660::getRAMDebugStatus(bool &isRunning) {
 //-------------------------------------------------------------------------
 
 bool TMC9660::Script::upload(const std::vector<uint32_t> &scriptData) noexcept {
-  return driver.uploadScript(scriptData);
+  return false; // Placeholder for actual upload logic
 }
 
 bool TMC9660::Script::start(uint16_t address) noexcept {
-  return driver.startScript(address);
+  return false; // Placeholder for actual start logic
 }
 
-bool TMC9660::Script::stop() noexcept { return driver.stopScriptExecution(); }
+bool TMC9660::Script::stop() noexcept { 
+  return false; // Placeholder for actual stop logic
+}
 
 //-------------------------------------------------------------------------
 // RamDebug subsystem wrappers
 //-------------------------------------------------------------------------
 
 bool TMC9660::RamDebug::init(uint32_t sampleCount) noexcept {
-  return driver.initRAMDebug(sampleCount);
+  bool ok = true;
+  // Initialize/reset RAM debug
+  ok &= driver.sendCommand(tmc9660::tmcl::Op::RAMDEBUG, 0, 0, 0, nullptr);
+  // Set number of samples to capture
+  ok &= driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 1, 0, sampleCount, nullptr);
+  return ok;
 }
 
 bool TMC9660::RamDebug::startCapture() noexcept {
-  return driver.startRAMDebugCapture();
+  return driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 6, 0, 0, nullptr);
 }
 
 bool TMC9660::RamDebug::readData(uint32_t index, uint32_t &data) noexcept {
-  return driver.readRAMDebugData(index, data);
+  // Use ReadMem command to read memory at given index (assuming index is an
+  // address in the debug buffer)
+  return driver.sendCommand(mc9660::tmcl::Op::READ_MEM, 0, 0, index, &data);
 }
 
-bool TMC9660::RamDebug::getStatus(bool &isRunning) noexcept {
-  return driver.getRAMDebugStatus(isRunning);
-}
 
-float TMC9660::getChipTemperature() {
-  uint32_t raw = 0;
-  if (!readGlobalParameter(296, 0, raw)) {
-    return -273.15f; // return an obviously invalid temperature if read failed
+bool TMC9660::RamDebug::getStatus(bool &isRunning) noexcept {  
+  uint32_t state = 0;
+  if (!driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 8, 0, 0, &state)) {
+    return false;
   }
-  // raw 16-bit -> temperature in °C
-  float tempC = raw * 0.01615f - 268.15f;
-  return tempC;
+  // Interpret state: assume 0 = Idle, non-zero = Running
+  isRunning = (state != 0);
+  return true;
 }
 
-int16_t TMC9660::getMotorCurrent() {
-  uint32_t raw = 0;
-  if (!readParameter(105, raw)) {
-    return 0;
-  }
-  // Actual torque current is 16-bit signed (in mA).
-  int16_t current = static_cast<int16_t>(raw & 0xFFFF);
-  return current;
-}
-
-float TMC9660::getSupplyVoltage() {
-  uint32_t raw = 0;
-  if (!readGlobalParameter(290, 0, raw)) {
-    return -1.0f;
-  }
-  // raw in 0.1 V units -> convert to V
-  float voltage = raw / 10.0f;
-  return voltage;
-}
-
-int32_t TMC9660::getActualVelocity() {
-  uint32_t raw = 0;
-  if (!readParameter(125, raw)) {
-    return 0;
-  }
-  int32_t velocity = static_cast<int32_t>(raw);
-  return velocity;
-}
-
-int32_t TMC9660::getActualPosition() {
-  uint32_t raw = 0;
-  if (!readParameter(144, raw)) {
-    return 0;
-  }
-  int32_t position = static_cast<int32_t>(raw);
-  return position;
-}
-
-bool TMC9660::getGeneralStatusFlags(uint32_t &flags) {
-  return readParameter(289, flags);
-}
-
-bool TMC9660::getGeneralErrorFlags(uint32_t &flags) {
-  return readParameter(299, flags);
-}
-
-bool TMC9660::getGateDriverErrorFlags(uint32_t &flags) {
-  return readParameter(300, flags);
-}
-
-bool TMC9660::clearGeneralErrorFlags(uint32_t mask) {
-  return writeParameter(299, mask);
-}
-
-bool TMC9660::clearGateDriverErrorFlags(uint32_t mask) {
-  return writeParameter(300, mask);
-}
-
-bool TMC9660::sendCommand(uint8_t opcode, uint16_t type, uint8_t motor,
+bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
                           uint32_t value, uint32_t *reply) {
   Datagram d{opcode, type, motor, value};
   std::array<uint8_t, 8> tx{};
   std::array<uint8_t, 8> rx{};
   d.toSpi(tx);
   bool success = comm_.transferDatagram(tx, rx);
-  if (!success) {
+  if (!success) {mc9660::tmcl::Op::
     return false;
   }
   if (reply != nullptr) {
@@ -1072,11 +798,7 @@ bool TMC9660::CurrentSensing::getInversion(tmc9660::tmcl::AdcInversion &inv0,
   return true;
 }
 
-//-------------------------------------------------------------------------
-// FeedbackSense subsystem implementations
-//-------------------------------------------------------------------------
-
-bool TMC9660::FeedbackSense::getPhaseAdcMapping(
+bool TMC9660::CurrentSensing::getPhaseAdcMapping(
     tmc9660::tmcl::AdcMapping &ux1, tmc9660::tmcl::AdcMapping &vx2,
     tmc9660::tmcl::AdcMapping &wy1, tmc9660::tmcl::AdcMapping &y2) noexcept {
   uint32_t tmp;
@@ -1099,7 +821,7 @@ bool TMC9660::FeedbackSense::getPhaseAdcMapping(
   return true;
 }
 
-bool TMC9660::FeedbackSense::setOffsets(int16_t offset0, int16_t offset1,
+bool TMC9660::CurrentSensing::setOffsets(int16_t offset0, int16_t offset1,
                                         int16_t offset2,
                                         int16_t offset3) noexcept {
   bool ok = true;
@@ -1114,7 +836,7 @@ bool TMC9660::FeedbackSense::setOffsets(int16_t offset0, int16_t offset1,
   return ok;
 }
 
-bool TMC9660::FeedbackSense::getOffsets(int16_t &offset0, int16_t &offset1,
+bool TMC9660::CurrentSensing::getOffsets(int16_t &offset0, int16_t &offset1,
                                         int16_t &offset2,
                                         int16_t &offset3) noexcept {
   uint32_t tmp;
@@ -1133,7 +855,7 @@ bool TMC9660::FeedbackSense::getOffsets(int16_t &offset0, int16_t &offset1,
   return true;
 }
 
-bool TMC9660::FeedbackSense::readScaledAndOffset(int16_t &adc0, int16_t &adc1,
+bool TMC9660::CurrentSensing::readScaledAndOffset(int16_t &adc0, int16_t &adc1,
                                                  int16_t &adc2,
                                                  int16_t &adc3) noexcept {
   uint32_t tmp;
@@ -1278,15 +1000,15 @@ bool TMC9660::GateDriver::configureUndervoltageProtection(
     tmc9660::tmcl::UndervoltageEnable enableBstUVW,
     tmc9660::tmcl::UndervoltageEnable enableBstY2) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UNDERVOLTAGE_VS_LEVEL,
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_LEVEL,
                               static_cast<uint32_t>(supplyLevel));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UNDERVOLTAGE_VDRV_ENABLE,
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::VDRV_ENABLE,
                               static_cast<uint32_t>(enableVdrv));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::UNDERVOLTAGE_BST_UVW_ENABLE,
+      tmc9660::tmcl::Parameters::BST_UVW_ENABLE,
       static_cast<uint32_t>(enableBstUVW));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::UNDERVOLTAGE_BST_Y2_ENABLE,
+      tmc9660::tmcl::Parameters::BST_Y2_ENABLE,
       static_cast<uint32_t>(enableBstY2));
   return ok;
 }
@@ -1298,16 +1020,16 @@ bool TMC9660::GateDriver::enableOvercurrentProtection(
     tmc9660::tmcl::OvercurrentEnable enableY2HighSide) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_UVW_LOW,
+      tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ENABLE,
       static_cast<uint32_t>(enableUVWLowSide));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_UVW_HIGH,
+      tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ENABLE,
       static_cast<uint32_t>(enableUVWHighSide));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_Y2_LOW,
+      tmc9660::tmcl::Parameters::Y2_LOW_SIDE_ENABLE,
       static_cast<uint32_t>(enableY2LowSide));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_ENABLE_Y2_HIGH,
+      tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_ENABLE,
       static_cast<uint32_t>(enableY2HighSide));
   return ok;
 }
@@ -1319,16 +1041,16 @@ bool TMC9660::GateDriver::setOvercurrentThresholds(
     tmc9660::tmcl::OvercurrentThreshold y2HighSideThreshold) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_THRESHOLD_UVW_LOW,
+      tmc9660::tmcl::Parameters::UVW_LOW_SIDE_THRESHOLD,
       static_cast<uint32_t>(uvwLowSideThreshold));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_THRESHOLD_UVW_HIGH,
+      tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_THRESHOLD,
       static_cast<uint32_t>(uvwHighSideThreshold));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_THRESHOLD_Y2_LOW,
+      tmc9660::tmcl::Parameters::Y2_LOW_SIDE_THRESHOLD,
       static_cast<uint32_t>(y2LowSideThreshold));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_THRESHOLD_Y2_HIGH,
+      tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_THRESHOLD,
       static_cast<uint32_t>(y2HighSideThreshold));
   return ok;
 }
@@ -1340,16 +1062,16 @@ bool TMC9660::GateDriver::setOvercurrentBlanking(
     tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_BLANKING_UVW_LOW,
+      tmc9660::tmcl::Parameters::UVW_LOW_SIDE_BLANKING,
       static_cast<uint32_t>(uvwLowSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_BLANKING_UVW_HIGH,
+      tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_BLANKING,
       static_cast<uint32_t>(uvwHighSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_BLANKING_Y2_LOW,
+      tmc9660::tmcl::Parameters::Y2_LOW_SIDE_BLANKING,
       static_cast<uint32_t>(y2LowSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_BLANKING_Y2_HIGH,
+      tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_BLANKING,
       static_cast<uint32_t>(y2HighSideTime));
   return ok;
 }
@@ -1361,16 +1083,16 @@ bool TMC9660::GateDriver::setOvercurrentDeglitch(
     tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_DEGLITCH_UVW_LOW,
+      tmc9660::tmcl::Parameters::UVW_LOW_SIDE_DEGLITCH,
       static_cast<uint32_t>(uvwLowSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_DEGLITCH_UVW_HIGH,
+      tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_DEGLITCH,
       static_cast<uint32_t>(uvwHighSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_DEGLITCH_Y2_LOW,
+      tmc9660::tmcl::Parameters::Y2_LOW_SIDE_DEGLITCH,
       static_cast<uint32_t>(y2LowSideTime));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::OVERCURRENT_PROTECTION_DEGLITCH_Y2_HIGH,
+      tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_DEGLITCH,
       static_cast<uint32_t>(y2HighSideTime));
   return ok;
 }
@@ -1380,10 +1102,10 @@ bool TMC9660::GateDriver::enableVdsMonitoringLow(
     tmc9660::tmcl::VdsUsage y2Enable) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::VDS_MONITORING_USAGE_UVW_LOW,
+      tmc9660::tmcl::Parameters::UVW_LOW_SIDE_USE_VDS,
       static_cast<uint32_t>(uvwEnable));
   ok &= driver.writeParameter(
-      tmc9660::tmcl::Parameters::VDS_MONITORING_USAGE_Y2_LOW,
+      tmc9660::tmcl::Parameters::Y2_LOW_SIDE_USE_VDS,
       static_cast<uint32_t>(y2Enable));
   return ok;
 }
@@ -1465,7 +1187,7 @@ bool TMC9660::GateDriver::setDriveFaultBehavior(
 }
 
 bool TMC9660::GateDriver::setFaultHandlerRetries(uint8_t retries) noexcept {
-  return driver.writeParameter(tmc9660::tmcl::Parameters::GDRV_FAULT_HANDLER_RETRIES,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::FAULT_HANDLER_NUMBER_OF_RETRIES,
                                retries);
 }
 
@@ -1558,7 +1280,7 @@ uint16_t TMC9660::Telemetry::getExternalTemperature() noexcept {
 //-------------------------------------------------------------------------
 
 bool TMC9660::FOCControl::stop() noexcept {
-  return driver.sendCommand(OP_MST, 0, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::MST, 0, 0, 0, nullptr);
 }
 
 bool TMC9660::FOCControl::setTargetTorque(int16_t milliamps) noexcept {
@@ -1642,9 +1364,9 @@ bool TMC9660::FOCControl::setCurrentNormalization(
     tmc9660::tmcl::CurrentPiNormalization pNorm,
     tmc9660::tmcl::CurrentPiNormalization iNorm) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::TORQUE_NORM_P,
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CURRENT_NORM_P,
                               static_cast<uint32_t>(pNorm));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::TORQUE_NORM_I,
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CURRENT_NORM_I,
                               static_cast<uint32_t>(iNorm));
   return ok;
 }
@@ -2656,18 +2378,18 @@ bool TMC9660::StopEvents::getAndClearLatchedPosition(int32_t &pos) noexcept {
 //-------------------------------------------------------------------------
 
 bool TMC9660::IIT::resetIntegralState() noexcept {
-  return driver.writeGlobalParameter(
+  return driver.writeParameter(
       tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 0, 0);
 }
 
 bool TMC9660::IIT::setThermalWindingTimeConstant1(uint16_t ms) noexcept {
-  return driver.writeGlobalParameter(
+  return driver.writeParameter(
       tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, ms);
 }
 
 bool TMC9660::IIT::getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
   uint32_t v;
-  if (!driver.readGlobalParameter(
+  if (!driver.writeParameter(
           tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, v))
     return false;
   ms = static_cast<uint16_t>(v);
@@ -2675,23 +2397,23 @@ bool TMC9660::IIT::getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
 }
 
 bool TMC9660::IIT::setLimit1(uint32_t limit) noexcept {
-  return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
                                      limit);
 }
 
 bool TMC9660::IIT::getLimit1(uint32_t &limit) noexcept {
-  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_1, 0,
                                     limit);
 }
 
 bool TMC9660::IIT::setThermalWindingTimeConstant2(uint16_t ms) noexcept {
-  return driver.writeGlobalParameter(
+  return driver.writeParameter(
       tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, ms);
 }
 
 bool TMC9660::IIT::getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
   uint32_t v;
-  if (!driver.readGlobalParameter(
+  if (!driver.writeParameter(
           tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, v))
     return false;
   ms = static_cast<uint16_t>(v);
@@ -2699,12 +2421,12 @@ bool TMC9660::IIT::getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
 }
 
 bool TMC9660::IIT::setLimit2(uint32_t limit) noexcept {
-  return driver.writeGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
                                      limit);
 }
 
 bool TMC9660::IIT::getLimit2(uint32_t &limit) noexcept {
-  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_LIMIT_2, 0,
                                     limit);
 }
 
@@ -2716,12 +2438,12 @@ bool TMC9660::IIT::getActualTotalMotorCurrent(uint32_t &current,
 }
 
 bool TMC9660::IIT::getSum1(uint32_t &sum) noexcept {
-  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_1, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_SUM_1, 0,
                                     sum);
 }
 
 bool TMC9660::IIT::getSum2(uint32_t &sum) noexcept {
-  return driver.readGlobalParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0,
+  return driver.writeParameter(tmc9660::tmcl::Parameters::IIT_SUM_2, 0,
                                     sum);
 }
 
@@ -2731,24 +2453,24 @@ bool TMC9660::IIT::getSum2(uint32_t &sum) noexcept {
 
 bool TMC9660::Globals::writeBank0(tmc9660::tmcl::GlobalParamBank0 param,
                                   uint32_t value) noexcept {
-  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 0, value);
+  return driver.writeGlobalParameter(param, 0, value);
 }
 
 bool TMC9660::Globals::readBank0(tmc9660::tmcl::GlobalParamBank0 param,
                                  uint32_t &value) noexcept {
-  return driver.readGlobalParameter(static_cast<uint16_t>(param), 0, value);
+  return driver.readGlobalParameter(param, 0, value);
 }
 
 bool TMC9660::Globals::writeBank2(tmc9660::tmcl::GlobalParamBank2 param,
                                   int32_t value) noexcept {
-  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 2,
+  return driver.writeGlobalParameter(param, 2,
                                      static_cast<uint32_t>(value));
 }
 
 bool TMC9660::Globals::readBank2(tmc9660::tmcl::GlobalParamBank2 param,
                                  int32_t &value) noexcept {
   uint32_t tmp;
-  if (!driver.readGlobalParameter(static_cast<uint16_t>(param), 2, tmp))
+  if (!driver.readGlobalParameter(param, 2, tmp))
     return false;
   value = static_cast<int32_t>(tmp);
   return true;
@@ -2756,12 +2478,12 @@ bool TMC9660::Globals::readBank2(tmc9660::tmcl::GlobalParamBank2 param,
 
 bool TMC9660::Globals::writeBank3(tmc9660::tmcl::GlobalParamBank3 param,
                                   uint32_t value) noexcept {
-  return driver.writeGlobalParameter(static_cast<uint16_t>(param), 3, value);
+  return driver.writeGlobalParameter(param, 3, value);
 }
 
 bool TMC9660::Globals::readBank3(tmc9660::tmcl::GlobalParamBank3 param,
                                  uint32_t &value) noexcept {
-  return driver.readGlobalParameter(static_cast<uint16_t>(param), 3, value);
+  return driver.readGlobalParameter(param, 3, value);
 }
 
 //-------------------------------------------------------------------------
@@ -2934,12 +2656,12 @@ bool TMC9660::Globals::getInputTrigger(
 
 bool TMC9660::NvmStorage::storeToFlash() noexcept {
   // Use STAP command with fixed fields as documented in the TMCL manual
-  return driver.sendCommand(OP_STAP, 0x0FFF, 0x0F, 0xFFFFFFFF, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::STAP, 0x0FFF, 0x0F, 0xFFFFFFFF, nullptr);
 }
 
 bool TMC9660::NvmStorage::recallFromFlash() noexcept {
   // Trigger a configuration reload from external memory using FactoryDefault
-  if (!driver.sendCommand(OP_FACTORY_DEFAULT, 0, 0, 0, nullptr))
+  if (!driver.sendCommand(tmc9660::tmcl::Op::FACTORY_DEFAULT, 0, 0, 0, nullptr))
     return false;
   // Give the controller some time to process and then check status flag
   using namespace std::chrono_literals;
@@ -2954,7 +2676,7 @@ bool TMC9660::NvmStorage::recallFromFlash() noexcept {
 
 bool TMC9660::NvmStorage::eraseFlashBank(uint8_t n) noexcept {
   // Erase specified flash bank via FactoryDefault with type field as bank index
-  return driver.sendCommand(OP_FACTORY_DEFAULT, n, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::FACTORY_DEFAULT, n, 0, 0, nullptr);
 }
 
 //-------------------------------------------------------------------------
@@ -3016,14 +2738,14 @@ bool TMC9660::GPIO::setMode(uint8_t pin, bool output, bool pullEnable,
 bool TMC9660::GPIO::writePin(uint8_t pin, bool value) noexcept {
   if (pin > 18)
     return false;
-  return driver.sendCommand(OP_SIO, pin, 0, value ? 1u : 0u, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::SIO, pin, 0, value ? 1u : 0u, nullptr);
 }
 
 bool TMC9660::GPIO::readDigital(uint8_t pin, bool &value) noexcept {
   if (pin > 18)
     return false;
   uint32_t v;
-  if (!driver.sendCommand(OP_GIO, pin, 0, 0, &v))
+  if (!driver.sendCommand(tmc9660::tmcl::Op::GIO, pin, 0, 0, &v))
     return false;
   value = (v != 0);
   return true;
@@ -3033,7 +2755,7 @@ bool TMC9660::GPIO::readAnalog(uint8_t pin, uint16_t &value) noexcept {
   if (pin > 18)
     return false;
   uint32_t v;
-  if (!driver.sendCommand(OP_GIO, pin, 1, 0, &v))
+  if (!driver.sendCommand(tmc9660::tmcl::Op::GIO, pin, 1, 0, &v))
     return false;
   value = static_cast<uint16_t>(v);
   return true;

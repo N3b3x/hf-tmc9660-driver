@@ -76,26 +76,34 @@ public:
   [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id,
                                    uint32_t &value,
                                    uint8_t motorIndex = 0) noexcept;
+
+  // Variant type for global parameter banks (can be index or any bank enum)
+  using GlobalParamBankVariant = std::variant<uint8_t, tmc9660::tmcl::GlobalParamBank0, tmc9660::tmcl::GlobalParamBank2, tmc9660::tmcl::GlobalParamBank3>;
+
   /** @brief Set (write) a global parameter on the TMC9660.
    * @param id Global parameter ID number.
-   * @param bank Bank number for global parameter (some global parameters are
-   * grouped in banks, otherwise 0).
+   * @param bank Bank number for global parameter (can be Bank1, Bank2, or Bank3 enum).
    * @param value 32-bit value to write.
    * @return true if successfully written, false if an error occurred.
    */
-  [[nodiscard]] bool writeGlobalParameter(tmc9660::tmcl::Parameters id,
-                                          uint8_t bank,
-                                          uint32_t value) noexcept;
+  [[nodiscard]] bool writeGlobalParameter(
+    GlobalParamBankVariant id,
+    uint8_t bank,
+    uint32_t value) noexcept;
+
   /** @brief Read a global parameter from the TMC9660.
    * @param id Global parameter ID number.
-   * @param bank Bank number or index associated with the parameter.
+   * @param bank Bank number or index associated with the parameter (can be Bank1, Bank2, or Bank3 enum).
    * @param[out] value Reference to store the read 32-bit value.
    * @return true if read successfully, false on error.
    */
-  [[nodiscard]] bool readGlobalParameter(tmc9660::tmcl::Parameters id,
-                                         uint8_t bank,
-                                         uint32_t &value) noexcept;
+  [[nodiscard]] bool readGlobalParameter(
+    GlobalParamBankVariant id,
+    uint8_t bank,
+    uint32_t &value) noexcept;
 
+  bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
+            uint32_t value, uint32_t *reply) noexcept;
   //***************************************************************************
   //**                  SUBSYSTEM: Motor Configuration                     **//
   //***************************************************************************
