@@ -3242,6 +3242,10 @@ inline const char* to_string(PositionPiNorm norm) {
     X(STOP_ON_VELOCITY_DEVIATION,        134, /*!< Max velocity deviation before stop event [0...200000]. Default: 0. RW */) \
     X(STOP_ON_POSITION_DEVIATION,        152, /*!< Max position deviation before stop event [0...2147483647]. Default: 0. RWE */) \
     X(LATCH_POSITION,                    154, /*!< Latched position at switch event [-2147483648...2147483647]. Default: 0. R */) \
+    X(POSITION_LOOP_DOWNSAMPLING,        155, /*!< Downsampling factor for position controller. */) \
+    X(POSITION_LIMIT_LOW,                156, /*!< Minimum allowed position. */) \
+    X(POSITION_LIMIT_HIGH,               157, /*!< Maximum allowed position. */) \
+    X(POSITION_REACHED_THRESHOLD,        158, /*!< Threshold for position reached detection. */) \
     X(REFERENCE_SWITCH_ENABLE,           161, /*!< Bitwise enable for stopping on reference switch. See ReferenceSwitchEnable. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_POLARITY_AND_SWAP,162, /*!< Bitwise config for switch polarity/swap. See ReferenceSwitchPolaritySwap. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_LATCH_SETTINGS,   163, /*!< Bitwise config for latch behavior. See ReferenceSwitchLatchSettings. Default: 0. RWE */) \
