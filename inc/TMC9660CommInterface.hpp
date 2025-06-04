@@ -4,6 +4,20 @@
  *
  * For parameter read/write access, either UART or SPI may be used. Both interfaces share the same
  * TMCL command structure and follow a strict command/reply order.
+ *
+ * ## SPI Command Format
+ * Table 3: Command format for parameter read/write access through SPI
+ * | BYTE | 0         | 1-2       | 3          | 4-7         | 8        |
+ * |------|-----------|-----------|------------|-------------|----------|
+ * | Bits | 0-7       | 8-19      | 20-23      | 24-55       | 56-63    |
+ * | Desc | Operation | Type      | Motor/Bank | Data        | Checksum |
+ *
+ * ## SPI Reply Format
+ * Table 4: Reply format for parameter read/write access through SPI
+ * | BYTE | 0          | 1-2        | 3          | 4-7         | 8        |
+ * |------|------------|------------|------------|-------------|----------|
+ * | Bits | 0-7        | 8-19       | 20-23      | 24-55       | 56-63    |
+ * | Desc | SPI Status | TMCL Status| Operation  | Data        | Checksum |
  */
 
 #pragma once
@@ -18,9 +32,9 @@
 
 /// Reply structure returned by sendCommand()
 struct TMCLReply {
-uint8_t status = 0;  ///< TMCL status code (100=OK,101=LOADED)
-uint32_t value = 0;  ///< Optional returned value
-[[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
+    uint8_t status = 0;  ///< TMCL status code (100=OK, 101=LOADED)
+    uint32_t value = 0;  ///< Optional returned value
+    [[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
 };
 
 /**
@@ -29,10 +43,10 @@ uint32_t value = 0;  ///< Optional returned value
  * Supports conversion to/from SPI (8 bytes) and UART (9 bytes) formats.
  */
 struct TMCLFrame {
-    uint8_t opcode = 0;   ///< Operation code field.
-    uint16_t type = 0;    ///< Parameter or command type.
-    uint8_t motor = 0;    ///< Motor or bank identifier.
-    uint32_t value = 0;   ///< 32-bit data value.
+    uint8_t opcode = 0;   ///< Operation code field (BYTE 0, bits 0-7).
+    uint16_t type = 0;    ///< Parameter or command type (BYTE 1-2, bits 8-19).
+    uint8_t motor = 0;    ///< Motor or bank identifier (BYTE 3, bits 20-23).
+    uint32_t value = 0;   ///< 32-bit data value (BYTE 4-7, bits 24-55).
 
     /**
      * @brief Serialize frame into 8-byte SPI buffer.
@@ -129,7 +143,7 @@ struct TMCLFrame {
 /**
  * @brief SPI status codes as per TMC9660 Parameter Mode.
  *
- * Table 5: SPI status codes:
+ * Table 4: SPI status codes:
  * - 0xFF: OK (operation successful)
  * - 0x00: CHECKSUM_ERROR
  * - 0x0C: FIRST_CMD (initial response after initialization)

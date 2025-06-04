@@ -29,6 +29,34 @@ bool TMC9660::readGlobalParameter(GlobalParamBankVariant id, uint8_t bank, uint3
   return this->sendCommand(tmc9660::tmcl::Op::GGP, paramId, bank, 0, &value);
 }
 
+TMCLReply TMC9660::sendCommand(uint8_t op, uint16_t type,
+                                        uint8_t motor, uint32_t value) {
+  uint8_t tx[8] = {0};
+  uint8_t rx[8] = {0};
+  tx[0] = op;
+  tx[1] = static_cast<uint8_t>((type >> 4) & 0xFF);
+  tx[2] = static_cast<uint8_t>(((type & 0xF) << 4) | (motor & 0xF));
+  tx[3] = static_cast<uint8_t>((value >> 24) & 0xFF);
+  tx[4] = static_cast<uint8_t>((value >> 16) & 0xFF);
+  tx[5] = static_cast<uint8_t>((value >> 8) & 0xFF);
+  tx[6] = static_cast<uint8_t>(value & 0xFF);
+  tx[7] = computeChecksum(tx);
+
+  TMCLReply rep{};
+  if (!transferDatagram(tx, rx)) {
+    rep.status = 0xFF;
+    rep.value = 0;
+    return rep;
+  }
+
+  rep.status = rx[1];
+  rep.value = (static_cast<uint32_t>(rx[3]) << 24) |
+              (static_cast<uint32_t>(rx[4]) << 16) |
+              (static_cast<uint32_t>(rx[5]) << 8) |
+              static_cast<uint32_t>(rx[6]);
+  return rep;
+}
+
 bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
                           uint32_t value, uint32_t *reply) noexcept {
   TMCLFrame tx{};
@@ -2979,45 +3007,5 @@ uint8_t TMC9660::computeChecksum(const uint8_t *d) {
   return static_cast<uint8_t>(sum & 0xFF);
 }
 
-bool TMC9660::transferDatagram(const uint8_t tx[8], uint8_t rx[8]) {
-  std::array<uint8_t, 8> t;
-  std::array<uint8_t, 8> r;
-  for (int i = 0; i < 8; ++i)
-    t[i] = tx[i];
-  bool ok = comm_.transferDatagram(t, r);
-  if (!ok)
-    return false;
-  for (int i = 0; i < 8; ++i)
-    rx[i] = r[i];
-  return true;
-}
-
-TMC9660::TMCLReply TMC9660::sendCommand(uint8_t op, uint16_t type,
-                                        uint8_t motor, uint32_t value) {
-  uint8_t tx[8] = {0};
-  uint8_t rx[8] = {0};
-  tx[0] = op;
-  tx[1] = static_cast<uint8_t>((type >> 4) & 0xFF);
-  tx[2] = static_cast<uint8_t>(((type & 0xF) << 4) | (motor & 0xF));
-  tx[3] = static_cast<uint8_t>((value >> 24) & 0xFF);
-  tx[4] = static_cast<uint8_t>((value >> 16) & 0xFF);
-  tx[5] = static_cast<uint8_t>((value >> 8) & 0xFF);
-  tx[6] = static_cast<uint8_t>(value & 0xFF);
-  tx[7] = computeChecksum(tx);
-
-  TMCLReply rep{};
-  if (!transferDatagram(tx, rx)) {
-    rep.status = 0xFF;
-    rep.value = 0;
-    return rep;
-  }
-
-  rep.status = rx[1];
-  rep.value = (static_cast<uint32_t>(rx[3]) << 24) |
-              (static_cast<uint32_t>(rx[4]) << 16) |
-              (static_cast<uint32_t>(rx[5]) << 8) |
-              static_cast<uint32_t>(rx[6]);
-  return rep;
-}
 
 // TMC9660.cpp - Implementation of TMC9660 motor controller interface

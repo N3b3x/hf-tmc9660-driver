@@ -39,13 +39,12 @@ public:
 
   /// Build command without sending (for script upload)
   static TMCLFrame buildCommand(uint8_t op, uint16_t type = 0,
-                                  uint8_t motor = 0, uint32_t value = 0) {
+                                  uint8_t motor = 0, uint32_t value = 0) noexcept {
     return {op, type, motor, value};
-    }
+  }
 
-  /// Send a raw TMCL command and get reply
-  TMCLReply sendCommand(uint8_t opCode, uint16_t type = 0,
-                        uint8_t motorOrBank = 0, uint32_t value = 0);
+  // Compute TMCL checksum (sum of bytes 0-6)
+  [[nodiscard]] uint8_t computeChecksum(const uint8_t *datagram) noexcept;
 
   /** @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
    * @param id Parameter ID number (see TMC9660 documentation for the full
@@ -92,6 +91,10 @@ public:
   [[nodiscard]] bool readGlobalParameter(GlobalParamBankVariant id,
                                           uint8_t bank,
                                           uint32_t &value) noexcept;
+
+  /// Send a raw TMCL command and get reply
+  TMCLReply sendCommand(uint8_t opCode, uint16_t type = 0,
+                        uint8_t motorOrBank = 0, uint32_t value = 0);
 
   bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
                     uint32_t value, uint32_t *reply) noexcept;
@@ -2704,12 +2707,6 @@ private:
                                ///< sending/receiving data.
   uint8_t address_; ///< Module address (0-127). Used primarily for UART
                     ///< multi-drop addressing.
-
-  // Compute TMCL checksum (sum of bytes 0-6)
-  static uint8_t computeChecksum(const uint8_t *datagram) noexcept;
-
-  // Low level 8-byte datagram transfer (to be provided by user)
-  bool transferDatagram(const uint8_t tx[8], uint8_t rx[8]);
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];
