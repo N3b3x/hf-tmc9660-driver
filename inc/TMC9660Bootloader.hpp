@@ -13,78 +13,68 @@ namespace tmc9660 {
 
 namespace bootcfg {
 
-/// Constants used when building a ::BootloaderConfig.
+/// Enumerations describing bootloader configuration options.
 
-constexpr uint8_t LDO_DISABLED = 0;
-constexpr uint8_t LDO_2V5     = 1;
-constexpr uint8_t LDO_3V3     = 2;
-constexpr uint8_t LDO_5V0     = 3;
+enum class LDOVoltage : uint8_t {
+  Disabled = 0,
+  V2_5     = 1,
+  V3_3     = 2,
+  V5_0     = 3,
+};
 
-constexpr uint8_t LDO_SLOPE_3MS    = 0;
-constexpr uint8_t LDO_SLOPE_1_5MS  = 1;
-constexpr uint8_t LDO_SLOPE_0_75MS = 2;
-constexpr uint8_t LDO_SLOPE_0_37MS = 3;
+enum class LDOSlope : uint8_t {
+  Slope3ms   = 0,
+  Slope1_5ms = 1,
+  Slope0_75ms = 2,
+  Slope0_37ms = 3,
+};
 
-constexpr uint8_t BOOT_MODE_REGISTER  = 1;
-constexpr uint8_t BOOT_MODE_PARAMETER = 2;
+enum class BootMode : uint8_t {
+  Register  = 1,
+  Parameter = 2,
+};
 
-constexpr uint8_t UART_RX_GPIO7 = 0;
-constexpr uint8_t UART_RX_GPIO1 = 1;
-constexpr uint8_t UART_TX_GPIO6 = 0;
-constexpr uint8_t UART_TX_GPIO0 = 1;
+enum class UartRxPin : uint8_t { GPIO7 = 0, GPIO1 = 1 };
+enum class UartTxPin : uint8_t { GPIO6 = 0, GPIO0 = 1 };
 
-constexpr uint8_t UART_BAUD_9600   = 0;
-constexpr uint8_t UART_BAUD_19200  = 1;
-constexpr uint8_t UART_BAUD_38400  = 2;
-constexpr uint8_t UART_BAUD_57600  = 3;
-constexpr uint8_t UART_BAUD_115200 = 4;
-constexpr uint8_t UART_BAUD_1000000 = 5;
-constexpr uint8_t UART_BAUD_AUTO_8X  = 6;
-constexpr uint8_t UART_BAUD_AUTO_16X = 7;
+enum class BaudRate : uint8_t {
+  BR9600 = 0,
+  BR19200,
+  BR38400,
+  BR57600,
+  BR115200,
+  BR1000000,
+  Auto8x,
+  Auto16x,
+};
 
-constexpr uint8_t RS485_TXEN_NONE = 0;
-constexpr uint8_t RS485_TXEN_GPIO8 = 1;
-constexpr uint8_t RS485_TXEN_GPIO2 = 2;
+enum class RS485TxEnPin : uint8_t { None = 0, GPIO8 = 1, GPIO2 = 2 };
 
-constexpr uint8_t SPI_IFACE0 = 0;
-constexpr uint8_t SPI_IFACE1 = 1;
+enum class SPIInterface : uint8_t { IFACE0 = 0, IFACE1 = 1 };
 
-constexpr uint8_t SPI0_SCK_GPIO6  = 0;
-constexpr uint8_t SPI0_SCK_GPIO11 = 1;
+enum class SPI0SckPin : uint8_t { GPIO6 = 0, GPIO11 = 1 };
 
-constexpr uint8_t SPI_FLASH_FREQ_DIV1  = 0;
-constexpr uint8_t SPI_FLASH_FREQ_DIV2  = 1;
-constexpr uint8_t SPI_FLASH_FREQ_DIV4  = 3;
+enum class SPIFlashFreq : uint8_t { Div1 = 0, Div2 = 1, Div4 = 3 };
 
-constexpr uint8_t I2C_SDA_GPIO5  = 0;
-constexpr uint8_t I2C_SDA_GPIO11 = 1;
-constexpr uint8_t I2C_SDA_GPIO14 = 2;
+enum class I2CSdaPin : uint8_t { GPIO5 = 0, GPIO11 = 1, GPIO14 = 2 };
+enum class I2CSclPin : uint8_t { GPIO4 = 0, GPIO12 = 1, GPIO13 = 2 };
 
-constexpr uint8_t I2C_SCL_GPIO4  = 0;
-constexpr uint8_t I2C_SCL_GPIO12 = 1;
-constexpr uint8_t I2C_SCL_GPIO13 = 2;
+enum class I2CFreq : uint8_t { Freq100k = 0, Freq200k, Freq400k, Freq800k };
 
-constexpr uint8_t I2C_FREQ_100KHZ = 0;
-constexpr uint8_t I2C_FREQ_200KHZ = 1;
-constexpr uint8_t I2C_FREQ_400KHZ = 2;
-constexpr uint8_t I2C_FREQ_800KHZ = 3;
+enum class ClockSource : uint8_t { Internal = 0, External = 1 };
 
-constexpr uint8_t CLK_USE_INTERNAL = 0;
-constexpr uint8_t CLK_USE_EXTERNAL = 1;
+enum class ExtSourceType : uint8_t { Oscillator = 0, Clock = 1 };
 
-constexpr uint8_t EXT_SOURCE_OSCILLATOR = 0;
-constexpr uint8_t EXT_SOURCE_CLOCK     = 1;
+enum class XtalDrive : uint8_t {
+  Freq8MHz  = 1,
+  Freq16MHz = 3,
+  Freq24MHz = 5,
+  Freq32MHz = 6,
+};
 
-constexpr uint8_t XTAL_FREQ_8MHZ   = 1;
-constexpr uint8_t XTAL_FREQ_16MHZ  = 3;
-constexpr uint8_t XTAL_FREQ_24MHZ  = 5;
-constexpr uint8_t XTAL_FREQ_32MHZ  = 6;
+enum class SysClkSource : uint8_t { IntOsc = 0, PLL = 1 };
 
-constexpr uint8_t SYSCLK_USE_INTOSC = 0;
-constexpr uint8_t SYSCLK_USE_PLL    = 1;
-
-constexpr uint8_t SYSCLK_DIV_1   = 0;
-constexpr uint8_t SYSCLK_DIV_2_3 = 3;
+enum class SysClkDiv : uint8_t { Div1 = 0, Div15MHz = 3 };
 
 } // namespace bootcfg
 
@@ -117,16 +107,16 @@ constexpr uint32_t CLOCK_CONFIG   = BASE + 0x18;
 
 /// Configuration of the on-chip LDO regulators.
 struct LDOConfig {
-  uint8_t vext1{bootcfg::LDO_DISABLED};
-  uint8_t vext2{bootcfg::LDO_DISABLED};
-  uint8_t slope_vext1{bootcfg::LDO_SLOPE_3MS};
-  uint8_t slope_vext2{bootcfg::LDO_SLOPE_3MS};
+  bootcfg::LDOVoltage vext1{bootcfg::LDOVoltage::Disabled};
+  bootcfg::LDOVoltage vext2{bootcfg::LDOVoltage::Disabled};
+  bootcfg::LDOSlope   slope_vext1{bootcfg::LDOSlope::Slope3ms};
+  bootcfg::LDOSlope   slope_vext2{bootcfg::LDOSlope::Slope3ms};
   bool    ldo_short_fault{false};
 };
 
 /// Bootloader behaviour configuration.
 struct BootConfig {
-  uint8_t boot_mode{bootcfg::BOOT_MODE_REGISTER};
+  bootcfg::BootMode boot_mode{bootcfg::BootMode::Register};
   bool    bl_ready_fault{false};
   bool    bl_exit_fault{true};
   bool    disable_selftest{false};
@@ -139,15 +129,15 @@ struct UARTConfig {
   uint8_t device_address{1};
   uint8_t host_address{255};
   bool    disable_uart{false};
-  uint8_t rx_pin{bootcfg::UART_RX_GPIO7};
-  uint8_t tx_pin{bootcfg::UART_TX_GPIO6};
-  uint8_t baud_rate{bootcfg::UART_BAUD_115200};
+  bootcfg::UartRxPin rx_pin{bootcfg::UartRxPin::GPIO7};
+  bootcfg::UartTxPin tx_pin{bootcfg::UartTxPin::GPIO6};
+  bootcfg::BaudRate  baud_rate{bootcfg::BaudRate::BR115200};
 };
 
 /// Optional RS485 transceiver control via the UART_TXEN pin.
 struct RS485Config {
   bool    enable_rs485{false};
-  uint8_t txen_pin{bootcfg::RS485_TXEN_NONE};
+  bootcfg::RS485TxEnPin txen_pin{bootcfg::RS485TxEnPin::None};
   uint8_t txen_pre_delay{0};
   uint8_t txen_post_delay{0};
 };
@@ -155,37 +145,37 @@ struct RS485Config {
 /// SPI interface used for bootloader commands.
 struct SPIBootConfig {
   bool    disable_spi{false};
-  uint8_t boot_spi_iface{bootcfg::SPI_IFACE0};
-  uint8_t spi0_sck_pin{bootcfg::SPI0_SCK_GPIO6};
+  bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::IFACE0};
+  bootcfg::SPI0SckPin   spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};
 };
 
 /// External SPI flash configuration.
 struct SPIFlashConfig {
   bool    enable_flash{false};
-  uint8_t flash_spi_iface{bootcfg::SPI_IFACE1};
-  uint8_t spi0_sck_pin{bootcfg::SPI0_SCK_GPIO6};
+  bootcfg::SPIInterface flash_spi_iface{bootcfg::SPIInterface::IFACE1};
+  bootcfg::SPI0SckPin   spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};
   uint8_t cs_pin{0};
-  uint8_t freq_div{bootcfg::SPI_FLASH_FREQ_DIV4};
+  bootcfg::SPIFlashFreq freq_div{bootcfg::SPIFlashFreq::Div4};
 };
 
 /// External I2C EEPROM configuration.
 struct I2CConfig {
   bool    enable_eeprom{false};
-  uint8_t sda_pin{bootcfg::I2C_SDA_GPIO5};
-  uint8_t scl_pin{bootcfg::I2C_SCL_GPIO4};
+  bootcfg::I2CSdaPin sda_pin{bootcfg::I2CSdaPin::GPIO5};
+  bootcfg::I2CSclPin scl_pin{bootcfg::I2CSclPin::GPIO4};
   uint8_t address_bits{0};
-  uint8_t freq_code{bootcfg::I2C_FREQ_100KHZ};
+  bootcfg::I2CFreq freq_code{bootcfg::I2CFreq::Freq100k};
 };
 
 /// System clock selection parameters.
 struct ClockConfig {
-  uint8_t use_external{bootcfg::CLK_USE_INTERNAL};
-  uint8_t ext_source_type{bootcfg::EXT_SOURCE_OSCILLATOR};
-  uint8_t xtal_drive{bootcfg::XTAL_FREQ_16MHZ};
+  bootcfg::ClockSource  use_external{bootcfg::ClockSource::Internal};
+  bootcfg::ExtSourceType ext_source_type{bootcfg::ExtSourceType::Oscillator};
+  bootcfg::XtalDrive     xtal_drive{bootcfg::XtalDrive::Freq16MHz};
   bool    xtal_boost{false};
-  uint8_t pll_selection{bootcfg::SYSCLK_USE_PLL};
+  bootcfg::SysClkSource  pll_selection{bootcfg::SysClkSource::PLL};
   uint8_t rdiv{14};
-  uint8_t sysclk_div{bootcfg::SYSCLK_DIV_1};
+  bootcfg::SysClkDiv     sysclk_div{bootcfg::SysClkDiv::Div1};
 };
 
 /// Initial state of the general purpose pins during boot.
