@@ -893,12 +893,19 @@ bool TMC9660::FeedbackSense::getSecondaryABNEncoderValue(
     //  SPI encoder timing & frame size
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-bool TMC9660::FeedbackSense::configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs,
-                                  uint8_t csIdleTimeUs) noexcept {
+bool TMC9660::FeedbackSense::configureSPIEncoder(uint8_t cmdSize,
+                                                 uint16_t csSettleTimeNs,
+                                                 uint8_t csIdleTimeUs) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(180, cmdSize);
-  ok &= driver.writeParameter(181, csSettleTimeNs);
-  ok &= driver.writeParameter(182, csIdleTimeUs);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE,
+      cmdSize);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::SPI_ENCODER_CS_SETTLE_DELAY_TIME,
+      csSettleTimeNs);
+  ok &= driver.writeParameter(
+      tmc9660::tmcl::Parameters::SPI_ENCODER_CS_IDLE_DELAY_TIME,
+      csIdleTimeUs);
   return ok;
 }
   
