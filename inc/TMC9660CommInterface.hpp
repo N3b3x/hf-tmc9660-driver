@@ -12,7 +12,119 @@
 #include <array>
 #include <span>
 
-class TMCLFrame;
+// -----------------------------------------------------------------------
+// TMCL scripting support structures and enums
+// -----------------------------------------------------------------------
+
+/// Reply structure returned by sendCommand()
+struct TMCLReply {
+uint8_t status = 0;  ///< TMCL status code (100=OK,101=LOADED)
+uint32_t value = 0;  ///< Optional returned value
+[[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
+};
+
+/**
+ * @brief Frame structure for TMCL commands and replies.
+ *
+ * Supports conversion to/from SPI (8 bytes) and UART (9 bytes) formats.
+ */
+struct TMCLFrame {
+    uint8_t opcode = 0;   ///< Operation code field.
+    uint16_t type = 0;    ///< Parameter or command type.
+    uint8_t motor = 0;    ///< Motor or bank identifier.
+    uint32_t value = 0;   ///< 32-bit data value.
+
+    /**
+     * @brief Serialize frame into 8-byte SPI buffer.
+     * @param out Span of 8 bytes to fill: opcode, type (2), motor, value (4).
+     */
+    void toSpi(std::span<uint8_t, 8> out) const noexcept {
+        out[0] = opcode;
+        out[1] = static_cast<uint8_t>(type >> 8);
+        out[2] = static_cast<uint8_t>(type);
+        out[3] = motor;
+        out[4] = static_cast<uint8_t>(value >> 24);
+        out[5] = static_cast<uint8_t>(value >> 16);
+        out[6] = static_cast<uint8_t>(value >> 8);
+        out[7] = static_cast<uint8_t>(value);
+    }
+
+    /**
+     * @brief Serialize frame into 9-byte UART buffer, including sync bit and checksum.
+     * @param addr 7-bit module address; MSB (sync bit) set automatically.
+     * @param out Span of 9 bytes to fill: sync+addr, fields, checksum.
+     */
+    void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
+        out[0] = addr | 0x80; // sync bit set
+        toSpi(out.subspan<1, 8>());
+        out[8] = calculateChecksum(out.data(), 8);
+    }
+
+    /**
+     * @brief Deserialize an SPI buffer into a TMCLFrame without status check.
+     * @param in Span of 8 received bytes.
+     * @return Populated TMCLFrame.
+     */
+    static TMCLFrame fromSpi(std::span<const uint8_t, 8> in) noexcept {
+        TMCLFrame f;
+        f.opcode = in[0];
+        f.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
+        f.motor = in[3];
+        f.value = (static_cast<uint32_t>(in[4]) << 24) |
+                  (static_cast<uint32_t>(in[5]) << 16) |
+                  (static_cast<uint32_t>(in[6]) << 8)  |
+                  (static_cast<uint32_t>(in[7]));
+        return f;
+    }
+
+    /**
+     * @brief Deserialize an SPI buffer with status and checksum validation.
+     * @param in Span of 8 received bytes.
+     * @param outFrame Reference to store the valid frame.
+     * @return false if NOT_READY or CHECKSUM_ERROR or invalid status; true otherwise.
+     */
+    static bool fromSpiChecked(std::span<const uint8_t, 8> in, TMCLFrame& outFrame) noexcept {
+        const SPIStatus status = static_cast<SPIStatus>(in[0]);
+        if (status == SPIStatus::NOT_READY || status == SPIStatus::CHECKSUM_ERROR) return false;
+        if (status != SPIStatus::OK && status != SPIStatus::FIRST_CMD) return false;
+
+        outFrame.opcode = in[2];
+        outFrame.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
+        outFrame.motor = in[3];
+        outFrame.value = (static_cast<uint32_t>(in[4]) << 24) |
+                         (static_cast<uint32_t>(in[5]) << 16) |
+                         (static_cast<uint32_t>(in[6]) << 8)  |
+                         (static_cast<uint32_t>(in[7]));
+        return true;
+    }
+
+    /**
+     * @brief Deserialize a UART buffer with address and checksum validation.
+     * @param in Span of 9 received bytes.
+     * @param expectedAddr 7-bit expected address of host.
+     * @param outFrame Reference to store the valid frame.
+     * @return true if address and checksum match.
+     */
+    static bool fromUart(std::span<const uint8_t, 9> in, uint8_t expectedAddr, TMCLFrame& outFrame) noexcept {
+        if ((in[0] & 0x7F) != (expectedAddr & 0x7F)) return false;
+        if (calculateChecksum(in.data(), 8) != in[8]) return false;
+        outFrame = fromSpi(in.subspan<1, 8>());
+        return true;
+    }
+
+    /**
+     * @brief Calculate 8-bit checksum (sum of bytes).
+     * @param bytes Pointer to data bytes to sum.
+     * @param n Number of bytes to include in sum.
+     * @return 8-bit checksum value.
+     */
+    static constexpr uint8_t calculateChecksum(const uint8_t* bytes, size_t n) noexcept {
+        uint8_t sum = 0;
+        for (size_t i = 0; i < n; ++i)
+            sum += bytes[i];
+        return sum;
+    }
+};
 
 /**
  * @brief SPI status codes as per TMC9660 Parameter Mode.
@@ -147,108 +259,5 @@ public:
         if (!sendUartDatagram(uartFrame)) return false;
         if (!receiveUartDatagram(uartFrame)) return false;
         return TMCLFrame::fromUart(uartFrame, 0x01, rx);
-    }
-};
-
-/**
- * @brief Frame structure for TMCL commands and replies.
- *
- * Supports conversion to/from SPI (8 bytes) and UART (9 bytes) formats.
- */
-struct TMCLFrame {
-    uint8_t opcode = 0;   ///< Operation code field.
-    uint16_t type = 0;    ///< Parameter or command type.
-    uint8_t motor = 0;    ///< Motor or bank identifier.
-    uint32_t value = 0;   ///< 32-bit data value.
-
-    /**
-     * @brief Serialize frame into 8-byte SPI buffer.
-     * @param out Span of 8 bytes to fill: opcode, type (2), motor, value (4).
-     */
-    void toSpi(std::span<uint8_t, 8> out) const noexcept {
-        out[0] = opcode;
-        out[1] = static_cast<uint8_t>(type >> 8);
-        out[2] = static_cast<uint8_t>(type);
-        out[3] = motor;
-        out[4] = static_cast<uint8_t>(value >> 24);
-        out[5] = static_cast<uint8_t>(value >> 16);
-        out[6] = static_cast<uint8_t>(value >> 8);
-        out[7] = static_cast<uint8_t>(value);
-    }
-
-    /**
-     * @brief Serialize frame into 9-byte UART buffer, including sync bit and checksum.
-     * @param addr 7-bit module address; MSB (sync bit) set automatically.
-     * @param out Span of 9 bytes to fill: sync+addr, fields, checksum.
-     */
-    void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
-        out[0] = addr | 0x80; // sync bit set
-        toSpi(out.subspan<1, 8>());
-        out[8] = calculateChecksum(out.data(), 8);
-    }
-
-    /**
-     * @brief Deserialize an SPI buffer into a TMCLFrame without status check.
-     * @param in Span of 8 received bytes.
-     * @return Populated TMCLFrame.
-     */
-    static TMCLFrame fromSpi(std::span<const uint8_t, 8> in) noexcept {
-        TMCLFrame f;
-        f.opcode = in[0];
-        f.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
-        f.motor = in[3];
-        f.value = (static_cast<uint32_t>(in[4]) << 24) |
-                  (static_cast<uint32_t>(in[5]) << 16) |
-                  (static_cast<uint32_t>(in[6]) << 8)  |
-                  (static_cast<uint32_t>(in[7]));
-        return f;
-    }
-
-    /**
-     * @brief Deserialize an SPI buffer with status and checksum validation.
-     * @param in Span of 8 received bytes.
-     * @param outFrame Reference to store the valid frame.
-     * @return false if NOT_READY or CHECKSUM_ERROR or invalid status; true otherwise.
-     */
-    static bool fromSpiChecked(std::span<const uint8_t, 8> in, TMCLFrame& outFrame) noexcept {
-        const SPIStatus status = static_cast<SPIStatus>(in[0]);
-        if (status == SPIStatus::NOT_READY || status == SPIStatus::CHECKSUM_ERROR) return false;
-        if (status != SPIStatus::OK && status != SPIStatus::FIRST_CMD) return false;
-
-        outFrame.opcode = in[2];
-        outFrame.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
-        outFrame.motor = in[3];
-        outFrame.value = (static_cast<uint32_t>(in[4]) << 24) |
-                         (static_cast<uint32_t>(in[5]) << 16) |
-                         (static_cast<uint32_t>(in[6]) << 8)  |
-                         (static_cast<uint32_t>(in[7]));
-        return true;
-    }
-
-    /**
-     * @brief Deserialize a UART buffer with address and checksum validation.
-     * @param in Span of 9 received bytes.
-     * @param expectedAddr 7-bit expected address of host.
-     * @param outFrame Reference to store the valid frame.
-     * @return true if address and checksum match.
-     */
-    static bool fromUart(std::span<const uint8_t, 9> in, uint8_t expectedAddr, TMCLFrame& outFrame) noexcept {
-        if ((in[0] & 0x7F) != (expectedAddr & 0x7F)) return false;
-        if (calculateChecksum(in.data(), 8) != in[8]) return false;
-        outFrame = fromSpi(in.subspan<1, 8>());
-        return true;
-    }
-
-    /**
-     * @brief Calculate 8-bit checksum (sum of bytes).
-     * @param bytes Pointer to data bytes to sum.
-     * @param n Number of bytes to include in sum.
-     * @return 8-bit checksum value.
-     */
-    static constexpr uint8_t calculateChecksum(const uint8_t* bytes, size_t n) noexcept {
-        uint8_t sum = 0;
-        for (size_t i = 0; i < n; ++i)
-            sum += bytes[i];
-        return sum;
     }
 };

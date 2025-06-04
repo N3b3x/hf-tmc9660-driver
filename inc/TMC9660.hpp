@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <span>
 #include <vector>
+#include <variant>
 
 #include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
@@ -23,57 +24,6 @@
  */
 class TMC9660 {
 public:
-  /// @brief Heartbeat watchdog modes for communication monitoring
-  enum class HeartbeatMode : uint8_t {
-    WATCHDOG_DISABLE = 0,
-    WATCHDOG_ENABLE = 1
-  };
-  /// @brief Power-down sleep periods
-  enum class PowerDownPeriod : uint8_t {
-    PERIOD_1 = 0,
-    PERIOD_2,
-    PERIOD_3,
-    PERIOD_4,
-    PERIOD_5,
-    PERIOD_6
-  };
-  /// @brief Fault retry and final actions
-  enum class FaultRetryAction : uint8_t { NO_RETRY = 0, RETRY = 1 };
-  /// @brief Fault final actions
-  enum class FaultFinalAction : uint8_t { DISABLE_MOTOR = 0, KEEP_RUNNING = 1 };
-
-  // -----------------------------------------------------------------------
-  // TMCL scripting support structures and enums
-  // -----------------------------------------------------------------------
-
-  /// TMCL command datagram representation for script building
-  struct TMCLCommand {
-    uint8_t opCode = 0;       ///< Operation code
-    uint16_t type = 0;        ///< TYPE/condition field (12-bit)
-    uint8_t motorOrBank = 0;  ///< MOTOR/BANK field (4-bit effective)
-    uint32_t value = 0;       ///< 32-bit value or address
-  };
-
-  /// Reply structure returned by sendCommand()
-  struct TMCLReply {
-    uint8_t status = 0;  ///< TMCL status code (100=OK,101=LOADED)
-    uint32_t value = 0;  ///< Optional returned value
-    [[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
-  };
-
-
-  /// Send a raw TMCL command and get reply
-  TMCLReply sendCommand(uint8_t opCode, uint16_t type = 0,
-                        uint8_t motorOrBank = 0, uint32_t value = 0);
-
-  /// Build command without sending (for script upload)
-  static TMCLCommand buildCommand(uint8_t op, uint16_t type = 0,
-                                  uint8_t motor = 0, uint32_t value = 0) {
-    return {op, type, motor, value};
-  }
-
-  /// Upload a TMCL script consisting of multiple commands
-  bool uploadScript(const std::vector<TMCLCommand> &script);
 
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
@@ -86,6 +36,16 @@ public:
   //***************************************************************************
   //**               CORE PARAMETER ACCESS METHODS                         **//
   //***************************************************************************
+
+  /// Build command without sending (for script upload)
+  static TMCLFrame buildCommand(uint8_t op, uint16_t type = 0,
+                                  uint8_t motor = 0, uint32_t value = 0) {
+    return {op, type, motor, value};
+    }
+
+  /// Send a raw TMCL command and get reply
+  TMCLReply sendCommand(uint8_t opCode, uint16_t type = 0,
+                        uint8_t motorOrBank = 0, uint32_t value = 0);
 
   /** @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
    * @param id Parameter ID number (see TMC9660 documentation for the full
@@ -119,10 +79,9 @@ public:
    * @param value 32-bit value to write.
    * @return true if successfully written, false if an error occurred.
    */
-  [[nodiscard]] bool writeGlobalParameter(
-    GlobalParamBankVariant id,
-    uint8_t bank,
-    uint32_t value) noexcept;
+  [[nodiscard]] bool writeGlobalParameter(GlobalParamBankVariant id,
+                                           uint8_t bank,
+                                           uint32_t value) noexcept;
 
   /** @brief Read a global parameter from the TMC9660.
    * @param id Global parameter ID number.
@@ -130,13 +89,13 @@ public:
    * @param[out] value Reference to store the read 32-bit value.
    * @return true if read successfully, false on error.
    */
-  [[nodiscard]] bool readGlobalParameter(
-    GlobalParamBankVariant id,
-    uint8_t bank,
-    uint32_t &value) noexcept;
+  [[nodiscard]] bool readGlobalParameter(GlobalParamBankVariant id,
+                                          uint8_t bank,
+                                          uint32_t &value) noexcept;
 
   bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor,
-            uint32_t value, uint32_t *reply) noexcept;
+                    uint32_t value, uint32_t *reply) noexcept;
+
   //***************************************************************************
   //**                  SUBSYSTEM: Motor Configuration                     **//
   //***************************************************************************
@@ -829,6 +788,372 @@ public:
   } gateDriver{*this};
 
   //***************************************************************************
+  //**                  SUBSYSTEM: Sensors                                  **//
+  //***************************************************************************
+
+  /** @brief Subsystem for feedback sensor configuration
+   */
+  struct FeedbackSense {
+    /** @brief Select which sensor supplies the velocity loop.
+     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
+     */
+    /** @brief Select which sensor supplies the velocity loop.
+     *
+     * @param sel Sensor selection value. See the VELOCITY_SENSOR_SELECTION
+     *            parameter in the datasheet.
+     * @return true on success
+     */
+    bool selectVelocitySensor(
+        uint8_t sel) noexcept; ///< VELOCITY_SENSOR_SELECTION
+                               ///< @see Datasheet parameter VELOCITY_SENSOR_SELECTION
+
+    /** @brief Select which sensor supplies the position loop.
+     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
+     */
+    /** @brief Select which sensor supplies the position loop.
+     *
+     * @param sel Sensor selection value. See the POSITION_SENSOR_SELECTION
+     *            parameter in the datasheet.
+     * @return true on success
+     */
+    bool selectPositionSensor(
+        uint8_t sel) noexcept; ///< POSITION_SENSOR_SELECTION
+                               ///< @see Datasheet parameter POSITION_SENSOR_SELECTION
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  HALL sensors (digital Hall)
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /** @brief Configure digital Hall sensors for BLDC commutation.
+     *
+     * This enables Hall sensor inputs as the feedback for commutation.
+     * Typically used with tmc9660::tmcl::CommutationMode::FOC_HALL.
+     * @param sectorOffset Hall sensor 60-degree/sector offset
+     * (tmc9660::tmcl::HallSectorOffset):
+     *                     tmc9660::tmcl::HallSectorOffset::DEG_0, DEG_60,
+     * DEG_120, DEG_180, DEG_240, DEG_300 This combines both the 120° order
+     * offset and 180° polarity offset.
+     * @param inverted If true, invert the interpretation of hall sensor signals
+     * (tmc9660::tmcl::Direction).
+     * @param enableExtrapolation If true, enable hall extrapolation for higher
+     * resolution position signal (tmc9660::tmcl::EnableDisable).
+     * @param filterLength Digital filter length (0-255) for hall sensor inputs.
+     * @return true if Hall sensor feedback is configured successfully.
+     */
+    bool configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset =
+                           tmc9660::tmcl::HallSectorOffset::DEG_0,
+                       tmc9660::tmcl::Direction inverted =
+                           tmc9660::tmcl::Direction::NOT_INVERTED,
+                       tmc9660::tmcl::EnableDisable enableExtrapolation =
+                           tmc9660::tmcl::EnableDisable::DISABLED,
+                       uint8_t filterLength = 0) noexcept;
+
+    /** @brief Set Hall sensor position offsets for improved accuracy.
+     *
+     * Compensates for Hall sensor mounting tolerances by setting precise
+     * electrical angle offsets.
+     *
+     * @param offset0 Offset for 0° Hall position (-32768 to 32767)
+     * @param offset60 Offset for 60° Hall position (-32768 to 32767)
+     * @param offset120 Offset for 120° Hall position (-32768 to 32767)
+     * @param offset180 Offset for 180° Hall position (-32768 to 32767)
+     * @param offset240 Offset for 240° Hall position (-32768 to 32767)
+     * @param offset300 Offset for 300° Hall position (-32768 to 32767)
+     * @param globalOffset Additional global offset applied to all positions
+     * (-32768 to 32767)
+     * @return true if Hall position offsets were set successfully.
+     */
+    bool setHallPositionOffsets(int16_t offset0 = 0, int16_t offset60 = 10922,
+                                int16_t offset120 = 21845,
+                                int16_t offset180 = -32768,
+                                int16_t offset240 = -21846,
+                                int16_t offset300 = -10923,
+                                int16_t globalOffset = 0) noexcept;
+
+    /** @brief Read the electrical angle (phi_e) calculated from Hall feedback.
+     * @param[out] phiE Electrical angle (-32768 to 32767).
+     * @return true if the value was read successfully.
+     */
+    bool getHallPhiE(int16_t &phiE) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  ABN encoders (ABN1, ABN2)
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /** @brief Configure an ABN incremental encoder for feedback.
+     *
+     * Sets up an incremental quadrature encoder with optional index (N) channel
+     * for position and velocity feedback.
+     * @param countsPerRev Encoder resolution (counts per revolution,
+     * 0-16777215).
+     * @param inverted If true, invert the encoder direction
+     * (tmc9660::tmcl::Direction).
+     * @param nChannelInverted If true, invert the N-channel signal (active low
+     * instead of active high) (tmc9660::tmcl::EnableDisable).
+     * @return true if encoder parameters were set successfully.
+     */
+    bool configureABNEncoder(uint32_t countsPerRev,
+                            tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
+                            tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+
+    /** @brief Configure ABN encoder initialization method.
+     *
+     * Sets the method used to align the ABN encoder with the rotor's absolute
+     * position.
+     *
+     * @param initMethod Initialization method (tmc9660::tmcl::AbnInitMethod):
+     *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
+     * FORCED_PHI_E_90_ZERO, USE_HALL, USE_N_CHANNEL_OFFSET
+     * @param initDelay Delay in milliseconds to wait for mechanical
+     * oscillations to stop (1000-10000)
+     * @param initVelocity Velocity used during N-channel initialization
+     * (-200000 to 200000)
+     * @param nChannelOffset Offset between phi_e zero and encoder index pulse
+     * position (-32768 to 32767)
+     * @return true if ABN initialization parameters were set successfully.
+     */
+    bool configureABNInitialization(
+        tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
+        uint16_t initDelay = 1000, int32_t initVelocity = 5,
+        int16_t nChannelOffset = 0) noexcept;
+
+    /** @brief Read the current state of ABN encoder initialization.
+     * @param[out] state Current initialization state
+     * (tmc9660::tmcl::AbnInitState): IDLE, BUSY, WAIT, DONE
+     * @return true if the state was read successfully.
+     */
+    bool getABNInitializationState(tmc9660::tmcl::AbnInitState &state) noexcept;
+
+    /** @brief Read the electrical angle (phi_e) calculated from ABN feedback.
+     * @param[out] phiE Electrical angle (-32768 to 32767).
+     * @return true if the value was read successfully.
+     */
+    bool getABNPhiE(int16_t &phiE) noexcept;
+
+    /** @brief Read the raw ABN encoder internal counter value.
+     * @param[out] value Raw counter value (0-16777215).
+     * @return true if the value was read successfully.
+     */
+    bool getABNRawValue(uint32_t &value) noexcept;
+
+    /** @brief Configure N-channel filtering for ABN encoder.
+     *
+     * Sets up filtering for the N-channel (index pulse) to handle imprecise
+     * encoders.
+     *
+     * @param filterMode N-channel filtering mode
+     * (tmc9660::tmcl::AbnNChannelFiltering): FILTERING_OFF,
+     * N_EVENT_ON_A_HIGH_B_HIGH, N_EVENT_ON_A_HIGH_B_LOW,
+     * N_EVENT_ON_A_LOW_B_HIGH, N_EVENT_ON_A_LOW_B_LOW
+     * @param clearOnNextNull If true, clear position counter on next N-channel
+     * event (tmc9660::tmcl::EnableDisable).
+     * @return true if N-channel settings were applied successfully.
+     */
+    bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode =
+                                tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
+                                tmc9660::tmcl::EnableDisable clearOnNextNull =
+                                tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /** @brief Configure the secondary ABN encoder input.
+     *
+     * This allows the use of a second incremental encoder or a geared
+     * encoder setup. It writes ABN_2_* parameters to set the resolution,
+     * direction and optional gear ratio.
+     *
+     * @param countsPerRev Encoder resolution in counts per revolution.
+     * @param inverted     True to invert the encoder direction
+     * (tmc9660::tmcl::Direction).
+     * @param gearRatio    Gear ratio between the second encoder and the
+     *                     motor shaft. Use 1 if directly coupled.
+     * @return true if all parameters were written successfully.
+     */
+    bool
+    configureSecondaryABNEncoder(uint32_t countsPerRev,
+                                    tmc9660::tmcl::Direction inverted =
+                                    tmc9660::tmcl::Direction::NOT_INVERTED,
+                                    uint8_t gearRatio = 1) noexcept;
+
+    // ABN-2 (secondary encoder) getters
+    /** @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
+     * @param[out] counts CPR value.
+     * @return true if read successful.
+     */
+    bool getSecondaryABNCountsPerRev(uint32_t &counts) noexcept;
+
+    /** @brief Read ABN_2_DIRECTION (normal/inverted).
+     * @param[out] dir Direction (tmc9660::tmcl::Direction).
+     * @return true if read successful.
+     */
+    bool getSecondaryABNDirection(tmc9660::tmcl::Direction &dir) noexcept;
+
+    /** @brief Read ABN_2_GEAR_RATIO (1…255).
+     * @param[out] ratio Gear ratio.
+     * @return true if read successful.
+     */
+    bool getSecondaryABNGearRatio(uint8_t &ratio) noexcept;
+
+    /** @brief Enable or disable the secondary ABN encoder.
+     * @param enable True to enable, false to disable.
+     * @return true if the operation was successful.
+     */
+    bool setSecondaryABNEncoderEnabled(bool enable) noexcept;
+
+    /** @brief Read the raw ABN2 encoder internal counter value.
+     * @param[out] value Raw counter value (0-4294967295).
+     * @return true if the value was read successfully.
+     */
+    bool getSecondaryABNEncoderValue(uint32_t &value) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  SPI encoder timing & frame size
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /** @brief Configure a SPI-based encoder for feedback.
+     *
+     * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for
+     * position feedback.
+     *
+     * @param cmdSize Size of SPI transfer frame (1-16 bytes).
+     * @param csSettleTimeNs CS settle time in nanoseconds (0-6375).
+     * @param csIdleTimeUs CS idle time between frames in microseconds (0-102).
+     * @return true if configured successfully.
+     */
+    bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0,
+                             uint8_t csIdleTimeUs = 0) noexcept;
+
+    /** @brief Configure SPI encoder data format and processing.
+     *
+     * Sets up how the position data is extracted from the SPI encoder response.
+     *
+     * @param positionMask Bit mask to extract position from SPI response.
+     * @param positionShift Right shift value to apply to position counter.
+     * @param invertDirection If true, invert the direction of the SPI encoder
+     * (tmc9660::tmcl::Direction).
+     * @return true if configuration was successful.
+     */
+    bool configureSPIEncoderDataFormat(
+        uint32_t positionMask, uint8_t positionShift = 0,
+        tmc9660::tmcl::Direction invertDirection =
+            tmc9660::tmcl::Direction::NOT_INVERTED) noexcept;
+
+    /** @brief Set up SPI encoder request data for continuous transfer mode.
+     *
+     * Sets the data to be sent to the SPI encoder during position acquisition.
+     *
+     * @param requestData Array of data bytes to send to the encoder.
+     * @param size Size of the request data (1-16 bytes).
+     * @return true if transfer data was set successfully.
+     */
+    bool setSPIEncoderRequestData(const uint8_t *requestData,
+                                  uint8_t size) noexcept;
+
+    /** @brief Configure SPI encoder initialization method.
+     *
+     * Sets how the SPI encoder is initialized for commutation.
+     *
+     * @param initMethod Initialization method (tmc9660::tmcl::SpiInitMethod):
+     *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
+     * FORCED_PHI_E_90_ZERO, USE_OFFSET
+     * @param offset Manual offset value if using offset-based initialization.
+     * @return true if initialization method was set successfully.
+     */
+    bool
+    configureSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod initMethod,
+                                      int16_t offset = 0) noexcept;
+
+    /** @brief Enable or disable SPI encoder lookup table correction.
+     *
+     * Enables the lookup table-based correction for encoder nonlinearity.
+     *
+     * @param enable If true, enable LUT correction
+     * (tmc9660::tmcl::EnableDisable).
+     * @param shiftFactor Common shift factor for all LUT entries.
+     * @return true if LUT settings were applied successfully.
+     */
+    bool setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable,
+                                    int8_t shiftFactor = 0) noexcept;
+
+    /** @brief Upload a single entry to the SPI encoder correction lookup table.
+     *
+     * @param index Index in the LUT (0-255).
+     * @param value Correction value (-128 to 127).
+     * @return true if the entry was uploaded successfully.
+     */
+    bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
+
+    // SPI encoder timing & frame size
+    /** @brief Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).
+     */
+    bool getSPIEncoderCSSettleDelay(uint16_t &timeNs) noexcept;
+
+    /** @brief Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).
+     */
+    bool getSPIEncoderCSIdleDelay(uint8_t &timeUs) noexcept;
+
+    /** @brief Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).
+     */
+    bool getSPIEncoderMainCmdSize(uint8_t &size) noexcept;
+
+    /** @brief Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).
+     */
+    bool getSPIEncoderSecondaryCmdSize(uint8_t &size) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  SPI encoder data & status
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_MASK.
+     */
+    bool getSPIEncoderPositionMask(uint32_t &mask) noexcept;
+
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_SHIFT.
+     */
+    bool getSPIEncoderPositionShift(uint8_t &shift) noexcept;
+
+    /** @brief Read SPI_ENCODER_POSITION_COUNTER_VALUE.
+     */
+    bool getSPIEncoderPositionValue(uint32_t &value) noexcept;
+
+    /** @brief Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).
+     */
+    bool getSPIEncoderCommutationAngle(int16_t &angle) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  SPI encoder initialization & offset
+    /** @brief Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.
+     */
+    bool getSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod &method,
+                                     int16_t &offset) noexcept;
+
+    /** @brief Read SPI_ENCODER_DIRECTION.
+     */
+    bool getSPIEncoderDirection(tmc9660::tmcl::Direction &dir) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  SPI LUT
+    /** @brief Read SPI_LUT_ADDRESS_SELECT.
+     */
+    bool getSPIEncoderLUTAddress(uint8_t &address) noexcept;
+
+    /** @brief Read SPI_LUT_DATA.
+     */
+    bool getSPIEncoderLUTData(int8_t &data) noexcept;
+
+    /** @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
+     */
+    bool getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+  private:
+    friend class TMC9660;
+    explicit FeedbackSense(TMC9660 &parent) noexcept : driver(parent) {}
+    TMC9660 &driver;
+  } feedbackSense{*this};
+
+  //***************************************************************************
   //**                  SUBSYSTEM: FOC Control                              **//
   //***************************************************************************
 
@@ -1517,372 +1842,6 @@ public:
   } ramp{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Sensors                                  **//
-  //***************************************************************************
-
-  /** @brief Subsystem for feedback sensor configuration
-   */
-  struct FeedbackSense {
-    /** @brief Select which sensor supplies the velocity loop.
-     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
-     */
-    /** @brief Select which sensor supplies the velocity loop.
-     *
-     * @param sel Sensor selection value. See the VELOCITY_SENSOR_SELECTION
-     *            parameter in the datasheet.
-     * @return true on success
-     */
-    bool selectVelocitySensor(
-        uint8_t sel) noexcept; ///< VELOCITY_SENSOR_SELECTION
-                               ///< @see Datasheet parameter VELOCITY_SENSOR_SELECTION
-
-    /** @brief Select which sensor supplies the position loop.
-     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
-     */
-    /** @brief Select which sensor supplies the position loop.
-     *
-     * @param sel Sensor selection value. See the POSITION_SENSOR_SELECTION
-     *            parameter in the datasheet.
-     * @return true on success
-     */
-    bool selectPositionSensor(
-        uint8_t sel) noexcept; ///< POSITION_SENSOR_SELECTION
-                               ///< @see Datasheet parameter POSITION_SENSOR_SELECTION
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  HALL sensors (digital Hall)
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    /** @brief Configure digital Hall sensors for BLDC commutation.
-     *
-     * This enables Hall sensor inputs as the feedback for commutation.
-     * Typically used with tmc9660::tmcl::CommutationMode::FOC_HALL.
-     * @param sectorOffset Hall sensor 60-degree/sector offset
-     * (tmc9660::tmcl::HallSectorOffset):
-     *                     tmc9660::tmcl::HallSectorOffset::DEG_0, DEG_60,
-     * DEG_120, DEG_180, DEG_240, DEG_300 This combines both the 120° order
-     * offset and 180° polarity offset.
-     * @param inverted If true, invert the interpretation of hall sensor signals
-     * (tmc9660::tmcl::Direction).
-     * @param enableExtrapolation If true, enable hall extrapolation for higher
-     * resolution position signal (tmc9660::tmcl::EnableDisable).
-     * @param filterLength Digital filter length (0-255) for hall sensor inputs.
-     * @return true if Hall sensor feedback is configured successfully.
-     */
-    bool configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset =
-                           tmc9660::tmcl::HallSectorOffset::DEG_0,
-                       tmc9660::tmcl::Direction inverted =
-                           tmc9660::tmcl::Direction::NOT_INVERTED,
-                       tmc9660::tmcl::EnableDisable enableExtrapolation =
-                           tmc9660::tmcl::EnableDisable::DISABLED,
-                       uint8_t filterLength = 0) noexcept;
-
-    /** @brief Set Hall sensor position offsets for improved accuracy.
-     *
-     * Compensates for Hall sensor mounting tolerances by setting precise
-     * electrical angle offsets.
-     *
-     * @param offset0 Offset for 0° Hall position (-32768 to 32767)
-     * @param offset60 Offset for 60° Hall position (-32768 to 32767)
-     * @param offset120 Offset for 120° Hall position (-32768 to 32767)
-     * @param offset180 Offset for 180° Hall position (-32768 to 32767)
-     * @param offset240 Offset for 240° Hall position (-32768 to 32767)
-     * @param offset300 Offset for 300° Hall position (-32768 to 32767)
-     * @param globalOffset Additional global offset applied to all positions
-     * (-32768 to 32767)
-     * @return true if Hall position offsets were set successfully.
-     */
-    bool setHallPositionOffsets(int16_t offset0 = 0, int16_t offset60 = 10922,
-                                int16_t offset120 = 21845,
-                                int16_t offset180 = -32768,
-                                int16_t offset240 = -21846,
-                                int16_t offset300 = -10923,
-                                int16_t globalOffset = 0) noexcept;
-
-    /** @brief Read the electrical angle (phi_e) calculated from Hall feedback.
-     * @param[out] phiE Electrical angle (-32768 to 32767).
-     * @return true if the value was read successfully.
-     */
-    bool getHallPhiE(int16_t &phiE) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  ABN encoders (ABN1, ABN2)
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    /** @brief Configure an ABN incremental encoder for feedback.
-     *
-     * Sets up an incremental quadrature encoder with optional index (N) channel
-     * for position and velocity feedback.
-     * @param countsPerRev Encoder resolution (counts per revolution,
-     * 0-16777215).
-     * @param inverted If true, invert the encoder direction
-     * (tmc9660::tmcl::Direction).
-     * @param nChannelInverted If true, invert the N-channel signal (active low
-     * instead of active high) (tmc9660::tmcl::EnableDisable).
-     * @return true if encoder parameters were set successfully.
-     */
-    bool configureABNEncoder(uint32_t countsPerRev,
-                            tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
-                            tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
-
-    /** @brief Configure ABN encoder initialization method.
-     *
-     * Sets the method used to align the ABN encoder with the rotor's absolute
-     * position.
-     *
-     * @param initMethod Initialization method (tmc9660::tmcl::AbnInitMethod):
-     *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
-     * FORCED_PHI_E_90_ZERO, USE_HALL, USE_N_CHANNEL_OFFSET
-     * @param initDelay Delay in milliseconds to wait for mechanical
-     * oscillations to stop (1000-10000)
-     * @param initVelocity Velocity used during N-channel initialization
-     * (-200000 to 200000)
-     * @param nChannelOffset Offset between phi_e zero and encoder index pulse
-     * position (-32768 to 32767)
-     * @return true if ABN initialization parameters were set successfully.
-     */
-    bool configureABNInitialization(
-        tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
-        uint16_t initDelay = 1000, int32_t initVelocity = 5,
-        int16_t nChannelOffset = 0) noexcept;
-
-    /** @brief Read the current state of ABN encoder initialization.
-     * @param[out] state Current initialization state
-     * (tmc9660::tmcl::AbnInitState): IDLE, BUSY, WAIT, DONE
-     * @return true if the state was read successfully.
-     */
-    bool getABNInitializationState(tmc9660::tmcl::AbnInitState &state) noexcept;
-
-    /** @brief Read the electrical angle (phi_e) calculated from ABN feedback.
-     * @param[out] phiE Electrical angle (-32768 to 32767).
-     * @return true if the value was read successfully.
-     */
-    bool getABNPhiE(int16_t &phiE) noexcept;
-
-    /** @brief Read the raw ABN encoder internal counter value.
-     * @param[out] value Raw counter value (0-16777215).
-     * @return true if the value was read successfully.
-     */
-    bool getABNRawValue(uint32_t &value) noexcept;
-
-    /** @brief Configure N-channel filtering for ABN encoder.
-     *
-     * Sets up filtering for the N-channel (index pulse) to handle imprecise
-     * encoders.
-     *
-     * @param filterMode N-channel filtering mode
-     * (tmc9660::tmcl::AbnNChannelFiltering): FILTERING_OFF,
-     * N_EVENT_ON_A_HIGH_B_HIGH, N_EVENT_ON_A_HIGH_B_LOW,
-     * N_EVENT_ON_A_LOW_B_HIGH, N_EVENT_ON_A_LOW_B_LOW
-     * @param clearOnNextNull If true, clear position counter on next N-channel
-     * event (tmc9660::tmcl::EnableDisable).
-     * @return true if N-channel settings were applied successfully.
-     */
-    bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode =
-                                tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
-                                tmc9660::tmcl::EnableDisable clearOnNextNull =
-                                tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    /** @brief Configure the secondary ABN encoder input.
-     *
-     * This allows the use of a second incremental encoder or a geared
-     * encoder setup. It writes ABN_2_* parameters to set the resolution,
-     * direction and optional gear ratio.
-     *
-     * @param countsPerRev Encoder resolution in counts per revolution.
-     * @param inverted     True to invert the encoder direction
-     * (tmc9660::tmcl::Direction).
-     * @param gearRatio    Gear ratio between the second encoder and the
-     *                     motor shaft. Use 1 if directly coupled.
-     * @return true if all parameters were written successfully.
-     */
-    bool
-    configureSecondaryABNEncoder(uint32_t countsPerRev,
-                                    tmc9660::tmcl::Direction inverted =
-                                    tmc9660::tmcl::Direction::NOT_INVERTED,
-                                    uint8_t gearRatio = 1) noexcept;
-
-    // ABN-2 (secondary encoder) getters
-    /** @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
-     * @param[out] counts CPR value.
-     * @return true if read successful.
-     */
-    bool getSecondaryABNCountsPerRev(uint32_t &counts) noexcept;
-
-    /** @brief Read ABN_2_DIRECTION (normal/inverted).
-     * @param[out] dir Direction (tmc9660::tmcl::Direction).
-     * @return true if read successful.
-     */
-    bool getSecondaryABNDirection(tmc9660::tmcl::Direction &dir) noexcept;
-
-    /** @brief Read ABN_2_GEAR_RATIO (1…255).
-     * @param[out] ratio Gear ratio.
-     * @return true if read successful.
-     */
-    bool getSecondaryABNGearRatio(uint8_t &ratio) noexcept;
-
-    /** @brief Enable or disable the secondary ABN encoder.
-     * @param enable True to enable, false to disable.
-     * @return true if the operation was successful.
-     */
-    bool setSecondaryABNEncoderEnabled(bool enable) noexcept;
-
-    /** @brief Read the raw ABN2 encoder internal counter value.
-     * @param[out] value Raw counter value (0-4294967295).
-     * @return true if the value was read successfully.
-     */
-    bool getSecondaryABNEncoderValue(uint32_t &value) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  SPI encoder timing & frame size
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    /** @brief Configure a SPI-based encoder for feedback.
-     *
-     * Sets up a digital SPI encoder (e.g., absolute magnetic encoder) for
-     * position feedback.
-     *
-     * @param cmdSize Size of SPI transfer frame (1-16 bytes).
-     * @param csSettleTimeNs CS settle time in nanoseconds (0-6375).
-     * @param csIdleTimeUs CS idle time between frames in microseconds (0-102).
-     * @return true if configured successfully.
-     */
-    bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0,
-                             uint8_t csIdleTimeUs = 0) noexcept;
-
-    /** @brief Configure SPI encoder data format and processing.
-     *
-     * Sets up how the position data is extracted from the SPI encoder response.
-     *
-     * @param positionMask Bit mask to extract position from SPI response.
-     * @param positionShift Right shift value to apply to position counter.
-     * @param invertDirection If true, invert the direction of the SPI encoder
-     * (tmc9660::tmcl::Direction).
-     * @return true if configuration was successful.
-     */
-    bool configureSPIEncoderDataFormat(
-        uint32_t positionMask, uint8_t positionShift = 0,
-        tmc9660::tmcl::Direction invertDirection =
-            tmc9660::tmcl::Direction::NOT_INVERTED) noexcept;
-
-    /** @brief Set up SPI encoder request data for continuous transfer mode.
-     *
-     * Sets the data to be sent to the SPI encoder during position acquisition.
-     *
-     * @param requestData Array of data bytes to send to the encoder.
-     * @param size Size of the request data (1-16 bytes).
-     * @return true if transfer data was set successfully.
-     */
-    bool setSPIEncoderRequestData(const uint8_t *requestData,
-                                  uint8_t size) noexcept;
-
-    /** @brief Configure SPI encoder initialization method.
-     *
-     * Sets how the SPI encoder is initialized for commutation.
-     *
-     * @param initMethod Initialization method (tmc9660::tmcl::SpiInitMethod):
-     *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
-     * FORCED_PHI_E_90_ZERO, USE_OFFSET
-     * @param offset Manual offset value if using offset-based initialization.
-     * @return true if initialization method was set successfully.
-     */
-    bool
-    configureSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod initMethod,
-                                      int16_t offset = 0) noexcept;
-
-    /** @brief Enable or disable SPI encoder lookup table correction.
-     *
-     * Enables the lookup table-based correction for encoder nonlinearity.
-     *
-     * @param enable If true, enable LUT correction
-     * (tmc9660::tmcl::EnableDisable).
-     * @param shiftFactor Common shift factor for all LUT entries.
-     * @return true if LUT settings were applied successfully.
-     */
-    bool setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable,
-                                    int8_t shiftFactor = 0) noexcept;
-
-    /** @brief Upload a single entry to the SPI encoder correction lookup table.
-     *
-     * @param index Index in the LUT (0-255).
-     * @param value Correction value (-128 to 127).
-     * @return true if the entry was uploaded successfully.
-     */
-    bool uploadSPIEncoderLUTEntry(uint8_t index, int8_t value) noexcept;
-
-    // SPI encoder timing & frame size
-    /** @brief Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).
-     */
-    bool getSPIEncoderCSSettleDelay(uint16_t &timeNs) noexcept;
-
-    /** @brief Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).
-     */
-    bool getSPIEncoderCSIdleDelay(uint8_t &timeUs) noexcept;
-
-    /** @brief Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).
-     */
-    bool getSPIEncoderMainCmdSize(uint8_t &size) noexcept;
-
-    /** @brief Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).
-     */
-    bool getSPIEncoderSecondaryCmdSize(uint8_t &size) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  SPI encoder data & status
-    /** @brief Read SPI_ENCODER_POSITION_COUNTER_MASK.
-     */
-    bool getSPIEncoderPositionMask(uint32_t &mask) noexcept;
-
-    /** @brief Read SPI_ENCODER_POSITION_COUNTER_SHIFT.
-     */
-    bool getSPIEncoderPositionShift(uint8_t &shift) noexcept;
-
-    /** @brief Read SPI_ENCODER_POSITION_COUNTER_VALUE.
-     */
-    bool getSPIEncoderPositionValue(uint32_t &value) noexcept;
-
-    /** @brief Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).
-     */
-    bool getSPIEncoderCommutationAngle(int16_t &angle) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  SPI encoder initialization & offset
-    /** @brief Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.
-     */
-    bool getSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod &method,
-                                     int16_t &offset) noexcept;
-
-    /** @brief Read SPI_ENCODER_DIRECTION.
-     */
-    bool getSPIEncoderDirection(tmc9660::tmcl::Direction &dir) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  SPI LUT
-    /** @brief Read SPI_LUT_ADDRESS_SELECT.
-     */
-    bool getSPIEncoderLUTAddress(uint8_t &address) noexcept;
-
-    /** @brief Read SPI_LUT_DATA.
-     */
-    bool getSPIEncoderLUTData(int8_t &data) noexcept;
-
-    /** @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
-     */
-    bool getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) noexcept;
-
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-  private:
-    friend class TMC9660;
-    explicit FeedbackSense(TMC9660 &parent) noexcept : driver(parent) {}
-    TMC9660 &driver;
-  } feedbackSense{*this};
-
-  //***************************************************************************
   //**              SUBSYSTEM: Step/Dir Input Extrapolation                **//
   //***************************************************************************
 
@@ -2139,7 +2098,7 @@ public:
   } iit{*this};
 
   //===========================================================================
-  //==                  SUBSYSTEM: Telemetry & Status ==//
+  //==                  SUBSYSTEM: Telemetry & Status                       ==//    
   //===========================================================================
 
   /** @brief Subsystem for reading various telemetry and status information from
@@ -2230,7 +2189,7 @@ public:
   } telemetry{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Stop / Event **//
+  //**                  SUBSYSTEM: Stop / Event                            **//
   //***************************************************************************
 
   /** @brief Configure automatic stop/latch behaviour for deviation, switches.
@@ -2440,7 +2399,7 @@ public:
   } script{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Debug                                    **//
+  //**                  SUBSYSTEM: RamDebug                                **//
   //***************************************************************************
   /** @brief Subsystem for debug and data logging features
    */
@@ -2550,7 +2509,7 @@ public:
      *   - `HEARTBEAT_MONITORING_CONFIG`
      *   - `HEARTBEAT_MONITORING_TIMEOUT`
      */
-    bool configure(HeartbeatMode mode, uint32_t timeout_ms) noexcept;
+    bool configure(tmc9660::tmcl::HeartbeatMonitoringConfig mode, uint32_t timeout_ms) noexcept;
 
   private:
     friend class TMC9660;
@@ -2673,7 +2632,7 @@ public:
   } globals{*this};
 
   //***************************************************************************
-  //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O) **//
+  //**        SUBSYSTEM: General-purpose GPIO (Digital/Analog I/O)          **//
   //***************************************************************************
 
   /** @brief Subsystem for configuring general-purpose IOs (GPIOs).
@@ -2754,7 +2713,7 @@ public:
      *
      * - Parameter: `GO_TO_TIMEOUT_POWER_DOWN_STATE`
      */
-    bool enterPowerDown(PowerDownPeriod period) noexcept;
+    bool enterPowerDown(tmc9660::tmcl::PowerDownTimeout period) noexcept;
 
   private:
     friend class TMC9660;
