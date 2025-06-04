@@ -18,6 +18,16 @@
  * |------|------------|------------|------------|-----------|----------|
  * | Bits | 0-7        | 8-15       | 16-23      | 24-55     | 56-63    |
  * | Desc | SPI Status | TMCL Status| Operation  | Data      | Checksum |
+ *
+ * ## UART Command Format
+ * | BYTE | 0               | 1        | 2-3       | 4          | 5-8       | 9        |
+ * |------|----------------|----------|-----------|------------|-----------|----------|
+ * | Desc | Sync+Address   | Command  | Type      | Motor/Bank | Data      | Checksum |
+ *
+ * ## UART Reply Format
+ * | BYTE | 0            | 1             | 2          | 3          | 4-7       | 8        |
+ * |------|--------------|---------------|------------|------------|-----------|----------|
+ * | Desc | Host Address | Sync+Address  | TMCL Status| Operation  | Data      | Checksum |
  */
 
 #pragma once
@@ -77,11 +87,18 @@ struct TMCLReply {
 
     /// Decode reply from UART datagram
     static bool fromUart(std::span<const uint8_t,9> in, uint8_t addr, TMCLReply& r) noexcept {
-        if ((in[0] & 0x7F) != (addr & 0x7F)) return false;
-        if (tmclChecksum(in.data(),8) != in[8]) return false;
-        std::array<uint8_t,8> spi{};
-        for (size_t i=0;i<8;++i) spi[i]=in[i+1];
-        return fromSpi(spi, r);
+        // byte0 : host address (ignored)
+        // byte1 : sync bit + module address (7-bit)
+        if ((in[1] & 0x7F) != (addr & 0x7F)) return false;
+        if (tmclChecksum(in.data(),8) != in[8]) return false;  // checksum over first 8 bytes
+        r.spiStatus = SPIStatus::OK; // UART has no SPI status field
+        r.status = in[2];
+        r.opcode = in[3];
+        r.value  = (static_cast<uint32_t>(in[4]) << 24) |
+                   (static_cast<uint32_t>(in[5]) << 16) |
+                   (static_cast<uint32_t>(in[6]) << 8)  |
+                   static_cast<uint32_t>(in[7]);
+        return true;
     }
 };
 
@@ -211,26 +228,13 @@ public:
     virtual CommMode mode() const noexcept = 0;
 
     /**
-     * @brief Send a TMCL datagram.
-     * @param frame The frame to transmit.
-     * @return true if the send operation succeeded.
+     * @brief Perform a full duplex TMCL transfer.
+     *
+     * Implementations encode @p tx according to the active mode (SPI or UART),
+     * transmit it and decode the reply into @p reply. The @p address parameter
+     * is only used for UART transfers and ignored for SPI.
      */
-    virtual bool sendDatagram(const TMCLFrame& frame) noexcept = 0;
-
-    /**
-     * @brief Receive a TMCL datagram.
-     * @param frame Reference to store the received frame.
-     * @return true if a valid frame was received.
-     */
-    virtual bool receiveDatagram(TMCLFrame& frame) noexcept = 0;
-
-    /**
-     * @brief Perform a full duplex TMCL transfer (send then receive).
-     * @param tx The frame to send.
-     * @param rx Reference to store the received frame.
-     * @return true on successful transfer and valid reply.
-     */
-    virtual bool transferDatagram(const TMCLFrame& tx, TMCLFrame& rx) noexcept = 0;
+    virtual bool transfer(const TMCLFrame& tx, TMCLReply& reply, uint8_t address) noexcept = 0;
 };
 
 /**
@@ -250,27 +254,11 @@ public:
      */
     virtual bool spiTransfer(std::array<uint8_t, 8>& tx, std::array<uint8_t, 8>& rx) noexcept = 0;
 
-    /** @copydoc TMC9660CommInterface::sendDatagram */
-    bool sendDatagram(const TMCLFrame& frame) noexcept override {
-        std::array<uint8_t, 8> txBuf, rxBuf;
-        frame.toSpi(txBuf);
-        std::array<uint8_t, 8> dummyRx;
-        return spiTransfer(txBuf, dummyRx);
-    }
-
-    /** @copydoc TMC9660CommInterface::receiveDatagram */
-    bool receiveDatagram(TMCLFrame& frame) noexcept override {
-        std::array<uint8_t, 8> dummyTx = {0}, rxBuf;
-        if (!spiTransfer(dummyTx, rxBuf)) return false;
-        return TMCLFrame::fromSpiChecked(rxBuf, frame);
-    }
-
-    /** @copydoc TMC9660CommInterface::transferDatagram */
-    bool transferDatagram(const TMCLFrame& tx, TMCLFrame& rx) noexcept override {
+    bool transfer(const TMCLFrame& tx, TMCLReply& reply, uint8_t) noexcept override {
         std::array<uint8_t, 8> txBuf, rxBuf;
         tx.toSpi(txBuf);
         if (!spiTransfer(txBuf, rxBuf)) return false;
-        return TMCLFrame::fromSpiChecked(rxBuf, rx);
+        return TMCLReply::fromSpi(rxBuf, reply);
     }
 };
 
@@ -298,26 +286,11 @@ public:
      */
     virtual bool receiveUartDatagram(std::array<uint8_t, 9>& data) noexcept = 0;
 
-    /** @copydoc TMC9660CommInterface::sendDatagram */
-    bool sendDatagram(const TMCLFrame& frame) noexcept override {
-        std::array<uint8_t, 9> uartFrame;
-        frame.toUart(0x01, uartFrame);
-        return sendUartDatagram(uartFrame);
-    }
-
-    /** @copydoc TMC9660CommInterface::receiveDatagram */
-    bool receiveDatagram(TMCLFrame& frame) noexcept override {
-        std::array<uint8_t, 9> uartFrame;
-        if (!receiveUartDatagram(uartFrame)) return false;
-        return TMCLFrame::fromUart(uartFrame, 0x01, frame);
-    }
-
-    /** @copydoc TMC9660CommInterface::transferDatagram */
-    bool transferDatagram(const TMCLFrame& tx, TMCLFrame& rx) noexcept override {
-        std::array<uint8_t, 9> uartFrame;
-        tx.toUart(0x01, uartFrame);
-        if (!sendUartDatagram(uartFrame)) return false;
-        if (!receiveUartDatagram(uartFrame)) return false;
-        return TMCLFrame::fromUart(uartFrame, 0x01, rx);
+    bool transfer(const TMCLFrame& tx, TMCLReply& reply, uint8_t address) noexcept override {
+        std::array<uint8_t, 9> frame;
+        tx.toUart(address, frame);
+        if (!sendUartDatagram(frame)) return false;
+        if (!receiveUartDatagram(frame)) return false;
+        return TMCLReply::fromUart(frame, address, reply);
     }
 };
