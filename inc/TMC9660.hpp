@@ -9,6 +9,7 @@
 
 #include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
+#include "TMC9660Bootloader.hpp"
 
 /** @brief Main class representing a TMC9660 motor driver in Parameter Mode.
  * Provides high-level functions to configure and control the TMC9660's
@@ -31,7 +32,10 @@ public:
    * @param address (Optional) Module address if multiple TMC9660 devices are on
    * one bus. For SPI, this is typically 0.
    */
-  TMC9660(TMC9660CommInterface &comm, uint8_t address = 0) noexcept;
+  TMC9660(TMC9660CommInterface &comm, uint8_t address = 0,
+          const tmc9660::BootloaderConfig *bootCfg = nullptr) noexcept;
+
+  bool bootloaderInit(const tmc9660::BootloaderConfig &cfg) noexcept;
 
   //***************************************************************************
   //**               CORE PARAMETER ACCESS METHODS                         **//
@@ -2703,6 +2707,7 @@ private:
                                ///< sending/receiving data.
   uint8_t address_; ///< Module address (0-127). Used primarily for UART
                     ///< multi-drop addressing.
+  tmc9660::TMC9660Bootloader bootloader_; ///< Bootloader helper
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];

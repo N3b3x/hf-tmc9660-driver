@@ -3,9 +3,16 @@
 #include <chrono>
 #include <thread>
 
-TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address)
-    : comm_(comm), address_(address & 0x7F) // ensure address is 7-bit
-{ }
+TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address, const tmc9660::BootloaderConfig *bootCfg)
+    : comm_(comm), address_(address & 0x7F), bootloader_(comm, address) /* ensure address is 7-bit */
+{
+  if (bootCfg)
+    bootloaderInit(*bootCfg);
+}
+bool TMC9660::bootloaderInit(const tmc9660::BootloaderConfig &cfg) noexcept {
+  return bootloader_.applyConfiguration(cfg);
+}
+
 
 //***************************************************************************
 //**               CORE PARAMETER ACCESS METHODS                         **//
