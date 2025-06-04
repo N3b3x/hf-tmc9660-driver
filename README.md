@@ -66,10 +66,12 @@ class TMC9660CommInterface {
 public:
     virtual ~TMC9660CommInterface() = default;
     virtual CommMode mode() const noexcept = 0;
-    virtual bool sendDatagram(const TMCLFrame& tx) noexcept = 0;
-    virtual bool receiveDatagram(TMCLFrame& rx) noexcept = 0;
-    virtual bool transferDatagram(const TMCLFrame& tx,
-                                  TMCLFrame& rx) noexcept = 0;
+
+    /// Send @p tx and decode reply according to the active mode.
+    /// @param address 7-bit module address (UART only).
+    virtual bool transfer(const TMCLFrame& tx,
+                          TMCLReply& reply,
+                          uint8_t address) noexcept = 0;
 };
 ```
 

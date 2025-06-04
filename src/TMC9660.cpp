@@ -38,12 +38,13 @@ bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type,
   tx.motor  = motor;
   tx.value  = value;
 
-  TMCLFrame rx{};
-  if (!comm_.transferDatagram(tx, rx))
+  TMCLReply rep{};
+  if (!comm_.transfer(tx, rep, address_))
     return false;
-
+  if (!rep.isOK())
+    return false;
   if (reply)
-    *reply = rx.value;
+    *reply = rep.value;
   return true;
 }
 
