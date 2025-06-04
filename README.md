@@ -47,7 +47,7 @@ Hardware Agnostic TMC9660 library - as used in the HardFOC-V1 controller
 * **Communication hardware** providing SPI or UART to talk to the TMC9660.
 
 ## 🏗️️ Library Architecture
-This library centers around a single `TMC9660` class that communicates via an abstract `TMC9660CommInterface`. You provide a subclass that implements `transferDatagram()` for your platform. All parameter mode commands and telemetry queries are wrapped by the `TMC9660` class in a clean C++ API.
+This library centers around a single `TMC9660` class that communicates via an abstract `TMC9660CommInterface`. You provide a subclass that implements the low level transfer (e.g. `spiTransfer()` for SPI) for your platform. All parameter mode commands and telemetry queries are wrapped by the `TMC9660` class in a clean C++ API.
 
 ```mermaid
 classDiagram
@@ -65,26 +65,29 @@ classDiagram
 class TMC9660CommInterface {
 public:
     virtual ~TMC9660CommInterface() = default;
-    virtual bool transferDatagram(const std::array<uint8_t,8>& tx,
-                                  std::array<uint8_t,8>& rx) = 0;
+    virtual CommMode mode() const noexcept = 0;
+    virtual bool sendDatagram(const TMCLFrame& tx) noexcept = 0;
+    virtual bool receiveDatagram(TMCLFrame& rx) noexcept = 0;
+    virtual bool transferDatagram(const TMCLFrame& tx,
+                                  TMCLFrame& rx) noexcept = 0;
 };
 ```
 
 ## 🔌 Platform Integration
 Implement `TMC9660CommInterface` for your target platform. Here is a minimal dummy interface used by the examples:
 ```cpp
-class DemoInterface : public TMC9660CommInterface {
+class DemoInterface : public SPITMC9660CommInterface {
 public:
-    bool transferDatagram(const std::array<uint8_t,8>& tx,
-                          std::array<uint8_t,8>& rx) override {
+    bool spiTransfer(std::array<uint8_t,8>& tx,
+                     std::array<uint8_t,8>& rx) noexcept override {
         rx = tx; // echo back for demo purposes
         return true;
     }
 };
 ```
-The `transferDatagram()` method must exchange an 8‑byte datagram with the
-device. On SPI this typically means toggling chip select, sending the `tx`
-bytes and reading the reply back into `rx`.
+The `spiTransfer()` method must exchange an 8‑byte datagram with the
+device. On SPI this typically means toggling chip select, sending the bytes
+and reading the reply back.
 
 ---
 
@@ -99,10 +102,10 @@ src/        Driver sources
 ## 🔧 Installation
 1. Clone this repository or copy the `inc/` and `src/` directories into your project tree.
 2. Implement `TMC9660CommInterface` for your hardware (SPI or UART).
-3. Compile `src/TMC9660.cpp` together with your application using a C++17 (or later) compiler.
+3. Compile `src/TMC9660.cpp` together with your application using a C++20 (or later) compiler.
 4. Optionally build the examples to verify your setup:
 ```bash
-g++ -std=c++17 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
+g++ -std=c++20 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 ```
 
 ## 💡 Quick Start
@@ -120,7 +123,7 @@ All API calls return a boolean status so you can handle communication errors if 
 ### Building the Examples
 Compile one of the sample programs to verify everything is wired up correctly:
 ```bash
-g++ -std=c++17 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
+g++ -std=c++20 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 ```
 
 ## 💻 Usage Examples

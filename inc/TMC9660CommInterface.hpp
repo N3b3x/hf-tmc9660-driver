@@ -7,17 +7,17 @@
  *
  * ## SPI Command Format
  * Table 3: Command format for parameter read/write access through SPI
- * | BYTE | 0         | 1-2       | 3          | 4-7         | 8        |
- * |------|-----------|-----------|------------|-------------|----------|
- * | Bits | 0-7       | 8-19      | 20-23      | 24-55       | 56-63    |
- * | Desc | Operation | Type      | Motor/Bank | Data        | Checksum |
+ * | BYTE | 0         | 1-2       | 3          | 4-6       | 7        |
+ * |------|-----------|-----------|------------|-----------|----------|
+ * | Bits | 0-7       | 8-19      | 20-23      | 24-55     | 56-63    |
+ * | Desc | Operation | Type      | Motor/Bank | Data      | Checksum |
  *
  * ## SPI Reply Format
  * Table 4: Reply format for parameter read/write access through SPI
- * | BYTE | 0          | 1-2        | 3          | 4-7         | 8        |
- * |------|------------|------------|------------|-------------|----------|
- * | Bits | 0-7        | 8-19       | 20-23      | 24-55       | 56-63    |
- * | Desc | SPI Status | TMCL Status| Operation  | Data        | Checksum |
+ * | BYTE | 0          | 1          | 2          | 3-6       | 7        |
+ * |------|------------|------------|------------|-----------|----------|
+ * | Bits | 0-7        | 8-15       | 16-23      | 24-55     | 56-63    |
+ * | Desc | SPI Status | TMCL Status| Operation  | Data      | Checksum |
  */
 
 #pragma once
@@ -26,15 +26,63 @@
 #include <array>
 #include <span>
 
+/// Supported physical communication modes
+enum class CommMode { SPI, UART };
+
+/// SPI status codes as per TMC9660 Parameter Mode
+enum class SPIStatus : uint8_t {
+    OK             = 0xFF,
+    CHECKSUM_ERROR = 0x00,
+    FIRST_CMD      = 0x0C,
+    NOT_READY      = 0xF0,
+};
+
+/// Calculate 8-bit checksum (sum of bytes)
+static constexpr uint8_t tmclChecksum(const uint8_t* bytes, size_t n) noexcept {
+    uint8_t sum = 0;
+    for (size_t i = 0; i < n; ++i)
+        sum += bytes[i];
+    return sum;
+}
+
 // -----------------------------------------------------------------------
 // TMCL scripting support structures and enums
 // -----------------------------------------------------------------------
 
 /// Reply structure returned by sendCommand()
 struct TMCLReply {
-    uint8_t status = 0;  ///< TMCL status code (100=OK, 101=LOADED)
-    uint32_t value = 0;  ///< Optional returned value
-    [[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
+    SPIStatus spiStatus = SPIStatus::OK;  ///< SPI status byte
+    uint8_t   status    = 0;              ///< TMCL status code (100=OK, 101=LOADED)
+    uint8_t   opcode    = 0;              ///< Echoed operation code
+    uint32_t  value     = 0;              ///< Optional returned value
+
+    [[nodiscard]] bool isOK() const noexcept {
+        return spiStatus == SPIStatus::OK && (status == 100 || status == 101);
+    }
+
+    /// Decode reply from SPI datagram
+    static bool fromSpi(std::span<const uint8_t,8> in, TMCLReply& r) noexcept {
+        if (tmclChecksum(in.data(),7) != in[7]) return false;
+        r.spiStatus = static_cast<SPIStatus>(in[0]);
+        if (r.spiStatus == SPIStatus::NOT_READY || r.spiStatus == SPIStatus::CHECKSUM_ERROR)
+            return false;
+        r.status = in[1];
+        r.opcode = in[2];
+        r.value  = (static_cast<uint32_t>(in[3]) << 24) |
+                   (static_cast<uint32_t>(in[4]) << 16) |
+                   (static_cast<uint32_t>(in[5]) << 8)  |
+                   static_cast<uint32_t>(in[6]);
+        return true;
+    }
+
+    /// Decode reply from UART datagram
+    static bool fromUart(std::span<const uint8_t,9> in, uint8_t addr, TMCLReply& r) noexcept {
+        if ((in[0] & 0x7F) != (addr & 0x7F)) return false;
+        if (tmclChecksum(in.data(),8) != in[8]) return false;
+        std::array<uint8_t,8> spi{};
+        for (size_t i=0;i<8;++i) spi[i]=in[i+1];
+        return fromSpi(spi, r);
+    }
 };
 
 /**
@@ -54,13 +102,13 @@ struct TMCLFrame {
      */
     void toSpi(std::span<uint8_t, 8> out) const noexcept {
         out[0] = opcode;
-        out[1] = static_cast<uint8_t>(type >> 8);
-        out[2] = static_cast<uint8_t>(type);
-        out[3] = motor;
-        out[4] = static_cast<uint8_t>(value >> 24);
-        out[5] = static_cast<uint8_t>(value >> 16);
-        out[6] = static_cast<uint8_t>(value >> 8);
-        out[7] = static_cast<uint8_t>(value);
+        out[1] = static_cast<uint8_t>(type >> 4);
+        out[2] = static_cast<uint8_t>((type << 4) | (motor & 0x0F));
+        out[3] = static_cast<uint8_t>(value >> 24);
+        out[4] = static_cast<uint8_t>(value >> 16);
+        out[5] = static_cast<uint8_t>(value >> 8);
+        out[6] = static_cast<uint8_t>(value);
+        out[7] = tmclChecksum(out.data(),7);
     }
 
     /**
@@ -70,8 +118,14 @@ struct TMCLFrame {
      */
     void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
         out[0] = addr | 0x80; // sync bit set
-        toSpi(out.subspan<1, 8>());
-        out[8] = calculateChecksum(out.data(), 8);
+        out[1] = opcode;
+        out[2] = static_cast<uint8_t>(type >> 4);
+        out[3] = static_cast<uint8_t>((type << 4) | (motor & 0x0F));
+        out[4] = static_cast<uint8_t>(value >> 24);
+        out[5] = static_cast<uint8_t>(value >> 16);
+        out[6] = static_cast<uint8_t>(value >> 8);
+        out[7] = static_cast<uint8_t>(value);
+        out[8] = tmclChecksum(out.data(),8);
     }
 
     /**
@@ -82,12 +136,12 @@ struct TMCLFrame {
     static TMCLFrame fromSpi(std::span<const uint8_t, 8> in) noexcept {
         TMCLFrame f;
         f.opcode = in[0];
-        f.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
-        f.motor = in[3];
-        f.value = (static_cast<uint32_t>(in[4]) << 24) |
-                  (static_cast<uint32_t>(in[5]) << 16) |
-                  (static_cast<uint32_t>(in[6]) << 8)  |
-                  (static_cast<uint32_t>(in[7]));
+        f.type   = static_cast<uint16_t>(in[1]) << 4 | (in[2] >> 4);
+        f.motor  = in[2] & 0x0F;
+        f.value  = (static_cast<uint32_t>(in[3]) << 24) |
+                   (static_cast<uint32_t>(in[4]) << 16) |
+                   (static_cast<uint32_t>(in[5]) << 8)  |
+                   static_cast<uint32_t>(in[6]);
         return f;
     }
 
@@ -98,17 +152,10 @@ struct TMCLFrame {
      * @return false if NOT_READY or CHECKSUM_ERROR or invalid status; true otherwise.
      */
     static bool fromSpiChecked(std::span<const uint8_t, 8> in, TMCLFrame& outFrame) noexcept {
-        const SPIStatus status = static_cast<SPIStatus>(in[0]);
-        if (status == SPIStatus::NOT_READY || status == SPIStatus::CHECKSUM_ERROR) return false;
-        if (status != SPIStatus::OK && status != SPIStatus::FIRST_CMD) return false;
-
-        outFrame.opcode = in[2];
-        outFrame.type = (static_cast<uint16_t>(in[1]) << 8) | in[2];
-        outFrame.motor = in[3];
-        outFrame.value = (static_cast<uint32_t>(in[4]) << 24) |
-                         (static_cast<uint32_t>(in[5]) << 16) |
-                         (static_cast<uint32_t>(in[6]) << 8)  |
-                         (static_cast<uint32_t>(in[7]));
+        TMCLReply reply{};
+        if(!TMCLReply::fromSpi(in, reply)) return false;
+        outFrame.opcode = reply.opcode;
+        outFrame.value  = reply.value;
         return true;
     }
 
@@ -120,9 +167,10 @@ struct TMCLFrame {
      * @return true if address and checksum match.
      */
     static bool fromUart(std::span<const uint8_t, 9> in, uint8_t expectedAddr, TMCLFrame& outFrame) noexcept {
-        if ((in[0] & 0x7F) != (expectedAddr & 0x7F)) return false;
-        if (calculateChecksum(in.data(), 8) != in[8]) return false;
-        outFrame = fromSpi(in.subspan<1, 8>());
+        TMCLReply rep{};
+        if(!TMCLReply::fromUart(in, expectedAddr, rep)) return false;
+        outFrame.opcode = rep.opcode;
+        outFrame.value  = rep.value;
         return true;
     }
 
@@ -149,13 +197,6 @@ struct TMCLFrame {
  * - 0x0C: FIRST_CMD (initial response after initialization)
  * - 0xF0: NOT_READY (system busy, resend datagram)
  */
-enum class SPIStatus : uint8_t {
-    OK                = 0xFF,
-    CHECKSUM_ERROR    = 0x00,
-    FIRST_CMD         = 0x0C,
-    NOT_READY         = 0xF0,
-};
-
 /**
  * @brief Abstract communication interface for sending/receiving TMCL datagrams.
  *
@@ -165,6 +206,9 @@ enum class SPIStatus : uint8_t {
 class TMC9660CommInterface {
 public:
     virtual ~TMC9660CommInterface() noexcept = default;
+
+    /// Return underlying communication mode
+    virtual CommMode mode() const noexcept = 0;
 
     /**
      * @brief Send a TMCL datagram.
@@ -197,6 +241,7 @@ public:
  */
 class SPITMC9660CommInterface : public TMC9660CommInterface {
 public:
+    CommMode mode() const noexcept override { return CommMode::SPI; }
     /**
      * @brief Low-level SPI transfer of 8 bytes.
      * @param tx Buffer containing 8 bytes to transmit.
@@ -238,6 +283,7 @@ public:
  */
 class UARTTMC9660CommInterface : public TMC9660CommInterface {
 public:
+    CommMode mode() const noexcept override { return CommMode::UART; }
     /**
      * @brief Send raw 9-byte UART TMCL datagram.
      * @param data Array of 9 bytes including sync, fields, and checksum.

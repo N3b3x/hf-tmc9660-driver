@@ -3,11 +3,10 @@
 
 // Example: Initialize and run a BLDC motor with Hall sensors using the TMC9660.
 
-class MySPIInterface : public TMC9660CommInterface {
+class MySPIInterface : public SPITMC9660CommInterface {
 public:
-    bool transferDatagram(const std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) override {
-        // TODO: Implement actual SPI transfer. Here we simulate a perfect transfer (echo back for demo).
-        rx = tx;
+    bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
+        rx = tx; // echo back for demo
         return true;
     }
 };
