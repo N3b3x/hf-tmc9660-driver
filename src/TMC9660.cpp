@@ -1504,6 +1504,64 @@ bool TMC9660::FOCControl::getStopOnPositionDeviation(uint32_t &maxError,
   return true;
 }
 
+bool TMC9660::FOCControl::setPositionLoopDownsampling(uint8_t divider) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LOOP_DOWNSAMPLING, divider);
+}
+
+bool TMC9660::FOCControl::getPositionLoopDownsampling(uint8_t &divider) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LOOP_DOWNSAMPLING, v))
+    return false;
+  divider = static_cast<uint8_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionLimitLow(int32_t limit) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LIMIT_LOW,
+      static_cast<uint32_t>(limit));
+}
+
+bool TMC9660::FOCControl::getPositionLimitLow(int32_t &limit) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LIMIT_LOW, v))
+    return false;
+  limit = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionLimitHigh(int32_t limit) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LIMIT_HIGH,
+      static_cast<uint32_t>(limit));
+}
+
+bool TMC9660::FOCControl::getPositionLimitHigh(int32_t &limit) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LIMIT_HIGH, v))
+    return false;
+  limit = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionReachedThreshold(uint32_t threshold) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_REACHED_THRESHOLD, threshold);
+}
+
+bool TMC9660::FOCControl::getPositionReachedThreshold(uint32_t &threshold) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_REACHED_THRESHOLD, v))
+    return false;
+  threshold = v;
+  return true;
+}
+
     //-------------------------------------------------------------------------
     // Open‐loop support (45–47)
     //-------------------------------------------------------------------------
@@ -2197,6 +2255,22 @@ bool TMC9660::Brake::invertOutput(bool invert) noexcept {
 //***************************************************************************
 //**                   SUBSYSTEM: I²t Overload Protection                **//
 //***************************************************************************
+
+bool TMC9660::IIT::configure(uint16_t timeConstant1_ms,
+                             float continuousCurrent1_A,
+                             uint16_t timeConstant2_ms,
+                             float continuousCurrent2_A) noexcept {
+  bool ok = true;
+  ok &= setThermalWindingTimeConstant1(timeConstant1_ms);
+  const uint32_t limit1 = static_cast<uint32_t>(
+      continuousCurrent1_A * continuousCurrent1_A * timeConstant1_ms);
+  ok &= setLimit1(limit1);
+  ok &= setThermalWindingTimeConstant2(timeConstant2_ms);
+  const uint32_t limit2 = static_cast<uint32_t>(
+      continuousCurrent2_A * continuousCurrent2_A * timeConstant2_ms);
+  ok &= setLimit2(limit2);
+  return ok;
+}
 
 bool TMC9660::IIT::resetIntegralState() noexcept {
   return driver.writeParameter(
