@@ -2860,4 +2860,72 @@ bool TMC9660::GPIO::readAnalog(uint8_t pin, uint16_t &value) noexcept {
   return true;
 }
 
+// ---------------------------------------------------------------------------
+//  Low-level TMCL helpers for scripting interface
+// ---------------------------------------------------------------------------
+
+uint8_t TMC9660::computeChecksum(const uint8_t *d) {
+  uint16_t sum = 0;
+  for (int i = 0; i < 7; ++i)
+    sum += d[i];
+  return static_cast<uint8_t>(sum & 0xFF);
+}
+
+bool TMC9660::transferDatagram(const uint8_t tx[8], uint8_t rx[8]) {
+  std::array<uint8_t, 8> t;
+  std::array<uint8_t, 8> r;
+  for (int i = 0; i < 8; ++i)
+    t[i] = tx[i];
+  bool ok = comm_.transferDatagram(t, r);
+  if (!ok)
+    return false;
+  for (int i = 0; i < 8; ++i)
+    rx[i] = r[i];
+  return true;
+}
+
+TMC9660::TMCLReply TMC9660::sendCommand(uint8_t op, uint16_t type,
+                                        uint8_t motor, uint32_t value) {
+  uint8_t tx[8] = {0};
+  uint8_t rx[8] = {0};
+  tx[0] = op;
+  tx[1] = static_cast<uint8_t>((type >> 4) & 0xFF);
+  tx[2] = static_cast<uint8_t>(((type & 0xF) << 4) | (motor & 0xF));
+  tx[3] = static_cast<uint8_t>((value >> 24) & 0xFF);
+  tx[4] = static_cast<uint8_t>((value >> 16) & 0xFF);
+  tx[5] = static_cast<uint8_t>((value >> 8) & 0xFF);
+  tx[6] = static_cast<uint8_t>(value & 0xFF);
+  tx[7] = computeChecksum(tx);
+
+  TMCLReply rep{};
+  if (!transferDatagram(tx, rx)) {
+    rep.status = 0xFF;
+    rep.value = 0;
+    return rep;
+  }
+
+  rep.status = rx[1];
+  rep.value = (static_cast<uint32_t>(rx[3]) << 24) |
+              (static_cast<uint32_t>(rx[4]) << 16) |
+              (static_cast<uint32_t>(rx[5]) << 8) |
+              static_cast<uint32_t>(rx[6]);
+  return rep;
+}
+
+bool TMC9660::uploadScript(const std::vector<TMCLCommand> &script) {
+  sendCommand(128, 0, 0, 0); // ApplStop
+  TMCLReply r = sendCommand(132, 0, 0, 0); // DownloadStart
+  if (!r.isOK())
+    return false;
+  for (const TMCLCommand &c : script) {
+    r = sendCommand(c.opCode, c.type, c.motorOrBank, c.value);
+    if (r.status != 101) {
+      sendCommand(133, 0, 0, 0);
+      return false;
+    }
+  }
+  r = sendCommand(133, 0, 0, 0); // DownloadEnd
+  return r.isOK();
+}
+
 // TMC9660.cpp - Implementation of TMC9660 motor controller interface

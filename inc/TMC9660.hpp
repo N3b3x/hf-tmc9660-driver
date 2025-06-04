@@ -42,6 +42,39 @@ public:
   /// @brief Fault final actions
   enum class FaultFinalAction : uint8_t { DISABLE_MOTOR = 0, KEEP_RUNNING = 1 };
 
+  // -----------------------------------------------------------------------
+  // TMCL scripting support structures and enums
+  // -----------------------------------------------------------------------
+
+  /// TMCL command datagram representation for script building
+  struct TMCLCommand {
+    uint8_t opCode = 0;       ///< Operation code
+    uint16_t type = 0;        ///< TYPE/condition field (12-bit)
+    uint8_t motorOrBank = 0;  ///< MOTOR/BANK field (4-bit effective)
+    uint32_t value = 0;       ///< 32-bit value or address
+  };
+
+  /// Reply structure returned by sendCommand()
+  struct TMCLReply {
+    uint8_t status = 0;  ///< TMCL status code (100=OK,101=LOADED)
+    uint32_t value = 0;  ///< Optional returned value
+    [[nodiscard]] bool isOK() const noexcept { return status == 100 || status == 101; }
+  };
+
+
+  /// Send a raw TMCL command and get reply
+  TMCLReply sendCommand(uint8_t opCode, uint16_t type = 0,
+                        uint8_t motorOrBank = 0, uint32_t value = 0);
+
+  /// Build command without sending (for script upload)
+  static TMCLCommand buildCommand(uint8_t op, uint16_t type = 0,
+                                  uint8_t motor = 0, uint32_t value = 0) {
+    return {op, type, motor, value};
+  }
+
+  /// Upload a TMCL script consisting of multiple commands
+  bool uploadScript(const std::vector<TMCLCommand> &script);
+
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
@@ -2737,6 +2770,12 @@ private:
                                ///< sending/receiving data.
   uint8_t address_; ///< Module address (0-127). Used primarily for UART
                     ///< multi-drop addressing.
+
+  // Compute TMCL checksum (sum of bytes 0-6)
+  static uint8_t computeChecksum(const uint8_t *datagram) noexcept;
+
+  // Low level 8-byte datagram transfer (to be provided by user)
+  bool transferDatagram(const uint8_t tx[8], uint8_t rx[8]);
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];
