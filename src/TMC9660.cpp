@@ -8,8 +8,11 @@ TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address,
     : comm_(comm), address_(address & 0x7F), bootloader_(comm, address),
       bootCfg_(bootCfg) /* ensure address is 7-bit */ {}
 
-TMC9660::BootloaderInitResult
-TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg) noexcept {
+TMC9660::~TMC9660() noexcept {
+  // Destructor does not need to do anything special.
+}
+
+TMC9660::BootloaderInitResult TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg) noexcept {
   const tmc9660::BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
   if (!useCfg)
     return BootloaderInitResult::NoConfig;
@@ -17,7 +20,6 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg) noexcept {
     return BootloaderInitResult::Success;
   return BootloaderInitResult::Failure;
 }
-
 
 //***************************************************************************
 //**               CORE PARAMETER ACCESS METHODS                         **//

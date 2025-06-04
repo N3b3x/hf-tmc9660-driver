@@ -7,8 +7,8 @@
 #include <vector>
 #include <variant>
 
-#include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
+#include "TMC9660CommInterface.hpp"
 #include "TMC9660Bootloader.hpp"
 
 /** @brief Main class representing a TMC9660 motor driver in Parameter Mode.
@@ -26,19 +26,41 @@
 class TMC9660 {
 public:
 
-  enum class BootloaderInitResult { Success, NoConfig, Failure };
-
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
    * @param address (Optional) Module address if multiple TMC9660 devices are on
    * one bus. For SPI, this is typically 0.
    */
-
   TMC9660(TMC9660CommInterface &comm, uint8_t address = 0,
           const tmc9660::BootloaderConfig *bootCfg = nullptr) noexcept;
 
-  BootloaderInitResult bootloaderInit(
+  /** @brief Destructor for TMC9660, cleans up resources */ 
+  ~TMC9660() noexcept;
+
+  /** @brief Get the communication interface used by this TMC9660 instance.
+   * @return Reference to the communication interface (SPI, UART, etc).
+   */
+  [[nodiscard]] TMC9660CommInterface &comm() noexcept { return comm_; }
+
+  //***************************************************************************
+  //**                  BOOTLOADER INITIALIZATION                          **//
+  //***************************************************************************
+
+  /** @brief Bootloader initialization result codes.
+   * @details These indicate the outcome of the bootloaderInit() method.
+   */
+  enum class BootloaderInitResult { Success, NoConfig, Failure };
+
+  /** @brief Bootloader initialization.
+   * @details This method initializes the bootloader mode of the TMC9660
+   *              device, allowing firmware updates or configuration changes.
+   * @param cfg Optional configuration for the bootloader. If not provided, \
+   *                default settings will be used.
+   * @return BootloaderInitResult indicating success, no config, or failure.
+   * @note This method should be called before any other operations.
+   */
+  TMC9660::BootloaderInitResult bootloaderInit(
       const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
 
   //***************************************************************************
