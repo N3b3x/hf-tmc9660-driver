@@ -6,7 +6,7 @@ Hardware Agnostic TMC9660 library - as used in the HardFOC-V1 controller
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## 📦 Overview
-**HF-TMC9660** is a portable C++17 driver for the **TMC9660** motor controller from Trinamic. It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL scripting. The driver is transport agnostic – implement `TMC9660CommInterface` for SPI or UART and run it on any MCU or host.
+**HF-TMC9660** is a portable C++20 driver for the **TMC9660** motor controller from Trinamic. It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL scripting. The driver is transport agnostic – implement `TMC9660CommInterface` for SPI or UART and run it on any MCU or host.
 
 ## 📜 Table of Contents
 1. [Highlights](#-driver-highlights)
@@ -42,8 +42,8 @@ Hardware Agnostic TMC9660 library - as used in the HardFOC-V1 controller
 ---
 
 ## 📋 Requirements
-* **C++17 compiler** – tested with GCC and Clang.
-* **Standard C++ library** with `<span>` support.
+* **C++20 compiler** – tested with GCC and Clang.
+* **Standard C++ library** providing `std::span`.
 * **Communication hardware** providing SPI or UART to talk to the TMC9660.
 
 ## 🏗️️ Library Architecture
