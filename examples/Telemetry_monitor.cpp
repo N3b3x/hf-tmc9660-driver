@@ -1,11 +1,17 @@
+/**
+ * @file Telemetry_monitor.cpp
+ * @brief Polling telemetry data from the TMC9660.
+ *
+ * The library does not ship with a specific bus implementation.  The DummyBus
+ * below merely echoes transfers so the example can run anywhere.
+ */
+
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include "TMC9660.hpp"
 
-// Example: Using telemetry APIs to read temperature, current, and voltage continuously.
-
-class MySPIInterface : public SPITMC9660CommInterface {
+class DummyBus : public SPITMC9660CommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
         rx = tx; // echo back
@@ -14,8 +20,8 @@ public:
 };
 
 int main() {
-    MySPIInterface spiBus;
-    TMC9660 driver(spiBus);
+    DummyBus bus;       //!< Replace with your communication layer
+    TMC9660 driver(bus);
 
     // Assume motor is configured and running. We will poll telemetry.
     for (int i = 0; i < 5; ++i) {

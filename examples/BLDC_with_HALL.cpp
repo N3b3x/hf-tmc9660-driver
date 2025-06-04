@@ -1,9 +1,16 @@
+/**
+ * @file BLDC_with_HALL.cpp
+ * @brief Run a BLDC motor using Hall sensor feedback.
+ *
+ * The DummyBus defined below is a simple echo implementation so this example can
+ * be compiled without hardware.  Replace it with your own communication layer
+ * derived from ::TMC9660CommInterface.
+ */
+
 #include <iostream>
 #include "TMC9660.hpp"
 
-// Example: Initialize and run a BLDC motor with Hall sensors using the TMC9660.
-
-class MySPIInterface : public SPITMC9660CommInterface {
+class DummyBus : public SPITMC9660CommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
         rx = tx; // echo back for demo
@@ -12,8 +19,8 @@ public:
 };
 
 int main() {
-    MySPIInterface spiBus;
-    TMC9660 driver(spiBus);
+    DummyBus bus;       //!< Replace with your comms driver
+    TMC9660 driver(bus);
 
     // 1. Configure motor type as BLDC (3-phase) with specified pole pairs.
     uint8_t polePairs = 7;  // example pole pair count

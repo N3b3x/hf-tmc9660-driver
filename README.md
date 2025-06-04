@@ -129,12 +129,21 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 ```
 
 ## 💻 Usage Examples
-The `examples` folder contains small programs showing typical workflows.
-- **BLDC_with_HALL.cpp** – run a BLDC motor using Hall sensor feedback and FOC.
-- **BLDC_velocity_control.cpp** – drive a brushed DC motor using a simple velocity loop.
+The `examples` folder contains programs demonstrating the most common tasks.
+
+- **bootloader_example.cpp** – write bootloader configuration registers.
+- **BLDC_with_HALL.cpp** – run a BLDC motor using Hall sensor feedback.
+- **BLDC_with_ABN.cpp** – closed-loop FOC using an incremental encoder.
+- **BLDC_velocity_control.cpp** – drive a brushed DC motor with a simple velocity loop.
+- **DC_current_control.cpp** – open-loop current drive for a DC motor.
+- **Stepper_FOC.cpp** – position control of a stepper using FOC and an encoder.
+- **Stepper_step_dir.cpp** – enable the STEP/DIR interface with extrapolation.
 - **Telemetry_monitor.cpp** – continuously read temperature, current and voltage values.
 
-Compile these along with `src/TMC9660.cpp` and your interface implementation to try them out.
+Compile these along with `src/TMC9660.cpp` and your own implementation of
+`TMC9660CommInterface` (the examples use a simple `DummyBus` stub).  A more
+in-depth walkthrough of each scenario is provided in
+`docs/HardwareAgnosticExamples.md`.
 
 ## 🙌 Contributing
 Pull requests and feature ideas are welcome! Please format code with `clang-format` and sign off your commits.

@@ -1,9 +1,16 @@
+/**
+ * @file BLDC_velocity_control.cpp
+ * @brief Brushed DC motor velocity control example.
+ *
+ * This sample illustrates how the driver API might be used from a host program.
+ * Replace the DummyBus class with your actual communication transport.
+ */
+
 #include <iostream>
 #include "TMC9660.hpp"
 
-// Example: Configure a brushed DC motor for velocity control with an encoder feedback.
-
-class MySPIInterface : public SPITMC9660CommInterface {
+/// Stub communication bus for documentation purposes
+class DummyBus : public SPITMC9660CommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
         rx = tx; // echo back for demo purposes
@@ -12,8 +19,8 @@ public:
 };
 
 int main() {
-    MySPIInterface spiBus;
-    TMC9660 driver(spiBus);
+    DummyBus bus;        //!< Replace with your communication driver
+    TMC9660 driver(bus);
 
     // 1. Configure motor type as DC.
     if (!driver.configureMotorType(TMC9660::MotorType::DC)) {
