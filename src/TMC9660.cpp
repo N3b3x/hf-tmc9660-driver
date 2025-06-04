@@ -2568,13 +2568,13 @@ bool TMC9660::Protection::resetI2tState() {
 //===========================================================================
 
 bool TMC9660::Script::upload(const std::vector<uint32_t> &scriptData) noexcept {
-  if (!driver.sendCommand(tmc9660::tmcl::Op::DOWNLOAD_START, 0, 0, 0, nullptr))
+  if (!driver.sendCommand(tmc9660::tmcl::Op::DownloadStart, 0, 0, 0, nullptr))
     return false;
   for (uint32_t instr : scriptData) {
     if (!driver.sendCommand(tmc9660::tmcl::Op::NOP, 0, 0, instr, nullptr))
       return false;
   }
-  return driver.sendCommand(tmc9660::tmcl::Op::DOWNLOAD_END, 0, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::DownloadEnd, 0, 0, 0, nullptr);
 }
 
 bool TMC9660::Script::start(uint16_t address) noexcept {
@@ -2625,25 +2625,25 @@ bool TMC9660::Script::getMaxBreakpointCount(uint32_t &count) noexcept {
 bool TMC9660::RamDebug::init(uint32_t sampleCount) noexcept {
   bool ok = true;
   // Initialize/reset RAM debug
-  ok &= driver.sendCommand(tmc9660::tmcl::Op::RAMDEBUG, 0, 0, 0, nullptr);
+  ok &= driver.sendCommand(tmc9660::tmcl::Op::RamDebug, 0, 0, 0, nullptr);
   // Set number of samples to capture
-  ok &= driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 1, 0, sampleCount, nullptr);
+  ok &= driver.sendCommand(tmc9660::tmcl::Op::RamDebug, 1, 0, sampleCount, nullptr);
   return ok;
 }
 
 bool TMC9660::RamDebug::startCapture() noexcept {
-  return driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 6, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::RamDebug, 6, 0, 0, nullptr);
 }
 
 bool TMC9660::RamDebug::readData(uint32_t index, uint32_t &data) noexcept {
   // Use ReadMem command to read memory at given index (assuming index is an
   // address in the debug buffer)
-  return driver.sendCommand(mc9660::tmcl::Op::READ_MEM, 0, 0, index, &data);
+  return driver.sendCommand(tmc9660::tmcl::Op::ReadMem, 0, 0, index, &data);
 }
 
 bool TMC9660::RamDebug::getStatus(bool &isRunning) noexcept {  
   uint32_t state = 0;
-  if (!driver.sendCommand(mc9660::tmcl::Op::RAMDEBUG, 8, 0, 0, &state)) {
+  if (!driver.sendCommand(tmc9660::tmcl::Op::RamDebug, 8, 0, 0, &state)) {
     return false;
   }
   // Interpret state: assume 0 = Idle, non-zero = Running
@@ -2665,13 +2665,13 @@ bool TMC9660::NvmStorage::storeToFlash() noexcept {
 
 bool TMC9660::NvmStorage::recallFromFlash() noexcept {
   // Trigger a configuration reload from external memory using FactoryDefault
-  if (!driver.sendCommand(tmc9660::tmcl::Op::FACTORY_DEFAULT, 0, 0, 0, nullptr))
+  if (!driver.sendCommand(tmc9660::tmcl::Op::FactoryDefault, 0, 0, 0, nullptr))
     return false;
   // Give the controller some time to process and then check status flag
   using namespace std::chrono_literals;
   std::this_thread::sleep_for(50ms);
   uint32_t flags = 0;
-  if (!driver.getGeneralStatusFlags(flags))
+  if (!driver.telemetry.getGeneralStatusFlags(flags))
     return false;
   constexpr uint32_t CONFIG_LOADED_MASK =
       1u << static_cast<uint8_t>(tmc9660::tmcl::GeneralStatusFlags::CONFIG_LOADED);
@@ -2680,7 +2680,7 @@ bool TMC9660::NvmStorage::recallFromFlash() noexcept {
 
 bool TMC9660::NvmStorage::eraseFlashBank(uint8_t n) noexcept {
   // Erase specified flash bank via FactoryDefault with type field as bank index
-  return driver.sendCommand(tmc9660::tmcl::Op::FACTORY_DEFAULT, n, 0, 0, nullptr);
+  return driver.sendCommand(tmc9660::tmcl::Op::FactoryDefault, n, 0, 0, nullptr);
 }
 
 //===========================================================================

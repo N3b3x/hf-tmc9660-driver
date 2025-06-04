@@ -95,6 +95,7 @@ namespace tmc9660::tmcl {
  * For scripting-related commands, see the manual for further details.
  */
 #define OP_LIST(X) \
+    X(NOP,             0,   /*!< For no operation placeholder. (Not defined in datasheet, only for practical sake)*/) \
     X(MST,             3,   /*!< Stop motor movement. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
     X(SAP,             5,   /*!< Set Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: value. */) \
     X(GAP,             6,   /*!< Get Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -. */) \
@@ -1490,7 +1491,8 @@ inline const char* to_string(VgsDeglitchTime t) {
     X(MOTOR_PWM_FREQUENCY,   3, /*!< PWM frequency in Hz [10000-100000]. Default: 25000. RWE */) \
     X(COMMUTATION_MODE,      4, /*!< Motor commutation mode. See CommutationMode enum. Default: 0 (SYSTEM_OFF). RW */) \
     X(OUTPUT_VOLTAGE_LIMIT,  5, /*!< PID UQ/UD output limit for circular limiter [0-32767]. Default: 8000. RWE */) \
-    X(PWM_SWITCHING_SCHEME,  8, /*!< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE */)
+    X(PWM_SWITCHING_SCHEME,  8, /*!< PWM switching scheme. See PwmSwitchingScheme enum. Default: 1 (SVPWM). RWE */) \
+    X(IDLE_MOTOR_PWM_BEHAVIOR, 9, /*!< Idle motor PWM behavior. */)
 
 enum class MotorConfig : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -1614,6 +1616,161 @@ inline const char* to_string(PwmSwitchingScheme scheme) {
     }
 }
 #undef PWM_SWITCHING_SCHEME_LIST
+
+/// @name Commutation Modes
+/// @{
+/**
+ * @brief Commutation modes define how the motor shaft angle is determined and the system's state.
+ *
+ * To turn a motor, the commutation mode must be selected using the parameter `COMMUTATION_MODE`.
+ * This specifies the feedback system used to determine the motor's shaft angle. It is also used to
+ * enable/disable the system or switch to a state with shorted motor coils.
+ *
+ * ### Commutation Modes and Their Behavior:
+ *
+ * #### System Off
+ * - Default state after power-on and reset events.
+ * - Certain operations like changing the motor type require this mode to be active.
+ * - PWM behavior is determined by the `IDLE_MOTOR_PWM_BEHAVIOR` parameter:
+ *   - `1`: PWM signals are switched off, leaving the motor electrically floating (default).
+ *   - `0`: PWM signals remain active.
+ * - Note: This mode must be manually selected when exiting from parameter mode to the bootloader.
+ *
+ * #### System Off, Low-Side FETs On
+ * - Charges all low-side motor FETs, shorting the motor coils to ground.
+ * - Not used during normal operation.
+ *
+ * #### System Off, High-Side FETs On
+ * - Charges all high-side motor FETs, shorting the motor coils to the supply voltage.
+ * - Not used during normal operation.
+ *
+ * #### FOC (Openloop, Voltage Mode)
+ * - Applies a constant duty cycle to the motor.
+ * - Voltage is defined by the `OPENLOOP_VOLTAGE` parameter (PWM duty cycle relative to supply voltage).
+ * - Intended for initial setup purposes only.
+ * - Current is not limited, so configure the `OPENLOOP_VOLTAGE` parameter with care.
+ *
+ * #### FOC (Openloop, Current Mode)
+ * - Applies a constant current to the motor.
+ * - Current is defined by the `OPENLOOP_CURRENT` parameter and regulated by the flux control loop.
+ * - For stepper/BLDC motors:
+ *   - Commutation angle is calculated by the internal hardware ramper block.
+ *   - Maximum current is limited by the `MAX_FLUX` parameter.
+ *   - Requires setting a velocity target using the `TARGET_VELOCITY` parameter.
+ * - For DC motors:
+ *   - No velocity input is needed.
+ *   - Maximum current is limited by the `MAX_TORQUE` parameter.
+ *
+ * #### FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)
+ * - Uses sensor feedback to calculate the motor shaft position.
+ * - Feedback source must be configured before activating this mode.
+ * - For stepper/BLDC motors:
+ *   - Commutation angle is calculated from the selected feedback method.
+ *   - Supports torque, velocity, and position control.
+ *   - Torque is applied to the motor, and the flux value is assumed zero unless field weakening is active.
+ *   - Maximum torque is limited by the `MAX_TORQUE` parameter.
+ * - For DC motors:
+ *   - Supports velocity or position control.
+ *   - Maximum torque is limited by the `MAX_TORQUE` parameter.
+ *
+ * ### Parameters to Set Up Commutation Mode:
+ * - `COMMUTATION_MODE` (Parameter ID: 4)
+ *   - 0: SYSTEM_OFF
+ *   - 1: SYSTEM_OFF_LOW_SIDE_FETS_ON
+ *   - 2: SYSTEM_OFF_HIGH_SIDE_FETS_ON
+ *   - 3: FOC_OPENLOOP_VOLTAGE_MODE
+ *   - 4: FOC_OPENLOOP_CURRENT_MODE
+ *   - 5: FOC_ABN
+ *   - 6: FOC_HALL_SENSOR
+ *   - 7: RESERVED
+ *   - 8: FOC_SPI_ENC
+ * - `IDLE_MOTOR_PWM_BEHAVIOR` (Parameter ID: 9)
+ *   - 0: PWM_ON_WHEN_MOTOR_IDLE
+ *   - 1: PWM_OFF_WHEN_MOTOR_IDLE (default)
+ */
+/// @}
+//--------------------------------------
+//  Commutation Modes
+//--------------------------------------
+/**
+ * @brief Commutation modes define how the motor shaft angle is determined and the system's state.
+ *
+ * Table — Commutation Modes:
+ *  NUMBER | NAME                        | DESCRIPTION
+ *  ------ | --------------------------- | -----------------------------------------------------------------
+ *     0   | SYSTEM_OFF                  | System off (default after power-on/reset).
+ *     1   | SYSTEM_OFF_LOW_SIDE_FETS_ON | All low-side FETs on (coils shorted to ground).
+ *     2   | SYSTEM_OFF_HIGH_SIDE_FETS_ON| All high-side FETs on (coils shorted to supply).
+ *     3   | FOC_OPENLOOP_VOLTAGE_MODE   | Open-loop voltage mode (constant duty cycle).
+ *     4   | FOC_OPENLOOP_CURRENT_MODE   | Open-loop current mode (constant current).
+ *     5   | FOC_ABN                     | FOC with ABN encoder feedback.
+ *     6   | FOC_HALL_SENSOR             | FOC with Hall sensor feedback.
+ *     7   | RESERVED                    | Reserved.
+ *     8   | FOC_SPI_ENC                 | FOC with SPI encoder feedback.
+ *     9   | IDLE_MOTOR_PWM_BEHAVIOR     | Idle motor PWM behavior.
+ */
+#define COMMUTATION_MODE_LIST(X) \
+    X(SYSTEM_OFF,                  0, /*!< System off (default after power-on/reset). */) \
+    X(SYSTEM_OFF_LOW_SIDE_FETS_ON, 1, /*!< All low-side FETs on (coils shorted to ground). */) \
+    X(SYSTEM_OFF_HIGH_SIDE_FETS_ON,2, /*!< All high-side FETs on (coils shorted to supply). */) \
+    X(FOC_OPENLOOP_VOLTAGE_MODE,   3, /*!< Open-loop voltage mode (constant duty cycle). */) \
+    X(FOC_OPENLOOP_CURRENT_MODE,   4, /*!< Open-loop current mode (constant current). */) \
+    X(FOC_ABN,                     5, /*!< FOC with ABN encoder feedback. */) \
+    X(FOC_HALL_SENSOR,             6, /*!< FOC with Hall sensor feedback. */) \
+    X(RESERVED,                    7, /*!< Reserved. */) \
+    X(FOC_SPI_ENC,                 8, /*!< FOC with SPI encoder feedback. */) 
+
+enum class CommutationMode : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    COMMUTATION_MODE_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(CommutationMode mode) {
+    switch(mode) {
+        #define X(NAME, VALUE, DOC) case CommutationMode::NAME: return #NAME;
+        COMMUTATION_MODE_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef COMMUTATION_MODE_LIST
+/// @}
+
+/// @name Idle Motor PWM Behavior
+/// @{
+//--------------------------------------
+//  Idle Motor PWM Behavior
+//--------------------------------------
+/**
+ * @brief PWM behavior in commutation mode "System Off" (Parameter ID: 9).
+ *
+ * Table — Idle Motor PWM Behavior:
+ *  NUMBER | NAME                     | DESCRIPTION
+ *  ------ | ------------------------ | -----------------------------------------------------------------
+ *     0   | PWM_ON_WHEN_MOTOR_IDLE   | PWM stays on when motor is idle (all phases same voltage).
+ *     1   | PWM_OFF_WHEN_MOTOR_IDLE  | PWM off (high-Z, motor floating) [default].
+ */
+#define IDLE_MOTOR_PWM_BEHAVIOR_LIST(X) \
+    X(PWM_ON_WHEN_MOTOR_IDLE,  0, /*!< PWM stays on when motor is idle (all phases same voltage). */) \
+    X(PWM_OFF_WHEN_MOTOR_IDLE, 1, /*!< PWM off (high-Z, motor floating) [default]. */)
+
+enum class IdleMotorPwmBehavior : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
+    IDLE_MOTOR_PWM_BEHAVIOR_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(IdleMotorPwmBehavior behavior) {
+    switch(behavior) {
+        #define X(NAME, VALUE, DOC) case IdleMotorPwmBehavior::NAME: return #NAME;
+        IDLE_MOTOR_PWM_BEHAVIOR_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef IDLE_MOTOR_PWM_BEHAVIOR_LIST
+/// @}
 
 /////////////////////////////////////////////
 //    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
@@ -2374,187 +2531,6 @@ inline const char* to_string(Direction direction) {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //
-//     ██████╗ ██████╗ ███╗   ███╗███╗   ███╗██╗   ██╗████████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗              //
-//    ██╔════╝██╔═══██╗████╗ ████║████╗ ████║██║   ██║╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║              //
-//    ██║     ██║   ██║██╔████╔██║██╔████╔██║██║   ██║   ██║   ███████║   ██║   ██║██║   ██║██╔██╗ ██║              //
-//    ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██║   ██║   ██║   ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║              //
-//    ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║╚██████╔╝   ██║   ██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║              //
-//     ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝              //
-//                                                                                                                  //
-//==================================================================================================================//
-//                                             COMMUTATION MODES SECTION                                            //
-//==================================================================================================================//
-
-/////////////////////////////////////////////
-//    ╔═╗╔═╗╦═╗╔═╗╔╦╗╔═╗╔╦╗╔═╗╦═╗╔═╗       //
-//    ╠═╝╠═╣╠╦╝╠═╣║║║║╣  ║ ║╣ ╠╦╝╚═╗       //
-//    ╩  ╩ ╩╩╚═╩ ╩╩ ╩╚═╝ ╩ ╚═╝╩╚═╚═╝       //
-/////////////////////////////////////////////
-
-/// @name Commutation Modes
-/// @{
-/**
- * @brief Commutation modes define how the motor shaft angle is determined and the system's state.
- *
- * To turn a motor, the commutation mode must be selected using the parameter `COMMUTATION_MODE`.
- * This specifies the feedback system used to determine the motor's shaft angle. It is also used to
- * enable/disable the system or switch to a state with shorted motor coils.
- *
- * ### Commutation Modes and Their Behavior:
- *
- * #### System Off
- * - Default state after power-on and reset events.
- * - Certain operations like changing the motor type require this mode to be active.
- * - PWM behavior is determined by the `IDLE_MOTOR_PWM_BEHAVIOR` parameter:
- *   - `1`: PWM signals are switched off, leaving the motor electrically floating (default).
- *   - `0`: PWM signals remain active.
- * - Note: This mode must be manually selected when exiting from parameter mode to the bootloader.
- *
- * #### System Off, Low-Side FETs On
- * - Charges all low-side motor FETs, shorting the motor coils to ground.
- * - Not used during normal operation.
- *
- * #### System Off, High-Side FETs On
- * - Charges all high-side motor FETs, shorting the motor coils to the supply voltage.
- * - Not used during normal operation.
- *
- * #### FOC (Openloop, Voltage Mode)
- * - Applies a constant duty cycle to the motor.
- * - Voltage is defined by the `OPENLOOP_VOLTAGE` parameter (PWM duty cycle relative to supply voltage).
- * - Intended for initial setup purposes only.
- * - Current is not limited, so configure the `OPENLOOP_VOLTAGE` parameter with care.
- *
- * #### FOC (Openloop, Current Mode)
- * - Applies a constant current to the motor.
- * - Current is defined by the `OPENLOOP_CURRENT` parameter and regulated by the flux control loop.
- * - For stepper/BLDC motors:
- *   - Commutation angle is calculated by the internal hardware ramper block.
- *   - Maximum current is limited by the `MAX_FLUX` parameter.
- *   - Requires setting a velocity target using the `TARGET_VELOCITY` parameter.
- * - For DC motors:
- *   - No velocity input is needed.
- *   - Maximum current is limited by the `MAX_TORQUE` parameter.
- *
- * #### FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)
- * - Uses sensor feedback to calculate the motor shaft position.
- * - Feedback source must be configured before activating this mode.
- * - For stepper/BLDC motors:
- *   - Commutation angle is calculated from the selected feedback method.
- *   - Supports torque, velocity, and position control.
- *   - Torque is applied to the motor, and the flux value is assumed zero unless field weakening is active.
- *   - Maximum torque is limited by the `MAX_TORQUE` parameter.
- * - For DC motors:
- *   - Supports velocity or position control.
- *   - Maximum torque is limited by the `MAX_TORQUE` parameter.
- *
- * ### Parameters to Set Up Commutation Mode:
- * - `COMMUTATION_MODE` (Parameter ID: 4)
- *   - 0: SYSTEM_OFF
- *   - 1: SYSTEM_OFF_LOW_SIDE_FETS_ON
- *   - 2: SYSTEM_OFF_HIGH_SIDE_FETS_ON
- *   - 3: FOC_OPENLOOP_VOLTAGE_MODE
- *   - 4: FOC_OPENLOOP_CURRENT_MODE
- *   - 5: FOC_ABN
- *   - 6: FOC_HALL_SENSOR
- *   - 7: RESERVED
- *   - 8: FOC_SPI_ENC
- * - `IDLE_MOTOR_PWM_BEHAVIOR` (Parameter ID: 9)
- *   - 0: PWM_ON_WHEN_MOTOR_IDLE
- *   - 1: PWM_OFF_WHEN_MOTOR_IDLE (default)
- */
-/// @}
-//--------------------------------------
-//  Commutation Modes
-//--------------------------------------
-/**
- * @brief Commutation modes define how the motor shaft angle is determined and the system's state.
- *
- * Table — Commutation Modes:
- *  NUMBER | NAME                        | DESCRIPTION
- *  ------ | --------------------------- | -----------------------------------------------------------------
- *     0   | SYSTEM_OFF                  | System off (default after power-on/reset).
- *     1   | SYSTEM_OFF_LOW_SIDE_FETS_ON | All low-side FETs on (coils shorted to ground).
- *     2   | SYSTEM_OFF_HIGH_SIDE_FETS_ON| All high-side FETs on (coils shorted to supply).
- *     3   | FOC_OPENLOOP_VOLTAGE_MODE   | Open-loop voltage mode (constant duty cycle).
- *     4   | FOC_OPENLOOP_CURRENT_MODE   | Open-loop current mode (constant current).
- *     5   | FOC_ABN                     | FOC with ABN encoder feedback.
- *     6   | FOC_HALL_SENSOR             | FOC with Hall sensor feedback.
- *     7   | RESERVED                    | Reserved.
- *     8   | FOC_SPI_ENC                 | FOC with SPI encoder feedback.
- *     9   | IDLE_MOTOR_PWM_BEHAVIOR     | Idle motor PWM behavior.
- */
-#define COMMUTATION_MODE_LIST(X) \
-    X(SYSTEM_OFF,                  0, /*!< System off (default after power-on/reset). */) \
-    X(SYSTEM_OFF_LOW_SIDE_FETS_ON, 1, /*!< All low-side FETs on (coils shorted to ground). */) \
-    X(SYSTEM_OFF_HIGH_SIDE_FETS_ON,2, /*!< All high-side FETs on (coils shorted to supply). */) \
-    X(FOC_OPENLOOP_VOLTAGE_MODE,   3, /*!< Open-loop voltage mode (constant duty cycle). */) \
-    X(FOC_OPENLOOP_CURRENT_MODE,   4, /*!< Open-loop current mode (constant current). */) \
-    X(FOC_ABN,                     5, /*!< FOC with ABN encoder feedback. */) \
-    X(FOC_HALL_SENSOR,             6, /*!< FOC with Hall sensor feedback. */) \
-    X(RESERVED,                    7, /*!< Reserved. */) \
-    X(FOC_SPI_ENC,                 8, /*!< FOC with SPI encoder feedback. */) \
-    X(IDLE_MOTOR_PWM_BEHAVIOR,     9, /*!< Idle motor PWM behavior. */)
-
-enum class CommutationMode : std::uint8_t {
-    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
-    COMMUTATION_MODE_LIST(X)
-    #undef X
-};
-
-inline const char* to_string(CommutationMode mode) {
-    switch(mode) {
-        #define X(NAME, VALUE, DOC) case CommutationMode::NAME: return #NAME;
-        COMMUTATION_MODE_LIST(X)
-        #undef X
-        default: return "UNKNOWN";
-    }
-}
-#undef COMMUTATION_MODE_LIST
-/// @}
-
-/////////////////////////////////////////////
-//    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
-//    ║╣ ║║║║ ║║║║║╣ ╠╦╝╠═╣ ║ ║║ ║║║║╚═╗   //
-//    ╚═╝╝╚╝╚═╝╩ ╩╚═╝╩╚═╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝   //
-/////////////////////////////////////////////
-
-/// @name Idle Motor PWM Behavior
-/// @{
-//--------------------------------------
-//  Idle Motor PWM Behavior
-//--------------------------------------
-/**
- * @brief PWM behavior in commutation mode "System Off" (Parameter ID: 9).
- *
- * Table — Idle Motor PWM Behavior:
- *  NUMBER | NAME                     | DESCRIPTION
- *  ------ | ------------------------ | -----------------------------------------------------------------
- *     0   | PWM_ON_WHEN_MOTOR_IDLE   | PWM stays on when motor is idle (all phases same voltage).
- *     1   | PWM_OFF_WHEN_MOTOR_IDLE  | PWM off (high-Z, motor floating) [default].
- */
-#define IDLE_MOTOR_PWM_BEHAVIOR_LIST(X) \
-    X(PWM_ON_WHEN_MOTOR_IDLE,  0, /*!< PWM stays on when motor is idle (all phases same voltage). */) \
-    X(PWM_OFF_WHEN_MOTOR_IDLE, 1, /*!< PWM off (high-Z, motor floating) [default]. */)
-
-enum class IdleMotorPwmBehavior : std::uint8_t {
-    #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
-    IDLE_MOTOR_PWM_BEHAVIOR_LIST(X)
-    #undef X
-};
-
-inline const char* to_string(IdleMotorPwmBehavior behavior) {
-    switch(behavior) {
-        #define X(NAME, VALUE, DOC) case IdleMotorPwmBehavior::NAME: return #NAME;
-        IDLE_MOTOR_PWM_BEHAVIOR_LIST(X)
-        #undef X
-        default: return "UNKNOWN";
-    }
-}
-#undef IDLE_MOTOR_PWM_BEHAVIOR_LIST
-/// @}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                                  //
 //    ████████╗ ██████╗ ██████╗  ██████╗ ██╗   ██╗███████╗     █████╗ ███╗   ██╗██████╗                             //
 //    ╚══██╔══╝██╔═══██╗██╔══██╗██╔═══██╗██║   ██║██╔════╝    ██╔══██╗████╗  ██║██╔══██╗                            //
 //       ██║   ██║   ██║██████╔╝██║   ██║██║   ██║█████╗      ███████║██╔██╗ ██║██║  ██║                            //
@@ -2762,6 +2738,7 @@ inline const char* to_string(CurrentPiNormalization norm) {
  *   123   | VELOCITY_SENSOR_SELECTION     | Feedback source for velocity PI regulator. See VelocitySensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE
  *   124   | TARGET_VELOCITY               | Target velocity value. Write to activate velocity regulation. -134217728...134217727. Default: 0. RW
  *   125   | ACTUAL_VELOCITY               | Actual velocity value. -2147483648...2147483647. Default: 0. R
+ *   126   | VELOCITY_OFFSET               | Offset applied to velocity value. -200000...200000. Default: 0. RW 
  *   127   | VELOCITY_P                    | P parameter for velocity PI regulator. 0...32767. Default: 800. RWE
  *   128   | VELOCITY_I                    | I parameter for velocity PI regulator. 0...32767. Default: 1. RWE
  *   129   | VELOCITY_NORM_P               | P normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE
@@ -2802,6 +2779,7 @@ inline const char* to_string(CurrentPiNormalization norm) {
     X(VELOCITY_SENSOR_SELECTION,          123, /*!< Feedback source for velocity PI regulator. See VelocitySensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE */) \
     X(TARGET_VELOCITY,                    124, /*!< Target velocity value. Write to activate velocity regulation. -134217728...134217727. Default: 0. RW */) \
     X(ACTUAL_VELOCITY,                    125, /*!< Actual velocity value. -2147483648...2147483647. Default: 0. R */) \
+    X(VELOCITY_OFFSET,                    126, /*!< Offset applied to velocity value. -200000...200000. Default: 0. RW */) \
     X(VELOCITY_P,                         127, /*!< P parameter for velocity PI regulator. 0...32767. Default: 800. RWE */) \
     X(VELOCITY_I,                         128, /*!< I parameter for velocity PI regulator. 0...32767. Default: 1. RWE */) \
     X(VELOCITY_NORM_P,                    129, /*!< P normalization for velocity PI. See VelocityPiNorm. Default: 2. RWE */) \
@@ -3063,6 +3041,11 @@ inline const char* to_string(AccelerationFFShift shift) {
  *   149   | POSITION_NORM_I           | I normalization for position PI. See PositionPiNorm. Default: 1. RWE
  *   150   | POSITION_PI_INTEGRATOR    | Integrated error of position PI regulator. -2147483648...2147483647. Default: 0. R
  *   151   | POSITION_PI_ERROR         | Error of position PI regulator. -2147483648...2147483647. Default: 0. R
+ *   153   | POSITION_LOOP_DOWNSAMPLING| Downsampling factor for position controller. 0...127. Default: 0. RWE
+ *   154   | LATCH_POSITION            | Position switch latched. -2147483648...2147483647. Default: 0. R
+ *   155   | POSITION_LIMIT_LOW        | Position limit low. -2147483648...2147483647. Default: -2147483648. RWE
+ *   156   | POSITION_LIMIT_HIGH       | Position limit high. -2147483648...2147483647. Default: 2147483647. RWE
+ *   157   | POSITION_REACHED_THRESHOLD| Deviation between target and actual position below which the position reached flag goes active and latches. If a new target position is set the flag is reset. 0...2147483647. Default: 0. RWE
  */
 #define POSITION_CONTROL_LIST(X) \
     X(POSITION_SENSOR_SELECTION, 142, /*!< Feedback source for position PI regulator. See PositionSensorSelection. Default: 0 (SAME_AS_COMMUTATION). RWE */) \
@@ -3074,7 +3057,12 @@ inline const char* to_string(AccelerationFFShift shift) {
     X(POSITION_NORM_P,           148, /*!< P normalization for position PI. See PositionPiNorm. Default: 1. RWE */) \
     X(POSITION_NORM_I,           149, /*!< I normalization for position PI. See PositionPiNorm. Default: 1. RWE */) \
     X(POSITION_PI_INTEGRATOR,    150, /*!< Integrated error of position PI regulator. -2147483648...2147483647. Default: 0. R */) \
-    X(POSITION_PI_ERROR,         151, /*!< Error of position PI regulator. -2147483648...2147483647. Default: 0. R */)
+    X(POSITION_PI_ERROR,         151, /*!< Error of position PI regulator. -2147483648...2147483647. Default: 0. R */) \
+    X(POSITION_LOOP_DOWNSAMPLING,153, /*!< Downsampling factor for position controller. 0...127. Default: 0. RWE */) \
+    X(LATCH_POSITION,            154, /*!< Position switch latched. -2147483648...2147483647. Default: 0. R */) \
+    X(POSITION_LIMIT_LOW,        155, /*!< Position limit low. -2147483648...2147483647. Default: -2147483648. RWE */) \
+    X(POSITION_LIMIT_HIGH,       156, /*!< Position limit high. -2147483648...2147483647. Default: 2147483647. RWE */) \
+    X(POSITION_REACHED_THRESHOLD,157, /*!< Deviation between target and actual position below which the position reached flag goes active and latches. If a new target position is set the flag is reset. 0...2147483647. Default: 0. RWE */)
 
 enum class PositionControl : uint16_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,
@@ -3242,10 +3230,6 @@ inline const char* to_string(PositionPiNorm norm) {
     X(STOP_ON_VELOCITY_DEVIATION,        134, /*!< Max velocity deviation before stop event [0...200000]. Default: 0. RW */) \
     X(STOP_ON_POSITION_DEVIATION,        152, /*!< Max position deviation before stop event [0...2147483647]. Default: 0. RWE */) \
     X(LATCH_POSITION,                    154, /*!< Latched position at switch event [-2147483648...2147483647]. Default: 0. R */) \
-    X(POSITION_LOOP_DOWNSAMPLING,        155, /*!< Downsampling factor for position controller. */) \
-    X(POSITION_LIMIT_LOW,                156, /*!< Minimum allowed position. */) \
-    X(POSITION_LIMIT_HIGH,               157, /*!< Maximum allowed position. */) \
-    X(POSITION_REACHED_THRESHOLD,        158, /*!< Threshold for position reached detection. */) \
     X(REFERENCE_SWITCH_ENABLE,           161, /*!< Bitwise enable for stopping on reference switch. See ReferenceSwitchEnable. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_POLARITY_AND_SWAP,162, /*!< Bitwise config for switch polarity/swap. See ReferenceSwitchPolaritySwap. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_LATCH_SETTINGS,   163, /*!< Bitwise config for latch behavior. See ReferenceSwitchLatchSettings. Default: 0. RWE */) \
