@@ -1,3 +1,8 @@
+/**
+ * @file TMC9660Bootloader.hpp
+ * @brief Helper for configuring the TMC9660 bootloader registers.
+ */
+
 #pragma once
 
 #include <cstdint>
@@ -7,6 +12,8 @@
 namespace tmc9660 {
 
 namespace bootcfg {
+
+/// Constants used when building a ::BootloaderConfig.
 
 constexpr uint8_t LDO_DISABLED = 0;
 constexpr uint8_t LDO_2V5     = 1;
@@ -81,6 +88,34 @@ constexpr uint8_t SYSCLK_DIV_2_3 = 3;
 
 } // namespace bootcfg
 
+namespace bootaddr {
+/// Base offset of the configuration registers inside bank 5.
+constexpr uint32_t BASE = 0x00020000;
+/// UART device/host address register.
+constexpr uint32_t UART_ADDR      = BASE + 0x02;
+/// RS485 TXEN delay configuration.
+constexpr uint32_t RS485_DELAY    = BASE + 0x04;
+/// Communication selection (UART/SPI/RS485).
+constexpr uint32_t COMM_CONFIG    = BASE + 0x06;
+/// SPI flash configuration register.
+constexpr uint32_t SPI_FLASH      = BASE + 0x0A;
+/// I2C EEPROM configuration register.
+constexpr uint32_t I2C_CONFIG     = BASE + 0x0C;
+/// GPIO output level register.
+constexpr uint32_t GPIO_OUT       = BASE + 0x0E;
+/// GPIO direction register.
+constexpr uint32_t GPIO_DIR       = BASE + 0x10;
+/// GPIO pull-up register.
+constexpr uint32_t GPIO_PU        = BASE + 0x12;
+/// GPIO pull-down register.
+constexpr uint32_t GPIO_PD        = BASE + 0x14;
+/// GPIO analog enable register.
+constexpr uint32_t GPIO_ANALOG    = BASE + 0x16;
+/// Clock configuration register.
+constexpr uint32_t CLOCK_CONFIG   = BASE + 0x18;
+} // namespace bootaddr
+
+/// Configuration of the on-chip LDO regulators.
 struct LDOConfig {
   uint8_t vext1{bootcfg::LDO_DISABLED};
   uint8_t vext2{bootcfg::LDO_DISABLED};
@@ -89,6 +124,7 @@ struct LDOConfig {
   bool    ldo_short_fault{false};
 };
 
+/// Bootloader behaviour configuration.
 struct BootConfig {
   uint8_t boot_mode{bootcfg::BOOT_MODE_REGISTER};
   bool    bl_ready_fault{false};
@@ -98,6 +134,7 @@ struct BootConfig {
   bool    start_motor_control{false};
 };
 
+/// UART communication settings for the bootloader.
 struct UARTConfig {
   uint8_t device_address{1};
   uint8_t host_address{255};
@@ -107,6 +144,7 @@ struct UARTConfig {
   uint8_t baud_rate{bootcfg::UART_BAUD_115200};
 };
 
+/// Optional RS485 transceiver control via the UART_TXEN pin.
 struct RS485Config {
   bool    enable_rs485{false};
   uint8_t txen_pin{bootcfg::RS485_TXEN_NONE};
@@ -114,12 +152,14 @@ struct RS485Config {
   uint8_t txen_post_delay{0};
 };
 
+/// SPI interface used for bootloader commands.
 struct SPIBootConfig {
   bool    disable_spi{false};
   uint8_t boot_spi_iface{bootcfg::SPI_IFACE0};
   uint8_t spi0_sck_pin{bootcfg::SPI0_SCK_GPIO6};
 };
 
+/// External SPI flash configuration.
 struct SPIFlashConfig {
   bool    enable_flash{false};
   uint8_t flash_spi_iface{bootcfg::SPI_IFACE1};
@@ -128,6 +168,7 @@ struct SPIFlashConfig {
   uint8_t freq_div{bootcfg::SPI_FLASH_FREQ_DIV4};
 };
 
+/// External I2C EEPROM configuration.
 struct I2CConfig {
   bool    enable_eeprom{false};
   uint8_t sda_pin{bootcfg::I2C_SDA_GPIO5};
@@ -136,6 +177,7 @@ struct I2CConfig {
   uint8_t freq_code{bootcfg::I2C_FREQ_100KHZ};
 };
 
+/// System clock selection parameters.
 struct ClockConfig {
   uint8_t use_external{bootcfg::CLK_USE_INTERNAL};
   uint8_t ext_source_type{bootcfg::EXT_SOURCE_OSCILLATOR};
@@ -146,6 +188,7 @@ struct ClockConfig {
   uint8_t sysclk_div{bootcfg::SYSCLK_DIV_1};
 };
 
+/// Initial state of the general purpose pins during boot.
 struct GPIOConfig {
   uint32_t outputMask{0};
   uint32_t directionMask{0};
@@ -154,6 +197,7 @@ struct GPIOConfig {
   uint32_t analogMask{0};
 };
 
+/// Aggregated bootloader configuration written by ::TMC9660Bootloader.
 struct BootloaderConfig {
   LDOConfig     ldo;
   BootConfig    boot;
@@ -166,18 +210,33 @@ struct BootloaderConfig {
   GPIOConfig    gpio;
 };
 
+/**
+ * @brief Convenience wrapper around the bootloader TMCL commands.
+ *
+ * The bootloader uses a small command set for writing configuration words
+ * into an internal RAM.  This class provides helpers to build these commands
+ * and write a complete ::BootloaderConfig structure.
+ */
 class TMC9660Bootloader {
 public:
   explicit TMC9660Bootloader(TMC9660CommInterface &comm, uint8_t address = 0) noexcept;
 
+  /// Select the target register bank.
   bool setBank(uint8_t bank) noexcept;
+  /// Set the address within the current bank.
   bool setAddress(uint32_t addr) noexcept;
+  /// Write a single byte to the previously selected address.
   bool write8(uint8_t v) noexcept;
+  /// Write a 16 bit word.
   bool write16(uint16_t v) noexcept;
+  /// Write a 32 bit word.
   bool write32(uint32_t v) noexcept;
+  /// Write multiple 32 bit words starting at the current address.
   bool write32Inc(const uint32_t *values, size_t count) noexcept;
+  /// Permanently burn the given OTP page.
   bool otpBurn(uint8_t page) noexcept;
 
+  /// Apply all fields of a ::BootloaderConfig.
   bool applyConfiguration(const BootloaderConfig &cfg) noexcept;
 
 private:
