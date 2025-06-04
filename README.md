@@ -11,15 +11,16 @@ Hardware Agnostic TMC9660 library - as used in the HardFOC-V1 controller
 ## 📜 Table of Contents
 1. [Highlights](#-driver-highlights)
 2. [Features](#-features)
-3. [Library Architecture](#-library-architecture)
-4. [Platform Integration](#-platform-integration)
-5. [Project Structure](#-project-structure)
-6. [Installation](#-installation)
-7. [Quick Start](#-quick-start)
-8. [Usage Examples](#-usage-examples)
-9. [Contributing](#-contributing)
-10. [License](#-license)
-11. [Resources](#-resources)
+3. [Requirements](#-requirements)
+4. [Library Architecture](#-library-architecture)
+5. [Platform Integration](#-platform-integration)
+6. [Project Structure](#-project-structure)
+7. [Installation](#-installation)
+8. [Quick Start](#-quick-start)
+9. [Usage Examples](#-usage-examples)
+10. [Contributing](#-contributing)
+11. [License](#-license)
+12. [Resources](#-resources)
 
 ## 🚀 Driver Highlights
 * **FOC control** for torque, velocity and position
@@ -39,6 +40,11 @@ Hardware Agnostic TMC9660 library - as used in the HardFOC-V1 controller
 | 🛡️ **Protection Settings** | Configure over-voltage, under-voltage, temperature and over-current limits to keep your hardware safe. |
 
 ---
+
+## 📋 Requirements
+* **C++17 compiler** – tested with GCC and Clang.
+* **Standard C++ library** with `<span>` support.
+* **Communication hardware** providing SPI or UART to talk to the TMC9660.
 
 ## 🏗️️ Library Architecture
 This library centers around a single `TMC9660` class that communicates via an abstract `TMC9660CommInterface`. You provide a subclass that implements `transferDatagram()` for your platform. All parameter mode commands and telemetry queries are wrapped by the `TMC9660` class in a clean C++ API.
@@ -76,6 +82,9 @@ public:
     }
 };
 ```
+The `transferDatagram()` method must exchange an 8‑byte datagram with the
+device. On SPI this typically means toggling chip select, sending the `tx`
+bytes and reading the reply back into `rx`.
 
 ---
 
@@ -88,12 +97,12 @@ src/        Driver sources
 ```
 
 ## 🔧 Installation
-1. Copy the contents of `inc/` and `src/` into your project.
-2. Implement `TMC9660CommInterface` for your hardware.
-3. Compile with a C++17 (or later) compiler.
-4. Optionally build the examples:
+1. Clone this repository or copy the `inc/` and `src/` directories into your project tree.
+2. Implement `TMC9660CommInterface` for your hardware (SPI or UART).
+3. Compile `src/TMC9660.cpp` together with your application using a C++17 (or later) compiler.
+4. Optionally build the examples to verify your setup:
 ```bash
-g++ -std=c++17 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o demo
+g++ -std=c++17 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 ```
 
 ## 💡 Quick Start
@@ -106,12 +115,19 @@ driver.setCommutationMode(TMC9660::CommutationMode::FOC_HALL);
 driver.setTargetVelocity(1000);
 ```
 Replace `DemoInterface` with your SPI or UART implementation to talk to real hardware.
+All API calls return a boolean status so you can handle communication errors if needed.
+
+### Building the Examples
+Compile one of the sample programs to verify everything is wired up correctly:
+```bash
+g++ -std=c++17 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
+```
 
 ## 💻 Usage Examples
 The `examples` folder contains small programs showing typical workflows.
-- **BLDC_with_HALL.cpp** – run a BLDC motor using Hall sensor feedback.
-- **BLDC_velocity_control.cpp** – drive a brushed DC motor in velocity mode.
-- **Telemetry_monitor.cpp** – continuously read temperature, current and voltage.
+- **BLDC_with_HALL.cpp** – run a BLDC motor using Hall sensor feedback and FOC.
+- **BLDC_velocity_control.cpp** – drive a brushed DC motor using a simple velocity loop.
+- **Telemetry_monitor.cpp** – continuously read temperature, current and voltage values.
 
 Compile these along with `src/TMC9660.cpp` and your interface implementation to try them out.
 
