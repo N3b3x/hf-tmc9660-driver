@@ -26,16 +26,20 @@
 class TMC9660 {
 public:
 
+  enum class BootloaderInitResult { Success, NoConfig, Failure };
+
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
    * @param address (Optional) Module address if multiple TMC9660 devices are on
    * one bus. For SPI, this is typically 0.
    */
+
   TMC9660(TMC9660CommInterface &comm, uint8_t address = 0,
           const tmc9660::BootloaderConfig *bootCfg = nullptr) noexcept;
 
-  bool bootloaderInit(const tmc9660::BootloaderConfig &cfg) noexcept;
+  BootloaderInitResult bootloaderInit(
+      const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
 
   //***************************************************************************
   //**               CORE PARAMETER ACCESS METHODS                         **//
@@ -2701,6 +2705,7 @@ private:
   uint8_t address_; ///< Module address (0-127). Used primarily for UART
                     ///< multi-drop addressing.
   tmc9660::TMC9660Bootloader bootloader_; ///< Bootloader helper
+  const tmc9660::BootloaderConfig *bootCfg_;
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];
