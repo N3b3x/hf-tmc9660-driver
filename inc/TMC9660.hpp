@@ -989,8 +989,8 @@ public:
      * @param csIdleTimeUs CS idle time between frames in microseconds (0-102).
      * @return true if configured successfully.
      */
-    bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs = 0,
-                             uint8_t csIdleTimeUs = 0) noexcept;
+    bool configureSPIEncoder(uint8_t cmdSize, uint16_t csSettleTimeNs,
+                             uint8_t csIdleTimeUs) noexcept;
 
     /** @brief Configure SPI encoder data format and processing.
      *
