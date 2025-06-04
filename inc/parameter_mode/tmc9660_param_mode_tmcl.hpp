@@ -163,6 +163,96 @@ inline const char* to_string(Op op) {
 #undef OP_LIST
 
 //--------------------------------------
+//  Arithmetic operation types for CALC
+//--------------------------------------
+#define CALC_OPERATION_LIST(X) \
+    X(CALC_ADD, 0, /*!< Addition */) \
+    X(CALC_SUB, 1, /*!< Subtract */) \
+    X(CALC_MUL, 2, /*!< Multiply */) \
+    X(CALC_DIV, 3, /*!< Divide */) \
+    X(CALC_MOD, 4, /*!< Modulo */) \
+    X(CALC_AND, 5, /*!< Bitwise AND */) \
+    X(CALC_OR,  6, /*!< Bitwise OR */) \
+    X(CALC_XOR, 7, /*!< Bitwise XOR */) \
+    X(CALC_NOT, 8, /*!< Bitwise NOT */) \
+    X(CALC_LOAD,9, /*!< Load/replace */)
+
+enum class CalcOperation : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE,
+    CALC_OPERATION_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(CalcOperation op) {
+    switch(op) {
+        #define X(NAME, VALUE, DOC) case CalcOperation::NAME: return #NAME;
+        CALC_OPERATION_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef CALC_OPERATION_LIST
+
+//--------------------------------------
+//  Conditional jump conditions for JC
+//--------------------------------------
+#define JUMP_CONDITION_LIST(X) \
+    X(JC_ZERO, 0, /*!< Accumulator == 0 */) \
+    X(JC_NOT_ZERO, 1, /*!< Accumulator != 0 */) \
+    X(JC_EQUAL, 2, /*!< Result equal */) \
+    X(JC_NOT_EQUAL, 3, /*!< Result not equal */) \
+    X(JC_GREATER, 4, /*!< Greater than */) \
+    X(JC_GREATER_EQ, 5, /*!< Greater or equal */) \
+    X(JC_LOWER, 6, /*!< Lower than */) \
+    X(JC_LOWER_EQ, 7, /*!< Lower or equal */) \
+    X(JC_TIMEOUT, 8, /*!< WAIT timeout flag */)
+
+enum class JumpCondition : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE,
+    JUMP_CONDITION_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(JumpCondition c) {
+    switch(c) {
+        #define X(NAME, VALUE, DOC) case JumpCondition::NAME: return #NAME;
+        JUMP_CONDITION_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef JUMP_CONDITION_LIST
+
+//--------------------------------------
+//  WAIT event conditions
+//--------------------------------------
+#define WAIT_CONDITION_LIST(X) \
+    X(WAIT_TIME, 0, /*!< Fixed time */) \
+    X(WAIT_RFS, 4, /*!< Reference search finished */) \
+    X(WAIT_LATCH, 5, /*!< Latch event */) \
+    X(WAIT_VEL_REACHED, 6, /*!< Velocity reached */) \
+    X(WAIT_POS_REACHED, 7, /*!< Position reached */) \
+    X(WAIT_STOP_LEFT, 8, /*!< Left stop switch */) \
+    X(WAIT_STOP_RIGHT, 9, /*!< Right stop switch */) \
+    X(WAIT_STOP_HOME, 10, /*!< Home switch */)
+
+enum class WaitCondition : std::uint8_t {
+    #define X(NAME, VALUE, DOC) NAME = VALUE,
+    WAIT_CONDITION_LIST(X)
+    #undef X
+};
+
+inline const char* to_string(WaitCondition w) {
+    switch(w) {
+        #define X(NAME, VALUE, DOC) case WaitCondition::NAME: return #NAME;
+        WAIT_CONDITION_LIST(X)
+        #undef X
+        default: return "UNKNOWN";
+    }
+}
+#undef WAIT_CONDITION_LIST
+
+//--------------------------------------
 //  TMCL reply codes (Table 19)
 //--------------------------------------
 /**
