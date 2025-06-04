@@ -37,13 +37,6 @@ public:
   //**               CORE PARAMETER ACCESS METHODS                         **//
   //***************************************************************************
 
-  /// Build command without sending (for script upload)
-  static TMCLFrame buildCommand(uint8_t op, uint16_t type = 0,
-                                  uint8_t motor = 0, uint32_t value = 0) noexcept {
-    return {op, type, motor, value};
-  }
-
-
   /** @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
    * @param id Parameter ID number (see TMC9660 documentation for the full
    * list).
