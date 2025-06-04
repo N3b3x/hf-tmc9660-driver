@@ -1516,6 +1516,64 @@ bool TMC9660::FOCControl::getStopOnPositionDeviation(uint32_t &maxError,
   return true;
 }
 
+bool TMC9660::FOCControl::setPositionLoopDownsampling(uint8_t divider) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LOOP_DOWNSAMPLING, divider);
+}
+
+bool TMC9660::FOCControl::getPositionLoopDownsampling(uint8_t &divider) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LOOP_DOWNSAMPLING, v))
+    return false;
+  divider = static_cast<uint8_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionLimitLow(int32_t limit) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LIMIT_LOW,
+      static_cast<uint32_t>(limit));
+}
+
+bool TMC9660::FOCControl::getPositionLimitLow(int32_t &limit) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LIMIT_LOW, v))
+    return false;
+  limit = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionLimitHigh(int32_t limit) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_LIMIT_HIGH,
+      static_cast<uint32_t>(limit));
+}
+
+bool TMC9660::FOCControl::getPositionLimitHigh(int32_t &limit) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_LIMIT_HIGH, v))
+    return false;
+  limit = static_cast<int32_t>(v);
+  return true;
+}
+
+bool TMC9660::FOCControl::setPositionReachedThreshold(uint32_t threshold) noexcept {
+  return driver.writeParameter(
+      tmc9660::tmcl::Parameters::POSITION_REACHED_THRESHOLD, threshold);
+}
+
+bool TMC9660::FOCControl::getPositionReachedThreshold(uint32_t &threshold) noexcept {
+  uint32_t v;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::POSITION_REACHED_THRESHOLD, v))
+    return false;
+  threshold = v;
+  return true;
+}
+
     //-------------------------------------------------------------------------
     // Open‐loop support (45–47)
     //-------------------------------------------------------------------------
