@@ -2268,6 +2268,22 @@ bool TMC9660::Brake::invertOutput(bool invert) noexcept {
 //**                   SUBSYSTEM: I²t Overload Protection                **//
 //***************************************************************************
 
+bool TMC9660::IIT::configure(uint16_t timeConstant1_ms,
+                             float continuousCurrent1_A,
+                             uint16_t timeConstant2_ms,
+                             float continuousCurrent2_A) noexcept {
+  bool ok = true;
+  ok &= setThermalWindingTimeConstant1(timeConstant1_ms);
+  const uint32_t limit1 = static_cast<uint32_t>(
+      continuousCurrent1_A * continuousCurrent1_A * timeConstant1_ms);
+  ok &= setLimit1(limit1);
+  ok &= setThermalWindingTimeConstant2(timeConstant2_ms);
+  const uint32_t limit2 = static_cast<uint32_t>(
+      continuousCurrent2_A * continuousCurrent2_A * timeConstant2_ms);
+  ok &= setLimit2(limit2);
+  return ok;
+}
+
 bool TMC9660::IIT::resetIntegralState() noexcept {
   return driver.writeParameter(
       tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 0, 0);
