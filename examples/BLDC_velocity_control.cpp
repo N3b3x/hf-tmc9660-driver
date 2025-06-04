@@ -3,11 +3,10 @@
 
 // Example: Configure a brushed DC motor for velocity control with an encoder feedback.
 
-class MySPIInterface : public TMC9660CommInterface {
+class MySPIInterface : public SPITMC9660CommInterface {
 public:
-    bool transferDatagram(const std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) override {
-        // Simulate SPI transfer (in real code, perform hardware SPI exchange).
-        rx = tx;
+    bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
+        rx = tx; // echo back for demo purposes
         return true;
     }
 };

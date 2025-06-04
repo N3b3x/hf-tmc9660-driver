@@ -5,13 +5,10 @@
 
 // Example: Using telemetry APIs to read temperature, current, and voltage continuously.
 
-class MySPIInterface : public TMC9660CommInterface {
+class MySPIInterface : public SPITMC9660CommInterface {
 public:
-    bool transferDatagram(const std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) override {
-        // In real code, perform SPI transfer. Here, simulate device response.
-        rx = tx;
-        // If this were a read operation, rx[4-7] would contain actual values from the device.
-        // (For demonstration, we leave it echoing the sent data.)
+    bool spiTransfer(std::array<uint8_t,8>& tx, std::array<uint8_t,8>& rx) noexcept override {
+        rx = tx; // echo back
         return true;
     }
 };
