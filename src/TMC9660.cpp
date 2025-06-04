@@ -691,18 +691,6 @@ bool TMC9660::GateDriver::setFaultHandlerRetries(uint8_t retries) noexcept {
 //***************************************************************************
 //**                  SUBSYSTEM: Sensors                                  **//
 //***************************************************************************
-
-bool TMC9660::FeedbackSense::selectVelocitySensor(uint8_t sel) noexcept {
-  return driver.writeParameter(
-      tmc9660::tmcl::Parameters::VELOCITY_SENSOR_SELECTION,
-      static_cast<uint32_t>(sel));
-}
-
-bool TMC9660::FeedbackSense::selectPositionSensor(uint8_t sel) noexcept {
-  return driver.writeParameter(
-      tmc9660::tmcl::Parameters::POSITION_SENSOR_SELECTION,
-      static_cast<uint32_t>(sel));
-}
   
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  HALL sensors (digital Hall)
@@ -1410,18 +1398,18 @@ bool TMC9660::FOCControl::getVelocityMeterMode(
     //-------------------------------------------------------------------------
 
 bool TMC9660::FOCControl::setPositionSensor(
-    tmc9660::tmcl::VelocitySensorSelection sel) noexcept {
+    tmc9660::tmcl::PositionSensorSelection sel) noexcept {
   return driver.writeParameter(tmc9660::tmcl::Parameters::POSITION_SENSOR_SELECTION,
                                static_cast<uint32_t>(sel));
 }
 
 bool TMC9660::FOCControl::getPositionSensor(
-    tmc9660::tmcl::VelocitySensorSelection &sel) noexcept {
+    tmc9660::tmcl::PositionSensorSelection &sel) noexcept {
   uint32_t v;
   if (!driver.readParameter(tmc9660::tmcl::Parameters::POSITION_SENSOR_SELECTION,
                             v))
     return false;
-  sel = static_cast<tmc9660::tmcl::VelocitySensorSelection>(v);
+  sel = static_cast<tmc9660::tmcl::PositionSensorSelection>(v);
   return true;
 }
 

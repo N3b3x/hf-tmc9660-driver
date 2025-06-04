@@ -99,6 +99,7 @@ public:
   //***************************************************************************
   //**                  SUBSYSTEM: Motor Configuration                     **//
   //***************************************************************************
+  
   /** @brief Subsystem for configuring motor type and basic settings */
   struct MotorConfig {
     /** @brief Configure the motor type (DC, BLDC, or stepper) and basic motor
@@ -788,38 +789,12 @@ public:
   } gateDriver{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: Sensors                                  **//
+  //**                  SUBSYSTEM: Feedback Sensors                        **//
   //***************************************************************************
 
   /** @brief Subsystem for feedback sensor configuration
    */
   struct FeedbackSense {
-    /** @brief Select which sensor supplies the velocity loop.
-     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
-     */
-    /** @brief Select which sensor supplies the velocity loop.
-     *
-     * @param sel Sensor selection value. See the VELOCITY_SENSOR_SELECTION
-     *            parameter in the datasheet.
-     * @return true on success
-     */
-    bool selectVelocitySensor(
-        uint8_t sel) noexcept; ///< VELOCITY_SENSOR_SELECTION
-                               ///< @see Datasheet parameter VELOCITY_SENSOR_SELECTION
-
-    /** @brief Select which sensor supplies the position loop.
-     *        SAME_AS_COMMUTATION | DIGITAL_HALL | ABN1 | ABN2 | SPI.
-     */
-    /** @brief Select which sensor supplies the position loop.
-     *
-     * @param sel Sensor selection value. See the POSITION_SENSOR_SELECTION
-     *            parameter in the datasheet.
-     * @return true on success
-     */
-    bool selectPositionSensor(
-        uint8_t sel) noexcept; ///< POSITION_SENSOR_SELECTION
-                               ///< @see Datasheet parameter POSITION_SENSOR_SELECTION
-
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     //  HALL sensors (digital Hall)
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -1412,12 +1387,12 @@ public:
      * @param sel Sensor selection.
      * @return true if written.
      */
-    bool setPositionSensor(tmc9660::tmcl::VelocitySensorSelection sel) noexcept;
+    bool setPositionSensor(tmc9660::tmcl::PositionSensorSelection sel) noexcept;
     /** @brief Read position feedback sensor.
      * @param[out] sel Sensor selection.
      * @return true if read.
      */
-    bool getPositionSensor(tmc9660::tmcl::VelocitySensorSelection &sel) noexcept;
+    bool getPositionSensor(tmc9660::tmcl::PositionSensorSelection &sel) noexcept;
 
     /** @brief Set target position.
      * @param position Desired position (internal units).
