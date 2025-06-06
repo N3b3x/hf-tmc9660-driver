@@ -146,10 +146,13 @@ in-depth walkthrough of each scenario is provided in
 `docs/HardwareAgnosticExamples.md`.
 
 ## 📖 Further Documentation
+Complete documentation is organized in [docs/index.md](docs/index.md). The major guides are listed below:
 * [docs/SetupGuide.md](docs/SetupGuide.md) – step-by-step setup and build instructions.
 * [docs/ImplementingCommInterface.md](docs/ImplementingCommInterface.md) – create your own transport layer.
 * [docs/BuildingExamples.md](docs/BuildingExamples.md) – compile and run the example programs.
+* [docs/HardwareAgnosticExamples.md](docs/HardwareAgnosticExamples.md) – detailed usage scenarios.
 * [docs/CommonOperations.md](docs/CommonOperations.md) – quick reference for typical driver calls.
+
 
 ## 🙌 Contributing
 Pull requests and feature ideas are welcome! Please format code with `clang-format` and sign off your commits.

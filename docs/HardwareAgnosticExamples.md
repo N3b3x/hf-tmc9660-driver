@@ -194,3 +194,7 @@ int main() {
 
 These snippets are minimal but cover the main features of the library. Refer to `inc/TMC9660.hpp` for all available parameters and helper methods.
 
+
+---
+
+[⬅️ Prev](BuildingExamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](CommonOperations.md)
