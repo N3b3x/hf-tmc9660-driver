@@ -60,3 +60,7 @@ Refer to `inc/TMC9660.hpp` for the complete API and additional helper
 functions. With these building blocks you can integrate the driver into your
 motion control software and start experimenting right away.
 
+
+---
+
+[⬅️ Prev](HardwareAgnosticExamples.md) | [⬆️ Back to Index](index.md)
