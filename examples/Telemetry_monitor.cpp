@@ -25,9 +25,9 @@ int main() {
 
     // Assume motor is configured and running. We will poll telemetry.
     for (int i = 0; i < 5; ++i) {
-        float chipTemp = driver.getChipTemperature();
-        int16_t motorCurrent = driver.getMotorCurrent();
-        float supplyVolt = driver.getSupplyVoltage();
+        float chipTemp = driver.telemetry.getChipTemperature();
+        int16_t motorCurrent = driver.telemetry.getMotorCurrent();
+        float supplyVolt = driver.telemetry.getSupplyVoltage();
         std::cout << "Read " << i+1 << ": Temp = " << chipTemp << " °C, "
                   << "Current = " << motorCurrent << " mA, "
                   << "Voltage = " << supplyVolt << " V" << std::endl;

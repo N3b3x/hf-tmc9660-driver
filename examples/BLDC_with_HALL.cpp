@@ -24,39 +24,41 @@ int main() {
 
     // 1. Configure motor type as BLDC (3-phase) with specified pole pairs.
     uint8_t polePairs = 7;  // example pole pair count
-    if (!driver.configureMotorType(TMC9660::MotorType::BLDC, polePairs)) {
+    if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR,
+                                    polePairs)) {
         std::cerr << "Failed to set motor type!" << std::endl;
         return 1;
     }
 
     // 2. Configure Hall sensor feedback (assuming standard hall sequence, not inverted).
-    driver.configureHall();
+    driver.feedbackSense.configureHall();
 
     // 3. Set commutation mode to FOC with Hall feedback.
-    driver.setCommutationMode(TMC9660::CommutationMode::FOC_HALL);
+    driver.motorConfig.setCommutationMode(
+        tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR);
 
     // 4. Set maximum motor current (torque limit) to 2000 mA.
-    driver.setMaxCurrent(2000);
+    driver.motorConfig.setMaxTorqueCurrent(2000);
 
     // (Optional) Tune FOC control gains if necessary:
     // driver.setCurrentLoopGains(50, 100);       // example current PI gains
     // driver.setVelocityLoopGains(800, 1);       // example velocity PI gains
 
     // 5. Command a velocity. For example, target velocity = 1000 (internal units).
-    driver.setTargetVelocity(1000);
+    driver.focControl.setTargetVelocity(1000);
     std::cout << "Motor started with target velocity 1000." << std::endl;
 
     // ... Motor would now ramp up to the target speed and hold it ...
 
     // Simulate reading telemetry after some time:
-    float tempC = driver.getChipTemperature();
-    int16_t current_mA = driver.getMotorCurrent();
-    float busVolt = driver.getSupplyVoltage();
+    float tempC = driver.telemetry.getChipTemperature();
+    int16_t current_mA = driver.telemetry.getMotorCurrent();
+    float busVolt = driver.telemetry.getSupplyVoltage();
     std::cout << "Telemetry - Temp: " << tempC << " °C, Current: " 
               << current_mA << " mA, Bus Voltage: " << busVolt << " V" << std::endl;
 
     // 6. Stop the motor.
-    driver.stopMotor();
+    driver.focControl.stop();
     std::cout << "Motor stop command issued." << std::endl;
 
     return 0;

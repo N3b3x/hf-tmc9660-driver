@@ -23,9 +23,9 @@ int main() {
     DummyBus bus;        //!< Replace with actual transport
     TMC9660 driver(bus); //!< Driver instance
 
-    driver.motor.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
+    driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
     driver.stepDir.setMicrostepResolution(
-        tmc9660::tmcl::StepDirStepDividerShift::DIV8);
+        tmc9660::tmcl::StepDirStepDividerShift::STEP_MODE_1_8TH);
     driver.stepDir.enableInterface(true);  // enable STEP/DIR pins
     driver.stepDir.enableExtrapolation(true); // smooth interpolation
 

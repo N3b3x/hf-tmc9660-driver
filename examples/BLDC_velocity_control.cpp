@@ -23,31 +23,32 @@ int main() {
     TMC9660 driver(bus);
 
     // 1. Configure motor type as DC.
-    if (!driver.configureMotorType(TMC9660::MotorType::DC)) {
+    if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
         std::cerr << "Failed to configure DC motor type." << std::endl;
         return 1;
     }
 
     // 2. Set maximum current limit for the DC motor (e.g., 1500 mA).
-    driver.setMaxCurrent(1500);
+    driver.motorConfig.setMaxTorqueCurrent(1500);
 
     // 3. Configure an encoder for velocity feedback (e.g., 1024 counts per revolution).
-    driver.configureABNEncoder(1024);
+    driver.feedbackSense.configureABNEncoder(1024);
 
     // 4. For DC motor, use open-loop current mode to drive the H-bridge.
-    driver.setCommutationMode(TMC9660::CommutationMode::FOC_OPENLOOP_CURRENT);
+    driver.motorConfig.setCommutationMode(
+        tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE);
 
     // (Optional: tune velocity loop gains if necessary)
     // driver.setVelocityLoopGains(500, 5);
 
     // 5. Set a target velocity (requires encoder feedback for closed-loop speed control).
-    driver.setTargetVelocity(500);
+    driver.focControl.setTargetVelocity(500);
     std::cout << "DC motor running at target velocity 500 (internal units)." << std::endl;
 
     // ... (In a real application, the motor would accelerate to the target speed and maintain it) ...
 
     // 6. Stop the motor when done.
-    driver.stopMotor();
+    driver.focControl.stop();
     std::cout << "Motor stopped." << std::endl;
 
     return 0;

@@ -25,13 +25,13 @@ int main() {
     TMC9660 driver(bus);    //!< Driver instance using that bus
 
     // Configure motor parameters
-    driver.motor.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
-    driver.motor.configureABNEncoder(2048); // 2048 line incremental encoder
-    driver.motor.setCommutationMode(
-        tmc9660::tmcl::CommutationMode::FOC_ENCODER); // use encoder based FOC
-    driver.motor.setMaxTorqueCurrent(2000); // limit phase current to 2 A
+    driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
+    driver.feedbackSense.configureABNEncoder(2048); // 2048 line incremental encoder
+    driver.motorConfig.setCommutationMode(
+        tmc9660::tmcl::CommutationMode::FOC_ABN); // use encoder based FOC
+    driver.motorConfig.setMaxTorqueCurrent(2000); // limit phase current to 2 A
 
     // Start rotating
-    driver.rampGenerator.setTargetVelocity(1000);
+    driver.focControl.setTargetVelocity(1000);
     std::cout << "BLDC motor running with ABN encoder" << std::endl;
 }

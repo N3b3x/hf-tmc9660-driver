@@ -24,11 +24,11 @@ int main() {
     TMC9660 driver(bus); //!< Driver communicating with the TMC9660
 
     // Configure motor and drive settings
-    driver.motor.setType(tmc9660::tmcl::MotorType::DC_MOTOR);
-    driver.motor.setCommutationMode(
-        tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT);
-    driver.motor.setMaxTorqueCurrent(1000);  // peak current in mA
-    driver.rampGenerator.setTargetCurrent(500); // hold 500 mA
+    driver.motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR);
+    driver.motorConfig.setCommutationMode(
+        tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE);
+    driver.motorConfig.setMaxTorqueCurrent(1000);  // peak current in mA
+    driver.focControl.setTargetTorque(500); // hold 500 mA
 
     std::cout << "DC motor current control active" << std::endl;
 }
