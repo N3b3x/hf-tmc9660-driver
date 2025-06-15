@@ -3229,7 +3229,7 @@ inline const char* to_string(PositionPiNorm norm) {
 #define RAMPER_STOP_CONFIG_LIST(X) \
     X(STOP_ON_VELOCITY_DEVIATION,        134, /*!< Max velocity deviation before stop event [0...200000]. Default: 0. RW */) \
     X(STOP_ON_POSITION_DEVIATION,        152, /*!< Max position deviation before stop event [0...2147483647]. Default: 0. RWE */) \
-    X(LATCH_POSITION,                    154, /*!< Latched position at switch event [-2147483648...2147483647]. Default: 0. R */) \
+    /* LATCH_POSITION handled in POSITION_CONTROL_LIST */ \
     X(REFERENCE_SWITCH_ENABLE,           161, /*!< Bitwise enable for stopping on reference switch. See ReferenceSwitchEnable. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_POLARITY_AND_SWAP,162, /*!< Bitwise config for switch polarity/swap. See ReferenceSwitchPolaritySwap. Default: 0. RWE */) \
     X(REFERENCE_SWITCH_LATCH_SETTINGS,   163, /*!< Bitwise config for latch behavior. See ReferenceSwitchLatchSettings. Default: 0. RWE */) \
@@ -4411,7 +4411,7 @@ inline const char* to_string(ReferenceSearchStatus e) {
  *   209  | STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY | Max velocity for extrapolation [eRPM]. 0...2147483647. Default: 2147483647. RW
  */
 #define STEP_DIR_LIST(X) \
-    X(VELOCITY_FEEDFORWARD_ENABLE, 68, /*!< Enable velocity feedforward. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
+    /* VELOCITY_FEEDFORWARD_ENABLE defined in VELOCITY_CONTROL_LIST */ \
     X(STEP_DIR_STEP_DIVIDER_SHIFT, 205, /*!< Micro-step divider shift (see StepDirStepDividerShift). Default: 0 (full step). RWE */) \
     X(STEP_DIR_ENABLE, 206, /*!< Enable STEP/DIR input. 0: DISABLED, 1: ENABLED. Default: 0. RW */) \
     X(STEP_DIR_EXTRAPOLATION_ENABLE, 207, /*!< Enable extrapolation. 0: DISABLED, 1: ENABLED. Default: 0. RW */) \
@@ -4709,8 +4709,7 @@ inline const char* to_string(SystemStatusSupply e) {
     X(FOC_VOLTAGE_UX, 305, /*!< Interim result of the FOC for phase U (X in case of stepper motor) [-32768...32767]. Read-only. */) \
     X(FOC_VOLTAGE_WY, 306, /*!< Interim result of the FOC for phase W (Y in case of stepper motor) [-32768...32767]. Read-only. */) \
     X(FOC_VOLTAGE_V, 307, /*!< Interim result of the FOC for phase V (BLDC motor only) [-32768...32767]. Read-only. */) \
-    X(FIELDWEAKENING_I, 308, /*!< I parameter for field weakening controller [0...32767]. Default: 0. RWE */) \
-    X(FIELDWEAKENING_VOLTAGE_THRESHOLD, 310, /*!< Maximum motor voltage allowed for field weakening [0...32767]. Default: 32767. RWE */) \
+    /* FIELDWEAKENING_I and FIELDWEAKENING_VOLTAGE_THRESHOLD defined in TORQUE_FLUX_CONTROL_LIST */ \
     X(FOC_CURRENT_UX, 311, /*!< Interim measurement of the FOC for phase UX [-32768...32767]. Read-only. */) \
     X(FOC_CURRENT_V, 312, /*!< Interim measurement of the FOC for phase V [-32768...32767]. Read-only. */) \
     X(FOC_CURRENT_WY, 313, /*!< Interim measurement of the FOC for phase WY [-32768...32767]. Read-only. */) \
@@ -4825,12 +4824,7 @@ inline const char* to_string(CombinedDiagnosticValues e) {
  */
 #define ERRORS_AND_FLAGS_LIST(X) \
     X(GENERAL_STATUS_FLAGS, 289, /*!< General status flags. See GeneralStatusFlags enum. Read-only. */) \
-    X(EXTERNAL_TEMPERATURE, 293, /*!< External temperature sensor reading [0-65535]. Read-only. */) \
-    X(EXTERNAL_TEMPERATURE_SHUTDOWN_THRESHOLD, 294, /*!< Shutdown threshold for external temperature [0-65535]. Default: 65535. */) \
-    X(EXTERNAL_TEMPERATURE_WARNING_THRESHOLD, 295, /*!< Warning threshold for external temperature [0-65535]. Default: 65535. */) \
-    X(CHIP_TEMPERATURE, 296, /*!< Chip temperature reading [0-65535]. Read-only. */) \
-    X(CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD, 297, /*!< Shutdown threshold for chip temperature [0-65535]. Default: 65535. */) \
-    X(CHIP_TEMPERATURE_WARNING_THRESHOLD, 298, /*!< Warning threshold for chip temperature [0-65535]. Default: 65535. */) \
+    /* Temperature parameters defined in TEMPERATURE_PROTECTION_LIST */ \
     X(GENERAL_ERROR_FLAGS, 299, /*!< General error flags. See GeneralErrorFlags enum. Read-only. */) \
     X(GDRV_ERROR_FLAGS, 300, /*!< Gate driver error flags. See GateDriverErrorFlags enum. Read-only. */) \
     X(ADC_STATUS_FLAGS, 301, /*!< ADC status flags. See AdcStatusFlags enum. Write-to-clear. */)
