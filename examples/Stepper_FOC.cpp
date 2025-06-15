@@ -23,11 +23,11 @@ int main() {
     DummyBus bus;        //!< Replace with real bus
     TMC9660 driver(bus); //!< Motor driver instance
 
-    driver.motor.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
-    driver.motor.configureABNEncoder(4000);      // encoder resolution
-    driver.motor.setCommutationMode(
-        tmc9660::tmcl::CommutationMode::FOC_ENCODER);
+    driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
+    driver.feedbackSense.configureABNEncoder(4000);      // encoder resolution
+    driver.motorConfig.setCommutationMode(
+        tmc9660::tmcl::CommutationMode::FOC_ABN);
 
-    driver.position.moveTo(500);                 // command position
+    driver.focControl.setTargetPosition(500);                 // command position
     std::cout << "Stepper moving to position 500" << std::endl;
 }

@@ -53,9 +53,9 @@ This library centers around a single `TMC9660` class that communicates via an ab
 classDiagram
     direction LR
     class TMC9660 {
-        +configureMotorType()
-        +setTargetVelocity()
-        +getChipTemperature()
+        +motorConfig.setType()
+        +focControl.setTargetVelocity()
+        +telemetry.getChipTemperature()
     }
     TMC9660 --> TMC9660CommInterface : uses
 ```
@@ -115,9 +115,10 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 DemoInterface bus;
 TMC9660 driver(bus);
 
-driver.configureMotorType(TMC9660::MotorType::BLDC, 7);
-driver.setCommutationMode(TMC9660::CommutationMode::FOC_HALL);
-driver.setTargetVelocity(1000);
+driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
+driver.motorConfig.setCommutationMode(
+    tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR);
+driver.focControl.setTargetVelocity(1000);
 ```
 Replace `DemoInterface` with your SPI or UART implementation to talk to real hardware.
 All API calls return a boolean status so you can handle communication errors if needed.
