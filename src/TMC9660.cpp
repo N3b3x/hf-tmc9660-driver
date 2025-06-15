@@ -2347,9 +2347,9 @@ bool TMC9660::IIT::setThermalWindingTimeConstant1(uint16_t ms) noexcept {
 }
 
 bool TMC9660::IIT::getThermalWindingTimeConstant1(uint16_t &ms) noexcept {
-  uint32_t v;
-  if (!driver.writeParameter(
-          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, 0, v))
+  uint32_t v = 0;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1, v))
     return false;
   ms = static_cast<uint16_t>(v);
   return true;
@@ -2371,9 +2371,9 @@ bool TMC9660::IIT::setThermalWindingTimeConstant2(uint16_t ms) noexcept {
 }
 
 bool TMC9660::IIT::getThermalWindingTimeConstant2(uint16_t &ms) noexcept {
-  uint32_t v;
-  if (!driver.writeParameter(
-          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, 0, v))
+  uint32_t v = 0;
+  if (!driver.readParameter(
+          tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_2, v))
     return false;
   ms = static_cast<uint16_t>(v);
   return true;
@@ -2541,10 +2541,10 @@ bool TMC9660::StopEvents::getAndClearLatchedPosition(int32_t &pos) noexcept {
   if (!driver.readParameter(tmc9660::tmcl::Parameters::LATCH_POSITION, v))
     return false;
   pos = static_cast<int32_t>(v);
-  driver.writeParameter(
+  return driver.writeParameter(
       tmc9660::tmcl::Parameters::GENERAL_STATUS_FLAGS,
-      static_cast<uint32_t>(tmc9660::tmcl::GeneralStatusFlags::RAMPER_LATCHED));
-  return true;
+      static_cast<uint32_t>(
+          tmc9660::tmcl::GeneralStatusFlags::RAMPER_LATCHED));
 }
 
 //===========================================================================
@@ -2588,20 +2588,17 @@ bool TMC9660::Protection::configureTemperature(float warningDegC,
   return ok;
 }
 
-bool TMC9660::Protection::setOvercurrentEnabled(bool enabled) {
-  uint8_t val = enabled ? 1 : 0;
-  bool ok = true;
+bool TMC9660::Protection::setOvercurrentEnabled(bool enabled) noexcept {
   tmc9660::tmcl::OvercurrentEnable temp =
       enabled ? tmc9660::tmcl::OvercurrentEnable::ENABLED
               : tmc9660::tmcl::OvercurrentEnable::DISABLED;
-
   return driver.gateDriver.enableOvercurrentProtection(temp, temp, temp, temp);
 }
 
 bool TMC9660::Protection::configureI2t(uint16_t timeConstant1_ms,
                                        float continuousCurrent1_A,
                                        uint16_t timeConstant2_ms,
-                                       float continuousCurrent2_A) {
+                                       float continuousCurrent2_A) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(
       tmc9660::tmcl::Parameters::THERMAL_WINDING_TIME_CONSTANT_1,
@@ -2618,7 +2615,7 @@ bool TMC9660::Protection::configureI2t(uint16_t timeConstant1_ms,
   return ok;
 }
 
-bool TMC9660::Protection::resetI2tState() {
+bool TMC9660::Protection::resetI2tState() noexcept {
   return driver.writeParameter(tmc9660::tmcl::Parameters::RESET_IIT_SUMS, 1u);
 }
 
@@ -2739,7 +2736,7 @@ bool TMC9660::NvmStorage::recallFromFlash() noexcept {
   if (!driver.telemetry.getGeneralStatusFlags(flags))
     return false;
   constexpr uint32_t CONFIG_LOADED_MASK =
-      1u << static_cast<uint8_t>(
+      static_cast<uint32_t>(
           tmc9660::tmcl::GeneralStatusFlags::CONFIG_LOADED);
   return (flags & CONFIG_LOADED_MASK) != 0;
 }
