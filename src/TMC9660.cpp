@@ -2543,8 +2543,7 @@ bool TMC9660::StopEvents::getAndClearLatchedPosition(int32_t &pos) noexcept {
   pos = static_cast<int32_t>(v);
   return driver.writeParameter(
       tmc9660::tmcl::Parameters::GENERAL_STATUS_FLAGS,
-      static_cast<uint32_t>(
-          tmc9660::tmcl::GeneralStatusFlags::RAMPER_LATCHED));
+      static_cast<uint32_t>(tmc9660::tmcl::GeneralStatusFlags::RAMPER_LATCHED));
 }
 
 //===========================================================================
@@ -2736,8 +2735,7 @@ bool TMC9660::NvmStorage::recallFromFlash() noexcept {
   if (!driver.telemetry.getGeneralStatusFlags(flags))
     return false;
   constexpr uint32_t CONFIG_LOADED_MASK =
-      static_cast<uint32_t>(
-          tmc9660::tmcl::GeneralStatusFlags::CONFIG_LOADED);
+      static_cast<uint32_t>(tmc9660::tmcl::GeneralStatusFlags::CONFIG_LOADED);
   return (flags & CONFIG_LOADED_MASK) != 0;
 }
 
