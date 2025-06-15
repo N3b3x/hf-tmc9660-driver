@@ -3,15 +3,17 @@
 
 using namespace tmc9660;
 
-TMC9660Bootloader::TMC9660Bootloader(TMC9660CommInterface &comm, uint8_t address) noexcept
+TMC9660Bootloader::TMC9660Bootloader(TMC9660CommInterface &comm,
+                                     uint8_t address) noexcept
     : comm_(comm), address_(address & 0x7F) {}
 
-bool TMC9660Bootloader::sendCommand(uint8_t op, uint16_t type, uint8_t bank, uint32_t value, uint32_t *reply) noexcept {
+bool TMC9660Bootloader::sendCommand(uint8_t op, uint16_t type, uint8_t bank,
+                                    uint32_t value, uint32_t *reply) noexcept {
   TMCLFrame tx{};
   tx.opcode = op;
-  tx.type   = type;
-  tx.motor  = bank;
-  tx.value  = value;
+  tx.type = type;
+  tx.motor = bank;
+  tx.value = value;
 
   TMCLReply rep{};
   if (!comm_.transfer(tx, rep, address_))
@@ -28,7 +30,8 @@ bool TMC9660Bootloader::setBank(uint8_t bank) noexcept {
 }
 
 bool TMC9660Bootloader::setAddress(uint32_t addr) noexcept {
-  return sendCommand(0x02, static_cast<uint16_t>(addr >> 16), static_cast<uint8_t>(addr >> 8), addr & 0xFF);
+  return sendCommand(0x02, static_cast<uint16_t>(addr >> 16),
+                     static_cast<uint8_t>(addr >> 8), addr & 0xFF);
 }
 
 bool TMC9660Bootloader::write8(uint8_t v) noexcept {
@@ -43,7 +46,8 @@ bool TMC9660Bootloader::write32(uint32_t v) noexcept {
   return sendCommand(0x05, 0, 0, v);
 }
 
-bool TMC9660Bootloader::write32Inc(const uint32_t *vals, size_t count) noexcept {
+bool TMC9660Bootloader::write32Inc(const uint32_t *vals,
+                                   size_t count) noexcept {
   for (size_t i = 0; i < count; ++i) {
     if (!write32(vals[i]))
       return false;
@@ -55,7 +59,8 @@ bool TMC9660Bootloader::otpBurn(uint8_t page) noexcept {
   return sendCommand(0x06, 0, page, 0);
 }
 
-bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept {
+bool TMC9660Bootloader::applyConfiguration(
+    const BootloaderConfig &cfg) noexcept {
   if (!setBank(5))
     return false;
 
@@ -79,10 +84,13 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept
   if (!setAddress(bootaddr::COMM_CONFIG))
     return false;
   uint32_t comm = 0;
-  comm |= (static_cast<uint32_t>(cfg.rs485.txen_pin) & 0x3) << 5; // BL_UART_TXEN
+  comm |= (static_cast<uint32_t>(cfg.rs485.txen_pin) & 0x3)
+          << 5;                                     // BL_UART_TXEN
   comm |= (cfg.spiComm.disable_spi ? 1u : 0u) << 1; // BL_DISABLE_SPI
-  comm |= (static_cast<uint32_t>(cfg.spiComm.boot_spi_iface) & 0x1) << 2; // BL_SPI_SELECT
-  comm |= (static_cast<uint32_t>(cfg.spiComm.spi0_sck_pin) & 0x1) << 10;  // BL_SPI0_SCK
+  comm |= (static_cast<uint32_t>(cfg.spiComm.boot_spi_iface) & 0x1)
+          << 2; // BL_SPI_SELECT
+  comm |= (static_cast<uint32_t>(cfg.spiComm.spi0_sck_pin) & 0x1)
+          << 10; // BL_SPI0_SCK
   if (!write32(comm))
     return false;
 
@@ -122,16 +130,19 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept
   if (!setAddress(bootaddr::CLOCK_CONFIG))
     return false;
   uint32_t clk = 0;
-  clk |= (static_cast<uint32_t>(cfg.clock.use_external) & 0x1) << 8; // EXT_NOT_INT
-  clk |= (static_cast<uint32_t>(cfg.clock.xtal_drive) & 0x7) << 9;   // XTAL_CFG
-  clk |= (cfg.clock.xtal_boost ? 1u : 0u) << 12;       // XTAL_BOOST
-  clk |= (static_cast<uint32_t>(cfg.clock.ext_source_type) & 0x1) << 13; // EXT_NOT_XTAL
-  clk |= (static_cast<uint32_t>(cfg.clock.pll_selection) & 0x3) << 16;   // PLL_OUT_SEL
-  clk |= (cfg.clock.rdiv & 0x1F) << 18;                // RDIV
-  clk |= (static_cast<uint32_t>(cfg.clock.sysclk_div) & 0x3) << 23;    // SYS_CLK_DIV
+  clk |= (static_cast<uint32_t>(cfg.clock.use_external) & 0x1)
+         << 8; // EXT_NOT_INT
+  clk |= (static_cast<uint32_t>(cfg.clock.xtal_drive) & 0x7) << 9; // XTAL_CFG
+  clk |= (cfg.clock.xtal_boost ? 1u : 0u) << 12;                   // XTAL_BOOST
+  clk |= (static_cast<uint32_t>(cfg.clock.ext_source_type) & 0x1)
+         << 13; // EXT_NOT_XTAL
+  clk |= (static_cast<uint32_t>(cfg.clock.pll_selection) & 0x3)
+         << 16;                         // PLL_OUT_SEL
+  clk |= (cfg.clock.rdiv & 0x1F) << 18; // RDIV
+  clk |= (static_cast<uint32_t>(cfg.clock.sysclk_div) & 0x3)
+         << 23; // SYS_CLK_DIV
   if (!write32(clk))
     return false;
 
   return true;
 }
-
