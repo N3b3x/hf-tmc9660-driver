@@ -1,4 +1,4 @@
-name: CI \u2022 Build \u00b7 Size \u00b7 Static Analyse
+name: CI • Build · Size · Static Analyse
 
 on:
   push:
