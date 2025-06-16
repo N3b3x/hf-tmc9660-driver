@@ -1,4 +1,4 @@
-name: CI • Build · Size · Static Analyse
+name: ESP32 Component CI • Build • Size • Static Analysis
 
 on:
   push:
