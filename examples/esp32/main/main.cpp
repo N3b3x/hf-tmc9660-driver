@@ -6,7 +6,6 @@ extern "C" void app_main() {
   TMC9660 driver(bus);
 
   driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
-  driver.motorConfig.setCommutationMode(
-      tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR);
+  driver.motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR);
   driver.focControl.setTargetVelocity(1000);
 }

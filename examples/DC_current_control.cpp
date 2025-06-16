@@ -6,29 +6,27 @@
  * the example can compile without hardware.
  */
 
-#include <iostream>
 #include "TMC9660.hpp"
+#include <iostream>
 
 /// Dummy communication bus echoing transfers back
 class DummyBus : public SPITMC9660CommInterface {
 public:
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
-        rx = tx;
-        return true;
-    }
+  bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    rx = tx;
+    return true;
+  }
 };
 
 int main() {
-    DummyBus bus;        //!< Replace with actual transport
-    TMC9660 driver(bus); //!< Driver communicating with the TMC9660
+  DummyBus bus;        //!< Replace with actual transport
+  TMC9660 driver(bus); //!< Driver communicating with the TMC9660
 
-    // Configure motor and drive settings
-    driver.motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR);
-    driver.motorConfig.setCommutationMode(
-        tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE);
-    driver.motorConfig.setMaxTorqueCurrent(1000);  // peak current in mA
-    driver.focControl.setTargetTorque(500); // hold 500 mA
+  // Configure motor and drive settings
+  driver.motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR);
+  driver.motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE);
+  driver.motorConfig.setMaxTorqueCurrent(1000); // peak current in mA
+  driver.focControl.setTargetTorque(500);       // hold 500 mA
 
-    std::cout << "DC motor current control active" << std::endl;
+  std::cout << "DC motor current control active" << std::endl;
 }

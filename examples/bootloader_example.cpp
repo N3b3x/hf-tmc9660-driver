@@ -8,8 +8,8 @@
  * be compiled and run on a desktop machine without hardware.
  */
 
-#include <iostream>
 #include "TMC9660.hpp"
+#include <iostream>
 
 /**
  * @brief Minimal SPI bus stub used for demonstration.
@@ -19,28 +19,27 @@
  */
 class DummyBus : public SPITMC9660CommInterface {
 public:
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
-        rx = tx; //!< Echo data back to emulate a device
-        return true;
-    }
+  bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    rx = tx; //!< Echo data back to emulate a device
+    return true;
+  }
 };
 
 int main() {
-    DummyBus bus;               //!< Replace with your real bus
-    TMC9660 driver(bus);        //!< Driver communicating over that bus
+  DummyBus bus;        //!< Replace with your real bus
+  TMC9660 driver(bus); //!< Driver communicating over that bus
 
-    // Build a bootloader configuration structure.
-    tmc9660::BootloaderConfig cfg{};
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200; ///< Example UART speed
-    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0; ///< Use SPI0
+  // Build a bootloader configuration structure.
+  tmc9660::BootloaderConfig cfg{};
+  cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;           ///< Example UART speed
+  cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0; ///< Use SPI0
 
-    // Write the configuration to the device.
-    auto res = driver.bootloaderInit(&cfg);
-    if (res == TMC9660::BootloaderInitResult::Success)
-        std::cout << "Bootloader configured successfully" << std::endl;
-    else
-        std::cout << "Bootloader configuration failed" << std::endl;
+  // Write the configuration to the device.
+  auto res = driver.bootloaderInit(&cfg);
+  if (res == TMC9660::BootloaderInitResult::Success)
+    std::cout << "Bootloader configured successfully" << std::endl;
+  else
+    std::cout << "Bootloader configuration failed" << std::endl;
 
-    return 0;
+  return 0;
 }
