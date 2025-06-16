@@ -4,12 +4,12 @@
 #include <cstdint>
 #include <cstdlib>
 #include <span>
-#include <vector>
 #include <variant>
+#include <vector>
 
-#include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
-#include "TMC9660CommInterface.hpp"
 #include "TMC9660Bootloader.hpp"
+#include "TMC9660CommInterface.hpp"
+#include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
 /** @brief Main class representing a TMC9660 motor driver in Parameter Mode.
  * Provides high-level functions to configure and control the TMC9660's
@@ -25,7 +25,6 @@
  */
 class TMC9660 {
 public:
-
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
@@ -35,13 +34,15 @@ public:
   TMC9660(TMC9660CommInterface &comm, uint8_t address = 0,
           const tmc9660::BootloaderConfig *bootCfg = nullptr) noexcept;
 
-  /** @brief Destructor for TMC9660, cleans up resources */ 
+  /** @brief Destructor for TMC9660, cleans up resources */
   ~TMC9660() noexcept;
 
   /** @brief Get the communication interface used by this TMC9660 instance.
    * @return Reference to the communication interface (SPI, UART, etc).
    */
-  [[nodiscard]] TMC9660CommInterface &comm() noexcept { return comm_; }
+  [[nodiscard]] TMC9660CommInterface &comm() noexcept {
+    return comm_;
+  }
 
   //***************************************************************************
   //**                  BOOTLOADER INITIALIZATION                          **//
@@ -60,8 +61,8 @@ public:
    * @return BootloaderInitResult indicating success, no config, or failure.
    * @note This method should be called before any other operations.
    */
-  TMC9660::BootloaderInitResult bootloaderInit(
-      const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
+  TMC9660::BootloaderInitResult
+  bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
 
   //***************************************************************************
   //**               CORE PARAMETER ACCESS METHODS                         **//
@@ -76,8 +77,7 @@ public:
    * @return true if the parameter was successfully written (acknowledged by the
    * device), false if an error occurred.
    */
-  [[nodiscard]] bool writeParameter(tmc9660::tmcl::Parameters id,
-                                    uint32_t value,
+  [[nodiscard]] bool writeParameter(tmc9660::tmcl::Parameters id, uint32_t value,
                                     uint8_t motorIndex = 0) noexcept;
   /** @brief Read an axis (motor-specific) parameter from the TMC9660.
    * @param id Parameter ID number to read.
@@ -86,12 +86,13 @@ public:
    * @return true if the parameter was successfully read (device responded),
    * false on error.
    */
-  [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id,
-                                   uint32_t &value,
+  [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id, uint32_t &value,
                                    uint8_t motorIndex = 0) noexcept;
 
   // Variant type for global parameter banks (can be index or any bank enum)
-  using GlobalParamBankVariant = std::variant<uint8_t, tmc9660::tmcl::GlobalParamBank0, tmc9660::tmcl::GlobalParamBank2, tmc9660::tmcl::GlobalParamBank3>;
+  using GlobalParamBankVariant =
+      std::variant<uint8_t, tmc9660::tmcl::GlobalParamBank0, tmc9660::tmcl::GlobalParamBank2,
+                   tmc9660::tmcl::GlobalParamBank3>;
 
   /** @brief Set (write) a global parameter on the TMC9660.
    * @param id Global parameter ID number.
@@ -99,29 +100,27 @@ public:
    * @param value 32-bit value to write.
    * @return true if successfully written, false if an error occurred.
    */
-  [[nodiscard]] bool writeGlobalParameter(GlobalParamBankVariant id,
-                                           uint8_t bank,
-                                           uint32_t value) noexcept;
+  [[nodiscard]] bool writeGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
+                                          uint32_t value) noexcept;
 
   /** @brief Read a global parameter from the TMC9660.
    * @param id Global parameter ID number.
-   * @param bank Bank number or index associated with the parameter (can be Bank1, Bank2, or Bank3 enum).
+   * @param bank Bank number or index associated with the parameter (can be Bank1, Bank2, or Bank3
+   * enum).
    * @param[out] value Reference to store the read 32-bit value.
    * @return true if read successfully, false on error.
    */
-  [[nodiscard]] bool readGlobalParameter(GlobalParamBankVariant id,
-                                          uint8_t bank,
-                                          uint32_t &value) noexcept;
+  [[nodiscard]] bool readGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
+                                         uint32_t &value) noexcept;
 
   /// Send a TMCL command. Optionally return the 32-bit reply value.
-  bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type = 0,
-                   uint8_t motor = 0, uint32_t value = 0,
-                   uint32_t *reply = nullptr) noexcept;
+  bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type = 0, uint8_t motor = 0,
+                   uint32_t value = 0, uint32_t *reply = nullptr) noexcept;
 
   //***************************************************************************
   //**                  SUBSYSTEM: Motor Configuration                     **//
   //***************************************************************************
-  
+
   /** @brief Subsystem for configuring motor type and basic settings */
   struct MotorConfig {
     /** @brief Configure the motor type (DC, BLDC, or stepper) and basic motor
@@ -229,9 +228,10 @@ public:
      * utilization, switching losses, and current measurement windows.
      *
      * @param scheme PWM switching scheme:
-         *               0: STANDARD - Standard PWM modulation (86% max voltage for BLDC)
-         *               1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced load on FETs)
-         *               2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for BLDC, extended current measurement window)
+     *               0: STANDARD - Standard PWM modulation (86% max voltage for BLDC)
+     *               1: SVPWM - Space Vector PWM (100% max voltage for BLDC, balanced load on FETs)
+     *               2: FLAT_BOTTOM - Flat bottom PWM (100% max voltage for BLDC, extended current
+     * measurement window)
      * @return true if set successfully, false if an error occurred.
      *
      * @note For BLDC motors, SVPWM and Flat Bottom schemes allow full voltage
@@ -250,30 +250,33 @@ public:
      * @return true if the parameter was set successfully.
      *
      * @note Selection guide by motor type:
-         * | Motor type   | Typical goal when idle         | Best-fit setting     | Why it's usually preferred                   |
-         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
-         * | **Stepper**  | Hold a fixed shaft position    | **PWM on**          | • Energizing both windings gives full static |
-         * |              | (avoid back-driving)           | (all coils          | torque                                       |
-         * |              |                                | energized)          | • Prevents the load or gravity from shifting |
-         * |              |                                |                      | the rotor                                    |
-         * |              |                                |                      | • Draws continuous current, heating the      |
-         * |              |                                |                      | motor and wasting power—turn it off if you   |
-         * |              |                                |                      | don't need holding torque                    |
-         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
-         * | **BLDC**     | Usually want the rotor to      | **PWM off**         | • With the bridge inactive the stator        |
-         * | **(3-phase)**| coast freely or be gently      | (high-Z)            | doesn't pull current, avoiding battery       |
-         * |              | braked by external friction    |                      | drain and heating                            |
-         * |              |                                |                      | • If you need static holding/braking torque  |
-         * |              |                                |                      | (rare for sensorless BLDC), keep PWM on      |
-         * |              |                                |                      | or switch to active braking instead          |
-         * | ------------ | ------------------------------ | -------------------- | -------------------------------------------- |
-         * | **Brushed**  | Let the armature coast; no     | **PWM off**         | • Disconnecting the H-bridge removes any     |
-         * | **DC**       | holding torque exists anyway   | (high-Z)            | quiescent current                            |
-         * |              |                                |                      | • Keeping PWM on shorts the terminals        |
-         * |              |                                |                      | (dynamic braking) and stops the shaft        |
-         * |              |                                |                      | quickly but wastes energy and can cause      |
-         * |              |                                |                      | regen currents—use only if you need that     |
-         * |              |                                |                      | fast passive brake                           |
+     * | Motor type   | Typical goal when idle         | Best-fit setting     | Why it's usually
+     * preferred                   | | ------------ | ------------------------------ |
+     * -------------------- | -------------------------------------------- | | **Stepper**  | Hold a
+     * fixed shaft position    | **PWM on**          | • Energizing both windings gives full static
+     * | |              | (avoid back-driving)           | (all coils          | torque | | | |
+     * energized)          | • Prevents the load or gravity from shifting | |              | | | the
+     * rotor                                    | |              |                                |
+     * | • Draws continuous current, heating the      | |              | |                      |
+     * motor and wasting power—turn it off if you   | |              | |                      |
+     * don't need holding torque                    | | ------------ |
+     * ------------------------------ | -------------------- |
+     * -------------------------------------------- | | **BLDC**     | Usually want the rotor to |
+     * **PWM off**         | • With the bridge inactive the stator        | | **(3-phase)**| coast
+     * freely or be gently      | (high-Z)            | doesn't pull current, avoiding battery | |
+     * | braked by external friction    |                      | drain and heating | | | | | • If
+     * you need static holding/braking torque  | |              |                                |
+     * | (rare for sensorless BLDC), keep PWM on      | |              | |                      | or
+     * switch to active braking instead          | | ------------ | ------------------------------ |
+     * -------------------- | -------------------------------------------- | | **Brushed**  | Let
+     * the armature coast; no     | **PWM off**         | • Disconnecting the H-bridge removes any |
+     * | **DC**       | holding torque exists anyway   | (high-Z)            | quiescent current |
+     * |              |                                |                      | • Keeping PWM on
+     * shorts the terminals        | |              |                                | | (dynamic
+     * braking) and stops the shaft        | |              |                                | |
+     * quickly but wastes energy and can cause      | |              | |                      |
+     * regen currents—use only if you need that     | |              | |                      | fast
+     * passive brake                           |
      *
      * There isn't a single "best" choice that fits every motor type or
      * application—you're really deciding between:
@@ -308,7 +311,9 @@ public:
      * So, "most ideal" depends entirely on your idle behavior requirements:
      * holding torque = **ON**, low power coast = **OFF**.
      */
-    bool setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle = tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
+    bool setIdleMotorPWMBehavior(
+        tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle =
+            tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
 
   private:
     friend class TMC9660;
@@ -342,8 +347,7 @@ public:
      * @param[out] adc3 Raw ADC I3
      * @return true if all values were read successfully
      */
-    bool readRaw(int16_t &adc0, int16_t &adc1, int16_t &adc2,
-                 int16_t &adc3) noexcept;
+    bool readRaw(int16_t &adc0, int16_t &adc1, int16_t &adc2, int16_t &adc3) noexcept;
 
     /** @brief Set current sense amplifier gain (Parameters 17/18:
      * CSA_GAIN_ADC_I0_TO_ADC_I2, CSA_GAIN_ADC_I3).
@@ -351,8 +355,7 @@ public:
      * @param gain3 CsaGain enum value for ADC I3
      * @return true if successful
      */
-    bool setCSAGain(tmc9660::tmcl::CsaGain gain012,
-                    tmc9660::tmcl::CsaGain gain3) noexcept;
+    bool setCSAGain(tmc9660::tmcl::CsaGain gain012, tmc9660::tmcl::CsaGain gain3) noexcept;
 
     /** @brief Get current sense amplifier gain (Parameters 17/18:
      * CSA_GAIN_ADC_I0_TO_ADC_I2, CSA_GAIN_ADC_I3).
@@ -360,8 +363,7 @@ public:
      * @param[out] gain3 CsaGain enum value for ADC I3
      * @return true if successful
      */
-    bool getCSAGain(tmc9660::tmcl::CsaGain &gain012,
-                    tmc9660::tmcl::CsaGain &gain3) noexcept;
+    bool getCSAGain(tmc9660::tmcl::CsaGain &gain012, tmc9660::tmcl::CsaGain &gain3) noexcept;
 
     /** @brief Set current sense amplifier filter (Parameters 19/20:
      * CSA_FILTER_ADC_I0_TO_ADC_I2, CSA_FILTER_ADC_I3).
@@ -401,10 +403,8 @@ public:
      * @param y2 AdcMapping enum value for Y2
      * @return true if all mappings were set successfully
      */
-    bool setPhaseAdcMapping(tmc9660::tmcl::AdcMapping ux1,
-                            tmc9660::tmcl::AdcMapping vx2,
-                            tmc9660::tmcl::AdcMapping wy1,
-                            tmc9660::tmcl::AdcMapping y2) noexcept;
+    bool setPhaseAdcMapping(tmc9660::tmcl::AdcMapping ux1, tmc9660::tmcl::AdcMapping vx2,
+                            tmc9660::tmcl::AdcMapping wy1, tmc9660::tmcl::AdcMapping y2) noexcept;
 
     /** @brief Get ADC mapping for each phase (Parameters 22-25:
      * PHASE_UX1_ADC_MAPPING ... PHASE_Y2_ADC_MAPPING).
@@ -414,10 +414,8 @@ public:
      * @param[out] y2 AdcMapping enum value for Y2
      * @return true if all mappings were retrieved successfully
      */
-    bool getPhaseAdcMapping(tmc9660::tmcl::AdcMapping &ux1,
-                            tmc9660::tmcl::AdcMapping &vx2,
-                            tmc9660::tmcl::AdcMapping &wy1,
-                            tmc9660::tmcl::AdcMapping &y2) noexcept;
+    bool getPhaseAdcMapping(tmc9660::tmcl::AdcMapping &ux1, tmc9660::tmcl::AdcMapping &vx2,
+                            tmc9660::tmcl::AdcMapping &wy1, tmc9660::tmcl::AdcMapping &y2) noexcept;
 
     /** @brief Set individual ADC scaling factors (Parameters 26-29: ADC_I0_SCALE
      * ... ADC_I3_SCALE).
@@ -449,10 +447,8 @@ public:
      * @param inv3 AdcInversion enum value for ADC I3
      * @return true if all inversion flags were set successfully
      */
-    bool setInversion(tmc9660::tmcl::AdcInversion inv0,
-                      tmc9660::tmcl::AdcInversion inv1,
-                      tmc9660::tmcl::AdcInversion inv2,
-                      tmc9660::tmcl::AdcInversion inv3) noexcept;
+    bool setInversion(tmc9660::tmcl::AdcInversion inv0, tmc9660::tmcl::AdcInversion inv1,
+                      tmc9660::tmcl::AdcInversion inv2, tmc9660::tmcl::AdcInversion inv3) noexcept;
 
     /** @brief Get ADC inversion (Parameters 30-33: ADC_I0_INVERTED ...
      * ADC_I3_INVERTED).
@@ -462,8 +458,7 @@ public:
      * @param[out] inv3 AdcInversion enum value for ADC I3
      * @return true if all inversion flags were retrieved successfully
      */
-    bool getInversion(tmc9660::tmcl::AdcInversion &inv0,
-                      tmc9660::tmcl::AdcInversion &inv1,
+    bool getInversion(tmc9660::tmcl::AdcInversion &inv0, tmc9660::tmcl::AdcInversion &inv1,
                       tmc9660::tmcl::AdcInversion &inv2,
                       tmc9660::tmcl::AdcInversion &inv3) noexcept;
 
@@ -475,8 +470,7 @@ public:
      * @param offset3 Offset for ADC I3 (-32768...32767)
      * @return true if all offsets were set successfully
      */
-    bool setOffsets(int16_t offset0, int16_t offset1, int16_t offset2,
-                    int16_t offset3) noexcept;
+    bool setOffsets(int16_t offset0, int16_t offset1, int16_t offset2, int16_t offset3) noexcept;
 
     /** @brief Get ADC offset (Parameters 34-37: ADC_I0_OFFSET ...
      * ADC_I3_OFFSET).
@@ -497,8 +491,7 @@ public:
      * @param[out] adc3 Scaled/offset ADC I3
      * @return true if all values were read successfully
      */
-    bool readScaledAndOffset(int16_t &adc0, int16_t &adc1, int16_t &adc2,
-                             int16_t &adc3) noexcept;
+    bool readScaledAndOffset(int16_t &adc0, int16_t &adc1, int16_t &adc2, int16_t &adc3) noexcept;
 
     /** @brief Calibrate the ADC offsets for current measurement.
      *
@@ -511,8 +504,7 @@ public:
      * @return true if calibration was started (and completed if
      * waitForCompletion is true)
      */
-    bool calibrateOffsets(bool waitForCompletion = false,
-                          uint32_t timeoutMs = 1000) noexcept;
+    bool calibrateOffsets(bool waitForCompletion = false, uint32_t timeoutMs = 1000) noexcept;
 
     /** @brief Check if ADC offset calibration has been completed.
      *
@@ -560,8 +552,7 @@ public:
      * units).
      * @return true if successfully configured.
      */
-    bool configureBreakBeforeMakeTiming(uint8_t lowSideUVW, uint8_t highSideUVW,
-                                        uint8_t lowSideY2,
+    bool configureBreakBeforeMakeTiming(uint8_t lowSideUVW, uint8_t highSideUVW, uint8_t lowSideY2,
                                         uint8_t highSideY2) noexcept;
 
     /** @brief Enable or disable adaptive drive time for UVW and Y2 phases.
@@ -585,8 +576,8 @@ public:
      * @param sourceTimeY2 Charge time for Y2 phase (0 ... 255). Default: 255.
      * @return true if successfully configured.
      */
-    bool configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourceTimeUVW,
-                             uint8_t sinkTimeY2, uint8_t sourceTimeY2) noexcept;
+    bool configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourceTimeUVW, uint8_t sinkTimeY2,
+                             uint8_t sourceTimeY2) noexcept;
 
     /** @brief Configure gate driver current limits for UVW and Y2 phases.
      *
@@ -599,11 +590,10 @@ public:
      * enum).
      * @return true if successfully configured.
      */
-    bool configureCurrentLimits(
-        tmc9660::tmcl::GateCurrentSink sinkCurrentUVW,
-        tmc9660::tmcl::GateCurrentSource sourceCurrentUVW,
-        tmc9660::tmcl::GateCurrentSink sinkCurrentY2,
-        tmc9660::tmcl::GateCurrentSource sourceCurrentY2) noexcept;
+    bool configureCurrentLimits(tmc9660::tmcl::GateCurrentSink sinkCurrentUVW,
+                                tmc9660::tmcl::GateCurrentSource sourceCurrentUVW,
+                                tmc9660::tmcl::GateCurrentSink sinkCurrentY2,
+                                tmc9660::tmcl::GateCurrentSource sourceCurrentY2) noexcept;
 
     /** @brief Configure bootstrap current limit.
      *
@@ -611,8 +601,7 @@ public:
      * @param limit Bootstrap current limit (BootstrapCurrentLimit enum).
      * @return true if successfully configured.
      */
-    bool configureBootstrapCurrentLimit(
-        tmc9660::tmcl::BootstrapCurrentLimit limit) noexcept;
+    bool configureBootstrapCurrentLimit(tmc9660::tmcl::BootstrapCurrentLimit limit) noexcept;
 
     /** @brief Configure undervoltage protection settings.
      *
@@ -626,11 +615,10 @@ public:
      * (tmc9660::tmcl::UndervoltageEnable enum).
      * @return true if successfully configured.
      */
-    bool configureUndervoltageProtection(
-        tmc9660::tmcl::UndervoltageLevel supplyLevel,
-        tmc9660::tmcl::UndervoltageEnable enableVdrv,
-        tmc9660::tmcl::UndervoltageEnable enableBstUVW,
-        tmc9660::tmcl::UndervoltageEnable enableBstY2) noexcept;
+    bool configureUndervoltageProtection(tmc9660::tmcl::UndervoltageLevel supplyLevel,
+                                         tmc9660::tmcl::UndervoltageEnable enableVdrv,
+                                         tmc9660::tmcl::UndervoltageEnable enableBstUVW,
+                                         tmc9660::tmcl::UndervoltageEnable enableBstY2) noexcept;
 
     /** @brief Enable or disable overcurrent protection for UVW and Y2 phases.
      *
@@ -644,11 +632,10 @@ public:
      * (tmc9660::tmcl::OvercurrentEnable enum).
      * @return true if successfully configured.
      */
-    bool enableOvercurrentProtection(
-        tmc9660::tmcl::OvercurrentEnable enableUVWLowSide,
-        tmc9660::tmcl::OvercurrentEnable enableUVWHighSide,
-        tmc9660::tmcl::OvercurrentEnable enableY2LowSide,
-        tmc9660::tmcl::OvercurrentEnable enableY2HighSide) noexcept;
+    bool enableOvercurrentProtection(tmc9660::tmcl::OvercurrentEnable enableUVWLowSide,
+                                     tmc9660::tmcl::OvercurrentEnable enableUVWHighSide,
+                                     tmc9660::tmcl::OvercurrentEnable enableY2LowSide,
+                                     tmc9660::tmcl::OvercurrentEnable enableY2HighSide) noexcept;
 
     /** @brief Configure overcurrent protection thresholds for UVW and Y2 phases.
      *
@@ -662,11 +649,10 @@ public:
      * (tmc9660::tmcl::OvercurrentThreshold enum).
      * @return true if successfully configured.
      */
-    bool setOvercurrentThresholds(
-        tmc9660::tmcl::OvercurrentThreshold uvwLowSideThreshold,
-        tmc9660::tmcl::OvercurrentThreshold uvwHighSideThreshold,
-        tmc9660::tmcl::OvercurrentThreshold y2LowSideThreshold,
-        tmc9660::tmcl::OvercurrentThreshold y2HighSideThreshold) noexcept;
+    bool setOvercurrentThresholds(tmc9660::tmcl::OvercurrentThreshold uvwLowSideThreshold,
+                                  tmc9660::tmcl::OvercurrentThreshold uvwHighSideThreshold,
+                                  tmc9660::tmcl::OvercurrentThreshold y2LowSideThreshold,
+                                  tmc9660::tmcl::OvercurrentThreshold y2HighSideThreshold) noexcept;
 
     /** @brief Configure the overcurrent protection blanking time for UVW and Y2
      * phases.
@@ -683,11 +669,10 @@ public:
      * (tmc9660::tmcl::OvercurrentTiming enum).
      * @return true if successfully configured.
      */
-    bool setOvercurrentBlanking(
-        tmc9660::tmcl::OvercurrentTiming uvwLowSideTime,
-        tmc9660::tmcl::OvercurrentTiming uvwHighSideTime,
-        tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
-        tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
+    bool setOvercurrentBlanking(tmc9660::tmcl::OvercurrentTiming uvwLowSideTime,
+                                tmc9660::tmcl::OvercurrentTiming uvwHighSideTime,
+                                tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
+                                tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
 
     /** @brief Configure the overcurrent protection deglitch time for UVW and Y2
      * phases.
@@ -704,11 +689,10 @@ public:
      * (tmc9660::tmcl::OvercurrentTiming enum).
      * @return true if successfully configured.
      */
-    bool setOvercurrentDeglitch(
-        tmc9660::tmcl::OvercurrentTiming uvwLowSideTime,
-        tmc9660::tmcl::OvercurrentTiming uvwHighSideTime,
-        tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
-        tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
+    bool setOvercurrentDeglitch(tmc9660::tmcl::OvercurrentTiming uvwLowSideTime,
+                                tmc9660::tmcl::OvercurrentTiming uvwHighSideTime,
+                                tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
+                                tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept;
 
     /** @brief Enable or disable VDS monitoring for overcurrent protection on UVW
      * and Y2 low sides.
@@ -734,11 +718,10 @@ public:
      * side (tmc9660::tmcl::VgsShortEnable enum).
      * @return true if successfully configured.
      */
-    bool configureVgsShortProtectionUVW(
-        tmc9660::tmcl::VgsShortEnable enableLowSideOn,
-        tmc9660::tmcl::VgsShortEnable enableLowSideOff,
-        tmc9660::tmcl::VgsShortEnable enableHighSideOn,
-        tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
+    bool configureVgsShortProtectionUVW(tmc9660::tmcl::VgsShortEnable enableLowSideOn,
+                                        tmc9660::tmcl::VgsShortEnable enableLowSideOff,
+                                        tmc9660::tmcl::VgsShortEnable enableHighSideOn,
+                                        tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
 
     /** @brief Configure gate-to-source short protection for Y2 phase.
      *
@@ -752,11 +735,10 @@ public:
      * side (tmc9660::tmcl::VgsShortEnable enum).
      * @return true if successfully configured.
      */
-    bool configureVgsShortProtectionY2(
-        tmc9660::tmcl::VgsShortEnable enableLowSideOn,
-        tmc9660::tmcl::VgsShortEnable enableLowSideOff,
-        tmc9660::tmcl::VgsShortEnable enableHighSideOn,
-        tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
+    bool configureVgsShortProtectionY2(tmc9660::tmcl::VgsShortEnable enableLowSideOn,
+                                       tmc9660::tmcl::VgsShortEnable enableLowSideOff,
+                                       tmc9660::tmcl::VgsShortEnable enableHighSideOn,
+                                       tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept;
 
     /** @brief Set gate-to-source short protection blanking time.
      *
@@ -767,7 +749,7 @@ public:
      * @return true if successfully configured.
      */
     bool setVgsShortBlankingTime(tmc9660::tmcl::VgsBlankingTime uvwTime,
-                                    tmc9660::tmcl::VgsBlankingTime y2Time) noexcept;
+                                 tmc9660::tmcl::VgsBlankingTime y2Time) noexcept;
 
     /** @brief Set gate-to-source short protection deglitch time.
      *
@@ -778,7 +760,7 @@ public:
      * @return true if successfully configured.
      */
     bool setVgsShortDeglitchTime(tmc9660::tmcl::VgsDeglitchTime uvwTime,
-                                    tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept;
+                                 tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept;
 
     /** @brief Configure fault retry behavior.
      *
@@ -794,8 +776,7 @@ public:
      * (tmc9660::tmcl::DriveFaultBehavior enum).
      * @return true if successfully configured.
      */
-    bool setDriveFaultBehavior(
-        tmc9660::tmcl::DriveFaultBehaviour faultBehavior) noexcept;
+    bool setDriveFaultBehavior(tmc9660::tmcl::DriveFaultBehaviour faultBehavior) noexcept;
 
     /** @brief Set the maximum number of retries for fault handling.
      *
@@ -837,13 +818,11 @@ public:
      * @param filterLength Digital filter length (0-255) for hall sensor inputs.
      * @return true if Hall sensor feedback is configured successfully.
      */
-    bool configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset =
-                           tmc9660::tmcl::HallSectorOffset::DEG_0,
-                       tmc9660::tmcl::Direction inverted =
-                           tmc9660::tmcl::Direction::NOT_INVERTED,
-                       tmc9660::tmcl::EnableDisable enableExtrapolation =
-                           tmc9660::tmcl::EnableDisable::DISABLED,
-                       uint8_t filterLength = 0) noexcept;
+    bool configureHall(
+        tmc9660::tmcl::HallSectorOffset sectorOffset = tmc9660::tmcl::HallSectorOffset::DEG_0,
+        tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
+        tmc9660::tmcl::EnableDisable enableExtrapolation = tmc9660::tmcl::EnableDisable::DISABLED,
+        uint8_t filterLength = 0) noexcept;
 
     /** @brief Set Hall sensor position offsets for improved accuracy.
      *
@@ -861,10 +840,8 @@ public:
      * @return true if Hall position offsets were set successfully.
      */
     bool setHallPositionOffsets(int16_t offset0 = 0, int16_t offset60 = 10922,
-                                int16_t offset120 = 21845,
-                                int16_t offset180 = -32768,
-                                int16_t offset240 = -21846,
-                                int16_t offset300 = -10923,
+                                int16_t offset120 = 21845, int16_t offset180 = -32768,
+                                int16_t offset240 = -21846, int16_t offset300 = -10923,
                                 int16_t globalOffset = 0) noexcept;
 
     /** @brief Read the electrical angle (phi_e) calculated from Hall feedback.
@@ -889,9 +866,11 @@ public:
      * instead of active high) (tmc9660::tmcl::EnableDisable).
      * @return true if encoder parameters were set successfully.
      */
-    bool configureABNEncoder(uint32_t countsPerRev,
-                            tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
-                            tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+    bool
+    configureABNEncoder(uint32_t countsPerRev,
+                        tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
+                        tmc9660::tmcl::EnableDisable nChannelInverted =
+                            tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
 
     /** @brief Configure ABN encoder initialization method.
      *
@@ -910,9 +889,9 @@ public:
      * @return true if ABN initialization parameters were set successfully.
      */
     bool configureABNInitialization(
-        tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
-        uint16_t initDelay = 1000, int32_t initVelocity = 5,
-        int16_t nChannelOffset = 0) noexcept;
+        tmc9660::tmcl::AbnInitMethod initMethod =
+            tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
+        uint16_t initDelay = 1000, int32_t initVelocity = 5, int16_t nChannelOffset = 0) noexcept;
 
     /** @brief Read the current state of ABN encoder initialization.
      * @param[out] state Current initialization state
@@ -947,9 +926,9 @@ public:
      * @return true if N-channel settings were applied successfully.
      */
     bool configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode =
-                                tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
-                                tmc9660::tmcl::EnableDisable clearOnNextNull =
-                                tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
+                                  tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF,
+                              tmc9660::tmcl::EnableDisable clearOnNextNull =
+                                  tmc9660::tmcl::EnableDisable::DISABLED) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -966,11 +945,10 @@ public:
      *                     motor shaft. Use 1 if directly coupled.
      * @return true if all parameters were written successfully.
      */
-    bool
-    configureSecondaryABNEncoder(uint32_t countsPerRev,
-                                    tmc9660::tmcl::Direction inverted =
-                                    tmc9660::tmcl::Direction::NOT_INVERTED,
-                                    uint8_t gearRatio = 1) noexcept;
+    bool configureSecondaryABNEncoder(
+        uint32_t countsPerRev,
+        tmc9660::tmcl::Direction inverted = tmc9660::tmcl::Direction::NOT_INVERTED,
+        uint8_t gearRatio = 1) noexcept;
 
     // ABN-2 (secondary encoder) getters
     /** @brief Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).
@@ -1034,8 +1012,7 @@ public:
      */
     bool configureSPIEncoderDataFormat(
         uint32_t positionMask, uint8_t positionShift = 0,
-        tmc9660::tmcl::Direction invertDirection =
-            tmc9660::tmcl::Direction::NOT_INVERTED) noexcept;
+        tmc9660::tmcl::Direction invertDirection = tmc9660::tmcl::Direction::NOT_INVERTED) noexcept;
 
     /** @brief Set up SPI encoder request data for continuous transfer mode.
      *
@@ -1045,8 +1022,7 @@ public:
      * @param size Size of the request data (1-16 bytes).
      * @return true if transfer data was set successfully.
      */
-    bool setSPIEncoderRequestData(const uint8_t *requestData,
-                                  uint8_t size) noexcept;
+    bool setSPIEncoderRequestData(const uint8_t *requestData, uint8_t size) noexcept;
 
     /** @brief Configure SPI encoder initialization method.
      *
@@ -1058,9 +1034,8 @@ public:
      * @param offset Manual offset value if using offset-based initialization.
      * @return true if initialization method was set successfully.
      */
-    bool
-    configureSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod initMethod,
-                                      int16_t offset = 0) noexcept;
+    bool configureSPIEncoderInitialization(tmc9660::tmcl::SpiInitMethod initMethod,
+                                           int16_t offset = 0) noexcept;
 
     /** @brief Enable or disable SPI encoder lookup table correction.
      *
@@ -1226,23 +1201,21 @@ public:
      * @param fluxI      Integral gain for flux loop.
      * @return true if written.
      */
-    bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separate = false,
-                             uint16_t fluxP = 0, uint16_t fluxI = 0) noexcept;
+    bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separate = false, uint16_t fluxP = 0,
+                             uint16_t fluxI = 0) noexcept;
     /** @brief Select combined or separate torque/flux PI parameters.
      * @param sep Separation mode.
      * @return true if written.
      */
-    bool setTorqueFluxPiSeparation(
-        tmc9660::tmcl::TorqueFluxPiSeparation sep) noexcept;
+    bool setTorqueFluxPiSeparation(tmc9660::tmcl::TorqueFluxPiSeparation sep) noexcept;
 
     /** @brief Set normalization for current-PI outputs.
      * @param pNorm Normalization for P-term.
      * @param iNorm Normalization for I-term.
      * @return true if written.
      */
-    bool setCurrentNormalization(
-        tmc9660::tmcl::CurrentPiNormalization pNorm,
-        tmc9660::tmcl::CurrentPiNormalization iNorm) noexcept;
+    bool setCurrentNormalization(tmc9660::tmcl::CurrentPiNormalization pNorm,
+                                 tmc9660::tmcl::CurrentPiNormalization iNorm) noexcept;
 
     /** @brief Read torque PI error.
      * @param[out] error Current torque-PI error.
@@ -1342,15 +1315,13 @@ public:
      * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
-    bool setStopOnVelocityDeviation(uint32_t maxError,
-                                    bool softStop = true) noexcept;
+    bool setStopOnVelocityDeviation(uint32_t maxError, bool softStop = true) noexcept;
     /** @brief Read stop-on-velocity-deviation settings.
      * @param[out] maxError Configured max deviation.
      * @param[out] softStop Soft/hard stop flag.
      * @return true if read.
      */
-    bool getStopOnVelocityDeviation(uint32_t &maxError,
-                                    bool &softStop) noexcept;
+    bool getStopOnVelocityDeviation(uint32_t &maxError, bool &softStop) noexcept;
 
     /** @brief Set velocity loop downsampling.
      * @param divider Downsample factor.
@@ -1468,15 +1439,13 @@ public:
      * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
-    bool setStopOnPositionDeviation(uint32_t maxError,
-                                    bool softStop = true) noexcept;
+    bool setStopOnPositionDeviation(uint32_t maxError, bool softStop = true) noexcept;
     /** @brief Read stop-on-position-deviation settings.
      * @param[out] maxError Configured max deviation.
      * @param[out] softStop Soft/hard stop flag.
      * @return true if read.
      */
-    bool getStopOnPositionDeviation(uint32_t &maxError,
-                                    bool &softStop) noexcept;
+    bool getStopOnPositionDeviation(uint32_t &maxError, bool &softStop) noexcept;
 
     /** @brief Set position loop downsampling.
      * @param divider Downsample factor.
@@ -1560,40 +1529,37 @@ public:
      * @param enable Bitmask of switch stops.
      * @return true if written.
      */
-    bool setReferenceSwitchEnable(
-        tmc9660::tmcl::ReferenceSwitchEnable enable) noexcept;
+    bool setReferenceSwitchEnable(tmc9660::tmcl::ReferenceSwitchEnable enable) noexcept;
     /** @brief Read reference switch enable mask.
      * @param[out] enable Mask.
      * @return true if read.
      */
-    bool getReferenceSwitchEnable(
-        tmc9660::tmcl::ReferenceSwitchEnable &enable) noexcept;
+    bool getReferenceSwitchEnable(tmc9660::tmcl::ReferenceSwitchEnable &enable) noexcept;
 
     /** @brief Configure switch polarity and swap.
      * @param config Polarity/swap config.
      * @return true if written.
      */
-    bool setReferenceSwitchPolaritySwap(
-        tmc9660::tmcl::ReferenceSwitchPolaritySwap config) noexcept;
+    bool setReferenceSwitchPolaritySwap(tmc9660::tmcl::ReferenceSwitchPolaritySwap config) noexcept;
     /** @brief Read switch polarity/swap config.
      * @param[out] config Config.
      * @return true if read.
      */
-    bool getReferenceSwitchPolaritySwap(
-        tmc9660::tmcl::ReferenceSwitchPolaritySwap &config) noexcept;
+    bool
+    getReferenceSwitchPolaritySwap(tmc9660::tmcl::ReferenceSwitchPolaritySwap &config) noexcept;
 
     /** @brief Configure switch latch settings.
      * @param setting Latch behavior.
      * @return true if written.
      */
-    bool setReferenceSwitchLatchSettings(
-        tmc9660::tmcl::ReferenceSwitchLatchSettings setting) noexcept;
+    bool
+    setReferenceSwitchLatchSettings(tmc9660::tmcl::ReferenceSwitchLatchSettings setting) noexcept;
     /** @brief Read switch latch settings.
      * @param[out] setting Latch behavior.
      * @return true if read.
      */
-    bool getReferenceSwitchLatchSettings(
-        tmc9660::tmcl::ReferenceSwitchLatchSettings &setting) noexcept;
+    bool
+    getReferenceSwitchLatchSettings(tmc9660::tmcl::ReferenceSwitchLatchSettings &setting) noexcept;
 
     /** @brief Configure event-stop settings.
      * @param settings Stop conditions.
@@ -1610,14 +1576,12 @@ public:
      * @param mode Search sequence.
      * @return true if written.
      */
-    bool setReferenceSwitchSearchMode(
-        tmc9660::tmcl::ReferenceSwitchSearchMode mode) noexcept;
+    bool setReferenceSwitchSearchMode(tmc9660::tmcl::ReferenceSwitchSearchMode mode) noexcept;
     /** @brief Read reference search mode.
      * @param[out] mode Search sequence.
      * @return true if read.
      */
-    bool getReferenceSwitchSearchMode(
-        tmc9660::tmcl::ReferenceSwitchSearchMode &mode) noexcept;
+    bool getReferenceSwitchSearchMode(tmc9660::tmcl::ReferenceSwitchSearchMode &mode) noexcept;
 
     /** @brief Set reference search speed.
      * @param speed Search velocity.
@@ -1788,8 +1752,8 @@ public:
      * @param v2 Velocity threshold 2 (RAMP_V2)
      * @param vMax Maximum velocity (RAMP_VMAX)
      */
-    bool setVelocities(uint32_t vStart, uint32_t vStop, uint32_t v1,
-                       uint32_t v2, uint32_t vMax) noexcept;
+    bool setVelocities(uint32_t vStart, uint32_t vStop, uint32_t v1, uint32_t v2,
+                       uint32_t vMax) noexcept;
 
     /** @brief Timing constraints at Vmax and between moves.
      * @param tVmaxCycles Minimum time at VMAX (RAMP_TVMAX)
@@ -1809,9 +1773,8 @@ public:
      * @param accelFFShift ACCELERATION_FF_SHIFT enum
      * (tmc9660::tmcl::AccelerationFFShift)
      */
-    bool enableFeedForward(bool enableVelFF, bool enableAccelFF,
-                            uint16_t accelFFGain,
-                            tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept;
+    bool enableFeedForward(bool enableVelFF, bool enableAccelFF, uint16_t accelFFGain,
+                           tmc9660::tmcl::AccelerationFFShift accelFFShift) noexcept;
 
     /** @brief Direct-velocity mode instead of classic PI velocity loop.
      * @param enable True to enable direct velocity mode (DIRECT_VELOCITY_MODE)
@@ -1863,8 +1826,7 @@ public:
      * - Parameter: `STEPDIR_STEP_DIVIDER_SHIFT`
      *   (shift of incoming step pulse count)
      */
-    bool setMicrostepResolution(
-        tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept;
+    bool setMicrostepResolution(tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept;
 
     /** @brief Enable or disable the STEP/DIR interface.
      *
@@ -2031,8 +1993,7 @@ public:
      * - THERMAL_WINDING_TIME_CONSTANT_1/2
      * - IIT_LIMIT_1/2
      */
-    bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A,
-                   uint16_t timeConstant2_ms,
+    bool configure(uint16_t timeConstant1_ms, float continuousCurrent1_A, uint16_t timeConstant2_ms,
                    float continuousCurrent2_A) noexcept;
 
     /** @brief Reset both I²t accumulators to zero.
@@ -2075,8 +2036,7 @@ public:
     /** @brief Read the total motor current (torque+flux).
      * - ACTUAL_TOTAL_MOTOR_CURRENT
      */
-    bool getActualTotalMotorCurrent(uint32_t &current,
-                                    uint8_t motorIndex = 0) noexcept;
+    bool getActualTotalMotorCurrent(uint32_t &current, uint8_t motorIndex = 0) noexcept;
 
     /** @brief Read the current integrated sum of window 1.
      * - IIT_SUM_1
@@ -2095,7 +2055,7 @@ public:
   } iit{*this};
 
   //===========================================================================
-  //==                  SUBSYSTEM: Telemetry & Status                       ==//    
+  //==                  SUBSYSTEM: Telemetry & Status                       ==//
   //===========================================================================
 
   /** @brief Subsystem for reading various telemetry and status information from
@@ -2207,7 +2167,7 @@ public:
     bool enableDeviationStop(
         uint32_t maxVelError, uint32_t maxPosError,
         bool softStop = true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS
-                            ///< @see Datasheet EVENT_STOP_SETTINGS
+                                        ///< @see Datasheet EVENT_STOP_SETTINGS
 
     /** @brief Configure reference / limit-switch inputs.
      * @param mask  Bit-mask 0…7 ; see REFERENCE_SWITCH_ENABLE.
@@ -2225,10 +2185,10 @@ public:
      *
      * @see REFERENCE_SWITCH_* parameters in the datasheet.
      */
-    bool configureReferenceSwitches(
-        uint8_t mask, bool invertL, bool invertR, bool invertH,
-        bool swapLR) noexcept; ///< REFERENCE_SWITCH_*
-                               ///< @see Datasheet REFERENCE_SWITCH_ENABLE
+    bool
+    configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH,
+                               bool swapLR) noexcept; ///< REFERENCE_SWITCH_*
+                                                      ///< @see Datasheet REFERENCE_SWITCH_ENABLE
 
     /** @brief Read and clear the latched position from a switch event.
      *
@@ -2237,9 +2197,8 @@ public:
      *
      * @see LATCH_POSITION / RAMPER_LATCHED in the datasheet.
      */
-    bool getAndClearLatchedPosition(
-        int32_t &pos) noexcept; ///< LATCH_POSITION / RAMPER_LATCHED
-                                ///< @see Datasheet LATCH_POSITION
+    bool getAndClearLatchedPosition(int32_t &pos) noexcept; ///< LATCH_POSITION / RAMPER_LATCHED
+                                                            ///< @see Datasheet LATCH_POSITION
 
   private:
     friend class TMC9660;
@@ -2260,8 +2219,7 @@ public:
      * 0.1V.
      * @return true if thresholds were set successfully.
      */
-    bool configureVoltage(uint16_t overVoltThreshold,
-                          uint16_t underVoltThreshold) noexcept;
+    bool configureVoltage(uint16_t overVoltThreshold, uint16_t underVoltThreshold) noexcept;
 
     /** @brief Configure over-temperature protection thresholds.
      *
@@ -2295,8 +2253,7 @@ public:
      * @return true if configuration was successful.
      */
     bool configureI2t(uint16_t timeConstant1_ms, float continuousCurrent1_A,
-                      uint16_t timeConstant2_ms,
-                      float continuousCurrent2_A) noexcept;
+                      uint16_t timeConstant2_ms, float continuousCurrent2_A) noexcept;
 
     /** @brief Reset the integrated I²t sum accumulators.
      * @return true if reset was successful.
@@ -2437,7 +2394,7 @@ public:
 
   //===========================================================================
   //**                SUBSYSTEM: FLASH STORAGE                             ==//
-  //=========================================================================== 
+  //===========================================================================
 
   /** @brief Subsystem for storing and recalling parameters from nonvolatile
    * flash.
@@ -2485,7 +2442,7 @@ public:
   //===========================================================================
   //==                SUBSYSTEM: Heartbeat (Watchdog)                       ==//
   //===========================================================================
-  
+
   /** @brief Subsystem for configuring the communication watchdog (heartbeat).
    *
    * If enabled, the TMC9660 monitors the time since the last command.
@@ -2526,28 +2483,22 @@ public:
    */
   struct Globals {
     /// Write a value to bank 0 (system settings).
-    bool writeBank0(tmc9660::tmcl::GlobalParamBank0 param,
-                    uint32_t value) noexcept;
+    bool writeBank0(tmc9660::tmcl::GlobalParamBank0 param, uint32_t value) noexcept;
 
     /// Read a value from bank 0 (system settings).
-    bool readBank0(tmc9660::tmcl::GlobalParamBank0 param,
-                   uint32_t &value) noexcept;
+    bool readBank0(tmc9660::tmcl::GlobalParamBank0 param, uint32_t &value) noexcept;
 
     /// Write a signed user variable in bank 2.
-    bool writeBank2(tmc9660::tmcl::GlobalParamBank2 param,
-                    int32_t value) noexcept;
+    bool writeBank2(tmc9660::tmcl::GlobalParamBank2 param, int32_t value) noexcept;
 
     /// Read a signed user variable from bank 2.
-    bool readBank2(tmc9660::tmcl::GlobalParamBank2 param,
-                   int32_t &value) noexcept;
+    bool readBank2(tmc9660::tmcl::GlobalParamBank2 param, int32_t &value) noexcept;
 
     /// Write a value to bank 3 (interrupt configuration).
-    bool writeBank3(tmc9660::tmcl::GlobalParamBank3 param,
-                    uint32_t value) noexcept;
+    bool writeBank3(tmc9660::tmcl::GlobalParamBank3 param, uint32_t value) noexcept;
 
     /// Read a value from bank 3 (interrupt configuration).
-    bool readBank3(tmc9660::tmcl::GlobalParamBank3 param,
-                   uint32_t &value) noexcept;
+    bool readBank3(tmc9660::tmcl::GlobalParamBank3 param, uint32_t &value) noexcept;
 
     // High level helpers --------------------------------------------------
     /// Set module serial address (bank0:SERIAL_ADDRESS).
@@ -2563,14 +2514,12 @@ public:
     bool getHostAddress(uint8_t &address) noexcept;
 
     /// Configure heartbeat monitoring interface and timeout.
-    bool configureHeartbeat(
-        tmc9660::tmcl::HeartbeatMonitoringConfig iface,
-        uint32_t timeout_ms) noexcept;
+    bool configureHeartbeat(tmc9660::tmcl::HeartbeatMonitoringConfig iface,
+                            uint32_t timeout_ms) noexcept;
 
     /// Read heartbeat monitoring configuration.
-    bool getHeartbeat(
-        tmc9660::tmcl::HeartbeatMonitoringConfig &iface,
-        uint32_t &timeout_ms) noexcept;
+    bool getHeartbeat(tmc9660::tmcl::HeartbeatMonitoringConfig &iface,
+                      uint32_t &timeout_ms) noexcept;
 
     /// Set GPIO direction mask (bank0:IO_DIRECTION_MASK).
     bool setIODirectionMask(uint32_t mask) noexcept;
@@ -2615,12 +2564,10 @@ public:
     bool getTimerPeriod(uint8_t timer, uint32_t &period_ms) noexcept;
 
     /// Set trigger transition for digital input n (bank3 INPUT_n_TRIGGER_TRANSITION).
-    bool setInputTrigger(uint8_t index,
-                         tmc9660::tmcl::TriggerTransition transition) noexcept;
+    bool setInputTrigger(uint8_t index, tmc9660::tmcl::TriggerTransition transition) noexcept;
 
     /// Get trigger transition for digital input n.
-    bool getInputTrigger(uint8_t index,
-                         tmc9660::tmcl::TriggerTransition &transition) noexcept;
+    bool getInputTrigger(uint8_t index, tmc9660::tmcl::TriggerTransition &transition) noexcept;
 
   private:
     friend class TMC9660;
@@ -2650,8 +2597,7 @@ public:
      * @param pullUp true = pull-up, false = pull-down
      * @return true if configuration applied successfully
      */
-    bool setMode(uint8_t pin, bool output, bool pullEnable = false,
-                 bool pullUp = true) noexcept;
+    bool setMode(uint8_t pin, bool output, bool pullEnable = false, bool pullUp = true) noexcept;
 
     /** @brief Write a digital value to a configured output pin.
      * @param pin GPIO pin index
@@ -2722,10 +2668,10 @@ public:
   // PRIVATE MEMBERS
   //==================================================
 private:
-  TMC9660CommInterface &comm_; ///< Communication interface (transport) for
-                               ///< sending/receiving data.
-  uint8_t address_; ///< Module address (0-127). Used primarily for UART
-                    ///< multi-drop addressing.
+  TMC9660CommInterface &comm_;            ///< Communication interface (transport) for
+                                          ///< sending/receiving data.
+  uint8_t address_;                       ///< Module address (0-127). Used primarily for UART
+                                          ///< multi-drop addressing.
   tmc9660::TMC9660Bootloader bootloader_; ///< Bootloader helper
   const tmc9660::BootloaderConfig *bootCfg_;
 
@@ -2733,28 +2679,24 @@ private:
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];
 #else
   const uint8_t tmcCRCTable_Poly7Reflected[256] = {
-      0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C,
-      0x09, 0x98, 0xEA, 0x7B, 0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69,
-      0x12, 0x83, 0xF1, 0x60, 0x15, 0x84, 0xF6, 0x67, 0x38, 0xA9, 0xDB, 0x4A,
-      0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31, 0xA0, 0xD2, 0x43,
-      0x24, 0xB5, 0xC7, 0x56, 0x23, 0xB2, 0xC0, 0x51, 0x2A, 0xBB, 0xC9, 0x58,
-      0x2D, 0xBC, 0xCE, 0x5F, 0x70, 0xE1, 0x93, 0x02, 0x77, 0xE6, 0x94, 0x05,
-      0x7E, 0xEF, 0x9D, 0x0C, 0x79, 0xE8, 0x9A, 0x0B, 0x6C, 0xFD, 0x8F, 0x1E,
-      0x6B, 0xFA, 0x88, 0x19, 0x62, 0xF3, 0x81, 0x10, 0x65, 0xF4, 0x86, 0x17,
-      0x48, 0xD9, 0xAB, 0x3A, 0x4F, 0xDE, 0xAC, 0x3D, 0x46, 0xD7, 0xA5, 0x34,
-      0x41, 0xD0, 0xA2, 0x33, 0x54, 0xC5, 0xB7, 0x26, 0x53, 0xC2, 0xB0, 0x21,
-      0x5A, 0xCB, 0xB9, 0x28, 0x5D, 0xCC, 0xBE, 0x2F, 0xE0, 0x71, 0x03, 0x92,
-      0xE7, 0x76, 0x04, 0x95, 0xEE, 0x7F, 0x0D, 0x9C, 0xE9, 0x78, 0x0A, 0x9B,
-      0xFC, 0x6D, 0x1F, 0x8E, 0xFB, 0x6A, 0x18, 0x89, 0xF2, 0x63, 0x11, 0x80,
-      0xF5, 0x64, 0x16, 0x87, 0xD8, 0x49, 0x3B, 0xAA, 0xDF, 0x4E, 0x3C, 0xAD,
-      0xD6, 0x47, 0x35, 0xA4, 0xD1, 0x40, 0x32, 0xA3, 0xC4, 0x55, 0x27, 0xB6,
-      0xC3, 0x52, 0x20, 0xB1, 0xCA, 0x5B, 0x29, 0xB8, 0xCD, 0x5C, 0x2E, 0xBF,
-      0x90, 0x01, 0x73, 0xE2, 0x97, 0x06, 0x74, 0xE5, 0x9E, 0x0F, 0x7D, 0xEC,
-      0x99, 0x08, 0x7A, 0xEB, 0x8C, 0x1D, 0x6F, 0xFE, 0x8B, 0x1A, 0x68, 0xF9,
-      0x82, 0x13, 0x61, 0xF0, 0x85, 0x14, 0x66, 0xF7, 0xA8, 0x39, 0x4B, 0xDA,
-      0xAF, 0x3E, 0x4C, 0xDD, 0xA6, 0x37, 0x45, 0xD4, 0xA1, 0x30, 0x42, 0xD3,
-      0xB4, 0x25, 0x57, 0xC6, 0xB3, 0x22, 0x50, 0xC1, 0xBA, 0x2B, 0x59, 0xC8,
-      0xBD, 0x2C, 0x5E, 0xCF,
+      0x00, 0x91, 0xE3, 0x72, 0x07, 0x96, 0xE4, 0x75, 0x0E, 0x9F, 0xED, 0x7C, 0x09, 0x98, 0xEA,
+      0x7B, 0x1C, 0x8D, 0xFF, 0x6E, 0x1B, 0x8A, 0xF8, 0x69, 0x12, 0x83, 0xF1, 0x60, 0x15, 0x84,
+      0xF6, 0x67, 0x38, 0xA9, 0xDB, 0x4A, 0x3F, 0xAE, 0xDC, 0x4D, 0x36, 0xA7, 0xD5, 0x44, 0x31,
+      0xA0, 0xD2, 0x43, 0x24, 0xB5, 0xC7, 0x56, 0x23, 0xB2, 0xC0, 0x51, 0x2A, 0xBB, 0xC9, 0x58,
+      0x2D, 0xBC, 0xCE, 0x5F, 0x70, 0xE1, 0x93, 0x02, 0x77, 0xE6, 0x94, 0x05, 0x7E, 0xEF, 0x9D,
+      0x0C, 0x79, 0xE8, 0x9A, 0x0B, 0x6C, 0xFD, 0x8F, 0x1E, 0x6B, 0xFA, 0x88, 0x19, 0x62, 0xF3,
+      0x81, 0x10, 0x65, 0xF4, 0x86, 0x17, 0x48, 0xD9, 0xAB, 0x3A, 0x4F, 0xDE, 0xAC, 0x3D, 0x46,
+      0xD7, 0xA5, 0x34, 0x41, 0xD0, 0xA2, 0x33, 0x54, 0xC5, 0xB7, 0x26, 0x53, 0xC2, 0xB0, 0x21,
+      0x5A, 0xCB, 0xB9, 0x28, 0x5D, 0xCC, 0xBE, 0x2F, 0xE0, 0x71, 0x03, 0x92, 0xE7, 0x76, 0x04,
+      0x95, 0xEE, 0x7F, 0x0D, 0x9C, 0xE9, 0x78, 0x0A, 0x9B, 0xFC, 0x6D, 0x1F, 0x8E, 0xFB, 0x6A,
+      0x18, 0x89, 0xF2, 0x63, 0x11, 0x80, 0xF5, 0x64, 0x16, 0x87, 0xD8, 0x49, 0x3B, 0xAA, 0xDF,
+      0x4E, 0x3C, 0xAD, 0xD6, 0x47, 0x35, 0xA4, 0xD1, 0x40, 0x32, 0xA3, 0xC4, 0x55, 0x27, 0xB6,
+      0xC3, 0x52, 0x20, 0xB1, 0xCA, 0x5B, 0x29, 0xB8, 0xCD, 0x5C, 0x2E, 0xBF, 0x90, 0x01, 0x73,
+      0xE2, 0x97, 0x06, 0x74, 0xE5, 0x9E, 0x0F, 0x7D, 0xEC, 0x99, 0x08, 0x7A, 0xEB, 0x8C, 0x1D,
+      0x6F, 0xFE, 0x8B, 0x1A, 0x68, 0xF9, 0x82, 0x13, 0x61, 0xF0, 0x85, 0x14, 0x66, 0xF7, 0xA8,
+      0x39, 0x4B, 0xDA, 0xAF, 0x3E, 0x4C, 0xDD, 0xA6, 0x37, 0x45, 0xD4, 0xA1, 0x30, 0x42, 0xD3,
+      0xB4, 0x25, 0x57, 0xC6, 0xB3, 0x22, 0x50, 0xC1, 0xBA, 0x2B, 0x59, 0xC8, 0xBD, 0x2C, 0x5E,
+      0xCF,
   };
 #endif
 };

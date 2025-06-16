@@ -6,28 +6,26 @@
  * should replace this with your own SPI/UART implementation.
  */
 
-#include <iostream>
 #include "TMC9660.hpp"
+#include <iostream>
 
 /// Stub bus used by the example
 class DummyBus : public SPITMC9660CommInterface {
 public:
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
-        rx = tx;
-        return true;
-    }
+  bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    rx = tx;
+    return true;
+  }
 };
 
 int main() {
-    DummyBus bus;        //!< Replace with actual transport
-    TMC9660 driver(bus); //!< Driver instance
+  DummyBus bus;        //!< Replace with actual transport
+  TMC9660 driver(bus); //!< Driver instance
 
-    driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
-    driver.stepDir.setMicrostepResolution(
-        tmc9660::tmcl::StepDirStepDividerShift::STEP_MODE_1_8TH);
-    driver.stepDir.enableInterface(true);  // enable STEP/DIR pins
-    driver.stepDir.enableExtrapolation(true); // smooth interpolation
+  driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR);
+  driver.stepDir.setMicrostepResolution(tmc9660::tmcl::StepDirStepDividerShift::STEP_MODE_1_8TH);
+  driver.stepDir.enableInterface(true);     // enable STEP/DIR pins
+  driver.stepDir.enableExtrapolation(true); // smooth interpolation
 
-    std::cout << "STEP/DIR interface active" << std::endl;
+  std::cout << "STEP/DIR interface active" << std::endl;
 }
