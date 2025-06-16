@@ -1,0 +1,9 @@
+idf_component_register(
+    SRCS
+        ../../../../src/TMC9660.cpp
+        ../../../../src/TMC9660Bootloader.cpp
+    INCLUDE_DIRS
+        ../../../../inc
+        ../../../../inc/register_mode
+        ../../../../inc/parameter_mode
+)
