@@ -22,14 +22,19 @@ permissions:
 
 steps:
   - uses: actions/checkout@v4
+  - name: Setup Pages
+    id: pages
+    uses: actions/configure-pages@v4
   - name: Install dependencies
-    run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+    run: sudo apt-get update && sudo apt-get install -y doxygen graphviz ruby-full && sudo gem install jekyll jekyll-theme-slate
   - name: Build documentation
-    run: doxygen Doxyfile
+    run: |
+      doxygen Doxyfile
+      ruby -S jekyll build --source docs --destination _site --baseurl "${{ steps.pages.outputs.base_path }}"
   - name: Upload Pages artifact
     uses: actions/upload-pages-artifact@v3
     with:
-      path: docs
+      path: _site
   - name: Deploy to GitHub Pages
     uses: actions/deploy-pages@v4
 ```
