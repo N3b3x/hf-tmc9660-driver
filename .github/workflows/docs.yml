@@ -1,36 +1,54 @@
-name: Deploy Documentation
+name: Docs
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Doxygen
-        run: sudo apt-get update && sudo apt-get install -y doxygen
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
       - name: Build documentation
         run: doxygen Doxyfile
-      - name: Create pull request with updated docs
-        uses: peter-evans/create-pull-request@v6
+      - name: Link check
+        uses: lycheeverse/lychee-action@v2
         with:
-          commit-message: "Update Doxygen documentation"
-          title: "Update Doxygen documentation"
-          body: "Automated update of generated API reference"
-          add-paths: docs/html
-          branch: docs/update-${{ github.sha }}
-          base: ${{ github.ref_name }}
+          args: "--no-progress docs docs/html"
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-html
+          path: docs
+          retention-days: 7
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs
-          enable_jekyll: true
+        id: deploy
+        uses: actions/deploy-pages@v4
