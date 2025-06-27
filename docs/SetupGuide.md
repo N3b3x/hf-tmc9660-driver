@@ -88,12 +88,12 @@ ready to drop into your own project.
 ## 5. Next Steps
 
 * Implement a custom communication interface as described in
-  [ImplementingCommInterface.md](ImplementingCommInterface.md).
-* Explore the full examples in [HardwareAgnosticExamples.md](HardwareAgnosticExamples.md).
+  [ImplementingCommInterface.md](ImplementingCommInterface.html).
+* Explore the full examples in [HardwareAgnosticExamples.md](HardwareAgnosticExamples.html).
 * Integrate the object files into your build system or create a small
   static library to reuse across multiple projects.
 
 
 ---
 
-[⬅️ Prev](index.md) | [⬆️ Back to Index](index.md) | [Next ➡️](ImplementingCommInterface.md)
+[⬅️ Prev](index.html) | [⬆️ Back to Index](index.html) | [Next ➡️](ImplementingCommInterface.html)

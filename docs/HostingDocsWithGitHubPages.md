@@ -47,4 +47,4 @@ reference in the `html/` directory.
 
 ---
 
-[\u2B05\uFE0F Prev](CommonOperations.md) | [\u2B06\uFE0F Back to Index](index.md)
+[\u2B05\uFE0F Prev](CommonOperations.html) | [\u2B06\uFE0F Back to Index](index.html)
