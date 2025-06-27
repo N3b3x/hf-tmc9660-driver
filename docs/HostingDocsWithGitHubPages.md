@@ -17,13 +17,16 @@ permissions:
 
 steps:
   - uses: actions/checkout@v4
+  - name: Install dependencies
+    run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
   - name: Build documentation
     run: doxygen Doxyfile
-  - name: Deploy to GitHub Pages
-    uses: peaceiris/actions-gh-pages@v3
+  - name: Upload Pages artifact
+    uses: actions/upload-pages-artifact@v3
     with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      publish_dir: docs
+      path: docs/html
+  - name: Deploy to GitHub Pages
+    uses: actions/deploy-pages@v4
 ```
 
 If the step fails with a `403` error, the token lacks permission to push to the repository. Enable **Read and write permissions** under **Settings → Actions → General**, or provide a Personal Access Token with the `repo` scope and reference it as `${{ secrets.PAT }}`.
