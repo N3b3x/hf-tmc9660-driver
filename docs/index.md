@@ -9,6 +9,7 @@ Welcome to the extended documentation for the HF-TMC9660 driver library. The pag
 4. [Hardware Agnostic Examples](HardwareAgnosticExamples.md)
 5. [Common Operations](CommonOperations.md)
 6. [Hosting Documentation with GitHub Pages](HostingDocsWithGitHubPages.md)
+7. [C++ API Reference](html/index.html)
 
 ---
 
