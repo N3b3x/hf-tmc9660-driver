@@ -202,4 +202,4 @@ These snippets are minimal but cover the main features of the library. Refer to 
 
 ---
 
-[⬅️ Prev](BuildingExamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](CommonOperations.md)
+[⬅️ Prev](BuildingExamples.html) | [⬆️ Back to Index](index.html) | [Next ➡️](CommonOperations.html)

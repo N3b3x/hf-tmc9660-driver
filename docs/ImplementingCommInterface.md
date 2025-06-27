@@ -81,7 +81,7 @@ All library calls now communicate through your implementation.
 After implementing the interface you can build any of the example
 programs or integrate the driver into your own application:
 
-* Compile one of the demos from [BuildingExamples.md](BuildingExamples.md)
+* Compile one of the demos from [BuildingExamples.md](BuildingExamples.html)
   to verify transfers work.
 * Hook the `TMC9660` object into your existing control loop or RTOS task.
 * Consider wrapping the driver in a small C API if your larger project is
@@ -90,4 +90,4 @@ programs or integrate the driver into your own application:
 
 ---
 
-[⬅️ Prev](SetupGuide.md) | [⬆️ Back to Index](index.md) | [Next ➡️](BuildingExamples.md)
+[⬅️ Prev](SetupGuide.html) | [⬆️ Back to Index](index.html) | [Next ➡️](BuildingExamples.html)

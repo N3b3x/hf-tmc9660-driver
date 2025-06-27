@@ -68,4 +68,4 @@ motion control software and start experimenting right away.
 
 ---
 
-[⬅️ Prev](HardwareAgnosticExamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](HostingDocsWithGitHubPages.md)
+[⬅️ Prev](HardwareAgnosticExamples.html) | [⬆️ Back to Index](index.html) | [Next ➡️](HostingDocsWithGitHubPages.html)

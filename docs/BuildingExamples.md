@@ -75,4 +75,4 @@ source files to your existing `Makefile` or `CMakeLists.txt`.
 
 ---
 
-[⬅️ Prev](ImplementingCommInterface.md) | [⬆️ Back to Index](index.md) | [Next ➡️](HardwareAgnosticExamples.md)
+[⬅️ Prev](ImplementingCommInterface.html) | [⬆️ Back to Index](index.html) | [Next ➡️](HardwareAgnosticExamples.html)
