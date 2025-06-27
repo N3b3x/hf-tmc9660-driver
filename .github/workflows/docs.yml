@@ -1,3 +1,4 @@
+---
 name: Docs
 
 on:
@@ -25,11 +26,17 @@ jobs:
         id: pages
         uses: actions/configure-pages@v4
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y doxygen graphviz ruby-full && sudo gem install jekyll jekyll-theme-slate
-      - name: Build documentation
         run: |
-          doxygen Doxyfile
-          ruby -S jekyll build --source docs --destination _site --baseurl "${{ steps.pages.outputs.base_path }}"
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz ruby-full
+          sudo gem install jekyll jekyll-theme-slate
+      - name: Build documentation
+          run: |
+            doxygen Doxyfile
+            ruby -S jekyll build \
+              --source docs \
+              --destination _site \
+              --baseurl "${{ steps.pages.outputs.base_path }}"
       - name: Link check
         uses: lycheeverse/lychee-action@v2
         with:
