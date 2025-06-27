@@ -1,3 +1,8 @@
+---
+layout: default
+title: Implementing a Custom Communication Interface
+---
+
 # Implementing a Custom Communication Interface
 
 To keep the driver portable it does not ship with any hardware specific code.
