@@ -1,3 +1,8 @@
+---
+layout: default
+title: Hosting Documentation with GitHub Pages
+---
+
 # Hosting Documentation with GitHub Pages
 
 Automatically publishing the generated Doxygen output keeps the online documentation up to date. The repository includes a workflow that builds the HTML files and deploys them to GitHub Pages.

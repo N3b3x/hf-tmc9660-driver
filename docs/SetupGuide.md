@@ -1,3 +1,8 @@
+---
+layout: default
+title: HF-TMC9660 Setup Guide
+---
+
 # HF-TMC9660 Setup Guide
 
 This friendly guide walks you through getting the library onto your machine

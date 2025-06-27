@@ -1,3 +1,8 @@
+---
+layout: default
+title: HF-TMC9660 Documentation
+---
+
 # HF-TMC9660 Documentation
 
 Welcome to the home of the HF-TMC9660 driver docs. This guide is meant to be read

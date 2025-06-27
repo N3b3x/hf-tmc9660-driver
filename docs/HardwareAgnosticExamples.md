@@ -1,3 +1,8 @@
+---
+layout: default
+title: Extensive TMC9660 Examples
+---
+
 # Extensive TMC9660 Examples
 
 This document collects hardware agnostic walkthroughs showing how to configure

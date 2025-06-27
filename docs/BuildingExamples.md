@@ -1,3 +1,8 @@
+---
+layout: default
+title: Building and Running the Example Programs
+---
+
 # Building and Running the Example Programs
 
 Want to see the driver in action? These examples are designed for quick

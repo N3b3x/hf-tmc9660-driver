@@ -1,3 +1,8 @@
+---
+layout: default
+title: Common HF-TMC9660 Operations 🔧
+---
+
 # Common HF-TMC9660 Operations 🔧
 
 The snippets below highlight common patterns when working with the driver.
