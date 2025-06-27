@@ -39,6 +39,11 @@ steps:
     uses: actions/deploy-pages@v4
 ```
 
+This method avoids creating commits on a dedicated `gh-pages` branch. The
+`deploy-pages` action uploads the static files directly to the Pages
+infrastructure, so the workflow works even if the default `GITHUB_TOKEN` only
+has read access to the repository.
+
 If the step fails with a `403` error, the token lacks permission to push to the repository. Enable **Read and write permissions** under **Settings → Actions → General**, or provide a Personal Access Token with the `repo` scope and reference it as `${{ secrets.PAT }}`.
 
 After pushing to `main`, visit **Settings → Pages** to find the deployed site.
