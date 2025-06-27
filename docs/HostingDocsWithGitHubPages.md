@@ -2,6 +2,11 @@
 
 Automatically publishing the generated Doxygen output keeps the online documentation up to date. The repository includes a workflow that builds the HTML files and deploys them to GitHub Pages.
 
+The Markdown guides under `docs/` form the written tutorial while Doxygen
+generates the C++ API reference in `docs/html`. Deploying the entire `docs`
+directory lets `index.md` act as the landing page with a complete table of
+contents. The API reference is then available at the `html/` subfolder.
+
 ## Workflow Snippet
 
 ```yaml
@@ -18,10 +23,14 @@ steps:
     uses: peaceiris/actions-gh-pages@v3
     with:
       github_token: ${{ secrets.GITHUB_TOKEN }}
-      publish_dir: docs/html
+      publish_dir: docs
 ```
 
 If the step fails with a `403` error, the token lacks permission to push to the repository. Enable **Read and write permissions** under **Settings → Actions → General**, or provide a Personal Access Token with the `repo` scope and reference it as `${{ secrets.PAT }}`.
+
+After pushing to `main`, visit **Settings → Pages** to find the deployed site.
+You should see the table of contents from `docs/index.md` and a link to the API
+reference in the `html/` directory.
 
 ---
 
