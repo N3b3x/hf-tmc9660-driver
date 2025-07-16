@@ -79,6 +79,7 @@ public:
    */
   [[nodiscard]] bool writeParameter(tmc9660::tmcl::Parameters id, uint32_t value,
                                     uint8_t motorIndex = 0) noexcept;
+                                    
   /** @brief Read an axis (motor-specific) parameter from the TMC9660.
    * @param id Parameter ID number to read.
    * @param[out] value Reference to store the 32-bit parameter value read.
@@ -240,76 +241,77 @@ public:
      */
     bool setPWMSwitchingScheme(tmc9660::tmcl::PwmSwitchingScheme scheme) noexcept;
 
-    /** @brief Configure PWM behavior when the motor is idle (System Off mode).
+    /**
+     * @brief Configure PWM behavior when the motor is idle (System Off mode).
      *
-     * Controls whether motor phases are driven or high-impedance when
-     * commutation is disabled.
+     * Controls whether motor phases are driven or left floating (high-impedance) when commutation
+     * is disabled.
      *
-     * @param pwmOffWhenIdle True: high-Z/disconnected phases, False: all phases
-     * driven equally
+     * @param pwmOffWhenIdle
+     *        True  → high-Z / disconnected phases
+     *        False → all phases driven equally (same PWM output)
      * @return true if the parameter was set successfully.
      *
-     * @note Selection guide by motor type:
-     * | Motor type   | Typical goal when idle         | Best-fit setting     | Why it's usually
-     * preferred                   | | ------------ | ------------------------------ |
-     * -------------------- | -------------------------------------------- | | **Stepper**  | Hold a
-     * fixed shaft position    | **PWM on**          | • Energizing both windings gives full static
-     * | |              | (avoid back-driving)           | (all coils          | torque | | | |
-     * energized)          | • Prevents the load or gravity from shifting | |              | | | the
-     * rotor                                    | |              |                                |
-     * | • Draws continuous current, heating the      | |              | |                      |
-     * motor and wasting power—turn it off if you   | |              | |                      |
-     * don't need holding torque                    | | ------------ |
-     * ------------------------------ | -------------------- |
-     * -------------------------------------------- | | **BLDC**     | Usually want the rotor to |
-     * **PWM off**         | • With the bridge inactive the stator        | | **(3-phase)**| coast
-     * freely or be gently      | (high-Z)            | doesn't pull current, avoiding battery | |
-     * | braked by external friction    |                      | drain and heating | | | | | • If
-     * you need static holding/braking torque  | |              |                                |
-     * | (rare for sensorless BLDC), keep PWM on      | |              | |                      | or
-     * switch to active braking instead          | | ------------ | ------------------------------ |
-     * -------------------- | -------------------------------------------- | | **Brushed**  | Let
-     * the armature coast; no     | **PWM off**         | • Disconnecting the H-bridge removes any |
-     * | **DC**       | holding torque exists anyway   | (high-Z)            | quiescent current |
-     * |              |                                |                      | • Keeping PWM on
-     * shorts the terminals        | |              |                                | | (dynamic
-     * braking) and stops the shaft        | |              |                                | |
-     * quickly but wastes energy and can cause      | |              | |                      |
-     * regen currents—use only if you need that     | |              | |                      | fast
-     * passive brake                           |
+     * @note Motor-type idle mode selection guide:
      *
-     * There isn't a single "best" choice that fits every motor type or
-     * application—you're really deciding between:
+     * | Motor Type  | Idle Goal                   | Best Setting   | Notes                           |
+     * |-------------|-----------------------------|----------------|----------------------------------|
+     * | **Stepper** | Hold shaft position         | PWM **on**     | • Energizing both windings      |
+     * |             |                             |                |   provides full static torque   |
+     * |             |                             |                | • Prevents back-driving by load |
+     * |             |                             |                |   or gravity                    |
+     * |             |                             |                | • Always draws current at idle  |
+     * |             |                             |                | • Causes heat and power waste—  |
+     * |             |                             |                |   disable if holding isn't needed|
+     * |             |                             |                |                                  |
+     * |-------------|-----------------------------|----------------|----------------------------------|
+     * | **BLDC**    | Coast or passive braking    | PWM **off**    | • With PWM off (high-Z), stator |
+     * | (3-phase)   |                             | (high-Z)       |   is electrically disconnected  |
+     * |             |                             |                | • No current is drawn from the  |
+     * |             |                             |                |   battery, reducing heating     |
+     * |             |                             |                | • Ideal when you want the rotor |
+     * |             |                             |                |   to freely coast or gently stop|
+     * |             |                             |                | • If holding torque is needed   |
+     * |             |                             |                |   (rare for sensorless BLDC),   |
+     * |             |                             |                |   enable PWM or use active brake|
+     * |             |                             |                |                                  |
+     * |-------------|-----------------------------|----------------|----------------------------------|
+     * | **Brushed** | Let shaft coast freely      | PWM **off**    | • No static holding torque      |
+     * | DC Motor    |                             | (high-Z)       | • Disconnecting H-bridge removes|
+     * |             |                             |                |   quiescent current             |
+     * |             |                             |                | • PWM on = dynamic braking →    |
+     * |             |                             |                |   shaft stops quickly           |
+     * |             |                             |                | • Wastes power and generates    |
+     * |             |                             |                |   heat                          |
+     * |             |                             |                | • Can induce regenerative       |
+     * |             |                             |                |   currents—use with caution     |
      *
-     * * **High-Z (PWM off → `PWM_OFF_WHEN_MOTOR_IDLE`)**
-     *   All phases are tri-stated, so the motor is electrically disconnected.
+     * There is no universal best setting—choose based on your **application needs**:
      *
-     * * **All-phases driven (PWM on → `PWM_ON_WHEN_MOTOR_IDLE`)**
-     *   Every phase is held at the same potential, keeping the bridge active.
+     * • `PWM_OFF_WHEN_MOTOR_IDLE`: All phases set to high-Z. Motor is electrically disconnected.
+     * • `PWM_ON_WHEN_MOTOR_IDLE`: All bridge outputs actively driven to same potential.
      *
-     * ### Quick decision tree
+     * ### Quick Decision Tree
      *
-     * 1. **Do you need the shaft locked in place at idle?**
-     *    *Yes →* **PWM on**.
-     *    *No →* continue.
+     * 1. **Do you need the shaft locked at idle?**
+     *    → Yes: PWM **on**
+     *    → No: Continue
      *
-     * 2. **Is extra heat, quiescent current, or battery life a concern?**
-     *    *Yes →* **PWM off** is safer.
+     * 2. **Is battery life, idle power, or heat a concern?**
+     *    → Yes: PWM **off**
      *
-     * 3. **Do you actually want "freewheel" coasting?**
-     *    *Yes →* **PWM off** (high-Z).
-     *    *No, I want dynamic braking →* leave PWM on **or** enable a dedicated
-     * brake parameter/mode.
+     * 3. **Do you want the rotor to coast freely?**
+     *    → Yes: PWM **off** (high-Z)
+     *    → No, you want braking: leave PWM **on** or use a dedicated brake feature
      *
-     * **Rule of thumb**
+     * ### Rule of Thumb
      *
-     * * **Steppers**: keep coils powered only if you genuinely need holding
-     * torque; otherwise cut them to save power and heat.
-     * * **BLDC & brushed DC**: default to PWM off; only energize at idle if
-     * you're deliberately braking or holding.
+     * • **Steppers**: Keep coils energized only when holding torque is required.
+     * • **BLDC & Brushed DC**: Default to PWM off; only energize if braking or holding is needed.
      *
-     * So, "most ideal" depends entirely on your idle behavior requirements:
-     * holding torque = **ON**, low power coast = **OFF**.
+     * Final guidance:
+     * • Holding torque needed → **PWM on**
+     * • Coasting, low idle power → **PWM off**
      */
     bool setIdleMotorPWMBehavior(
         tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle =
