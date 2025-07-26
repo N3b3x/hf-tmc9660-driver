@@ -36,7 +36,7 @@ int main() {
     std::cerr << "[ERROR] Failed to initialize parameter mode for telemetry" << std::endl;
     return 1;
   }
-      std::cout << "[OK] Parameter mode initialized - starting telemetry monitoring" << std::endl;
+  std::cout << "[OK] Parameter mode initialized - starting telemetry monitoring" << std::endl;
 
   // Basic motor setup for meaningful telemetry readings
   driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
