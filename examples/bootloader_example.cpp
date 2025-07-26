@@ -58,13 +58,13 @@ int main() {
   // Write the configuration to the device.
   auto res = driver.bootloaderInit(&cfg);
   if (res == TMC9660::BootloaderInitResult::Success) {
-    std::cout << "✓ Bootloader configured successfully for parameter mode" << std::endl;
+    std::cout << "[OK] Bootloader configured successfully for parameter mode" << std::endl;
     std::cout << "  - Boot mode: Parameter" << std::endl;
     std::cout << "  - Motor control: Enabled" << std::endl;
     std::cout << "  - Communication: SPI/UART configured" << std::endl;
     std::cout << "  - Clock: Internal 16MHz with PLL" << std::endl;
   } else {
-    std::cout << "✗ Bootloader configuration failed: ";
+    std::cout << "[ERROR] Bootloader configuration failed: ";
     if (res == TMC9660::BootloaderInitResult::NoConfig)
       std::cout << "No configuration provided" << std::endl;
     else
@@ -75,9 +75,9 @@ int main() {
   // Verify parameter mode is accessible with a simple parameter read
   uint32_t version = 0;
   if (driver.readParameter(tmc9660::tmcl::Parameters::MOTOR_TYPE, version)) {
-    std::cout << "✓ Parameter mode communication verified" << std::endl;
+    std::cout << "[OK] Parameter mode communication verified" << std::endl;
   } else {
-    std::cout << "✗ Parameter mode communication failed" << std::endl;
+    std::cout << "[ERROR] Parameter mode communication failed" << std::endl;
     return 1;
   }
 

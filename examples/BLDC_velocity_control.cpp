@@ -31,52 +31,52 @@ int main() {
 
   auto result = driver.bootloaderInit(&cfg);
   if (result != TMC9660::BootloaderInitResult::Success) {
-    std::cerr << "✗ Bootloader initialization failed!" << std::endl;
+    std::cerr << "[ERROR] Bootloader initialization failed!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Parameter mode initialized" << std::endl;
+      std::cout << "[OK] Parameter mode initialized" << std::endl;
 
   // STEP 2: Configure motor type as DC.
   if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
-    std::cerr << "✗ Failed to configure DC motor type." << std::endl;
+    std::cerr << "[ERROR] Failed to configure DC motor type." << std::endl;
     return 1;
   }
-  std::cout << "✓ DC motor type configured" << std::endl;
+      std::cout << "[OK] DC motor type configured" << std::endl;
 
   // STEP 3: Set maximum current limit for the DC motor (e.g., 1500 mA).
   if (!driver.motorConfig.setMaxTorqueCurrent(1500)) {
-    std::cerr << "✗ Failed to set current limit." << std::endl;
+    std::cerr << "[ERROR] Failed to set current limit." << std::endl;
     return 1;
   }
-  std::cout << "✓ Current limit: 1.5A" << std::endl;
+      std::cout << "[OK] Current limit: 1.5A" << std::endl;
 
   // STEP 4: Configure an encoder for velocity feedback (e.g., 1024 counts per revolution).
   if (!driver.feedbackSense.configureABNEncoder(1024)) {
-    std::cerr << "✗ Failed to configure encoder." << std::endl;
+    std::cerr << "[ERROR] Failed to configure encoder." << std::endl;
     return 1;
   }
-  std::cout << "✓ ABN encoder configured (1024 CPR)" << std::endl;
+      std::cout << "[OK] ABN encoder configured (1024 CPR)" << std::endl;
 
   // STEP 5: Configure velocity control gains
   if (!driver.focControl.setVelocityLoopGains(500, 5)) {
-    std::cerr << "✗ Failed to set velocity gains." << std::endl;
+    std::cerr << "[ERROR] Failed to set velocity gains." << std::endl;
     return 1;
   }
-  std::cout << "✓ Velocity loop gains: P=500, I=5" << std::endl;
+      std::cout << "[OK] Velocity loop gains: P=500, I=5" << std::endl;
 
   // STEP 6: For DC motor, use open-loop current mode to drive the H-bridge.
   if (!driver.motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
-    std::cerr << "✗ Failed to set commutation mode." << std::endl;
+    std::cerr << "[ERROR] Failed to set commutation mode." << std::endl;
     return 1;
   }
-  std::cout << "✓ Open-loop current mode enabled" << std::endl;
+      std::cout << "[OK] Open-loop current mode enabled" << std::endl;
 
   // STEP 7: Set a target velocity (requires encoder feedback for closed-loop speed control).
   if (!driver.focControl.setTargetVelocity(500)) {
-    std::cerr << "✗ Failed to set target velocity." << std::endl;
+    std::cerr << "[ERROR] Failed to set target velocity." << std::endl;
     return 1;
   }
-  std::cout << "✓ DC motor running at target velocity 500 (internal units)" << std::endl;
+      std::cout << "[OK] DC motor running at target velocity 500 (internal units)" << std::endl;
 
   // ... (In a real application, the motor would accelerate to the target speed and maintain it) ...
 

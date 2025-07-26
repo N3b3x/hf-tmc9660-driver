@@ -33,61 +33,61 @@ int main() {
 
   auto result = driver.bootloaderInit(&cfg);
   if (result != TMC9660::BootloaderInitResult::Success) {
-    std::cerr << "✗ Bootloader initialization failed!" << std::endl;
+    std::cerr << "[ERROR] Bootloader initialization failed!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Bootloader configured for parameter mode" << std::endl;
+      std::cout << "[OK] Bootloader configured for parameter mode" << std::endl;
 
   // STEP 2: Configure motor type as BLDC (3-phase) with specified pole pairs.
   uint8_t polePairs = 7; // example pole pair count
   if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, polePairs)) {
-    std::cerr << "✗ Failed to set motor type!" << std::endl;
+    std::cerr << "[ERROR] Failed to set motor type!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Motor type: BLDC with " << (int)polePairs << " pole pairs" << std::endl;
+      std::cout << "[OK] Motor type: BLDC with " << (int)polePairs << " pole pairs" << std::endl;
 
   // STEP 3: Set current limits BEFORE enabling commutation
   if (!driver.motorConfig.setMaxTorqueCurrent(2000)) {
-    std::cerr << "✗ Failed to set torque current limit!" << std::endl;
+    std::cerr << "[ERROR] Failed to set torque current limit!" << std::endl;
     return 1;
   }
   if (!driver.motorConfig.setMaxFluxCurrent(1000)) {
-    std::cerr << "✗ Failed to set flux current limit!" << std::endl;
+    std::cerr << "[ERROR] Failed to set flux current limit!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Current limits: 2A torque, 1A flux" << std::endl;
+      std::cout << "[OK] Current limits: 2A torque, 1A flux" << std::endl;
 
   // STEP 4: Configure Hall sensor feedback (assuming standard hall sequence, not inverted).
   if (!driver.feedbackSense.configureHall()) {
-    std::cerr << "✗ Failed to configure Hall sensors!" << std::endl;
+    std::cerr << "[ERROR] Failed to configure Hall sensors!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Hall sensors configured" << std::endl;
+      std::cout << "[OK] Hall sensors configured" << std::endl;
 
   // STEP 5: Configure FOC control gains
   if (!driver.focControl.setCurrentLoopGains(50, 100)) {
-    std::cerr << "✗ Failed to set current loop gains!" << std::endl;
+    std::cerr << "[ERROR] Failed to set current loop gains!" << std::endl;
     return 1;
   }
   if (!driver.focControl.setVelocityLoopGains(800, 1)) {
-    std::cerr << "✗ Failed to set velocity loop gains!" << std::endl;
+    std::cerr << "[ERROR] Failed to set velocity loop gains!" << std::endl;
     return 1;
   }
-  std::cout << "✓ FOC gains configured (Current: P=50, I=100 | Velocity: P=800, I=1)" << std::endl;
+      std::cout << "[OK] FOC gains configured (Current: P=50, I=100 | Velocity: P=800, I=1)" << std::endl;
 
   // STEP 6: Set commutation mode to FOC with Hall feedback.
   if (!driver.motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR)) {
-    std::cerr << "✗ Failed to set commutation mode!" << std::endl;
+    std::cerr << "[ERROR] Failed to set commutation mode!" << std::endl;
     return 1;
   }
-  std::cout << "✓ FOC commutation with Hall sensors enabled" << std::endl;
+      std::cout << "[OK] FOC commutation with Hall sensors enabled" << std::endl;
 
   // STEP 7: Command a velocity. For example, target velocity = 1000 (internal units).
   if (!driver.focControl.setTargetVelocity(1000)) {
-    std::cerr << "✗ Failed to set target velocity!" << std::endl;
+    std::cerr << "[ERROR] Failed to set target velocity!" << std::endl;
     return 1;
   }
-  std::cout << "✓ Motor started with target velocity 1000" << std::endl;
+      std::cout << "[OK] Motor started with target velocity 1000" << std::endl;
 
   // ... Motor would now ramp up to the target speed and hold it ...
 
@@ -95,7 +95,7 @@ int main() {
   float tempC = driver.telemetry.getChipTemperature();
   int16_t current_mA = driver.telemetry.getMotorCurrent();
   float busVolt = driver.telemetry.getSupplyVoltage();
-  std::cout << "Telemetry - Temp: " << tempC << " °C, Current: " << current_mA
+      std::cout << "Telemetry - Temp: " << tempC << " C, Current: " << current_mA
             << " mA, Bus Voltage: " << busVolt << " V" << std::endl;
 
   // 6. Stop the motor.

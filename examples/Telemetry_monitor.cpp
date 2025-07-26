@@ -33,15 +33,15 @@ int main() {
 
   auto result = driver.bootloaderInit(&cfg);
   if (result != TMC9660::BootloaderInitResult::Success) {
-    std::cerr << "✗ Failed to initialize parameter mode for telemetry" << std::endl;
+    std::cerr << "[ERROR] Failed to initialize parameter mode for telemetry" << std::endl;
     return 1;
   }
-  std::cout << "✓ Parameter mode initialized - starting telemetry monitoring" << std::endl;
+      std::cout << "[OK] Parameter mode initialized - starting telemetry monitoring" << std::endl;
 
   // Basic motor setup for meaningful telemetry readings
   driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
   driver.motorConfig.setMaxTorqueCurrent(2000);
-  std::cout << "✓ Basic motor configuration applied" << std::endl;
+      std::cout << "[OK] Basic motor configuration applied" << std::endl;
 
   // Poll telemetry data continuously
   std::cout << "\nTelemetry monitoring (Ctrl+C to stop):" << std::endl;
@@ -52,20 +52,21 @@ int main() {
     int16_t motorCurrent = driver.telemetry.getMotorCurrent();
     float supplyVolt = driver.telemetry.getSupplyVoltage();
     
-    std::cout << "Sample " << std::setw(2) << i + 1 << ": ";
-    std::cout << "Temp=" << std::setw(5) << std::fixed << std::setprecision(1) << chipTemp << "°C, ";
-    std::cout << "Current=" << std::setw(5) << motorCurrent << "mA, ";
-    std::cout << "Voltage=" << std::setw(5) << std::fixed << std::setprecision(2) << supplyVolt << "V";
+    // Print status with temperature
+    std::cout << "Sample " << std::setw(3) << i + 1 << ": "
+              << "Temp=" << std::setw(5) << std::fixed << std::setprecision(1) << chipTemp << "C, "
+              << "Current=" << std::setw(5) << motorCurrent << "mA, "
+              << "Voltage=" << std::setw(5) << std::setprecision(2) << supplyVolt << "V";
     
-    // Add status indicators
-    if (chipTemp > 70.0f) std::cout << " ⚠️ HIGH TEMP";
-    if (motorCurrent > 1500) std::cout << " ⚠️ HIGH CURRENT";
-    if (supplyVolt < 10.0f || supplyVolt > 50.0f) std::cout << " ⚠️ VOLTAGE";
+    // Add warning indicators for concerning values
+    if (chipTemp > 70.0f) std::cout << " [HIGH TEMP]";
+    if (motorCurrent > 1500) std::cout << " [HIGH CURRENT]";
+    if (supplyVolt < 10.0f || supplyVolt > 50.0f) std::cout << " [VOLTAGE]";
     
     std::cout << std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
 
-  std::cout << "\n✓ Telemetry monitoring completed" << std::endl;
+  std::cout << "\n[OK] Telemetry monitoring completed" << std::endl;
   return 0;
 }
