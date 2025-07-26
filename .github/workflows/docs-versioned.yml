@@ -1,0 +1,46 @@
+---
+name: Versioned Docs
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-versioned:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz ruby-full
+          sudo gem install jekyll jekyll-theme-slate
+      
+      - name: Get version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Build versioned documentation
+        run: |
+          # Update version in docs
+          sed -i "s/v1\.0/${{ steps.version.outputs.VERSION }}/g" docs/index.md
+          
+          # Build docs
+          doxygen Doxyfile
+          ruby -S jekyll build \
+            --source docs \
+            --destination _site \
+            --baseurl "/hf-tmc9660-driver/${{ steps.version.outputs.VERSION }}"
+      
+      - name: Deploy to version-specific path
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          destination_dir: ${{ steps.version.outputs.VERSION }}
+          keep_files: true

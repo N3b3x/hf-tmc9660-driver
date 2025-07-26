@@ -1,1 +1,20 @@
 theme: jekyll-theme-slate
+
+# Site configuration
+title: "HF-TMC9660 Driver Documentation"
+description: "Hardware Agnostic C++ Driver for the TMC9660 Motor Controller"
+url: "https://n3b3x.github.io"
+baseurl: "/hf-tmc9660-driver"
+
+# Version (set during build)
+version: "latest"
+
+# Jekyll configuration
+markdown: kramdown
+highlighter: rouge
+plugins:
+  - jekyll-seo-tag
+
+# SEO
+author: "N3b3x"
+logo: "" # Add logo path if you have one
