@@ -22,6 +22,19 @@
  * configuration, protection (voltage, temperature, current) settings, executing
  * scripts on the device's microcontroller, and reading telemetry data like
  * temperature, current, and voltage.
+ *
+ * @warning CRITICAL: Before using any motor control functions, you MUST initialize
+ * the bootloader for parameter mode operation:
+ *
+ * @code
+ * tmc9660::BootloaderConfig cfg{};
+ * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // Essential!
+ * cfg.boot.start_motor_control = true;
+ * auto result = driver.bootloaderInit(&cfg);
+ * @endcode
+ *
+ * Without proper bootloader initialization, the TMC9660 will not respond to
+ * TMCL commands and motor control will not function.
  */
 class TMC9660 {
 public:
@@ -53,13 +66,30 @@ public:
    */
   enum class BootloaderInitResult { Success, NoConfig, Failure };
 
-  /** @brief Bootloader initialization.
-   * @details This method initializes the bootloader mode of the TMC9660
-   *              device, allowing firmware updates or configuration changes.
-   * @param cfg Optional configuration for the bootloader. If not provided, \
-   *                default settings will be used.
+  /** @brief Bootloader initialization for parameter mode operation.
+   * @details This method configures the TMC9660 bootloader settings and enables
+   *          parameter mode operation. This is MANDATORY before using any motor
+   *          control functions. The bootloader must be configured to use Parameter
+   *          Mode (not Register Mode) for TMCL commands to work properly.
+   * 
+   * @param cfg Bootloader configuration. MUST set cfg.boot.boot_mode = BootMode::Parameter
+   *            for motor control functionality. If nullptr, uses configuration
+   *            provided during construction.
    * @return BootloaderInitResult indicating success, no config, or failure.
-   * @note This method should be called before any other operations.
+   * 
+   * @warning This method MUST be called successfully before any other TMC9660 operations.
+   *          Without proper bootloader initialization for parameter mode, all motor
+   *          control functions will fail.
+   * 
+   * @note Typical usage:
+   * @code
+   * tmc9660::BootloaderConfig cfg{};
+   * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // CRITICAL!
+   * cfg.boot.start_motor_control = true;
+   * if (driver.bootloaderInit(&cfg) != TMC9660::BootloaderInitResult::Success) {
+   *     // Handle initialization failure
+   * }
+   * @endcode
    */
   TMC9660::BootloaderInitResult
   bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
