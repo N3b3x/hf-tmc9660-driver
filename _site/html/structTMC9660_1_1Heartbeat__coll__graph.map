@@ -1,0 +1,88 @@
+<map id="TMC9660::Heartbeat" name="TMC9660::Heartbeat">
+<area shape="rect" id="Node000001" title="Subsystem for configuring the communication watchdog (heartbeat)." alt="" coords="335,767,491,793"/>
+<area shape="rect" id="Node000002" href="$classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode. Provides high&#45;level functions to co..." alt="" coords="652,838,735,863"/>
+<area shape="poly" id="edge34_Node000002_Node000001" title=" " alt="" coords="505,772,567,777,629,794,660,813,683,836,679,840,657,817,627,798,566,782,505,777"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="637,840,464,795,466,790,639,834"/>
+<area shape="rect" id="Node000003" href="$structTMC9660_1_1MotorConfig.html" title="Subsystem for configuring motor type and basic settings." alt="" coords="841,22,1011,47"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="692,824,694,653,703,403,711,278,722,168,737,85,746,57,757,39,785,22,817,15,850,15,880,19,880,25,849,20,817,20,787,27,761,43,751,59,742,86,727,169,716,278,708,403,700,653,697,824"/>
+<area shape="rect" id="Node000004" href="$structTMC9660_1_1CurrentSensing.html" title="Subsystem for configuring ADC&#45;based current measurement." alt="" coords="831,113,1021,138"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="692,824,696,671,706,451,714,341,725,245,739,173,747,148,757,133,783,116,814,108,846,107,875,110,875,115,845,112,815,113,785,121,761,137,752,150,744,174,730,246,720,342,711,451,701,671,698,824"/>
+<area shape="rect" id="Node000005" href="$structTMC9660_1_1GateDriver.html" title="Subsystem for configuring the MOSFET gate driver." alt="" coords="845,203,1007,229"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="693,824,698,689,709,499,728,323,741,260,748,239,757,226,781,210,809,201,839,199,867,201,867,206,839,204,810,206,784,214,761,230,753,242,746,262,734,323,715,499,703,689,698,824"/>
+<area shape="rect" id="Node000006" href="$structTMC9660_1_1FeedbackSense.html" title="Subsystem for feedback sensor configuration." alt="" coords="830,294,1022,319"/>
+<area shape="poly" id="edge9_Node000006_Node000002" title=" " alt="" coords="693,824,700,707,713,548,732,401,743,349,757,321,773,309,791,300,829,293,830,298,792,305,775,313,761,324,748,351,737,402,718,549,706,708,699,824"/>
+<area shape="rect" id="Node000007" href="$structTMC9660_1_1FOCControl.html" title="Subsystem for FOC control: torque/flux, velocity, position loops, open‐loop support,..." alt="" coords="843,397,1009,422"/>
+<area shape="poly" id="edge11_Node000007_Node000002" title=" " alt="" coords="692,824,693,732,701,608,709,545,720,489,736,443,757,413,785,396,817,389,850,390,881,394,880,399,850,395,818,395,787,401,760,417,741,446,725,490,714,546,706,608,698,732,697,824"/>
+<area shape="rect" id="Node000008" href="$structTMC9660_1_1Ramp.html" title="Hardware 8&#45;segment acceleration/dec&#45;acc profile controller." alt="" coords="861,465,991,490"/>
+<area shape="poly" id="edge13_Node000008_Node000002" title=" " alt="" coords="693,824,698,751,709,655,728,565,741,530,757,506,780,489,806,478,861,470,862,475,808,483,782,494,761,510,746,533,733,567,715,656,704,751,698,825"/>
+<area shape="rect" id="Node000009" href="$structTMC9660_1_1StepDir.html" title="Subsystem for controlling the STEP/DIR pulse input interface." alt="" coords="857,563,995,589"/>
+<area shape="poly" id="edge15_Node000009_Node000002" title=" " alt="" coords="695,824,717,706,734,645,745,622,757,606,779,590,804,580,856,570,857,576,806,585,782,595,761,610,750,625,739,647,722,707,701,825"/>
+<area shape="rect" id="Node000010" href="$structTMC9660_1_1ReferenceSearch.html" title="Subsystem for executing a reference search (homing) routine." alt="" coords="825,654,1027,679"/>
+<area shape="poly" id="edge17_Node000010_Node000002" title=" " alt="" coords="696,824,715,763,733,731,757,703,789,684,824,672,826,677,791,689,760,707,737,734,720,765,701,825"/>
+<area shape="rect" id="Node000011" href="$structTMC9660_1_1Brake.html" title="Subsystem controlling the brake chopper and mechanical brake features." alt="" coords="862,745,990,770"/>
+<area shape="poly" id="edge19_Node000011_Node000002" title=" " alt="" coords="712,826,732,806,757,788,809,769,861,759,862,764,811,774,760,793,736,810,715,829"/>
+<area shape="rect" id="Node000012" href="$structTMC9660_1_1IIT.html" title="Subsystem for motor thermal overload protection via I²t integration." alt="" coords="873,835,979,861"/>
+<area shape="poly" id="edge21_Node000012_Node000002" title=" " alt="" coords="748,847,873,846,873,851,748,853"/>
+<area shape="rect" id="Node000013" href="$structTMC9660_1_1Telemetry.html" title="Subsystem for reading various telemetry and status information from the driver." alt="" coords="848,926,1004,951"/>
+<area shape="poly" id="edge23_Node000013_Node000002" title=" " alt="" coords="722,869,760,892,808,910,856,923,855,929,806,916,757,897,719,874"/>
+<area shape="rect" id="Node000014" href="$structTMC9660_1_1StopEvents.html" title="Configure automatic stop/latch behaviour for deviation, switches." alt="" coords="844,1017,1008,1042"/>
+<area shape="poly" id="edge25_Node000014_Node000002" title=" " alt="" coords="701,876,708,904,720,936,737,967,760,993,779,1005,800,1014,844,1025,843,1030,798,1019,777,1010,757,997,733,970,715,938,703,905,696,877"/>
+<area shape="rect" id="Node000015" href="$structTMC9660_1_1Protection.html" title="Subsystem for motor protection features." alt="" coords="847,1107,1005,1133"/>
+<area shape="poly" id="edge27_Node000015_Node000002" title=" " alt="" coords="696,877,698,923,706,980,725,1037,741,1063,760,1086,779,1100,801,1110,847,1119,846,1125,799,1115,777,1104,757,1090,736,1066,721,1040,701,981,692,923,691,877"/>
+<area shape="rect" id="Node000016" href="$structTMC9660_1_1Script.html" title="Subsystem for TMCL script execution control." alt="" coords="862,1198,990,1223"/>
+<area shape="poly" id="edge29_Node000016_Node000002" title=" " alt="" coords="699,877,704,948,715,1038,734,1124,746,1156,761,1178,782,1194,808,1204,862,1212,861,1218,806,1210,780,1199,757,1182,741,1159,729,1125,710,1039,699,948,693,877"/>
+<area shape="rect" id="Node000017" href="$structTMC9660_1_1RamDebug.html" title="Subsystem for debug and data logging features." alt="" coords="845,1289,1007,1314"/>
+<area shape="poly" id="edge31_Node000017_Node000002" title=" " alt="" coords="697,877,700,965,709,1084,717,1144,728,1197,743,1241,761,1270,778,1284,799,1294,845,1303,844,1309,797,1299,776,1289,757,1274,738,1243,723,1199,712,1144,704,1085,695,966,692,877"/>
+<area shape="rect" id="Node000018" href="$structTMC9660_1_1NvmStorage.html" title="Subsystem for storing and recalling parameters from nonvolatile flash." alt="" coords="840,1379,1012,1405"/>
+<area shape="poly" id="edge33_Node000018_Node000002" title=" " alt="" coords="697,877,697,983,703,1128,711,1202,723,1269,739,1323,749,1344,761,1360,777,1373,797,1383,840,1393,839,1398,795,1388,774,1378,757,1363,745,1347,734,1325,718,1270,706,1202,698,1128,691,983,691,877"/>
+<area shape="rect" id="Node000019" href="$structTMC9660_1_1Globals.html" title="Convenience helpers for reading and writing global parameters." alt="" coords="856,1470,996,1495"/>
+<area shape="poly" id="edge36_Node000019_Node000002" title=" " alt="" coords="698,877,704,1008,717,1190,735,1359,747,1419,761,1450,781,1466,804,1477,830,1483,856,1485,856,1490,829,1488,803,1482,778,1471,757,1454,742,1420,730,1360,711,1190,699,1008,693,877"/>
+<area shape="rect" id="Node000020" href="$structTMC9660_1_1GPIO.html" title="Subsystem for configuring general&#45;purpose IOs (GPIOs)." alt="" coords="865,1561,987,1586"/>
+<area shape="poly" id="edge38_Node000020_Node000002" title=" " alt="" coords="698,877,703,1025,714,1236,733,1434,746,1504,753,1527,761,1541,783,1558,809,1569,837,1574,864,1576,864,1581,836,1580,807,1574,780,1563,757,1544,748,1529,740,1505,727,1435,708,1236,697,1025,693,877"/>
+<area shape="rect" id="Node000021" href="$structTMC9660_1_1Power.html" title="Subsystem for entering low&#45;power hibernation mode and configuring wake." alt="" coords="861,1654,991,1679"/>
+<area shape="poly" id="edge40_Node000021_Node000002" title=" " alt="" coords="698,877,701,1042,711,1282,719,1403,730,1509,744,1589,752,1616,761,1632,782,1649,807,1660,834,1666,861,1668,860,1674,833,1671,805,1665,779,1653,757,1635,747,1618,739,1590,725,1509,714,1403,706,1283,696,1042,692,877"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="829,51,791,68,761,95,753,112,745,140,732,222,712,453,702,689,698,838,692,837,696,689,707,452,726,222,740,138,748,110,757,92,788,64,826,47"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="827,145,790,162,761,188,747,227,734,299,715,500,703,707,698,838,692,838,698,707,710,500,729,298,742,226,756,185,787,158,824,140"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="833,235,793,253,776,266,761,282,749,302,738,328,721,395,710,476,702,564,697,731,697,838,692,838,691,731,697,564,704,476,716,394,733,326,744,299,757,278,772,262,790,249,830,230"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="841,326,797,346,777,360,761,378,742,416,727,471,716,537,708,609,699,747,697,838,692,838,694,747,703,609,711,537,722,470,737,414,756,374,774,356,794,341,839,321"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="831,424,793,440,761,466,744,495,731,539,712,651,702,763,698,838,692,838,696,762,706,650,725,538,739,493,757,462,790,436,829,419"/>
+<area shape="poly" id="edge12_Node000002_Node000008" title=" " alt="" coords="865,497,809,524,783,543,761,566,739,600,723,638,711,678,703,717,697,789,697,838,691,838,691,789,698,717,706,677,718,636,734,598,757,562,779,539,806,519,863,492"/>
+<area shape="poly" id="edge14_Node000002_Node000009" title=" " alt="" coords="870,596,813,624,785,643,761,666,733,710,714,759,703,805,698,838,693,837,698,804,709,758,728,708,757,662,781,639,810,619,868,591"/>
+<area shape="poly" id="edge16_Node000002_Node000010" title=" " alt="" coords="879,687,819,717,789,736,761,758,726,800,703,839,699,836,721,797,757,754,785,731,817,712,876,682"/>
+<area shape="poly" id="edge18_Node000002_Node000011" title=" " alt="" coords="882,778,727,840,725,835,880,773"/>
+<area shape="poly" id="edge20_Node000002_Node000012" title=" " alt="" coords="871,867,817,876,758,875,725,866,727,861,759,869,817,871,871,861"/>
+<area shape="poly" id="edge22_Node000002_Node000013" title=" " alt="" coords="888,959,858,970,825,976,790,976,757,965,732,943,714,915,695,864,700,862,719,913,736,940,760,960,791,971,824,971,857,965,886,954"/>
+<area shape="poly" id="edge24_Node000002_Node000014" title=" " alt="" coords="890,1050,860,1062,825,1070,790,1069,773,1064,757,1055,736,1035,720,1011,708,984,700,956,692,903,691,864,697,863,698,902,705,955,713,982,724,1008,740,1032,760,1051,775,1059,790,1064,824,1065,858,1057,888,1045"/>
+<area shape="poly" id="edge26_Node000002_Node000015" title=" " alt="" coords="891,1141,860,1153,825,1162,789,1161,772,1155,757,1146,741,1125,728,1093,709,1010,698,925,693,864,698,863,703,924,714,1009,733,1091,746,1122,760,1142,775,1151,790,1156,824,1156,858,1148,889,1136"/>
+<area shape="poly" id="edge28_Node000002_Node000016" title=" " alt="" coords="891,1232,860,1245,825,1253,789,1252,772,1246,757,1237,737,1208,722,1165,710,1112,702,1054,694,941,692,864,697,864,699,940,708,1053,716,1111,727,1164,742,1206,761,1233,774,1242,790,1247,824,1248,858,1239,889,1227"/>
+<area shape="poly" id="edge30_Node000002_Node000017" title=" " alt="" coords="892,1323,860,1335,825,1344,789,1343,772,1337,757,1327,744,1312,733,1291,716,1237,704,1171,696,1098,691,957,692,864,697,864,696,957,702,1097,709,1170,721,1236,738,1289,748,1309,760,1323,774,1333,790,1338,824,1339,859,1330,890,1318"/>
+<area shape="poly" id="edge32_Node000002_Node000018" title=" " alt="" coords="892,1413,860,1426,824,1435,789,1434,772,1428,757,1418,749,1406,741,1385,728,1325,709,1156,698,979,692,864,698,864,703,979,715,1156,734,1325,746,1384,753,1403,761,1414,774,1423,790,1429,824,1430,859,1421,890,1408"/>
+<area shape="poly" id="edge35_Node000002_Node000019" title=" " alt="" coords="891,1504,860,1517,824,1526,789,1525,772,1519,757,1509,747,1494,739,1470,725,1400,715,1307,706,1201,696,995,692,863,698,863,701,994,712,1201,720,1306,731,1399,744,1469,752,1492,761,1505,774,1514,790,1519,824,1520,858,1512,889,1499"/>
+<area shape="poly" id="edge37_Node000002_Node000020" title=" " alt="" coords="891,1595,860,1608,824,1616,789,1615,772,1610,757,1599,746,1583,737,1556,722,1475,711,1368,703,1247,694,1012,692,864,697,864,700,1012,709,1247,717,1368,728,1474,742,1554,751,1580,761,1595,774,1605,789,1610,824,1611,858,1603,889,1590"/>
+<area shape="poly" id="edge39_Node000002_Node000021" title=" " alt="" coords="891,1688,859,1700,824,1708,788,1706,772,1700,757,1690,745,1671,735,1641,719,1549,708,1428,700,1292,693,1027,692,863,697,863,698,1027,706,1292,713,1428,725,1548,740,1639,750,1669,761,1686,774,1696,789,1701,823,1703,858,1695,889,1683"/>
+<area shape="rect" id="Node000022" href="$classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="5,853,189,878"/>
+<area shape="poly" id="edge41_Node000002_Node000022" title=" " alt="" coords="203,860,652,849,652,854,203,865"/>
+<area shape="rect" id="Node000023" href="$classtmc9660_1_1TMC9660Bootloader.html" title="Convenience wrapper around the bootloader TMCL commands." alt="" coords="304,899,523,925"/>
+<area shape="poly" id="edge43_Node000023_Node000022" title=" " alt="" coords="189,877,214,881,319,897,319,902,213,887,188,883"/>
+<area shape="poly" id="edge42_Node000002_Node000023" title=" " alt="" coords="536,901,582,893,627,881,671,861,673,866,629,887,583,898,537,906"/>
+<area shape="rect" id="Node000024" href="$structtmc9660_1_1BootloaderConfig.html" title="Aggregated bootloader configuration written by ::TMC9660Bootloader." alt="" coords="314,1087,513,1113"/>
+<area shape="poly" id="edge44_Node000002_Node000024" title=" " alt="" coords="441,1077,526,1009,626,921,680,862,684,865,630,925,529,1014,444,1081"/>
+<area shape="rect" id="Node000025" href="$structtmc9660_1_1LDOConfig.html" title="Configuration of the on&#45;chip LDO regulators." alt="" coords="20,915,175,941"/>
+<area shape="poly" id="edge45_Node000024_Node000025" title=" " alt="" coords="165,942,190,949,237,965,281,987,351,1039,401,1085,398,1089,348,1043,279,992,235,970,189,955,164,947"/>
+<area shape="rect" id="Node000026" href="$structtmc9660_1_1BootConfig.html" title="Bootloader behaviour configuration." alt="" coords="18,965,177,990"/>
+<area shape="poly" id="edge46_Node000024_Node000026" title=" " alt="" coords="163,991,190,999,236,1013,281,1030,341,1058,391,1085,388,1089,339,1063,279,1034,234,1018,189,1004,162,996"/>
+<area shape="rect" id="Node000027" href="$structtmc9660_1_1UARTConfig.html" title="UART communication settings for the bootloader." alt="" coords="16,1014,179,1039"/>
+<area shape="poly" id="edge47_Node000024_Node000027" title=" " alt="" coords="175,1039,281,1063,366,1085,365,1090,279,1068,174,1045"/>
+<area shape="rect" id="Node000028" href="$structtmc9660_1_1RS485Config.html" title="Optional RS485 transceiver control via the UART_TXEN pin." alt="" coords="13,1063,182,1089"/>
+<area shape="poly" id="edge48_Node000024_Node000028" title=" " alt="" coords="196,1081,314,1090,313,1095,196,1086"/>
+<area shape="rect" id="Node000029" href="$structtmc9660_1_1SPIBootConfig.html" title="SPI interface used for bootloader commands." alt="" coords="8,1113,187,1138"/>
+<area shape="poly" id="edge49_Node000024_Node000029" title=" " alt="" coords="200,1114,313,1105,314,1111,201,1120"/>
+<area shape="rect" id="Node000030" href="$structtmc9660_1_1SPIFlashConfig.html" title="External SPI flash configuration." alt="" coords="6,1162,189,1187"/>
+<area shape="poly" id="edge50_Node000024_Node000030" title=" " alt="" coords="176,1157,279,1133,367,1110,368,1115,281,1139,177,1162"/>
+<area shape="rect" id="Node000031" href="$structtmc9660_1_1I2CConfig.html" title="External I2C EEPROM configuration." alt="" coords="23,1211,172,1237"/>
+<area shape="poly" id="edge51_Node000024_Node000031" title=" " alt="" coords="157,1205,189,1196,235,1184,279,1170,341,1140,390,1111,393,1115,343,1144,281,1174,236,1190,190,1201,159,1210"/>
+<area shape="rect" id="Node000032" href="$structtmc9660_1_1ClockConfig.html" title="System clock selection parameters." alt="" coords="15,1261,179,1286"/>
+<area shape="poly" id="edge52_Node000024_Node000032" title=" " alt="" coords="160,1254,189,1245,235,1231,279,1211,315,1186,349,1159,398,1111,402,1115,352,1163,318,1191,281,1216,237,1236,190,1251,161,1259"/>
+<area shape="rect" id="Node000033" href="$structtmc9660_1_1GPIOConfig.html" title="Initial state of the general purpose pins during boot." alt="" coords="17,1310,177,1335"/>
+<area shape="poly" id="edge53_Node000024_Node000033" title=" " alt="" coords="180,1304,231,1286,278,1259,320,1222,356,1180,402,1111,407,1114,360,1183,324,1226,282,1264,233,1291,182,1309"/>
+</map>

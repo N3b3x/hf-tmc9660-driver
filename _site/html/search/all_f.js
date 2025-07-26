@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['of_20thumb_0',['Rule of Thumb',['../structTMC9660_1_1MotorConfig.html#autotoc_md16',1,'']]],
+  ['off_1',['off',['../structTMC9660_1_1ADC_1_1CSA__SETUP.html#a26210c6496d0299bfebd7b50bf45d9e8a88559a0cfd8250c9d65970cc145c92d4',1,'TMC9660::ADC::CSA_SETUP::OFF'],['../structTMC9660_1_1ADC_1_1SRC__CONFIG.html#ab6cf4a19dead7068deda020a3a12e90ca88559a0cfd8250c9d65970cc145c92d4',1,'TMC9660::ADC::SRC_CONFIG::OFF'],['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md1',1,'System Off']]],
+  ['off_20high_20side_20fets_20on_2',['System Off, High-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md3',1,'']]],
+  ['off_20low_20side_20fets_20on_3',['System Off, Low-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]],
+  ['ok_4',['OK',['../TMC9660CommInterface_8hpp.html#a840303fcd4d20be81413f45c22f0d4c7ae0aa021e21dddbd6d8cecec71e9cf564',1,'TMC9660CommInterface.hpp']]],
+  ['on_5',['on',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md3',1,'System Off, High-Side FETs On'],['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'System Off, Low-Side FETs On']]],
+  ['op_6',['Op',['../namespacetmc9660_1_1tmcl.html#a9d80aca6e1f3b40c4f7e947dd9e0fc24',1,'tmc9660::tmcl']]],
+  ['op_5flist_7',['OP_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a380702dab2808c904771836168aea41b',1,'tmc9660_param_mode_tmcl.hpp']]],
+  ['opcode_8',['opcode',['../structTMCLFrame.html#a6f18ebb3306529cb9ca534581fdc2645',1,'TMCLFrame::opcode'],['../structTMCLReply.html#a4bfaf2e1333ba8c7947dc7c636fce7d4',1,'TMCLReply::opcode']]],
+  ['openloop_20current_20mode_9',['FOC (Openloop, Current Mode)',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md5',1,'']]],
+  ['openloop_20voltage_20mode_10',['FOC (Openloop, Voltage Mode)',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md4',1,'']]],
+  ['oscillator_11',['Oscillator',['../namespacetmc9660_1_1bootcfg.html#ac5b0cb3d72af592e4f5389a9b8a20115a219516abe16a79759275468bc68dfa88',1,'tmc9660::bootcfg']]],
+  ['otpburn_12',['otpBurn',['../classtmc9660_1_1TMC9660Bootloader.html#a51513336502d4d96ac2e9b7301daed89',1,'tmc9660::TMC9660Bootloader']]],
+  ['outputmask_13',['outputMask',['../structtmc9660_1_1GPIOConfig.html#a3b07d837a013626de8ff0bf8506b8dee',1,'tmc9660::GPIOConfig']]],
+  ['overcurrent_5fenable_5flist_14',['OVERCURRENT_ENABLE_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#acc5c6f3b8f8926dbd509d696c6431c73',1,'tmc9660_param_mode_tmcl.hpp']]],
+  ['overcurrent_5fprotection_5flist_15',['OVERCURRENT_PROTECTION_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a822ee8c277752fae29b7a93daef4b81b',1,'tmc9660_param_mode_tmcl.hpp']]],
+  ['overcurrent_5fthreshold_5flist_16',['OVERCURRENT_THRESHOLD_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a5aea883a9b0992c67607d7fc03916149',1,'tmc9660_param_mode_tmcl.hpp']]],
+  ['overcurrent_5ftiming_5flist_17',['OVERCURRENT_TIMING_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a12593c39a9535475a0f13f5d77235556',1,'tmc9660_param_mode_tmcl.hpp']]],
+  ['overcurrentenable_18',['OvercurrentEnable',['../namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da',1,'tmc9660::tmcl']]],
+  ['overcurrentprotection_19',['OvercurrentProtection',['../namespacetmc9660_1_1tmcl.html#ad807cf4c41df266e1fe28390a3b9e3e1',1,'tmc9660::tmcl']]],
+  ['overcurrentthreshold_20',['OvercurrentThreshold',['../namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f',1,'tmc9660::tmcl']]],
+  ['overcurrenttiming_21',['OvercurrentTiming',['../namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3',1,'tmc9660::tmcl']]]
+];

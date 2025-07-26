@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Implementing a Custom Communication Interface</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Implementing a Custom Communication Interface" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Implementing a Custom Communication Interface" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Implementing a Custom Communication Interface","url":"/ImplementingCommInterface.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="-implementing-a-custom-communication-interface">🔌 Implementing a Custom Communication Interface</h1>
+
+<p>The HF-TMC9660 driver is designed to be <strong>hardware-agnostic</strong>. This means it doesn’t contain any platform-specific communication code. Instead, you provide a custom class that implements the low-level SPI or UART communication for your specific hardware platform.</p>
+
+<p>This guide shows you how to create that communication interface with practical examples for different platforms.</p>
+
+<hr />
+
+<h2 id="-what-youll-learn">🎯 What You’ll Learn</h2>
+
+<ul>
+  <li>✅ Understanding the <code class="language-plaintext highlighter-rouge">TMC9660CommInterface</code> architecture</li>
+  <li>✅ Implementing SPI communication interfaces</li>
+  <li>✅ Implementing UART communication interfaces</li>
+  <li>✅ Platform-specific examples (Arduino, STM32, Linux, etc.)</li>
+  <li>✅ Testing and debugging your implementation</li>
+  <li>✅ Best practices for reliable communication</li>
+</ul>
+
+<hr />
+
+<h2 id="️-interface-architecture">🏗️ Interface Architecture</h2>
+
+<p>The communication system uses an abstract base class that you inherit from:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TMC9660CommInterface</span> <span class="p">(</span><span class="n">Abstract</span> <span class="n">Base</span><span class="p">)</span>
+<span class="err">├──</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">(</span><span class="n">SPI</span> <span class="n">Implementation</span><span class="p">)</span>
+<span class="err">└──</span> <span class="n">UARTTMC9660CommInterface</span> <span class="p">(</span><span class="n">UART</span> <span class="n">Implementation</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="core-requirements">Core Requirements</h3>
+
+<p>Your implementation must:</p>
+<ol>
+  <li><strong>Exchange 8-byte frames</strong> with the TMC9660</li>
+  <li><strong>Handle communication errors</strong> gracefully</li>
+  <li><strong>Return success/failure status</strong> for each transfer</li>
+  <li><strong>Be thread-safe</strong> if used in multi-threaded environments</li>
+</ol>
+
+<hr />
+
+<h2 id="-spi-communication-interface">📡 SPI Communication Interface</h2>
+
+<p>Most applications use SPI communication due to its simplicity and speed.</p>
+
+<h3 id="step-1-basic-spi-interface">Step 1: Basic SPI Interface</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660CommInterface.hpp"</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">MySPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="c1">// Your hardware-specific members</span>
+    <span class="n">SPIClass</span><span class="o">*</span> <span class="n">spi_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">cs_pin_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="n">MySPIInterface</span><span class="p">(</span><span class="n">SPIClass</span><span class="o">*</span> <span class="n">spi</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cs_pin</span><span class="p">)</span> 
+        <span class="o">:</span> <span class="n">spi_</span><span class="p">(</span><span class="n">spi</span><span class="p">),</span> <span class="n">cs_pin_</span><span class="p">(</span><span class="n">cs_pin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Initialize CS pin</span>
+        <span class="n">pinMode</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="kt">bool</span> <span class="nf">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="c1">// Perform the 8-byte SPI transaction</span>
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>        <span class="c1">// Assert CS</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">rx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">spi_</span><span class="o">-&gt;</span><span class="n">transfer</span><span class="p">(</span><span class="n">tx</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span> <span class="c1">// Simultaneous TX/RX</span>
+        <span class="p">}</span>
+        
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>       <span class="c1">// Release CS</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// Return false on communication error</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="step-2-platform-specific-examples">Step 2: Platform-Specific Examples</h3>
+
+<h4 id="arduinoesp32-implementation">Arduino/ESP32 Implementation</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">ArduinoSPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">cs_pin_</span><span class="p">;</span>
+    <span class="n">SPISettings</span> <span class="n">spi_settings_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="n">ArduinoSPIInterface</span><span class="p">(</span><span class="kt">int</span> <span class="n">cs_pin</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">frequency</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">)</span> 
+        <span class="o">:</span> <span class="n">cs_pin_</span><span class="p">(</span><span class="n">cs_pin</span><span class="p">),</span> <span class="n">spi_settings_</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">MSBFIRST</span><span class="p">,</span> <span class="n">SPI_MODE3</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pinMode</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+        <span class="n">SPI</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+    <span class="p">}</span>
+    
+    <span class="kt">bool</span> <span class="nf">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">SPI</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">(</span><span class="n">spi_settings_</span><span class="p">);</span>
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+        
+        <span class="c1">// Transfer all 8 bytes</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">rx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">tx</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        
+        <span class="n">digitalWrite</span><span class="p">(</span><span class="n">cs_pin_</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+        <span class="n">SPI</span><span class="p">.</span><span class="n">endTransaction</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Usage</span>
+<span class="n">ArduinoSPIInterface</span> <span class="nf">spi_bus</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>  <span class="c1">// CS on pin 10</span>
+<span class="n">TMC9660</span> <span class="nf">driver</span><span class="p">(</span><span class="n">spi_bus</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="stm32-hal-implementation">STM32 HAL Implementation</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">STM32SPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">SPI_HandleTypeDef</span><span class="o">*</span> <span class="n">hspi_</span><span class="p">;</span>
+    <span class="n">GPIO_TypeDef</span><span class="o">*</span> <span class="n">cs_port_</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">cs_pin_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="n">STM32SPIInterface</span><span class="p">(</span><span class="n">SPI_HandleTypeDef</span><span class="o">*</span> <span class="n">hspi</span><span class="p">,</span> <span class="n">GPIO_TypeDef</span><span class="o">*</span> <span class="n">cs_port</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">cs_pin</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">hspi_</span><span class="p">(</span><span class="n">hspi</span><span class="p">),</span> <span class="n">cs_port_</span><span class="p">(</span><span class="n">cs_port</span><span class="p">),</span> <span class="n">cs_pin_</span><span class="p">(</span><span class="n">cs_pin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">HAL_GPIO_WritePin</span><span class="p">(</span><span class="n">cs_port_</span><span class="p">,</span> <span class="n">cs_pin_</span><span class="p">,</span> <span class="n">GPIO_PIN_SET</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="kt">bool</span> <span class="nf">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">HAL_GPIO_WritePin</span><span class="p">(</span><span class="n">cs_port_</span><span class="p">,</span> <span class="n">cs_pin_</span><span class="p">,</span> <span class="n">GPIO_PIN_RESET</span><span class="p">);</span>
+        
+        <span class="n">HAL_StatusTypeDef</span> <span class="n">result</span> <span class="o">=</span> <span class="n">HAL_SPI_TransmitReceive</span><span class="p">(</span>
+            <span class="n">hspi_</span><span class="p">,</span> <span class="n">tx</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">rx</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+        
+        <span class="n">HAL_GPIO_WritePin</span><span class="p">(</span><span class="n">cs_port_</span><span class="p">,</span> <span class="n">cs_pin_</span><span class="p">,</span> <span class="n">GPIO_PIN_SET</span><span class="p">);</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">HAL_OK</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Usage</span>
+<span class="n">STM32SPIInterface</span> <span class="nf">spi_bus</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hspi1</span><span class="p">,</span> <span class="n">GPIOA</span><span class="p">,</span> <span class="n">GPIO_PIN_4</span><span class="p">);</span>
+<span class="n">TMC9660</span> <span class="nf">driver</span><span class="p">(</span><span class="n">spi_bus</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="linux-userspace-spi-implementation">Linux userspace SPI Implementation</h4>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;linux/spi/spidev.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sys/ioctl.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;fcntl.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;unistd.h&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">LinuxSPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="kt">int</span> <span class="n">spi_fd_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="n">LinuxSPIInterface</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">device</span> <span class="o">=</span> <span class="s">"/dev/spidev0.0"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">spi_fd_</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">O_RDWR</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">spi_fd_</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">runtime_error</span><span class="p">(</span><span class="s">"Failed to open SPI device"</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// Configure SPI mode and speed</span>
+        <span class="kt">uint8_t</span> <span class="n">mode</span> <span class="o">=</span> <span class="n">SPI_MODE_3</span><span class="p">;</span>
+        <span class="kt">uint32_t</span> <span class="n">speed</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">;</span> <span class="c1">// 1 MHz</span>
+        
+        <span class="n">ioctl</span><span class="p">(</span><span class="n">spi_fd_</span><span class="p">,</span> <span class="n">SPI_IOC_WR_MODE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">mode</span><span class="p">);</span>
+        <span class="n">ioctl</span><span class="p">(</span><span class="n">spi_fd_</span><span class="p">,</span> <span class="n">SPI_IOC_WR_MAX_SPEED_HZ</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">speed</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="o">~</span><span class="n">LinuxSPIInterface</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">spi_fd_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">close</span><span class="p">(</span><span class="n">spi_fd_</span><span class="p">);</span>
+    <span class="p">}</span>
+    
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="k">struct</span> <span class="nc">spi_ioc_transfer</span> <span class="n">transfer</span> <span class="o">=</span> <span class="p">{};</span>
+        <span class="n">transfer</span><span class="p">.</span><span class="n">tx_buf</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">tx</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+        <span class="n">transfer</span><span class="p">.</span><span class="n">rx_buf</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">rx</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+        <span class="n">transfer</span><span class="p">.</span><span class="n">len</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+        <span class="n">transfer</span><span class="p">.</span><span class="n">speed_hz</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">;</span>
+        <span class="n">transfer</span><span class="p">.</span><span class="n">bits_per_word</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+        
+        <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">ioctl</span><span class="p">(</span><span class="n">spi_fd_</span><span class="p">,</span> <span class="n">SPI_IOC_MESSAGE</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">transfer</span><span class="p">);</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">result</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Usage</span>
+<span class="n">LinuxSPIInterface</span> <span class="nf">spi_bus</span><span class="p">(</span><span class="s">"/dev/spidev0.0"</span><span class="p">);</span>
+<span class="n">TMC9660</span> <span class="nf">driver</span><span class="p">(</span><span class="n">spi_bus</span><span class="p">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-uart-communication-interface">📺 UART Communication Interface</h2>
+
+<p>For applications requiring UART communication (RS485 networks, longer distances):</p>
+
+<h3 id="basic-uart-interface">Basic UART Interface</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyUARTInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">UARTTMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">HardwareSerial</span><span class="o">*</span> <span class="n">uart_</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">txen_pin_</span><span class="p">;</span>  <span class="c1">// RS485 TX enable pin (optional)</span>
+    
+<span class="nl">public:</span>
+    <span class="n">MyUARTInterface</span><span class="p">(</span><span class="n">HardwareSerial</span><span class="o">*</span> <span class="n">uart</span><span class="p">,</span> <span class="kt">int</span> <span class="n">txen_pin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+        <span class="o">:</span> <span class="n">uart_</span><span class="p">(</span><span class="n">uart</span><span class="p">),</span> <span class="n">txen_pin_</span><span class="p">(</span><span class="n">txen_pin</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">txen_pin_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">pinMode</span><span class="p">(</span><span class="n">txen_pin_</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+            <span class="n">digitalWrite</span><span class="p">(</span><span class="n">txen_pin_</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span> <span class="c1">// RX mode</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="kt">bool</span> <span class="nf">uartTransfer</span><span class="p">(</span><span class="k">const</span> <span class="n">TMCLFrame</span><span class="o">&amp;</span> <span class="n">tx</span><span class="p">,</span> <span class="n">TMCLReply</span><span class="o">&amp;</span> <span class="n">reply</span><span class="p">,</span> 
+                      <span class="kt">uint8_t</span> <span class="n">address</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="c1">// Enable transmission for RS485</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">txen_pin_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">digitalWrite</span><span class="p">(</span><span class="n">txen_pin_</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+        
+        <span class="c1">// Send 8-byte frame</span>
+        <span class="kt">uint8_t</span> <span class="n">frame</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+        <span class="n">tx</span><span class="p">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">address</span><span class="p">);</span>
+        <span class="n">uart_</span><span class="o">-&gt;</span><span class="n">write</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+        <span class="n">uart_</span><span class="o">-&gt;</span><span class="n">flush</span><span class="p">();</span>
+        
+        <span class="c1">// Switch to receive mode</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">txen_pin_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">digitalWrite</span><span class="p">(</span><span class="n">txen_pin_</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+        
+        <span class="c1">// Wait for reply (8 bytes + checksum)</span>
+        <span class="kt">uint8_t</span> <span class="n">reply_data</span><span class="p">[</span><span class="mi">9</span><span class="p">];</span>
+        <span class="kt">size_t</span> <span class="n">bytes_read</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">start_time</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="n">bytes_read</span> <span class="o">&lt;</span> <span class="mi">9</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">millis</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">uart_</span><span class="o">-&gt;</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">reply_data</span><span class="p">[</span><span class="n">bytes_read</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">uart_</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">bytes_read</span> <span class="o">==</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">reply</span><span class="p">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">reply_data</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Timeout or incomplete frame</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-testing-your-implementation">🧪 Testing Your Implementation</h2>
+
+<h3 id="basic-communication-test">Basic Communication Test</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">testCommunication</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Try to read a parameter to verify communication</span>
+    <span class="kt">uint32_t</span> <span class="n">motor_type</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">readParameter</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">Parameters</span><span class="o">::</span><span class="n">MOTOR_TYPE</span><span class="p">,</span> <span class="n">motor_type</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Communication working! Motor type: "</span> <span class="o">&lt;&lt;</span> <span class="n">motor_type</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"❌ Communication failed!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="n">MySPIInterface</span> <span class="nf">my_interface</span><span class="p">(</span><span class="cm">/* your parameters */</span><span class="p">);</span>
+<span class="n">TMC9660</span> <span class="nf">driver</span><span class="p">(</span><span class="n">my_interface</span><span class="p">);</span>
+
+<span class="c1">// Configure for parameter mode</span>
+<span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+
+<span class="c1">// Test communication</span>
+<span class="n">testCommunication</span><span class="p">(</span><span class="n">driver</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="advanced-testing-with-loopback">Advanced Testing with Loopback</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">testLoopback</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Write a known value and read it back</span>
+    <span class="k">const</span> <span class="kt">uint32_t</span> <span class="n">test_value</span> <span class="o">=</span> <span class="mh">0x12345678</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">writeParameter</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">Parameters</span><span class="o">::</span><span class="n">USER_VARIABLE_0</span><span class="p">,</span> <span class="n">test_value</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"❌ Write failed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="kt">uint32_t</span> <span class="n">read_value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">readParameter</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">Parameters</span><span class="o">::</span><span class="n">USER_VARIABLE_0</span><span class="p">,</span> <span class="n">read_value</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"❌ Read failed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">read_value</span> <span class="o">==</span> <span class="n">test_value</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Loopback test passed!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"❌ Loopback test failed: wrote 0x"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">test_value</span> 
+                  <span class="o">&lt;&lt;</span> <span class="s">", read 0x"</span> <span class="o">&lt;&lt;</span> <span class="n">read_value</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices--tips">🔧 Best Practices &amp; Tips</h2>
+
+<h3 id="performance-optimization">Performance Optimization</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">OptimizedSPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="c1">// Use DMA for faster transfers (platform-specific)</span>
+    <span class="kt">bool</span> <span class="n">use_dma_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">use_dma_</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">dmaTransfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">rx</span><span class="p">);</span>  <span class="c1">// Your DMA implementation</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">pollingTransfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">rx</span><span class="p">);</span>  <span class="c1">// Fallback polling method</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="error-handling--retry-logic">Error Handling &amp; Retry Logic</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RobustSPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="k">static</span> <span class="k">constexpr</span> <span class="kt">int</span> <span class="n">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">attempt</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">attempt</span> <span class="o">&lt;</span> <span class="n">MAX_RETRIES</span><span class="p">;</span> <span class="n">attempt</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">attemptTransfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">rx</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+            <span class="c1">// Brief delay before retry</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">microseconds</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// All retries failed</span>
+    <span class="p">}</span>
+    
+<span class="k">private</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">attemptTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                        <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="p">{</span>
+        <span class="c1">// Your actual transfer implementation</span>
+        <span class="c1">// Return false on any error condition</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="thread-safety">Thread Safety</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ThreadSafeSPIInterface</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">spi_mutex_</span><span class="p">;</span>
+    
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">spi_mutex_</span><span class="p">);</span>
+        
+        <span class="c1">// Your transfer implementation here</span>
+        <span class="c1">// Mutex ensures only one transfer at a time</span>
+        
+        <span class="k">return</span> <span class="n">performTransfer</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">rx</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-troubleshooting-common-issues">🚨 Troubleshooting Common Issues</h2>
+
+<h3 id="spi-communication-problems">SPI Communication Problems</h3>
+
+<p><strong>Problem:</strong> All transfers return success but parameter reads/writes fail
+<strong>Solution:</strong> Check SPI mode (TMC9660 uses Mode 3), bit order (MSB first), and timing</p>
+
+<p><strong>Problem:</strong> Intermittent communication failures<br />
+<strong>Solution:</strong> Add delays between CS assertion and first clock, verify signal integrity</p>
+
+<p><strong>Problem:</strong> Wrong data received
+<strong>Solution:</strong> Verify CS polarity, check for electrical noise, ensure proper grounding</p>
+
+<h3 id="uart-communication-problems">UART Communication Problems</h3>
+
+<p><strong>Problem:</strong> No response from device
+<strong>Solution:</strong> Verify baud rate, check RX/TX pin connections, ensure proper address configuration</p>
+
+<p><strong>Problem:</strong> Corrupted data
+<strong>Solution:</strong> Check for timing issues, verify start/stop bits, ensure RS485 timing if used</p>
+
+<hr />
+
+<h2 id="-implementation-checklist">📋 Implementation Checklist</h2>
+
+<p>Before integrating your communication interface:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Correct inheritance</strong> from <code class="language-plaintext highlighter-rouge">SPITMC9660CommInterface</code> or <code class="language-plaintext highlighter-rouge">UARTTMC9660CommInterface</code></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>8-byte frame handling</strong> implemented correctly</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Error conditions handled</strong> and return appropriate boolean status</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Hardware initialization</strong> performed in constructor</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Resource cleanup</strong> implemented in destructor (if needed)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Basic communication test</strong> passes</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Loopback test</strong> with known values works</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Thread safety</strong> considered if applicable</li>
+</ul>
+
+<hr />
+
+<h2 id="-next-steps">🎯 Next Steps</h2>
+
+<p>With your communication interface working, you’re ready to explore motor control:</p>
+
+<p><strong>👉 <a href="BuildingExamples.html">Building Examples</a></strong> - Compile and test the provided examples</p>
+
+<p><strong>👉 <a href="HardwareAgnosticExamples.html">Hardware-Agnostic Examples</a></strong> - Complete motor control scenarios</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="SetupGuide.html">⬅️ Setup Guide</a></td>
+      <td><a href="index.html">⬆️ Back to Index</a></td>
+      <td><a href="BuildingExamples.html">Next ➡️ Building Examples</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Need specific platform examples? Check the examples directory or contribute your implementation to help others!</em></p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

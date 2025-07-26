@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HF-TMC9660 Setup Guide</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HF-TMC9660 Setup Guide" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="HF-TMC9660 Setup Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"HF-TMC9660 Setup Guide","url":"/SetupGuide.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="-hf-tmc9660-setup-guide">📋 HF-TMC9660 Setup Guide</h1>
+
+<p>This comprehensive guide walks you through setting up the HF-TMC9660 driver library on your development machine. By the end of this guide, you’ll have a working build environment and understand the critical parameter mode configuration requirements.</p>
+
+<hr />
+
+<h2 id="-what-youll-accomplish">🎯 What You’ll Accomplish</h2>
+
+<ul>
+  <li>✅ Clone and set up the HF-TMC9660 driver library</li>
+  <li>✅ Install and verify C++20 toolchain compatibility</li>
+  <li>✅ Build the library and example programs</li>
+  <li>✅ Understand parameter mode initialization requirements</li>
+  <li>✅ Test your setup with working examples</li>
+</ul>
+
+<hr />
+
+<h2 id="-prerequisites">📋 Prerequisites</h2>
+
+<p>Before starting, ensure you have:</p>
+
+<ul>
+  <li><strong>Git</strong> for cloning the repository</li>
+  <li><strong>C++20 compatible compiler</strong> (GCC 10+, Clang 11+, or MSVC 2019+)</li>
+  <li><strong>Command line access</strong> (Terminal, PowerShell, or Command Prompt)</li>
+  <li><strong>Basic C++ knowledge</strong> for understanding examples</li>
+</ul>
+
+<hr />
+
+<h2 id="-step-1-clone-the-repository">🚀 Step 1: Clone the Repository</h2>
+
+<p>Choose one of these methods based on your project needs:</p>
+
+<h3 id="option-a-standalone-clone">Option A: Standalone Clone</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/n3b3x/hf-tmc9660-driver.git
+<span class="nb">cd </span>hf-tmc9660-driver
+</code></pre></div></div>
+
+<h3 id="option-b-git-submodule-recommended-for-existing-projects">Option B: Git Submodule (Recommended for existing projects)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From your project root</span>
+git submodule add https://github.com/n3b3x/hf-tmc9660-driver.git external/hf-tmc9660
+<span class="nb">cd </span>external/hf-tmc9660
+git submodule update <span class="nt">--init</span> <span class="nt">--recursive</span>
+</code></pre></div></div>
+
+<h3 id="option-c-download-zip">Option C: Download ZIP</h3>
+<p>If you prefer not to use Git, download the ZIP file from GitHub and extract it to your preferred location.</p>
+
+<hr />
+
+<h2 id="️-step-2-verify-c20-toolchain">🛠️ Step 2: Verify C++20 Toolchain</h2>
+
+<p>The HF-TMC9660 driver requires <strong>C++20</strong> support. Verify your compiler meets the requirements:</p>
+
+<h3 id="linuxmacos">Linux/macOS</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check GCC version (needs 10+)</span>
+g++ <span class="nt">--version</span>
+
+<span class="c"># Check Clang version (needs 11+)  </span>
+clang++ <span class="nt">--version</span>
+
+<span class="c"># Test C++20 support</span>
+<span class="nb">echo</span> <span class="s1">'#include &lt;span&gt;'</span> | g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-x</span> c++ <span class="nt">-c</span> - 2&gt;/dev/null <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"✅ C++20 supported"</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">"❌ C++20 not supported"</span>
+</code></pre></div></div>
+
+<h3 id="windows">Windows</h3>
+<pre><code class="language-cmd">REM Visual Studio 2019+ with C++20
+cl.exe
+
+REM Or MinGW/MSYS2
+g++ --version
+</code></pre>
+
+<h3 id="installingupdating-compilers">Installing/Updating Compilers</h3>
+
+<p><strong>Ubuntu/Debian:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>build-essential gcc-10 g++-10
+<span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/gcc gcc /usr/bin/gcc-10 100
+<span class="nb">sudo </span>update-alternatives <span class="nt">--install</span> /usr/bin/g++ g++ /usr/bin/g++-10 100
+</code></pre></div></div>
+
+<p><strong>Windows (MSYS2):</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pacman <span class="nt">-S</span> mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
+</code></pre></div></div>
+
+<p><strong>macOS:</strong></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Xcode command line tools</span>
+xcode-select <span class="nt">--install</span>
+
+<span class="c"># Or use Homebrew</span>
+brew <span class="nb">install </span>gcc
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-step-3-build-the-library">🏗️ Step 3: Build the Library</h2>
+
+<p>The library uses a simple compilation model without complex build systems.</p>
+
+<h3 id="basic-library-compilation">Basic Library Compilation</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Compile the core library</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-c</span> src/TMC9660.cpp <span class="nt">-o</span> TMC9660.o
+
+<span class="c"># Compile bootloader support</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-c</span> src/TMC9660Bootloader.cpp <span class="nt">-o</span> TMC9660Bootloader.o
+
+<span class="c"># Verify object files were created</span>
+<span class="nb">ls</span> <span class="nt">-la</span> <span class="k">*</span>.o
+</code></pre></div></div>
+
+<h3 id="create-static-library-optional">Create Static Library (Optional)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Create a reusable static library</span>
+ar rcs libTMC9660.a TMC9660.o TMC9660Bootloader.o
+
+<span class="c"># Verify the library</span>
+ar <span class="nt">-t</span> libTMC9660.a
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-step-4-build-and-test-examples">🧪 Step 4: Build and Test Examples</h2>
+
+<p>Test your setup by building the provided examples:</p>
+
+<h3 id="bootloader-configuration-example">Bootloader Configuration Example</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bootloader_test
+
+<span class="c"># Run the test</span>
+./bootloader_test
+</code></pre></div></div>
+
+<p><strong>Expected Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>✓ Bootloader configured successfully for parameter mode
+  - Boot mode: Parameter
+  - Motor control: Enabled
+  - Communication: SPI/UART configured
+  - Clock: Internal 16MHz with PLL
+✓ Parameter mode communication verified
+</code></pre></div></div>
+
+<h3 id="bldc-motor-control-example">BLDC Motor Control Example</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_HALL.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bldc_hall_test
+
+<span class="c"># Run the test</span>
+./bldc_hall_test
+</code></pre></div></div>
+
+<h3 id="telemetry-monitoring-example">Telemetry Monitoring Example</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/Telemetry_monitor.cpp <span class="se">\</span>
+    <span class="nt">-o</span> telemetry_test
+
+<span class="c"># Run the test</span>
+./telemetry_test
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-step-5-understanding-parameter-mode-requirements">⚠️ Step 5: Understanding Parameter Mode Requirements</h2>
+
+<p><strong>CRITICAL:</strong> The TMC9660 must be initialized for Parameter Mode operation before any motor control functions will work.</p>
+
+<h3 id="why-parameter-mode">Why Parameter Mode?</h3>
+<p>The TMC9660 can operate in two modes:</p>
+<ul>
+  <li><strong>Register Mode</strong>: Low-level register access (not covered by this driver)</li>
+  <li><strong>Parameter Mode</strong>: High-level TMCL command interface (required for this driver)</li>
+</ul>
+
+<h3 id="essential-initialization-pattern">Essential Initialization Pattern</h3>
+<p>Every application using the HF-TMC9660 driver MUST follow this pattern:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// 1. Create communication interface (your hardware-specific implementation)</span>
+    <span class="n">YourCommInterface</span> <span class="n">bus</span><span class="p">;</span>  <span class="c1">// Replace with your SPI/UART implementation</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+    
+    <span class="c1">// 2. CRITICAL: Configure bootloader for Parameter Mode</span>
+    <span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>  <span class="c1">// ESSENTIAL!</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">start_motor_control</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    
+    <span class="c1">// 3. Initialize bootloader</span>
+    <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">TMC9660</span><span class="o">::</span><span class="n">BootloaderInitResult</span><span class="o">::</span><span class="n">Success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Handle initialization failure</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// 4. Now you can use motor control functions</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-step-6-integration-with-your-project">🔧 Step 6: Integration with Your Project</h2>
+
+<h3 id="method-1-direct-file-integration">Method 1: Direct File Integration</h3>
+<p>Copy the <code class="language-plaintext highlighter-rouge">inc/</code> and <code class="language-plaintext highlighter-rouge">src/</code> directories into your project and compile the sources along with your application:</p>
+
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># CMake example</span>
+<span class="nb">add_executable</span><span class="p">(</span>my_motor_app
+    src/main.cpp
+    external/hf-tmc9660/src/TMC9660.cpp
+    external/hf-tmc9660/src/TMC9660Bootloader.cpp
+<span class="p">)</span>
+
+<span class="nb">target_include_directories</span><span class="p">(</span>my_motor_app PRIVATE 
+    external/hf-tmc9660/inc
+<span class="p">)</span>
+
+<span class="nb">target_compile_features</span><span class="p">(</span>my_motor_app PRIVATE cxx_std_20<span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="method-2-static-library">Method 2: Static Library</h3>
+<p>Use the static library you created in Step 3:</p>
+
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Makefile example
+</span><span class="nv">CXXFLAGS</span> <span class="o">=</span> <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iexternal</span>/hf-tmc9660/inc
+<span class="nv">LDLIBS</span> <span class="o">=</span> <span class="nt">-Lexternal</span>/hf-tmc9660 <span class="nt">-lTMC9660</span>
+
+<span class="nl">my_motor_app</span><span class="o">:</span> <span class="nf">src/main.cpp</span>
+	<span class="p">$(</span>CXX<span class="p">)</span> <span class="p">$(</span>CXXFLAGS<span class="p">)</span> <span class="nv">$&lt;</span> <span class="p">$(</span>LDLIBS<span class="p">)</span> <span class="nt">-o</span> <span class="nv">$@</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-verification-checklist">✅ Verification Checklist</h2>
+
+<p>Before proceeding to the next documentation sections, verify:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Repository cloned successfully</strong> and all files present</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>C++20 compiler working</strong> and version requirements met</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Library compiles cleanly</strong> without errors or warnings</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Examples build and run</strong> with expected output</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Parameter mode initialization</strong> understood and tested</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Integration method chosen</strong> for your project</li>
+</ul>
+
+<hr />
+
+<h2 id="-troubleshooting">🚨 Troubleshooting</h2>
+
+<h3 id="compilation-errors">Compilation Errors</h3>
+
+<p><strong>Problem:</strong> <code class="language-plaintext highlighter-rouge">error: no matching function for call to 'span'</code>
+<strong>Solution:</strong> Your compiler doesn’t support C++20. Update to GCC 10+, Clang 11+, or MSVC 2019+.</p>
+
+<p><strong>Problem:</strong> <code class="language-plaintext highlighter-rouge">fatal error: TMC9660.hpp: No such file or directory</code>
+<strong>Solution:</strong> Add the include path with <code class="language-plaintext highlighter-rouge">-Iinc</code> or verify the file structure.</p>
+
+<h3 id="runtime-issues">Runtime Issues</h3>
+
+<p><strong>Problem:</strong> All motor control functions return <code class="language-plaintext highlighter-rouge">false</code>
+<strong>Solution:</strong> Ensure bootloader is configured for Parameter Mode (see Step 5).</p>
+
+<p><strong>Problem:</strong> Communication timeouts or failures
+<strong>Solution:</strong> Verify your communication interface implementation and hardware connections.</p>
+
+<hr />
+
+<h2 id="-next-steps">🎯 Next Steps</h2>
+
+<p>Congratulations! Your HF-TMC9660 development environment is ready. Continue with:</p>
+
+<p><strong>👉 <a href="ImplementingCommInterface.html">Implementing Communication Interface</a></strong> - Create your hardware-specific communication layer</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="index.html">⬅️ Back to Index</a></td>
+      <td><a href="ImplementingCommInterface.html">Next ➡️ Communication Interface</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Need help? Check the troubleshooting sections or review the example implementations.</em></p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

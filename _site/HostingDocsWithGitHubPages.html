@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Hosting Documentation with GitHub Pages</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Hosting Documentation with GitHub Pages" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Hosting Documentation with GitHub Pages" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Hosting Documentation with GitHub Pages","url":"/HostingDocsWithGitHubPages.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="hosting-documentation-with-github-pages">Hosting Documentation with GitHub Pages</h1>
+
+<p>Automatically publishing the generated Doxygen output keeps the online documentation up to date. The repository includes a workflow that builds the HTML files and deploys them to GitHub Pages.</p>
+
+<p>The Markdown guides under <code class="language-plaintext highlighter-rouge">docs/</code> form the written tutorial while Doxygen
+generates the C++ API reference in <code class="language-plaintext highlighter-rouge">docs/html</code>. Deploying the entire <code class="language-plaintext highlighter-rouge">docs</code>
+directory lets <code class="language-plaintext highlighter-rouge">index.md</code> act as the landing page with a complete table of
+contents. The API reference is then available at the <code class="language-plaintext highlighter-rouge">html/</code> subfolder.</p>
+
+<h2 id="workflow-snippet">Workflow Snippet</h2>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">permissions</span><span class="pi">:</span>
+  <span class="na">contents</span><span class="pi">:</span> <span class="s">read</span>
+  <span class="na">pages</span><span class="pi">:</span> <span class="s">write</span>
+  <span class="na">id-token</span><span class="pi">:</span> <span class="s">write</span>
+
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v4</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Setup Pages</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="s">pages</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/configure-pages@v4</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
+    <span class="na">run</span><span class="pi">:</span> <span class="s">sudo apt-get update &amp;&amp; sudo apt-get install -y doxygen graphviz ruby-full &amp;&amp; sudo gem install jekyll jekyll-theme-slate</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Build documentation</span>
+    <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+      <span class="s">doxygen Doxyfile</span>
+      <span class="s">ruby -S jekyll build --source docs --destination _site --baseurl "$"</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Upload Pages artifact</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/upload-pages-artifact@v3</span>
+    <span class="na">with</span><span class="pi">:</span>
+      <span class="na">path</span><span class="pi">:</span> <span class="s">_site</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Deploy to GitHub Pages</span>
+    <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/deploy-pages@v4</span>
+</code></pre></div></div>
+
+<p>This method avoids creating commits on a dedicated <code class="language-plaintext highlighter-rouge">gh-pages</code> branch. The
+<code class="language-plaintext highlighter-rouge">deploy-pages</code> action uploads the static files directly to the Pages
+infrastructure, so the workflow works even if the default <code class="language-plaintext highlighter-rouge">GITHUB_TOKEN</code> only
+has read access to the repository.</p>
+
+<p>If the step fails with a <code class="language-plaintext highlighter-rouge">403</code> error, the token lacks permission to push to the repository. Enable <strong>Read and write permissions</strong> under <strong>Settings → Actions → General</strong>, or provide a Personal Access Token with the <code class="language-plaintext highlighter-rouge">repo</code> scope and reference it as <code class="language-plaintext highlighter-rouge">$</code>.</p>
+
+<p>After pushing to <code class="language-plaintext highlighter-rouge">main</code>, visit <strong>Settings → Pages</strong> to find the deployed site.
+You should see the table of contents from <code class="language-plaintext highlighter-rouge">docs/index.md</code> and a link to the API
+reference in the <code class="language-plaintext highlighter-rouge">html/</code> directory.</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="CommonOperations.html">\u2B05\uFE0F Prev</a></td>
+      <td><a href="index.html">\u2B06\uFE0F Back to Index</a></td>
+    </tr>
+  </tbody>
+</table>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

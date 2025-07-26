@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Building and Running the Example Programs</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Building and Running the Example Programs" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Building and Running the Example Programs" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Building and Running the Example Programs","url":"/BuildingExamples.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="️-building-and-running-the-example-programs">🏗️ Building and Running the Example Programs</h1>
+
+<p>The HF-TMC9660 driver includes comprehensive examples that demonstrate every aspect of motor control from basic setup to advanced FOC algorithms. This guide shows you how to build, run, and understand these examples.</p>
+
+<hr />
+
+<h2 id="-what-youll-learn">🎯 What You’ll Learn</h2>
+
+<ul>
+  <li>✅ Build all example programs from command line</li>
+  <li>✅ Understand what each example demonstrates</li>
+  <li>✅ Run examples with proper output interpretation</li>
+  <li>✅ Use examples as templates for your projects</li>
+  <li>✅ Troubleshoot common build and runtime issues</li>
+</ul>
+
+<hr />
+
+<h2 id="-prerequisites">📋 Prerequisites</h2>
+
+<p>Before building examples, ensure you have:</p>
+
+<ul>
+  <li><strong>✅ HF-TMC9660 library</strong> set up (<a href="SetupGuide.html">Setup Guide</a>)</li>
+  <li><strong>✅ C++20 compiler</strong> working (GCC 10+, Clang 11+, MSVC 2019+)</li>
+  <li><strong>✅ Communication interface</strong> understanding (<a href="ImplementingCommInterface.html">Comm Interface Guide</a>)</li>
+</ul>
+
+<hr />
+
+<h2 id="-quick-start---build-all-examples">🚀 Quick Start - Build All Examples</h2>
+
+<h3 id="method-1-individual-compilation">Method 1: Individual Compilation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Navigate to project root</span>
+<span class="nb">cd </span>hf-tmc9660-driver
+
+<span class="c"># Build bootloader configuration example</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bootloader_demo
+
+<span class="c"># Build BLDC with Hall sensors example</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_HALL.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bldc_hall_demo
+
+<span class="c"># Build telemetry monitoring example</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/Telemetry_monitor.cpp <span class="se">\</span>
+    <span class="nt">-o</span> telemetry_demo
+</code></pre></div></div>
+
+<h3 id="method-2-batch-build-script">Method 2: Batch Build Script</h3>
+
+<p>Create a build script for convenience:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># build_examples.sh</span>
+
+<span class="nv">COMPILER</span><span class="o">=</span><span class="s2">"g++"</span>
+<span class="nv">STD</span><span class="o">=</span><span class="s2">"-std=c++20"</span>
+<span class="nv">INCLUDES</span><span class="o">=</span><span class="s2">"-Iinc"</span>
+<span class="nv">SOURCES</span><span class="o">=</span><span class="s2">"src/TMC9660.cpp src/TMC9660Bootloader.cpp"</span>
+
+<span class="nb">echo</span> <span class="s2">"🏗️  Building HF-TMC9660 Examples..."</span>
+
+<span class="c"># Array of examples</span>
+<span class="nb">declare</span> <span class="nt">-a</span> <span class="nv">examples</span><span class="o">=(</span>
+    <span class="s2">"bootloader_example:bootloader_demo"</span>
+    <span class="s2">"BLDC_with_HALL:bldc_hall_demo"</span>
+    <span class="s2">"BLDC_with_ABN:bldc_abn_demo"</span>
+    <span class="s2">"BLDC_velocity_control:bldc_vel_demo"</span>
+    <span class="s2">"DC_current_control:dc_current_demo"</span>
+    <span class="s2">"Stepper_FOC:stepper_foc_demo"</span>
+    <span class="s2">"Stepper_step_dir:stepper_stepdir_demo"</span>
+    <span class="s2">"Telemetry_monitor:telemetry_demo"</span>
+<span class="o">)</span>
+
+<span class="k">for </span>example <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">examples</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span> <span class="k">do
+    </span><span class="nv">IFS</span><span class="o">=</span><span class="s1">':'</span> <span class="nb">read</span> <span class="nt">-r</span> <span class="nb">source </span>output <span class="o">&lt;&lt;&lt;</span> <span class="s2">"</span><span class="nv">$example</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"Building </span><span class="nv">$source</span><span class="s2">..."</span>
+    
+    <span class="nv">$COMPILER</span> <span class="nv">$STD</span> <span class="nv">$INCLUDES</span> <span class="nv">$SOURCES</span> <span class="s2">"examples/</span><span class="nv">$source</span><span class="s2">.cpp"</span> <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$output</span><span class="s2">"</span>
+    
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"✅ </span><span class="nv">$output</span><span class="s2"> built successfully"</span>
+    <span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">"❌ Failed to build </span><span class="nv">$source</span><span class="s2">"</span>
+        <span class="nb">exit </span>1
+    <span class="k">fi
+done
+
+</span><span class="nb">echo</span> <span class="s2">"🎉 All examples built successfully!"</span>
+</code></pre></div></div>
+
+<p>Make it executable and run:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x build_examples.sh
+./build_examples.sh
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-example-programs-reference">📚 Example Programs Reference</h2>
+
+<h3 id="-foundation-examples">🔧 Foundation Examples</h3>
+
+<h4 id="1-bootloader-configuration-bootloader_examplecpp">1. <strong>Bootloader Configuration</strong> (<code class="language-plaintext highlighter-rouge">bootloader_example.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Demonstrates essential parameter mode setup</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo
+./bootloader_demo
+</code></pre></div></div>
+
+<p><strong>Expected Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>✓ Bootloader configured successfully for parameter mode
+  - Boot mode: Parameter
+  - Motor control: Enabled
+  - Communication: SPI/UART configured
+  - Clock: Internal 16MHz with PLL
+✓ Parameter mode communication verified
+</code></pre></div></div>
+
+<p><strong>Key Learning:</strong> This example shows the <strong>critical</strong> bootloader setup required for all motor control operations.</p>
+
+<h4 id="2-telemetry-monitoring-telemetry_monitorcpp">2. <strong>Telemetry Monitoring</strong> (<code class="language-plaintext highlighter-rouge">Telemetry_monitor.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Real-time monitoring of chip status</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/Telemetry_monitor.cpp <span class="nt">-o</span> telemetry_demo
+./telemetry_demo
+</code></pre></div></div>
+
+<p><strong>Expected Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>✓ Parameter mode initialized - starting telemetry monitoring
+✓ Basic motor configuration applied
+
+Telemetry monitoring (Ctrl+C to stop):
+----------------------------------------
+Sample  1: Temp= 25.0°C, Current=    0mA, Voltage=24.00V
+Sample  2: Temp= 26.1°C, Current=  150mA, Voltage=23.98V
+...
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-bldc-motor-control-examples">⚡ BLDC Motor Control Examples</h3>
+
+<h4 id="3-bldc-with-hall-sensors-bldc_with_hallcpp">3. <strong>BLDC with Hall Sensors</strong> (<code class="language-plaintext highlighter-rouge">BLDC_with_HALL.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Complete BLDC setup with Hall sensor feedback</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_HALL.cpp <span class="nt">-o</span> bldc_hall_demo
+./bldc_hall_demo
+</code></pre></div></div>
+
+<p><strong>Expected Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>✓ Bootloader configured for parameter mode
+✓ Motor type: BLDC with 7 pole pairs
+✓ Current limits: 2A torque, 1A flux
+✓ Hall sensors configured
+✓ FOC gains configured (Current: P=50, I=100 | Velocity: P=800, I=1)
+✓ FOC commutation with Hall sensors enabled
+✓ Motor started with target velocity 1000
+</code></pre></div></div>
+
+<p><strong>Key Learning:</strong> Demonstrates complete BLDC setup sequence with safety checks.</p>
+
+<h4 id="4-bldc-with-abn-encoder-bldc_with_abncpp">4. <strong>BLDC with ABN Encoder</strong> (<code class="language-plaintext highlighter-rouge">BLDC_with_ABN.cpp</code>)</h4>
+<p><strong>Purpose:</strong> High-precision BLDC control with incremental encoder</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_ABN.cpp <span class="nt">-o</span> bldc_abn_demo
+./bldc_abn_demo
+</code></pre></div></div>
+
+<p><strong>Key Learning:</strong> Shows encoder-based feedback for precision applications.</p>
+
+<h4 id="5-bldc-velocity-control-bldc_velocity_controlcpp">5. <strong>BLDC Velocity Control</strong> (<code class="language-plaintext highlighter-rouge">BLDC_velocity_control.cpp</code>)</h4>
+<p><strong>Purpose:</strong> DC motor with velocity feedback control</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_velocity_control.cpp <span class="nt">-o</span> bldc_vel_demo
+./bldc_vel_demo
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-stepper-motor-examples">🔄 Stepper Motor Examples</h3>
+
+<h4 id="6-stepper-foc-control-stepper_foccpp">6. <strong>Stepper FOC Control</strong> (<code class="language-plaintext highlighter-rouge">Stepper_FOC.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Field-oriented control of stepper motors</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/Stepper_FOC.cpp <span class="nt">-o</span> stepper_foc_demo
+./stepper_foc_demo
+</code></pre></div></div>
+
+<p><strong>Key Learning:</strong> Advanced stepper control with smooth operation and high precision.</p>
+
+<h4 id="7-stepper-stepdir-interface-stepper_step_dircpp">7. <strong>Stepper Step/Dir Interface</strong> (<code class="language-plaintext highlighter-rouge">Stepper_step_dir.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Traditional step/direction interface with extrapolation</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/Stepper_step_dir.cpp <span class="nt">-o</span> stepper_stepdir_demo
+./stepper_stepdir_demo
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="-dc-motor-examples">🔌 DC Motor Examples</h3>
+
+<h4 id="8-dc-current-control-dc_current_controlcpp">8. <strong>DC Current Control</strong> (<code class="language-plaintext highlighter-rouge">DC_current_control.cpp</code>)</h4>
+<p><strong>Purpose:</strong> Open-loop current drive for DC motors</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/DC_current_control.cpp <span class="nt">-o</span> dc_current_demo
+./dc_current_demo
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-build-configurations">🔧 Build Configurations</h2>
+
+<h3 id="debug-build-recommended-for-development">Debug Build (Recommended for Development)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-g</span> <span class="nt">-O0</span> <span class="nt">-DDEBUG</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_HALL.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bldc_hall_debug
+</code></pre></div></div>
+
+<h3 id="release-build-optimized-for-production">Release Build (Optimized for Production)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-O3</span> <span class="nt">-DNDEBUG</span> <span class="se">\</span>
+    src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/BLDC_with_HALL.cpp <span class="se">\</span>
+    <span class="nt">-o</span> bldc_hall_release
+</code></pre></div></div>
+
+<h3 id="static-library-build">Static Library Build</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># First create the static library</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-c</span> src/TMC9660.cpp <span class="nt">-o</span> TMC9660.o
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-c</span> src/TMC9660Bootloader.cpp <span class="nt">-o</span> TMC9660Bootloader.o
+ar rcs libTMC9660.a TMC9660.o TMC9660Bootloader.o
+
+<span class="c"># Then link examples against it</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> examples/BLDC_with_HALL.cpp <span class="nt">-L</span><span class="nb">.</span> <span class="nt">-lTMC9660</span> <span class="nt">-o</span> bldc_hall_demo
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-platform-specific-build-instructions">🛠️ Platform-Specific Build Instructions</h2>
+
+<h3 id="linuxmacos">Linux/macOS</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Standard build</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo
+
+<span class="c"># With threading support (if using std::thread)</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-pthread</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo
+</code></pre></div></div>
+
+<h3 id="windows-mingwmsys2">Windows (MinGW/MSYS2)</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Standard build</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo.exe
+
+<span class="c"># Static linking (avoid DLL dependencies)</span>
+g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-static</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    examples/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo.exe
+</code></pre></div></div>
+
+<h3 id="windows-visual-studio">Windows (Visual Studio)</h3>
+<pre><code class="language-cmd">REM Use Developer Command Prompt
+cl /std:c++20 /Iinc /EHsc src/TMC9660.cpp src/TMC9660Bootloader.cpp ^
+   examples/bootloader_example.cpp /Fe:bootloader_demo.exe
+</code></pre>
+
+<hr />
+
+<h2 id="-testing-your-builds">🧪 Testing Your Builds</h2>
+
+<h3 id="verification-checklist">Verification Checklist</h3>
+
+<p>Run this verification for each built example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1. Verify the executable was created</span>
+<span class="nb">ls</span> <span class="nt">-la</span> <span class="k">*</span>_demo
+
+<span class="c"># 2. Check it's executable</span>
+file bootloader_demo
+
+<span class="c"># 3. Run basic test</span>
+./bootloader_demo
+
+<span class="c"># 4. Verify expected output appears</span>
+<span class="nb">echo</span> <span class="nv">$?</span>  <span class="c"># Should return 0 for success</span>
+</code></pre></div></div>
+
+<h3 id="expected-behavior">Expected Behavior</h3>
+
+<p><strong>With DummyBus (Default):</strong></p>
+<ul>
+  <li>Examples should run without errors</li>
+  <li>Configuration messages should appear</li>
+  <li>Simulated telemetry values should be displayed</li>
+  <li>Return code should be 0</li>
+</ul>
+
+<p><strong>With Real Hardware:</strong></p>
+<ul>
+  <li>Motors should respond according to example logic</li>
+  <li>Telemetry should show real sensor values</li>
+  <li>Communication should be stable</li>
+</ul>
+
+<hr />
+
+<h2 id="-troubleshooting">🚨 Troubleshooting</h2>
+
+<h3 id="compilation-issues">Compilation Issues</h3>
+
+<p><strong>Problem:</strong> <code class="language-plaintext highlighter-rouge">error: no matching function for call to 'span'</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Verify C++20 support</span>
+g++ <span class="nt">--version</span>  <span class="c"># Should be 10+ for GCC, 11+ for Clang</span>
+<span class="nb">echo</span> <span class="s1">'#include &lt;span&gt;'</span> | g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-x</span> c++ <span class="nt">-c</span> -
+</code></pre></div></div>
+
+<p><strong>Problem:</strong> <code class="language-plaintext highlighter-rouge">fatal error: TMC9660.hpp: No such file or directory</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Verify include path and file structure</span>
+<span class="nb">ls</span> <span class="nt">-la</span> inc/TMC9660.hpp  <span class="c"># Should exist</span>
+<span class="c"># Add -Iinc flag to compilation command</span>
+</code></pre></div></div>
+
+<p><strong>Problem:</strong> <code class="language-plaintext highlighter-rouge">undefined reference to TMC9660Bootloader</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Solution: Include bootloader source</span>
+<span class="c"># Add src/TMC9660Bootloader.cpp to compilation command</span>
+</code></pre></div></div>
+
+<h3 id="runtime-issues">Runtime Issues</h3>
+
+<p><strong>Problem:</strong> Examples compile but return error codes</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check the actual error message</span>
+./bootloader_demo
+<span class="nb">echo</span> <span class="s2">"Exit code: </span><span class="nv">$?</span><span class="s2">"</span>
+
+<span class="c"># Common issues:</span>
+<span class="c"># - Parameter mode not configured (most common)</span>
+<span class="c"># - Communication interface not working</span>
+<span class="c"># - Hardware not connected</span>
+</code></pre></div></div>
+
+<p><strong>Problem:</strong> “Communication failure” messages</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Verify your communication interface implementation</span>
+<span class="c"># Check hardware connections</span>
+<span class="c"># Ensure TMC9660 is powered and in parameter mode</span>
+</code></pre></div></div>
+
+<h3 id="build-system-integration">Build System Integration</h3>
+
+<h4 id="cmake-example">CMake Example</h4>
+<div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># CMakeLists.txt</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span>VERSION 3.16<span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span>TMC9660Examples<span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD 20<span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span>CMAKE_CXX_STANDARD_REQUIRED ON<span class="p">)</span>
+
+<span class="c1"># Include directory</span>
+<span class="nb">include_directories</span><span class="p">(</span>external/hf-tmc9660/inc<span class="p">)</span>
+
+<span class="c1"># Library sources</span>
+<span class="nb">set</span><span class="p">(</span>TMC9660_SOURCES
+    external/hf-tmc9660/src/TMC9660.cpp
+    external/hf-tmc9660/src/TMC9660Bootloader.cpp
+<span class="p">)</span>
+
+<span class="c1"># Create library</span>
+<span class="nb">add_library</span><span class="p">(</span>TMC9660 STATIC <span class="si">${</span><span class="nv">TMC9660_SOURCES</span><span class="si">}</span><span class="p">)</span>
+
+<span class="c1"># Example executables</span>
+<span class="nb">add_executable</span><span class="p">(</span>bootloader_demo external/hf-tmc9660/examples/bootloader_example.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>bootloader_demo TMC9660<span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span>bldc_hall_demo external/hf-tmc9660/examples/BLDC_with_HALL.cpp<span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span>bldc_hall_demo TMC9660<span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="makefile-example">Makefile Example</h4>
+<div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Makefile
+</span><span class="nv">CXX</span> <span class="o">=</span> g++
+<span class="nv">CXXFLAGS</span> <span class="o">=</span> <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> <span class="nt">-O2</span>
+<span class="nv">SOURCES</span> <span class="o">=</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp
+
+<span class="nv">EXAMPLES</span> <span class="o">=</span> bootloader_demo bldc_hall_demo telemetry_demo
+
+<span class="nl">all</span><span class="o">:</span> <span class="nf">$(EXAMPLES)</span>
+
+<span class="nl">bootloader_demo</span><span class="o">:</span> <span class="nf">examples/bootloader_example.cpp $(SOURCES)</span>
+	<span class="p">$(</span>CXX<span class="p">)</span> <span class="p">$(</span>CXXFLAGS<span class="p">)</span> <span class="nv">$^</span> <span class="nt">-o</span> <span class="nv">$@</span>
+
+<span class="nl">bldc_hall_demo</span><span class="o">:</span> <span class="nf">examples/BLDC_with_HALL.cpp $(SOURCES)</span>
+	<span class="p">$(</span>CXX<span class="p">)</span> <span class="p">$(</span>CXXFLAGS<span class="p">)</span> <span class="nv">$^</span> <span class="nt">-o</span> <span class="nv">$@</span>
+
+<span class="nl">telemetry_demo</span><span class="o">:</span> <span class="nf">examples/Telemetry_monitor.cpp $(SOURCES)</span>
+	<span class="p">$(</span>CXX<span class="p">)</span> <span class="p">$(</span>CXXFLAGS<span class="p">)</span> <span class="nv">$^</span> <span class="nt">-o</span> <span class="nv">$@</span>
+
+<span class="nl">clean</span><span class="o">:</span>
+	<span class="nb">rm</span> <span class="nt">-f</span> <span class="p">$(</span>EXAMPLES<span class="p">)</span> <span class="k">*</span>.o
+
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">all clean</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-example-usage-checklist">📋 Example Usage Checklist</h2>
+
+<p>Before using examples as templates:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Built successfully</strong> without warnings</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Runs without errors</strong> (exit code 0)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Output messages appear</strong> as expected</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Parameter mode setup</strong> understood and verified</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Communication interface</strong> adapted for your hardware</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Motor parameters</strong> adjusted for your motor</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Safety limits</strong> configured appropriately</li>
+</ul>
+
+<hr />
+
+<h2 id="-next-steps">🎯 Next Steps</h2>
+
+<p>With working examples, you’re ready for advanced topics:</p>
+
+<p><strong>👉 <a href="HardwareAgnosticExamples.html">Hardware-Agnostic Examples</a></strong> - Detailed motor control scenarios</p>
+
+<p><strong>👉 <a href="CommonOperations.html">Common Operations</a></strong> - Everyday driver usage patterns</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="ImplementingCommInterface.html">⬅️ Communication Interface</a></td>
+      <td><a href="index.html">⬆️ Back to Index</a></td>
+      <td><a href="HardwareAgnosticExamples.html">Next ➡️ Hardware Examples</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Having build issues? Check the troubleshooting section or review your C++20 compiler setup.</em></p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

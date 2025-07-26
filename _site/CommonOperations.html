@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Common HF-TMC9660 Operations</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Common HF-TMC9660 Operations" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Common HF-TMC9660 Operations" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Common HF-TMC9660 Operations","url":"/CommonOperations.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="️-common-hf-tmc9660-operations">🛠️ Common HF-TMC9660 Operations</h1>
+
+<p>This guide covers the most frequently used operations when working with the HF-TMC9660 driver. Each example includes proper error handling and follows best practices for robust motor control applications.</p>
+
+<hr />
+
+<h2 id="-what-youll-learn">🎯 What You’ll Learn</h2>
+
+<ul>
+  <li>✅ Essential initialization patterns</li>
+  <li>✅ Motor configuration for different types</li>
+  <li>✅ FOC control operations (torque, velocity, position)</li>
+  <li>✅ Telemetry and monitoring</li>
+  <li>✅ Safety and protection setup</li>
+  <li>✅ Error handling best practices</li>
+</ul>
+
+<hr />
+
+<h2 id="-essential-initialization-pattern">🚀 Essential Initialization Pattern</h2>
+
+<p><strong>Every application must follow this initialization sequence:</strong></p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+</span>
+<span class="c1">// Your communication interface implementation</span>
+<span class="n">YourCommInterface</span> <span class="n">bus</span><span class="p">;</span>
+<span class="n">TMC9660</span> <span class="nf">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+<span class="c1">// STEP 1: CRITICAL - Configure for Parameter Mode</span>
+<span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>  <span class="c1">// ESSENTIAL!</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">start_motor_control</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">spiComm</span><span class="p">.</span><span class="n">boot_spi_iface</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">SPIInterface</span><span class="o">::</span><span class="n">IFACE0</span><span class="p">;</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">uart</span><span class="p">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BaudRate</span><span class="o">::</span><span class="n">BR115200</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">TMC9660</span><span class="o">::</span><span class="n">BootloaderInitResult</span><span class="o">::</span><span class="n">Success</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Handle bootloader failure - motor control won't work without this</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Now you can use all motor control functions...</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-motor-configuration">🔧 Motor Configuration</h2>
+
+<h3 id="bldc-motor-setup">BLDC Motor Setup</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureBLDCMotor</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Step 1: Set motor type and pole pairs</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set BLDC motor type"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 2: Configure current limits (SAFETY FIRST!)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">2000</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// 2A max</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set torque current limit"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setMaxFluxCurrent</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 1A flux</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set flux current limit"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 3: Configure feedback sensors</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">feedbackSense</span><span class="p">.</span><span class="n">configureHall</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to configure Hall sensors"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 4: Set PWM frequency and switching scheme</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setPWMFrequency</span><span class="p">(</span><span class="mi">25000</span><span class="p">))</span> <span class="p">{</span>     <span class="c1">// 25 kHz</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set PWM frequency"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setPWMSwitchingScheme</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">PwmSwitchingScheme</span><span class="o">::</span><span class="n">SVPWM</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set SVPWM scheme"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 5: Configure FOC control gains</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setCurrentLoopGains</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set current PI gains"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setVelocityLoopGains</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to set velocity PI gains"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 6: Enable commutation (LAST STEP!)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_HALL_SENSOR</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to enable FOC commutation"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ BLDC motor configured successfully"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="stepper-motor-setup">Stepper Motor Setup</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureStepperMotor</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Step 1: Set motor type (steppers use 1 pole pair)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">STEPPER_MOTOR</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 2: Configure encoder for feedback</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">feedbackSense</span><span class="p">.</span><span class="n">configureABNEncoder</span><span class="p">(</span><span class="mi">1024</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// 1024 CPR</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 3: Set current limits</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">1500</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 1.5A</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 4: Configure for FOC with encoder feedback</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_ENCODER</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="dc-motor-setup">DC Motor Setup</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureDCMotor</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Step 1: Set motor type</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">DC_MOTOR</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 2: Set current limit</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">1500</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 1.5A</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 3: Configure encoder for velocity feedback</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">feedbackSense</span><span class="p">.</span><span class="n">configureABNEncoder</span><span class="p">(</span><span class="mi">1024</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Step 4: Enable open-loop current mode</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_OPENLOOP_CURRENT_MODE</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-foc-control-operations">⚡ FOC Control Operations</h2>
+
+<h3 id="velocity-control">Velocity Control</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">setVelocityControl</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">target_rpm</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Configure velocity sensor</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setVelocitySensor</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">VelocitySensorSelection</span><span class="o">::</span><span class="n">ABN1_ENCODER</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set velocity PI gains (tune these for your system)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setVelocityLoopGains</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Command target velocity</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="n">target_rpm</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Velocity control: "</span> <span class="o">&lt;&lt;</span> <span class="n">target_rpm</span> <span class="o">&lt;&lt;</span> <span class="s">" RPM"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Monitor velocity control</span>
+<span class="kt">void</span> <span class="nf">monitorVelocity</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int32_t</span> <span class="n">actual_velocity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">getActualVelocity</span><span class="p">(</span><span class="n">actual_velocity</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Current velocity: "</span> <span class="o">&lt;&lt;</span> <span class="n">actual_velocity</span> <span class="o">&lt;&lt;</span> <span class="s">" RPM"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Check if velocity target is reached</span>
+    <span class="kt">uint32_t</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">getVelocityReachedThreshold</span><span class="p">(</span><span class="n">threshold</span><span class="p">);</span>
+    <span class="c1">// Implement your logic based on threshold</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="position-control">Position Control</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">setPositionControl</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">target_position</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Configure position sensor</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setPositionSensor</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">PositionSensorSelection</span><span class="o">::</span><span class="n">ABN1_ENCODER</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set position PI gains</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setPositionLoopGains</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// P=100, I=0</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set position limits for safety</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setPositionLimitLow</span><span class="p">(</span><span class="o">-</span><span class="mi">100000</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setPositionLimitHigh</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Command target position</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetPosition</span><span class="p">(</span><span class="n">target_position</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Position control: "</span> <span class="o">&lt;&lt;</span> <span class="n">target_position</span> <span class="o">&lt;&lt;</span> <span class="s">" units"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="torque-control">Torque Control</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">setTorqueControl</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">,</span> <span class="kt">int16_t</span> <span class="n">target_current_ma</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Set current PI gains</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setCurrentLoopGains</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Command target torque (current)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetTorque</span><span class="p">(</span><span class="n">target_current_ma</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Torque control: "</span> <span class="o">&lt;&lt;</span> <span class="n">target_current_ma</span> <span class="o">&lt;&lt;</span> <span class="s">" mA"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-telemetry-and-monitoring">📊 Telemetry and Monitoring</h2>
+
+<h3 id="basic-telemetry-reading">Basic Telemetry Reading</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">TelemetryData</span> <span class="p">{</span>
+    <span class="kt">float</span> <span class="n">chip_temperature</span><span class="p">;</span>
+    <span class="kt">int16_t</span> <span class="n">motor_current</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">supply_voltage</span><span class="p">;</span>
+    <span class="kt">int32_t</span> <span class="n">actual_position</span><span class="p">;</span>
+    <span class="kt">int32_t</span> <span class="n">actual_velocity</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kt">bool</span> <span class="nf">readTelemetry</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">,</span> <span class="n">TelemetryData</span><span class="o">&amp;</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Read chip temperature</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">chip_temperature</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">telemetry</span><span class="p">.</span><span class="n">getChipTemperature</span><span class="p">();</span>
+    
+    <span class="c1">// Read motor current</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">motor_current</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">telemetry</span><span class="p">.</span><span class="n">getMotorCurrent</span><span class="p">();</span>
+    
+    <span class="c1">// Read supply voltage</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">supply_voltage</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">telemetry</span><span class="p">.</span><span class="n">getSupplyVoltage</span><span class="p">();</span>
+    
+    <span class="c1">// Read actual position and velocity</span>
+    <span class="kt">bool</span> <span class="n">pos_ok</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">getActualPosition</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">actual_position</span><span class="p">);</span>
+    <span class="kt">bool</span> <span class="n">vel_ok</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">getActualVelocity</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">actual_velocity</span><span class="p">);</span>
+    
+    <span class="k">return</span> <span class="n">pos_ok</span> <span class="o">&amp;&amp;</span> <span class="n">vel_ok</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">printTelemetry</span><span class="p">(</span><span class="k">const</span> <span class="n">TelemetryData</span><span class="o">&amp;</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Telemetry:"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  Temperature: "</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">.</span><span class="n">chip_temperature</span> <span class="o">&lt;&lt;</span> <span class="s">" °C"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  Current:     "</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">.</span><span class="n">motor_current</span> <span class="o">&lt;&lt;</span> <span class="s">" mA"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  Voltage:     "</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">.</span><span class="n">supply_voltage</span> <span class="o">&lt;&lt;</span> <span class="s">" V"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  Position:    "</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">.</span><span class="n">actual_position</span> <span class="o">&lt;&lt;</span> <span class="s">" units"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  Velocity:    "</span> <span class="o">&lt;&lt;</span> <span class="n">data</span><span class="p">.</span><span class="n">actual_velocity</span> <span class="o">&lt;&lt;</span> <span class="s">" RPM"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="advanced-current-sensing">Advanced Current Sensing</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureCurrentSensing</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Set ADC shunt configuration</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">setShuntType</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">AdcShuntType</span><span class="o">::</span><span class="n">THREE_SHUNT</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Configure current sense amplifier gains</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">setCSAGain</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CsaGain</span><span class="o">::</span><span class="n">GAIN_20</span><span class="p">,</span> 
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CsaGain</span><span class="o">::</span><span class="n">GAIN_20</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set scaling factor</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">setScalingFactor</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Calibrate ADC offsets (motor must be stationary!)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">calibrateOffsets</span><span class="p">(</span><span class="nb">true</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"ADC calibration failed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Current sensing configured and calibrated"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">readDetailedCurrents</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Read raw ADC values</span>
+    <span class="kt">int16_t</span> <span class="n">adc0</span><span class="p">,</span> <span class="n">adc1</span><span class="p">,</span> <span class="n">adc2</span><span class="p">,</span> <span class="n">adc3</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">readRaw</span><span class="p">(</span><span class="n">adc0</span><span class="p">,</span> <span class="n">adc1</span><span class="p">,</span> <span class="n">adc2</span><span class="p">,</span> <span class="n">adc3</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Raw ADC: "</span> <span class="o">&lt;&lt;</span> <span class="n">adc0</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">adc1</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> 
+                  <span class="o">&lt;&lt;</span> <span class="n">adc2</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">adc3</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Read scaled and offset-compensated values</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">currentSensing</span><span class="p">.</span><span class="n">readScaledAndOffset</span><span class="p">(</span><span class="n">adc0</span><span class="p">,</span> <span class="n">adc1</span><span class="p">,</span> <span class="n">adc2</span><span class="p">,</span> <span class="n">adc3</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Scaled ADC: "</span> <span class="o">&lt;&lt;</span> <span class="n">adc0</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">adc1</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> 
+                  <span class="o">&lt;&lt;</span> <span class="n">adc2</span> <span class="o">&lt;&lt;</span> <span class="s">", "</span> <span class="o">&lt;&lt;</span> <span class="n">adc3</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-safety-and-protection">🛡️ Safety and Protection</h2>
+
+<h3 id="configure-protection-limits">Configure Protection Limits</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureProtection</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Voltage protection</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">protection</span><span class="p">.</span><span class="n">setOverVoltageLimit</span><span class="p">(</span><span class="mi">48000</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 48V max</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">protection</span><span class="p">.</span><span class="n">setUnderVoltageLimit</span><span class="p">(</span><span class="mi">8000</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 8V min</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Temperature protection</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">protection</span><span class="p">.</span><span class="n">setOverTemperatureLimit</span><span class="p">(</span><span class="mi">85</span><span class="p">))</span> <span class="p">{</span>   <span class="c1">// 85°C max</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Current protection (already set in motor config, but can be adjusted)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">2000</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// 2A max</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Protection limits configured"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">checkFaultStatus</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">fault_status</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">readParameter</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">Parameters</span><span class="o">::</span><span class="n">FAULT_STATUS</span><span class="p">,</span> <span class="n">fault_status</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">fault_status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"⚠️  Fault detected: 0x"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">fault_status</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        
+        <span class="c1">// Clear faults if appropriate</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">sendCommand</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">Op</span><span class="o">::</span><span class="n">CLE</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Faults cleared"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Indicate fault condition</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// No faults</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="️-motion-ramp-control">🎛️ Motion Ramp Control</h2>
+
+<h3 id="configure-hardware-ramps">Configure Hardware Ramps</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">configureMotionRamps</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Enable ramp generator</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">enable</span><span class="p">(</span><span class="nb">true</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set acceleration parameters (µ units/s²)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">setAcceleration</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// A1, A2, Amax</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set deceleration parameters (µ units/s²)  </span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">setDeceleration</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// D1, D2, Dmax</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Set velocity parameters (µ units/s)</span>
+    <span class="c1">// Vstart, Vstop, V1, V2, Vmax</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">setVelocities</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Enable feedforward control</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">enableFeedForward</span><span class="p">(</span>
+            <span class="nb">true</span><span class="p">,</span> <span class="nb">true</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> 
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">AccelerationFFShift</span><span class="o">::</span><span class="n">SHIFT_0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Motion ramps configured"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">monitorRampStatus</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int32_t</span> <span class="n">ramp_velocity</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int32_t</span> <span class="n">ramp_position</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">getRampVelocity</span><span class="p">(</span><span class="n">ramp_velocity</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Ramp velocity: "</span> <span class="o">&lt;&lt;</span> <span class="n">ramp_velocity</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">getRampPosition</span><span class="p">(</span><span class="n">ramp_position</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Ramp position: "</span> <span class="o">&lt;&lt;</span> <span class="n">ramp_position</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-emergency-stop-and-safe-shutdown">🚨 Emergency Stop and Safe Shutdown</h2>
+
+<h3 id="emergency-stop-procedure">Emergency Stop Procedure</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">emergencyStop</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"🚨 EMERGENCY STOP ACTIVATED!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="c1">// Immediate motor stop</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">stop</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to stop motor!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Disable commutation</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">SYSTEM_OFF</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"Failed to disable commutation!"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Check for faults</span>
+    <span class="n">checkFaultStatus</span><span class="p">(</span><span class="n">driver</span><span class="p">);</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Emergency stop completed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="graceful-shutdown">Graceful Shutdown</h3>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">gracefulShutdown</span><span class="p">(</span><span class="n">TMC9660</span><span class="o">&amp;</span> <span class="n">driver</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Initiating graceful shutdown..."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    
+    <span class="c1">// Ramp down to zero velocity</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Wait for motor to stop (implement your own timeout logic)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>
+    
+    <span class="c1">// Disable commutation</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+            <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">SYSTEM_OFF</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"✅ Graceful shutdown completed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-best-practices-checklist">📋 Best Practices Checklist</h2>
+
+<h3 id="initialization">Initialization</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Bootloader configured</strong> for Parameter Mode</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Communication tested</strong> with simple parameter read/write</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Motor type set</strong> before other motor parameters</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Current limits configured</strong> before enabling commutation</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Feedback sensors configured</strong> properly</li>
+</ul>
+
+<h3 id="operation">Operation</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Error checking</strong> on all driver calls</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Telemetry monitoring</strong> for temperature and current</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Fault status checking</strong> periodically</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Emergency stop</strong> procedure implemented</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Graceful shutdown</strong> on application exit</li>
+</ul>
+
+<h3 id="safety">Safety</h3>
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Voltage limits</strong> set appropriately</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Current limits</strong> set conservatively</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Temperature monitoring</strong> enabled</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Position limits</strong> configured if applicable</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Watchdog timer</strong> implemented in your application</li>
+</ul>
+
+<hr />
+
+<h2 id="-next-steps">🎯 Next Steps</h2>
+
+<p>With these common operations mastered, explore advanced features:</p>
+
+<p><strong>👉 <a href="HardwareAgnosticExamples.html">Hardware-Agnostic Examples</a></strong> - Complete application scenarios</p>
+
+<p><strong>👉 <a href="annotated.html">API Reference</a></strong> - Complete function documentation</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="BuildingExamples.html">⬅️ Building Examples</a></td>
+      <td><a href="index.html">⬆️ Back to Index</a></td>
+      <td><a href="HostingDocsWithGitHubPages.html">Next ➡️ GitHub Pages</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p><em>Remember: Always check return values and implement proper error handling in production code!</em></p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

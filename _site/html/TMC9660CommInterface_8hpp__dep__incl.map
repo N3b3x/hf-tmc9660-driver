@@ -1,0 +1,12 @@
+<map id="TMC9660CommInterface.hpp" name="TMC9660CommInterface.hpp">
+<area shape="rect" id="Node000001" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="19,5,231,31"/>
+<area shape="rect" id="Node000002" href="$TMC9660_8hpp.html" title=" " alt="" coords="5,152,116,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,43,88,80,74,119,66,152,61,151,69,117,84,78,105,41"/>
+<area shape="rect" id="Node000004" href="$TMC9660Bootloader_8hpp.html" title="Helper for configuring the TMC9660 bootloader registers." alt="" coords="98,79,279,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="146,39,180,77,176,80,142,43"/>
+<area shape="rect" id="Node000003" href="$TMC9660_8cpp.html" title=" " alt="" coords="5,225,116,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="63,191,63,225,58,225,58,191"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="157,113,83,154,80,149,155,108"/>
+<area shape="rect" id="Node000005" href="$TMC9660Bootloader_8cpp.html" title=" " alt="" coords="140,152,320,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="205,115,226,151,221,153,200,117"/>
+</map>

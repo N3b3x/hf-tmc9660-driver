@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Extensive TMC9660 Examples</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Extensive TMC9660 Examples" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Extensive TMC9660 Examples" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Extensive TMC9660 Examples","url":"/HardwareAgnosticExamples.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="extensive-tmc9660-examples">Extensive TMC9660 Examples</h1>
+
+<p>This document collects hardware agnostic walkthroughs showing how to configure
+the TMC9660 from bootloader setup to running a variety of motors.  All code
+examples use a very small “DummyBus” that merely echoes SPI transfers.  When
+porting the library to real hardware you must implement your own class derived
+from <code class="language-plaintext highlighter-rouge">TMC9660CommInterface</code> and replace the dummy bus with that implementation.</p>
+
+<hr />
+
+<h2 id="bootloader-configuration">Bootloader Configuration</h2>
+
+<p>The bootloader registers are configured via <code class="language-plaintext highlighter-rouge">TMC9660Bootloader</code>. The snippet
+below writes a minimal configuration enabling SPI and UART communication.  The
+<code class="language-plaintext highlighter-rouge">DummyBus</code> seen in all snippets simply echoes data and serves as a placeholder
+for your real SPI or UART implementation.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">DummyBus</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span> <span class="c1">// echo back for demonstration</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">DummyBus</span> <span class="n">bus</span><span class="p">;</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+    <span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">uart</span><span class="p">.</span><span class="n">baud_rate</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BaudRate</span><span class="o">::</span><span class="n">BR115200</span><span class="p">;</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">spiComm</span><span class="p">.</span><span class="n">boot_spi_iface</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">SPIInterface</span><span class="o">::</span><span class="n">IFACE0</span><span class="p">;</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">clock</span><span class="p">.</span><span class="n">use_external</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">ClockSource</span><span class="o">::</span><span class="n">Internal</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">TMC9660</span><span class="o">::</span><span class="n">BootloaderInitResult</span><span class="o">::</span><span class="n">Success</span><span class="p">)</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Bootloader configured"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Bootloader configuration failed"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Compile with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>g++ <span class="nt">-std</span><span class="o">=</span>c++20 <span class="nt">-Iinc</span> src/TMC9660.cpp src/TMC9660Bootloader.cpp <span class="se">\</span>
+    docs/bootloader_example.cpp <span class="nt">-o</span> bootloader_demo
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="bldc-with-abn-encoder">BLDC with ABN Encoder</h2>
+
+<p>This example configures a BLDC motor using an incremental ABN encoder for closed
+loop FOC control.  Again the <code class="language-plaintext highlighter-rouge">DummyBus</code> merely mimics the real transport layer.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">DummyBus</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">DummyBus</span> <span class="n">bus</span><span class="p">;</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">configureABNEncoder</span><span class="p">(</span><span class="mi">2048</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+        <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_ENCODER</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">rampGenerator</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">1500</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Motor running with ABN feedback"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="stepper-closedloop-control">Stepper Closed‑Loop Control</h2>
+
+<p>The library can control a stepper motor using field‑oriented control. The
+following snippet sets up a stepper with an ABN encoder and commands a position
+move.  As before, <code class="language-plaintext highlighter-rouge">DummyBus</code> is just a stand‑in for a real bus driver.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">DummyBus</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">DummyBus</span> <span class="n">bus</span><span class="p">;</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">STEPPER_MOTOR</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">configureABNEncoder</span><span class="p">(</span><span class="mi">4000</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+        <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_ENCODER</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">moveTo</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Stepper moving to position 1000"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="stepdir-interface">Step/Dir Interface</h2>
+
+<p>External controllers can drive the STEP/DIR pins while the TMC9660 extrapolates
+between pulses. Here a stepper motor is configured for 1/8 micro‑steps and the
+interface is enabled.  <code class="language-plaintext highlighter-rouge">DummyBus</code> once again represents the application‑specific
+communication layer.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">DummyBus</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">DummyBus</span> <span class="n">bus</span><span class="p">;</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">STEPPER_MOTOR</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">stepDir</span><span class="p">.</span><span class="n">setMicrostepResolution</span><span class="p">(</span>
+        <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">StepDirStepDividerShift</span><span class="o">::</span><span class="n">DIV8</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">stepDir</span><span class="p">.</span><span class="n">enableInterface</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">stepDir</span><span class="p">.</span><span class="n">enableExtrapolation</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"STEP/DIR interface enabled"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="dc-motor-current-control">DC Motor Current Control</h2>
+
+<p>A brushed DC motor can be driven using open‑loop current mode. The following
+example sets a current limit and commands a constant current.  Replace
+<code class="language-plaintext highlighter-rouge">DummyBus</code> with your hardware specific implementation when integrating.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">"TMC9660.hpp"</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">DummyBus</span> <span class="o">:</span> <span class="k">public</span> <span class="n">SPITMC9660CommInterface</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">bool</span> <span class="n">spiTransfer</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">tx</span><span class="p">,</span>
+                     <span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="p">,</span><span class="mi">8</span><span class="o">&gt;&amp;</span> <span class="n">rx</span><span class="p">)</span> <span class="k">noexcept</span> <span class="k">override</span> <span class="p">{</span>
+        <span class="n">rx</span> <span class="o">=</span> <span class="n">tx</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">DummyBus</span> <span class="n">bus</span><span class="p">;</span>
+    <span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">bus</span><span class="p">);</span>
+
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">DC_MOTOR</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setCommutationMode</span><span class="p">(</span>
+        <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">CommutationMode</span><span class="o">::</span><span class="n">FOC_OPENLOOP_CURRENT</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motor</span><span class="p">.</span><span class="n">setMaxTorqueCurrent</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">rampGenerator</span><span class="p">.</span><span class="n">setTargetCurrent</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"DC motor running in current mode"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>These snippets are minimal but cover the main features of the library. Refer to <code class="language-plaintext highlighter-rouge">inc/TMC9660.hpp</code> for all available parameters and helper methods.</p>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="BuildingExamples.html">⬅️ Prev</a></td>
+      <td><a href="index.html">⬆️ Back to Index</a></td>
+      <td><a href="CommonOperations.html">Next ➡️</a></td>
+    </tr>
+  </tbody>
+</table>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

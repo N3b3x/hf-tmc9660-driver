@@ -1,0 +1,38 @@
+<map id="TMC9660.cpp" name="TMC9660.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="679,5,790,31"/>
+<area shape="rect" id="Node000002" href="$TMC9660_8hpp.html" title=" " alt="" coords="522,79,633,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="710,33,616,75,614,71,708,28"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="657,79,724,104"/>
+<area shape="poly" id="edge19_Node000001_Node000013" title=" " alt="" coords="730,32,707,68,703,66,725,30"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="749,79,811,104"/>
+<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="744,30,768,66,763,69,740,32"/>
+<area shape="rect" id="Node000015" title=" " alt="" coords="836,79,900,104"/>
+<area shape="poly" id="edge21_Node000001_Node000015" title=" " alt="" coords="757,28,835,70,833,74,755,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="457,313,513,339"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="522,101,410,119,361,135,343,144,331,154,322,177,326,203,341,233,366,263,384,279,404,292,445,311,443,316,401,297,380,283,362,267,337,236,321,205,317,176,327,150,340,139,359,130,409,114,521,95"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="255,313,321,339"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="522,101,403,119,350,135,330,144,317,154,305,170,296,188,286,227,284,267,287,300,281,300,279,267,281,227,291,186,300,167,313,150,327,139,348,130,402,114,521,95"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="571,313,637,339"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="595,102,648,150,676,185,697,224,703,246,697,267,676,292,649,310,646,305,672,288,692,264,698,246,692,226,672,188,644,154,591,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="716,313,769,339"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="606,102,642,122,678,150,704,186,723,227,735,266,742,299,737,300,730,268,718,229,700,189,674,154,639,126,603,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="809,152,877,177"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="621,101,796,148,795,153,619,107"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="901,152,963,177"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="633,99,747,120,887,149,886,154,746,125,632,105"/>
+<area shape="rect" id="Node000009" href="$TMC9660Bootloader_8hpp.html" title="Helper for configuring the TMC9660 bootloader registers." alt="" coords="341,152,523,177"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="555,106,469,148,467,144,553,102"/>
+<area shape="rect" id="Node000010" href="$TMC9660CommInterface_8hpp.html" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="471,233,683,258"/>
+<area shape="poly" id="edge16_Node000002_Node000010" title=" " alt="" coords="580,104,580,219,575,219,575,104"/>
+<area shape="rect" id="Node000012" href="$tmc9660__param__mode__tmcl_8hpp.html" title=" " alt="" coords="5,225,200,265"/>
+<area shape="poly" id="edge17_Node000002_Node000012" title=" " alt="" coords="522,96,458,100,381,110,299,127,220,154,172,184,132,217,129,213,168,179,218,150,297,122,380,104,457,95,521,91"/>
+<area shape="poly" id="edge15_Node000009_Node000004" title=" " alt="" coords="419,179,366,227,333,266,306,303,302,300,329,263,362,223,415,176"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="455,175,545,224,543,228,452,180"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="377,233,447,258"/>
+<area shape="poly" id="edge14_Node000009_Node000011" title=" " alt="" coords="432,178,421,220,416,219,426,177"/>
+<area shape="poly" id="edge10_Node000010_Node000003" title=" " alt="" coords="565,260,511,306,508,302,562,256"/>
+<area shape="poly" id="edge11_Node000010_Node000004" title=" " alt="" coords="536,261,335,315,334,310,535,255"/>
+<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="584,257,598,300,593,301,579,259"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="603,256,707,305,705,310,600,260"/>
+<area shape="poly" id="edge18_Node000012_Node000004" title=" " alt="" coords="148,263,249,305,247,310,146,268"/>
+</map>

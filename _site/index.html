@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>HF-TMC9660 Driver Documentation</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="HF-TMC9660 Driver Documentation" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="HF-TMC9660 Driver Documentation" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","headline":"HF-TMC9660 Driver Documentation","url":"/"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"></h1>
+          <h2 id="project_tagline"></h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="-hf-tmc9660-driver-documentation">🚀 HF-TMC9660 Driver Documentation</h1>
+
+<p>Welcome to the comprehensive documentation for the <strong>HF-TMC9660</strong> driver library – a modern C++20 hardware-agnostic driver for the TMC9660 motor controller operating in <strong>Parameter Mode</strong>.</p>
+
+<h2 id="-what-youll-learn">📖 What You’ll Learn</h2>
+
+<p>This documentation will guide you through everything from initial setup to advanced motor control applications. Whether you’re new to TMC9660 or an experienced embedded developer, you’ll find practical examples and detailed explanations for every aspect of the driver.</p>
+
+<hr />
+
+<h2 id="-quick-start-path">🎯 Quick Start Path</h2>
+
+<p><strong>New to TMC9660?</strong> Follow this recommended learning path:</p>
+
+<pre><code class="language-mermaid">graph LR
+    A[📋 Setup Guide] --&gt; B[🔌 Communication Interface]
+    B --&gt; C[🏗️ Building Examples]
+    C --&gt; D[⚡ Hardware Examples]
+    D --&gt; E[🛠️ Common Operations]
+    E --&gt; F[🚀 Advanced Usage]
+</code></pre>
+
+<hr />
+
+<h2 id="-documentation-structure">📚 Documentation Structure</h2>
+
+<h3 id="foundation--setup"><strong>Foundation &amp; Setup</strong></h3>
+<ol>
+  <li><strong><a href="SetupGuide.html">📋 Setup Guide</a></strong> - Get started with installation and compilation</li>
+  <li><strong><a href="ImplementingCommInterface.html">🔌 Implementing Communication Interface</a></strong> - Create your hardware-specific communication layer</li>
+  <li><strong><a href="BuildingExamples.html">🏗️ Building Examples</a></strong> - Compile and run the provided examples</li>
+</ol>
+
+<h3 id="practical-application"><strong>Practical Application</strong></h3>
+<ol>
+  <li><strong><a href="HardwareAgnosticExamples.html">⚡ Hardware-Agnostic Examples</a></strong> - Complete motor control scenarios</li>
+  <li><strong><a href="CommonOperations.html">🛠️ Common Operations</a></strong> - Everyday driver usage patterns</li>
+  <li><strong><a href="annotated.html">📖 API Reference</a></strong> - Complete C++ class documentation</li>
+</ol>
+
+<h3 id="advanced-topics"><strong>Advanced Topics</strong></h3>
+<ol>
+  <li><strong><a href="HostingDocsWithGitHubPages.html">🌐 GitHub Pages Hosting</a></strong> - Host your own documentation</li>
+</ol>
+
+<hr />
+
+<h2 id="️-critical-requirements">⚠️ Critical Requirements</h2>
+
+<blockquote>
+  <p><strong>PARAMETER MODE SETUP IS MANDATORY</strong></p>
+
+  <p>The TMC9660 must be properly configured for <strong>Parameter Mode</strong> operation via bootloader initialization before any motor control functions will work. This is the #1 source of issues for new users.</p>
+</blockquote>
+
+<h3 id="essential-setup-sequence">Essential Setup Sequence:</h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. CRITICAL: Configure for Parameter Mode</span>
+<span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>  <span class="c1">// ESSENTIAL!</span>
+<span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">start_motor_control</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+<span class="c1">// 2. Initialize bootloader</span>
+<span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+
+<span class="c1">// 3. Configure motor and start control</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="-key-features">🌟 Key Features</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>🔧 Hardware Agnostic</strong></td>
+      <td>Abstract communication interface works with any SPI/UART implementation</td>
+    </tr>
+    <tr>
+      <td><strong>⚡ FOC Control</strong></td>
+      <td>Advanced Field-Oriented Control for BLDC, stepper, and DC motors</td>
+    </tr>
+    <tr>
+      <td><strong>📊 Real-time Telemetry</strong></td>
+      <td>Temperature, current, voltage monitoring with RAMDebug logging</td>
+    </tr>
+    <tr>
+      <td><strong>🛡️ Protection Systems</strong></td>
+      <td>Comprehensive safety features and fault monitoring</td>
+    </tr>
+    <tr>
+      <td><strong>🎛️ Complete Configuration</strong></td>
+      <td>Access to all 300+ TMC9660 parameters</td>
+    </tr>
+    <tr>
+      <td><strong>📱 Modern C++</strong></td>
+      <td>Clean C++20 API with type safety and RAII principles</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="-getting-started">🚦 Getting Started</h2>
+
+<p>Ready to begin? Start with the <strong>Setup Guide</strong> to prepare your development environment:</p>
+
+<h3 id="first-time-users"><strong>First Time Users</strong></h3>
+<p>👉 <strong><a href="SetupGuide.html">Start Here: Setup Guide</a></strong></p>
+
+<h3 id="experienced-developers"><strong>Experienced Developers</strong></h3>
+<p>👉 <strong><a href="HardwareAgnosticExamples.html">Jump to Examples</a></strong></p>
+
+<h3 id="api-reference"><strong>API Reference</strong></h3>
+<p>👉 <strong><a href="annotated.html">Browse API Documentation</a></strong></p>
+
+<hr />
+
+<h2 id="-need-help">💡 Need Help?</h2>
+
+<ul>
+  <li><strong>🐛 Found a bug?</strong> Check the troubleshooting sections in each guide</li>
+  <li><strong>❓ Have questions?</strong> Review the Common Operations guide</li>
+  <li><strong>📝 Want to contribute?</strong> See the implementation guides</li>
+</ul>
+
+<hr />
+
+<div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
+  <strong>🎯 Ready to control some motors?</strong><br />
+  <a href="SetupGuide.html" style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em; background: #007bff; color: white; text-decoration: none; border-radius: 4px;">Get Started →</a>
+</div>
+
+<hr />
+
+<table>
+  <tbody>
+    <tr>
+      <td>*Last updated: 2024</td>
+      <td>HF-TMC9660 Driver v1.0*</td>
+    </tr>
+  </tbody>
+</table>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

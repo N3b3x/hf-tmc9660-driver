@@ -1,0 +1,7 @@
+<map id="TMC9660CommInterface" name="TMC9660CommInterface">
+<area shape="rect" id="Node000001" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="133,5,317,31"/>
+<area shape="rect" id="Node000002" href="$classSPITMC9660CommInterface.html" title="SPI implementation of TMC9660CommInterface." alt="" coords="5,79,209,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,40,128,81,125,76,193,35"/>
+<area shape="rect" id="Node000003" href="$classUARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="234,79,453,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="257,35,325,76,323,81,254,40"/>
+</map>
