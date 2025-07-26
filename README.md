@@ -113,17 +113,56 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp examples/BLDC_with_HALL.cpp -o hall_demo
 ```
 
 ## 💡 Quick Start
+
+### Parameter Mode Setup Sequence
 ```cpp
-DemoInterface bus;
+DemoInterface bus;  // Replace with your SPI/UART implementation
 TMC9660 driver(bus);
 
+// 1. CRITICAL: Configure bootloader for parameter mode
+tmc9660::BootloaderConfig cfg{};
+cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // Essential!
+cfg.boot.start_motor_control = true;
+cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
+
+auto result = driver.bootloaderInit(&cfg);
+if (result != TMC9660::BootloaderInitResult::Success) {
+    // Handle bootloader initialization failure
+    return -1;
+}
+
+// 2. Configure motor type and parameters
 driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
+driver.motorConfig.setMaxTorqueCurrent(2000);  // 2A current limit
+
+// 3. Setup feedback sensors
+driver.feedbackSense.configureHall();
+
+// 4. Enable FOC commutation
 driver.motorConfig.setCommutationMode(
     tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR);
+
+// 5. Configure control gains
+driver.focControl.setCurrentLoopGains(50, 100);   // PI gains
+driver.focControl.setVelocityLoopGains(800, 1);   // PI gains
+
+// 6. Start motor control
 driver.focControl.setTargetVelocity(1000);
 ```
-Replace `DemoInterface` with your SPI or UART implementation to talk to real hardware.
-All API calls return a boolean status so you can handle communication errors if needed.
+
+**⚠️ CRITICAL REQUIREMENT:** The TMC9660 must be configured for **Parameter Mode** operation via the bootloader before any motor control functions will work. This is the most important step and is often missed by new users.
+
+**⚡ Quick Setup Checklist:**
+1. ✅ Configure bootloader with `BootMode::Parameter`
+2. ✅ Set motor type and pole pairs
+3. ✅ Configure current limits (safety)
+4. ✅ Setup feedback sensors
+5. ✅ Configure PI control gains
+6. ✅ Enable commutation mode
+7. ✅ Start motor control
+
+All API calls return a boolean status for error handling.
 
 ### Building the Examples
 Compile one of the sample programs to verify everything is wired up correctly:
