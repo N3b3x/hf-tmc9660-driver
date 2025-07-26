@@ -36,7 +36,7 @@ int main() {
     std::cerr << "[ERROR] Bootloader initialization failed!" << std::endl;
     return 1;
   }
-      std::cout << "[OK] Bootloader configured for parameter mode" << std::endl;
+    std::cout << "[OK] Bootloader configured for parameter mode" << std::endl;
 
   // STEP 2: Configure motor type as BLDC (3-phase) with specified pole pairs.
   uint8_t polePairs = 7; // example pole pair count
