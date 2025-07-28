@@ -167,7 +167,9 @@ public:
     LinuxSPIInterface(const char* device = "/dev/spidev0.0") {
         spi_fd_ = open(device, O_RDWR);
         if (spi_fd_ < 0) {
-            throw std::runtime_error("Failed to open SPI device");
+            // Handle error without exceptions - return error code or use error callback
+            spi_fd_ = -1;  // Mark as invalid
+            return;
         }
         
         // Configure SPI mode and speed
@@ -182,8 +184,16 @@ public:
         if (spi_fd_ >= 0) close(spi_fd_);
     }
     
+    bool isValid() const noexcept {
+        return spi_fd_ >= 0;
+    }
+    
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
+        if (!isValid()) {
+            return false;  // Interface not properly initialized
+        }
+        
         struct spi_ioc_transfer transfer = {};
         transfer.tx_buf = reinterpret_cast<uintptr_t>(tx.data());
         transfer.rx_buf = reinterpret_cast<uintptr_t>(rx.data());
