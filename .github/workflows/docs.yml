@@ -27,7 +27,7 @@ permissions:
 
 concurrency:
   group: docs-ci-${{ github.ref }}
-  cancel-in-progress: false  # Don't cancel documentation builds
+  cancel-in-progress: true  # Don't cancel documentation builds
 
 jobs:
   # Build documentation with linting and spell checking
@@ -54,8 +54,7 @@ jobs:
       spell_check_config: ".cspell.json"
       # Deploy only on main branch
       deploy_pages: ${{ github.ref == 'refs/heads/main' }}
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
 
   # Optional: Add a separate link check job for comprehensive validation
   link-check-comprehensive:
