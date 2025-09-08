@@ -1,0 +1,124 @@
+# Lychee Configuration for HardFOC TMC9660 Driver
+# Advanced link checking for documentation
+
+[exclude]
+# Exclude local development URLs
+regex = [
+    "http://localhost.*",
+    "http://127.0.0.1.*",
+    "http://0.0.0.0.*"
+]
+
+# Exclude private/internal URLs
+all = false
+private = true
+mail = true
+
+# Exclude specific domains that might be problematic
+domains = [
+    "example.com",
+    "test.com"
+]
+
+# Exclude specific file patterns
+files = [
+    "*.local",
+    "*.dev"
+]
+
+[include]
+# Include all markdown files
+files = [
+    "**/*.md",
+    "**/*.rst",
+    "**/*.txt"
+]
+
+[request]
+# Request timeout in seconds
+timeout = 15
+
+# User agent for requests
+user_agent = "lychee-link-checker/esp32-docs"
+
+# Retry configuration
+retry = 3
+retry_wait_time = 1
+
+# Follow redirects
+follow_redirects = true
+max_redirects = 5
+
+# Verify SSL certificates
+verify_ssl = true
+
+# Custom headers
+headers = [
+    "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language: en-US,en;q=0.5",
+    "Accept-Encoding: gzip, deflate",
+    "Connection: keep-alive"
+]
+
+[output]
+# Output format
+format = "text"
+
+# Verbose output
+verbose = false
+
+# Show progress
+progress = true
+
+# Color output
+color = true
+
+# Show summary
+summary = true
+
+# Show statistics
+statistics = true
+
+# Cache configuration
+cache = true
+cache_max_age = 3600
+
+# Base URL for relative links
+base_url = "https://n3b3x.github.io/hf-tmc9660-driver"
+
+# GitHub specific settings
+[github]
+# GitHub token for API access (if needed)
+token = ""
+
+# Rate limiting
+rate_limit = 5000
+
+# ESP32 specific exclusions
+[esp32]
+# Exclude ESP-IDF specific URLs that might be unstable
+exclude_patterns = [
+    "https://docs.espressif.com/projects/esp-idf/en/latest/.*",
+    "https://github.com/espressif/esp-idf/.*"
+]
+
+# Include only stable documentation URLs
+include_patterns = [
+    "https://docs.espressif.com/projects/esp-idf/en/stable/.*"
+]
+
+# Hardware documentation URLs
+hardware_docs = [
+    "https://www.espressif.com/sites/default/files/documentation/.*"
+]
+
+# Development and testing
+[development]
+# Skip external links during development
+skip_external = false
+
+# Mock responses for testing
+mock_responses = false
+
+# Test mode
+test_mode = false
