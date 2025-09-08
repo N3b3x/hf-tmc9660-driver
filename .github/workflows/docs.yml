@@ -38,7 +38,6 @@ jobs:
       output_dir: "docs/doxygen/html"
       # Jekyll integration for better presentation
       jekyll_enabled: true
-      jekyll_theme: "minima"
       jekyll_config: "_config.yml"
       jekyll_source: "docs"
       jekyll_destination: "_site"

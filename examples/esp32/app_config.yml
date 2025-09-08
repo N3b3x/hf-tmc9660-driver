@@ -10,16 +10,52 @@
 version: "1.0"
 metadata:
   project: "ESP32 HardFOC TMC9660 Driver Tests"
-  default_app: "basic_test"
+  default_app: "bldc_comprehensive_test"
   target: "esp32c6"
   idf_versions: ["release/v5.5", "release/v5.4"]
   build_types: [["Debug", "Release"], ["Debug"]]
 
 apps:  
-  basic_test:
-    description: "Basic test application"
-    source_file: "main.cpp"
-    category: "utility"
+  bldc_comprehensive_test:
+    description: "Comprehensive BLDC motor testing suite with Hall sensors, ABN encoders, and velocity control"
+    source_file: "BLDCComprehensiveTest.cpp"
+    category: "motor_control"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+
+  stepper_comprehensive_test:
+    description: "Comprehensive Stepper motor testing suite with FOC and step/dir control"
+    source_file: "StepperComprehensiveTest.cpp"
+    category: "motor_control"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+
+  dc_comprehensive_test:
+    description: "Comprehensive DC motor testing suite with current control and velocity control"
+    source_file: "DCComprehensiveTest.cpp"
+    category: "motor_control"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+
+  telemetry_comprehensive_test:
+    description: "Comprehensive telemetry monitoring test suite for temperature, current, voltage, and status"
+    source_file: "TelemetryComprehensiveTest.cpp"
+    category: "monitoring"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+
+  bootloader_comprehensive_test:
+    description: "Comprehensive bootloader testing suite for initialization and configuration validation"
+    source_file: "BootloaderComprehensiveTest.cpp"
+    category: "system"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
     ci_enabled: true

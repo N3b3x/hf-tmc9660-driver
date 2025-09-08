@@ -1,8 +1,74 @@
-# Ignore JSON files
-*.json
+# Prerequisites
+*.d
 
-# Ignore dot-directories anywhere, except .git and .github
-**/.*/
-!/.git
-!/.github/
-docs/html/
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+tests/build/
+
+**/build/
+**/build_*/
+**/build*/
+**/dependencies.lock
+
+# Don't exclude .vscode folder
+# .vscode/
+# But exclude user-specific files
+.vscode/settings.json.user
+.vscode/*.backup
+
+**/docs/doxygen/
+docs/doxygen/
+.DS_Store
+**/doxygen*
+**/.cache/
+
+**/compile_commands.json
+
+.venv/
+**/venv/
+**/.venv/
+
+__pycache__/
+**/__pycache__/
+
+actionlint*
+**/actionlint*
+
+# Log files
+**/logs/
+**/*.log
+logs/
+
+ci_build_path/
+**/node_modules/
+node_modules/
+
+package-lock.json
+package*.json

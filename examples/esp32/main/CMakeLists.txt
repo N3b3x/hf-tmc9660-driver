@@ -1,95 +1,101 @@
-# Flexible main component for different app types
-# Determine source file based on APP_TYPE
+# =============================================================================
+# TMC9660 Driver Examples - Main Component CMakeLists.txt
+# =============================================================================
+# This CMakeLists.txt is designed to work with the build_app.sh script
+# which handles app type validation and source file discovery.
+# 
+# The component supports ESP-IDF's two-phase build process:
+# 1. Requirements phase: Uses defaults to allow component discovery
+# 2. Build phase: Enforces proper usage with helpful error messages
+# =============================================================================
 
-# Get app type from parent
+# =============================================================================
+# Variable Validation and Defaults
+# =============================================================================
+# Set defaults for requirements phase, validate during build phase
 if(NOT DEFINED APP_TYPE)
-    set(APP_TYPE "basic_test")
-endif()
-
-# Debug information
-message(STATUS "=== CMake Debug Information ===")
-message(STATUS "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
-message(STATUS "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
-message(STATUS "CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
-message(STATUS "APP_TYPE: ${APP_TYPE}")
-message(STATUS "===============================")
-
-# Get source file from centralized configuration
-execute_process(
-    COMMAND python3 "${CMAKE_CURRENT_SOURCE_DIR}/../scripts/get_app_info.py" validate "${APP_TYPE}"
-    RESULT_VARIABLE VALIDATE_RESULT
-    OUTPUT_QUIET
-    ERROR_QUIET
-)
-
-if(NOT VALIDATE_RESULT EQUAL 0)
-    message(FATAL_ERROR "Unknown APP_TYPE: ${APP_TYPE}")
-endif()
-
-execute_process(
-    COMMAND python3 "${CMAKE_CURRENT_SOURCE_DIR}/../scripts/get_app_info.py" source_file "${APP_TYPE}"
-    OUTPUT_VARIABLE MAIN_SOURCE
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    RESULT_VARIABLE SOURCE_RESULT
-)
-
-if(NOT SOURCE_RESULT EQUAL 0)
-    message(FATAL_ERROR "Failed to get source file for APP_TYPE: ${APP_TYPE}")
-endif()
-
-message(STATUS "Using source file from configuration: ${MAIN_SOURCE}")
-
-# Check if source file exists
-set(SOURCE_FILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${MAIN_SOURCE}")
-message(STATUS "Looking for source file: ${SOURCE_FILE_PATH}")
-
-# List files in current directory for debugging
-file(GLOB DEBUG_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*")
-message(STATUS "Files in source directory:")
-foreach(DEBUG_FILE ${DEBUG_FILES})
-    message(STATUS "  ${DEBUG_FILE}")
-endforeach()
-
-if(NOT EXISTS "${SOURCE_FILE_PATH}")
-    # Try alternative paths for CI environment
-    set(SOURCE_FILE_PATH "${CMAKE_CURRENT_LIST_DIR}/${MAIN_SOURCE}")
-    message(STATUS "Trying alternative path: ${SOURCE_FILE_PATH}")
-    if(NOT EXISTS "${SOURCE_FILE_PATH}")
-        message(FATAL_ERROR "Source file not found: ${MAIN_SOURCE}\n"
-                            "Tried paths:\n"
-                            "  ${CMAKE_CURRENT_SOURCE_DIR}/${MAIN_SOURCE}\n"
-                            "  ${CMAKE_CURRENT_LIST_DIR}/${MAIN_SOURCE}\n"
-                            "CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}\n"
-                            "CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
+    # During requirements phase, use a default to allow component discovery
+    if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        # This is the requirements phase - use default
+        set(APP_TYPE "${DEFAULT_APP_TYPE}")
+        message(STATUS "APP_TYPE not defined during requirements phase, using default: ${APP_TYPE}")
+    else()
+        # This is the actual build phase - fail with helpful error
+        message(FATAL_ERROR 
+            "APP_TYPE not defined. Please use build_app.sh to build this project.\n"
+            "Example: ./scripts/build_app.sh ${DEFAULT_APP_TYPE} Release\n"
+            "Use './scripts/build_app.sh list' to see available app types."
+        )
     endif()
 endif()
 
-message(STATUS "Using source file: ${SOURCE_FILE_PATH}")
-
-# Determine include paths based on environment
-# In CI, inc is copied to ../inc, in development it's at ../../../inc
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../inc")
-    # CI environment - inc is at project level
-    set(INC_BASE_PATH "../inc")
-elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../inc")
-    # Development environment - inc is at workspace root
-    set(INC_BASE_PATH "../../../inc")
-else()
-    message(FATAL_ERROR "Cannot find inc directory. Checked ../inc and ../../../inc")
+if(NOT DEFINED APP_SOURCE_FILE)
+    # During requirements phase, use a default to allow component discovery
+    if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        # This is the requirements phase - use default
+        set(APP_SOURCE_FILE "${DEFAULT_SOURCE_FILE}")
+        message(STATUS "APP_SOURCE_FILE not defined during requirements phase, using default: ${APP_SOURCE_FILE}")
+    else()
+        # This is the actual build phase - fail with helpful error
+        message(FATAL_ERROR 
+            "APP_SOURCE_FILE not defined. Please use build_app.sh to build this project.\n"
+            "Example: ./scripts/build_app.sh ${DEFAULT_APP_TYPE} ${DEFAULT_BUILD_TYPE}\n"
+            "Use './scripts/build_app.sh list' to see available app types."
+        )
+    endif()
 endif()
 
-message(STATUS "Using include base path: ${INC_BASE_PATH}")
+# =============================================================================
+# Build Configuration and Status Messages
+# =============================================================================
+message(STATUS "Building app type: ${APP_TYPE}")
+message(STATUS "Using source file: ${APP_SOURCE_FILE}")
 
-idf_component_register(
-    SRCS "${MAIN_SOURCE}"
-    INCLUDE_DIRS "." "${INC_BASE_PATH}" "${INC_BASE_PATH}/parameter_mode" "${INC_BASE_PATH}/register_mode"
-    REQUIRES driver esp_timer freertos hf_tmc9660
+# =============================================================================
+# Include Directories Configuration
+# =============================================================================
+# Set include paths relative to current repository structure
+set(INC_BASE_PATH "../../../inc")
+
+# Define include directories for the main component
+set(MAIN_INCLUDE_DIRS
+    "."                                    # Current directory (main/)
+    "${INC_BASE_PATH}"                     # Main driver headers
+    "${INC_BASE_PATH}/parameter_mode"      # Parameter mode headers
+    "${INC_BASE_PATH}/register_mode"       # Register mode headers
 )
 
-# Set C++ standard
-target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_17)
+# =============================================================================
+# Component Dependencies
+# =============================================================================
+# Define required ESP-IDF components for the main application
+set(MAIN_REQUIRES
+    driver              # ESP-IDF driver framework (GPIO, I2C, SPI, UART)
+    esp_timer           # ESP-IDF timer functionality
+    freertos            # FreeRTOS for threading and synchronization
+    hf_tmc9660          # TMC9660 driver component
+)
 
-# Set compiler flags based on build type
+# =============================================================================
+# Component Registration
+# =============================================================================
+# Register the main component with ESP-IDF build system
+idf_component_register(
+    SRCS "${APP_SOURCE_FILE}"              # Source file (determined by build_app.sh)
+    INCLUDE_DIRS ${MAIN_INCLUDE_DIRS}      # Include directories defined above
+    REQUIRES ${MAIN_REQUIRES}              # Component dependencies defined above
+)
+
+# =============================================================================
+# Compiler Configuration
+# =============================================================================
+# Set C++ standard to C++20 (required for std::span and modern C++ features)
+target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_20)
+
+# =============================================================================
+# Build Type Specific Compiler Flags
+# =============================================================================
+# Set compiler flags based on build type (Debug vs Release)
 if(BUILD_TYPE STREQUAL "Debug")
     target_compile_options(${COMPONENT_LIB} PRIVATE
         -Wall
@@ -110,7 +116,10 @@ else()
     )
 endif()
 
-# Add compile definitions for each example type
-target_compile_definitions(${COMPONENT_LIB} PRIVATE 
-    "EXAMPLE_TYPE_${APP_TYPE}=1"
+# =============================================================================
+# Example Type Compile Definitions
+# =============================================================================
+# Add compile definitions for each example type to enable conditional compilation
+target_compile_definitions(${COMPONENT_LIB} PRIVATE
+    "EXAMPLE_TYPE_${APP_TYPE}=1"           # Enable specific example type features
 )
