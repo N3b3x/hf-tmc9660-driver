@@ -1,0 +1,131 @@
+name: 🚀 ESP32 Examples Build CI
+
+on:
+  push:
+    branches: [main, develop, release/*, feature/*, bugfix/*]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      clean_build:
+        description: 'Clean build (no cache)'
+        required: false
+        default: false
+        type: boolean
+      run_security:
+        description: 'Run security checks'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  PROJECT_DIR: examples/esp32
+  TOOLS_DIR: examples/esp32/scripts
+
+permissions:
+  contents: write
+  pull-requests: write
+  security-events: write
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: advanced-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 🔍 Matrix generation and validation
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      project_dir: ${{ steps.vars.outputs.project_dir }}
+      tools_dir: ${{ steps.vars.outputs.tools_dir }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Set local variables
+        id: vars
+        run: |
+          echo "project_dir=${{ env.PROJECT_DIR }}" >> "$GITHUB_OUTPUT"
+          echo "tools_dir=${{ env.TOOLS_DIR }}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate configuration
+        run: |
+          cd ${{ steps.vars.outputs.tools_dir }}
+          python3 generate_matrix.py --validate --verbose
+
+      - name: Generate build matrix
+        id: matrix
+        run: |
+          cd ${{ steps.vars.outputs.tools_dir }}
+          MATRIX=$(python3 generate_matrix.py)
+          echo "matrix=${MATRIX}" >> "$GITHUB_OUTPUT"
+          echo "Generated matrix with $(echo "$MATRIX" | jq '.include | length') build combinations"
+
+  # 🏗️ Build firmware (parallel matrix)
+  build:
+    needs: validate
+    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/build.yml@main
+    with:
+      project_dir: ${{ needs.validate.outputs.project_dir }}
+      project_tools_dir: ${{ needs.validate.outputs.tools_dir }}
+      clean_build: ${{ github.event.inputs.clean_build == 'true' }}
+
+  # 🔧 Lint and format code (runs in parallel)
+  lint:
+    needs: validate
+    uses: N3b3x/hf-general-ci-tools/.github/workflows/c-cpp-lint.yml@main
+    with:
+      style: "file"
+      extensions: "c,cpp,cc,cxx,h,hpp"
+      tidy_checks: "readability-*,performance-*,modernize-*"
+      ignore: "build|.git|third_party|vendor"
+      files_changed_only: true
+      step_summary: true
+      file_annotations: true
+
+  # 🛡️ Security audit (runs in parallel)
+  security:
+    needs: validate
+    if: ${{ github.event.inputs.run_security != 'false' }}
+    uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
+    with:
+      project_dir: ${{ needs.validate.outputs.project_dir }}
+      project_tools_dir: ${{ needs.validate.outputs.tools_dir }}
+      scan_type: "all"
+      run_codeql: ${{ startsWith(github.ref, 'refs/heads/release/') || startsWith(github.ref, 'refs/tags/') }}
+      codeql_languages: "cpp,python"
+
+  # 🔍 Static analysis (runs in parallel)
+  static-analysis:
+    needs: validate
+    uses: N3b3x/hf-general-ci-tools/.github/workflows/c-cpp-static-analysis.yml@main
+    with:
+      paths: "src inc examples components"
+      std: "c++17"
+      strict: false
+
+  # 📊 Build summary and notifications
+  summary:
+    needs: [build, lint, security, static-analysis]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Summary
+        run: |
+          echo "## 🚀 Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🏗️ Build | ${{ needs.build.result == 'success' && '✅ Success' || '❌ Failed' }} |" \
+            >> $GITHUB_STEP_SUMMARY
+          echo "| 🔧 Lint | ${{ needs.lint.result == 'success' && '✅ Success' || '❌ Failed' }} |" \
+            >> $GITHUB_STEP_SUMMARY
+          echo "| 🛡️ Security | ${{ needs.security.result == 'success' && '✅ Success' || '❌ Failed' }} |" \
+            >> $GITHUB_STEP_SUMMARY
+          echo "| 🔍 Static Analysis | ${{ needs.static-analysis.result == 'success' && '✅ Success' || '❌ Failed' }} |" \
+            >> $GITHUB_STEP_SUMMARY

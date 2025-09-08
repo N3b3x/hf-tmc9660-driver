@@ -1,66 +1,71 @@
----
-name: Docs
+name: 📚 Documentation CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, release/*]
   pull_request:
     branches: [main]
-  workflow_dispatch:
+    paths: 
+      - 'docs/**'
+      - '*.md'
+      - 'README.md'
+      - 'Doxyfile'
+      - '_config.yml'
+      - 'Gemfile'
+
+env:
+  PROJECT_DIR: examples/esp32
+  TOOLS_DIR: examples/esp32/scripts
+  ESP32_DOCS_VERSION: ${{ github.ref_name }}
+  BUILD_TYPE: ${{ github.event_name == 'pull_request' && 'pr' || 'release' }}
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: docs-ci-${{ github.ref }}
+  cancel-in-progress: false  # Don't cancel documentation builds
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y doxygen graphviz ruby-full
-          sudo gem install jekyll jekyll-theme-slate
-      - name: Build documentation
-        run: |
-          doxygen Doxyfile
-          ruby -S jekyll build \
-            --source docs \
-            --destination _site \
-            --baseurl "${{ steps.pages.outputs.base_path }}"
-      - name: Link check
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: "--no-progress _site"
-      - name: Upload documentation
-        uses: actions/upload-artifact@v4
-        with:
-          name: docs-html
-          path: _site
-          retention-days: 7
-      - name: Upload Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
+  # Build documentation with linting and spell checking
+  docs-build:
+    uses: N3b3x/hf-general-ci-tools/.github/workflows/docs.yml@main
+    with:
+      doxygen_config: "Doxyfile"
+      output_dir: "docs/doxygen/html"
+      # Jekyll integration for better presentation
+      jekyll_enabled: true
+      jekyll_theme: "minima"
+      jekyll_config: "_config.yml"
+      jekyll_source: "docs"
+      jekyll_destination: "_site"
+      # Link checking with enhanced features
+      run_link_check: true
+      link_check_paths: "docs/**,*.md,**/docs/**,README.md"
+      # Markdown linting
+      run_markdown_lint: true
+      markdown_lint_paths: "**/*.md"
+      # Spell checking (disabled for now, can be enabled later)
+      run_spell_check: false
+      spell_check_paths: "**/*.md"
+      spell_check_config: ".cspell.json"
+      # Deploy only on main branch
+      deploy_pages: ${{ github.ref == 'refs/heads/main' }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v4
+  # Optional: Add a separate link check job for comprehensive validation
+  link-check-comprehensive:
+    if: github.event_name == 'pull_request'
+    uses: N3b3x/hf-general-ci-tools/.github/workflows/docs-link-check.yml@main
+    with:
+      paths: "docs/**,*.md,**/docs/**,README.md"
+      fail_on_errors: true
+      timeout: "15"
+      retry: "3"
+      exclude_private: true
+      exclude_mail: true
+      verbose: false

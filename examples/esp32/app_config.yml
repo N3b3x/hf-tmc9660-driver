@@ -1,0 +1,53 @@
+# ESP32 HardFOC Interface Wrapper - Apps Configuration
+# This file centralizes all app definitions, their source files, and metadata
+# Used by build scripts, flash scripts, CI workflows, and CMake
+# 
+# HIERARCHICAL CONFIGURATION:
+# - Global settings in 'metadata' section apply to all apps by default
+# - Individual apps can override 'idf_versions' and 'build_types' if needed
+# - Apps without overrides use global settings automatically
+
+version: "1.0"
+metadata:
+  project: "ESP32 HardFOC TMC9660 Driver Tests"
+  default_app: "basic_test"
+  target: "esp32c6"
+  idf_versions: ["release/v5.5", "release/v5.4"]
+  build_types: [["Debug", "Release"], ["Debug"]]
+
+apps:  
+  basic_test:
+    description: "Basic test application"
+    source_file: "main.cpp"
+    category: "utility"
+    idf_versions: ["release/v5.5"]
+    build_types: ["Debug", "Release"]
+    ci_enabled: true
+    featured: true
+
+build_config:
+  build_types:
+    Debug:
+      description: "Debug symbols, verbose logging, assertions enabled"
+      cmake_build_type: "Debug"
+      optimization: "-O0"
+      debug_level: "-g3"
+      defines: ["DEBUG"]
+    Release:
+      description: "Release build optimized for performance and size"
+      cmake_build_type: "Release"
+      optimization: "-O2"
+      debug_level: "-g0"
+      defines: ["NDEBUG"]
+  
+  build_directory_pattern: "build-app-{app_type}-type-{build_type}-target-{target}-idf-{idf_version}"
+  project_name_pattern: "esp32_iid_{app_type}_app"
+
+ci_config:
+  timeout_minutes: 30
+  fail_fast: false
+  # Apps to exclude from specific build types (if needed)
+  exclude_combinations: []
+  # Apps that require special handling
+  special_apps: []
+

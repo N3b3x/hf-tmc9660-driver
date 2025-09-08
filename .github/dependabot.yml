@@ -1,0 +1,76 @@
+# Dependabot configuration for automated dependency updates and vulnerability scanning
+# This file configures Dependabot to monitor dependencies and automatically create
+# pull requests for security updates and version bumps.
+
+version: 2
+
+updates:
+  # Monitor ESP-IDF component dependencies
+  - package-ecosystem: "pip"  # Python dependencies if any exist
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "N3b3x"  # Project maintainer
+    assignees:
+      - "N3b3x"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "security"
+    # Only create PRs for security updates and major version bumps
+    allow:
+      - dependency-type: "all"
+    # Group related updates together
+    groups:
+      security-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "security-update"
+
+  # Monitor Python scripts and tools in examples directory
+  - package-ecosystem: "pip"
+    directory: "/examples"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "N3b3x"
+    assignees:
+      - "N3b3x"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "examples"
+      - "security"
+
+  # Monitor GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "N3b3x"
+    assignees:
+      - "N3b3x"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "ci"
+      - "security"
