@@ -46,15 +46,15 @@ graph LR
 
 ### **Practical Application**
 
-4. **[⚡ Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete
+1. **[⚡ Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete
    motor control scenarios
-5. **[🛠️ Common Operations](CommonOperations.html)** - Everyday driver usage
+2. **[🛠️ Common Operations](CommonOperations.html)** - Everyday driver usage
    patterns
-6. **[📖 API Reference](annotated.html)** - Complete C++ class documentation
+3. **[📖 API Reference](annotated.html)** - Complete C++ class documentation
 
 ### **Advanced Topics**
 
-7. **[🌐 GitHub Pages Hosting](HostingDocsWithGitHubPages.html)** - Host your own
+1. **[🌐 GitHub Pages Hosting](HostingDocsWithGitHubPages.html)** - Host your own
    documentation
 
 ---
@@ -62,7 +62,7 @@ graph LR
 ## ⚠️ Critical Requirements
 
 > **PARAMETER MODE SETUP IS MANDATORY**
-> 
+>
 > The TMC9660 must be properly configured for **Parameter Mode** operation via
 > bootloader initialization before any motor control functions will work. This is
 > the #1 source of issues for new users.
