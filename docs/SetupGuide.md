@@ -3,9 +3,12 @@ layout: default
 title: HF-TMC9660 Setup Guide
 ---
 
-# 📋 HF-TMC9660 Setup Guide
+## 📋 HF-TMC9660 Setup Guide
 
-This comprehensive guide walks you through setting up the HF-TMC9660 driver library on your development machine. By the end of this guide, you'll have a working build environment and understand the critical parameter mode configuration requirements.
+This comprehensive guide walks you through setting up the HF-TMC9660 driver
+library on your development machine. By the end of this guide, you'll have a
+working build environment and understand the critical parameter mode
+configuration requirements.
 
 ---
 
@@ -35,12 +38,14 @@ Before starting, ensure you have:
 Choose one of these methods based on your project needs:
 
 ### Option A: Standalone Clone
+
 ```bash
 git clone https://github.com/n3b3x/hf-tmc9660-driver.git
 cd hf-tmc9660-driver
 ```
 
 ### Option B: Git Submodule (Recommended for existing projects)
+
 ```bash
 # From your project root
 git submodule add https://github.com/n3b3x/hf-tmc9660-driver.git external/hf-tmc9660
@@ -49,7 +54,9 @@ git submodule update --init --recursive
 ```
 
 ### Option C: Download ZIP
-If you prefer not to use Git, download the ZIP file from GitHub and extract it to your preferred location.
+
+If you prefer not to use Git, download the ZIP file from GitHub and extract it
+to your preferred location.
 
 ---
 
@@ -58,6 +65,7 @@ If you prefer not to use Git, download the ZIP file from GitHub and extract it t
 The HF-TMC9660 driver requires **C++20** support. Verify your compiler meets the requirements:
 
 ### Linux/macOS
+
 ```bash
 # Check GCC version (needs 10+)
 g++ --version
@@ -70,6 +78,7 @@ echo '#include <span>' | g++ -std=c++20 -x c++ -c - 2>/dev/null && echo "✅ C++
 ```
 
 ### Windows
+
 ```cmd
 REM Visual Studio 2019+ with C++20
 cl.exe
@@ -81,6 +90,7 @@ g++ --version
 ### Installing/Updating Compilers
 
 **Ubuntu/Debian:**
+
 ```bash
 sudo apt update
 sudo apt install build-essential gcc-10 g++-10
@@ -89,11 +99,13 @@ sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
 ```
 
 **Windows (MSYS2):**
+
 ```bash
 pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
 ```
 
 **macOS:**
+
 ```bash
 # Install Xcode command line tools
 xcode-select --install
@@ -109,6 +121,7 @@ brew install gcc
 The library uses a simple compilation model without complex build systems.
 
 ### Basic Library Compilation
+
 ```bash
 # Compile the core library
 g++ -std=c++20 -Iinc -c src/TMC9660.cpp -o TMC9660.o
@@ -121,6 +134,7 @@ ls -la *.o
 ```
 
 ### Create Static Library (Optional)
+
 ```bash
 # Create a reusable static library
 ar rcs libTMC9660.a TMC9660.o TMC9660Bootloader.o
@@ -136,6 +150,7 @@ ar -t libTMC9660.a
 Test your setup by building the provided examples:
 
 ### Bootloader Configuration Example
+
 ```bash
 g++ -std=c++20 -Iinc \
     src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -147,7 +162,8 @@ g++ -std=c++20 -Iinc \
 ```
 
 **Expected Output:**
-```
+
+```text
 ✓ Bootloader configured successfully for parameter mode
   - Boot mode: Parameter
   - Motor control: Enabled
@@ -157,6 +173,7 @@ g++ -std=c++20 -Iinc \
 ```
 
 ### BLDC Motor Control Example
+
 ```bash
 g++ -std=c++20 -Iinc \
     src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -168,6 +185,7 @@ g++ -std=c++20 -Iinc \
 ```
 
 ### Telemetry Monitoring Example
+
 ```bash
 g++ -std=c++20 -Iinc \
     src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -182,14 +200,18 @@ g++ -std=c++20 -Iinc \
 
 ## ⚠️ Step 5: Understanding Parameter Mode Requirements
 
-**CRITICAL:** The TMC9660 must be initialized for Parameter Mode operation before any motor control functions will work.
+**CRITICAL:** The TMC9660 must be initialized for Parameter Mode operation
+before any motor control functions will work.
 
 ### Why Parameter Mode?
+
 The TMC9660 can operate in two modes:
+
 - **Register Mode**: Low-level register access (not covered by this driver)
 - **Parameter Mode**: High-level TMCL command interface (required for this driver)
 
 ### Essential Initialization Pattern
+
 Every application using the HF-TMC9660 driver MUST follow this pattern:
 
 ```cpp
@@ -225,7 +247,9 @@ int main() {
 ## 🔧 Step 6: Integration with Your Project
 
 ### Method 1: Direct File Integration
-Copy the `inc/` and `src/` directories into your project and compile the sources along with your application:
+
+Copy the `inc/` and `src/` directories into your project and compile the sources
+along with your application:
 
 ```cmake
 # CMake example
@@ -243,6 +267,7 @@ target_compile_features(my_motor_app PRIVATE cxx_std_20)
 ```
 
 ### Method 2: Static Library
+
 Use the static library you created in Step 3:
 
 ```makefile
@@ -251,7 +276,7 @@ CXXFLAGS = -std=c++20 -Iexternal/hf-tmc9660/inc
 LDLIBS = -Lexternal/hf-tmc9660 -lTMC9660
 
 my_motor_app: src/main.cpp
-	$(CXX) $(CXXFLAGS) $< $(LDLIBS) -o $@
+        $(CXX) $(CXXFLAGS) $< $(LDLIBS) -o $@
 ```
 
 ---
@@ -274,18 +299,24 @@ Before proceeding to the next documentation sections, verify:
 ### Compilation Errors
 
 **Problem:** `error: no matching function for call to 'span'`
-**Solution:** Your compiler doesn't support C++20. Update to GCC 10+, Clang 11+, or MSVC 2019+.
+
+**Solution:** Your compiler doesn't support C++20. Update to GCC 10+, Clang 11+,
+or MSVC 2019+.
 
 **Problem:** `fatal error: TMC9660.hpp: No such file or directory`
+
 **Solution:** Add the include path with `-Iinc` or verify the file structure.
 
 ### Runtime Issues
 
 **Problem:** All motor control functions return `false`
+
 **Solution:** Ensure bootloader is configured for Parameter Mode (see Step 5).
 
 **Problem:** Communication timeouts or failures
-**Solution:** Verify your communication interface implementation and hardware connections.
+
+**Solution:** Verify your communication interface implementation and hardware
+connections.
 
 ---
 
@@ -293,7 +324,8 @@ Before proceeding to the next documentation sections, verify:
 
 Congratulations! Your HF-TMC9660 development environment is ready. Continue with:
 
-**👉 [Implementing Communication Interface](ImplementingCommInterface.html)** - Create your hardware-specific communication layer
+**👉 [Implementing Communication Interface](ImplementingCommInterface.html)** -
+Create your hardware-specific communication layer
 
 ---
 
@@ -301,4 +333,5 @@ Congratulations! Your HF-TMC9660 development environment is ready. Continue with
 
 ---
 
-*Need help? Check the troubleshooting sections or review the example implementations.*
+*Need help? Check the troubleshooting sections or review the example
+implementations.*

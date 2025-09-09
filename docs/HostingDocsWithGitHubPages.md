@@ -3,9 +3,11 @@ layout: default
 title: Hosting Documentation with GitHub Pages
 ---
 
-# Hosting Documentation with GitHub Pages
+## Hosting Documentation with GitHub Pages
 
-Automatically publishing the generated Doxygen output keeps the online documentation up to date. The repository includes a workflow that builds the HTML files and deploys them to GitHub Pages.
+Automatically publishing the generated Doxygen output keeps the online
+documentation up to date. The repository includes a workflow that builds the
+HTML files and deploys them to GitHub Pages.
 
 The Markdown guides under `docs/` form the written tutorial while Doxygen
 generates the C++ API reference in `docs/html`. Deploying the entire `docs`
@@ -44,7 +46,10 @@ This method avoids creating commits on a dedicated `gh-pages` branch. The
 infrastructure, so the workflow works even if the default `GITHUB_TOKEN` only
 has read access to the repository.
 
-If the step fails with a `403` error, the token lacks permission to push to the repository. Enable **Read and write permissions** under **Settings → Actions → General**, or provide a Personal Access Token with the `repo` scope and reference it as `${{ secrets.PAT }}`.
+If the step fails with a `403` error, the token lacks permission to push to the
+repository. Enable **Read and write permissions** under **Settings → Actions →
+General**, or provide a Personal Access Token with the `repo` scope and
+reference it as `${{ secrets.PAT }}`.
 
 After pushing to `main`, visit **Settings → Pages** to find the deployed site.
 You should see the table of contents from `docs/index.md` and a link to the API

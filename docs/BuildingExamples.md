@@ -3,9 +3,11 @@ layout: default
 title: Building and Running the Example Programs
 ---
 
-# 🏗️ Building and Running the Example Programs
+## 🏗️ Building and Running the Example Programs
 
-The HF-TMC9660 driver includes comprehensive examples that demonstrate every aspect of motor control from basic setup to advanced FOC algorithms. This guide shows you how to build, run, and understand these examples.
+The HF-TMC9660 driver includes comprehensive examples that demonstrate every
+aspect of motor control from basic setup to advanced FOC algorithms. This guide
+shows you how to build, run, and understand these examples.
 
 ---
 
@@ -101,6 +103,7 @@ echo "🎉 All examples built successfully!"
 ```
 
 Make it executable and run:
+
 ```bash
 chmod +x build_examples.sh
 ./build_examples.sh
@@ -113,7 +116,9 @@ chmod +x build_examples.sh
 ### 🔧 Foundation Examples
 
 #### 1. **Bootloader Configuration** (`bootloader_example.cpp`)
+
 **Purpose:** Demonstrates essential parameter mode setup
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/bootloader_example.cpp -o bootloader_demo
@@ -121,7 +126,8 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ```
 
 **Expected Output:**
-```
+
+```text
 ✓ Bootloader configured successfully for parameter mode
   - Boot mode: Parameter
   - Motor control: Enabled
@@ -130,10 +136,13 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ✓ Parameter mode communication verified
 ```
 
-**Key Learning:** This example shows the **critical** bootloader setup required for all motor control operations.
+**Key Learning:** This example shows the **critical** bootloader setup required
+for all motor control operations.
 
 #### 2. **Telemetry Monitoring** (`Telemetry_monitor.cpp`)
+
 **Purpose:** Real-time monitoring of chip status
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/Telemetry_monitor.cpp -o telemetry_demo
@@ -141,7 +150,8 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ```
 
 **Expected Output:**
-```
+
+```text
 ✓ Parameter mode initialized - starting telemetry monitoring
 ✓ Basic motor configuration applied
 
@@ -157,7 +167,9 @@ Sample  2: Temp= 26.1°C, Current=  150mA, Voltage=23.98V
 ### ⚡ BLDC Motor Control Examples
 
 #### 3. **BLDC with Hall Sensors** (`BLDC_with_HALL.cpp`)
+
 **Purpose:** Complete BLDC setup with Hall sensor feedback
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/BLDC_with_HALL.cpp -o bldc_hall_demo
@@ -165,7 +177,8 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ```
 
 **Expected Output:**
-```
+
+```text
 ✓ Bootloader configured for parameter mode
 ✓ Motor type: BLDC with 7 pole pairs
 ✓ Current limits: 2A torque, 1A flux
@@ -178,7 +191,9 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 **Key Learning:** Demonstrates complete BLDC setup sequence with safety checks.
 
 #### 4. **BLDC with ABN Encoder** (`BLDC_with_ABN.cpp`)
+
 **Purpose:** High-precision BLDC control with incremental encoder
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/BLDC_with_ABN.cpp -o bldc_abn_demo
@@ -188,7 +203,9 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 **Key Learning:** Shows encoder-based feedback for precision applications.
 
 #### 5. **BLDC Velocity Control** (`BLDC_velocity_control.cpp`)
+
 **Purpose:** DC motor with velocity feedback control
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/BLDC_velocity_control.cpp -o bldc_vel_demo
@@ -200,7 +217,9 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ### 🔄 Stepper Motor Examples
 
 #### 6. **Stepper FOC Control** (`Stepper_FOC.cpp`)
+
 **Purpose:** Field-oriented control of stepper motors
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/Stepper_FOC.cpp -o stepper_foc_demo
@@ -210,7 +229,9 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 **Key Learning:** Advanced stepper control with smooth operation and high precision.
 
 #### 7. **Stepper Step/Dir Interface** (`Stepper_step_dir.cpp`)
+
 **Purpose:** Traditional step/direction interface with extrapolation
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/Stepper_step_dir.cpp -o stepper_stepdir_demo
@@ -222,7 +243,9 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ### 🔌 DC Motor Examples
 
 #### 8. **DC Current Control** (`DC_current_control.cpp`)
+
 **Purpose:** Open-loop current drive for DC motors
+
 ```bash
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     examples/DC_current_control.cpp -o dc_current_demo
@@ -234,6 +257,7 @@ g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ## 🔧 Build Configurations
 
 ### Debug Build (Recommended for Development)
+
 ```bash
 g++ -std=c++20 -Iinc -g -O0 -DDEBUG \
     src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -242,6 +266,7 @@ g++ -std=c++20 -Iinc -g -O0 -DDEBUG \
 ```
 
 ### Release Build (Optimized for Production)
+
 ```bash
 g++ -std=c++20 -Iinc -O3 -DNDEBUG \
     src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -250,6 +275,7 @@ g++ -std=c++20 -Iinc -O3 -DNDEBUG \
 ```
 
 ### Static Library Build
+
 ```bash
 # First create the static library
 g++ -std=c++20 -Iinc -c src/TMC9660.cpp -o TMC9660.o
@@ -265,6 +291,7 @@ g++ -std=c++20 -Iinc examples/BLDC_with_HALL.cpp -L. -lTMC9660 -o bldc_hall_demo
 ## 🛠️ Platform-Specific Build Instructions
 
 ### Linux/macOS
+
 ```bash
 # Standard build
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -276,6 +303,7 @@ g++ -std=c++20 -Iinc -pthread src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ```
 
 ### Windows (MinGW/MSYS2)
+
 ```bash
 # Standard build
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
@@ -287,6 +315,7 @@ g++ -std=c++20 -Iinc -static src/TMC9660.cpp src/TMC9660Bootloader.cpp \
 ```
 
 ### Windows (Visual Studio)
+
 ```cmd
 REM Use Developer Command Prompt
 cl /std:c++20 /Iinc /EHsc src/TMC9660.cpp src/TMC9660Bootloader.cpp ^
@@ -318,12 +347,14 @@ echo $?  # Should return 0 for success
 ### Expected Behavior
 
 **With DummyBus (Default):**
+
 - Examples should run without errors
 - Configuration messages should appear
 - Simulated telemetry values should be displayed
 - Return code should be 0
 
 **With Real Hardware:**
+
 - Motors should respond according to example logic
 - Telemetry should show real sensor values
 - Communication should be stable
@@ -335,6 +366,7 @@ echo $?  # Should return 0 for success
 ### Compilation Issues
 
 **Problem:** `error: no matching function for call to 'span'`
+
 ```bash
 # Solution: Verify C++20 support
 g++ --version  # Should be 10+ for GCC, 11+ for Clang
@@ -342,6 +374,7 @@ echo '#include <span>' | g++ -std=c++20 -x c++ -c -
 ```
 
 **Problem:** `fatal error: TMC9660.hpp: No such file or directory`
+
 ```bash
 # Solution: Verify include path and file structure
 ls -la inc/TMC9660.hpp  # Should exist
@@ -349,6 +382,7 @@ ls -la inc/TMC9660.hpp  # Should exist
 ```
 
 **Problem:** `undefined reference to TMC9660Bootloader`
+
 ```bash
 # Solution: Include bootloader source
 # Add src/TMC9660Bootloader.cpp to compilation command
@@ -357,6 +391,7 @@ ls -la inc/TMC9660.hpp  # Should exist
 ### Runtime Issues
 
 **Problem:** Examples compile but return error codes
+
 ```bash
 # Check the actual error message
 ./bootloader_demo
@@ -369,6 +404,7 @@ echo "Exit code: $?"
 ```
 
 **Problem:** "Communication failure" messages
+
 ```bash
 # Verify your communication interface implementation
 # Check hardware connections
@@ -378,6 +414,7 @@ echo "Exit code: $?"
 ### Build System Integration
 
 #### CMake Example
+
 ```cmake
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.16)
@@ -407,6 +444,7 @@ target_link_libraries(bldc_hall_demo TMC9660)
 ```
 
 #### Makefile Example
+
 ```makefile
 # Makefile
 CXX = g++
@@ -418,16 +456,16 @@ EXAMPLES = bootloader_demo bldc_hall_demo telemetry_demo
 all: $(EXAMPLES)
 
 bootloader_demo: examples/bootloader_example.cpp $(SOURCES)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+        $(CXX) $(CXXFLAGS) $^ -o $@
 
 bldc_hall_demo: examples/BLDC_with_HALL.cpp $(SOURCES)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+        $(CXX) $(CXXFLAGS) $^ -o $@
 
 telemetry_demo: examples/Telemetry_monitor.cpp $(SOURCES)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+        $(CXX) $(CXXFLAGS) $^ -o $@
 
 clean:
-	rm -f $(EXAMPLES) *.o
+        rm -f $(EXAMPLES) *.o
 
 .PHONY: all clean
 ```
@@ -452,7 +490,8 @@ Before using examples as templates:
 
 With working examples, you're ready for advanced topics:
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Detailed motor control scenarios
+**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Detailed motor
+control scenarios
 
 **👉 [Common Operations](CommonOperations.html)** - Everyday driver usage patterns
 
@@ -462,4 +501,5 @@ With working examples, you're ready for advanced topics:
 
 ---
 
-*Having build issues? Check the troubleshooting section or review your C++20 compiler setup.*
+*Having build issues? Check the troubleshooting section or review your C++20
+compiler setup.*

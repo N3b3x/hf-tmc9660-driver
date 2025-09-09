@@ -3,9 +3,11 @@ layout: default
 title: Common HF-TMC9660 Operations
 ---
 
-# 🛠️ Common HF-TMC9660 Operations
+## 🛠️ Common HF-TMC9660 Operations
 
-This guide covers the most frequently used operations when working with the HF-TMC9660 driver. Each example includes proper error handling and follows best practices for robust motor control applications.
+This guide covers the most frequently used operations when working with the
+HF-TMC9660 driver. Each example includes proper error handling and follows best
+practices for robust motor control applications.
 
 ---
 
@@ -523,6 +525,7 @@ bool gracefulShutdown(TMC9660& driver) {
 ## 📋 Best Practices Checklist
 
 ### Initialization
+
 - [ ] **Bootloader configured** for Parameter Mode
 - [ ] **Communication tested** with simple parameter read/write
 - [ ] **Motor type set** before other motor parameters
@@ -530,6 +533,7 @@ bool gracefulShutdown(TMC9660& driver) {
 - [ ] **Feedback sensors configured** properly
 
 ### Operation
+
 - [ ] **Error checking** on all driver calls
 - [ ] **Telemetry monitoring** for temperature and current
 - [ ] **Fault status checking** periodically
@@ -537,6 +541,7 @@ bool gracefulShutdown(TMC9660& driver) {
 - [ ] **Graceful shutdown** on application exit
 
 ### Safety
+
 - [ ] **Voltage limits** set appropriately
 - [ ] **Current limits** set conservatively
 - [ ] **Temperature monitoring** enabled
@@ -549,7 +554,8 @@ bool gracefulShutdown(TMC9660& driver) {
 
 With these common operations mastered, explore advanced features:
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete application scenarios
+**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete
+application scenarios
 
 **👉 [API Reference](annotated.html)** - Complete function documentation
 
@@ -559,4 +565,5 @@ With these common operations mastered, explore advanced features:
 
 ---
 
-*Remember: Always check return values and implement proper error handling in production code!*
+*Remember: Always check return values and implement proper error handling in
+production code!*
