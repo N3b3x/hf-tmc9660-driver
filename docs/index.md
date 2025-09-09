@@ -89,9 +89,9 @@ driver.focControl.setTargetVelocity(1000);
 
 | Feature | Description |
 |---------|-------------|
-| **🔧 Hardware Agnostic** | Abstract communication interface works with any SPI/UART implementation |
+| **🔧 Hardware Agnostic** | Abstract communication interface for any SPI/UART implementation |
 | **⚡ FOC Control** | Advanced Field-Oriented Control for BLDC, stepper, and DC motors |
-| **📊 Real-time Telemetry** | Temperature, current, voltage monitoring with RAMDebug logging |
+| **📊 Real-time Telemetry** | Temperature, current, voltage monitoring with logging |
 | **🛡️ Protection Systems** | Comprehensive safety features and fault monitoring |
 | **🎛️ Complete Configuration** | Access to all 300+ TMC9660 parameters |
 | **📱 Modern C++** | Clean C++20 API with type safety and RAII principles |

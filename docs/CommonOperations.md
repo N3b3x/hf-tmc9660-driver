@@ -120,7 +120,8 @@ bool configureBLDCMotor(TMC9660& driver) {
 ```cpp
 bool configureStepperMotor(TMC9660& driver) {
     // Step 1: Set motor type (steppers use 1 pole pair)
-    if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR, 1)) {
+    if (!driver.motorConfig.setType(
+            tmc9660::tmcl::MotorType::STEPPER_MOTOR, 1)) {
         return false;
     }
     
@@ -391,7 +392,8 @@ bool configureProtection(TMC9660& driver) {
 
 bool checkFaultStatus(TMC9660& driver) {
     uint32_t fault_status = 0;
-    if (!driver.readParameter(tmc9660::tmcl::Parameters::FAULT_STATUS, fault_status)) {
+    if (!driver.readParameter(tmc9660::tmcl::Parameters::FAULT_STATUS, 
+                              fault_status)) {
         return false;
     }
     
@@ -561,7 +563,9 @@ application scenarios
 
 ---
 
-[⬅️ Building Examples](BuildingExamples.html) | [⬆️ Back to Index](index.html) | [Next ➡️ GitHub Pages](HostingDocsWithGitHubPages.html)
+[⬅️ Building Examples](BuildingExamples.html) |
+[⬆️ Back to Index](index.html) |
+[Next ➡️ GitHub Pages](HostingDocsWithGitHubPages.html)
 
 ---
 

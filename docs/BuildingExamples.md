@@ -497,7 +497,9 @@ control scenarios
 
 ---
 
-[⬅️ Communication Interface](ImplementingCommInterface.html) | [⬆️ Back to Index](index.html) | [Next ➡️ Hardware Examples](HardwareAgnosticExamples.html)
+[⬅️ Communication Interface](ImplementingCommInterface.html) |
+[⬆️ Back to Index](index.html) |
+[Next ➡️ Hardware Examples](HardwareAgnosticExamples.html)
 
 ---
 
