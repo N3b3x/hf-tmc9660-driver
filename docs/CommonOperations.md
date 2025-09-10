@@ -3,9 +3,11 @@ layout: default
 title: Common HF-TMC9660 Operations
 ---
 
-# 🛠️ Common HF-TMC9660 Operations
+## 🛠️ Common HF-TMC9660 Operations
 
-This guide covers the most frequently used operations when working with the HF-TMC9660 driver. Each example includes proper error handling and follows best practices for robust motor control applications.
+This guide covers the most frequently used operations when working with the
+HF-TMC9660 driver. Each example includes proper error handling and follows best
+practices for robust motor control applications.
 
 ---
 
@@ -118,7 +120,8 @@ bool configureBLDCMotor(TMC9660& driver) {
 ```cpp
 bool configureStepperMotor(TMC9660& driver) {
     // Step 1: Set motor type (steppers use 1 pole pair)
-    if (!driver.motorConfig.setType(tmc9660::tmcl::MotorType::STEPPER_MOTOR, 1)) {
+    if (!driver.motorConfig.setType(
+            tmc9660::tmcl::MotorType::STEPPER_MOTOR, 1)) {
         return false;
     }
     
@@ -389,7 +392,8 @@ bool configureProtection(TMC9660& driver) {
 
 bool checkFaultStatus(TMC9660& driver) {
     uint32_t fault_status = 0;
-    if (!driver.readParameter(tmc9660::tmcl::Parameters::FAULT_STATUS, fault_status)) {
+    if (!driver.readParameter(tmc9660::tmcl::Parameters::FAULT_STATUS, 
+                              fault_status)) {
         return false;
     }
     
@@ -523,6 +527,7 @@ bool gracefulShutdown(TMC9660& driver) {
 ## 📋 Best Practices Checklist
 
 ### Initialization
+
 - [ ] **Bootloader configured** for Parameter Mode
 - [ ] **Communication tested** with simple parameter read/write
 - [ ] **Motor type set** before other motor parameters
@@ -530,6 +535,7 @@ bool gracefulShutdown(TMC9660& driver) {
 - [ ] **Feedback sensors configured** properly
 
 ### Operation
+
 - [ ] **Error checking** on all driver calls
 - [ ] **Telemetry monitoring** for temperature and current
 - [ ] **Fault status checking** periodically
@@ -537,6 +543,7 @@ bool gracefulShutdown(TMC9660& driver) {
 - [ ] **Graceful shutdown** on application exit
 
 ### Safety
+
 - [ ] **Voltage limits** set appropriately
 - [ ] **Current limits** set conservatively
 - [ ] **Temperature monitoring** enabled
@@ -549,14 +556,18 @@ bool gracefulShutdown(TMC9660& driver) {
 
 With these common operations mastered, explore advanced features:
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete application scenarios
+**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete
+application scenarios
 
 **👉 [API Reference](annotated.html)** - Complete function documentation
 
 ---
 
-[⬅️ Building Examples](BuildingExamples.html) | [⬆️ Back to Index](index.html) | [Next ➡️ GitHub Pages](HostingDocsWithGitHubPages.html)
+[⬅️ Building Examples](BuildingExamples.html) |
+[⬆️ Back to Index](index.html) |
+[Next ➡️ GitHub Pages](HostingDocsWithGitHubPages.html)
 
 ---
 
-*Remember: Always check return values and implement proper error handling in production code!*
+*Remember: Always check return values and implement proper error handling in
+production code!*

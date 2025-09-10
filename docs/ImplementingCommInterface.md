@@ -3,11 +3,15 @@ layout: default
 title: Implementing a Custom Communication Interface
 ---
 
-# 🔌 Implementing a Custom Communication Interface
+## 🔌 Implementing a Custom Communication Interface
 
-The HF-TMC9660 driver is designed to be **hardware-agnostic**. This means it doesn't contain any platform-specific communication code. Instead, you provide a custom class that implements the low-level SPI or UART communication for your specific hardware platform.
+The HF-TMC9660 driver is designed to be **hardware-agnostic**. This means it
+doesn't contain any platform-specific communication code. Instead, you provide
+a custom class that implements the low-level SPI or UART communication for your
+specific hardware platform.
 
-This guide shows you how to create that communication interface with practical examples for different platforms.
+This guide shows you how to create that communication interface with practical
+examples for different platforms.
 
 ---
 
@@ -35,6 +39,7 @@ TMC9660CommInterface (Abstract Base)
 ### Core Requirements
 
 Your implementation must:
+
 1. **Exchange 8-byte frames** with the TMC9660
 2. **Handle communication errors** gracefully
 3. **Return success/failure status** for each transfer
@@ -83,6 +88,7 @@ public:
 ### Step 2: Platform-Specific Examples
 
 #### Arduino/ESP32 Implementation
+
 ```cpp
 #include <SPI.h>
 
@@ -121,6 +127,7 @@ TMC9660 driver(spi_bus);
 ```
 
 #### STM32 HAL Implementation
+
 ```cpp
 class STM32SPIInterface : public SPITMC9660CommInterface {
 private:
@@ -153,6 +160,7 @@ TMC9660 driver(spi_bus);
 ```
 
 #### Linux userspace SPI Implementation
+
 ```cpp
 #include <linux/spi/spidev.h>
 #include <sys/ioctl.h>
@@ -410,20 +418,25 @@ public:
 ### SPI Communication Problems
 
 **Problem:** All transfers return success but parameter reads/writes fail
+
 **Solution:** Check SPI mode (TMC9660 uses Mode 3), bit order (MSB first), and timing
 
 **Problem:** Intermittent communication failures  
+
 **Solution:** Add delays between CS assertion and first clock, verify signal integrity
 
 **Problem:** Wrong data received
+
 **Solution:** Verify CS polarity, check for electrical noise, ensure proper grounding
 
 ### UART Communication Problems
 
 **Problem:** No response from device
+
 **Solution:** Verify baud rate, check RX/TX pin connections, ensure proper address configuration
 
 **Problem:** Corrupted data
+
 **Solution:** Check for timing issues, verify start/stop bits, ensure RS485 timing if used
 
 ---
@@ -447,9 +460,11 @@ Before integrating your communication interface:
 
 With your communication interface working, you're ready to explore motor control:
 
-**👉 [Building Examples](BuildingExamples.html)** - Compile and test the provided examples
+**👉 [Building Examples](BuildingExamples.html)** - Compile and test the provided
+examples
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete motor control scenarios
+**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete motor
+control scenarios
 
 ---
 
@@ -457,4 +472,5 @@ With your communication interface working, you're ready to explore motor control
 
 ---
 
-*Need specific platform examples? Check the examples directory or contribute your implementation to help others!*
+*Need specific platform examples? Check the examples directory or contribute
+your implementation to help others!*

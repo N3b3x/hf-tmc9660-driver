@@ -3,7 +3,7 @@ layout: default
 title: Extensive TMC9660 Examples
 ---
 
-# Extensive TMC9660 Examples
+## Extensive TMC9660 Examples
 
 This document collects hardware agnostic walkthroughs showing how to configure
 the TMC9660 from bootloader setup to running a variety of motors.  All code
@@ -197,8 +197,8 @@ int main() {
 }
 ```
 
-These snippets are minimal but cover the main features of the library. Refer to `inc/TMC9660.hpp` for all available parameters and helper methods.
-
+These snippets are minimal but cover the main features of the library. Refer to
+`inc/TMC9660.hpp` for all available parameters and helper methods.
 
 ---
 
