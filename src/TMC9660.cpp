@@ -1,4 +1,4 @@
-#include "TMC9660.hpp"
+#include "../inc/TMC9660.hpp"
 #include <chrono>
 #include <cmath>
 #include <thread>

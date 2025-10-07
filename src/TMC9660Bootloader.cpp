@@ -1,4 +1,4 @@
-#include "TMC9660Bootloader.hpp"
+#include "../inc/TMC9660Bootloader.hpp"
 #include <array>
 
 using namespace tmc9660;

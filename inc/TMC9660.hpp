@@ -64,7 +64,11 @@ public:
   /** @brief Bootloader initialization result codes.
    * @details These indicate the outcome of the bootloaderInit() method.
    */
-  enum class BootloaderInitResult { Success, NoConfig, Failure };
+  enum class BootloaderInitResult { 
+    Success,  ///< Successfully initialized the bootloader
+    NoConfig, ///< No bootloader configuration provided
+    Failure   ///< Failed to initialize the bootloader
+  };
 
   /** @brief Bootloader initialization for parameter mode operation.
    * @details This method configures the TMC9660 bootloader settings and enables
