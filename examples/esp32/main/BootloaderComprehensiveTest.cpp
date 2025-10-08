@@ -23,6 +23,8 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 static const char* TAG = "Bootloader_Test";
 static TestResults g_test_results;
@@ -55,6 +57,12 @@ bool test_bootloader_edge_cases() noexcept;
 std::unique_ptr<TMC9660> create_test_driver() noexcept;
 bool test_bootloader_config(const tmc9660::BootloaderConfig& config, const char* test_name) noexcept;
 void log_bootloader_result(TMC9660::BootloaderInitResult result, const char* context) noexcept;
+
+// Bootloader reset sequence function
+template<typename InterfaceType>
+bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface, 
+                                      TMC9660& driver, 
+                                      const tmc9660::BootloaderConfig& cfg) noexcept;
 
 bool test_bootloader_basic_initialization() noexcept {
     ESP_LOGI(TAG, "Testing basic bootloader initialization...");
@@ -259,45 +267,51 @@ bool test_bootloader_clock_configuration() noexcept {
 bool test_bootloader_error_handling() noexcept {
     ESP_LOGI(TAG, "Testing bootloader error handling...");
 
-    // Test 1: Invalid boot mode
-    auto driver = create_test_driver();
-    if (!driver) {
-        ESP_LOGE(TAG, "Failed to create test driver");
-        return false;
-    }
-
+    // Test 1: Invalid boot mode with proper GPIO control
     tmc9660::BootloaderConfig invalid_config{};
     invalid_config.boot.boot_mode = static_cast<tmc9660::bootcfg::BootMode>(0xFF); // Invalid mode
     invalid_config.boot.start_motor_control = true;
     invalid_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     invalid_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
-    auto result = driver->bootloaderInit(&invalid_config);
-    log_bootloader_result(result, "Invalid boot mode");
+    // Use test_bootloader_config for proper GPIO control (will fail due to invalid config)
+    if (!test_bootloader_config(invalid_config, "Invalid boot mode")) {
+        ESP_LOGI(TAG, "Invalid boot mode test failed as expected");
+    }
 
-    // Test 2: Null configuration
-    result = driver->bootloaderInit(nullptr);
+    // Test 2: Null configuration (must use direct call since test_bootloader_config expects valid config)
+    auto driver = create_test_driver();
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+
+    auto result = driver->bootloaderInit(nullptr);
     log_bootloader_result(result, "Null configuration");
 
-    // Test 3: Invalid SPI interface
+    // Test 3: Invalid SPI interface with proper GPIO control
     tmc9660::BootloaderConfig invalid_spi_config{};
     invalid_spi_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     invalid_spi_config.boot.start_motor_control = true;
     invalid_spi_config.spiComm.boot_spi_iface = static_cast<tmc9660::bootcfg::SPIInterface>(0xFF);
     invalid_spi_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
-    result = driver->bootloaderInit(&invalid_spi_config);
-    log_bootloader_result(result, "Invalid SPI interface");
+    // Use test_bootloader_config for proper GPIO control (will fail due to invalid config)
+    if (!test_bootloader_config(invalid_spi_config, "Invalid SPI interface")) {
+        ESP_LOGI(TAG, "Invalid SPI interface test failed as expected");
+    }
 
-    // Test 4: Invalid UART baud rate
+    // Test 4: Invalid UART baud rate with proper GPIO control
     tmc9660::BootloaderConfig invalid_uart_config{};
     invalid_uart_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     invalid_uart_config.boot.start_motor_control = true;
     invalid_uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     invalid_uart_config.uart.baud_rate = static_cast<tmc9660::bootcfg::BaudRate>(0xFF);
 
-    result = driver->bootloaderInit(&invalid_uart_config);
-    log_bootloader_result(result, "Invalid UART baud rate");
+    // Use test_bootloader_config for proper GPIO control (will fail due to invalid config)
+    if (!test_bootloader_config(invalid_uart_config, "Invalid UART baud rate")) {
+        ESP_LOGI(TAG, "Invalid UART baud rate test failed as expected");
+    }
 
     ESP_LOGI(TAG, "[SUCCESS] Bootloader error handling tests passed");
     return true;
@@ -306,33 +320,39 @@ bool test_bootloader_error_handling() noexcept {
 bool test_bootloader_performance_benchmarks() noexcept {
     ESP_LOGI(TAG, "Testing bootloader performance benchmarks...");
 
-    // Test 1: Bootloader initialization time
+    // Test 1: Complete bootloader initialization with GPIO control time
     uint64_t start_time = esp_timer_get_time();
     
-    auto driver = create_test_driver();
-    if (!driver) {
-        ESP_LOGE(TAG, "Failed to create test driver");
+    tmc9660::BootloaderConfig config{};
+    config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+    config.boot.start_motor_control = true;
+    config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
+
+    // Use test_bootloader_config for proper GPIO control and timing
+    if (!test_bootloader_config(config, "Performance Test")) {
+        ESP_LOGE(TAG, "Performance test bootloader initialization failed");
         return false;
     }
     
     uint64_t end_time = esp_timer_get_time();
     uint64_t init_time = end_time - start_time;
 
-    ESP_LOGI(TAG, "Bootloader initialization time: %llu μs", init_time);
+    ESP_LOGI(TAG, "Complete bootloader initialization time (with GPIO control): %llu μs", init_time);
 
-    // Test 2: Multiple initialization cycles
+    // Test 2: Multiple initialization cycles with proper GPIO control
     const int num_cycles = 10;
     start_time = esp_timer_get_time();
     
     for (int i = 0; i < num_cycles; ++i) {
-        tmc9660::BootloaderConfig config{};
-        config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-        config.boot.start_motor_control = true;
-        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
-        config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
+        tmc9660::BootloaderConfig cycle_config{};
+        cycle_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+        cycle_config.boot.start_motor_control = true;
+        cycle_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+        cycle_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
-        auto result = driver->bootloaderInit(&config);
-        if (result != TMC9660::BootloaderInitResult::Success) {
+        // Use test_bootloader_config for proper GPIO control
+        if (!test_bootloader_config(cycle_config, "Performance Cycle")) {
             ESP_LOGW(TAG, "Bootloader init cycle %d failed", i + 1);
         }
     }
@@ -341,7 +361,7 @@ bool test_bootloader_performance_benchmarks() noexcept {
     uint64_t total_time = end_time - start_time;
     uint64_t avg_time = total_time / num_cycles;
 
-    ESP_LOGI(TAG, "Multiple initialization cycles (%d): total %llu μs, avg %llu μs per cycle", 
+    ESP_LOGI(TAG, "Multiple initialization cycles (%d) with GPIO control: total %llu μs, avg %llu μs per cycle", 
              num_cycles, total_time, avg_time);
 
     ESP_LOGI(TAG, "[SUCCESS] Bootloader performance benchmark tests passed");
@@ -365,15 +385,18 @@ bool test_bootloader_multi_device() noexcept {
         return true;
     }
 
-    // Test 2: Initialize both devices with different configurations
+    // Test 2: Initialize both devices with different configurations using proper reset sequences
     tmc9660::BootloaderConfig spi_config{};
     spi_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     spi_config.boot.start_motor_control = true;
     spi_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     spi_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
-    auto spi_result = spi_driver->bootloaderInit(&spi_config);
-    log_bootloader_result(spi_result, "SPI Device");
+    // Use test_bootloader_config for proper GPIO control
+    if (!test_bootloader_config(spi_config, "SPI Device")) {
+        ESP_LOGE(TAG, "SPI device bootloader initialization failed");
+        return false;
+    }
 
     tmc9660::BootloaderConfig uart_config{};
     uart_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
@@ -381,8 +404,11 @@ bool test_bootloader_multi_device() noexcept {
     uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE1;
     uart_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR1000000;
 
-    auto uart_result = uart_driver->bootloaderInit(&uart_config);
-    log_bootloader_result(uart_result, "UART Device");
+    // Use test_bootloader_config for proper GPIO control
+    if (!test_bootloader_config(uart_config, "UART Device")) {
+        ESP_LOGE(TAG, "UART device bootloader initialization failed");
+        return false;
+    }
 
     ESP_LOGI(TAG, "[SUCCESS] Multi-device bootloader operations tests passed");
     return true;
@@ -397,7 +423,7 @@ bool test_bootloader_edge_cases() noexcept {
         return false;
     }
 
-    // Test 1: Extreme configuration values
+    // Test 1: Extreme configuration values with proper reset sequence
     tmc9660::BootloaderConfig extreme_config{};
     extreme_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     extreme_config.boot.start_motor_control = true;
@@ -406,10 +432,13 @@ bool test_bootloader_edge_cases() noexcept {
     extreme_config.clock.use_external = tmc9660::bootcfg::ClockSource::External;
     extreme_config.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
 
-    auto result = driver->bootloaderInit(&extreme_config);
-    log_bootloader_result(result, "Extreme Configuration");
+    // Use test_bootloader_config for proper GPIO control
+    if (!test_bootloader_config(extreme_config, "Extreme Configuration")) {
+        ESP_LOGE(TAG, "Extreme configuration bootloader initialization failed");
+        return false;
+    }
 
-    // Test 2: Rapid configuration changes
+    // Test 2: Rapid configuration changes with proper GPIO control
     ESP_LOGI(TAG, "Testing rapid configuration changes...");
     
     for (int i = 0; i < 5; ++i) {
@@ -423,8 +452,10 @@ bool test_bootloader_edge_cases() noexcept {
             tmc9660::bootcfg::BaudRate::BR115200 : 
             tmc9660::bootcfg::BaudRate::BR1000000;
 
-        result = driver->bootloaderInit(&config);
-        log_bootloader_result(result, "Rapid Change");
+        // Use test_bootloader_config for proper GPIO control
+        if (!test_bootloader_config(config, "Rapid Change")) {
+            ESP_LOGW(TAG, "Rapid change cycle %d failed", i + 1);
+        }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 
@@ -443,17 +474,95 @@ std::unique_ptr<TMC9660> create_test_driver() noexcept {
     return std::make_unique<TMC9660>(*spi_interface);
 }
 
+// Bootloader reset sequence implementation
+template<typename InterfaceType>
+bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface, 
+                                      TMC9660& driver, 
+                                      const tmc9660::BootloaderConfig& cfg) noexcept {
+    ESP_LOGI(TAG, "Starting bootloader reset sequence...");
+    
+    // Step 1: Assert reset (RST pin ACTIVE)
+    ESP_LOGI(TAG, "Asserting reset (RST pin ACTIVE)...");
+    if (!interface->gpioSetActive(TMC9660CtrlPin::RST)) {
+        ESP_LOGE(TAG, "Failed to assert reset pin");
+        return false;
+    }
+    
+    // Wait for reset to take effect (100ms delay)
+    vTaskDelay(pdMS_TO_TICKS(100));
+    
+    // Step 2: Release reset (RST pin INACTIVE)
+    ESP_LOGI(TAG, "Releasing reset (RST pin INACTIVE)...");
+    if (!interface->gpioSetInactive(TMC9660CtrlPin::RST)) {
+        ESP_LOGE(TAG, "Failed to release reset pin");
+        return false;
+    }
+    
+    // Wait for device to stabilize after reset
+    vTaskDelay(pdMS_TO_TICKS(25));
+    
+    // Step 3: Wait for FAULTN pin to go INACTIVE (fault cleared)
+    ESP_LOGI(TAG, "Waiting for FAULTN pin to go INACTIVE...");
+    const int max_wait_cycles = 100; // 10 seconds max wait
+    int wait_cycles = 0;
+    
+    while (wait_cycles < max_wait_cycles) {
+        GpioSignal fault_signal;
+        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_signal)) {
+            ESP_LOGE(TAG, "Failed to read FAULTN pin");
+            return false;
+        }
+        
+        if (fault_signal == GpioSignal::INACTIVE) {
+            ESP_LOGI(TAG, "FAULTN pin is INACTIVE - fault cleared");
+            break;
+        }
+        
+        ESP_LOGD(TAG, "FAULTN still ACTIVE, waiting... (%d/%d)", wait_cycles + 1, max_wait_cycles);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Check every 100ms
+        wait_cycles++;
+    }
+    
+    if (wait_cycles >= max_wait_cycles) {
+        ESP_LOGE(TAG, "Timeout waiting for FAULTN pin to go INACTIVE");
+        return false;
+    }
+    
+    // Step 4: Call bootloader unit function (bootloader initialization)
+    ESP_LOGI(TAG, "Calling bootloader unit function...");
+    auto result = driver.bootloaderInit(&cfg);
+    if (result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGE(TAG, "Bootloader initialization failed");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "Bootloader reset sequence completed successfully");
+    return true;
+}
+
 bool test_bootloader_config(const tmc9660::BootloaderConfig& config, const char* test_name) noexcept {
-    auto driver = create_test_driver();
+    // Create SPI interface
+    auto spi_interface = createSPIInterface();
+    if (!spi_interface) {
+        ESP_LOGE(TAG, "Failed to create SPI interface for %s", test_name);
+        return false;
+    }
+
+    // Create TMC9660 driver with the interface
+    auto driver = std::make_unique<TMC9660>(*spi_interface);
     if (!driver) {
         ESP_LOGE(TAG, "Failed to create test driver for %s", test_name);
         return false;
     }
 
-    auto result = driver->bootloaderInit(&config);
-    log_bootloader_result(result, test_name);
-    
-    return (result == TMC9660::BootloaderInitResult::Success);
+    // Perform bootloader reset sequence with proper GPIO control
+    if (!perform_bootloader_reset_sequence(spi_interface, *driver, config)) {
+        ESP_LOGE(TAG, "Bootloader reset sequence failed for %s", test_name);
+        return false;
+    }
+
+    ESP_LOGI(TAG, "[SUCCESS] %s bootloader initialization completed", test_name);
+    return true;
 }
 
 void log_bootloader_result(TMC9660::BootloaderInitResult result, const char* context) noexcept {

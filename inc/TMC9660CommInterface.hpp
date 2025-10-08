@@ -31,29 +31,31 @@
  * | Desc | Host Address | Sync+Address  | TMCL Status| Operation  | Data      | Checksum |
  *
  * ## GPIO Control Interface
- * The TMC9660 provides several GPIO pins for system control and status monitoring:
+ * The TMC9660 provides several GPIO pins for system control and status monitoring.
+ * The interface uses board-agnostic naming and signal levels to accommodate different
+ * board implementations (direct connection, inverters, etc.).
  *
  * ### Control Pins (Output from Host)
- * - **RSTN (Pin 22)**: External System Reset Input (active low)
+ * - **RST (Pin 22)**: External System Reset Input
  *   - Device remains in reset while this pin is in its active state
  *   - Has internal pull-down resistor
- *   - Use gpioSet(TMC9660CtrlPin::RSTN, GpioLevel::LOW) to reset device
+ *   - Active level depends on board implementation (configure via setPinActiveLevel)
  *
- * - **DRV_EN (Pin 21)**: Driver Enable Input (active high)
+ * - **DRV_EN (Pin 21)**: Driver Enable Input
  *   - Enables the motor driver outputs
  *   - Has internal pull-down resistor
- *   - Use gpioSet(TMC9660CtrlPin::DRV_EN, GpioLevel::HIGH) to enable drivers
+ *   - Active level depends on board implementation (configure via setPinActiveLevel)
  *
- * - **WAKE (Pin 19)**: Wake Input (active high)
- *   - Drive high to enable power-up and exit from hibernation mode
+ * - **WAKE (Pin 19)**: Wake Input
+ *   - Drive to active state to enable power-up and exit from hibernation mode
  *   - When not shorted to VSA, external pull-down resistor recommended
- *   - Use gpioSet(TMC9660CtrlPin::WAKE, GpioLevel::HIGH) to wake device
+ *   - Active level depends on board implementation (configure via setPinActiveLevel)
  *
  * ### Status Pins (Input to Host)
  * - **FAULTN (Pin 20)**: FAULT Output Signal (open drain)
  *   - Indicates busy state during bootstrapping or severe error
- *   - Use gpioRead(TMC9660CtrlPin::FAULTN, level) to check fault status
- *   - LOW indicates fault condition
+ *   - Active level depends on board implementation (configure via setPinActiveLevel)
+ *   - Use gpioRead(TMC9660CtrlPin::FAULTN, signal) to check fault status
  */
 
 #pragma once
@@ -69,18 +71,18 @@ enum class CommMode {
   UART  ///< UART mode
 };
 
-/// TMC9660 control pin identifiers
+/// TMC9660 control pin identifiers (board-agnostic naming)
 enum class TMC9660CtrlPin {
-  RSTN,    ///< External System Reset Input (active low, pin 22)
-  DRV_EN,  ///< Driver enable input (active high, pin 21)
+  RST,     ///< External System Reset Input (pin 22)
+  DRV_EN,  ///< Driver enable input (pin 21)
   FAULTN,  ///< FAULT output signal (open drain, pin 20)
-  WAKE     ///< Wake input (active high, pin 19)
+  WAKE     ///< Wake input (pin 19)
 };
 
-/// GPIO level states
-enum class GpioLevel {
-  LOW = 0,  ///< Logic low level
-  HIGH = 1  ///< Logic high level
+/// GPIO signal states (board-agnostic)
+enum class GpioSignal {
+  INACTIVE = 0,  ///< Inactive signal state
+  ACTIVE = 1     ///< Active signal state
 };
 
 /// SPI status codes as per TMC9660 Parameter Mode
@@ -267,6 +269,17 @@ struct TMCLFrame {
  */
 class TMC9660CommInterface {
 public:
+  /**
+   * @brief Construct communication interface with pin active level configuration
+   * @param rstActiveLevel Physical GPIO level for RST pin when ACTIVE (true=HIGH, false=LOW)
+   * @param drvEnActiveLevel Physical GPIO level for DRV_EN pin when ACTIVE (true=HIGH, false=LOW)
+   * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
+   * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
+   */
+  TMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
+                       bool wakeActiveLevel, bool faultnActiveLevel) noexcept
+    : pinActiveLevels_{rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel} {}
+
   virtual ~TMC9660CommInterface() noexcept = default;
 
   /// Return underlying communication mode
@@ -282,28 +295,92 @@ public:
   virtual bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept = 0;
 
   /**
-   * @brief Set GPIO pin level (output control).
+   * @brief Set GPIO pin signal state (output control).
    * 
-   * Used for controlling TMC9660 control pins like RSTN, DRV_EN, and WAKE.
-   * The implementation must handle the specific hardware GPIO configuration.
+   * Used for controlling TMC9660 control pins like RST, DRV_EN, and WAKE.
+   * The implementation must handle the specific hardware GPIO configuration and
+   * map ACTIVE/INACTIVE to the appropriate physical levels based on board design.
    * 
    * @param pin The TMC9660 control pin to control
-   * @param level The desired GPIO level (HIGH or LOW)
+   * @param signal The desired signal state (ACTIVE or INACTIVE)
    * @return true if the GPIO was set successfully, false otherwise
    */
-  virtual bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept = 0;
+  virtual bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept = 0;
 
   /**
-   * @brief Read GPIO pin level (input state).
+   * @brief Read GPIO pin signal state (input state).
    * 
    * Used for reading TMC9660 status pins like FAULTN.
-   * The implementation must handle the specific hardware GPIO configuration.
+   * The implementation must handle the specific hardware GPIO configuration and
+   * map physical levels to ACTIVE/INACTIVE based on board design.
    * 
    * @param pin The TMC9660 control pin to read
-   * @param level Reference to store the current GPIO level
+   * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully, false otherwise
    */
-  virtual bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept = 0;
+  virtual bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept = 0;
+
+  /**
+   * @brief Convert signal state to physical GPIO level
+   * @param pin The TMC9660 control pin
+   * @param signal The signal state (ACTIVE or INACTIVE)
+   * @return Physical GPIO level (true=HIGH, false=LOW)
+   */
+  bool signalToGpioLevel(TMC9660CtrlPin pin, GpioSignal signal) const noexcept {
+    bool activeLevel = pinActiveLevels_[static_cast<int>(pin)];
+    return (signal == GpioSignal::ACTIVE) ? activeLevel : !activeLevel;
+  }
+
+  /**
+   * @brief Convert physical GPIO level to signal state
+   * @param pin The TMC9660 control pin
+   * @param gpioLevel Physical GPIO level (true=HIGH, false=LOW)
+   * @return Signal state (ACTIVE or INACTIVE)
+   */
+  GpioSignal gpioLevelToSignal(TMC9660CtrlPin pin, bool gpioLevel) const noexcept {
+    bool activeLevel = pinActiveLevels_[static_cast<int>(pin)];
+    return (gpioLevel == activeLevel) ? GpioSignal::ACTIVE : GpioSignal::INACTIVE;
+  }
+
+  /**
+   * @brief Set GPIO pin to active state (convenience method).
+   * 
+   * @param pin The TMC9660 control pin to set active
+   * @return true if the GPIO was set successfully, false otherwise
+   */
+  bool gpioSetActive(TMC9660CtrlPin pin) noexcept {
+    return gpioSet(pin, GpioSignal::ACTIVE);
+  }
+
+  /**
+   * @brief Set GPIO pin to inactive state (convenience method).
+   * 
+   * @param pin The TMC9660 control pin to set inactive
+   * @return true if the GPIO was set successfully, false otherwise
+   */
+  bool gpioSetInactive(TMC9660CtrlPin pin) noexcept {
+    return gpioSet(pin, GpioSignal::INACTIVE);
+  }
+
+  /**
+   * @brief Configure the active level for a specific pin.
+   * 
+   * This method allows the user to configure which physical GPIO level (HIGH or LOW)
+   * corresponds to the ACTIVE state for each pin. This accommodates different board
+   * implementations (direct connection, inverters, etc.).
+   * 
+   * @param pin The TMC9660 control pin to configure
+   * @param activeLevel The physical GPIO level that represents ACTIVE state
+   * @return true if the configuration was successful, false otherwise
+   */
+  bool setPinActiveLevel(TMC9660CtrlPin pin, bool activeLevel) noexcept {
+    pinActiveLevels_[static_cast<int>(pin)] = activeLevel;
+    return true;
+  }
+
+protected:
+  /// Pin active level configuration [RST, DRV_EN, WAKE, FAULTN]
+  bool pinActiveLevels_[4];
 
   /**
    * @brief Debug logging function for detailed debugging information.
@@ -341,20 +418,21 @@ public:
   virtual bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
 
   /**
-   * @brief Set GPIO pin level for SPI interface.
+   * @brief Set GPIO pin signal state for SPI interface.
    * @param pin The TMC9660 control pin to control
-   * @param level The desired GPIO level
+   * @param signal The desired signal state
    * @return true if the GPIO was set successfully
    */
-  bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept override = 0;
+  bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override = 0;
 
   /**
-   * @brief Read GPIO pin level for SPI interface.
+   * @brief Read GPIO pin signal state for SPI interface.
    * @param pin The TMC9660 control pin to read
-   * @param level Reference to store the current GPIO level
+   * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully
    */
-  bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept override = 0;
+  bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
+
 
   bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t) noexcept override {
     std::array<uint8_t, 8> txBuf, rxBuf;
@@ -392,20 +470,21 @@ public:
   virtual bool receiveUartDatagram(std::array<uint8_t, 9> &data) noexcept = 0;
 
   /**
-   * @brief Set GPIO pin level for UART interface.
+   * @brief Set GPIO pin signal state for UART interface.
    * @param pin The TMC9660 control pin to control
-   * @param level The desired GPIO level
+   * @param signal The desired signal state
    * @return true if the GPIO was set successfully
    */
-  bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept override = 0;
+  bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override = 0;
 
   /**
-   * @brief Read GPIO pin level for UART interface.
+   * @brief Read GPIO pin signal state for UART interface.
    * @param pin The TMC9660 control pin to read
-   * @param level Reference to store the current GPIO level
+   * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully
    */
-  bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept override = 0;
+  bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
+
 
   bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
     std::array<uint8_t, 9> frame;

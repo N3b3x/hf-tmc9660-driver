@@ -97,9 +97,9 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
                                       const tmc9660::BootloaderConfig& cfg) noexcept {
     ESP_LOGI(TAG, "Starting bootloader reset sequence...");
     
-    // Step 1: Toggle RST pin to low (assert reset)
-    ESP_LOGI(TAG, "Asserting reset (RST pin LOW)...");
-    if (!interface->gpioSet(TMC9660CtrlPin::RSTN, GpioLevel::LOW)) {
+    // Step 1: Assert reset (RST pin ACTIVE)
+    ESP_LOGI(TAG, "Asserting reset (RST pin ACTIVE)...");
+    if (!interface->gpioSetActive(TMC9660CtrlPin::RST)) {
         ESP_LOGE(TAG, "Failed to assert reset pin");
         return false;
     }
@@ -107,9 +107,9 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
     // Wait for reset to take effect (100ms delay)
     vTaskDelay(pdMS_TO_TICKS(100));
     
-    // Step 2: Release reset (RST pin HIGH)
-    ESP_LOGI(TAG, "Releasing reset (RST pin HIGH)...");
-    if (!interface->gpioSet(TMC9660CtrlPin::RSTN, GpioLevel::HIGH)) {
+    // Step 2: Release reset (RST pin INACTIVE)
+    ESP_LOGI(TAG, "Releasing reset (RST pin INACTIVE)...");
+    if (!interface->gpioSetInactive(TMC9660CtrlPin::RST)) {
         ESP_LOGE(TAG, "Failed to release reset pin");
         return false;
     }
@@ -117,30 +117,30 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
     // Wait for device to stabilize after reset
     vTaskDelay(pdMS_TO_TICKS(25));
     
-    // Step 3: Wait for nFAULT pin to go HIGH (fault cleared)
-    ESP_LOGI(TAG, "Waiting for nFAULT pin to go HIGH...");
+    // Step 3: Wait for FAULTN pin to go INACTIVE (fault cleared)
+    ESP_LOGI(TAG, "Waiting for FAULTN pin to go INACTIVE...");
     const int max_wait_cycles = 100; // 10 seconds max wait
     int wait_cycles = 0;
     
     while (wait_cycles < max_wait_cycles) {
-        GpioLevel fault_level;
-        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_level)) {
-            ESP_LOGE(TAG, "Failed to read nFAULT pin");
+        GpioSignal fault_signal;
+        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_signal)) {
+            ESP_LOGE(TAG, "Failed to read FAULTN pin");
             return false;
         }
         
-        if (fault_level == GpioLevel::HIGH) {
-            ESP_LOGI(TAG, "nFAULT pin is HIGH - fault cleared");
+        if (fault_signal == GpioSignal::INACTIVE) {
+            ESP_LOGI(TAG, "FAULTN pin is INACTIVE - fault cleared");
             break;
         }
         
-        ESP_LOGD(TAG, "nFAULT still LOW, waiting... (%d/%d)", wait_cycles + 1, max_wait_cycles);
+        ESP_LOGD(TAG, "FAULTN still ACTIVE, waiting... (%d/%d)", wait_cycles + 1, max_wait_cycles);
         vTaskDelay(pdMS_TO_TICKS(100)); // Check every 100ms
         wait_cycles++;
     }
     
     if (wait_cycles >= max_wait_cycles) {
-        ESP_LOGE(TAG, "Timeout waiting for nFAULT pin to go HIGH");
+        ESP_LOGE(TAG, "Timeout waiting for FAULTN pin to go INACTIVE");
         return false;
     }
     
