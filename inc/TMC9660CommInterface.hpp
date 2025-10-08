@@ -58,6 +58,7 @@
 
 #pragma once
 #include <array>
+#include <cstdarg>
 #include <cstdint>
 #include <cstdlib>
 #include <span>
@@ -303,6 +304,20 @@ public:
    * @return true if the GPIO was read successfully, false otherwise
    */
   virtual bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept = 0;
+
+  /**
+   * @brief Debug logging function for detailed debugging information.
+   * 
+   * This function allows the TMC9660 driver to output debug information
+   * through the communication interface, which can be routed to platform-specific
+   * logging systems (e.g., ESP-IDF logging for ESP32).
+   * 
+   * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
+   * @param tag Log tag for categorization
+   * @param format printf-style format string
+   * @param ... Variable arguments for format string
+   */
+  virtual void debugLog(int level, const char* tag, const char* format, ...) noexcept = 0;
 };
 
 /**

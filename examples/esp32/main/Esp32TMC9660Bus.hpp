@@ -21,6 +21,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include <array>
+#include <cstdarg>
 #include <cstring>
 #include <cstdint>
 #include <memory>
@@ -42,6 +43,10 @@ public:
      * @param miso_pin MISO GPIO pin  
      * @param sclk_pin SCLK GPIO pin
      * @param cs_pin CS GPIO pin
+     * @param rstn_pin RSTN control pin
+     * @param drv_en_pin DRV_EN control pin
+     * @param faultn_pin FAULTN status pin
+     * @param wake_pin WAKE control pin
      * @param clock_speed_hz SPI clock speed in Hz
      * @param mode SPI mode (0-3)
      */
@@ -50,11 +55,17 @@ public:
                                  gpio_num_t miso_pin,
                                  gpio_num_t sclk_pin, 
                                  gpio_num_t cs_pin,
+                                 gpio_num_t rstn_pin,
+                                 gpio_num_t drv_en_pin,
+                                 gpio_num_t faultn_pin,
+                                 gpio_num_t wake_pin,
                                  uint32_t clock_speed_hz = 10000000,
                                  uint8_t mode = 0) noexcept
         : host_(host), mosi_pin_(mosi_pin), miso_pin_(miso_pin), 
-          sclk_pin_(sclk_pin), cs_pin_(cs_pin), clock_speed_hz_(clock_speed_hz), 
-          mode_(mode), device_handle_(nullptr), initialized_(false) {
+          sclk_pin_(sclk_pin), cs_pin_(cs_pin), rstn_pin_(rstn_pin),
+          drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
+          clock_speed_hz_(clock_speed_hz), mode_(mode), device_handle_(nullptr), 
+          initialized_(false) {
     }
 
     /**
@@ -71,6 +82,12 @@ public:
     bool initialize() noexcept {
         if (initialized_) {
             return true;
+        }
+
+        // Configure GPIO pins
+        if (!configureGpioPins()) {
+            ESP_LOGE(BUS_TAG, "Failed to configure GPIO pins");
+            return false;
         }
 
         // Configure SPI bus
@@ -172,12 +189,165 @@ public:
         return CommMode::SPI;
     }
 
+    /**
+     * @brief Set GPIO pin level for TMC9660 control pins
+     * @param pin The TMC9660 control pin to control
+     * @param level The desired GPIO level
+     * @return true if the GPIO was set successfully
+     */
+    bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept override {
+        gpio_num_t gpio_pin = getGpioPin(pin);
+        if (gpio_pin == GPIO_NUM_NC) {
+            ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
+            return false;
+        }
+
+        // Handle pins with inverting transistor logic
+        uint32_t gpio_level = static_cast<uint32_t>(level);
+        if (pin == TMC9660CtrlPin::WAKE || pin == TMC9660CtrlPin::RSTN) {
+            // WAKE and RSTN pins are driven through inverting transistors
+            // To make pin HIGH (active), we need to drive GPIO LOW
+            // To make pin LOW (inactive), we need to drive GPIO HIGH
+            gpio_level = (level == GpioLevel::HIGH) ? 0 : 1;
+        }
+
+        esp_err_t ret = gpio_set_level(gpio_pin, gpio_level);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to set GPIO level: %s", esp_err_to_name(ret));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @brief Read GPIO pin level for TMC9660 status pins
+     * @param pin The TMC9660 control pin to read
+     * @param level Reference to store the current GPIO level
+     * @return true if the GPIO was read successfully
+     */
+    bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept override {
+        gpio_num_t gpio_pin = getGpioPin(pin);
+        if (gpio_pin == GPIO_NUM_NC) {
+            ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
+            return false;
+        }
+
+        int gpio_level = gpio_get_level(gpio_pin);
+        if (gpio_level < 0) {
+            ESP_LOGE(BUS_TAG, "Failed to read GPIO level");
+            return false;
+        }
+        level = static_cast<GpioLevel>(gpio_level);
+        return true;
+    }
+
+    /**
+     * @brief Debug logging function that routes logs through ESP-IDF logging system
+     * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
+     * @param tag Log tag for categorization
+     * @param format printf-style format string
+     * @param ... Variable arguments for format string
+     */
+    void debugLog(int level, const char* tag, const char* format, ...) noexcept override {
+        va_list args;
+        va_start(args, format);
+        
+        // Route to appropriate ESP-IDF log level
+        switch (level) {
+            case 0: // Error
+                esp_log_writev(ESP_LOG_ERROR, tag, format, args);
+                break;
+            case 1: // Warning
+                esp_log_writev(ESP_LOG_WARN, tag, format, args);
+                break;
+            case 2: // Info
+                esp_log_writev(ESP_LOG_INFO, tag, format, args);
+                break;
+            case 3: // Debug
+                esp_log_writev(ESP_LOG_DEBUG, tag, format, args);
+                break;
+            case 4: // Verbose
+                esp_log_writev(ESP_LOG_VERBOSE, tag, format, args);
+                break;
+            default:
+                esp_log_writev(ESP_LOG_INFO, tag, format, args);
+                break;
+        }
+        
+        va_end(args);
+    }
+
 private:
+    /**
+     * @brief Configure GPIO pins for TMC9660 control and status
+     * @return true if successful, false otherwise
+     */
+    bool configureGpioPins() noexcept {
+        // Configure control pins as outputs
+        gpio_config_t output_config = {};
+        output_config.intr_type = GPIO_INTR_DISABLE;
+        output_config.mode = GPIO_MODE_OUTPUT;
+        output_config.pin_bit_mask = (1ULL << rstn_pin_) | (1ULL << drv_en_pin_) | (1ULL << wake_pin_);
+        output_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+        output_config.pull_up_en = GPIO_PULLUP_DISABLE;
+
+        esp_err_t ret = gpio_config(&output_config);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to configure output GPIO pins: %s", esp_err_to_name(ret));
+            return false;
+        }
+
+        // Configure status pin as input
+        gpio_config_t input_config = {};
+        input_config.intr_type = GPIO_INTR_DISABLE;
+        input_config.mode = GPIO_MODE_INPUT;
+        input_config.pin_bit_mask = (1ULL << faultn_pin_);
+        input_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+        input_config.pull_up_en = GPIO_PULLUP_ENABLE; // Enable pull-up for open-drain FAULTN
+
+        ret = gpio_config(&input_config);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to configure input GPIO pin: %s", esp_err_to_name(ret));
+            return false;
+        }
+
+        // Set initial states
+        gpio_set_level(rstn_pin_, 0);  // RSTN active low, start with inactive (GPIO low = RSTN high due to inverting transistor)
+        gpio_set_level(drv_en_pin_, 0); // DRV_EN active high, start with disabled (low)
+        gpio_set_level(wake_pin_, 1);   // WAKE active high, start with inactive (GPIO high = WAKE low due to inverting transistor)
+
+        return true;
+    }
+
+    /**
+     * @brief Map TMC9660 control pins to ESP32 GPIO pins
+     * @param pin TMC9660 control pin
+     * @return Corresponding ESP32 GPIO pin number
+     */
+    gpio_num_t getGpioPin(TMC9660CtrlPin pin) const noexcept {
+        switch (pin) {
+            case TMC9660CtrlPin::RSTN:
+                return rstn_pin_;
+            case TMC9660CtrlPin::DRV_EN:
+                return drv_en_pin_;
+            case TMC9660CtrlPin::FAULTN:
+                return faultn_pin_;
+            case TMC9660CtrlPin::WAKE:
+                return wake_pin_;
+            default:
+                return GPIO_NUM_NC;
+        }
+    }
+
     spi_host_device_t host_;
     gpio_num_t mosi_pin_;
     gpio_num_t miso_pin_;
     gpio_num_t sclk_pin_;
     gpio_num_t cs_pin_;
+    gpio_num_t rstn_pin_;
+    gpio_num_t drv_en_pin_;
+    gpio_num_t faultn_pin_;
+    gpio_num_t wake_pin_;
     uint32_t clock_speed_hz_;
     uint8_t mode_;
     spi_device_handle_t device_handle_;
@@ -197,15 +367,24 @@ public:
      * @param uart_num UART port number (e.g., UART_NUM_1)
      * @param tx_pin TX GPIO pin
      * @param rx_pin RX GPIO pin
+     * @param rstn_pin RSTN control pin
+     * @param drv_en_pin DRV_EN control pin
+     * @param faultn_pin FAULTN status pin
+     * @param wake_pin WAKE control pin
      * @param baud_rate UART baud rate
      * @param address TMC9660 module address
      */
     Esp32UARTTMC9660CommInterface(uart_port_t uart_num,
                                   gpio_num_t tx_pin,
                                   gpio_num_t rx_pin,
+                                  gpio_num_t rstn_pin,
+                                  gpio_num_t drv_en_pin,
+                                  gpio_num_t faultn_pin,
+                                  gpio_num_t wake_pin,
                                   uint32_t baud_rate = 115200,
                                   uint8_t address = 0) noexcept
         : uart_num_(uart_num), tx_pin_(tx_pin), rx_pin_(rx_pin), 
+          rstn_pin_(rstn_pin), drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
           baud_rate_(baud_rate), address_(address), initialized_(false) {
     }
 
@@ -223,6 +402,12 @@ public:
     bool initialize() noexcept {
         if (initialized_) {
             return true;
+        }
+
+        // Configure GPIO pins
+        if (!configureGpioPins()) {
+            ESP_LOGE(BUS_TAG, "Failed to configure GPIO pins");
+            return false;
         }
 
         // Configure UART
@@ -324,10 +509,163 @@ public:
         return CommMode::UART;
     }
 
+    /**
+     * @brief Set GPIO pin level for TMC9660 control pins
+     * @param pin The TMC9660 control pin to control
+     * @param level The desired GPIO level
+     * @return true if the GPIO was set successfully
+     */
+    bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept override {
+        gpio_num_t gpio_pin = getGpioPin(pin);
+        if (gpio_pin == GPIO_NUM_NC) {
+            ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
+            return false;
+        }
+
+        // Handle pins with inverting transistor logic
+        uint32_t gpio_level = static_cast<uint32_t>(level);
+        if (pin == TMC9660CtrlPin::WAKE || pin == TMC9660CtrlPin::RSTN) {
+            // WAKE and RSTN pins are driven through inverting transistors
+            // To make pin HIGH (active), we need to drive GPIO LOW
+            // To make pin LOW (inactive), we need to drive GPIO HIGH
+            gpio_level = (level == GpioLevel::HIGH) ? 0 : 1;
+        }
+
+        esp_err_t ret = gpio_set_level(gpio_pin, gpio_level);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to set GPIO level: %s", esp_err_to_name(ret));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @brief Read GPIO pin level for TMC9660 status pins
+     * @param pin The TMC9660 control pin to read
+     * @param level Reference to store the current GPIO level
+     * @return true if the GPIO was read successfully
+     */
+    bool gpioRead(TMC9660CtrlPin pin, GpioLevel &level) noexcept override {
+        gpio_num_t gpio_pin = getGpioPin(pin);
+        if (gpio_pin == GPIO_NUM_NC) {
+            ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
+            return false;
+        }
+
+        int gpio_level = gpio_get_level(gpio_pin);
+        if (gpio_level < 0) {
+            ESP_LOGE(BUS_TAG, "Failed to read GPIO level");
+            return false;
+        }
+        level = static_cast<GpioLevel>(gpio_level);
+        return true;
+    }
+
+    /**
+     * @brief Debug logging function that routes logs through ESP-IDF logging system
+     * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
+     * @param tag Log tag for categorization
+     * @param format printf-style format string
+     * @param ... Variable arguments for format string
+     */
+    void debugLog(int level, const char* tag, const char* format, ...) noexcept override {
+        va_list args;
+        va_start(args, format);
+        
+        // Route to appropriate ESP-IDF log level
+        switch (level) {
+            case 0: // Error
+                esp_log_writev(ESP_LOG_ERROR, tag, format, args);
+                break;
+            case 1: // Warning
+                esp_log_writev(ESP_LOG_WARN, tag, format, args);
+                break;
+            case 2: // Info
+                esp_log_writev(ESP_LOG_INFO, tag, format, args);
+                break;
+            case 3: // Debug
+                esp_log_writev(ESP_LOG_DEBUG, tag, format, args);
+                break;
+            case 4: // Verbose
+                esp_log_writev(ESP_LOG_VERBOSE, tag, format, args);
+                break;
+            default:
+                esp_log_writev(ESP_LOG_INFO, tag, format, args);
+                break;
+        }
+        
+        va_end(args);
+    }
+
 private:
+    /**
+     * @brief Configure GPIO pins for TMC9660 control and status
+     * @return true if successful, false otherwise
+     */
+    bool configureGpioPins() noexcept {
+        // Configure control pins as outputs
+        gpio_config_t output_config = {};
+        output_config.intr_type = GPIO_INTR_DISABLE;
+        output_config.mode = GPIO_MODE_OUTPUT;
+        output_config.pin_bit_mask = (1ULL << rstn_pin_) | (1ULL << drv_en_pin_) | (1ULL << wake_pin_);
+        output_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+        output_config.pull_up_en = GPIO_PULLUP_DISABLE;
+
+        esp_err_t ret = gpio_config(&output_config);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to configure output GPIO pins: %s", esp_err_to_name(ret));
+            return false;
+        }
+
+        // Configure status pin as input
+        gpio_config_t input_config = {};
+        input_config.intr_type = GPIO_INTR_DISABLE;
+        input_config.mode = GPIO_MODE_INPUT;
+        input_config.pin_bit_mask = (1ULL << faultn_pin_);
+        input_config.pull_down_en = GPIO_PULLDOWN_DISABLE;
+        input_config.pull_up_en = GPIO_PULLUP_ENABLE; // Enable pull-up for open-drain FAULTN
+
+        ret = gpio_config(&input_config);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "Failed to configure input GPIO pin: %s", esp_err_to_name(ret));
+            return false;
+        }
+
+        // Set initial states
+        gpio_set_level(rstn_pin_, 0);  // RSTN active low, start with inactive (GPIO low = RSTN high due to inverting transistor)
+        gpio_set_level(drv_en_pin_, 0); // DRV_EN active high, start with disabled (low)
+        gpio_set_level(wake_pin_, 1);   // WAKE active high, start with inactive (GPIO high = WAKE low due to inverting transistor)
+
+        return true;
+    }
+
+    /**
+     * @brief Map TMC9660 control pins to ESP32 GPIO pins
+     * @param pin TMC9660 control pin
+     * @return Corresponding ESP32 GPIO pin number
+     */
+    gpio_num_t getGpioPin(TMC9660CtrlPin pin) const noexcept {
+        switch (pin) {
+            case TMC9660CtrlPin::RSTN:
+                return rstn_pin_;
+            case TMC9660CtrlPin::DRV_EN:
+                return drv_en_pin_;
+            case TMC9660CtrlPin::FAULTN:
+                return faultn_pin_;
+            case TMC9660CtrlPin::WAKE:
+                return wake_pin_;
+            default:
+                return GPIO_NUM_NC;
+        }
+    }
+
     uart_port_t uart_num_;
     gpio_num_t tx_pin_;
     gpio_num_t rx_pin_;
+    gpio_num_t rstn_pin_;
+    gpio_num_t drv_en_pin_;
+    gpio_num_t faultn_pin_;
+    gpio_num_t wake_pin_;
     uint32_t baud_rate_;
     uint8_t address_;
     bool initialized_;
@@ -346,8 +684,8 @@ struct Esp32TMC9660BusConfig {
         gpio_num_t mosi_pin = GPIO_NUM_7;
         gpio_num_t miso_pin = GPIO_NUM_2;
         gpio_num_t sclk_pin = GPIO_NUM_6;
-        gpio_num_t cs_pin = GPIO_NUM_21;
-        uint32_t clock_speed_hz = 10000000; // 10 MHz
+        gpio_num_t cs_pin = GPIO_NUM_18;
+        uint32_t clock_speed_hz = 5000000; // 5 MHz
         uint8_t mode = 0;
     } spi;
 
@@ -359,6 +697,14 @@ struct Esp32TMC9660BusConfig {
         uint32_t baud_rate = 115200;
         uint8_t address = 0;
     } uart;
+
+    // GPIO Configuration for TMC9660 control pins
+    struct {
+        gpio_num_t rstn_pin = GPIO_NUM_22;    // RSTN control pin (active low, driven through inverting transistor)
+        gpio_num_t drv_en_pin = GPIO_NUM_20;  // DRV_EN control pin (active high)
+        gpio_num_t faultn_pin = GPIO_NUM_19;  // FAULTN status pin (open drain)
+        gpio_num_t wake_pin = GPIO_NUM_21;    // WAKE control pin (active high, driven through inverting transistor)
+    } gpio;
 };
 
 /**
@@ -375,6 +721,10 @@ inline std::unique_ptr<Esp32SPITMC9660CommInterface> createSPIInterface(
         config.spi.miso_pin,
         config.spi.sclk_pin,
         config.spi.cs_pin,
+        config.gpio.rstn_pin,
+        config.gpio.drv_en_pin,
+        config.gpio.faultn_pin,
+        config.gpio.wake_pin,
         config.spi.clock_speed_hz,
         config.spi.mode
     );
@@ -399,6 +749,10 @@ inline std::unique_ptr<Esp32UARTTMC9660CommInterface> createUARTInterface(
         config.uart.uart_num,
         config.uart.tx_pin,
         config.uart.rx_pin,
+        config.gpio.rstn_pin,
+        config.gpio.drv_en_pin,
+        config.gpio.faultn_pin,
+        config.gpio.wake_pin,
         config.uart.baud_rate,
         config.uart.address
     );

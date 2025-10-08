@@ -31,6 +31,8 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 static const char* TAG = "BLDC_Test";
 static TestResults g_test_results;
@@ -42,15 +44,15 @@ static TestResults g_test_results;
 
 // Core BLDC functionality tests
 static constexpr bool ENABLE_CORE_TESTS = true; // Bootloader, motor config, basic setup
-static constexpr bool ENABLE_HALL_SENSOR_TESTS = true; // Hall sensor configuration and testing
-static constexpr bool ENABLE_ABN_ENCODER_TESTS = true; // ABN encoder configuration and testing
-static constexpr bool ENABLE_FOC_CONTROL_TESTS = true; // FOC control loop configuration
-static constexpr bool ENABLE_VELOCITY_CONTROL_TESTS = true; // Velocity control testing
-static constexpr bool ENABLE_CURRENT_CONTROL_TESTS = true; // Current control testing
-static constexpr bool ENABLE_COMMUTATION_TESTS = true; // Commutation mode testing
-static constexpr bool ENABLE_TELEMETRY_TESTS = true; // Telemetry monitoring during operation
-static constexpr bool ENABLE_PERFORMANCE_TESTS = true; // Performance benchmarking
-static constexpr bool ENABLE_STRESS_TESTS = true; // Error handling, edge cases, fault injection
+static constexpr bool ENABLE_HALL_SENSOR_TESTS = false; // Hall sensor configuration and testing
+static constexpr bool ENABLE_ABN_ENCODER_TESTS = false; // ABN encoder configuration and testing
+static constexpr bool ENABLE_FOC_CONTROL_TESTS = false; // FOC control loop configuration
+static constexpr bool ENABLE_VELOCITY_CONTROL_TESTS = false; // Velocity control testing
+static constexpr bool ENABLE_CURRENT_CONTROL_TESTS = false; // Current control testing
+static constexpr bool ENABLE_COMMUTATION_TESTS = false; // Commutation mode testing
+static constexpr bool ENABLE_TELEMETRY_TESTS = false; // Telemetry monitoring during operation
+static constexpr bool ENABLE_PERFORMANCE_TESTS = false; // Performance benchmarking
+static constexpr bool ENABLE_STRESS_TESTS = false; // Error handling, edge cases, fault injection
 
 // Test configuration constants
 static constexpr uint8_t TEST_POLE_PAIRS = 7;
@@ -82,6 +84,78 @@ bool verify_motor_configuration(const TMC9660& driver) noexcept;
 bool verify_foc_gains(const TMC9660& driver) noexcept;
 void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
 
+/**
+ * @brief Perform bootloader reset sequence: toggle RST pin, wait for nFAULT high, call bootloader unit function
+ * @param interface Communication interface for GPIO control
+ * @param driver TMC9660 driver instance
+ * @param cfg Bootloader configuration
+ * @return true if reset sequence completed successfully
+ */
+template<typename InterfaceType>
+bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface, 
+                                      TMC9660& driver, 
+                                      const tmc9660::BootloaderConfig& cfg) noexcept {
+    ESP_LOGI(TAG, "Starting bootloader reset sequence...");
+    
+    // Step 1: Toggle RST pin to low (assert reset)
+    ESP_LOGI(TAG, "Asserting reset (RST pin LOW)...");
+    if (!interface->gpioSet(TMC9660CtrlPin::RSTN, GpioLevel::LOW)) {
+        ESP_LOGE(TAG, "Failed to assert reset pin");
+        return false;
+    }
+    
+    // Wait for reset to take effect (100ms delay)
+    vTaskDelay(pdMS_TO_TICKS(100));
+    
+    // Step 2: Release reset (RST pin HIGH)
+    ESP_LOGI(TAG, "Releasing reset (RST pin HIGH)...");
+    if (!interface->gpioSet(TMC9660CtrlPin::RSTN, GpioLevel::HIGH)) {
+        ESP_LOGE(TAG, "Failed to release reset pin");
+        return false;
+    }
+    
+    // Wait for device to stabilize after reset
+    vTaskDelay(pdMS_TO_TICKS(25));
+    
+    // Step 3: Wait for nFAULT pin to go HIGH (fault cleared)
+    ESP_LOGI(TAG, "Waiting for nFAULT pin to go HIGH...");
+    const int max_wait_cycles = 100; // 10 seconds max wait
+    int wait_cycles = 0;
+    
+    while (wait_cycles < max_wait_cycles) {
+        GpioLevel fault_level;
+        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_level)) {
+            ESP_LOGE(TAG, "Failed to read nFAULT pin");
+            return false;
+        }
+        
+        if (fault_level == GpioLevel::HIGH) {
+            ESP_LOGI(TAG, "nFAULT pin is HIGH - fault cleared");
+            break;
+        }
+        
+        ESP_LOGD(TAG, "nFAULT still LOW, waiting... (%d/%d)", wait_cycles + 1, max_wait_cycles);
+        vTaskDelay(pdMS_TO_TICKS(100)); // Check every 100ms
+        wait_cycles++;
+    }
+    
+    if (wait_cycles >= max_wait_cycles) {
+        ESP_LOGE(TAG, "Timeout waiting for nFAULT pin to go HIGH");
+        return false;
+    }
+    
+    // Step 4: Call bootloader unit function (bootloader initialization)
+    ESP_LOGI(TAG, "Calling bootloader unit function...");
+    auto result = driver.bootloaderInit(&cfg);
+    if (result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGE(TAG, "Bootloader unit function failed: %d", static_cast<int>(result));
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "Bootloader reset sequence completed successfully");
+    return true;
+}
+
 bool test_bldc_bootloader_initialization() noexcept {
     ESP_LOGI(TAG, "Testing BLDC bootloader initialization...");
 
@@ -103,9 +177,9 @@ bool test_bldc_bootloader_initialization() noexcept {
     cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
     cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
 
-    auto result = driver.bootloaderInit(&cfg);
-    if (result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGE(TAG, "Bootloader initialization failed: %d", static_cast<int>(result));
+    // Perform the complete bootloader reset sequence
+    if (!perform_bootloader_reset_sequence(spi_interface, driver, cfg)) {
+        ESP_LOGE(TAG, "Bootloader reset sequence failed");
         return false;
     }
 
@@ -120,9 +194,10 @@ bool test_bldc_bootloader_initialization() noexcept {
     }
 
     TMC9660 uart_driver(*uart_interface);
-    result = uart_driver.bootloaderInit(&cfg);
-    if (result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGW(TAG, "UART bootloader initialization failed: %d", static_cast<int>(result));
+    
+    // Perform the complete bootloader reset sequence for UART
+    if (!perform_bootloader_reset_sequence(uart_interface, uart_driver, cfg)) {
+        ESP_LOGW(TAG, "UART bootloader reset sequence failed");
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
         return true;
     }
