@@ -3,6 +3,7 @@
 #include <array>
 #include <cstdint>
 #include <cstdlib>
+#include <memory>
 #include <span>
 #include <variant>
 #include <vector>
@@ -97,6 +98,41 @@ public:
    */
   TMC9660::BootloaderInitResult
   bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
+
+  /** @brief Get direct access to the bootloader instance.
+   * 
+   * Allows advanced users to send custom bootloader commands after using
+   * applyConfiguration() with start_motor_control=false.
+   * 
+   * @return Pointer to bootloader instance, or nullptr if not initialized or
+   *         interface mode doesn't support bootloader (e.g., not SPI/UART).
+   * 
+   * @note Typical usage pattern:
+   * @code
+   * // 1. Apply configuration without starting motor control
+   * tmc9660::BootloaderConfig cfg{};
+   * cfg.boot.start_motor_control = false;  // Stay in bootloader
+   * driver.bootloaderInit(&cfg);
+   * 
+   * // 2. Get bootloader access for custom operations
+   * auto* bootloader = driver.getBootloader();
+   * if (bootloader) {
+   *     // Program OTP
+   *     bootloader->setBank(1);
+   *     bootloader->write32Inc(otp_data);
+   *     bootloader->otpBurn(0, 4);
+   *     
+   *     // When done, start motor control
+   *     bootloader->startMotorControl();
+   * }
+   * @endcode
+   * 
+   * @warning Only call bootloader methods BEFORE calling startMotorControl().
+   *          After startMotorControl(), the bootloader exits and commands will fail.
+   */
+  tmc9660::TMC9660Bootloader* getBootloader() noexcept {
+    return bootloader_.get();
+  }
 
   //***************************************************************************
   //**               CORE PARAMETER ACCESS METHODS                         **//
@@ -2708,7 +2744,7 @@ private:
                                           ///< sending/receiving data.
   uint8_t address_;                       ///< Module address (0-127). Used primarily for UART
                                           ///< multi-drop addressing.
-  tmc9660::TMC9660Bootloader bootloader_; ///< Bootloader helper
+  std::unique_ptr<tmc9660::TMC9660Bootloader> bootloader_; ///< Bootloader helper (only for SPI)
   const tmc9660::BootloaderConfig *bootCfg_;
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE

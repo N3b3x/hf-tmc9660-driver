@@ -62,7 +62,9 @@
 #include <array>
 #include <cstdarg>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <span>
 
 /// Supported physical communication modes
@@ -392,9 +394,47 @@ protected:
    * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
    * @param tag Log tag for categorization
    * @param format printf-style format string
+   * @param args Variable arguments list
+   */
+  virtual void debugLog(int level, const char* tag, const char* format, va_list args) noexcept = 0;
+
+public:
+  /**
+   * @brief Public debug logging wrapper for external classes.
+   * 
+   * This function allows external classes like TMC9660Bootloader to output debug information
+   * through the communication interface. Automatically ensures newlines are present.
+   * 
+   * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
+   * @param tag Log tag for categorization
+   * @param format printf-style format string
    * @param ... Variable arguments for format string
    */
-  virtual void debugLog(int level, const char* tag, const char* format, ...) noexcept = 0;
+  void logDebug(int level, const char* tag, const char* format, ...) noexcept {
+    va_list args;
+    va_start(args, format);
+    
+    // Check if format string already ends with newline
+    size_t format_len = strlen(format);
+    const char* final_format = format;
+    char* modified_format = nullptr;
+    
+    if (format_len == 0 || format[format_len - 1] != '\n') {
+      // Allocate buffer for format + "\n"
+      modified_format = new char[format_len + 2];
+      strcpy(modified_format, format);
+      strcat(modified_format, "\n");
+      final_format = modified_format;
+    }
+    
+    debugLog(level, tag, final_format, args);
+    
+    if (modified_format) {
+      delete[] modified_format;
+    }
+    
+    va_end(args);
+  }
 };
 
 /**
@@ -406,16 +446,40 @@ protected:
  */
 class SPITMC9660CommInterface : public TMC9660CommInterface {
 public:
+  /**
+   * @brief Construct SPI communication interface with pin active level configuration
+   * @param rstActiveLevel Physical GPIO level for RST pin when ACTIVE (true=HIGH, false=LOW)
+   * @param drvEnActiveLevel Physical GPIO level for DRV_EN pin when ACTIVE (true=HIGH, false=LOW)
+   * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
+   * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
+   */
+  SPITMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
+                          bool wakeActiveLevel, bool faultnActiveLevel) noexcept
+    : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {}
+
   CommMode mode() const noexcept override {
     return CommMode::SPI;
   }
   /**
-   * @brief Low-level SPI transfer of 8 bytes.
+   * @brief Low-level SPI transfer of 8 bytes (TMCL protocol).
    * @param tx Buffer containing 8 bytes to transmit.
    * @param rx Buffer to receive 8 bytes from device.
    * @return true if the SPI transfer completed successfully.
    */
   virtual bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
+
+  /**
+   * @brief Low-level SPI transfer of 5 bytes (Bootloader protocol).
+   * 
+   * The bootloader uses a 40-bit (5-byte) protocol:
+   * - TX: [COMMAND(8)] [VALUE(32)]
+   * - RX: [STATUS(8)] [VALUE(32)]
+   * 
+   * @param tx Buffer containing 5 bytes to transmit.
+   * @param rx Buffer to receive 5 bytes from device.
+   * @return true if the SPI transfer completed successfully.
+   */
+  virtual bool spiTransfer5(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for SPI interface.
@@ -452,6 +516,17 @@ public:
  */
 class UARTTMC9660CommInterface : public TMC9660CommInterface {
 public:
+  /**
+   * @brief Construct UART communication interface with pin active level configuration
+   * @param rstActiveLevel Physical GPIO level for RST pin when ACTIVE (true=HIGH, false=LOW)
+   * @param drvEnActiveLevel Physical GPIO level for DRV_EN pin when ACTIVE (true=HIGH, false=LOW)
+   * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
+   * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
+   */
+  UARTTMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
+                          bool wakeActiveLevel, bool faultnActiveLevel) noexcept
+    : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {}
+
   CommMode mode() const noexcept override {
     return CommMode::UART;
   }
@@ -468,6 +543,19 @@ public:
    * @return true if reception succeeded.
    */
   virtual bool receiveUartDatagram(std::array<uint8_t, 9> &data) noexcept = 0;
+
+  /**
+   * @brief Transfer 8-byte UART bootloader datagram (send and receive).
+   * 
+   * The bootloader uses a different 8-byte protocol:
+   * - TX: [SYNC(0x55)] [DEVICE_ADDR] [COMMAND] [VALUE(32)] [CRC8]
+   * - RX: [SYNC(0x55)] [HOST_ADDR] [STATUS] [VALUE(32)] [CRC8]
+   * 
+   * @param tx Buffer containing 8 bytes to transmit.
+   * @param rx Buffer to receive 8 bytes from device.
+   * @return true if transfer succeeded.
+   */
+  virtual bool uartTransfer(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for UART interface.

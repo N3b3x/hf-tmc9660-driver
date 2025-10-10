@@ -182,6 +182,26 @@ public:
         return true;
     }
 
+    bool spiTransfer5(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept override {
+        if (!initialized_ || !device_handle_) {
+            ESP_LOGE(BUS_TAG, "SPI interface not initialized");
+            return false;
+        }
+
+        spi_transaction_t trans = {};
+        trans.length = 40; // 5 bytes * 8 bits
+        trans.tx_buffer = tx.data();
+        trans.rx_buffer = rx.data();
+
+        esp_err_t ret = spi_device_transmit(device_handle_, &trans);
+        if (ret != ESP_OK) {
+            ESP_LOGE(BUS_TAG, "SPI 5-byte transfer failed: %s", esp_err_to_name(ret));
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * @brief Get communication mode
      * @return CommMode::SPI
@@ -244,10 +264,7 @@ public:
      * @param format printf-style format string
      * @param ... Variable arguments for format string
      */
-    void debugLog(int level, const char* tag, const char* format, ...) noexcept override {
-        va_list args;
-        va_start(args, format);
-        
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept override {
         // Route to appropriate ESP-IDF log level
         switch (level) {
             case 0: // Error
@@ -269,8 +286,6 @@ public:
                 esp_log_writev(ESP_LOG_INFO, tag, format, args);
                 break;
         }
-        
-        va_end(args);
     }
 
 private:
@@ -499,6 +514,41 @@ public:
     }
 
     /**
+     * @brief Transfer 8-byte UART bootloader datagram (send and receive)
+     * @param tx Buffer containing 8 bytes to transmit
+     * @param rx Buffer to receive 8 bytes from device
+     * @return true if transfer succeeded
+     */
+    bool uartTransfer(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+        if (!initialized_) {
+            ESP_LOGE(BUS_TAG, "UART interface not initialized");
+            return false;
+        }
+
+        // Clear RX buffer before sending
+        uart_flush_input(uart_num_);
+
+        // Send 8-byte bootloader command
+        int bytes_written = uart_write_bytes(uart_num_, tx.data(), tx.size());
+        if (bytes_written != static_cast<int>(tx.size())) {
+            ESP_LOGE(BUS_TAG, "UART bootloader write failed: expected %zu, wrote %d", tx.size(), bytes_written);
+            return false;
+        }
+
+        // Wait for transmission to complete
+        uart_wait_tx_done(uart_num_, portMAX_DELAY);
+
+        // Receive 8-byte bootloader reply
+        int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), pdMS_TO_TICKS(1000));
+        if (bytes_read != static_cast<int>(rx.size())) {
+            ESP_LOGE(BUS_TAG, "UART bootloader read failed: expected %zu, read %d", rx.size(), bytes_read);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * @brief Get communication mode
      * @return CommMode::UART
      */
@@ -506,13 +556,14 @@ public:
         return CommMode::UART;
     }
 
+
     /**
      * @brief Set GPIO pin level for TMC9660 control pins
      * @param pin The TMC9660 control pin to control
      * @param level The desired GPIO level
      * @return true if the GPIO was set successfully
      */
-    bool gpioSet(TMC9660CtrlPin pin, GpioLevel level) noexcept override {
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
@@ -520,12 +571,12 @@ public:
         }
 
         // Handle pins with inverting transistor logic
-        uint32_t gpio_level = static_cast<uint32_t>(level);
-        if (pin == TMC9660CtrlPin::WAKE || pin == TMC9660CtrlPin::RSTN) {
+        uint32_t gpio_level = static_cast<uint32_t>(signal);
+        if (pin == TMC9660CtrlPin::WAKE || pin == TMC9660CtrlPin::RST) {
             // WAKE and RSTN pins are driven through inverting transistors
             // To make pin HIGH (active), we need to drive GPIO LOW
             // To make pin LOW (inactive), we need to drive GPIO HIGH
-            gpio_level = (level == GpioLevel::HIGH) ? 0 : 1;
+            gpio_level = (signal == GpioSignal::ACTIVE) ? 0 : 1;
         }
 
         esp_err_t ret = gpio_set_level(gpio_pin, gpio_level);
@@ -566,10 +617,7 @@ public:
      * @param format printf-style format string
      * @param ... Variable arguments for format string
      */
-    void debugLog(int level, const char* tag, const char* format, ...) noexcept override {
-        va_list args;
-        va_start(args, format);
-        
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept override {
         // Route to appropriate ESP-IDF log level
         switch (level) {
             case 0: // Error
@@ -591,8 +639,6 @@ public:
                 esp_log_writev(ESP_LOG_INFO, tag, format, args);
                 break;
         }
-        
-        va_end(args);
     }
 
 private:

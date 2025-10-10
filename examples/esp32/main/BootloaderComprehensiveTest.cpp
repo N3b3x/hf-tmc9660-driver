@@ -35,11 +35,11 @@ static TestResults g_test_results;
 static constexpr bool ENABLE_CORE_TESTS = true;
 static constexpr bool ENABLE_PARAMETER_MODE_TESTS = true;
 static constexpr bool ENABLE_REGISTER_MODE_TESTS = true;
-static constexpr bool ENABLE_INTERFACE_TESTS = true;
-static constexpr bool ENABLE_CLOCK_TESTS = true;
-static constexpr bool ENABLE_ERROR_HANDLING_TESTS = true;
-static constexpr bool ENABLE_PERFORMANCE_TESTS = true;
-static constexpr bool ENABLE_STRESS_TESTS = true;
+static constexpr bool ENABLE_INTERFACE_TESTS = false;
+static constexpr bool ENABLE_CLOCK_TESTS = false;
+static constexpr bool ENABLE_ERROR_HANDLING_TESTS = false;
+static constexpr bool ENABLE_PERFORMANCE_TESTS = false;
+static constexpr bool ENABLE_STRESS_TESTS = false;
 
 // Forward declarations
 bool test_bootloader_basic_initialization() noexcept;

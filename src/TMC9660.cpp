@@ -5,8 +5,12 @@
 
 TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address,
                  const tmc9660::BootloaderConfig *bootCfg) noexcept
-    : comm_(comm), address_(address & 0x7F), bootloader_(comm, address),
-      bootCfg_(bootCfg) /* ensure address is 7-bit */ {}
+    : comm_(comm), address_(address & 0x7F), bootCfg_(bootCfg) {
+  // Initialize bootloader for SPI and UART interfaces
+  if (comm.mode() == CommMode::SPI || comm.mode() == CommMode::UART) {
+    bootloader_ = std::make_unique<tmc9660::TMC9660Bootloader>(comm);
+  }
+}
 
 TMC9660::~TMC9660() noexcept {
   // Destructor does not need to do anything special.
@@ -17,7 +21,11 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg) noexcept {
   const tmc9660::BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
   if (!useCfg)
     return BootloaderInitResult::NoConfig;
-  if (bootloader_.applyConfiguration(*useCfg))
+  if (!bootloader_) {
+    // Bootloader only works with SPI interface
+    return BootloaderInitResult::Failure;
+  }
+  if (bootloader_->applyConfiguration(*useCfg))
     return BootloaderInitResult::Success;
   return BootloaderInitResult::Failure;
 }

@@ -171,7 +171,7 @@ bool test_bldc_bootloader_initialization() noexcept {
     // Configure bootloader for parameter mode
     tmc9660::BootloaderConfig cfg{};
     cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-    cfg.boot.start_motor_control = true;
+    cfg.boot.start_motor_control = false;
     cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
     cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
@@ -901,7 +901,7 @@ std::unique_ptr<TMC9660> create_test_driver() noexcept {
     // Initialize bootloader
     tmc9660::BootloaderConfig cfg{};
     cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-    cfg.boot.start_motor_control = true;
+    cfg.boot.start_motor_control = false;
     cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 

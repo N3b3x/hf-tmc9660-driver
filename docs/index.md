@@ -44,6 +44,16 @@ graph LR
 3. **[🏗️ Building Examples](BuildingExamples.html)** - Compile and run the provided
    examples
 
+### **Bootloader & Configuration**
+
+1. **[⭐ Bootloader Initialization Guide](BootloaderInitializationGuide.html)** - **START HERE!**
+   Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering
+2. **[🔧 Bootloader Complete Guide](BootloaderGuide.html)** - **NEW!** Comprehensive
+   bootloader documentation with all 18 commands, protocols, OTP management, and
+   external memory operations
+3. **[⚡ Bootloader Quick Reference](BootloaderQuickReference.html)** - **NEW!** Quick
+   lookup card for commands, codes, and common operations
+
 ### **Practical Application**
 
 1. **[⚡ Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete
