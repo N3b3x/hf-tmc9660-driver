@@ -32,17 +32,20 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   // Step 1: Send the command
   // NOTE: In SPI, the reply to THIS command will come in the NEXT transaction.
   // The rxBuf here contains the reply from the PREVIOUS command (we ignore it).
-  if (!spiComm->spiTransfer5(txBuf, rxBuf)) {
+  if (!spiComm->spiTransferBootloader(txBuf, rxBuf)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to send SPI command (cmd=0x%02X)", cmd);
     return false;
   }
   
-  // Step 2: Send dummy frame (all zeros) to clock out the reply to our command
+  // Step 2: Send NO_OP command to clock out the reply to our command
   // This is standard SPI behavior - replies are delayed by one transaction.
-  std::array<uint8_t, 5> dummyTx = {0, 0, 0, 0, 0};
+  std::array<uint8_t, 5> dummyTx = {
+    static_cast<uint8_t>(BootloaderCommand::NO_OP),  // NO_OP command
+    0, 0, 0, 0  // Dummy value (all zeros)
+  };
   std::array<uint8_t, 5> replyBuf;
   
-  if (!spiComm->spiTransfer5(dummyTx, replyBuf)) {
+  if (!spiComm->spiTransferBootloader(dummyTx, replyBuf)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to receive SPI reply (cmd=0x%02X)", cmd);
     return false;
   }
@@ -75,7 +78,7 @@ bool TMC9660Bootloader::sendCommandUART(uint8_t cmd, uint32_t value, uint32_t *r
   tx.toBuffer(txBuf);
   
   // UART: Send command and receive reply in same transaction (no delayed reply like SPI)
-  if (!uartComm->uartTransfer(txBuf, rxBuf)) {
+  if (!uartComm->uartTransferBootloader(txBuf, rxBuf)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to send UART command (cmd=0x%02X)", cmd);
     return false;
   }
@@ -155,22 +158,230 @@ bool TMC9660Bootloader::noOp(uint32_t *reply) noexcept {
 // OTP OPERATIONS
 //==================================================
 
-bool TMC9660Bootloader::otpLoad(uint8_t page, uint8_t *errorCount, uint8_t *pageTag) noexcept {
-  uint32_t reply = 0;
-  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_LOAD), page, &reply))
+bool TMC9660Bootloader::otpLoad(uint8_t page, OtpLoadResult *result) noexcept {
+  if (!result) {
+    comm_.logDebug(0, "TMC9660Bootloader", "otpLoad: null result pointer");
     return false;
+  }
+  
+  uint32_t reply = 0;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_LOAD), page, &reply)) {
+    return false;
+  }
+  
+  *result = OtpLoadResult::fromValue(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::otpLoad(uint8_t page, uint8_t *errorCount, uint8_t *pageTag) noexcept {
+  OtpLoadResult result;
+  if (!otpLoad(page, &result)) {
+    return false;
+  }
   
   if (errorCount)
-    *errorCount = static_cast<uint8_t>((reply >> 8) & 0xFF);
+    *errorCount = result.errorCount;
   if (pageTag)
-    *pageTag = static_cast<uint8_t>(reply & 0xFF);
+    *pageTag = result.pageTag;
+  
+  return true;
+}
+
+bool TMC9660Bootloader::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result) noexcept {
+  if (!result) {
+    comm_.logDebug(0, "TMC9660Bootloader", "otpBurn: null result pointer");
+    return false;
+  }
+  
+  uint32_t value = (static_cast<uint32_t>(pageAddr) << 8) | page;
+  uint32_t reply = 0;
+  
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value, &reply)) {
+    return false;
+  }
+  
+  // Check if the command returned an error status
+  if (reply == 0) {
+    // Success case - no error code
+    *result = OtpBurnResult::createSuccess();
+  } else {
+    // Error case - parse error code from reply
+    int8_t errorCode = static_cast<int8_t>(reply);
+    *result = OtpBurnResult::createError(static_cast<OtpBurnError>(errorCode));
+  }
   
   return true;
 }
 
 bool TMC9660Bootloader::otpBurn(uint8_t page, uint8_t pageAddr) noexcept {
+  OtpBurnResult result;
+  if (!otpBurn(page, pageAddr, &result)) {
+    return false;
+  }
+  
+  return result.isSuccess;
+}
+
+bool TMC9660Bootloader::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, 
+                                             uint32_t vdrvWaitMs) noexcept {
+  if (!result) {
+    comm_.logDebug(0, "TMC9660Bootloader", "otpBurnWithWorkaround: null result pointer");
+    return false;
+  }
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "Starting OTP burn with Erratum 1 workaround (page=%d, addr=0x%02X)", 
+                 page, pageAddr);
+  
+  // Step 1: Send SET_BANK, value 0
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 1: Setting bank to 0");
+  if (!setBank(0)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set bank 0");
+    *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
+    return false;
+  }
+  
+  // Step 2: Send SET_ADDRESS, value 0x4801B010
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 2: Setting address to 0x4801B010");
+  if (!setAddress(0x4801B010)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set address 0x4801B010");
+    *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
+    return false;
+  }
+  
+  // Step 3: Send READ_32
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 3: Reading 32-bit value");
+  uint32_t readValue;
+  if (!read32(&readValue)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read 32-bit value");
+    *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
+    return false;
+  }
+  
+  // Step 4: Clear bit 0 of the read value (0x00000001)
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 4: Clearing bit 0 (read=0x%08X)", readValue);
+  uint32_t modifiedValue = readValue & ~0x00000001;
+  
+  // Step 5: Send WRITE_32 with the modified read value
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 5: Writing modified value 0x%08X", modifiedValue);
+  if (!write32(modifiedValue)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write modified value");
+    *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
+    return false;
+  }
+  
+  // Step 6: Wait for VDRV voltage to drop below 8.4V
+  comm_.logDebug(2, "TMC9660Bootloader", "Step 6: Waiting %dms for VDRV voltage to drop below 8.4V", vdrvWaitMs);
+  comm_.delayMs(vdrvWaitMs);
+  
+  // Step 7: Send OTP_BURN
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 7: Sending OTP_BURN command");
   uint32_t value = (static_cast<uint32_t>(pageAddr) << 8) | page;
-  return sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value);
+  uint32_t reply = 0;
+  
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value, &reply)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to send OTP_BURN command");
+    *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
+    return false;
+  }
+  
+  // Parse the result
+  if (reply == 0) {
+    comm_.logDebug(2, "TMC9660Bootloader", "OTP burn command completed successfully");
+    *result = OtpBurnResult::createSuccess();
+  } else {
+    int8_t errorCode = static_cast<int8_t>(reply);
+    comm_.logDebug(0, "TMC9660Bootloader", "OTP burn command failed with error code: %d", errorCode);
+    *result = OtpBurnResult::createError(static_cast<OtpBurnError>(errorCode));
+  }
+  
+  return true;
+}
+
+bool TMC9660Bootloader::checkOtpBurnStatus(bool *result) noexcept {
+  if (!result) {
+    comm_.logDebug(0, "TMC9660Bootloader", "checkOtpBurnStatus: null result pointer");
+    return false;
+  }
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "Checking OTP burn status using Erratum 1 workaround");
+  
+  // Step 1: Configure clock settings to have PLL active, SYS_CLK_DIV set to 3 (15MHz)
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 1: Configuring clock for 15MHz system clock");
+  if (!setBank(5)) {  // CONFIG bank
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set CONFIG bank");
+    return false;
+  }
+  
+  // Read current clock configuration
+  if (!setAddress(0x00020018)) {  // Clock config offset
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config address");
+    return false;
+  }
+  
+  uint32_t clockConfig;
+  if (!read32(&clockConfig)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read clock configuration");
+    return false;
+  }
+  
+  // Set SYS_CLK_DIV to 3 (15MHz system clock)
+  uint32_t modifiedClockConfig = (clockConfig & ~0x03000000) | (3 << 24);
+  if (!write32(modifiedClockConfig)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write modified clock configuration");
+    return false;
+  }
+  
+  // Wait for clock configuration to take effect
+  comm_.delayMs(100);
+  
+  // Step 2: Send SET_BANK, value 0
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 2: Setting bank to 0");
+  if (!setBank(0)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set bank 0");
+    return false;
+  }
+  
+  // Step 3: Send SET_ADDRESS, value 0x48020014
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 3: Setting address to 0x48020014");
+  if (!setAddress(0x48020014)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set address 0x48020014");
+    return false;
+  }
+  
+  // Step 4: Send READ_16
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 4: Reading 16-bit value");
+  uint16_t readValue;
+  if (!read16(&readValue)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read 16-bit value");
+    return false;
+  }
+  
+  // Step 5: Check if read value is 0x80 or 0x84 (successful burn)
+  *result = (readValue == 0x80) || (readValue == 0x84);
+  comm_.logDebug(2, "TMC9660Bootloader", "OTP burn status check: read=0x%04X, success=%s", 
+                 readValue, *result ? "true" : "false");
+  
+  // Step 6: Set SYS_CLK_DIV back to 0 (40MHz)
+  comm_.logDebug(3, "TMC9660Bootloader", "Step 6: Restoring clock to 40MHz");
+  if (!setBank(5)) {  // CONFIG bank
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set CONFIG bank for clock restore");
+    return false;
+  }
+  
+  if (!setAddress(0x00020018)) {  // Clock config offset
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config address for restore");
+    return false;
+  }
+  
+  if (!write32(clockConfig)) {  // Restore original clock config
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to restore original clock configuration");
+    return false;
+  }
+  
+  // Wait for clock configuration to take effect
+  comm_.delayMs(100);
+  
+  return true;
 }
 
 //==================================================
@@ -297,6 +508,66 @@ bool TMC9660Bootloader::bootstrapRS485(uint8_t txEnPin, uint8_t preDelay,
 bool TMC9660Bootloader::getInfo(InfoQuery query, uint32_t *value) noexcept {
   return sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_INFO), 
                     static_cast<uint32_t>(query), value);
+}
+
+bool TMC9660Bootloader::getBootloaderVersion(BootloaderVersion *version) noexcept {
+  if (!version) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getBootloaderVersion: null pointer");
+    return false;
+  }
+  
+  uint32_t value;
+  if (!getInfo(InfoQuery::BL_VERSION, &value)) {
+    return false;
+  }
+  
+  *version = BootloaderVersion::fromValue(value);
+  return true;
+}
+
+bool TMC9660Bootloader::getFeatures(BootloaderFeatures *features) noexcept {
+  if (!features) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getFeatures: null pointer");
+    return false;
+  }
+  
+  uint32_t value;
+  if (!getInfo(InfoQuery::FEATURES, &value)) {
+    return false;
+  }
+  
+  *features = BootloaderFeatures::fromValue(value);
+  return true;
+}
+
+bool TMC9660Bootloader::getGitInfo(GitInfo *gitInfo) noexcept {
+  if (!gitInfo) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getGitInfo: null pointer");
+    return false;
+  }
+  
+  uint32_t value;
+  if (!getInfo(InfoQuery::GIT_INFO, &value)) {
+    return false;
+  }
+  
+  *gitInfo = GitInfo::fromValue(value);
+  return true;
+}
+
+bool TMC9660Bootloader::getPartitionVersion(PartitionVersion *version) noexcept {
+  if (!version) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getPartitionVersion: null pointer");
+    return false;
+  }
+  
+  uint32_t value;
+  if (!getInfo(InfoQuery::PARTITION_VERSION, &value)) {
+    return false;
+  }
+  
+  *version = PartitionVersion::fromValue(value);
+  return true;
 }
 
 bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept {
@@ -440,7 +711,9 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config register");
     return false;
   }
-  uint32_t clk = 0;
+  // ⚠️ CRITICAL: Bits 0-6 MUST be set to 99 (0x63) per datasheet requirement!
+  // "RESERVED_1: Bits 0-6. Reserved. Must always stay set to 99."
+  uint32_t clk = 99;  // Start with required reserved value
   clk |= (static_cast<uint32_t>(cfg.clock.use_external) & 0x1) << 8;     // EXT_NOT_INT
   clk |= (static_cast<uint32_t>(cfg.clock.xtal_drive) & 0x7) << 9;       // XTAL_CFG
   clk |= (cfg.clock.xtal_boost ? 1u : 0u) << 12;                         // XTAL_BOOST
@@ -491,7 +764,8 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg) noexcept
                    "START_MOTOR_CTRL=0 - Bootloader remains active, motor control NOT started");
   }
 
-  comm_.logDebug(3, "TMC9660Bootloader", "Bootloader configuration application completed successfully");
+  comm_.logDebug(3, "TMC9660Bootloader", 
+          "Bootloader configuration application completed successfully");
   return true;
 }
 
@@ -547,6 +821,112 @@ bool TMC9660Bootloader::startMotorControl(bootcfg::BootMode bootMode) noexcept {
                  "⚠️  Allow 100-150ms for motor control to fully initialize");
   comm_.logDebug(1, "TMC9660Bootloader", 
                  "⚠️  Bootloader commands will NO LONGER work after this point");
-  
+
   return true;
+}
+
+//==================================================
+// READ OPERATIONS
+//==================================================
+
+bool TMC9660Bootloader::read8(uint8_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read8: null pointer");
+    return false;
+  }
+  
+  uint32_t reply;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_8), 0, &reply)) {
+    return false;
+  }
+  
+  *value = static_cast<uint8_t>(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::read16(uint16_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read16: null pointer");
+    return false;
+  }
+  
+  uint32_t reply;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_16), 0, &reply)) {
+    return false;
+  }
+  
+  *value = static_cast<uint16_t>(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::read32(uint32_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read32: null pointer");
+    return false;
+  }
+  
+  return sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_32), 0, value);
+}
+
+bool TMC9660Bootloader::read8Inc(uint8_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read8Inc: null pointer");
+    return false;
+  }
+  
+  uint32_t reply;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_8_INC), 0, &reply)) {
+    return false;
+  }
+  
+  *value = static_cast<uint8_t>(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::read16Inc(uint16_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read16Inc: null pointer");
+    return false;
+  }
+  
+  uint32_t reply;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_16_INC), 0, &reply)) {
+    return false;
+  }
+  
+  *value = static_cast<uint16_t>(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::read32Inc(uint32_t *value) noexcept {
+  if (!value) {
+    comm_.logDebug(0, "TMC9660Bootloader", "read32Inc: null pointer");
+    return false;
+  }
+  
+  return sendCommand(static_cast<uint8_t>(BootloaderCommand::READ_32_INC), 0, value);
+}
+
+bool TMC9660Bootloader::getBank(uint8_t *bank) noexcept {
+  if (!bank) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getBank: null pointer");
+    return false;
+  }
+  
+  uint32_t reply;
+  if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_BANK), 0, &reply)) {
+    return false;
+  }
+  
+  *bank = static_cast<uint8_t>(reply);
+  return true;
+}
+
+bool TMC9660Bootloader::getAddress(uint32_t *address) noexcept {
+  if (!address) {
+    comm_.logDebug(0, "TMC9660Bootloader", "getAddress: null pointer");
+    return false;
+  }
+  
+  return sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_ADDRESS), 0, address);
 }

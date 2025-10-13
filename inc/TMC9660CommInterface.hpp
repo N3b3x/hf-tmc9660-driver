@@ -288,13 +288,15 @@ public:
   virtual CommMode mode() const noexcept = 0;
 
   /**
-   * @brief Perform a full duplex TMCL transfer.
+   * @brief Perform a full duplex TMCL transfer for parameter mode communication.
    *
    * Implementations encode @p tx according to the active mode (SPI or UART),
    * transmit it and decode the reply into @p reply. The @p address parameter
    * is only used for UART transfers and ignored for SPI.
+   * 
+   * @note This is for TMCL parameter mode communication (8-byte SPI, 9-byte UART)
    */
-  virtual bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept = 0;
+  virtual bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state (output control).
@@ -397,8 +399,15 @@ protected:
    * @param args Variable arguments list
    */
   virtual void debugLog(int level, const char* tag, const char* format, va_list args) noexcept = 0;
-
+  
 public:
+  /**
+   * @brief Delay execution for specified milliseconds
+   * @param ms Milliseconds to delay
+   * @note This function should be implemented by the user to provide platform-specific delay
+   * @note Used by bootloader operations that require timing (e.g., VDRV voltage drop wait)
+   */
+  virtual void delayMs(uint32_t ms) noexcept = 0;
   /**
    * @brief Public debug logging wrapper for external classes.
    * 
@@ -461,25 +470,27 @@ public:
     return CommMode::SPI;
   }
   /**
-   * @brief Low-level SPI transfer of 8 bytes (TMCL protocol).
-   * @param tx Buffer containing 8 bytes to transmit.
-   * @param rx Buffer to receive 8 bytes from device.
+   * @brief Low-level SPI transfer for TMCL parameter mode communication.
+   * @param tx Buffer containing 8 bytes to transmit (TMCL format).
+   * @param rx Buffer to receive 8 bytes from device (TMCL format).
    * @return true if the SPI transfer completed successfully.
+   * @note This is for TMCL parameter mode (8-byte frames)
    */
-  virtual bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
+  virtual bool spiTransferTMCL(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
 
   /**
-   * @brief Low-level SPI transfer of 5 bytes (Bootloader protocol).
+   * @brief Low-level SPI transfer for bootloader communication.
    * 
    * The bootloader uses a 40-bit (5-byte) protocol:
    * - TX: [COMMAND(8)] [VALUE(32)]
    * - RX: [STATUS(8)] [VALUE(32)]
    * 
-   * @param tx Buffer containing 5 bytes to transmit.
-   * @param rx Buffer to receive 5 bytes from device.
+   * @param tx Buffer containing 5 bytes to transmit (bootloader format).
+   * @param rx Buffer to receive 5 bytes from device (bootloader format).
    * @return true if the SPI transfer completed successfully.
+   * @note This is for bootloader mode (5-byte frames)
    */
-  virtual bool spiTransfer5(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept = 0;
+  virtual bool spiTransferBootloader(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for SPI interface.
@@ -498,11 +509,47 @@ public:
   bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
 
 
-  bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t) noexcept override {
+  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t) noexcept override {
     std::array<uint8_t, 8> txBuf, rxBuf;
     tx.toSpi(txBuf);
-    if (!spiTransfer(txBuf, rxBuf))
+    
+    // Debug: Log raw SPI bytes being transmitted
+    logDebug(3, "SPI_TMCL", "[SPI TX CMD] %02X %02X %02X %02X %02X %02X %02X %02X",
+             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
+             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+    
+    // Transaction 1: Send command, receive previous reply (ignored)
+    if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
+    
+    // Debug: Log raw SPI bytes received (previous command's reply, ignored)
+    logDebug(3, "SPI_TMCL", "[SPI RX PREV] %02X %02X %02X %02X %02X %02X %02X %02X (ignored)",
+             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    
+    // Transaction 2: Send NO_OP, receive actual reply to our command
+    // Create a proper NO_OP frame with correct checksum
+    TMCLFrame nopFrame{};
+    nopFrame.opcode = 0x00;  // NO_OP
+    nopFrame.type = 0x00;
+    nopFrame.motor = 0x00;
+    nopFrame.value = 0x00000000;
+    
+    std::array<uint8_t, 8> nopBuf;
+    nopFrame.toSpi(nopBuf);  // This will calculate the checksum
+    
+    logDebug(3, "SPI_TMCL", "[SPI TX NOP] %02X %02X %02X %02X %02X %02X %02X %02X",
+             nopBuf[0], nopBuf[1], nopBuf[2], nopBuf[3], 
+             nopBuf[4], nopBuf[5], nopBuf[6], nopBuf[7]);
+    
+    if (!spiTransferTMCL(nopBuf, rxBuf))
+      return false;
+    
+    // Debug: Log actual reply to our command
+    logDebug(3, "SPI_TMCL", "[SPI RX ACTUAL] %02X %02X %02X %02X %02X %02X %02X %02X",
+             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    
     return TMCLReply::fromSpi(rxBuf, reply);
   }
 };
@@ -531,18 +578,20 @@ public:
     return CommMode::UART;
   }
   /**
-   * @brief Send raw 9-byte UART TMCL datagram.
-   * @param data Array of 9 bytes including sync, fields, and checksum.
+   * @brief Send raw 9-byte UART TMCL datagram for parameter mode communication.
+   * @param data Array of 9 bytes including sync, fields, and checksum (TMCL format).
    * @return true if transmission succeeded.
+   * @note This is for TMCL parameter mode (9-byte frames)
    */
-  virtual bool sendUartDatagram(const std::array<uint8_t, 9> &data) noexcept = 0;
+  virtual bool uartSendTMCL(const std::array<uint8_t, 9> &data) noexcept = 0;
 
   /**
-   * @brief Receive raw 9-byte UART TMCL datagram.
-   * @param data Array to store 9 received bytes.
+   * @brief Receive raw 9-byte UART TMCL datagram for parameter mode communication.
+   * @param data Array to store 9 received bytes (TMCL format).
    * @return true if reception succeeded.
+   * @note This is for TMCL parameter mode (9-byte frames)
    */
-  virtual bool receiveUartDatagram(std::array<uint8_t, 9> &data) noexcept = 0;
+  virtual bool uartReceiveTMCL(std::array<uint8_t, 9> &data) noexcept = 0;
 
   /**
    * @brief Transfer 8-byte UART bootloader datagram (send and receive).
@@ -551,11 +600,12 @@ public:
    * - TX: [SYNC(0x55)] [DEVICE_ADDR] [COMMAND] [VALUE(32)] [CRC8]
    * - RX: [SYNC(0x55)] [HOST_ADDR] [STATUS] [VALUE(32)] [CRC8]
    * 
-   * @param tx Buffer containing 8 bytes to transmit.
-   * @param rx Buffer to receive 8 bytes from device.
+   * @param tx Buffer containing 8 bytes to transmit (bootloader format).
+   * @param rx Buffer to receive 8 bytes from device (bootloader format).
    * @return true if transfer succeeded.
+   * @note This is for bootloader mode (8-byte frames)
    */
-  virtual bool uartTransfer(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
+  virtual bool uartTransferBootloader(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for UART interface.
@@ -574,12 +624,12 @@ public:
   bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
 
 
-  bool transfer(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
+  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
     std::array<uint8_t, 9> frame;
     tx.toUart(address, frame);
-    if (!sendUartDatagram(frame))
+    if (!uartSendTMCL(frame))
       return false;
-    if (!receiveUartDatagram(frame))
+    if (!uartReceiveTMCL(frame))
       return false;
     return TMCLReply::fromUart(frame, address, reply);
   }

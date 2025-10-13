@@ -157,12 +157,12 @@ public:
     }
 
     /**
-     * @brief Perform SPI transfer for TMC9660
-     * @param tx Transmit buffer (8 bytes)
-     * @param rx Receive buffer (8 bytes) 
+     * @brief Perform SPI transfer for TMC9660 TMCL parameter mode communication
+     * @param tx Transmit buffer (8 bytes, TMCL format)
+     * @param rx Receive buffer (8 bytes, TMCL format) 
      * @return true if successful, false otherwise
      */
-    bool spiTransfer(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    bool spiTransferTMCL(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
         if (!initialized_ || !device_handle_) {
             ESP_LOGE(BUS_TAG, "SPI interface not initialized");
             return false;
@@ -182,7 +182,7 @@ public:
         return true;
     }
 
-    bool spiTransfer5(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept override {
+    bool spiTransferBootloader(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept override {
         if (!initialized_ || !device_handle_) {
             ESP_LOGE(BUS_TAG, "SPI interface not initialized");
             return false;
@@ -286,6 +286,10 @@ public:
                 esp_log_writev(ESP_LOG_INFO, tag, format, args);
                 break;
         }
+    }
+    
+    void delayMs(uint32_t ms) noexcept override {
+        vTaskDelay(pdMS_TO_TICKS(ms));
     }
 
 private:
@@ -472,11 +476,11 @@ public:
     }
 
     /**
-     * @brief Send raw 9-byte UART TMCL datagram
-     * @param data Array of 9 bytes including sync, fields, and checksum
+     * @brief Send raw 9-byte UART TMCL datagram for parameter mode communication
+     * @param data Array of 9 bytes including sync, fields, and checksum (TMCL format)
      * @return true if transmission succeeded
      */
-    bool sendUartDatagram(const std::array<uint8_t, 9> &data) noexcept override {
+    bool uartSendTMCL(const std::array<uint8_t, 9> &data) noexcept override {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -494,11 +498,11 @@ public:
     }
 
     /**
-     * @brief Receive raw 9-byte UART TMCL datagram
-     * @param data Array to store 9 received bytes
+     * @brief Receive raw 9-byte UART TMCL datagram for parameter mode communication
+     * @param data Array to store 9 received bytes (TMCL format)
      * @return true if reception succeeded
      */
-    bool receiveUartDatagram(std::array<uint8_t, 9> &data) noexcept override {
+    bool uartReceiveTMCL(std::array<uint8_t, 9> &data) noexcept override {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -514,12 +518,87 @@ public:
     }
 
     /**
-     * @brief Transfer 8-byte UART bootloader datagram (send and receive)
-     * @param tx Buffer containing 8 bytes to transmit
-     * @param rx Buffer to receive 8 bytes from device
+     * @brief Transfer TMCL frame over UART for parameter mode communication
+     * @param tx TMCL command frame to transmit
+     * @param reply TMCL reply frame to receive
+     * @param address TMC9660 module address
      * @return true if transfer succeeded
      */
-    bool uartTransfer(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
+        if (!initialized_) {
+            ESP_LOGE(BUS_TAG, "UART interface not initialized");
+            return false;
+        }
+
+        // Clear RX buffer before sending
+        uart_flush_input(uart_num_);
+
+        // Prepare UART frame: sync+address, command, type, motor, 4-byte data, checksum
+        std::array<uint8_t, 9> uart_frame;
+        uart_frame[0] = 0x55;  // Sync byte
+        uart_frame[1] = address;  // Device address
+        uart_frame[2] = tx.opcode;
+        uart_frame[3] = tx.type;
+        uart_frame[4] = tx.motor;
+        uart_frame[5] = static_cast<uint8_t>(tx.value >> 24);
+        uart_frame[6] = static_cast<uint8_t>(tx.value >> 16);
+        uart_frame[7] = static_cast<uint8_t>(tx.value >> 8);
+        uart_frame[8] = static_cast<uint8_t>(tx.value);
+
+        // Calculate checksum (8-bit sum of first 8 bytes)
+        uint8_t checksum = 0;
+        for (int i = 0; i < 8; i++) {
+            checksum += uart_frame[i];
+        }
+        uart_frame[8] = checksum;
+
+        // Send 9-byte UART frame
+        int bytes_written = uart_write_bytes(uart_num_, uart_frame.data(), uart_frame.size());
+        if (bytes_written != static_cast<int>(uart_frame.size())) {
+            ESP_LOGE(BUS_TAG, "UART write failed: expected %zu, wrote %d", uart_frame.size(), bytes_written);
+            return false;
+        }
+
+        // Wait for transmission to complete
+        uart_wait_tx_done(uart_num_, portMAX_DELAY);
+
+        // Receive 9-byte UART reply
+        std::array<uint8_t, 9> uart_reply;
+        int bytes_read = uart_read_bytes(uart_num_, uart_reply.data(), uart_reply.size(), pdMS_TO_TICKS(1000));
+        if (bytes_read != static_cast<int>(uart_reply.size())) {
+            ESP_LOGE(BUS_TAG, "UART read failed: expected %zu, read %d", uart_reply.size(), bytes_read);
+            return false;
+        }
+
+        // Verify checksum
+        uint8_t calculated_checksum = 0;
+        for (int i = 0; i < 8; i++) {
+            calculated_checksum += uart_reply[i];
+        }
+        if (calculated_checksum != uart_reply[8]) {
+            ESP_LOGE(BUS_TAG, "UART checksum mismatch: expected 0x%02X, got 0x%02X", calculated_checksum, uart_reply[8]);
+            return false;
+        }
+
+        // Decode reply
+        reply.opcode = uart_reply[2];
+        reply.status = uart_reply[5];
+        reply.value = (static_cast<uint32_t>(uart_reply[5]) << 24) |
+                      (static_cast<uint32_t>(uart_reply[6]) << 16) |
+                      (static_cast<uint32_t>(uart_reply[7]) << 8) |
+                      static_cast<uint32_t>(uart_reply[8]);
+        reply.spiStatus = SPIStatus::OK;  // UART doesn't have SPI status
+
+        return true;
+    }
+
+    /**
+     * @brief Transfer 8-byte UART bootloader datagram (send and receive)
+     * @param tx Buffer containing 8 bytes to transmit (bootloader format)
+     * @param rx Buffer to receive 8 bytes from device (bootloader format)
+     * @return true if transfer succeeded
+     */
+    bool uartTransferBootloader(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -556,28 +635,21 @@ public:
         return CommMode::UART;
     }
 
-
     /**
-     * @brief Set GPIO pin level for TMC9660 control pins
+     * @brief Set GPIO pin signal state for TMC9660 control pins
      * @param pin The TMC9660 control pin to control
-     * @param level The desired GPIO level
+     * @param signal The desired signal state
      * @return true if the GPIO was set successfully
      */
-    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override {
+     bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
             return false;
         }
 
-        // Handle pins with inverting transistor logic
-        uint32_t gpio_level = static_cast<uint32_t>(signal);
-        if (pin == TMC9660CtrlPin::WAKE || pin == TMC9660CtrlPin::RST) {
-            // WAKE and RSTN pins are driven through inverting transistors
-            // To make pin HIGH (active), we need to drive GPIO LOW
-            // To make pin LOW (inactive), we need to drive GPIO HIGH
-            gpio_level = (signal == GpioSignal::ACTIVE) ? 0 : 1;
-        }
+        // Convert signal state to physical GPIO level using base class helper
+        uint32_t gpio_level = signalToGpioLevel(pin, signal) ? 1 : 0;
 
         esp_err_t ret = gpio_set_level(gpio_pin, gpio_level);
         if (ret != ESP_OK) {
@@ -639,6 +711,10 @@ public:
                 esp_log_writev(ESP_LOG_INFO, tag, format, args);
                 break;
         }
+    }
+    
+    void delayMs(uint32_t ms) noexcept override {
+        vTaskDelay(pdMS_TO_TICKS(ms));
     }
 
 private:
@@ -729,7 +805,7 @@ struct Esp32TMC9660BusConfig {
         gpio_num_t miso_pin = GPIO_NUM_2;
         gpio_num_t sclk_pin = GPIO_NUM_6;
         gpio_num_t cs_pin = GPIO_NUM_18;
-        uint32_t clock_speed_hz = 5000000; // 5 MHz
+        uint32_t clock_speed_hz = 1000000; // 1 MHz
         uint8_t mode = 0;
     } spi;
 

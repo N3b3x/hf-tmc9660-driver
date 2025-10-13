@@ -47,17 +47,17 @@ The TMC9660 bootloader provides low-level access to configure the chip before st
 │                                                               │
 │  Transaction 1: SEND COMMAND                                 │
 │  ┌──────────┬──────────────────────────────────────────┐    │
-│  │ TX (5B)  │ [CMD_FLIP] [VALUE(32)_FLIP]              │    │
-│  │ RX (5B)  │ [PREV_STATUS_FLIP] [PREV_VALUE(32)_FLIP] │    │
+│  │ TX (5B)  │ [CMD] [VALUE(32)]                        │    │
+│  │ RX (5B)  │ [PREV_STATUS] [PREV_VALUE(32)]           │    │
 │  └──────────┴──────────────────────────────────────────┘    │
 │                         ↓                                     │
 │  Transaction 2: RECEIVE REPLY                                │
 │  ┌──────────┬──────────────────────────────────────────┐    │
-│  │ TX (5B)  │ [0x00] [0x00] [0x00] [0x00] [0x00]       │    │
-│  │ RX (5B)  │ [STATUS_FLIP] [VALUE(32)_FLIP]           │    │
+│  │ TX (5B)  │ [NO_OP] [0x00] [0x00] [0x00] [0x00]      │    │
+│  │ RX (5B)  │ [STATUS] [VALUE(32)]                     │    │
 │  └──────────┴──────────────────────────────────────────┘    │
 │                                                               │
-│  ⚠️  CRITICAL: All bytes are BIT-FLIPPED!                    │
+│  ✅ Data sent as-is (no bit-flipping)                        │
 │  ⚠️  Reply comes in NEXT transaction (standard SPI)          │
 │                                                               │
 └─────────────────────────────────────────────────────────────┘
@@ -65,15 +65,9 @@ The TMC9660 bootloader provides low-level access to configure the chip before st
 
 **Key Features:**
 - **Frame Size**: 5 bytes (40 bits)
-- **Bit-Flipping**: Every byte is bit-reversed (MSB↔LSB)
+- **No Bit-Flipping**: Data sent and received as-is
 - **Reply Delay**: Reply to command N comes during transaction N+1
 - **Dummy Frame**: Send all zeros to clock out reply
-
-**Bit-Flip Example:**
-```
-Original:  0xA5 = 10100101
-Flipped:   0xA5 = 10100101 (reversed bits)
-```
 
 ### UART Protocol (64-bit / 8-byte)
 
@@ -118,37 +112,305 @@ Flipped:   0xA5 = 10100101 (reversed bits)
 
 | Command | Code | Description | Parameters | Reply |
 |---------|------|-------------|------------|-------|
-| `SET_BANK` | 0x01 | Select memory bank | Bank ID (0-5) | Status |
-| `SET_ADDRESS` | 0x02 | Set memory address | 32-bit address | Status |
-| `WRITE_8` | 0x03 | Write 8-bit value | 8-bit value | Status |
-| `WRITE_16` | 0x04 | Write 16-bit value | 16-bit value | Status |
-| `WRITE_32` | 0x05 | Write 32-bit value | 32-bit value | Status |
-| `OTP_BURN` | 0x06 | Burn OTP page | Page + Addr | Status |
-| `WRITE_8_INC` | 0x07 | Write 8-bit + increment | 8-bit value | Status |
-| `WRITE_16_INC` | 0x08 | Write 16-bit + increment | 16-bit value | Status |
-| `WRITE_32_INC` | 0x09 | Write 32-bit + increment | 32-bit value | Status |
-| `NO_OP` | 0x0A | No operation | - | Previous reply |
-| `OTP_LOAD` | 0x0B | Load OTP page | Page number | Errors + Tag |
-| `MEM_IS_CONFIGURED` | 0x0C | Check memory config | Bank ID | 0 or 1 |
-| `MEM_IS_CONNECTED` | 0x0D | Check memory connection | Bank ID | 0 or 1 |
-| `FLASH_SEND_CMD` | 0x0E | SPI Flash command | See below | Varies |
-| `FLASH_ERASE_SECTOR` | 0x0F | Erase flash sector | 24-bit address | Status |
-| `MEM_IS_BUSY` | 0x10 | Check memory busy | Bank ID | 0 or 1 |
-| `BOOTSTRAP_RS485` | 0x11 | Configure RS485 | Config bytes | Status |
-| `GET_INFO` | 0x12 | Query information | Query type | Info value |
+| `GET_INFO` | 0 | Get bootloader info | Info query type | Info value |
+| `GET_BANK` | 8 | Get current bank | - | Bank number |
+| `SET_BANK` | 9 | Select memory bank | Bank ID (0-5) | Status |
+| `GET_ADDRESS` | 10 | Get current address | - | Memory address |
+| `SET_ADDRESS` | 11 | Set memory address | 32-bit address | Status |
+| `READ_32` | 12 | Read 32-bit data | - | Read data |
+| `READ_32_INC` | 13 | Read 32-bit + increment | - | Read data |
+| `READ_16` | 14 | Read 16-bit data | - | Read data |
+| `READ_16_INC` | 15 | Read 16-bit + increment | - | Read data |
+| `READ_8` | 16 | Read 8-bit data | - | Read data |
+| `READ_8_INC` | 17 | Read 8-bit + increment | - | Read data |
+| `WRITE_32` | 18 | Write 32-bit value | 32-bit value | Status |
+| `WRITE_32_INC` | 19 | Write 32-bit + increment | 32-bit value | Status |
+| `WRITE_16` | 20 | Write 16-bit value | 16-bit value | Status |
+| `WRITE_16_INC` | 21 | Write 16-bit + increment | 16-bit value | Status |
+| `WRITE_8` | 22 | Write 8-bit value | 8-bit value | Status |
+| `WRITE_8_INC` | 23 | Write 8-bit + increment | 8-bit value | Status |
+| `NO_OP` | 29 | No operation | - | Previous reply |
+| `OTP_LOAD` | 30 | Load OTP page | Page number | Error count (bits 15-8) + Page tag (bits 7-0) |
+| `OTP_BURN` | 31 | Burn OTP page | Page + Addr | Error code (-1 to -6) or 0 for success |
+| `MEM_IS_CONFIGURED` | 32 | Check memory config | Bank ID | 0 or 1 |
+| `MEM_IS_CONNECTED` | 33 | Check memory connection | Bank ID | 0 or 1 |
+| `FLASH_SEND_CMD` | 36 | SPI Flash command | See below | Varies |
+| `FLASH_ERASE_SECTOR` | 37 | Erase flash sector | 24-bit address | Status |
+| `MEM_IS_BUSY` | 40 | Check memory busy | Bank ID | 0 or 1 |
+| `BOOTSTRAP_RS485` | 255 | Configure RS485 | Config bytes | Status |
 
 ### Status Codes
 
 ```cpp
 enum class BootloaderStatus : uint8_t {
-  SESSION_START = 0x01,      // First reply after power-up
-  OK = 0x64,                 // Command successful (100)
-  INVALID_ADDR = 0x65,       // Invalid memory address (101)
-  INVALID_VALUE = 0x66,      // Invalid parameter value (102)
-  OTP_ERROR = 0x67,          // OTP operation failed (103)
-  MEM_UNCONFIGURED = 0x68,   // External memory not configured (104)
-  ERROR = 0xFF               // General error (255)
+  OK = 0,                    // Command executed successfully
+  CMD_NOT_FOUND = 1,         // The request has an invalid command number
+  INVALID_ADDR = 3,          // The memory address is not valid for the requested command
+  INVALID_VALUE = 4,         // The request has an invalid value
+  INVALID_BANK = 14,         // The memory bank is not valid for the requested command
+  BUSY = 15,                 // Bootloader has not yet finished processing the last command (SPI only)
+  MEM_UNCONFIGURED = 17,     // The external memory is not configured
+  OTP_ERROR = 18,            // The OTP command has failed
+  SESSION_START = 19,        // First SPI datagram after power-on (SPI only)
+  CMD_NOT_AVAILABLE = 20,    // The command is currently not available
+  BOOTLOADER_RESUMED = 21    // First SPI datagram after returning to bootloader from motor control (SPI only)
 };
+```
+
+---
+
+## 📊 GET_INFO Command Details
+
+The `GET_INFO` command allows readout of various basic information about the connected TMC9660. Each query type returns specific information as defined in the TMC9660 datasheet Table 24.
+
+### Available Information Queries
+
+| Query Type | Code | Description | Return Value |
+|------------|------|-------------|--------------|
+| `CHIP_TYPE` | 0 | Get chip type | 0x544D0001 for TMC9660 |
+| `BL_VERSION` | 1 | Bootloader version | Major (upper 16 bits) + Minor (lower 16 bits) |
+| `FEATURES` | 2 | Available features | Bit flags for supported features |
+| `GIT_INFO` | 12 | Git version info | Dirty bit + 7-digit commit hash |
+| `CHIP_VERSION` | 13 | Silicon revision | TMC9660 reports revision 1 |
+| `CHIP_FREQUENCY` | 14 | System frequency | Frequency in MHz |
+| `CONFIG_MEM_START` | 17 | CONFIG memory start | Starting address |
+| `CONFIG_MEM_SIZE` | 18 | CONFIG memory size | Size in bytes |
+| `OTP_MEM_SIZE` | 19 | OTP page size | Size of one OTP page |
+| `I2C_MEM_SIZE` | 20 | I2C memory size | Connected I2C memory size |
+| `SPI_MEM_SIZE` | 21 | SPI memory size | Connected SPI memory size |
+| `PARTITION_VERSION` | 22 | Partition format version | Major + Minor version |
+| `SPI_MEM_PARTITIONS` | 25 | SPI partition count | Number of SPI partitions |
+| `I2C_MEM_PARTITIONS` | 26 | I2C partition count | Number of I2C partitions |
+| `CHIP_VARIANT` | 28 | Chip variant | TMC9660 reports value 2 |
+
+### Feature Flags (FEATURES query)
+
+| Bit | Feature | Description |
+|-----|---------|-------------|
+| 0 | SRAM support | SRAM memory support |
+| 1 | ROM | ROM memory support |
+| 2 | OTP | OTP memory support |
+| 3 | SPI flash | SPI flash external memory |
+| 4 | I2C EEPROM | I2C EEPROM external memory |
+
+### Usage Examples
+
+```cpp
+// Get basic chip information
+uint32_t chipType;
+if (bootloader.getChipType(&chipType)) {
+    printf("Chip Type: 0x%08X\n", chipType);  // Should be 0x544D0001
+}
+
+// Get bootloader version
+BootloaderVersion version;
+if (bootloader.getBootloaderVersion(&version)) {
+    printf("Bootloader Version: %d.%d\n", version.major, version.minor);
+}
+
+// Get available features
+BootloaderFeatures features;
+if (bootloader.getFeatures(&features)) {
+    printf("Features: SRAM=%d, ROM=%d, OTP=%d, SPI=%d, I2C=%d\n",
+           features.sram_support, features.rom, features.otp,
+           features.spi_flash, features.i2c_eeprom);
+}
+
+// Get Git information
+GitInfo gitInfo;
+if (bootloader.getGitInfo(&gitInfo)) {
+    printf("Git: %07X%s\n", gitInfo.commit_hash, gitInfo.dirty ? " (dirty)" : "");
+}
+
+// Get memory information
+uint32_t configStart, configSize;
+if (bootloader.getConfigMemStart(&configStart) && 
+    bootloader.getConfigMemSize(&configSize)) {
+    printf("CONFIG Memory: 0x%08X, size: %d bytes\n", configStart, configSize);
+}
+```
+
+---
+
+## 🔥 OTP Operations
+
+The TMC9660 supports One-Time Programmable (OTP) memory operations for permanent configuration storage. OTP operations have specific error handling and return value parsing as defined in the datasheet.
+
+### OTP_LOAD Command
+
+Loads an OTP page into the OTP memory bank for reading.
+
+**Parameters:**
+- `page`: OTP page number to load
+
+**Return Value:**
+- **Bits 15-8**: OTP bit error count
+- **Bits 7-0**: OTP page tag
+
+**Error Handling:**
+- `INVALID_VALUE`: Selected OTP page exceeds available pages
+- `OTP_ERROR`: Loading of OTP page failed
+
+### OTP_BURN Command
+
+⚠️ **CRITICAL**: This command has **Erratum 1** - use only with the workaround described below for reliable OTP burning.
+
+Burns the contents of the OTP memory bank into an OTP page.
+
+**Parameters:**
+- **Bits 7-0**: OTP page number to burn
+- **Bits 15-8**: OTP page address to write
+
+**Return Value:**
+- `0`: Success
+- `-1` to `-6`: Error codes (see table below)
+
+**Error Codes:**
+
+| Code | Error | Description |
+|------|-------|-------------|
+| -1 | INVALID_PAGE | The OTP page number is invalid |
+| -2 | NO_MORE_BURNS | Last OTP page burnt, no more burns possible |
+| -3 | CHARGE_PUMP_FAILED | Setting up internal OTP charge pump failed |
+| -4 | BURN_PROCEDURE_FAILED | The burn procedure failed |
+| -5 | CLOCK_SETUP_FAILED | Internal clock setup for OTP operation failed |
+| -6 | CLOCK_RESTORE_FAILED | Restoring original clock setup after OTP operation failed |
+
+### Usage Examples
+
+```cpp
+// Load OTP page with detailed result parsing
+OtpLoadResult loadResult;
+if (bootloader.otpLoad(0, &loadResult)) {
+    printf("OTP Page 0 loaded: Error count=%d, Page tag=0x%02X\n", 
+           loadResult.errorCount, loadResult.pageTag);
+} else {
+    printf("Failed to load OTP page\n");
+}
+
+// RECOMMENDED: Use workaround method for reliable OTP burning
+OtpBurnResult burnResult;
+if (bootloader.otpBurnWithWorkaround(0, 0x10, &burnResult, 1000)) {
+    if (burnResult.isSuccess) {
+        printf("OTP page 0 burned successfully\n");
+        
+        // Verify burn status using workaround method
+        bool statusSuccess;
+        if (bootloader.checkOtpBurnStatus(&statusSuccess)) {
+            printf("OTP burn verification: %s\n", statusSuccess ? "Confirmed" : "Failed");
+        }
+    } else {
+        printf("OTP burn failed: %s (code: %d)\n", 
+               burnResult.errorDescription, 
+               static_cast<int>(burnResult.errorCode));
+    }
+} else {
+    printf("Failed to execute OTP burn workaround\n");
+}
+
+// Alternative: Standard method (may be unreliable due to Erratum 1)
+OtpBurnResult standardResult;
+if (bootloader.otpBurn(0, 0x10, &standardResult)) {
+    if (standardResult.isSuccess) {
+        printf("Standard OTP burn completed\n");
+    } else {
+        printf("Standard OTP burn failed: %s\n", standardResult.errorDescription);
+    }
+}
+
+// Legacy usage (simplified)
+uint8_t errorCount, pageTag;
+if (bootloader.otpLoad(0, &errorCount, &pageTag)) {
+    printf("Legacy: Error count=%d, Page tag=0x%02X\n", errorCount, pageTag);
+}
+```
+
+---
+
+## ⚠️ Known Errata and Workarounds
+
+The TMC9660 has known issues that require specific workarounds for reliable operation.
+
+### Erratum 1: Bootloader OTP_BURN Command
+
+**Issue**: The OTP_BURN command has two critical problems:
+1. When motor system control was started, VDRV pin is charged to 12V, causing OTP burn requests to fail with 500ms timeout
+2. Any subsequent OTP_BURN commands after the first one will always report failure, regardless of actual result
+
+**Impact**: OTP burning is unreliable without proper workaround
+
+**Workaround**: Use `otpBurnWithWorkaround()` method which implements the complete Erratum 1 workaround:
+
+```cpp
+// Use the workaround method for reliable OTP burning
+OtpBurnResult result;
+if (bootloader.otpBurnWithWorkaround(0, 0x10, &result, 1000)) {
+    if (result.isSuccess) {
+        printf("OTP page 0 burned successfully\n");
+    } else {
+        printf("OTP burn failed: %s\n", result.errorDescription);
+    }
+}
+
+// Check burn status using workaround method
+bool burnSuccess;
+if (bootloader.checkOtpBurnStatus(&burnSuccess)) {
+    printf("OTP burn status: %s\n", burnSuccess ? "Success" : "Failed");
+}
+```
+
+**Workaround Steps** (automatically handled by `otpBurnWithWorkaround()`):
+1. Send `SET_BANK`, value 0
+2. Send `SET_ADDRESS`, value 0x4801B010
+3. Send `READ_32`
+4. Clear bit 0 of the read value (0x00000001)
+5. Send `WRITE_32` with the modified read value
+6. Wait for VDRV voltage to drop below 8.4V (default: 1000ms for 10uF capacitor, 
+                                                uses virtual `delayMs()` function)
+7. Send `OTP_BURN`
+
+**Status Check Steps** (automatically handled by `checkOtpBurnStatus()`):
+1. Configure clock settings: PLL active, SYS_CLK_DIV = 3 (15MHz)
+2. Send `SET_BANK`, value 0
+3. Send `SET_ADDRESS`, value 0x48020014
+4. Send `READ_16`
+5. Check if read value is 0x80 or 0x84 (successful burn)
+6. Restore SYS_CLK_DIV back to 0 (40MHz)
+
+### Erratum 2: SPI Slave MISO Operation
+
+**Issue**: TMC9660 SPI slave does not return MISO line to high-Z after chip select de-assertion
+
+**Impact**: Not an issue if TMC9660 is the only SPI slave, but problematic with multiple SPI slaves
+
+**Workarounds**:
+1. **Hold TMC9660 in reset**: Assert RESETN pin during SPI transactions to other slaves
+2. **External switch**: Add ADG719 switch to disconnect MISO line when CS de-asserted
+
+**Recommended Solution**: Use dedicated SPI bus for TMC9660 if possible, or implement reset-based workaround
+
+### Virtual Delay Function
+
+The bootloader uses a virtual `delayMs()` function for platform-independent timing operations. This allows the bootloader to work on any platform without direct dependencies on specific RTOS or timing libraries.
+
+**Implementation Requirements:**
+- Must be implemented by the communication interface class
+- Should provide accurate millisecond-level delays
+- Used for VDRV voltage drop timing and clock configuration delays
+
+**ESP32 Implementation:**
+```cpp
+void delayMs(uint32_t ms) noexcept override {
+    vTaskDelay(pdMS_TO_TICKS(ms));
+}
+```
+
+**Custom Platform Implementation:**
+```cpp
+void delayMs(uint32_t ms) noexcept override {
+    // Platform-specific delay implementation
+    // e.g., usleep(ms * 1000), HAL_Delay(ms), etc.
+}
 ```
 
 ---
@@ -691,8 +953,8 @@ Failed to set bank 5
 1. **Wrong Protocol**: Using TMCL (8-byte) instead of bootloader (5-byte) protocol
    - ✅ **Solution**: Use `TMC9660Bootloader` class, not raw TMCL commands
 
-2. **Missing Bit-Flipping (SPI)**: Bytes not bit-flipped
-   - ✅ **Solution**: Bootloader class handles this automatically
+2. **Wrong Data Format**: Incorrect byte ordering or format
+   - ✅ **Solution**: Bootloader class handles proper formatting automatically
 
 3. **Missing Dummy Frame (SPI)**: Not sending second transaction for reply
    - ✅ **Solution**: Bootloader class handles two-transaction protocol automatically

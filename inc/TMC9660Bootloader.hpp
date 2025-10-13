@@ -205,37 +205,49 @@ struct BootloaderConfig {
   GPIOConfig gpio;
 };
 
-/// Bootloader status codes
+/// Bootloader status codes (per TMC9660 datasheet)
 enum class BootloaderStatus : uint8_t {
-  SESSION_START = 0x01,  ///< First reply after power-up
-  OK = 0x64,             ///< Command executed successfully (100)
-  INVALID_ADDR = 0x65,   ///< Invalid memory address (101)
-  INVALID_VALUE = 0x66,  ///< Invalid value (102)
-  OTP_ERROR = 0x67,      ///< OTP operation error (103)
-  MEM_UNCONFIGURED = 0x68, ///< External memory not configured (104)
-  ERROR = 0xFF           ///< Command execution failed
+  OK = 0,                    ///< Command executed successfully
+  CMD_NOT_FOUND = 1,         ///< The request has an invalid command number
+  INVALID_ADDR = 3,          ///< The memory address is not valid for the requested command
+  INVALID_VALUE = 4,         ///< The request has an invalid value
+  INVALID_BANK = 14,         ///< The memory bank is not valid for the requested command
+  BUSY = 15,                 ///< Bootloader has not yet finished processing the last command (SPI only)
+  MEM_UNCONFIGURED = 17,     ///< The external memory is not configured
+  OTP_ERROR = 18,            ///< The OTP command has failed
+  SESSION_START = 19,        ///< First SPI datagram after power-on (SPI only)
+  CMD_NOT_AVAILABLE = 20,    ///< The command is currently not available
+  BOOTLOADER_RESUMED = 21    ///< First SPI datagram after returning to bootloader from motor control (SPI only)
 };
 
-/// Bootloader command codes
+/// Bootloader command codes (per TMC9660 datasheet Table 23)
 enum class BootloaderCommand : uint8_t {
-  SET_BANK = 0x01,           ///< Select memory bank
-  SET_ADDRESS = 0x02,        ///< Set memory address
-  WRITE_8 = 0x03,            ///< Write 8-bit value
-  WRITE_16 = 0x04,           ///< Write 16-bit value
-  WRITE_32 = 0x05,           ///< Write 32-bit value
-  OTP_BURN = 0x06,           ///< Burn OTP page
-  WRITE_8_INC = 0x07,        ///< Write 8-bit and increment address
-  WRITE_16_INC = 0x08,       ///< Write 16-bit and increment address
-  WRITE_32_INC = 0x09,       ///< Write 32-bit and increment address
-  NO_OP = 0x0A,              ///< No operation (for retrieving previous reply)
-  OTP_LOAD = 0x0B,           ///< Load OTP page
-  MEM_IS_CONFIGURED = 0x0C,  ///< Check if external memory is configured
-  MEM_IS_CONNECTED = 0x0D,   ///< Check if external memory is connected
-  FLASH_SEND_CMD = 0x0E,     ///< Send command to SPI flash
-  FLASH_ERASE_SECTOR = 0x0F, ///< Erase SPI flash sector
-  MEM_IS_BUSY = 0x10,        ///< Check if external memory is busy
-  BOOTSTRAP_RS485 = 0x11,    ///< Configure RS485 communication
-  GET_INFO = 0x12            ///< Get bootloader information
+  GET_INFO = 0,               ///< Get various basic information about the connected TMC9660
+  GET_BANK = 8,               ///< Get the currently selected memory bank
+  SET_BANK = 9,               ///< Set the memory bank
+  GET_ADDRESS = 10,           ///< Get the current memory address
+  SET_ADDRESS = 11,           ///< Set the memory address
+  READ_32 = 12,               ///< Read 32-bit data from selected memory bank/address
+  READ_32_INC = 13,           ///< Read 32-bit data and increment address
+  READ_16 = 14,               ///< Read 16-bit data from selected memory bank/address
+  READ_16_INC = 15,           ///< Read 16-bit data and increment address
+  READ_8 = 16,                ///< Read 8-bit data from selected memory bank/address
+  READ_8_INC = 17,            ///< Read 8-bit data and increment address
+  WRITE_32 = 18,              ///< Write 32-bit data to selected memory bank/address
+  WRITE_32_INC = 19,          ///< Write 32-bit data and increment address
+  WRITE_16 = 20,              ///< Write 16-bit data to selected memory bank/address
+  WRITE_16_INC = 21,          ///< Write 16-bit data and increment address
+  WRITE_8 = 22,               ///< Write 8-bit data to selected memory bank/address
+  WRITE_8_INC = 23,           ///< Write 8-bit data and increment address
+  NO_OP = 29,                 ///< No operation (for retrieving previous reply in SPI)
+  OTP_LOAD = 30,              ///< Read a programmed OTP page
+  OTP_BURN = 31,              ///< Burn an OTP page
+  MEM_IS_CONFIGURED = 32,     ///< Check whether an external memory bank is configured
+  MEM_IS_CONNECTED = 33,      ///< Check whether an external memory is connected
+  FLASH_SEND_CMD = 36,        ///< Send arbitrary commands to an external flash
+  FLASH_ERASE_SECTOR = 37,    ///< Send a sector erase command to an external flash
+  MEM_IS_BUSY = 40,           ///< Check whether an external memory is busy
+  BOOTSTRAP_RS485 = 255       ///< Set up RS485 settings
 };
 
 /// Memory bank identifiers
@@ -248,28 +260,168 @@ enum class MemoryBank : uint8_t {
   CONFIG = 5         ///< Configuration memory (runtime reconfiguration)
 };
 
-/// GET_INFO query types
+/// GET_INFO query types (per TMC9660 datasheet Table 24)
 enum class InfoQuery : uint32_t {
-  CONFIG_MEM_START = 0,  ///< Get CONFIG memory bank start address
-  CONFIG_MEM_SIZE = 1    ///< Get CONFIG memory bank size
+  CHIP_TYPE = 0,              ///< Get the Chip type (returns 0x544D0001)
+  BL_VERSION = 1,             ///< Get bootloader version (major in upper 16 bits, minor in lower 16 bits)
+  FEATURES = 2,               ///< Get available feature groups (bit flags)
+  GIT_INFO = 12,              ///< Get Git version control information
+  CHIP_VERSION = 13,          ///< Get silicon revision (TMC9660 reports revision 1)
+  CHIP_FREQUENCY = 14,        ///< Get system frequency in MHz
+  CONFIG_MEM_START = 17,      ///< Get starting address of CONFIG memory
+  CONFIG_MEM_SIZE = 18,       ///< Get size of CONFIG memory
+  OTP_MEM_SIZE = 19,          ///< Get size of one OTP memory page
+  I2C_MEM_SIZE = 20,          ///< Get memory size of connected I2C memory
+  SPI_MEM_SIZE = 21,          ///< Get memory size of connected SPI memory
+  PARTITION_VERSION = 22,     ///< Get version of external memory partition format
+  SPI_MEM_PARTITIONS = 25,    ///< Get number of SPI memory partitions
+  I2C_MEM_PARTITIONS = 26,    ///< Get number of I2C memory partitions
+  CHIP_VARIANT = 28           ///< Get chip variant (TMC9660 reports value 2)
 };
 
-/// Helper function to bit-flip a byte (reverse all 8 bits) - used for SPI only
-static constexpr uint8_t bitFlip(uint8_t byte) noexcept {
-  byte = ((byte & 0xF0) >> 4) | ((byte & 0x0F) << 4);
-  byte = ((byte & 0xCC) >> 2) | ((byte & 0x33) << 2);
-  byte = ((byte & 0xAA) >> 1) | ((byte & 0x55) << 1);
-  return byte;
-}
+/// Bootloader version information
+struct BootloaderVersion {
+  uint16_t major;  ///< Major version number
+  uint16_t minor;  ///< Minor version number
+  
+  /// Parse from 32-bit value (major in upper 16 bits, minor in lower 16 bits)
+  static BootloaderVersion fromValue(uint32_t value) noexcept {
+    BootloaderVersion v;
+    v.major = static_cast<uint16_t>(value >> 16);
+    v.minor = static_cast<uint16_t>(value & 0xFFFF);
+    return v;
+  }
+};
+
+/// Feature flags for available bootloader features
+struct BootloaderFeatures {
+  bool sram_support;      ///< Bit 0: SRAM support
+  bool rom;               ///< Bit 1: ROM
+  bool otp;               ///< Bit 2: OTP
+  bool spi_flash;         ///< Bit 3: SPI flash external memory
+  bool i2c_eeprom;        ///< Bit 4: I2C EEPROM external memory
+  
+  /// Parse from 32-bit value
+  static BootloaderFeatures fromValue(uint32_t value) noexcept {
+    BootloaderFeatures f;
+    f.sram_support = (value & (1u << 0)) != 0;
+    f.rom = (value & (1u << 1)) != 0;
+    f.otp = (value & (1u << 2)) != 0;
+    f.spi_flash = (value & (1u << 3)) != 0;
+    f.i2c_eeprom = (value & (1u << 4)) != 0;
+    return f;
+  }
+};
+
+/// Git version control information
+struct GitInfo {
+  bool dirty;              ///< Bit 28: Dirty bit - uncommitted changes
+  uint32_t commit_hash;    ///< Bits 27-0: 7-digit hex commit hash
+  
+  /// Parse from 32-bit value
+  static GitInfo fromValue(uint32_t value) noexcept {
+    GitInfo g;
+    g.dirty = (value & (1u << 28)) != 0;
+    g.commit_hash = value & 0x0FFFFFFF;
+    return g;
+  }
+};
+
+/// Partition version information
+struct PartitionVersion {
+  uint8_t major;  ///< Bits 15-8: Major version
+  uint8_t minor;  ///< Bits 7-0: Minor version
+  
+  /// Parse from 32-bit value
+  static PartitionVersion fromValue(uint32_t value) noexcept {
+    PartitionVersion v;
+    v.major = static_cast<uint8_t>((value >> 8) & 0xFF);
+    v.minor = static_cast<uint8_t>(value & 0xFF);
+    return v;
+  }
+};
+
+/// OTP load result information
+struct OtpLoadResult {
+  uint8_t errorCount;  ///< OTP bit error count (bits 15-8)
+  uint8_t pageTag;     ///< OTP page tag (bits 7-0)
+  
+  /// Parse from 32-bit value
+  static OtpLoadResult fromValue(uint32_t value) noexcept {
+    OtpLoadResult result;
+    result.errorCount = static_cast<uint8_t>((value >> 8) & 0xFF);
+    result.pageTag = static_cast<uint8_t>(value & 0xFF);
+    return result;
+  }
+};
+
+/// OTP burn error codes (per TMC9660 datasheet)
+enum class OtpBurnError : int8_t {
+  INVALID_PAGE = -1,           ///< The OTP page number is invalid
+  NO_MORE_BURNS = -2,          ///< Last OTP page burnt, no more burns possible
+  CHARGE_PUMP_FAILED = -3,     ///< Setting up internal OTP charge pump failed
+  BURN_PROCEDURE_FAILED = -4,  ///< The burn procedure failed
+  CLOCK_SETUP_FAILED = -5,     ///< Internal clock setup for OTP operation failed
+  CLOCK_RESTORE_FAILED = -6    ///< Restoring original clock setup after OTP operation failed
+};
+
+/// OTP burn result information
+struct OtpBurnResult {
+  bool isSuccess;                  ///< Whether the burn operation succeeded
+  OtpBurnError errorCode;          ///< Error code if operation failed
+  const char* errorDescription;    ///< Human-readable error description
+  
+  /// Create success result
+  static OtpBurnResult createSuccess() noexcept {
+    OtpBurnResult result;
+    result.isSuccess = true;
+    result.errorCode = static_cast<OtpBurnError>(0);
+    result.errorDescription = "Success";
+    return result;
+  }
+  
+  /// Create error result
+  static OtpBurnResult createError(OtpBurnError code) noexcept {
+    OtpBurnResult result;
+    result.isSuccess = false;
+    result.errorCode = code;
+    
+    switch (code) {
+      case OtpBurnError::INVALID_PAGE:
+        result.errorDescription = "Invalid OTP page number";
+        break;
+      case OtpBurnError::NO_MORE_BURNS:
+        result.errorDescription = "Last OTP page burnt, no more burns possible";
+        break;
+      case OtpBurnError::CHARGE_PUMP_FAILED:
+        result.errorDescription = "Setting up internal OTP charge pump failed";
+        break;
+      case OtpBurnError::BURN_PROCEDURE_FAILED:
+        result.errorDescription = "The burn procedure failed";
+        break;
+      case OtpBurnError::CLOCK_SETUP_FAILED:
+        result.errorDescription = "Internal clock setup for OTP operation failed";
+        break;
+      case OtpBurnError::CLOCK_RESTORE_FAILED:
+        result.errorDescription = "Restoring original clock setup after OTP operation failed";
+        break;
+      default:
+        result.errorDescription = "Unknown error";
+        break;
+    }
+    
+    return result;
+  }
+};
+
+/// Helper function for CRC-8 calculation (UART only)
 
 /// CRC-8 calculation for UART protocol
 /// Polynomial: x^8 + x^2 + x^1 + x^0
-/// Input and output bytes are bit-flipped
 static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcept {
   uint8_t crc = 0;
   for (size_t i = 0; i < len; i++) {
-    uint8_t byte = bitFlip(data[i]);  // Input byte is bit-flipped
-    crc ^= byte;
+    crc ^= data[i];
     for (int j = 0; j < 8; j++) {
       if (crc & 0x80) {
         crc = (crc << 1) ^ 0x07;  // Polynomial: x^8 + x^2 + x^1 + x^0
@@ -278,23 +430,21 @@ static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcep
       }
     }
   }
-  return bitFlip(crc);  // Result is bit-flipped
+  return crc;
 }
 
 /// Bootloader command structure for SPI (40-bit / 5-byte protocol)
-/// NOTE: All bytes are bit-flipped in the SPI bootloader protocol
 struct BootloaderCommandSPI {
   uint8_t command;  ///< Command byte
   uint32_t value;   ///< 32-bit data value
-
-  /// Serialize to 5-byte buffer for SPI transmission (with bit-flipping)
+  
+  /// Serialize to 5-byte buffer for SPI transmission
   void toBuffer(std::array<uint8_t, 5> &out) const noexcept {
-    // All bytes are bit-flipped in the bootloader protocol
-    out[0] = bitFlip(command);
-    out[1] = bitFlip(static_cast<uint8_t>(value >> 24));
-    out[2] = bitFlip(static_cast<uint8_t>(value >> 16));
-    out[3] = bitFlip(static_cast<uint8_t>(value >> 8));
-    out[4] = bitFlip(static_cast<uint8_t>(value));
+    out[0] = command;
+    out[1] = static_cast<uint8_t>(value >> 24);
+    out[2] = static_cast<uint8_t>(value >> 16);
+    out[3] = static_cast<uint8_t>(value >> 8);
+    out[4] = static_cast<uint8_t>(value);
   }
 };
 
@@ -319,27 +469,26 @@ struct BootloaderCommandUART {
 };
 
 /// Bootloader reply structure for SPI (40-bit / 5-byte protocol)
-/// NOTE: All bytes are bit-flipped in the SPI bootloader protocol
 struct BootloaderReplySPI {
   uint8_t status;   ///< Status byte
   uint32_t value;   ///< 32-bit data value
 
-  /// Deserialize from 5-byte SPI buffer (with bit-flipping)
+  /// Deserialize from 5-byte SPI buffer
   static BootloaderReplySPI fromBuffer(const std::array<uint8_t, 5> &in) noexcept {
     BootloaderReplySPI r;
-    // All bytes are bit-flipped in the bootloader protocol
-    r.status = bitFlip(in[0]);
-    r.value = (static_cast<uint32_t>(bitFlip(in[1])) << 24) |
-              (static_cast<uint32_t>(bitFlip(in[2])) << 16) |
-              (static_cast<uint32_t>(bitFlip(in[3])) << 8) |
-              static_cast<uint32_t>(bitFlip(in[4]));
+    r.status = in[0];
+    r.value = (static_cast<uint32_t>(in[1]) << 24) |
+              (static_cast<uint32_t>(in[2]) << 16) |
+              (static_cast<uint32_t>(in[3]) << 8) |
+              static_cast<uint32_t>(in[4]);
     return r;
   }
 
   /// Check if reply indicates success
   bool isOK() const noexcept {
     return status == static_cast<uint8_t>(BootloaderStatus::OK) ||
-           status == static_cast<uint8_t>(BootloaderStatus::SESSION_START);
+           status == static_cast<uint8_t>(BootloaderStatus::SESSION_START) ||
+           status == static_cast<uint8_t>(BootloaderStatus::BOOTLOADER_RESUMED);
   }
   
   /// Get status as enum
@@ -377,8 +526,7 @@ struct BootloaderReplyUART {
 
   /// Check if reply indicates success
   bool isOK() const noexcept {
-    return status == static_cast<uint8_t>(BootloaderStatus::OK) ||
-           status == static_cast<uint8_t>(BootloaderStatus::SESSION_START);
+    return status == static_cast<uint8_t>(BootloaderStatus::OK);
   }
   
   /// Get status as enum
@@ -447,6 +595,50 @@ public:
   /// Write multiple 32 bit words starting at the current address (uses WRITE_32_INC).
   bool write32IncMultiple(const uint32_t *values, size_t count) noexcept;
   
+  //==================================================
+  // READ OPERATIONS
+  //==================================================
+  
+  /// Read a single byte from the previously selected address.
+  /// @param value Returns the 8-bit value read
+  /// @return true if successful
+  bool read8(uint8_t *value) noexcept;
+  
+  /// Read a 16-bit word from the previously selected address.
+  /// @param value Returns the 16-bit value read
+  /// @return true if successful
+  bool read16(uint16_t *value) noexcept;
+  
+  /// Read a 32-bit word from the previously selected address.
+  /// @param value Returns the 32-bit value read
+  /// @return true if successful
+  bool read32(uint32_t *value) noexcept;
+  
+  /// Read a single byte and increment address by 1.
+  /// @param value Returns the 8-bit value read
+  /// @return true if successful
+  bool read8Inc(uint8_t *value) noexcept;
+  
+  /// Read a 16-bit word and increment address by 2.
+  /// @param value Returns the 16-bit value read
+  /// @return true if successful
+  bool read16Inc(uint16_t *value) noexcept;
+  
+  /// Read a 32-bit word and increment address by 4.
+  /// @param value Returns the 32-bit value read
+  /// @return true if successful
+  bool read32Inc(uint32_t *value) noexcept;
+  
+  /// Get the currently selected memory bank.
+  /// @param bank Returns the current bank number
+  /// @return true if successful
+  bool getBank(uint8_t *bank) noexcept;
+  
+  /// Get the currently selected memory address.
+  /// @param address Returns the current address
+  /// @return true if successful
+  bool getAddress(uint32_t *address) noexcept;
+  
   /// No operation - used to retrieve reply from previous command (SPI only).
   bool noOp(uint32_t *reply = nullptr) noexcept;
   
@@ -456,6 +648,13 @@ public:
   
   /// Load an OTP page into the OTP memory bank.
   /// @param page OTP page number to load
+  /// @param result Returns parsed OTP load result (error count + page tag)
+  /// @return true if successful (command executed without communication error)
+  /// @note Check result.errorCount for bit errors, result.pageTag for page tag
+  bool otpLoad(uint8_t page, OtpLoadResult *result) noexcept;
+  
+  /// Load an OTP page into the OTP memory bank (legacy method).
+  /// @param page OTP page number to load
   /// @param errorCount Returns bit error count (bits 15-8 of reply)
   /// @param pageTag Returns page tag (bits 7-0 of reply)
   /// @return true if successful
@@ -464,8 +663,32 @@ public:
   /// Permanently burn the given OTP page.
   /// @param page OTP page number to burn (bits 7-0)
   /// @param pageAddr OTP page address to write (bits 15-8)
+  /// @param result Returns detailed burn result with error information
+  /// @return true if successful (command executed without communication error)
+  /// @note Check result.success and result.errorCode for burn operation status
+  bool otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result) noexcept;
+  
+  /// Permanently burn the given OTP page (legacy method).
+  /// @param page OTP page number to burn (bits 7-0)
+  /// @param pageAddr OTP page address to write (bits 15-8)
   /// @return true if successful
   bool otpBurn(uint8_t page, uint8_t pageAddr = 0) noexcept;
+  
+  /// Permanently burn the given OTP page with Erratum 1 workaround.
+  /// @param page OTP page number to burn (bits 7-0)
+  /// @param pageAddr OTP page address to write (bits 15-8)
+  /// @param result Returns detailed burn result with error information
+  /// @param vdrvWaitMs Wait time for VDRV voltage to drop (default: 1000ms for 10uF capacitor)
+  /// @return true if successful (command executed without communication error)
+  /// @note This method implements the Erratum 1 workaround for reliable OTP burning
+  bool otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, 
+                            uint32_t vdrvWaitMs = 1000) noexcept;
+  
+  /// Check OTP burn status using Erratum 1 workaround method.
+  /// @param result Returns true if burn was successful
+  /// @return true if status check completed successfully
+  /// @note This method implements the Erratum 1 status check workaround
+  bool checkOtpBurnStatus(bool *result) noexcept;
   
   //==================================================
   // EXTERNAL MEMORY OPERATIONS
@@ -542,6 +765,46 @@ public:
   /// @return true if successful
   bool getInfo(InfoQuery query, uint32_t *value) noexcept;
   
+  //==================================================
+  // CONVENIENCE INFO METHODS
+  //==================================================
+  
+  /// Get chip type (should return 0x544D0001 for TMC9660).
+  /// @param chipType Returns chip type
+  /// @return true if successful
+  bool getChipType(uint32_t *chipType) noexcept {
+    return getInfo(InfoQuery::CHIP_TYPE, chipType);
+  }
+  
+  /// Get bootloader version information.
+  /// @param version Returns parsed version information
+  /// @return true if successful
+  bool getBootloaderVersion(BootloaderVersion *version) noexcept;
+  
+  /// Get available feature flags.
+  /// @param features Returns parsed feature flags
+  /// @return true if successful
+  bool getFeatures(BootloaderFeatures *features) noexcept;
+  
+  /// Get Git version control information.
+  /// @param gitInfo Returns parsed Git information
+  /// @return true if successful
+  bool getGitInfo(GitInfo *gitInfo) noexcept;
+  
+  /// Get chip version (silicon revision).
+  /// @param version Returns chip version
+  /// @return true if successful
+  bool getChipVersion(uint32_t *version) noexcept {
+    return getInfo(InfoQuery::CHIP_VERSION, version);
+  }
+  
+  /// Get system frequency in MHz.
+  /// @param frequency Returns frequency in MHz
+  /// @return true if successful
+  bool getChipFrequency(uint32_t *frequency) noexcept {
+    return getInfo(InfoQuery::CHIP_FREQUENCY, frequency);
+  }
+  
   /// Get CONFIG memory bank start address.
   /// @param address Returns start address
   /// @return true if successful
@@ -554,6 +817,53 @@ public:
   /// @return true if successful
   bool getConfigMemSize(uint32_t *size) noexcept {
     return getInfo(InfoQuery::CONFIG_MEM_SIZE, size);
+  }
+  
+  /// Get OTP memory page size.
+  /// @param size Returns OTP page size
+  /// @return true if successful
+  bool getOtpMemSize(uint32_t *size) noexcept {
+    return getInfo(InfoQuery::OTP_MEM_SIZE, size);
+  }
+  
+  /// Get I2C memory size.
+  /// @param size Returns I2C memory size
+  /// @return true if successful
+  bool getI2cMemSize(uint32_t *size) noexcept {
+    return getInfo(InfoQuery::I2C_MEM_SIZE, size);
+  }
+  
+  /// Get SPI memory size.
+  /// @param size Returns SPI memory size
+  /// @return true if successful
+  bool getSpiMemSize(uint32_t *size) noexcept {
+    return getInfo(InfoQuery::SPI_MEM_SIZE, size);
+  }
+  
+  /// Get partition version information.
+  /// @param version Returns parsed partition version
+  /// @return true if successful
+  bool getPartitionVersion(PartitionVersion *version) noexcept;
+  
+  /// Get number of SPI memory partitions.
+  /// @param count Returns number of partitions
+  /// @return true if successful
+  bool getSpiMemPartitions(uint32_t *count) noexcept {
+    return getInfo(InfoQuery::SPI_MEM_PARTITIONS, count);
+  }
+  
+  /// Get number of I2C memory partitions.
+  /// @param count Returns number of partitions
+  /// @return true if successful
+  bool getI2cMemPartitions(uint32_t *count) noexcept {
+    return getInfo(InfoQuery::I2C_MEM_PARTITIONS, count);
+  }
+  
+  /// Get chip variant (TMC9660 reports value 2).
+  /// @param variant Returns chip variant
+  /// @return true if successful
+  bool getChipVariant(uint32_t *variant) noexcept {
+    return getInfo(InfoQuery::CHIP_VARIANT, variant);
   }
   
   //==================================================

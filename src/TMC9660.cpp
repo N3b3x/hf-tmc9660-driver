@@ -67,11 +67,23 @@ bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor
   tx.motor = motor;
   tx.value = value;
 
+  // Debug logging for TMCL frame assembly
+  comm_.logDebug(3, "TMC9660", "[TMCL TX] Op=0x%02X, Type=0x%04X, Motor=0x%02X, Value=0x%08X",
+                 tx.opcode, tx.type, tx.motor, tx.value);
+
   TMCLReply rep{};
-  if (!comm_.transfer(tx, rep, address_))
+  if (!comm_.transferTMCL(tx, rep, address_)) {
+    comm_.logDebug(1, "TMC9660", "[TMCL] Transfer failed");
     return false;
-  if (!rep.isOK())
+  }
+  
+  // Debug logging for TMCL reply
+  comm_.logDebug(3, "TMC9660", "[TMCL RX] Status=0x%02X, Value=0x%08X", rep.status, rep.value);
+  
+  if (!rep.isOK()) {
+    comm_.logDebug(2, "TMC9660", "[TMCL] Reply not OK (status=0x%02X)", rep.status);
     return false;
+  }
   if (reply)
     *reply = rep.value;
   return true;
