@@ -4,6 +4,9 @@
  *
  * This file contains comprehensive testing for BLDC motor control including:
  * - Bootloader initialization and configuration validation
+ * - Hardware reset sequence (integrated into bootloaderInit)
+ * - Mode auto-detection (bootloader vs parameter mode)
+ * - OTP auto-start scenario handling
  * - Motor type configuration (BLDC with various pole pairs)
  * - Hall sensor feedback configuration and testing
  * - ABN encoder feedback configuration and testing
@@ -17,6 +20,13 @@
  * - Performance benchmarking
  * - Multi-device scenarios
  * - Edge cases and fault injection
+ *
+ * **NEW in v2.0: Integrated Reset & Mode Detection**
+ * The bootloaderInit() function now includes:
+ * - Hardware reset sequence (RST pin toggle + FAULTN monitoring)
+ * - Auto-detection of bootloader vs parameter mode
+ * - OTP auto-start scenario detection and handling
+ * - Transition from parameter mode to bootloader if needed
  *
  * All functions are noexcept - no exception handling used.
  *
@@ -94,69 +104,25 @@ void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
  * @param driver TMC9660 driver instance
  * @param cfg Bootloader configuration
  * @return true if reset sequence completed successfully
+ * @note DEPRECATED: Reset sequence is now integrated into bootloaderInit().
+ *                   Use driver.bootloaderInit(&cfg, true) instead.
  */
 template<typename InterfaceType>
+[[deprecated("Use driver.bootloaderInit(&cfg, true) instead - reset is now integrated")]]
 bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface, 
                                       TMC9660& driver, 
                                       const tmc9660::BootloaderConfig& cfg) noexcept {
-    ESP_LOGI(TAG, "Starting bootloader reset sequence...");
+    // Hardware reset sequence is now integrated into bootloaderInit()
+    // Just call it with performReset=true (default)
+    ESP_LOGI(TAG, "⚠️  perform_bootloader_reset_sequence() is deprecated!");
+    ESP_LOGI(TAG, "   Use driver.bootloaderInit(&cfg, true) instead");
     
-    // Step 1: Assert reset (RST pin ACTIVE)
-    ESP_LOGI(TAG, "Asserting reset (RST pin ACTIVE)...");
-    if (!interface->gpioSetActive(TMC9660CtrlPin::RST)) {
-        ESP_LOGE(TAG, "Failed to assert reset pin");
-        return false;
-    }
-    
-    // Wait for reset to take effect (100ms delay)
-    vTaskDelay(pdMS_TO_TICKS(100));
-    
-    // Step 2: Release reset (RST pin INACTIVE)
-    ESP_LOGI(TAG, "Releasing reset (RST pin INACTIVE)...");
-    if (!interface->gpioSetInactive(TMC9660CtrlPin::RST)) {
-        ESP_LOGE(TAG, "Failed to release reset pin");
-        return false;
-    }
-    
-    // Wait for device to stabilize after reset
-    vTaskDelay(pdMS_TO_TICKS(25));
-    
-    // Step 3: Wait for FAULTN pin to go INACTIVE (fault cleared)
-    ESP_LOGI(TAG, "Waiting for FAULTN pin to go INACTIVE...");
-    const int max_wait_cycles = 100; // 10 seconds max wait
-    int wait_cycles = 0;
-    
-    while (wait_cycles < max_wait_cycles) {
-        GpioSignal fault_signal;
-        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_signal)) {
-            ESP_LOGE(TAG, "Failed to read FAULTN pin");
-            return false;
-        }
-        
-        if (fault_signal == GpioSignal::INACTIVE) {
-            ESP_LOGI(TAG, "FAULTN pin is INACTIVE - fault cleared");
-            break;
-        }
-        
-        ESP_LOGD(TAG, "FAULTN still ACTIVE, waiting... (%d/%d)", wait_cycles + 1, max_wait_cycles);
-        vTaskDelay(pdMS_TO_TICKS(100)); // Check every 100ms
-        wait_cycles++;
-    }
-    
-    if (wait_cycles >= max_wait_cycles) {
-        ESP_LOGE(TAG, "Timeout waiting for FAULTN pin to go INACTIVE");
-        return false;
-    }
-    
-    // Step 4: Call bootloader unit function (bootloader initialization)
-    ESP_LOGI(TAG, "Calling bootloader init function...");
-    auto result = driver.bootloaderInit(&cfg);
+    auto result = driver.bootloaderInit(&cfg, true);
     if (result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGE(TAG, "Bootloader init function failed: %d", static_cast<int>(result));
+        ESP_LOGE(TAG, "Bootloader init failed: %d", static_cast<int>(result));
         return false;
     }
     
-    ESP_LOGI(TAG, "Bootloader reset sequence completed successfully");
     return true;
 }
 
@@ -180,10 +146,13 @@ bool test_bldc_bootloader_initialization() noexcept {
     cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
     cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
     cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
+    cfg.clock.rdiv = 14;  // Required for internal 15MHz osc
+    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;
 
-    // Perform the complete bootloader reset sequence
-    if (!perform_bootloader_reset_sequence(spi_interface, driver, cfg)) {
-        ESP_LOGE(TAG, "Bootloader reset sequence failed");
+    // ✅ NEW API: Use integrated bootloader initialization with reset
+    auto init_result = driver.bootloaderInit(&cfg, true);  // performReset=true
+    if (init_result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGE(TAG, "Bootloader initialization failed: %d", static_cast<int>(init_result));
         return false;
     }
 
@@ -199,9 +168,10 @@ bool test_bldc_bootloader_initialization() noexcept {
 
     TMC9660 uart_driver(*uart_interface);
     
-    // Perform the complete bootloader reset sequence for UART
-    if (!perform_bootloader_reset_sequence(uart_interface, uart_driver, cfg)) {
-        ESP_LOGW(TAG, "UART bootloader reset sequence failed");
+    // ✅ NEW API: Use integrated bootloader initialization with reset
+    auto uart_init_result = uart_driver.bootloaderInit(&cfg, true);  // performReset=true
+    if (uart_init_result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGW(TAG, "UART bootloader initialization failed: %d", static_cast<int>(uart_init_result));
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
         return true;
     }
@@ -896,66 +866,20 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     cfg.clock.rdiv = 14;  // RDIV = freq_MHz - 1, for 15MHz internal osc: 15-1=14
     cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;          // Div1 = 40MHz (no division)
     
-    // ⚠️ CRITICAL: Perform proper hardware reset sequence BEFORE bootloaderInit
-    // This is REQUIRED for the chip to be in a known state!
-    ESP_LOGI(TAG, "Performing hardware reset sequence...");
-    if (!perform_bootloader_reset_sequence(handle->interface, *handle->driver, cfg)) {
-        ESP_LOGE(TAG, "Hardware reset sequence failed");
+    // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:
+    // 1. Hardware reset (RST pin toggle + FAULTN monitoring)
+    // 2. Mode detection (bootloader vs parameter)
+    // 3. Bootloader configuration
+    // 4. Motor control startup (if startMotorControl=true)
+    // 5. SESSION_START consumption (0x0C)
+    // 6. TMCL communication verification (GetVersion)
+    ESP_LOGI(TAG, "Performing complete initialization (reset + config + motor control + verify)...");
+    auto init_result = handle->driver->bootloaderInit(&cfg, true, true);  // performReset=true, startMotorControl=true
+    if (init_result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;
     }
-
-    // Exit bootloader and start motor control to enable TMCL parameter mode
-    ESP_LOGI(TAG, "Exiting bootloader and starting motor control...");
-    auto* bootloader = handle->driver->getBootloader();
-    if (!bootloader) {
-        ESP_LOGE(TAG, "Failed to get bootloader instance");
-        return nullptr;
-    }
-    
-    if (!bootloader->startMotorControl()) {
-        ESP_LOGE(TAG, "Failed to start motor control");
-        return nullptr;
-    }
-    ESP_LOGI(TAG, "Motor control started successfully");
-
-    // Monitor FAULTN pin during bootloader exit
-    // With BL_EXIT_FAULT=1 (default), FAULTN should assert (LOW) briefly during exit
-    ESP_LOGI(TAG, "Monitoring FAULTN pin during bootloader exit...");
-    vTaskDelay(pdMS_TO_TICKS(10));
-    GpioSignal faultn_signal;
-    if (handle->interface->gpioRead(TMC9660CtrlPin::FAULTN, faultn_signal)) {
-        ESP_LOGI(TAG, "FAULTN pin state during exit: %s", 
-                 faultn_signal == GpioSignal::ACTIVE ? "ACTIVE (asserted - expected)" : "INACTIVE");
-    }
-
-    // Give the chip time to transition to motor control mode
-    // The datasheet recommends 100-150ms, but clock reconfiguration takes additional time
-    ESP_LOGI(TAG, "Waiting for motor control initialization (clock + app startup)...");
-    vTaskDelay(pdMS_TO_TICKS(250));  // Increased to 250ms for clock reconfiguration
-    
-    // Check FAULTN pin after transition
-    if (handle->interface->gpioRead(TMC9660CtrlPin::FAULTN, faultn_signal)) {
-        ESP_LOGI(TAG, "FAULTN pin state after init: %s", 
-                 faultn_signal == GpioSignal::ACTIVE ? "ACTIVE (fault present)" : "INACTIVE (normal)");
-    }
-
-    // CRITICAL: Send a dummy NO_OP to clear any stale bootloader replies from SPI shift register
-    ESP_LOGI(TAG, "Sending dummy NO_OP to clear SPI pipeline...");
-    uint32_t dummy = 0;
-    handle->driver->sendCommand(tmc9660::tmcl::Op::NOP, 0, 0, 0, &dummy);
-    vTaskDelay(pdMS_TO_TICKS(10));  // Brief pause after dummy
-    
-    // Verify TMCL communication is working by reading firmware version
-    ESP_LOGI(TAG, "Verifying TMCL communication with GetVersion command...");
-    uint32_t version = 0;
-    if (!handle->driver->sendCommand(tmc9660::tmcl::Op::GetVersion, 0, 0, 0, &version)) {
-        ESP_LOGE(TAG, "Failed to read firmware version - TMCL communication not working!");
-        ESP_LOGE(TAG, "The chip may still be in bootloader mode or not responding");
-        ESP_LOGE(TAG, "Check clock configuration and increase delay if needed");
-        return nullptr;
-    }
-    ESP_LOGI(TAG, "Firmware version read successful: 0x%08X", version);
-    ESP_LOGI(TAG, "TMCL parameter mode is active and ready");
+    ESP_LOGI(TAG, "✅ Complete initialization successful - chip ready for motor control!");
 
     return handle;
 }

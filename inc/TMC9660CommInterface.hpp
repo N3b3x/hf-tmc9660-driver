@@ -113,13 +113,36 @@ struct TMCLReply {
   uint8_t status = 0;                  ///< TMCL status code (100=OK, 101=LOADED)
   uint8_t opcode = 0;                  ///< Echoed operation code
   uint32_t value = 0;                  ///< Optional returned value
+  
+  // ✅ NEW: Raw bytes for advanced parsing (handle protocol mismatches)
+  std::array<uint8_t, 8> rawBytes = {}; ///< Raw SPI bytes (8-byte) or UART bytes mapped to 8-byte format
 
   [[nodiscard]] bool isOK() const noexcept {
     return spiStatus == SPIStatus::OK && (status == 100 || status == 101);
   }
+  
+  /**
+   * @brief Extract 32-bit value from raw bytes at specified offset (MSB-first)
+   * @param offset Starting byte offset (0-4 for 32-bit value)
+   * @return 32-bit value extracted from rawBytes[offset..offset+3]
+   * 
+   * Useful for extracting misaligned data when protocol mismatch occurs
+   * (e.g., bootloader 5-byte SESSION_START parsed as 8-byte TMCL).
+   */
+  [[nodiscard]] uint32_t extractRawValue(size_t offset) const noexcept {
+    if (offset + 3 >= rawBytes.size())
+      return 0;
+    return (static_cast<uint32_t>(rawBytes[offset]) << 24) |
+           (static_cast<uint32_t>(rawBytes[offset + 1]) << 16) |
+           (static_cast<uint32_t>(rawBytes[offset + 2]) << 8) |
+           static_cast<uint32_t>(rawBytes[offset + 3]);
+  }
 
   /// Decode reply from SPI datagram
   static bool fromSpi(std::span<const uint8_t, 8> in, TMCLReply &r) noexcept {
+    // Store raw bytes for advanced parsing
+    std::copy(in.begin(), in.end(), r.rawBytes.begin());
+    
     if (tmclChecksum(in.data(), 7) != in[7])
       return false;
     r.spiStatus = static_cast<SPIStatus>(in[0]);
@@ -134,6 +157,9 @@ struct TMCLReply {
 
   /// Decode reply from UART datagram
   static bool fromUart(std::span<const uint8_t, 9> in, uint8_t addr, TMCLReply &r) noexcept {
+    // Store raw bytes (map 9-byte UART to 8-byte format, skip first byte)
+    std::copy(in.begin() + 1, in.end(), r.rawBytes.begin());
+    
     // byte0 : host address (ignored)
     // byte1 : sync bit + module address (7-bit)
     if ((in[1] & 0x7F) != (addr & 0x7F))
@@ -290,13 +316,23 @@ public:
   /**
    * @brief Perform a full duplex TMCL transfer for parameter mode communication.
    *
-   * Implementations encode @p tx according to the active mode (SPI or UART),
-   * transmit it and decode the reply into @p reply. The @p address parameter
-   * is only used for UART transfers and ignored for SPI.
+   * For SPI: Performs two transactions - sends command, receives first reply,
+   * then sends second command (or NO_OP if not provided), receives second reply.
    * 
+   * For UART: Single transaction - sends command, receives reply.
+   *
+   * @param tx TMCL command frame to transmit
+   * @param reply Reference to store the final reply
+   * @param address TMC9660 module address (UART only, ignored for SPI)
+   * @param firstReply Optional pointer to capture first reply (SPI only)
+   * @param secondCommand Optional second command to send (SPI only, defaults to NO_OP)
+   * @return true if transfer succeeded
    * @note This is for TMCL parameter mode communication (8-byte SPI, 9-byte UART)
    */
-  virtual bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept = 0;
+  virtual bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
+                           TMCLReply *firstReply = nullptr,
+                           const TMCLFrame *secondCommand = nullptr) noexcept = 0;
+
 
   /**
    * @brief Set GPIO pin signal state (output control).
@@ -509,7 +545,8 @@ public:
   bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
 
 
-  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t) noexcept override {
+  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t,
+                   TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
     std::array<uint8_t, 8> txBuf, rxBuf;
     tx.toSpi(txBuf);
     
@@ -518,40 +555,44 @@ public:
              txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
              txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
-    // Transaction 1: Send command, receive previous reply (ignored)
+    // Transaction 1: Send command, receive first reply
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    // Debug: Log raw SPI bytes received (previous command's reply, ignored)
-    logDebug(3, "SPI_TMCL", "[SPI RX PREV] %02X %02X %02X %02X %02X %02X %02X %02X (ignored)",
-             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    // Optionally capture first reply
+    if (firstReply) {
+      if (!TMCLReply::fromSpi(rxBuf, *firstReply)) {
+        logDebug(1, "SPI_TMCL", "Failed to parse first reply");
+        return false;
+      }
+      logDebug(3, "SPI_TMCL", "[SPI RX FIRST] Status=0x%02X, Value=0x%08X",
+               static_cast<uint8_t>(firstReply->spiStatus), firstReply->value);
+    } else {
+      // Debug: Log raw SPI bytes received (ignored)
+      logDebug(3, "SPI_TMCL", "[SPI RX PREV] %02X %02X %02X %02X %02X %02X %02X %02X (ignored)",
+               rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+               rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    }
     
-    // Transaction 2: Send NO_OP, receive actual reply to our command
-    // Create a proper NO_OP frame with correct checksum
-    TMCLFrame nopFrame{};
-    nopFrame.opcode = 0x00;  // NO_OP
-    nopFrame.type = 0x00;
-    nopFrame.motor = 0x00;
-    nopFrame.value = 0x00000000;
+    // Transaction 2: Send second command (or NO_OP), receive final reply
+    TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
+    cmd2.toSpi(txBuf);
     
-    std::array<uint8_t, 8> nopBuf;
-    nopFrame.toSpi(nopBuf);  // This will calculate the checksum
+    logDebug(3, "SPI_TMCL", "[SPI TX CMD2] %02X %02X %02X %02X %02X %02X %02X %02X",
+             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
+             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
-    logDebug(3, "SPI_TMCL", "[SPI TX NOP] %02X %02X %02X %02X %02X %02X %02X %02X",
-             nopBuf[0], nopBuf[1], nopBuf[2], nopBuf[3], 
-             nopBuf[4], nopBuf[5], nopBuf[6], nopBuf[7]);
-    
-    if (!spiTransferTMCL(nopBuf, rxBuf))
+    if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    // Debug: Log actual reply to our command
-    logDebug(3, "SPI_TMCL", "[SPI RX ACTUAL] %02X %02X %02X %02X %02X %02X %02X %02X",
+    // Debug: Log final reply
+    logDebug(3, "SPI_TMCL", "[SPI RX FINAL] %02X %02X %02X %02X %02X %02X %02X %02X",
              rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
              rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
     
     return TMCLReply::fromSpi(rxBuf, reply);
   }
+
 };
 
 /**
@@ -624,7 +665,12 @@ public:
   bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
 
 
-  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
+  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
+                   TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
+    // UART doesn't use the two-transaction pattern, so firstReply and secondCommand are ignored
+    (void)firstReply;      // Suppress unused parameter warning
+    (void)secondCommand;   // Suppress unused parameter warning
+    
     std::array<uint8_t, 9> frame;
     tx.toUart(address, frame);
     if (!uartSendTMCL(frame))

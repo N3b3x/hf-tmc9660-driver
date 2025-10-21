@@ -917,7 +917,7 @@ bool TMC9660Bootloader::getBank(uint8_t *bank) noexcept {
   if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_BANK), 0, &reply)) {
     return false;
   }
-  
+
   *bank = static_cast<uint8_t>(reply);
   return true;
 }

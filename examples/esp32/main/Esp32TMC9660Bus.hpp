@@ -522,9 +522,15 @@ public:
      * @param tx TMCL command frame to transmit
      * @param reply TMCL reply frame to receive
      * @param address TMC9660 module address
+     * @param firstReply Optional pointer to capture first reply (ignored for UART)
+     * @param secondCommand Optional second command (ignored for UART)
      * @return true if transfer succeeded
      */
-    bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address) noexcept override {
+    bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
+                     TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
+        // UART doesn't use the two-transaction pattern, so firstReply and secondCommand are ignored
+        (void)firstReply;      // Suppress unused parameter warning
+        (void)secondCommand;   // Suppress unused parameter warning
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -533,24 +539,13 @@ public:
         // Clear RX buffer before sending
         uart_flush_input(uart_num_);
 
-        // Prepare UART frame: sync+address, command, type, motor, 4-byte data, checksum
+        // ✅ FIX: Use TMCLFrame::toUart() for correct frame encoding
+        // Previous manual packing had multiple bugs:
+        // - Wrong sync bit position (should be bit 0, not 0x55 in byte 0)
+        // - Only wrote lower 8 bits of 16-bit type field
+        // - Array indexing off by one (overwrote checksum with value LSB)
         std::array<uint8_t, 9> uart_frame;
-        uart_frame[0] = 0x55;  // Sync byte
-        uart_frame[1] = address;  // Device address
-        uart_frame[2] = tx.opcode;
-        uart_frame[3] = tx.type;
-        uart_frame[4] = tx.motor;
-        uart_frame[5] = static_cast<uint8_t>(tx.value >> 24);
-        uart_frame[6] = static_cast<uint8_t>(tx.value >> 16);
-        uart_frame[7] = static_cast<uint8_t>(tx.value >> 8);
-        uart_frame[8] = static_cast<uint8_t>(tx.value);
-
-        // Calculate checksum (8-bit sum of first 8 bytes)
-        uint8_t checksum = 0;
-        for (int i = 0; i < 8; i++) {
-            checksum += uart_frame[i];
-        }
-        uart_frame[8] = checksum;
+        tx.toUart(address, uart_frame);  // Correctly encodes all fields + checksum
 
         // Send 9-byte UART frame
         int bytes_written = uart_write_bytes(uart_num_, uart_frame.data(), uart_frame.size());
@@ -570,24 +565,12 @@ public:
             return false;
         }
 
-        // Verify checksum
-        uint8_t calculated_checksum = 0;
-        for (int i = 0; i < 8; i++) {
-            calculated_checksum += uart_reply[i];
-        }
-        if (calculated_checksum != uart_reply[8]) {
-            ESP_LOGE(BUS_TAG, "UART checksum mismatch: expected 0x%02X, got 0x%02X", calculated_checksum, uart_reply[8]);
+        // ✅ FIX: Use TMCLReply::fromUart() for correct decoding
+        // This handles checksum verification and proper field extraction
+        if (!TMCLReply::fromUart(uart_reply, address, reply)) {
+            ESP_LOGE(BUS_TAG, "Failed to parse UART reply (checksum or address mismatch)");
             return false;
         }
-
-        // Decode reply
-        reply.opcode = uart_reply[2];
-        reply.status = uart_reply[5];
-        reply.value = (static_cast<uint32_t>(uart_reply[5]) << 24) |
-                      (static_cast<uint32_t>(uart_reply[6]) << 16) |
-                      (static_cast<uint32_t>(uart_reply[7]) << 8) |
-                      static_cast<uint32_t>(uart_reply[8]);
-        reply.spiStatus = SPIStatus::OK;  // UART doesn't have SPI status
 
         return true;
     }
@@ -806,7 +789,7 @@ struct Esp32TMC9660BusConfig {
         gpio_num_t sclk_pin = GPIO_NUM_6;
         gpio_num_t cs_pin = GPIO_NUM_18;
         uint32_t clock_speed_hz = 1000000; // 1 MHz
-        uint8_t mode = 0;
+        uint8_t mode = 3;  // ⚠️ CRITICAL: TMC9660 requires SPI MODE 3 (CPOL=1, CPHA=1)
     } spi;
 
     // UART Configuration  

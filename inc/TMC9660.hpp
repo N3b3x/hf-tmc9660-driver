@@ -71,33 +71,59 @@ public:
     Failure   ///< Failed to initialize the bootloader
   };
 
-  /** @brief Bootloader initialization for parameter mode operation.
-   * @details This method configures the TMC9660 bootloader settings and enables
-   *          parameter mode operation. This is MANDATORY before using any motor
-   *          control functions. The bootloader must be configured to use Parameter
-   *          Mode (not Register Mode) for TMCL commands to work properly.
+  /** @brief Complete bootloader initialization and transition to parameter mode.
+   * @details This method performs the complete initialization sequence:
+   *          1. Hardware reset (if performReset=true)
+   *          2. Mode detection (bootloader vs parameter)
+   *          3. Bootloader configuration (if needed)
+   *          4. Motor control startup (if startMotorControl=true)
+   *          5. SESSION_START consumption (if startMotorControl=true)
+   *          6. TMCL communication verification (if startMotorControl=true)
    * 
    * @param cfg Bootloader configuration. MUST set cfg.boot.boot_mode = BootMode::Parameter
    *            for motor control functionality. If nullptr, uses configuration
    *            provided during construction.
+   * @param performReset If true (default), performs hardware reset sequence (RST pin toggle
+   *                     + FAULTN monitoring) to ensure chip enters bootloader mode.
+   *                     Set to false if you've already performed reset externally.
+   * @param startMotorControl If true (default), automatically starts motor control,
+   *                          waits for initialization, consumes SESSION_START (0x0C),
+   *                          and verifies TMCL communication. If false, leaves chip
+   *                          in bootloader mode (useful for firmware updates, etc).
    * @return BootloaderInitResult indicating success, no config, or failure.
    * 
-   * @warning This method MUST be called successfully before any other TMC9660 operations.
-   *          Without proper bootloader initialization for parameter mode, all motor
-   *          control functions will fail.
+   * @warning This method MUST be called successfully before any motor control operations.
+   * 
+   * @note **Complete Initialization (Recommended):**
+   *       Set startMotorControl=true for a fully initialized, communication-verified
+   *       chip ready for motor control commands.
+   * 
+   * @note **Bootloader-Only Initialization:**
+   *       Set startMotorControl=false if you need to stay in bootloader mode
+   *       (e.g., for firmware flashing or custom configuration).
    * 
    * @note Typical usage:
    * @code
    * tmc9660::BootloaderConfig cfg{};
-   * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // CRITICAL!
-   * cfg.boot.start_motor_control = true;
-   * if (driver.bootloaderInit(&cfg) != TMC9660::BootloaderInitResult::Success) {
+   * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+   * 
+   * // Complete initialization (recommended)
+   * if (driver.bootloaderInit(&cfg, true, true) != TMC9660::BootloaderInitResult::Success) {
    *     // Handle initialization failure
    * }
+   * // Driver is now ready for motor control commands!
+   * 
+   * // Bootloader-only initialization
+   * if (driver.bootloaderInit(&cfg, true, false) != TMC9660::BootloaderInitResult::Success) {
+   *     // Handle initialization failure
+   * }
+   * // Chip is in bootloader mode, call bootloader_->startMotorControl() later
    * @endcode
    */
   TMC9660::BootloaderInitResult
-  bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr) noexcept;
+  bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr, 
+                 bool performReset = true,
+                 bool startMotorControl = true) noexcept;
 
   /** @brief Get direct access to the bootloader instance.
    * 
@@ -132,6 +158,34 @@ public:
    */
   tmc9660::TMC9660Bootloader* getBootloader() noexcept {
     return bootloader_.get();
+  }
+
+  /** @brief Exit parameter mode and return to bootloader mode.
+   * 
+   * This sends the special Boot command (0xF2 / 242) with magic values to trigger
+   * the motor control system to exit and return to bootloader mode.
+   * 
+   * @return true if command sent successfully
+   * @note After this command, wait 100-200ms for transition to complete
+   * @note The chip will be in bootloader mode after transition
+   * @note You can then use bootloader commands for reconfiguration
+   * 
+   * @code{.cpp}
+   * // Return to bootloader from parameter mode
+   * driver.enterBootloaderMode();
+   * vTaskDelay(pdMS_TO_TICKS(150));  // Wait for transition
+   * 
+   * // Now use bootloader commands
+   * auto* bootloader = driver.getBootloader();
+   * bootloader->setBank(5);
+   * bootloader->setAddress(0x00020018);
+   * bootloader->write32(new_clock_config);
+   * bootloader->startMotorControl();  // Return to motor control
+   * @endcode
+   */
+  bool enterBootloaderMode() noexcept {
+    // Boot command with magic values per datasheet: TYPE=0x81, MOTOR/BANK=0x92, VALUE=0xA3B4C5D6
+    return sendCommand(tmc9660::tmcl::Op::Boot, 0x81, 0x92, 0xA3B4C5D6, nullptr);
   }
 
   //***************************************************************************
