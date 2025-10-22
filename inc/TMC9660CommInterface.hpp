@@ -140,9 +140,24 @@ struct TMCLReply {
 
   /// Decode reply from SPI datagram
   static bool fromSpi(std::span<const uint8_t, 8> in, TMCLReply &r) noexcept {
-    // Store raw bytes for advanced parsing
+    // Store raw bytes for advanced parsing (ALWAYS, even if parsing fails)
     std::copy(in.begin(), in.end(), r.rawBytes.begin());
     
+    // Check for SESSION_START status codes (bootloader or parameter mode)
+    uint8_t rawStatus = in[0];
+    if (rawStatus == 0x13) {
+      // SESSION_START from bootloader (0x13)
+      // These use different protocols, so TMCL checksum will fail
+      // But we still want to return success so caller can use rawBytes
+      r.spiStatus = static_cast<SPIStatus>(rawStatus);
+      r.status = in[1];
+      r.opcode = in[2];
+      r.value = (static_cast<uint32_t>(in[3]) << 24) | (static_cast<uint32_t>(in[4]) << 16) |
+                (static_cast<uint32_t>(in[5]) << 8) | static_cast<uint32_t>(in[6]);
+      return true;  // Allow SESSION_START even if checksum fails
+    }
+    
+    // Standard TMCL reply validation
     if (tmclChecksum(in.data(), 7) != in[7])
       return false;
     r.spiStatus = static_cast<SPIStatus>(in[0]);
@@ -550,8 +565,8 @@ public:
     std::array<uint8_t, 8> txBuf, rxBuf;
     tx.toSpi(txBuf);
     
-    // Debug: Log raw SPI bytes being transmitted
-    logDebug(3, "SPI_TMCL", "[SPI TX CMD] %02X %02X %02X %02X %02X %02X %02X %02X",
+    // Log raw SPI bytes being transmitted
+    logDebug(2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
              txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
              txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
@@ -559,34 +574,32 @@ public:
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
+    logDebug(2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    
     // Optionally capture first reply
     if (firstReply) {
-      if (!TMCLReply::fromSpi(rxBuf, *firstReply)) {
-        logDebug(1, "SPI_TMCL", "Failed to parse first reply");
-        return false;
-      }
-      logDebug(3, "SPI_TMCL", "[SPI RX FIRST] Status=0x%02X, Value=0x%08X",
-               static_cast<uint8_t>(firstReply->spiStatus), firstReply->value);
-    } else {
-      // Debug: Log raw SPI bytes received (ignored)
-      logDebug(3, "SPI_TMCL", "[SPI RX PREV] %02X %02X %02X %02X %02X %02X %02X %02X (ignored)",
-               rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-               rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+      bool firstParseOk = TMCLReply::fromSpi(rxBuf, *firstReply);
+      logDebug(2, "SPI_TMCL", "          └─> Status=0x%02X, Value=0x%08X (parse %s)",
+               static_cast<uint8_t>(firstReply->spiStatus), firstReply->value,
+               firstParseOk ? "OK" : "failed");
+      // Note: We don't return false here because SESSION_START may have non-standard format
+      // The caller can check rawBytes[0] for SESSION_START status codes
     }
     
     // Transaction 2: Send second command (or NO_OP), receive final reply
     TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
     cmd2.toSpi(txBuf);
     
-    logDebug(3, "SPI_TMCL", "[SPI TX CMD2] %02X %02X %02X %02X %02X %02X %02X %02X",
+    logDebug(2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
              txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
              txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    // Debug: Log final reply
-    logDebug(3, "SPI_TMCL", "[SPI RX FINAL] %02X %02X %02X %02X %02X %02X %02X %02X",
+    logDebug(2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
              rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
              rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
     

@@ -29,6 +29,9 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   std::array<uint8_t, 5> txBuf, rxBuf;
   tx.toBuffer(txBuf);
   
+  comm_.logDebug(2, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
+                 txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
+  
   // Step 1: Send the command
   // NOTE: In SPI, the reply to THIS command will come in the NEXT transaction.
   // The rxBuf here contains the reply from the PREVIOUS command (we ignore it).
@@ -36,6 +39,9 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to send SPI command (cmd=0x%02X)", cmd);
     return false;
   }
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "[BL RX PREV] %02X %02X %02X %02X %02X (ignored)",
+                 rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], rxBuf[4]);
   
   // Step 2: Send NO_OP command to clock out the reply to our command
   // This is standard SPI behavior - replies are delayed by one transaction.
@@ -45,10 +51,16 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   };
   std::array<uint8_t, 5> replyBuf;
   
+  comm_.logDebug(2, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
+                 dummyTx[0], dummyTx[1], dummyTx[2], dummyTx[3], dummyTx[4]);
+  
   if (!spiComm->spiTransferBootloader(dummyTx, replyBuf)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to receive SPI reply (cmd=0x%02X)", cmd);
     return false;
   }
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "[BL RX RPLY] %02X %02X %02X %02X %02X",
+                 replyBuf[0], replyBuf[1], replyBuf[2], replyBuf[3], replyBuf[4]);
   
   // Parse reply from the second transaction
   BootloaderReplySPI rep = BootloaderReplySPI::fromBuffer(replyBuf);
