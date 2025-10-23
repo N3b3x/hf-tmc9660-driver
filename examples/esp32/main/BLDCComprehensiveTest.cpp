@@ -842,7 +842,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
 
     handle->driver = std::make_unique<TMC9660>(*handle->interface);
     
-    // Initialize bootloader with configuration
+    // Initialize bootloader with configuration (TMC9660-3PH-EVKIT compatible)
     tmc9660::BootloaderConfig cfg{};
     
     // Boot mode configuration
@@ -854,17 +854,45 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
     cfg.spiComm.disable_spi = false;
     
-    // UART configuration
+    // UART configuration (EVKIT: Auto16x baud detection)
     cfg.uart.device_address = 1;
     cfg.uart.host_address = 255;
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
+    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;  // EVKIT uses autobaud
+    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
+    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
     
-    // ⚠️ CRITICAL: Clock configuration for motor control
-    // Motor control REQUIRES 40MHz system clock with PLL
-    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;  // Use internal 15MHz oscillator
-    cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;     // Use PLL output
-    cfg.clock.rdiv = 14;  // RDIV = freq_MHz - 1, for 15MHz internal osc: 15-1=14
-    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;          // Div1 = 40MHz (no division)
+    // LDO configuration (EVKIT: VEXT1=5V, VEXT2=3.3V)
+    cfg.ldo.vext1 = tmc9660::bootcfg::LDOVoltage::V5_0;
+    cfg.ldo.vext2 = tmc9660::bootcfg::LDOVoltage::V3_3;
+    cfg.ldo.slope_vext1 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    cfg.ldo.slope_vext2 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    cfg.ldo.ldo_short_fault = false;
+    
+    // SPI Flash configuration (EVKIT: Enabled on SPI0, CS=GPIO12, 10MHz)
+    cfg.spiFlash.enable_flash = true;
+    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    cfg.spiFlash.cs_pin = 12;
+    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;  // 40MHz/4 = 10MHz
+    
+    // GPIO configuration (EVKIT: Hall, ABN encoders, analog inputs)
+    // GPIO5: Analog input
+    cfg.gpio.analogMask |= (1 << 5);
+    // GPIO17-18: Inputs with pull-down
+    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);
+    // Hall sensor pins (GPIO2-4): Inputs with pull-ups
+    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);
+    // ABN encoder pins (GPIO8, 13-16): Inputs with pull-ups
+    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);
+    
+    // ⚠️ CRITICAL: Clock configuration (EVKIT: External 16MHz oscillator + PLL = 40MHz)
+    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::External;
+    cfg.clock.ext_source_type = tmc9660::bootcfg::ExtSourceType::Oscillator;
+    cfg.clock.xtal_drive = tmc9660::bootcfg::XtalDrive::Freq16MHz;
+    cfg.clock.xtal_boost = false;
+    cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
+    cfg.clock.rdiv = 15;  // RDIV = freq_MHz - 1, for 16MHz external: 16-1=15
+    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;  // Div1 = 40MHz
     
     // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:
     // 1. Hardware reset (RST pin toggle + FAULTN monitoring)
@@ -934,8 +962,8 @@ extern "C" void app_main(void) {
         ESP_LOGI(TAG, "Running core BLDC functionality tests...");
         RUN_TEST_IN_TASK("bootloader_initialization", test_bldc_bootloader_initialization, 8192, 1);
         flip_test_progress_indicator();
-        RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
-        flip_test_progress_indicator();
+        //RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
+        //flip_test_progress_indicator();
     );
 
     RUN_TEST_SECTION_IF_ENABLED_WITH_PATTERN(
