@@ -129,7 +129,7 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
 bool test_bldc_bootloader_initialization() noexcept {
     ESP_LOGI(TAG, "Testing BLDC bootloader initialization...");
 
-    // Test 1: Basic bootloader initialization with SPI
+    // Test 1: Basic bootloader initialization with SPI (using EVKIT configuration)
     auto spi_interface = createSPIInterface();
     if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
@@ -138,25 +138,62 @@ bool test_bldc_bootloader_initialization() noexcept {
 
     TMC9660 driver(*spi_interface);
     
-    // Configure bootloader for parameter mode
+    // Use EVKIT-compatible configuration (same as create_test_driver)
     tmc9660::BootloaderConfig cfg{};
+    
+    // Boot mode
     cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-    cfg.boot.start_motor_control = false;
+    cfg.boot.start_motor_control = false;  // Don't auto-start in this test
+    cfg.boot.bl_exit_fault = true;
+    
+    // SPI
     cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
-    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
+    cfg.spiComm.disable_spi = false;
+    
+    // UART
+    cfg.uart.device_address = 1;
+    cfg.uart.host_address = 255;
+    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;
+    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
+    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
+    
+    // LDO (EVKIT: VEXT1=5V, VEXT2=3.3V)
+    cfg.ldo.vext1 = tmc9660::bootcfg::LDOVoltage::V5_0;
+    cfg.ldo.vext2 = tmc9660::bootcfg::LDOVoltage::V3_3;
+    cfg.ldo.slope_vext1 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    cfg.ldo.slope_vext2 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    
+    // SPI Flash (EVKIT: Enabled)
+    cfg.spiFlash.enable_flash = true;
+    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    cfg.spiFlash.cs_pin = 12;
+    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;
+    
+    // GPIO (EVKIT: Hall, ABN encoders, analog)
+    cfg.gpio.analogMask |= (1 << 5);
+    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);
+    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);
+    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);
+    
+    // Clock (EVKIT: External 16MHz + PLL = 40MHz)
+    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::External;
+    cfg.clock.ext_source_type = tmc9660::bootcfg::ExtSourceType::Oscillator;
+    cfg.clock.xtal_drive = tmc9660::bootcfg::XtalDrive::Freq16MHz;
+    cfg.clock.xtal_boost = false;
     cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
-    cfg.clock.rdiv = 14;  // Required for internal 15MHz osc
+    cfg.clock.rdiv = 15;  // 16MHz - 1
     cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;
 
-    // ✅ NEW API: Use integrated bootloader initialization with reset
-    auto init_result = driver.bootloaderInit(&cfg, true);  // performReset=true
+    // ✅ Initialize with bootloader info retrieval enabled
+    ESP_LOGI(TAG, "Initializing with EVKIT configuration + bootloader info retrieval...");
+    auto init_result = driver.bootloaderInit(&cfg, true, false, true);  // performReset=true, startMotorControl=false, retrieveBootloaderInfo=true
     if (init_result != TMC9660::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Bootloader initialization failed: %d", static_cast<int>(init_result));
         return false;
     }
 
-    ESP_LOGI(TAG, "SPI bootloader initialization successful");
+    ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with EVKIT config");
 
     // Test 2: Bootloader initialization with UART
     auto uart_interface = createUARTInterface();
@@ -842,67 +879,278 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
 
     handle->driver = std::make_unique<TMC9660>(*handle->interface);
     
-    // Initialize bootloader with configuration (TMC9660-3PH-EVKIT compatible)
+    // ============================================================================
+    // TMC9660 BOOTLOADER CONFIGURATION (TMC9660-3PH-EVKIT Compatible)
+    // ============================================================================
+    // This configuration matches the TMC9660-3PH-EVKIT hardware setup.
+    // Adjust these values based on your specific hardware configuration.
+    // ============================================================================
     tmc9660::BootloaderConfig cfg{};
     
-    // Boot mode configuration
+    // ============================================================================
+    // 1. BOOT MODE CONFIGURATION
+    // ============================================================================
+    // Selects the motor control mode and bootloader behavior
     cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-    cfg.boot.start_motor_control = false;  // Don't auto-start, we'll manually start
-    cfg.boot.bl_exit_fault = true;  // Assert FAULTN on exit for debugging
+    //   Options:
+    //   - BootMode::Register (1): Register mode (direct register access)
+    //   - BootMode::Parameter (2): Parameter mode (TMCL protocol) ← EVKIT uses this
     
-    // SPI configuration
-    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
-    cfg.spiComm.disable_spi = false;
+    cfg.boot.start_motor_control = true;
+    //   false: Bootloader stays active, manual start required ← EVKIT default
+    //   true: Automatically start motor control after bootloader config
     
-    // UART configuration (EVKIT: Auto16x baud detection)
-    cfg.uart.device_address = 1;
-    cfg.uart.host_address = 255;
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;  // EVKIT uses autobaud
-    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
-    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
+    cfg.boot.bl_ready_fault = false;
+    //   false: FAULTN not asserted when bootloader ready ← EVKIT default
+    //   true: Assert FAULTN when bootloader is ready to communicate
     
-    // LDO configuration (EVKIT: VEXT1=5V, VEXT2=3.3V)
+    cfg.boot.bl_exit_fault = true;
+    //   false: FAULTN not asserted when bootloader exits
+    //   true: Assert FAULTN when bootloader launches motor app ← EVKIT uses this for debugging
+    
+    cfg.boot.disable_selftest = false;
+    //   false: Perform ROM/SRAM self-test on power-on (adds ~34ms) ← EVKIT default
+    //   true: Skip self-test (faster boot, only for OTP programming)
+    
+    cfg.boot.bl_config_fault = false;
+    //   false: FAULTN not asserted for config options ← EVKIT default
+    //   true: Assert FAULTN during application for config option
+    
+    // ============================================================================
+    // 2. LDO CONFIGURATION (Internal Voltage Regulators)
+    // ============================================================================
+    // VEXT1 and VEXT2 are internal LDOs that can power external components
     cfg.ldo.vext1 = tmc9660::bootcfg::LDOVoltage::V5_0;
+    //   Options:
+    //   - LDOVoltage::Disabled (0): LDO off
+    //   - LDOVoltage::V2_5 (1): 2.5V output
+    //   - LDOVoltage::V3_3 (2): 3.3V output
+    //   - LDOVoltage::V5_0 (3): 5.0V output ← EVKIT uses 5V for VEXT1
+    
     cfg.ldo.vext2 = tmc9660::bootcfg::LDOVoltage::V3_3;
+    //   Same options as VEXT1 ← EVKIT uses 3.3V for VEXT2
+    
     cfg.ldo.slope_vext1 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    //   Options:
+    //   - LDOSlope::Slope0_5ms (0): 0.5ms ramp-up time
+    //   - LDOSlope::Slope1ms (1): 1ms ramp-up time
+    //   - LDOSlope::Slope3ms (2): 3ms ramp-up time ← EVKIT default
+    //   - LDOSlope::Slope10ms (3): 10ms ramp-up time
+    
     cfg.ldo.slope_vext2 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    //   Same options as slope_vext1 ← EVKIT default
+    
     cfg.ldo.ldo_short_fault = false;
+    //   false: Don't report LDO short circuit faults ← EVKIT default
+    //   true: Report LDO short circuit faults via FAULTN
     
-    // SPI Flash configuration (EVKIT: Enabled on SPI0, CS=GPIO12, 10MHz)
+    // ============================================================================
+    // 3. UART CONFIGURATION
+    // ============================================================================
+    // UART is used for TMCL communication in parameter mode
+    cfg.uart.device_address = 1;
+    //   Range: 0-255
+    //   Address of this TMC9660 device on UART bus ← EVKIT uses 1
+    
+    cfg.uart.host_address = 255;
+    //   Range: 0-255
+    //   Address of the host controller ← EVKIT uses 255 (broadcast)
+    
+    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;
+    //   Options:
+    //   - BaudRate::BR9600 (0): 9600 baud
+    //   - BaudRate::BR19200 (1): 19200 baud
+    //   - BaudRate::BR38400 (2): 38400 baud
+    //   - BaudRate::BR57600 (3): 57600 baud
+    //   - BaudRate::BR115200 (4): 115200 baud
+    //   - BaudRate::BR1000000 (5): 1000000 baud
+    //   - BaudRate::Auto8x (6): Autobaud detection (8x oversampling)
+    //   - BaudRate::Auto16x (7): Autobaud detection (16x oversampling) ← EVKIT uses this
+    
+    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
+    //   Options:
+    //   - UartRxPin::GPIO7 (0): Use GPIO7 for UART RX ← EVKIT default
+    //   - UartRxPin::GPIO1 (1): Use GPIO1 for UART RX
+    
+    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
+    //   Options:
+    //   - UartTxPin::GPIO6 (0): Use GPIO6 for UART TX ← EVKIT default
+    //   - UartTxPin::GPIO0 (1): Use GPIO0 for UART TX
+    
+    // ============================================================================
+    // 4. RS485 CONFIGURATION
+    // ============================================================================
+    // RS485 timing for half-duplex UART communication
+    cfg.rs485.enable_rs485 = false;
+    //   false: RS485 mode disabled ← EVKIT default
+    //   true: Enable RS485 mode with TXEN pin control
+    
+    cfg.rs485.txen_pre_delay = 0;
+    //   Range: 0-255
+    //   Delay before transmission (in bit times) ← EVKIT default: 0
+    
+    cfg.rs485.txen_post_delay = 0;
+    //   Range: 0-255
+    //   Delay after transmission (in bit times) ← EVKIT default: 0
+    
+    cfg.rs485.txen_pin = tmc9660::bootcfg::RS485TxEnPin::None;
+    //   Options:
+    //   - RS485TxEnPin::None: No TXEN pin ← EVKIT default
+    //   - RS485TxEnPin::GPIO0: Use GPIO0 for TXEN
+    //   - RS485TxEnPin::GPIO1: Use GPIO1 for TXEN
+    
+    // ============================================================================
+    // 5. SPI BOOT COMMUNICATION CONFIGURATION
+    // ============================================================================
+    // Controls which SPI interface is used for bootloader/parameter mode communication
+    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    //   Options:
+    //   - SPIInterface::IFACE0 (0): Use SPI0 for communication ← EVKIT uses this
+    //   - SPIInterface::IFACE1 (1): Use SPI1 for communication
+    
+    cfg.spiComm.disable_spi = false;
+    //   false: SPI communication enabled ← EVKIT default
+    //   true: Disable SPI communication (UART only)
+    
+    // ============================================================================
+    // 6. SPI FLASH CONFIGURATION
+    // ============================================================================
+    // External SPI flash memory for storing motor profiles, parameters, etc.
     cfg.spiFlash.enable_flash = true;
+    //   false: No external SPI flash
+    //   true: External SPI flash present ← EVKIT has flash
+    
     cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    //   Options:
+    //   - SPIInterface::IFACE0 (0): Flash on SPI0 ← EVKIT uses this
+    //   - SPIInterface::IFACE1 (1): Flash on SPI1
+    
     cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    //   Options:
+    //   - SPI0SckPin::GPIO6 (0): Use GPIO6 for SPI0 SCK
+    //   - SPI0SckPin::GPIO11 (1): Use GPIO11 for SPI0 SCK ← EVKIT uses this
+    
     cfg.spiFlash.cs_pin = 12;
-    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;  // 40MHz/4 = 10MHz
+    //   Range: 0-31
+    //   GPIO pin for flash chip select ← EVKIT uses GPIO12
     
-    // GPIO configuration (EVKIT: Hall, ABN encoders, analog inputs)
-    // GPIO5: Analog input
-    cfg.gpio.analogMask |= (1 << 5);
-    // GPIO17-18: Inputs with pull-down
-    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);
-    // Hall sensor pins (GPIO2-4): Inputs with pull-ups
-    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);
-    // ABN encoder pins (GPIO8, 13-16): Inputs with pull-ups
-    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);
+    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;
+    //   Options:
+    //   - SPIFlashFreq::Div1 (0): SysClk / 1 (40MHz if SysClk=40MHz)
+    //   - SPIFlashFreq::Div2 (1): SysClk / 2 (20MHz if SysClk=40MHz)
+    //   - SPIFlashFreq::Div4 (3): SysClk / 4 (10MHz if SysClk=40MHz) ← EVKIT uses this
     
-    // ⚠️ CRITICAL: Clock configuration (EVKIT: External 16MHz oscillator + PLL = 40MHz)
+    // ============================================================================
+    // 7. I2C EEPROM CONFIGURATION
+    // ============================================================================
+    // External I2C EEPROM for storing configuration
+    cfg.i2c.enable_eeprom = false;
+    //   false: No external I2C EEPROM ← EVKIT default
+    //   true: External I2C EEPROM present
+    
+    cfg.i2c.sda_pin = tmc9660::bootcfg::I2CSdaPin::GPIO5;
+    //   Options:
+    //   - I2CSdaPin::GPIO5: Use GPIO5 for I2C SDA ← Default
+    //   - I2CSdaPin::GPIO4: Use GPIO4 for I2C SDA
+    //   - I2CSdaPin::GPIO3: Use GPIO3 for I2C SDA
+    
+    cfg.i2c.scl_pin = tmc9660::bootcfg::I2CSclPin::GPIO4;
+    //   Options:
+    //   - I2CSclPin::GPIO4: Use GPIO4 for I2C SCL ← Default
+    //   - I2CSclPin::GPIO5: Use GPIO5 for I2C SCL
+    //   - I2CSclPin::GPIO3: Use GPIO3 for I2C SCL
+    
+    cfg.i2c.address_bits = 0;
+    //   Range: 0-255
+    //   I2C address bit configuration ← EVKIT default: 0
+    
+    cfg.i2c.freq_code = tmc9660::bootcfg::I2CFreq::Freq100k;
+    //   Options:
+    //   - I2CFreq::Freq100k: 100 kHz I2C clock ← Default
+    //   - I2CFreq::Freq400k: 400 kHz I2C clock
+    
+    // ============================================================================
+    // 8. GPIO CONFIGURATION
+    // ============================================================================
+    // Configure GPIO pins for various functions (Hall, encoders, analog, etc.)
+    // Each mask is a 32-bit value where bit N corresponds to GPIO N
+    
+    // Analog input configuration (ADC)
+    cfg.gpio.analogMask = 0;
+    cfg.gpio.analogMask |= (1 << 5);  // GPIO5: Analog input ← EVKIT uses this
+    //   Set bit N to configure GPIO N as analog input
+    
+    // Direction configuration (0=input, 1=output)
+    cfg.gpio.directionMask = 0;
+    //   Default: 0 (all inputs) ← EVKIT default
+    //   Set bit N to configure GPIO N as output
+    
+    // Pull-up resistor configuration
+    cfg.gpio.pullUpMask = 0;
+    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);  // Hall sensor pins ← EVKIT
+    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);  // ABN encoder ← EVKIT
+    //   Set bit N to enable internal pull-up on GPIO N
+    
+    // Pull-down resistor configuration
+    cfg.gpio.pullDownMask = 0;
+    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);  // GPIO17-18: Inputs with pull-down ← EVKIT
+    //   Set bit N to enable internal pull-down on GPIO N
+    
+    // ============================================================================
+    // 9. CLOCK CONFIGURATION ⚠️ CRITICAL FOR MOTOR CONTROL
+    // ============================================================================
+    // The clock configuration is CRITICAL for proper motor control operation.
+    // Incorrect clock settings will cause motor control to fail or crash.
+    
     cfg.clock.use_external = tmc9660::bootcfg::ClockSource::External;
+    //   Options:
+    //   - ClockSource::Internal (0): Use internal 15MHz RC oscillator
+    //   - ClockSource::External (1): Use external crystal/clock ← EVKIT uses 16MHz crystal
+    
     cfg.clock.ext_source_type = tmc9660::bootcfg::ExtSourceType::Oscillator;
+    //   Options:
+    //   - ExtSourceType::Oscillator (0): External crystal oscillator ← EVKIT uses this
+    //   - ExtSourceType::Clock (1): External clock signal
+    
     cfg.clock.xtal_drive = tmc9660::bootcfg::XtalDrive::Freq16MHz;
+    //   Options (crystal oscillator drive strength):
+    //   - XtalDrive::Freq8MHz (1): For 8MHz crystal
+    //   - XtalDrive::Freq16MHz (3): For 16MHz crystal ← EVKIT uses this
+    //   - XtalDrive::Freq24MHz (5): For 24MHz crystal
+    //   - XtalDrive::Freq32MHz (6): For 32MHz crystal
+    
     cfg.clock.xtal_boost = false;
+    //   false: Normal crystal drive ← EVKIT default
+    //   true: Boost crystal drive (for difficult start-up conditions)
+    
     cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
-    cfg.clock.rdiv = 15;  // RDIV = freq_MHz - 1, for 16MHz external: 16-1=15
-    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;  // Div1 = 40MHz
+    //   Options:
+    //   - SysClkSource::IntOsc (0): Use internal oscillator directly (15MHz)
+    //   - SysClkSource::PLL (1): Use PLL output (40MHz) ← EVKIT uses this for best performance
+    
+    cfg.clock.rdiv = 15;
+    //   Range: 0-31
+    //   Reference divider for PLL: RDIV = freq_MHz - 1
+    //   For 16MHz external: RDIV = 16 - 1 = 15 ← EVKIT
+    //   For 8MHz external: RDIV = 8 - 1 = 7
+    //   For internal 15MHz: RDIV = 15 - 1 = 14
+    
+    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;
+    //   Options:
+    //   - SysClkDiv::Div1 (0): SysClk = PLL output (40MHz) ← EVKIT uses this
+    //   - SysClkDiv::Div15MHz (3): SysClk = 15MHz (divide PLL output)
+    //   Note: Only Div1 and Div15MHz are valid options
     
     // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:
     // 1. Hardware reset (RST pin toggle + FAULTN monitoring)
     // 2. Mode detection (bootloader vs parameter)
     // 3. Bootloader configuration
-    // 4. Motor control startup (if startMotorControl=true)
-    // 5. SESSION_START consumption (0x0C)
-    // 6. TMCL communication verification (GetVersion)
-    ESP_LOGI(TAG, "Performing complete initialization (reset + config + motor control + verify)...");
-    auto init_result = handle->driver->bootloaderInit(&cfg, true, true);  // performReset=true, startMotorControl=true
+    // 4. Bootloader info retrieval (if retrieveBootloaderInfo=true)
+    // 5. Motor control startup (if startMotorControl=true)
+    // 6. SESSION_START consumption (0x0C)
+    // 7. TMCL communication verification (GetVersion)
+    ESP_LOGI(TAG, "Performing complete initialization (reset + config + info + motor control + verify)...");
+    auto init_result = handle->driver->bootloaderInit(&cfg, true, true, true);  // performReset=true, startMotorControl=true, retrieveBootloaderInfo=true
     if (init_result != TMC9660::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;
@@ -962,8 +1210,8 @@ extern "C" void app_main(void) {
         ESP_LOGI(TAG, "Running core BLDC functionality tests...");
         RUN_TEST_IN_TASK("bootloader_initialization", test_bldc_bootloader_initialization, 8192, 1);
         flip_test_progress_indicator();
-        //RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
-        //flip_test_progress_indicator();
+        RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
+        flip_test_progress_indicator();
     );
 
     RUN_TEST_SECTION_IF_ENABLED_WITH_PATTERN(

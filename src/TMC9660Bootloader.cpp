@@ -942,3 +942,151 @@ bool TMC9660Bootloader::getAddress(uint32_t *address) noexcept {
   
   return sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_ADDRESS), 0, address);
 }
+
+bool TMC9660Bootloader::getAllBootloaderInfo() noexcept {
+  comm_.logDebug(1, "TMC9660Bootloader", "");
+  comm_.logDebug(1, "TMC9660Bootloader", "╔══════════════════════════════════════════════════════════════╗");
+  comm_.logDebug(1, "TMC9660Bootloader", "║          TMC9660 BOOTLOADER INFORMATION                      ║");
+  comm_.logDebug(1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
+  
+  bool success = true;
+  uint32_t value = 0;
+  
+  // 1. Chip Type
+  if (getChipType(&value)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Chip Type:           0x%08X %s", 
+                   value, (value == 0x544D0001) ? "(TMC9660 ✓)" : "(Unknown!)");
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Chip Type:           FAILED TO READ");
+    success = false;
+  }
+  
+  // 2. Bootloader Version
+  BootloaderVersion blVer;
+  if (getBootloaderVersion(&blVer)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Bootloader Version:  v%u.%u", blVer.major, blVer.minor);
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Bootloader Version:  FAILED TO READ");
+  }
+  
+  // 3. Chip Version (Silicon Revision)
+  if (getChipVersion(&value)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Silicon Revision:    %u", value);
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Silicon Revision:    FAILED TO READ");
+  }
+  
+  // 4. Chip Variant
+  if (getChipVariant(&value)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Chip Variant:        %u %s", 
+                   value, (value == 2) ? "(TMC9660 ✓)" : "(Unexpected!)");
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Chip Variant:        FAILED TO READ");
+  }
+  
+  // 5. System Frequency
+  if (getChipFrequency(&value)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "System Frequency:    %u MHz", value);
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "System Frequency:    FAILED TO READ");
+  }
+  
+  // 6. Git Info
+  GitInfo gitInfo;
+  if (getGitInfo(&gitInfo)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Git Commit:          %07X%s", 
+                   gitInfo.commit_hash, gitInfo.dirty ? " (dirty)" : "");
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Git Commit:          FAILED TO READ");
+  }
+  
+  // 7. Features
+  BootloaderFeatures features;
+  if (getFeatures(&features)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Features:");
+    comm_.logDebug(1, "TMC9660Bootloader", "  - SRAM Support:    %s", features.sram_support ? "YES" : "NO");
+    comm_.logDebug(1, "TMC9660Bootloader", "  - ROM:             %s", features.rom ? "YES" : "NO");
+    comm_.logDebug(1, "TMC9660Bootloader", "  - OTP:             %s", features.otp ? "YES" : "NO");
+    comm_.logDebug(1, "TMC9660Bootloader", "  - SPI Flash:       %s", features.spi_flash ? "YES" : "NO");
+    comm_.logDebug(1, "TMC9660Bootloader", "  - I2C EEPROM:      %s", features.i2c_eeprom ? "YES" : "NO");
+  } else {
+    comm_.logDebug(0, "TMC9660Bootloader", "Features:            FAILED TO READ");
+  }
+  
+  // 8. CONFIG Memory Info
+  uint32_t configStart = 0, configSize = 0;
+  if (getConfigMemStart(&configStart) && getConfigMemSize(&configSize)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "CONFIG Memory:       Start=0x%08X, Size=%u bytes", 
+                   configStart, configSize);
+  } else {
+    comm_.logDebug(1, "TMC9660Bootloader", "CONFIG Memory:       Info not available");
+  }
+  
+  // 9. OTP Memory Size
+  if (getOtpMemSize(&value)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "OTP Page Size:       %u bytes", value);
+  } else {
+    comm_.logDebug(1, "TMC9660Bootloader", "OTP Page Size:       Not available");
+  }
+  
+  // 10. External Memory Partition Version
+  PartitionVersion partVer;
+  if (getPartitionVersion(&partVer)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "Partition Version:   v%u.%u", partVer.major, partVer.minor);
+  } else {
+    comm_.logDebug(1, "TMC9660Bootloader", "Partition Version:   Not available");
+  }
+  
+  // 11. SPI Flash Info (may fail if no flash connected)
+  uint32_t spiSize = 0, spiPartitions = 0;
+  bool hasSpiFlash = getSpiMemSize(&spiSize);
+  if (hasSpiFlash) {
+    comm_.logDebug(1, "TMC9660Bootloader", "SPI Flash Size:      %u bytes (%.2f KB)", 
+                   spiSize, spiSize / 1024.0f);
+    
+    // Try to get partition count (requires SPI bank to be selected)
+    uint8_t currentBank = 0;
+    getBank(&currentBank);
+    setBank(MemoryBank::SPI_FLASH);
+    
+    if (getSpiMemPartitions(&spiPartitions)) {
+      comm_.logDebug(1, "TMC9660Bootloader", "SPI Partitions:      %u", spiPartitions);
+    } else {
+      comm_.logDebug(1, "TMC9660Bootloader", "SPI Partitions:      Not available (may need partitioning)");
+    }
+    
+    // Restore original bank
+    setBank(currentBank);
+  } else {
+    comm_.logDebug(1, "TMC9660Bootloader", "SPI Flash:           Not connected or not configured");
+  }
+  
+  // 12. I2C EEPROM Info (may fail if no EEPROM connected)
+  uint32_t i2cSize = 0, i2cPartitions = 0;
+  bool hasI2cEeprom = getI2cMemSize(&i2cSize);
+  if (hasI2cEeprom) {
+    comm_.logDebug(1, "TMC9660Bootloader", "I2C EEPROM Size:     %u bytes (%.2f KB)", 
+                   i2cSize, i2cSize / 1024.0f);
+    
+    // Try to get partition count (requires I2C bank to be selected)
+    uint8_t currentBank = 0;
+    getBank(&currentBank);
+    setBank(MemoryBank::I2C_EEPROM);
+    
+    if (getI2cMemPartitions(&i2cPartitions)) {
+      comm_.logDebug(1, "TMC9660Bootloader", "I2C Partitions:      %u", i2cPartitions);
+    } else {
+      comm_.logDebug(1, "TMC9660Bootloader", "I2C Partitions:      Not available (may need partitioning)");
+    }
+    
+    // Restore original bank
+    setBank(currentBank);
+  } else {
+    comm_.logDebug(1, "TMC9660Bootloader", "I2C EEPROM:          Not connected or not configured");
+  }
+  
+  comm_.logDebug(1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
+  comm_.logDebug(1, "TMC9660Bootloader", "");
+  
+  return success;
+}

@@ -866,6 +866,22 @@ public:
     return getInfo(InfoQuery::CHIP_VARIANT, variant);
   }
   
+  /// Retrieve and log all available bootloader information.
+  /// 
+  /// This function queries all GET_INFO commands and logs the results.
+  /// Useful for debugging and verifying chip configuration.
+  /// 
+  /// @return true if at least basic info was retrieved successfully
+  /// @note Some queries may fail if features are not available (e.g., no SPI flash)
+  /// 
+  /// Information retrieved:
+  /// - Chip type, version, variant
+  /// - Bootloader version and Git info
+  /// - System frequency
+  /// - Available features (SRAM, ROM, OTP, SPI flash, I2C EEPROM)
+  /// - Memory sizes and partition info
+  bool getAllBootloaderInfo() noexcept;
+  
   //==================================================
   // HIGH-LEVEL CONFIGURATION
   //==================================================

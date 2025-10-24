@@ -123,7 +123,8 @@ public:
   TMC9660::BootloaderInitResult
   bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr, 
                  bool performReset = true,
-                 bool startMotorControl = true) noexcept;
+                 bool startMotorControl = true,
+                 bool retrieveBootloaderInfo = false) noexcept;
 
   /** @brief Get direct access to the bootloader instance.
    * 

@@ -17,7 +17,7 @@ TMC9660::~TMC9660() noexcept {
 }
 
 TMC9660::BootloaderInitResult
-TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, bool startMotorControl) noexcept {
+TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, bool startMotorControl, bool retrieveBootloaderInfo) noexcept {
   const tmc9660::BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
   if (!useCfg)
     return BootloaderInitResult::NoConfig;
@@ -154,6 +154,20 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // STEP 4: Apply Configuration via Bootloader
   // ======================================================================
   if (inBootloaderMode || !inParameterMode) {
+
+    // ======================================================================
+    // STEP 4.5: Retrieve Bootloader Information (if requested)
+    // ======================================================================
+    if (retrieveBootloaderInfo) {
+      comm_.logDebug(2, "TMC9660", "Retrieving bootloader information...");
+      if (!bootloader_->getAllBootloaderInfo()) {
+        comm_.logDebug(1, "TMC9660", "⚠️  Failed to retrieve some bootloader information");
+      }
+    }
+    else {
+      comm_.logDebug(2, "TMC9660", "Skipping bootloader information retrieval (retrieveBootloaderInfo=false)");
+    }
+
     comm_.logDebug(2, "TMC9660", "Applying bootloader configuration...");
     if (!bootloader_->applyConfiguration(*useCfg)) {
       comm_.logDebug(0, "TMC9660", "Failed to apply bootloader configuration");
