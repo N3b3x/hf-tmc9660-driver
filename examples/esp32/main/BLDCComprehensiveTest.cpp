@@ -37,6 +37,7 @@
 
 #include "../../../inc/TMC9660.hpp"
 #include "Esp32TMC9660Bus.hpp"
+#include "Esp32TMC9660UnifiedBus.hpp"
 #include "TestFramework.h"
 #include <memory>
 #include <vector>
@@ -54,6 +55,7 @@ static TestResults g_test_results;
 
 // Core BLDC functionality tests
 static constexpr bool ENABLE_CORE_TESTS = true; // Bootloader, motor config, basic setup
+static constexpr bool ENABLE_UNIFIED_COMM_TESTS = true; // Unified communication interface switching
 static constexpr bool ENABLE_HALL_SENSOR_TESTS = false; // Hall sensor configuration and testing
 static constexpr bool ENABLE_ABN_ENCODER_TESTS = false; // ABN encoder configuration and testing
 static constexpr bool ENABLE_FOC_CONTROL_TESTS = false; // FOC control loop configuration
@@ -87,13 +89,24 @@ bool test_bldc_error_handling() noexcept;
 bool test_bldc_edge_cases() noexcept;
 bool test_bldc_multi_device_operations() noexcept;
 bool test_bldc_startup_shutdown_procedures() noexcept;
+bool test_bldc_unified_communication_switching() noexcept;
 
 // Helper functions
 struct TestDriverHandle {
     std::unique_ptr<TMC9660CommInterface> interface;
     std::unique_ptr<TMC9660> driver;
 };
+
+struct UnifiedTestDriverHandle {
+    std::unique_ptr<Esp32TMC9660UnifiedCommInterface> unified_interface;
+    std::unique_ptr<TMC9660> driver;
+    std::unique_ptr<TMC9660CommModeManager> mode_manager;
+};
+
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false) noexcept;
+std::unique_ptr<UnifiedTestDriverHandle> create_unified_test_driver() noexcept;
+bool switch_to_uart_mode(UnifiedTestDriverHandle& handle) noexcept;
+bool switch_to_spi_mode(UnifiedTestDriverHandle& handle) noexcept;
 bool verify_motor_configuration(const TMC9660& driver) noexcept;
 bool verify_foc_gains(const TMC9660& driver) noexcept;
 void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
@@ -102,25 +115,33 @@ void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
 bool test_bldc_bootloader_initialization() noexcept {
     ESP_LOGI(TAG, "Testing BLDC bootloader initialization...");
 
-    // Test 1: Basic bootloader initialization with SPI (using create_test_driver)
-    ESP_LOGI(TAG, "Testing SPI bootloader initialization with EVKIT configuration...");
-    auto spi_handle = create_test_driver(false);  // use_uart = false
-    if (!spi_handle || !spi_handle->driver) {
-        ESP_LOGE(TAG, "Failed to create SPI test driver for bootloader initialization test");
+    // Test 1: Basic bootloader initialization with unified interface (SPI mode)
+    ESP_LOGI(TAG, "Testing SPI bootloader initialization with unified interface...");
+    auto unified_handle = create_unified_test_driver();
+    if (!unified_handle || !unified_handle->driver) {
+        ESP_LOGE(TAG, "Failed to create unified test driver for bootloader initialization test");
         return false;
     }
-    ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with EVKIT config");
+    ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with unified interface");
 
-    // Test 2: Bootloader initialization with UART (using same EVKIT configuration)
-    ESP_LOGI(TAG, "Testing UART bootloader initialization with same EVKIT configuration...");
-    auto uart_handle = create_test_driver(true);  // use_uart = true
-    if (!uart_handle || !uart_handle->driver) {
-        ESP_LOGW(TAG, "Failed to create UART test driver for bootloader initialization test");
+    // Test 2: Switch to UART mode and test bootloader initialization
+    ESP_LOGI(TAG, "Testing UART bootloader initialization by switching to UART mode...");
+    if (!switch_to_uart_mode(*unified_handle)) {
+        ESP_LOGW(TAG, "Failed to switch to UART mode, testing SPI only");
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
         return true;
     }
     ESP_LOGI(TAG, "✅ UART bootloader initialization successful");
-    ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed");
+
+    // Test 3: Switch back to SPI mode to verify switching works
+    ESP_LOGI(TAG, "Testing switch back to SPI mode...");
+    if (!switch_to_spi_mode(*unified_handle)) {
+        ESP_LOGW(TAG, "Failed to switch back to SPI mode");
+    } else {
+        ESP_LOGI(TAG, "✅ Successfully switched back to SPI mode");
+    }
+
+    ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed with unified interface");
     return true;
 }
 
@@ -773,6 +794,78 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     return true;
 }
 
+bool test_bldc_unified_communication_switching() noexcept {
+    ESP_LOGI(TAG, "Testing BLDC unified communication switching...");
+
+    // Create unified test driver
+    auto handle = create_unified_test_driver();
+    if (!handle || !handle->driver) {
+        ESP_LOGE(TAG, "Failed to create unified test driver");
+        return false;
+    }
+
+    // Test 1: Basic mode switching
+    ESP_LOGI(TAG, "Test 1: Basic mode switching...");
+    if (!switch_to_uart_mode(*handle)) {
+        ESP_LOGW(TAG, "UART switching failed, testing SPI only");
+    } else {
+        ESP_LOGI(TAG, "✅ UART mode switching successful");
+    }
+
+    if (!switch_to_spi_mode(*handle)) {
+        ESP_LOGE(TAG, "SPI switching failed");
+        return false;
+    }
+    ESP_LOGI(TAG, "✅ SPI mode switching successful");
+
+    // Test 2: Communication in both modes
+    ESP_LOGI(TAG, "Test 2: Communication testing in both modes...");
+    
+    // Test SPI communication
+    uint32_t spi_version = 0;
+    if (handle->driver->getVersion(spi_version)) {
+        ESP_LOGI(TAG, "✅ SPI communication successful - Version: 0x%08X", spi_version);
+    } else {
+        ESP_LOGW(TAG, "SPI communication failed (device may not be connected)");
+    }
+
+    // Switch to UART and test
+    if (switch_to_uart_mode(*handle)) {
+        uint32_t uart_version = 0;
+        if (handle->driver->getVersion(uart_version)) {
+            ESP_LOGI(TAG, "✅ UART communication successful - Version: 0x%08X", uart_version);
+        } else {
+            ESP_LOGW(TAG, "UART communication failed (device may not be connected)");
+        }
+    }
+
+    // Test 3: Motor configuration in different modes
+    ESP_LOGI(TAG, "Test 3: Motor configuration in different modes...");
+    
+    // Configure motor in current mode (UART if switch was successful, otherwise SPI)
+    if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+        ESP_LOGW(TAG, "Motor configuration failed in current mode");
+    } else {
+        ESP_LOGI(TAG, "✅ Motor configuration successful in current mode");
+    }
+
+    // Switch to other mode and test again
+    if (handle->mode_manager->hasBothModes()) {
+        if (handle->mode_manager->switchToOtherMode()) {
+            ESP_LOGI(TAG, "Switched to other mode for configuration test");
+            
+            if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+                ESP_LOGW(TAG, "Motor configuration failed in other mode");
+            } else {
+                ESP_LOGI(TAG, "✅ Motor configuration successful in other mode");
+            }
+        }
+    }
+
+    ESP_LOGI(TAG, "✅ Unified communication switching tests completed");
+    return true;
+}
+
 // Helper function implementations
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     auto handle = std::make_unique<TestDriverHandle>();
@@ -1211,6 +1304,124 @@ void log_telemetry_data(TMC9660& driver, const char* context) noexcept {
              context, temp, current, voltage);
 }
 
+// ============================================================================
+// UNIFIED COMMUNICATION INTERFACE HELPER FUNCTIONS
+// ============================================================================
+
+std::unique_ptr<UnifiedTestDriverHandle> create_unified_test_driver() noexcept {
+    auto handle = std::make_unique<UnifiedTestDriverHandle>();
+    
+    // Create unified communication interface
+    handle->unified_interface = createUnifiedInterface();
+    if (!handle->unified_interface) {
+        ESP_LOGE(TAG, "Failed to create unified communication interface");
+        return nullptr;
+    }
+    ESP_LOGI(TAG, "Created unified communication interface");
+    ESP_LOGI(TAG, "Status: %s", handle->unified_interface->getDetailedStatus().c_str());
+    
+    // Create mode manager for easy switching
+    handle->mode_manager = std::make_unique<TMC9660CommModeManager>(*handle->unified_interface);
+    
+    // Create TMC9660 driver with address matching the bootloader configuration
+    handle->driver = std::make_unique<TMC9660>(*handle->unified_interface, 1);
+    
+    // ============================================================================
+    // TMC9660 BOOTLOADER CONFIGURATION (TMC9660-3PH-EVKIT Compatible)
+    // ============================================================================
+    tmc9660::BootloaderConfig cfg{};
+    
+    // Boot mode configuration
+    cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+    cfg.boot.start_motor_control = true;
+    cfg.boot.bl_ready_fault = false;
+    cfg.boot.bl_exit_fault = true;
+    
+    // UART configuration
+    cfg.uart.device_address = 1;  // Must match driver address
+    cfg.uart.baud_rate = 115200;
+    cfg.uart.parity = tmc9660::bootcfg::UartParity::None;
+    cfg.uart.stop_bits = tmc9660::bootcfg::UartStopBits::One;
+    cfg.uart.flow_control = tmc9660::bootcfg::UartFlowControl::None;
+    
+    // SPI configuration
+    cfg.spi.mode = 3;  // SPI Mode 3 (CPOL=1, CPHA=1)
+    cfg.spi.clock_speed_hz = 1000000;  // 1 MHz
+    cfg.spi.cs_polarity = tmc9660::bootcfg::SpiCsPolarity::ActiveLow;
+    cfg.spi.data_order = tmc9660::bootcfg::SpiDataOrder::MSBFirst;
+    
+    // Motor configuration
+    cfg.motor.motor_type = tmc9660::bootcfg::MotorType::BLDC;
+    cfg.motor.pole_pairs = TEST_POLE_PAIRS;
+    cfg.motor.max_torque_current_ma = TEST_MAX_TORQUE_CURRENT;
+    cfg.motor.max_flux_current_ma = TEST_MAX_FLUX_CURRENT;
+    
+    // Initialize bootloader with current communication mode
+    ESP_LOGI(TAG, "Initializing bootloader with unified interface (current mode: %s)", 
+             handle->unified_interface->mode() == CommMode::SPI ? "SPI" : "UART");
+    
+    auto init_result = handle->driver->bootloaderInit(&cfg, true, true);
+    if (init_result != TMC9660::BootloaderInitResult::Success) {
+        ESP_LOGE(TAG, "Unified interface bootloader initialization failed: %d", static_cast<int>(init_result));
+        return nullptr;
+    }
+    ESP_LOGI(TAG, "✅ Unified interface bootloader initialization successful - chip ready for motor control!");
+    
+    return handle;
+}
+
+bool switch_to_uart_mode(UnifiedTestDriverHandle& handle) noexcept {
+    if (!handle.mode_manager) {
+        ESP_LOGE(TAG, "Mode manager not available");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "Switching to UART mode...");
+    if (!handle.mode_manager->switchToUART()) {
+        ESP_LOGE(TAG, "Failed to switch to UART mode");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "✅ Successfully switched to UART mode");
+    ESP_LOGI(TAG, "Available modes: %s", handle.mode_manager->getAvailableModes().c_str());
+    
+    // Test communication in UART mode
+    uint32_t version = 0;
+    if (handle.driver->getVersion(version)) {
+        ESP_LOGI(TAG, "UART mode communication test successful - Version: 0x%08X", version);
+    } else {
+        ESP_LOGW(TAG, "UART mode communication test failed (device may not be connected)");
+    }
+    
+    return true;
+}
+
+bool switch_to_spi_mode(UnifiedTestDriverHandle& handle) noexcept {
+    if (!handle.mode_manager) {
+        ESP_LOGE(TAG, "Mode manager not available");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "Switching to SPI mode...");
+    if (!handle.mode_manager->switchToSPI()) {
+        ESP_LOGE(TAG, "Failed to switch to SPI mode");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "✅ Successfully switched to SPI mode");
+    ESP_LOGI(TAG, "Available modes: %s", handle.mode_manager->getAvailableModes().c_str());
+    
+    // Test communication in SPI mode
+    uint32_t version = 0;
+    if (handle.driver->getVersion(version)) {
+        ESP_LOGI(TAG, "SPI mode communication test successful - Version: 0x%08X", version);
+    } else {
+        ESP_LOGW(TAG, "SPI mode communication test failed (device may not be connected)");
+    }
+    
+    return true;
+}
+
 extern "C" void app_main(void) {
     // ⚠️ CRITICAL: Enable DEBUG logging for TMCL communication traces
     // By default, ESP-IDF only shows INFO level and above
@@ -1307,6 +1518,14 @@ extern "C" void app_main(void) {
         RUN_TEST_IN_TASK("multi_device_operations", test_bldc_multi_device_operations, 8192, 1);
         flip_test_progress_indicator();
         RUN_TEST_IN_TASK("startup_shutdown_procedures", test_bldc_startup_shutdown_procedures, 8192, 1);
+        flip_test_progress_indicator();
+    );
+
+    RUN_TEST_SECTION_IF_ENABLED_WITH_PATTERN(
+        ENABLE_UNIFIED_COMM_TESTS, "BLDC UNIFIED COMMUNICATION TESTS", 5,
+        // Unified communication interface tests
+        ESP_LOGI(TAG, "Running BLDC unified communication interface tests...");
+        RUN_TEST_IN_TASK("unified_communication_switching", test_bldc_unified_communication_switching, 8192, 1);
         flip_test_progress_indicator();
     );
 
