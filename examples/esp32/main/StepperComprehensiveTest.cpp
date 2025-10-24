@@ -121,7 +121,7 @@ bool test_stepper_bootloader_initialization() noexcept {
         return true;
     }
 
-    TMC9660 uart_driver(*uart_interface);
+    TMC9660 uart_driver(*uart_interface, 1);  // Address 1 to match bootloader config
     result = uart_driver.bootloaderInit(&cfg);
     if (result != TMC9660::BootloaderInitResult::Success) {
         ESP_LOGW(TAG, "UART bootloader initialization failed: %d", static_cast<int>(result));

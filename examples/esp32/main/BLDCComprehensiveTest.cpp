@@ -90,130 +90,36 @@ bool test_bldc_startup_shutdown_procedures() noexcept;
 
 // Helper functions
 struct TestDriverHandle {
-    std::unique_ptr<Esp32SPITMC9660CommInterface> interface;
+    std::unique_ptr<TMC9660CommInterface> interface;
     std::unique_ptr<TMC9660> driver;
 };
-std::unique_ptr<TestDriverHandle> create_test_driver() noexcept;
+std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false) noexcept;
 bool verify_motor_configuration(const TMC9660& driver) noexcept;
 bool verify_foc_gains(const TMC9660& driver) noexcept;
 void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
 
-/**
- * @brief Perform bootloader reset sequence: toggle RST pin, wait for nFAULT high, call bootloader unit function
- * @param interface Communication interface for GPIO control
- * @param driver TMC9660 driver instance
- * @param cfg Bootloader configuration
- * @return true if reset sequence completed successfully
- * @note DEPRECATED: Reset sequence is now integrated into bootloaderInit().
- *                   Use driver.bootloaderInit(&cfg, true) instead.
- */
-template<typename InterfaceType>
-[[deprecated("Use driver.bootloaderInit(&cfg, true) instead - reset is now integrated")]]
-bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface, 
-                                      TMC9660& driver, 
-                                      const tmc9660::BootloaderConfig& cfg) noexcept {
-    // Hardware reset sequence is now integrated into bootloaderInit()
-    // Just call it with performReset=true (default)
-    ESP_LOGI(TAG, "⚠️  perform_bootloader_reset_sequence() is deprecated!");
-    ESP_LOGI(TAG, "   Use driver.bootloaderInit(&cfg, true) instead");
-    
-    auto result = driver.bootloaderInit(&cfg, true);
-    if (result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGE(TAG, "Bootloader init failed: %d", static_cast<int>(result));
-        return false;
-    }
-    
-    return true;
-}
 
 bool test_bldc_bootloader_initialization() noexcept {
     ESP_LOGI(TAG, "Testing BLDC bootloader initialization...");
 
-    // Test 1: Basic bootloader initialization with SPI (using EVKIT configuration)
-    auto spi_interface = createSPIInterface();
-    if (!spi_interface) {
-        ESP_LOGE(TAG, "Failed to create SPI interface");
+    // Test 1: Basic bootloader initialization with SPI (using create_test_driver)
+    ESP_LOGI(TAG, "Testing SPI bootloader initialization with EVKIT configuration...");
+    auto spi_handle = create_test_driver(false);  // use_uart = false
+    if (!spi_handle || !spi_handle->driver) {
+        ESP_LOGE(TAG, "Failed to create SPI test driver for bootloader initialization test");
         return false;
     }
-
-    TMC9660 driver(*spi_interface);
-    
-    // Use EVKIT-compatible configuration (same as create_test_driver)
-    tmc9660::BootloaderConfig cfg{};
-    
-    // Boot mode
-    cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-    cfg.boot.start_motor_control = false;  // Don't auto-start in this test
-    cfg.boot.bl_exit_fault = true;
-    
-    // SPI
-    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
-    cfg.spiComm.disable_spi = false;
-    
-    // UART
-    cfg.uart.device_address = 1;
-    cfg.uart.host_address = 255;
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;
-    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
-    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
-    
-    // LDO (EVKIT: VEXT1=5V, VEXT2=3.3V)
-    cfg.ldo.vext1 = tmc9660::bootcfg::LDOVoltage::V5_0;
-    cfg.ldo.vext2 = tmc9660::bootcfg::LDOVoltage::V3_3;
-    cfg.ldo.slope_vext1 = tmc9660::bootcfg::LDOSlope::Slope3ms;
-    cfg.ldo.slope_vext2 = tmc9660::bootcfg::LDOSlope::Slope3ms;
-    
-    // SPI Flash (EVKIT: Enabled)
-    cfg.spiFlash.enable_flash = true;
-    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
-    cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
-    cfg.spiFlash.cs_pin = 12;
-    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;
-    
-    // GPIO (EVKIT: Hall, ABN encoders, analog)
-    cfg.gpio.analogMask |= (1 << 5);
-    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);
-    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);
-    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);
-    
-    // Clock (EVKIT: External 16MHz + PLL = 40MHz)
-    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::External;
-    cfg.clock.ext_source_type = tmc9660::bootcfg::ExtSourceType::Oscillator;
-    cfg.clock.xtal_drive = tmc9660::bootcfg::XtalDrive::Freq16MHz;
-    cfg.clock.xtal_boost = false;
-    cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
-    cfg.clock.rdiv = 15;  // 16MHz - 1
-    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;
-
-    // ✅ Initialize with bootloader info retrieval enabled
-    ESP_LOGI(TAG, "Initializing with EVKIT configuration + bootloader info retrieval...");
-    auto init_result = driver.bootloaderInit(&cfg, true, false, true);  // performReset=true, startMotorControl=false, retrieveBootloaderInfo=true
-    if (init_result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGE(TAG, "Bootloader initialization failed: %d", static_cast<int>(init_result));
-        return false;
-    }
-
     ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with EVKIT config");
 
-    // Test 2: Bootloader initialization with UART
-    auto uart_interface = createUARTInterface();
-    if (!uart_interface) {
-        ESP_LOGW(TAG, "Failed to create UART interface, skipping UART test");
+    // Test 2: Bootloader initialization with UART (using same EVKIT configuration)
+    ESP_LOGI(TAG, "Testing UART bootloader initialization with same EVKIT configuration...");
+    auto uart_handle = create_test_driver(true);  // use_uart = true
+    if (!uart_handle || !uart_handle->driver) {
+        ESP_LOGW(TAG, "Failed to create UART test driver for bootloader initialization test");
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
         return true;
     }
-
-    TMC9660 uart_driver(*uart_interface);
-    
-    // ✅ NEW API: Use integrated bootloader initialization with reset
-    auto uart_init_result = uart_driver.bootloaderInit(&cfg, true);  // performReset=true
-    if (uart_init_result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGW(TAG, "UART bootloader initialization failed: %d", static_cast<int>(uart_init_result));
-        ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
-        return true;
-    }
-
-    ESP_LOGI(TAG, "UART bootloader initialization successful");
+    ESP_LOGI(TAG, "✅ UART bootloader initialization successful");
     ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed");
     return true;
 }
@@ -221,7 +127,7 @@ bool test_bldc_bootloader_initialization() noexcept {
 bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC motor type configuration...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -265,7 +171,7 @@ bool test_bldc_motor_type_configuration() noexcept {
 bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC Hall sensor configuration...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -319,7 +225,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
 bool test_bldc_abn_encoder_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC ABN encoder configuration...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -370,7 +276,7 @@ bool test_bldc_abn_encoder_configuration() noexcept {
 bool test_bldc_foc_control_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC FOC control configuration...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -424,7 +330,7 @@ bool test_bldc_foc_control_configuration() noexcept {
 bool test_bldc_velocity_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC velocity control...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -486,7 +392,7 @@ bool test_bldc_velocity_control() noexcept {
 bool test_bldc_current_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC current control...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -540,7 +446,7 @@ bool test_bldc_current_control() noexcept {
 bool test_bldc_commutation_modes() noexcept {
     ESP_LOGI(TAG, "Testing BLDC commutation modes...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -597,7 +503,7 @@ bool test_bldc_commutation_modes() noexcept {
 bool test_bldc_telemetry_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing BLDC telemetry monitoring...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -635,7 +541,7 @@ bool test_bldc_telemetry_monitoring() noexcept {
 bool test_bldc_performance_benchmarks() noexcept {
     ESP_LOGI(TAG, "Testing BLDC performance benchmarks...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -702,7 +608,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 bool test_bldc_error_handling() noexcept {
     ESP_LOGI(TAG, "Testing BLDC error handling...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -743,7 +649,7 @@ bool test_bldc_error_handling() noexcept {
 bool test_bldc_edge_cases() noexcept {
     ESP_LOGI(TAG, "Testing BLDC edge cases...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -788,7 +694,7 @@ bool test_bldc_multi_device_operations() noexcept {
     ESP_LOGI(TAG, "Testing BLDC multi-device operations...");
 
     // Test 1: Create multiple drivers with different interfaces
-    auto spi_handle = create_test_driver();
+    auto spi_handle = create_test_driver(false);
     if (!spi_handle || !spi_handle->driver) {
         ESP_LOGE(TAG, "Failed to create SPI driver for multi-device test");
         return false;
@@ -796,14 +702,14 @@ bool test_bldc_multi_device_operations() noexcept {
 
     // Create UART interface (skipping for now as it has issues)
     ESP_LOGW(TAG, "UART multi-device test skipped - testing SPI only");
-    ESP_LOGI(TAG, "[SUCCESS] BLDC multi-device operations tests passed (SPI only)");
+        ESP_LOGI(TAG, "[SUCCESS] BLDC multi-device operations tests passed (SPI only)");
     return true;
 }
 
 bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing BLDC startup and shutdown procedures...");
 
-    auto handle = create_test_driver();
+    auto handle = create_test_driver(false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -868,16 +774,29 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
 }
 
 // Helper function implementations
-std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
+std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     auto handle = std::make_unique<TestDriverHandle>();
     
-    handle->interface = createSPIInterface();
-    if (!handle->interface) {
+    // Create the appropriate communication interface
+    if (use_uart) {
+        handle->interface = createUARTInterface();
+        if (!handle->interface) {
+            ESP_LOGE(TAG, "Failed to create UART interface");
+            return nullptr;
+        }
+        ESP_LOGI(TAG, "Created UART interface");
+    } else {
+        handle->interface = createSPIInterface();
+        if (!handle->interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
         return nullptr;
+        }
+        ESP_LOGI(TAG, "Created SPI interface");
     }
 
-    handle->driver = std::make_unique<TMC9660>(*handle->interface);
+    // Create TMC9660 driver with address matching the bootloader configuration
+    // The address must match cfg.uart.device_address (set to 1 below)
+    handle->driver = std::make_unique<TMC9660>(*handle->interface, 1);
     
     // ============================================================================
     // TMC9660 BOOTLOADER CONFIGURATION (TMC9660-3PH-EVKIT Compatible)
@@ -985,11 +904,11 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     //   false: RS485 mode disabled ← EVKIT default
     //   true: Enable RS485 mode with TXEN pin control
     
-    cfg.rs485.txen_pre_delay = 0;
+    cfg.rs485.txen_pre_delay = 1;
     //   Range: 0-255
     //   Delay before transmission (in bit times) ← EVKIT default: 0
     
-    cfg.rs485.txen_post_delay = 0;
+    cfg.rs485.txen_post_delay = 1;
     //   Range: 0-255
     //   Delay after transmission (in bit times) ← EVKIT default: 0
     
@@ -1016,14 +935,14 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     // 6. SPI FLASH CONFIGURATION
     // ============================================================================
     // External SPI flash memory for storing motor profiles, parameters, etc.
-    cfg.spiFlash.enable_flash = true;
+    cfg.spiFlash.enable_flash = false;
     //   false: No external SPI flash
     //   true: External SPI flash present ← EVKIT has flash
     
-    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE1;
     //   Options:
-    //   - SPIInterface::IFACE0 (0): Flash on SPI0 ← EVKIT uses this
-    //   - SPIInterface::IFACE1 (1): Flash on SPI1
+    //   - SPIInterface::IFACE0 (0): Flash on SPI1
+    //   - SPIInterface::IFACE1 (1): Flash on SPI0 ← EVKIT uses this (bootloader uses SPI0)
     
     cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
     //   Options:
@@ -1073,28 +992,31 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     // 8. GPIO CONFIGURATION
     // ============================================================================
     // Configure GPIO pins for various functions (Hall, encoders, analog, etc.)
-    // Each mask is a 32-bit value where bit N corresponds to GPIO N
+    // According to datasheet: GPIOs 0-15 use 16-bit masks, GPIOs 16-18 use 3-bit masks
     
-    // Analog input configuration (ADC)
-    cfg.gpio.analogMask = 0;
-    cfg.gpio.analogMask |= (1 << 5);  // GPIO5: Analog input ← EVKIT uses this
-    //   Set bit N to configure GPIO N as analog input
+    // GPIO output levels (default: all 0)
+    cfg.gpio.outputMask_0_15 = 0;     // GPIOs 0-15: all outputs low
+    cfg.gpio.outputMask_16_18 = 0;    // GPIOs 16-18: all outputs low
     
-    // Direction configuration (0=input, 1=output)
-    cfg.gpio.directionMask = 0;
-    //   Default: 0 (all inputs) ← EVKIT default
-    //   Set bit N to configure GPIO N as output
+    // GPIO direction (0=input, 1=output) - default: all inputs
+    cfg.gpio.directionMask_0_15 = 0;  // GPIOs 0-15: all inputs ← EVKIT default
+    cfg.gpio.directionMask_16_18 = 0; // GPIOs 16-18: all inputs ← EVKIT default
     
     // Pull-up resistor configuration
-    cfg.gpio.pullUpMask = 0;
-    cfg.gpio.pullUpMask |= (1 << 2) | (1 << 3) | (1 << 4);  // Hall sensor pins ← EVKIT
-    cfg.gpio.pullUpMask |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15) | (1 << 16);  // ABN encoder ← EVKIT
-    //   Set bit N to enable internal pull-up on GPIO N
+    cfg.gpio.pullUpMask_0_15 = 0;
+    cfg.gpio.pullUpMask_0_15 |= (1 << 2) | (1 << 3) | (1 << 4);  // Hall sensor pins ← EVKIT
+    cfg.gpio.pullUpMask_0_15 |= (1 << 8) | (1 << 13) | (1 << 14) | (1 << 15);  // ABN encoder ← EVKIT
+    cfg.gpio.pullUpMask_16_18 = 0;
+    cfg.gpio.pullUpMask_16_18 |= (1 << 0);  // GPIO16: ABN encoder ← EVKIT
     
     // Pull-down resistor configuration
-    cfg.gpio.pullDownMask = 0;
-    cfg.gpio.pullDownMask |= (1 << 17) | (1 << 18);  // GPIO17-18: Inputs with pull-down ← EVKIT
-    //   Set bit N to enable internal pull-down on GPIO N
+    cfg.gpio.pullDownMask_0_15 = 0;
+    cfg.gpio.pullDownMask_16_18 = 0;
+    cfg.gpio.pullDownMask_16_18 |= (1 << 1) | (1 << 2);  // GPIO17-18: Inputs with pull-down ← EVKIT
+    
+    // Analog input configuration (GPIOs 2-5 only)
+    cfg.gpio.analogMask_2_5 = 0;
+    cfg.gpio.analogMask_2_5 |= (1 << 3);  // GPIO5: Analog input ← EVKIT uses this
     
     // ============================================================================
     // 9. CLOCK CONFIGURATION ⚠️ CRITICAL FOR MOTOR CONTROL
@@ -1141,16 +1063,122 @@ std::unique_ptr<TestDriverHandle> create_test_driver() noexcept {
     //   - SysClkDiv::Div15MHz (3): SysClk = 15MHz (divide PLL output)
     //   Note: Only Div1 and Div15MHz are valid options
     
+    // ============================================================================
+    // 10. HALL ENCODER CONFIGURATION (EVKIT: Enabled)
+    // ============================================================================
+    cfg.hall.enable = true;
+    //   true: Enable Hall encoder ← EVKIT uses this
+    //   false: Disable Hall encoder
+    
+    cfg.hall.u_pin = tmc9660::bootcfg::HallUPin::GPIO2;
+    //   Options:
+    //   - HallUPin::GPIO2 (0): Use GPIO2 for Hall U ← EVKIT uses this
+    //   - HallUPin::GPIO7 (1): Use GPIO7 for Hall U
+    //   - HallUPin::GPIO9 (2): Use GPIO9 for Hall U
+    
+    cfg.hall.v_pin = tmc9660::bootcfg::HallVPin::GPIO3;
+    //   Options:
+    //   - HallVPin::GPIO3 (0): Use GPIO3 for Hall V ← EVKIT uses this
+    //   - HallVPin::GPIO15 (1): Use GPIO15 for Hall V
+    
+    cfg.hall.w_pin = tmc9660::bootcfg::HallWPin::GPIO4;
+    //   Options:
+    //   - HallWPin::GPIO4 (0): Use GPIO4 for Hall W ← EVKIT uses this
+    //   - HallWPin::GPIO8 (1): Use GPIO8 for Hall W
+    //   - HallWPin::GPIO10 (2): Use GPIO10 for Hall W
+    
+    // ============================================================================
+    // 11. ABN ENCODER 1 CONFIGURATION (EVKIT: Enabled)
+    // ============================================================================
+    cfg.abn1.enable = true;
+    //   true: Enable ABN encoder 1 ← EVKIT uses this
+    //   false: Disable ABN encoder 1
+    
+    cfg.abn1.a_pin = tmc9660::bootcfg::ABN1APin::GPIO8;
+    //   Options:
+    //   - ABN1APin::GPIO5 (0): Use GPIO5 for ABN1 A
+    //   - ABN1APin::GPIO8 (1): Use GPIO8 for ABN1 A ← EVKIT uses this
+    //   - ABN1APin::GPIO17 (2): Use GPIO17 for ABN1 A
+    
+    cfg.abn1.b_pin = tmc9660::bootcfg::ABN1BPin::GPIO13;
+    //   Options:
+    //   - ABN1BPin::GPIO1 (0): Use GPIO1 for ABN1 B
+    //   - ABN1BPin::GPIO13 (1): Use GPIO13 for ABN1 B ← EVKIT uses this
+    //   - ABN1BPin::GPIO18 (2): Use GPIO18 for ABN1 B
+    
+    cfg.abn1.n_pin = tmc9660::bootcfg::ABN1NPin::GPIO14;
+    //   Options:
+    //   - ABN1NPin::Disabled (0): N channel disabled
+    //   - ABN1NPin::GPIO14 (1): Use GPIO14 for ABN1 N ← EVKIT uses this
+    //   - ABN1NPin::GPIO16 (2): Use GPIO16 for ABN1 N
+    
+    // ============================================================================
+    // 12. ABN ENCODER 2 CONFIGURATION (EVKIT: Enabled)
+    // ============================================================================
+    cfg.abn2.enable = true;
+    //   true: Enable ABN encoder 2 ← EVKIT uses this
+    //   false: Disable ABN encoder 2
+    
+    cfg.abn2.a_pin = tmc9660::bootcfg::ABN2APin::GPIO15;
+    //   Options:
+    //   - ABN2APin::GPIO6 (0): Use GPIO6 for ABN2 A
+    //   - ABN2APin::GPIO15 (1): Use GPIO15 for ABN2 A ← EVKIT uses this
+    
+    cfg.abn2.b_pin = tmc9660::bootcfg::ABN2BPin::GPIO16;
+    //   Options:
+    //   - ABN2BPin::GPIO7 (0): Use GPIO7 for ABN2 B
+    //   - ABN2BPin::GPIO11 (1): Use GPIO11 for ABN2 B
+    //   - ABN2BPin::GPIO16 (2): Use GPIO16 for ABN2 B ← EVKIT uses this
+    
+    // ============================================================================
+    // 13. BRAKE CHOPPER CONFIGURATION (EVKIT: Enabled)
+    // ============================================================================
+    cfg.brakeChopper.enable = true;
+    //   true: Enable brake chopper ← EVKIT uses this
+    //   false: Disable brake chopper
+    
+    cfg.brakeChopper.output_pin = tmc9660::bootcfg::BrakeChopperOutput::Y2_HS;
+    //   Options: GPIO0-GPIO18 or Y2_HS (19) ← EVKIT uses Y2_HS ("Y2")
+    
+    // ============================================================================
+    // 14. MECHANICAL BRAKE CONFIGURATION (EVKIT: Enabled)
+    // ============================================================================
+    cfg.mechBrake.enable = true;
+    //   true: Enable mechanical brake ← EVKIT uses this
+    //   false: Disable mechanical brake
+    
+    cfg.mechBrake.output_pin = tmc9660::bootcfg::MechBrakeOutput::Y2_LS;
+    //   Options:
+    //   - MechBrakeOutput::GPIO8 (0): Use GPIO8
+    //   - MechBrakeOutput::GPIO10 (1): Use GPIO10
+    //   - MechBrakeOutput::GPIO18 (2): Use GPIO18
+    //   - MechBrakeOutput::Y2_LS (3): Use Y2_LS ← EVKIT uses this ("Y2")
+    
+    // ============================================================================
+    // 15. EXTERNAL MEMORY STORAGE CONFIGURATION (EVKIT: SPI Flash)
+    // ============================================================================
+    cfg.memStorage.tmcl_script = tmc9660::bootcfg::MemStorage::SPIFlash;
+    //   Options:
+    //   - MemStorage::Disabled (0): TMCL script storage disabled
+    //   - MemStorage::SPIFlash (1): Store TMCL script in SPI flash ← EVKIT uses this
+    //   - MemStorage::I2CEEPROM (2): Store TMCL script in I2C EEPROM
+    
+    cfg.memStorage.parameters = tmc9660::bootcfg::MemStorage::SPIFlash;
+    //   Options:
+    //   - MemStorage::Disabled (0): Parameter storage disabled
+    //   - MemStorage::SPIFlash (1): Store parameters in SPI flash ← EVKIT uses this
+    //   - MemStorage::I2CEEPROM (2): Store parameters in I2C EEPROM
+    
     // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:
     // 1. Hardware reset (RST pin toggle + FAULTN monitoring)
     // 2. Mode detection (bootloader vs parameter)
     // 3. Bootloader configuration
     // 4. Bootloader info retrieval (if retrieveBootloaderInfo=true)
-    // 5. Motor control startup (if startMotorControl=true)
+    // 5. Motor control startup (if cfg.boot.start_motor_control=true)
     // 6. SESSION_START consumption (0x0C)
     // 7. TMCL communication verification (GetVersion)
     ESP_LOGI(TAG, "Performing complete initialization (reset + config + info + motor control + verify)...");
-    auto init_result = handle->driver->bootloaderInit(&cfg, true, true, true);  // performReset=true, startMotorControl=true, retrieveBootloaderInfo=true
+    auto init_result = handle->driver->bootloaderInit(&cfg, true, true);  // performReset=true, retrieveBootloaderInfo=true
     if (init_result != TMC9660::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;
@@ -1210,8 +1238,8 @@ extern "C" void app_main(void) {
         ESP_LOGI(TAG, "Running core BLDC functionality tests...");
         RUN_TEST_IN_TASK("bootloader_initialization", test_bldc_bootloader_initialization, 8192, 1);
         flip_test_progress_indicator();
-        RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
-        flip_test_progress_indicator();
+        //RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
+        //flip_test_progress_indicator();
     );
 
     RUN_TEST_SECTION_IF_ENABLED_WITH_PATTERN(

@@ -86,35 +86,38 @@ public:
    * @param performReset If true (default), performs hardware reset sequence (RST pin toggle
    *                     + FAULTN monitoring) to ensure chip enters bootloader mode.
    *                     Set to false if you've already performed reset externally.
-   * @param startMotorControl If true (default), automatically starts motor control,
-   *                          waits for initialization, consumes SESSION_START (0x0C),
-   *                          and verifies TMCL communication. If false, leaves chip
-   *                          in bootloader mode (useful for firmware updates, etc).
+   * @param retrieveBootloaderInfo If true, retrieves and logs all available bootloader
+   *                               information (version, features, git info, etc) for debugging.
+   * @param failOnVerifyError If true (default), initialization fails on read-back verification
+   *                          errors. If false, logs warnings but continues despite verification
+   *                          failures (useful for debugging or when some configs are expected to fail).
    * @return BootloaderInitResult indicating success, no config, or failure.
    * 
    * @warning This method MUST be called successfully before any motor control operations.
    * 
    * @note **Complete Initialization (Recommended):**
-   *       Set startMotorControl=true for a fully initialized, communication-verified
+   *       Set cfg.boot.start_motor_control=true for a fully initialized, communication-verified
    *       chip ready for motor control commands.
    * 
    * @note **Bootloader-Only Initialization:**
-   *       Set startMotorControl=false if you need to stay in bootloader mode
+   *       Set cfg.boot.start_motor_control=false if you need to stay in bootloader mode
    *       (e.g., for firmware flashing or custom configuration).
    * 
    * @note Typical usage:
    * @code
    * tmc9660::BootloaderConfig cfg{};
    * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+   * cfg.boot.start_motor_control = true;  // Start motor control after configuration
    * 
    * // Complete initialization (recommended)
-   * if (driver.bootloaderInit(&cfg, true, true) != TMC9660::BootloaderInitResult::Success) {
+   * if (driver.bootloaderInit(&cfg) != TMC9660::BootloaderInitResult::Success) {
    *     // Handle initialization failure
    * }
    * // Driver is now ready for motor control commands!
    * 
    * // Bootloader-only initialization
-   * if (driver.bootloaderInit(&cfg, true, false) != TMC9660::BootloaderInitResult::Success) {
+   * cfg.boot.start_motor_control = false;  // Stay in bootloader mode
+   * if (driver.bootloaderInit(&cfg) != TMC9660::BootloaderInitResult::Success) {
    *     // Handle initialization failure
    * }
    * // Chip is in bootloader mode, call bootloader_->startMotorControl() later
@@ -123,8 +126,8 @@ public:
   TMC9660::BootloaderInitResult
   bootloaderInit(const tmc9660::BootloaderConfig *cfg = nullptr, 
                  bool performReset = true,
-                 bool startMotorControl = true,
-                 bool retrieveBootloaderInfo = false) noexcept;
+                 bool retrieveBootloaderInfo = false,
+                 bool failOnVerifyError = true) noexcept;
 
   /** @brief Get direct access to the bootloader instance.
    * 

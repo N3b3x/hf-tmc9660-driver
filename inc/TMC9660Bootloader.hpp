@@ -76,6 +76,57 @@ enum class SysClkSource : uint8_t { IntOsc = 0, PLL = 1 };
 
 enum class SysClkDiv : uint8_t { Div1 = 0, Div15MHz = 3 };
 
+// Hall encoder pin selections
+enum class HallUPin : uint8_t { GPIO2 = 0, GPIO7 = 1, GPIO9 = 2 };
+enum class HallVPin : uint8_t { GPIO3 = 0, GPIO15 = 1 };
+enum class HallWPin : uint8_t { GPIO4 = 0, GPIO8 = 1, GPIO10 = 2 };
+
+// ABN encoder 1 pin selections
+enum class ABN1APin : uint8_t { GPIO5 = 0, GPIO8 = 1, GPIO17 = 2 };
+enum class ABN1BPin : uint8_t { GPIO1 = 0, GPIO13 = 1, GPIO18 = 2 };
+enum class ABN1NPin : uint8_t { Disabled = 0, GPIO14 = 1, GPIO16 = 2 };
+
+// ABN encoder 2 pin selections
+enum class ABN2APin : uint8_t { GPIO6 = 0, GPIO15 = 1 };
+enum class ABN2BPin : uint8_t { GPIO7 = 0, GPIO11 = 1, GPIO16 = 2 };
+
+// Reference switch pin selections
+enum class RefLPin : uint8_t { Disabled = 0, GPIO2 = 1, GPIO12 = 2, GPIO16 = 3 };
+enum class RefRPin : uint8_t { Disabled = 0, GPIO3 = 1, GPIO18 = 2 };
+enum class RefHPin : uint8_t { Disabled = 0, GPIO4 = 1, GPIO7 = 2, GPIO15 = 3, GPIO17 = 4 };
+
+// Step/Direction pin selections
+enum class StepPin : uint8_t { GPIO7 = 0, GPIO11 = 1, GPIO16 = 2 };
+enum class DirPin : uint8_t { GPIO6 = 0, GPIO15 = 1 };
+
+// SPI encoder configuration
+enum class SPIEncBlock : uint8_t { SPI0 = 0, SPI1 = 1 };
+enum class SPIEncMode : uint8_t { Mode0 = 0, Mode1 = 1, Mode2 = 2, Mode3 = 3 };
+enum class SPIEncFreq : uint8_t { 
+  Div4 = 0, Div5 = 1, Div6 = 2, Div7 = 3, Div8 = 4, Div9 = 5, Div10 = 6, Div11 = 7,
+  Div12 = 8, Div13 = 9, Div14 = 10, Div15 = 11, Div16 = 12, Div17 = 13, Div18 = 14, Div19 = 15
+};
+enum class SPIEncCSPin : uint8_t { 
+  // SPI0 options
+  GPIO8 = 0, GPIO12 = 1, GPIO13 = 2, GPIO16 = 3,
+  // SPI1 options (same enum values, context determines which)
+  GPIO15_SPI1 = 0
+};
+enum class SPIEncCSPol : uint8_t { ActiveHigh = 0, ActiveLow = 1 };
+
+// Mechanical brake output selections
+enum class MechBrakeOutput : uint8_t { GPIO8 = 0, GPIO10 = 1, GPIO18 = 2, Y2_LS = 3 };
+
+// Brake chopper output selections (0-18 = GPIO0-GPIO18, 19 = Y2_HS)
+enum class BrakeChopperOutput : uint8_t { 
+  GPIO0 = 0, GPIO1 = 1, GPIO2 = 2, GPIO3 = 3, GPIO4 = 4, GPIO5 = 5, GPIO6 = 6, GPIO7 = 7,
+  GPIO8 = 8, GPIO9 = 9, GPIO10 = 10, GPIO11 = 11, GPIO12 = 12, GPIO13 = 13, GPIO14 = 14,
+  GPIO15 = 15, GPIO16 = 16, GPIO17 = 17, GPIO18 = 18, Y2_HS = 19
+};
+
+// External memory storage selections
+enum class MemStorage : uint8_t { Disabled = 0, SPIFlash = 1, I2CEEPROM = 2 };
+
 } // namespace bootcfg
 
 namespace bootaddr {
@@ -98,16 +149,34 @@ constexpr uint32_t SPI_FLASH = BASE + 0x0A;
 constexpr uint32_t I2C_CONFIG = BASE + 0x0C;
 /// GPIO output level register.
 constexpr uint32_t GPIO_OUT = BASE + 0x0E;
-/// GPIO direction register.
+/// GPIO direction register (GPIOs 0-15).
 constexpr uint32_t GPIO_DIR = BASE + 0x10;
-/// GPIO pull-up register.
+/// GPIO pull-up register (GPIOs 0-15).
 constexpr uint32_t GPIO_PU = BASE + 0x12;
-/// GPIO pull-down register.
+/// GPIO pull-down register (GPIOs 0-15).
 constexpr uint32_t GPIO_PD = BASE + 0x14;
-/// GPIO analog enable register.
-constexpr uint32_t GPIO_ANALOG = BASE + 0x16;
+/// GPIO extended configuration register (GPIOs 16-18 + analog GPIOs 2-5).
+constexpr uint32_t GPIO_EXT = BASE + 0x16;
 /// Clock configuration register.
 constexpr uint32_t CLOCK_CONFIG = BASE + 0x18;
+/// Hall encoder configuration register (offset 32, shared with ABN1).
+constexpr uint32_t HALL_CONFIG = BASE + 0x20;
+/// ABN encoder 1 configuration register (offset 32, shared with Hall).
+constexpr uint32_t ABN1_CONFIG = BASE + 0x20;
+/// ABN encoder 2 configuration register (offset 34, shared with REF and StepDir).
+constexpr uint32_t ABN2_CONFIG = BASE + 0x22;
+/// Reference switches configuration register (offset 34, shared with ABN2 and StepDir).
+constexpr uint32_t REF_CONFIG = BASE + 0x22;
+/// Step/Direction interface configuration register (offset 34, shared with ABN2 and REF).
+constexpr uint32_t STEPDIR_CONFIG = BASE + 0x22;
+/// SPI encoder configuration register (offset 38).
+constexpr uint32_t SPI_ENC_CONFIG = BASE + 0x26;
+/// Mechanical brake configuration register (offset 36, shared with BrakeChopper).
+constexpr uint32_t MECH_BRAKE_CONFIG = BASE + 0x24;
+/// Brake chopper configuration register (offset 36, shared with MechBrake).
+constexpr uint32_t BRAKECHOPPER_CONFIG = BASE + 0x24;
+/// External memory storage selection register (offset 40).
+constexpr uint32_t MEM_STORAGE_CONFIG = BASE + 0x28;
 } // namespace bootaddr
 
 /// Configuration of the on-chip LDO regulators.
@@ -121,7 +190,7 @@ struct LDOConfig {
 
 /// Bootloader behaviour configuration.
 struct BootConfig {
-  bootcfg::BootMode boot_mode{bootcfg::BootMode::Register};
+  bootcfg::BootMode boot_mode{bootcfg::BootMode::Parameter};
   bool bl_ready_fault{false};
   bool bl_exit_fault{true};
   bool disable_selftest{false};
@@ -151,7 +220,7 @@ struct RS485Config {
 struct SPIBootConfig {
   bool disable_spi{false};
   bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::IFACE0};
-  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};
+  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO11};
 };
 
 /// External SPI flash configuration.
@@ -185,11 +254,89 @@ struct ClockConfig {
 
 /// Initial state of the general purpose pins during boot.
 struct GPIOConfig {
-  uint32_t outputMask{0};
-  uint32_t directionMask{0};
-  uint32_t pullUpMask{0};
-  uint32_t pullDownMask{0};
-  uint32_t analogMask{0};
+  /// GPIO output levels for GPIOs 0-15 (16-bit mask)
+  uint16_t outputMask_0_15{0};
+  /// GPIO output levels for GPIOs 16-18 (3-bit mask)
+  uint8_t outputMask_16_18{0};
+  /// GPIO direction (output enable) for GPIOs 0-15 (16-bit mask)
+  uint16_t directionMask_0_15{0};
+  /// GPIO direction (output enable) for GPIOs 16-18 (3-bit mask)
+  uint8_t directionMask_16_18{0};
+  /// GPIO pull-up enable for GPIOs 0-15 (16-bit mask)
+  uint16_t pullUpMask_0_15{0};
+  /// GPIO pull-up enable for GPIOs 16-18 (3-bit mask)
+  uint8_t pullUpMask_16_18{0};
+  /// GPIO pull-down enable for GPIOs 0-15 (16-bit mask)
+  uint16_t pullDownMask_0_15{0};
+  /// GPIO pull-down enable for GPIOs 16-18 (3-bit mask)
+  uint8_t pullDownMask_16_18{0};
+  /// GPIO analog enable for GPIOs 2-5 (4-bit mask)
+  uint8_t analogMask_2_5{0};
+};
+
+/// Hall encoder configuration.
+struct HallConfig {
+  bool enable{false};
+  bootcfg::HallUPin u_pin{bootcfg::HallUPin::GPIO2};
+  bootcfg::HallVPin v_pin{bootcfg::HallVPin::GPIO3};
+  bootcfg::HallWPin w_pin{bootcfg::HallWPin::GPIO4};
+};
+
+/// ABN encoder 1 configuration.
+struct ABN1Config {
+  bool enable{false};
+  bootcfg::ABN1APin a_pin{bootcfg::ABN1APin::GPIO5};
+  bootcfg::ABN1BPin b_pin{bootcfg::ABN1BPin::GPIO1};
+  bootcfg::ABN1NPin n_pin{bootcfg::ABN1NPin::Disabled};
+};
+
+/// ABN encoder 2 configuration.
+struct ABN2Config {
+  bool enable{false};
+  bootcfg::ABN2APin a_pin{bootcfg::ABN2APin::GPIO6};
+  bootcfg::ABN2BPin b_pin{bootcfg::ABN2BPin::GPIO7};
+};
+
+/// Reference switches configuration.
+struct RefConfig {
+  bootcfg::RefLPin ref_l_pin{bootcfg::RefLPin::Disabled};
+  bootcfg::RefRPin ref_r_pin{bootcfg::RefRPin::Disabled};
+  bootcfg::RefHPin ref_h_pin{bootcfg::RefHPin::Disabled};
+};
+
+/// Step/Direction interface configuration.
+struct StepDirConfig {
+  bool enable{false};
+  bootcfg::StepPin step_pin{bootcfg::StepPin::GPIO7};
+  bootcfg::DirPin dir_pin{bootcfg::DirPin::GPIO6};
+};
+
+/// SPI encoder configuration.
+struct SPIEncConfig {
+  bool enable{false};
+  bootcfg::SPIEncBlock spi_block{bootcfg::SPIEncBlock::SPI0};
+  bootcfg::SPIEncMode spi_mode{bootcfg::SPIEncMode::Mode0};
+  bootcfg::SPIEncFreq spi_freq{bootcfg::SPIEncFreq::Div4};
+  bootcfg::SPIEncCSPin cs_pin{bootcfg::SPIEncCSPin::GPIO8};
+  bootcfg::SPIEncCSPol cs_polarity{bootcfg::SPIEncCSPol::ActiveLow};
+};
+
+/// Mechanical brake configuration.
+struct MechBrakeConfig {
+  bool enable{false};
+  bootcfg::MechBrakeOutput output_pin{bootcfg::MechBrakeOutput::GPIO8};
+};
+
+/// Brake chopper configuration.
+struct BrakeChopperConfig {
+  bool enable{false};
+  bootcfg::BrakeChopperOutput output_pin{bootcfg::BrakeChopperOutput::GPIO0};
+};
+
+/// External memory storage configuration.
+struct MemStorageConfig {
+  bootcfg::MemStorage tmcl_script{bootcfg::MemStorage::Disabled};
+  bootcfg::MemStorage parameters{bootcfg::MemStorage::Disabled};
 };
 
 /// Aggregated bootloader configuration written by ::TMC9660Bootloader.
@@ -203,6 +350,15 @@ struct BootloaderConfig {
   I2CConfig i2c;
   ClockConfig clock;
   GPIOConfig gpio;
+  HallConfig hall;
+  ABN1Config abn1;
+  ABN2Config abn2;
+  RefConfig ref;
+  StepDirConfig stepdir;
+  SPIEncConfig spiEnc;
+  MechBrakeConfig mechBrake;
+  BrakeChopperConfig brakeChopper;
+  MemStorageConfig memStorage;
 };
 
 /// Bootloader status codes (per TMC9660 datasheet)
@@ -643,6 +799,28 @@ public:
   bool noOp(uint32_t *reply = nullptr) noexcept;
   
   //==================================================
+  // VERIFICATION OPERATIONS
+  //==================================================
+  
+  /// Read back and verify an 8-bit value matches expected value.
+  /// @param expected The expected 8-bit value
+  /// @param configName Human-readable name for logging
+  /// @return true if read successful and value matches
+  bool readAndVerify8(uint8_t expected, const char* configName) noexcept;
+  
+  /// Read back and verify a 16-bit value matches expected value.
+  /// @param expected The expected 16-bit value
+  /// @param configName Human-readable name for logging
+  /// @return true if read successful and value matches
+  bool readAndVerify16(uint16_t expected, const char* configName) noexcept;
+  
+  /// Read back and verify a 32-bit value matches expected value.
+  /// @param expected The expected 32-bit value
+  /// @param configName Human-readable name for logging
+  /// @return true if read successful and value matches
+  bool readAndVerify32(uint32_t expected, const char* configName) noexcept;
+  
+  //==================================================
   // OTP OPERATIONS
   //==================================================
   
@@ -888,9 +1066,10 @@ public:
 
   /// Apply all fields of a ::BootloaderConfig.
   /// @param cfg Configuration to apply
+  /// @param failOnVerifyError If true, return false on read-back verification failure; if false, log warning but continue
   /// @return true if successful
   /// @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
-  bool applyConfiguration(const BootloaderConfig &cfg) noexcept;
+  bool applyConfiguration(const BootloaderConfig &cfg, bool failOnVerifyError = true) noexcept;
 
   //==================================================
   // MOTOR CONTROL STARTUP

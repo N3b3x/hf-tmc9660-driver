@@ -66,6 +66,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <span>
+#include <string>
 
 /// Supported physical communication modes
 enum class CommMode { 
@@ -137,6 +138,28 @@ struct TMCLReply {
            (static_cast<uint32_t>(rawBytes[offset + 2]) << 8) |
            static_cast<uint32_t>(rawBytes[offset + 3]);
   }
+  
+  /**
+   * @brief Extract version string from GetVersion reply (Command 136, Type 0)
+   * @return Version string (up to 8 characters) or empty string if not a version reply
+   * 
+   * GetVersion with Type=0 returns: [Host Address][Version String 8 chars]
+   * This method extracts the version string portion
+   */
+  [[nodiscard]] std::string getVersionString() const noexcept {
+    if (opcode != 136) return "";  // Not a GetVersion reply
+    
+    std::string version;
+    // Extract version string from bytes 1-8 (skip host address at byte 0)
+    for (size_t i = 1; i < 8; ++i) {
+      if (rawBytes[i] >= 0x20 && rawBytes[i] <= 0x7E) {  // Printable ASCII
+        version += static_cast<char>(rawBytes[i]);
+      } else {
+        break;  // Stop at first non-printable character
+      }
+    }
+    return version;
+  }
 
   /// Decode reply from SPI datagram
   static bool fromSpi(std::span<const uint8_t, 8> in, TMCLReply &r) noexcept {
@@ -155,6 +178,28 @@ struct TMCLReply {
       r.value = (static_cast<uint32_t>(in[3]) << 24) | (static_cast<uint32_t>(in[4]) << 16) |
                 (static_cast<uint32_t>(in[5]) << 8) | static_cast<uint32_t>(in[6]);
       return true;  // Allow SESSION_START even if checksum fails
+    }
+    
+    // Check for GetVersion string format (Command 136, Type 0)
+    // GetVersion with Type=0 returns a special string format without checksum
+    // Format: [Host Address][Version String 8 chars]
+    // We detect this by checking if the reply looks like ASCII characters
+    bool looksLikeVersionString = true;
+    for (size_t i = 1; i < 8; ++i) {  // Check bytes 1-7 for ASCII printable characters
+      if (in[i] < 0x20 || in[i] > 0x7E) {  // Not printable ASCII
+        looksLikeVersionString = false;
+        break;
+      }
+    }
+    
+    if (looksLikeVersionString && in[0] >= 0x20 && in[0] <= 0x7E) {
+      // This looks like a GetVersion string reply
+      // Format: [Host Address][Version String 8 chars] - no checksum!
+      r.spiStatus = SPIStatus::OK;  // Assume OK for version string
+      r.status = 100;  // REPLY_OK for successful version retrieval
+      r.opcode = 136;  // GetVersion command
+      r.value = 0;     // No value field for string format
+      return true;     // Success - no checksum validation needed
     }
     
     // Standard TMCL reply validation
