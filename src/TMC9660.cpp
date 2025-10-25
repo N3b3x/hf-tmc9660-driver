@@ -35,7 +35,8 @@ TMC9660::~TMC9660() noexcept {
 }
 
 TMC9660::BootloaderInitResult
-TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, bool retrieveBootloaderInfo, bool failOnVerifyError) noexcept {
+TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, 
+                        bool retrieveBootloaderInfo, bool failOnVerifyError) noexcept {
   const tmc9660::BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
   if (!useCfg)
     return BootloaderInitResult::NoConfig;
@@ -45,7 +46,7 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   }
 
   TMCLFrame statusFrame{};
-  statusFrame.opcode = static_cast<uint8_t>(tmc9660::tmcl::Op::GetStatusScript);  // GetStatusScript command for polling
+  statusFrame.opcode = static_cast<uint8_t>(tmc9660::tmcl::Op::GetStatusScript);  // GetStatusScript command
 
   // ======================================================================
   // STEP 1: Hardware Reset Sequence (if requested)

@@ -1665,7 +1665,8 @@ public:
 
   /// Apply all fields of a ::BootloaderConfig.
   /// @param cfg Configuration to apply
-  /// @param failOnVerifyError If true, return false on read-back verification failure; if false, log warning but continue
+  /// @param failOnVerifyError If true, return false on read-back verification failure;
+  ///                          if false, log warning but continue
   /// @return true if successful
   /// @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
   bool applyConfiguration(const BootloaderConfig &cfg, bool failOnVerifyError = true) noexcept;
