@@ -13,265 +13,838 @@ namespace tmc9660 {
 
 namespace bootcfg {
 
-/// Enumerations describing bootloader configuration options.
+/**
+ * @brief Enumerations describing bootloader configuration options.
+ * 
+ * These enumerations define the various configuration options available
+ * for the TMC9660 bootloader, including voltage settings, communication
+ * parameters, and hardware pin configurations.
+ */
 
+/**
+ * @brief LDO voltage configuration options for external power supplies.
+ * 
+ * Configures the on-chip LDO regulators for VEXT1 and VEXT2 outputs.
+ * These voltages power external components connected to the TMC9660.
+ */
 enum class LDOVoltage : uint8_t {
-  Disabled = 0,
-  V2_5 = 1,
-  V3_3 = 2,
-  V5_0 = 3,
+  Disabled = 0,  ///< LDO output disabled
+  V2_5 = 1,      ///< 2.5V output voltage
+  V3_3 = 2,      ///< 3.3V output voltage  
+  V5_0 = 3,      ///< 5.0V output voltage
 };
 
+/**
+ * @brief LDO output slope control for power-up characteristics.
+ * 
+ * Controls the rise time of the LDO output voltage during power-up.
+ * Slower slopes reduce inrush current but increase power-up time.
+ */
 enum class LDOSlope : uint8_t {
-  Slope3ms = 0,
-  Slope1_5ms = 1,
-  Slope0_75ms = 2,
-  Slope0_37ms = 3,
+  Slope3ms = 0,    ///< 3ms rise time (slowest, lowest inrush current)
+  Slope1_5ms = 1,  ///< 1.5ms rise time
+  Slope0_75ms = 2, ///< 0.75ms rise time
+  Slope0_37ms = 3, ///< 0.37ms rise time (fastest, highest inrush current)
 };
 
+/**
+ * @brief Boot mode selection for motor control system startup.
+ * 
+ * Determines which motor control mode the TMC9660 will enter after
+ * bootloader configuration is complete and START_MOTOR_CTRL is set.
+ */
 enum class BootMode : uint8_t {
-  Register = 1,
-  Parameter = 2,
+  Register = 1,  ///< Register mode - direct register access for motor control
+  Parameter = 2, ///< Parameter mode - TMCL command-based motor control (recommended)
 };
 
-enum class UartRxPin : uint8_t { GPIO7 = 0, GPIO1 = 1 };
-enum class UartTxPin : uint8_t { GPIO6 = 0, GPIO0 = 1 };
+/**
+ * @brief UART receive pin selection for bootloader communication.
+ * 
+ * Selects which GPIO pin is used for UART RX signal during bootloader mode.
+ */
+enum class UartRxPin : uint8_t { 
+  GPIO7 = 0,  ///< Use GPIO7 for UART RX (default)
+  GPIO1 = 1   ///< Use GPIO1 for UART RX (alternative)
+};
 
+/**
+ * @brief UART transmit pin selection for bootloader communication.
+ * 
+ * Selects which GPIO pin is used for UART TX signal during bootloader mode.
+ */
+enum class UartTxPin : uint8_t { 
+  GPIO6 = 0,  ///< Use GPIO6 for UART TX (default)
+  GPIO0 = 1   ///< Use GPIO0 for UART TX (alternative)
+};
+
+/**
+ * @brief UART baud rate configuration for bootloader communication.
+ * 
+ * Configures the UART communication speed. Auto modes detect the baud rate
+ * automatically by analyzing the received data pattern.
+ */
 enum class BaudRate : uint8_t {
-  BR9600 = 0,
-  BR19200,
-  BR38400,
-  BR57600,
-  BR115200,
-  BR1000000,
-  Auto8x,
-  Auto16x,
+  BR9600 = 0,    ///< 9600 baud (slowest, most reliable)
+  BR19200,       ///< 19200 baud
+  BR38400,       ///< 38400 baud
+  BR57600,       ///< 57600 baud
+  BR115200,      ///< 115200 baud (recommended for most applications)
+  BR1000000,     ///< 1000000 baud (1 Mbps, fastest)
+  Auto8x,        ///< Auto-detect with 8x oversampling
+  Auto16x,       ///< Auto-detect with 16x oversampling (most robust)
 };
 
-enum class RS485TxEnPin : uint8_t { None = 0, GPIO8 = 1, GPIO2 = 2 };
+/**
+ * @brief RS485 transmit enable pin selection for half-duplex communication.
+ * 
+ * Selects which GPIO pin controls the RS485 transceiver's transmit enable.
+ * When None is selected, RS485 mode is disabled.
+ */
+enum class RS485TxEnPin : uint8_t { 
+  None = 0,  ///< No RS485 TX enable pin (RS485 disabled)
+  GPIO8 = 1, ///< Use GPIO8 for RS485 TX enable
+  GPIO2 = 2  ///< Use GPIO2 for RS485 TX enable
+};
 
-enum class SPIInterface : uint8_t { IFACE0 = 0, IFACE1 = 1 };
+/**
+ * @brief SPI interface selection for bootloader communication.
+ * 
+ * The TMC9660 supports two SPI interfaces. IFACE0 is typically used for
+ * bootloader communication, while IFACE1 can be used for external flash.
+ */
+enum class SPIInterface : uint8_t { 
+  IFACE0 = 0,  ///< SPI interface 0 (primary bootloader interface)
+  IFACE1 = 1   ///< SPI interface 1 (secondary interface, often for flash)
+};
 
-enum class SPI0SckPin : uint8_t { GPIO6 = 0, GPIO11 = 1 };
+/**
+ * @brief SPI0 clock pin selection for bootloader communication.
+ * 
+ * Selects which GPIO pin is used for SPI0 SCK (serial clock) signal.
+ * This affects the bootloader communication interface.
+ */
+enum class SPI0SckPin : uint8_t { 
+  GPIO6 = 0,  ///< Use GPIO6 for SPI0 SCK (default)
+  GPIO11 = 1  ///< Use GPIO11 for SPI0 SCK (alternative)
+};
 
-enum class SPIFlashFreq : uint8_t { Div1 = 0, Div2 = 1, Div4 = 3 };
+/**
+ * @brief SPI flash frequency divider configuration.
+ * 
+ * Controls the SPI clock frequency for external flash communication.
+ * Higher divider values result in slower, more reliable communication.
+ */
+enum class SPIFlashFreq : uint8_t { 
+  Div1 = 0,  ///< No division (fastest, may be unreliable)
+  Div2 = 1,  ///< Divide by 2 (medium speed)
+  Div4 = 3   ///< Divide by 4 (slowest, most reliable)
+};
 
-enum class I2CSdaPin : uint8_t { GPIO5 = 0, GPIO11 = 1, GPIO14 = 2 };
-enum class I2CSclPin : uint8_t { GPIO4 = 0, GPIO12 = 1, GPIO13 = 2 };
+/**
+ * @brief I2C data pin selection for external EEPROM communication.
+ * 
+ * Selects which GPIO pin is used for I2C SDA (serial data) signal.
+ * Used for communication with external I2C EEPROM devices.
+ */
+enum class I2CSdaPin : uint8_t { 
+  GPIO5 = 0,  ///< Use GPIO5 for I2C SDA (default)
+  GPIO11 = 1, ///< Use GPIO11 for I2C SDA
+  GPIO14 = 2  ///< Use GPIO14 for I2C SDA
+};
 
-enum class I2CFreq : uint8_t { Freq100k = 0, Freq200k, Freq400k, Freq800k };
+/**
+ * @brief I2C clock pin selection for external EEPROM communication.
+ * 
+ * Selects which GPIO pin is used for I2C SCL (serial clock) signal.
+ * Used for communication with external I2C EEPROM devices.
+ */
+enum class I2CSclPin : uint8_t { 
+  GPIO4 = 0,  ///< Use GPIO4 for I2C SCL (default)
+  GPIO12 = 1, ///< Use GPIO12 for I2C SCL
+  GPIO13 = 2  ///< Use GPIO13 for I2C SCL
+};
 
-enum class ClockSource : uint8_t { Internal = 0, External = 1 };
+/**
+ * @brief I2C communication frequency configuration.
+ * 
+ * Sets the I2C clock frequency for external EEPROM communication.
+ * Higher frequencies enable faster data transfer but may be less reliable.
+ */
+enum class I2CFreq : uint8_t { 
+  Freq100k = 0,  ///< 100 kHz (standard mode, most compatible)
+  Freq200k,      ///< 200 kHz (fast mode)
+  Freq400k,      ///< 400 kHz (fast mode plus)
+  Freq800k       ///< 800 kHz (high speed mode, fastest)
+};
 
-enum class ExtSourceType : uint8_t { Oscillator = 0, Clock = 1 };
+/**
+ * @brief System clock source selection.
+ * 
+ * Determines whether the TMC9660 uses its internal oscillator or an external
+ * clock source for system timing.
+ */
+enum class ClockSource : uint8_t { 
+  Internal = 0,  ///< Use internal oscillator (default, no external components needed)
+  External = 1   ///< Use external clock source (requires external crystal/oscillator)
+};
 
+/**
+ * @brief External clock source type configuration.
+ * 
+ * Specifies the type of external clock source when ClockSource::External is selected.
+ * This affects the input buffer configuration and clock processing.
+ */
+enum class ExtSourceType : uint8_t { 
+  Oscillator = 0,  ///< External crystal oscillator (requires external crystal)
+  Clock = 1        ///< External clock signal (digital clock input)
+};
+
+/**
+ * @brief Crystal drive strength configuration for external oscillators.
+ * 
+ * Configures the drive strength of the internal oscillator when using
+ * an external crystal. Higher drive strength is needed for higher frequency crystals.
+ */
 enum class XtalDrive : uint8_t {
-  Freq8MHz = 1,
-  Freq16MHz = 3,
-  Freq24MHz = 5,
-  Freq32MHz = 6,
+  Freq8MHz = 1,   ///< 8 MHz crystal drive strength
+  Freq16MHz = 3,  ///< 16 MHz crystal drive strength (recommended)
+  Freq24MHz = 5,  ///< 24 MHz crystal drive strength
+  Freq32MHz = 6,  ///< 32 MHz crystal drive strength (highest frequency)
 };
 
-enum class SysClkSource : uint8_t { IntOsc = 0, PLL = 1 };
+/**
+ * @brief System clock source selection after initial oscillator.
+ * 
+ * Determines whether the system clock is derived directly from the oscillator
+ * or through the PLL (Phase-Locked Loop) for frequency multiplication.
+ */
+enum class SysClkSource : uint8_t { 
+  IntOsc = 0,  ///< Use internal oscillator directly (lower power, fixed frequency)
+  PLL = 1      ///< Use PLL for frequency multiplication (higher performance, configurable)
+};
 
-enum class SysClkDiv : uint8_t { Div1 = 0, Div15MHz = 3 };
+/**
+ * @brief System clock divider configuration.
+ * 
+ * Divides the system clock to achieve the desired operating frequency.
+ * Lower divider values result in higher system clock frequencies.
+ */
+enum class SysClkDiv : uint8_t { 
+  Div1 = 0,      ///< No division (40 MHz system clock)
+  Div15MHz = 3   ///< Divide by 3 (15 MHz system clock, lower power)
+};
 
-// Hall encoder pin selections
-enum class HallUPin : uint8_t { GPIO2 = 0, GPIO7 = 1, GPIO9 = 2 };
-enum class HallVPin : uint8_t { GPIO3 = 0, GPIO15 = 1 };
-enum class HallWPin : uint8_t { GPIO4 = 0, GPIO8 = 1, GPIO10 = 2 };
+/**
+ * @brief Hall encoder U-phase pin selection for BLDC motor feedback.
+ * 
+ * Selects which GPIO pin is used for the Hall sensor U-phase signal.
+ * Used for BLDC motor commutation and position feedback.
+ */
+enum class HallUPin : uint8_t { 
+  GPIO2 = 0,  ///< Use GPIO2 for Hall U-phase (default)
+  GPIO7 = 1,  ///< Use GPIO7 for Hall U-phase
+  GPIO9 = 2   ///< Use GPIO9 for Hall U-phase
+};
 
-// ABN encoder 1 pin selections
-enum class ABN1APin : uint8_t { GPIO5 = 0, GPIO8 = 1, GPIO17 = 2 };
-enum class ABN1BPin : uint8_t { GPIO1 = 0, GPIO13 = 1, GPIO18 = 2 };
-enum class ABN1NPin : uint8_t { Disabled = 0, GPIO14 = 1, GPIO16 = 2 };
+/**
+ * @brief Hall encoder V-phase pin selection for BLDC motor feedback.
+ * 
+ * Selects which GPIO pin is used for the Hall sensor V-phase signal.
+ * Used for BLDC motor commutation and position feedback.
+ */
+enum class HallVPin : uint8_t { 
+  GPIO3 = 0,   ///< Use GPIO3 for Hall V-phase (default)
+  GPIO15 = 1   ///< Use GPIO15 for Hall V-phase
+};
 
-// ABN encoder 2 pin selections
-enum class ABN2APin : uint8_t { GPIO6 = 0, GPIO15 = 1 };
-enum class ABN2BPin : uint8_t { GPIO7 = 0, GPIO11 = 1, GPIO16 = 2 };
+/**
+ * @brief Hall encoder W-phase pin selection for BLDC motor feedback.
+ * 
+ * Selects which GPIO pin is used for the Hall sensor W-phase signal.
+ * Used for BLDC motor commutation and position feedback.
+ */
+enum class HallWPin : uint8_t { 
+  GPIO4 = 0,   ///< Use GPIO4 for Hall W-phase (default)
+  GPIO8 = 1,   ///< Use GPIO8 for Hall W-phase
+  GPIO10 = 2   ///< Use GPIO10 for Hall W-phase
+};
 
-// Reference switch pin selections
-enum class RefLPin : uint8_t { Disabled = 0, GPIO2 = 1, GPIO12 = 2, GPIO16 = 3 };
-enum class RefRPin : uint8_t { Disabled = 0, GPIO3 = 1, GPIO18 = 2 };
-enum class RefHPin : uint8_t { Disabled = 0, GPIO4 = 1, GPIO7 = 2, GPIO15 = 3, GPIO17 = 4 };
+/**
+ * @brief ABN encoder 1 A-phase pin selection for incremental encoder feedback.
+ * 
+ * Selects which GPIO pin is used for the ABN encoder 1 A-phase signal.
+ * Used for precise position and velocity feedback from incremental encoders.
+ */
+enum class ABN1APin : uint8_t { 
+  GPIO5 = 0,   ///< Use GPIO5 for ABN1 A-phase (default)
+  GPIO8 = 1,   ///< Use GPIO8 for ABN1 A-phase
+  GPIO17 = 2   ///< Use GPIO17 for ABN1 A-phase
+};
 
-// Step/Direction pin selections
-enum class StepPin : uint8_t { GPIO7 = 0, GPIO11 = 1, GPIO16 = 2 };
-enum class DirPin : uint8_t { GPIO6 = 0, GPIO15 = 1 };
+/**
+ * @brief ABN encoder 1 B-phase pin selection for incremental encoder feedback.
+ * 
+ * Selects which GPIO pin is used for the ABN encoder 1 B-phase signal.
+ * Used for precise position and velocity feedback from incremental encoders.
+ */
+enum class ABN1BPin : uint8_t { 
+  GPIO1 = 0,   ///< Use GPIO1 for ABN1 B-phase (default)
+  GPIO13 = 1,  ///< Use GPIO13 for ABN1 B-phase
+  GPIO18 = 2   ///< Use GPIO18 for ABN1 B-phase
+};
 
-// SPI encoder configuration
-enum class SPIEncBlock : uint8_t { SPI0 = 0, SPI1 = 1 };
-enum class SPIEncMode : uint8_t { Mode0 = 0, Mode1 = 1, Mode2 = 2, Mode3 = 3 };
+/**
+ * @brief ABN encoder 1 index pin selection for incremental encoder feedback.
+ * 
+ * Selects which GPIO pin is used for the ABN encoder 1 index (Z) signal.
+ * The index signal provides a reference position for absolute positioning.
+ */
+enum class ABN1NPin : uint8_t { 
+  Disabled = 0,  ///< No index pin (index signal not used)
+  GPIO14 = 1,    ///< Use GPIO14 for ABN1 index signal
+  GPIO16 = 2     ///< Use GPIO16 for ABN1 index signal
+};
+
+/**
+ * @brief ABN encoder 2 A-phase pin selection for second incremental encoder.
+ * 
+ * Selects which GPIO pin is used for the ABN encoder 2 A-phase signal.
+ * Used for dual-encoder applications or secondary position feedback.
+ */
+enum class ABN2APin : uint8_t { 
+  GPIO6 = 0,   ///< Use GPIO6 for ABN2 A-phase (default)
+  GPIO15 = 1   ///< Use GPIO15 for ABN2 A-phase
+};
+
+/**
+ * @brief ABN encoder 2 B-phase pin selection for second incremental encoder.
+ * 
+ * Selects which GPIO pin is used for the ABN encoder 2 B-phase signal.
+ * Used for dual-encoder applications or secondary position feedback.
+ */
+enum class ABN2BPin : uint8_t { 
+  GPIO7 = 0,   ///< Use GPIO7 for ABN2 B-phase (default)
+  GPIO11 = 1,  ///< Use GPIO11 for ABN2 B-phase
+  GPIO16 = 2   ///< Use GPIO16 for ABN2 B-phase
+};
+
+/**
+ * @brief Reference switch left pin selection for limit switch detection.
+ * 
+ * Selects which GPIO pin is used for the left reference switch signal.
+ * Used for detecting mechanical limits and home position.
+ */
+enum class RefLPin : uint8_t { 
+  Disabled = 0,  ///< No left reference switch (disabled)
+  GPIO2 = 1,     ///< Use GPIO2 for left reference switch
+  GPIO12 = 2,    ///< Use GPIO12 for left reference switch
+  GPIO16 = 3     ///< Use GPIO16 for left reference switch
+};
+
+/**
+ * @brief Reference switch right pin selection for limit switch detection.
+ * 
+ * Selects which GPIO pin is used for the right reference switch signal.
+ * Used for detecting mechanical limits and home position.
+ */
+enum class RefRPin : uint8_t { 
+  Disabled = 0,  ///< No right reference switch (disabled)
+  GPIO3 = 1,     ///< Use GPIO3 for right reference switch
+  GPIO18 = 2     ///< Use GPIO18 for right reference switch
+};
+
+/**
+ * @brief Reference switch home pin selection for home position detection.
+ * 
+ * Selects which GPIO pin is used for the home reference switch signal.
+ * Used for detecting the home position during homing sequences.
+ */
+enum class RefHPin : uint8_t { 
+  Disabled = 0,  ///< No home reference switch (disabled)
+  GPIO4 = 1,     ///< Use GPIO4 for home reference switch
+  GPIO7 = 2,     ///< Use GPIO7 for home reference switch
+  GPIO15 = 3,    ///< Use GPIO15 for home reference switch
+  GPIO17 = 4     ///< Use GPIO17 for home reference switch
+};
+
+/**
+ * @brief Step pin selection for step/direction interface.
+ * 
+ * Selects which GPIO pin is used for the step signal in step/direction mode.
+ * Used for controlling stepper motors or providing step pulses to external controllers.
+ */
+enum class StepPin : uint8_t { 
+  GPIO7 = 0,   ///< Use GPIO7 for step signal (default)
+  GPIO11 = 1,  ///< Use GPIO11 for step signal
+  GPIO16 = 2   ///< Use GPIO16 for step signal
+};
+
+/**
+ * @brief Direction pin selection for step/direction interface.
+ * 
+ * Selects which GPIO pin is used for the direction signal in step/direction mode.
+ * Used for controlling stepper motors or providing direction signals to external controllers.
+ */
+enum class DirPin : uint8_t { 
+  GPIO6 = 0,   ///< Use GPIO6 for direction signal (default)
+  GPIO15 = 1   ///< Use GPIO15 for direction signal
+};
+
+/**
+ * @brief SPI encoder interface block selection.
+ * 
+ * Selects which SPI interface is used for communication with external
+ * SPI-based encoders or position sensors.
+ */
+enum class SPIEncBlock : uint8_t { 
+  SPI0 = 0,  ///< Use SPI interface 0 for encoder communication
+  SPI1 = 1   ///< Use SPI interface 1 for encoder communication
+};
+
+/**
+ * @brief SPI encoder communication mode configuration.
+ * 
+ * Configures the SPI mode for encoder communication. Different encoders
+ * may require different SPI modes for proper communication.
+ */
+enum class SPIEncMode : uint8_t { 
+  Mode0 = 0,  ///< SPI Mode 0 (CPOL=0, CPHA=0)
+  Mode1 = 1,  ///< SPI Mode 1 (CPOL=0, CPHA=1)
+  Mode2 = 2,  ///< SPI Mode 2 (CPOL=1, CPHA=0)
+  Mode3 = 3   ///< SPI Mode 3 (CPOL=1, CPHA=1)
+};
+
+/**
+ * @brief SPI encoder clock frequency divider configuration.
+ * 
+ * Controls the SPI clock frequency for encoder communication.
+ * Higher divider values result in slower, more reliable communication.
+ */
 enum class SPIEncFreq : uint8_t { 
-  Div4 = 0, Div5 = 1, Div6 = 2, Div7 = 3, Div8 = 4, Div9 = 5, Div10 = 6, Div11 = 7,
-  Div12 = 8, Div13 = 9, Div14 = 10, Div15 = 11, Div16 = 12, Div17 = 13, Div18 = 14, Div19 = 15
+  Div4 = 0,   ///< Divide by 4 (fastest)
+  Div5 = 1,   ///< Divide by 5
+  Div6 = 2,   ///< Divide by 6
+  Div7 = 3,   ///< Divide by 7
+  Div8 = 4,   ///< Divide by 8
+  Div9 = 5,   ///< Divide by 9
+  Div10 = 6,  ///< Divide by 10
+  Div11 = 7,  ///< Divide by 11
+  Div12 = 8,  ///< Divide by 12
+  Div13 = 9,  ///< Divide by 13
+  Div14 = 10, ///< Divide by 14
+  Div15 = 11, ///< Divide by 15
+  Div16 = 12, ///< Divide by 16
+  Div17 = 13, ///< Divide by 17
+  Div18 = 14, ///< Divide by 18
+  Div19 = 15  ///< Divide by 19 (slowest, most reliable)
 };
+/**
+ * @brief SPI encoder chip select pin selection.
+ * 
+ * Selects which GPIO pin is used for the SPI encoder chip select signal.
+ * The available pins depend on which SPI interface is selected.
+ */
 enum class SPIEncCSPin : uint8_t { 
   // SPI0 options
-  GPIO8 = 0, GPIO12 = 1, GPIO13 = 2, GPIO16 = 3,
+  GPIO8 = 0,   ///< Use GPIO8 for SPI0 encoder CS
+  GPIO12 = 1,  ///< Use GPIO12 for SPI0 encoder CS
+  GPIO13 = 2,  ///< Use GPIO13 for SPI0 encoder CS
+  GPIO16 = 3,  ///< Use GPIO16 for SPI0 encoder CS
   // SPI1 options (same enum values, context determines which)
-  GPIO15_SPI1 = 0
+  GPIO15_SPI1 = 0  ///< Use GPIO15 for SPI1 encoder CS
 };
-enum class SPIEncCSPol : uint8_t { ActiveHigh = 0, ActiveLow = 1 };
 
-// Mechanical brake output selections
-enum class MechBrakeOutput : uint8_t { GPIO8 = 0, GPIO10 = 1, GPIO18 = 2, Y2_LS = 3 };
+/**
+ * @brief SPI encoder chip select polarity configuration.
+ * 
+ * Configures the active level of the chip select signal for SPI encoder communication.
+ * Most SPI devices use active-low chip select.
+ */
+enum class SPIEncCSPol : uint8_t { 
+  ActiveHigh = 0,  ///< Chip select active high (CS high = selected)
+  ActiveLow = 1    ///< Chip select active low (CS low = selected, most common)
+};
 
-// Brake chopper output selections (0-18 = GPIO0-GPIO18, 19 = Y2_HS)
+/**
+ * @brief Mechanical brake output pin selection.
+ * 
+ * Selects which output is used to control an external mechanical brake.
+ * Used for holding motor position when power is removed.
+ */
+enum class MechBrakeOutput : uint8_t { 
+  GPIO8 = 0,   ///< Use GPIO8 for mechanical brake control
+  GPIO10 = 1,  ///< Use GPIO10 for mechanical brake control
+  GPIO18 = 2,  ///< Use GPIO18 for mechanical brake control
+  Y2_LS = 3    ///< Use Y2_LS (low-side output) for mechanical brake control
+};
+
+/**
+ * @brief Brake chopper output pin selection for dynamic braking.
+ * 
+ * Selects which output is used for the brake chopper circuit.
+ * Used for dynamic braking to quickly stop the motor by shorting the windings.
+ */
 enum class BrakeChopperOutput : uint8_t { 
-  GPIO0 = 0, GPIO1 = 1, GPIO2 = 2, GPIO3 = 3, GPIO4 = 4, GPIO5 = 5, GPIO6 = 6, GPIO7 = 7,
-  GPIO8 = 8, GPIO9 = 9, GPIO10 = 10, GPIO11 = 11, GPIO12 = 12, GPIO13 = 13, GPIO14 = 14,
-  GPIO15 = 15, GPIO16 = 16, GPIO17 = 17, GPIO18 = 18, Y2_HS = 19
+  GPIO0 = 0,   ///< Use GPIO0 for brake chopper output
+  GPIO1 = 1,   ///< Use GPIO1 for brake chopper output
+  GPIO2 = 2,   ///< Use GPIO2 for brake chopper output
+  GPIO3 = 3,   ///< Use GPIO3 for brake chopper output
+  GPIO4 = 4,   ///< Use GPIO4 for brake chopper output
+  GPIO5 = 5,   ///< Use GPIO5 for brake chopper output
+  GPIO6 = 6,   ///< Use GPIO6 for brake chopper output
+  GPIO7 = 7,   ///< Use GPIO7 for brake chopper output
+  GPIO8 = 8,   ///< Use GPIO8 for brake chopper output
+  GPIO9 = 9,   ///< Use GPIO9 for brake chopper output
+  GPIO10 = 10, ///< Use GPIO10 for brake chopper output
+  GPIO11 = 11, ///< Use GPIO11 for brake chopper output
+  GPIO12 = 12, ///< Use GPIO12 for brake chopper output
+  GPIO13 = 13, ///< Use GPIO13 for brake chopper output
+  GPIO14 = 14, ///< Use GPIO14 for brake chopper output
+  GPIO15 = 15, ///< Use GPIO15 for brake chopper output
+  GPIO16 = 16, ///< Use GPIO16 for brake chopper output
+  GPIO17 = 17, ///< Use GPIO17 for brake chopper output
+  GPIO18 = 18, ///< Use GPIO18 for brake chopper output
+  Y2_HS = 19   ///< Use Y2_HS (high-side output) for brake chopper output
 };
 
-// External memory storage selections
-enum class MemStorage : uint8_t { Disabled = 0, SPIFlash = 1, I2CEEPROM = 2 };
+/**
+ * @brief External memory storage type selection.
+ * 
+ * Configures which type of external memory is used for storing
+ * TMCL scripts and parameter data.
+ */
+enum class MemStorage : uint8_t { 
+  Disabled = 0,   ///< No external memory (disabled)
+  SPIFlash = 1,   ///< Use SPI flash memory for storage
+  I2CEEPROM = 2   ///< Use I2C EEPROM for storage
+};
 
 } // namespace bootcfg
 
+/**
+ * @brief Bootloader configuration register addresses.
+ * 
+ * This namespace contains the memory addresses for all bootloader configuration
+ * registers within bank 5 (CONFIG memory bank). These addresses are used to
+ * configure the TMC9660's bootloader behavior and hardware settings.
+ */
 namespace bootaddr {
-/// Base offset of the configuration registers inside bank 5.
+/**
+ * @brief Base offset of the configuration registers inside bank 5.
+ * 
+ * All bootloader configuration registers are located in memory bank 5,
+ * starting at this base address.
+ */
 constexpr uint32_t BASE = 0x00020000;
-/// LDO configuration register (VEXT1, VEXT2, slopes, faults).
+
+/**
+ * @brief LDO configuration register address.
+ * 
+ * Configures the on-chip LDO regulators for VEXT1 and VEXT2 outputs,
+ * including voltage levels, slope control, and fault detection.
+ */
 constexpr uint32_t LDO_CONFIG = BASE + 0x00;
-/// UART device/host address register.
+
+/**
+ * @brief UART device/host address register.
+ * 
+ * Configures the UART communication addresses for device and host
+ * identification in multi-device systems.
+ */
 constexpr uint32_t UART_ADDR = BASE + 0x02;
-/// RS485 TXEN delay configuration.
+
+/**
+ * @brief RS485 TXEN delay configuration register.
+ * 
+ * Configures the timing delays for RS485 transmit enable signal
+ * to ensure proper half-duplex communication.
+ */
 constexpr uint32_t RS485_DELAY = BASE + 0x04;
-/// Communication selection (UART/SPI/RS485).
+
+/**
+ * @brief Communication interface selection register.
+ * 
+ * Configures which communication interfaces are enabled (UART/SPI/RS485)
+ * and their associated pin assignments and parameters.
+ */
 constexpr uint32_t COMM_CONFIG = BASE + 0x06;
-/// Boot configuration register (BOOT_MODE, START_MOTOR_CTRL, BL_READY_FAULT, BL_EXIT_FAULT, etc.).
-/// ⚠️ CRITICAL: Write this LAST with START_MOTOR_CTRL=1 to exit bootloader!
+
+/**
+ * @brief Boot configuration register.
+ * 
+ * Controls the bootloader behavior including boot mode selection,
+ * motor control startup, and fault handling options.
+ * 
+ * @warning CRITICAL: Write this register LAST with START_MOTOR_CTRL=1 to exit bootloader!
+ */
 constexpr uint32_t BOOT_CONFIG = BASE + 0x08;
-/// SPI flash configuration register.
+/**
+ * @brief SPI flash configuration register.
+ * 
+ * Configures external SPI flash memory interface including
+ * chip select pin, frequency divider, and enable settings.
+ */
 constexpr uint32_t SPI_FLASH = BASE + 0x0A;
-/// I2C EEPROM configuration register.
+
+/**
+ * @brief I2C EEPROM configuration register.
+ * 
+ * Configures external I2C EEPROM interface including
+ * pin assignments, address bits, and communication frequency.
+ */
 constexpr uint32_t I2C_CONFIG = BASE + 0x0C;
-/// GPIO output level register.
+
+/**
+ * @brief GPIO output level register.
+ * 
+ * Sets the initial output levels for GPIO pins 0-15
+ * during bootloader operation.
+ */
 constexpr uint32_t GPIO_OUT = BASE + 0x0E;
-/// GPIO direction register (GPIOs 0-15).
+
+/**
+ * @brief GPIO direction register.
+ * 
+ * Configures GPIO pins 0-15 as inputs or outputs
+ * during bootloader operation.
+ */
 constexpr uint32_t GPIO_DIR = BASE + 0x10;
-/// GPIO pull-up register (GPIOs 0-15).
+
+/**
+ * @brief GPIO pull-up enable register.
+ * 
+ * Enables internal pull-up resistors for GPIO pins 0-15
+ * during bootloader operation.
+ */
 constexpr uint32_t GPIO_PU = BASE + 0x12;
-/// GPIO pull-down register (GPIOs 0-15).
+
+/**
+ * @brief GPIO pull-down enable register.
+ * 
+ * Enables internal pull-down resistors for GPIO pins 0-15
+ * during bootloader operation.
+ */
 constexpr uint32_t GPIO_PD = BASE + 0x14;
-/// GPIO extended configuration register (GPIOs 16-18 + analog GPIOs 2-5).
+
+/**
+ * @brief GPIO extended configuration register.
+ * 
+ * Configures GPIO pins 16-18 and analog GPIOs 2-5,
+ * including output levels, directions, and pull settings.
+ */
 constexpr uint32_t GPIO_EXT = BASE + 0x16;
-/// Clock configuration register.
+
+/**
+ * @brief Clock configuration register.
+ * 
+ * Configures the system clock source, PLL settings,
+ * and frequency dividers for optimal performance.
+ */
 constexpr uint32_t CLOCK_CONFIG = BASE + 0x18;
-/// Hall encoder configuration register (offset 32, shared with ABN1).
+/**
+ * @brief Hall encoder configuration register.
+ * 
+ * Configures Hall sensor pins and enable settings for BLDC motor feedback.
+ * This register is shared with ABN1 configuration at offset 0x20.
+ */
 constexpr uint32_t HALL_CONFIG = BASE + 0x20;
-/// ABN encoder 1 configuration register (offset 32, shared with Hall).
+
+/**
+ * @brief ABN encoder 1 configuration register.
+ * 
+ * Configures ABN encoder 1 pins and enable settings for incremental encoder feedback.
+ * This register is shared with Hall encoder configuration at offset 0x20.
+ */
 constexpr uint32_t ABN1_CONFIG = BASE + 0x20;
-/// ABN encoder 2 configuration register (offset 34, shared with REF and StepDir).
+
+/**
+ * @brief ABN encoder 2 configuration register.
+ * 
+ * Configures ABN encoder 2 pins and enable settings for second incremental encoder.
+ * This register is shared with reference switches and step/direction at offset 0x22.
+ */
 constexpr uint32_t ABN2_CONFIG = BASE + 0x22;
-/// Reference switches configuration register (offset 34, shared with ABN2 and StepDir).
+
+/**
+ * @brief Reference switches configuration register.
+ * 
+ * Configures reference switch pins for limit detection and homing.
+ * This register is shared with ABN2 and step/direction at offset 0x22.
+ */
 constexpr uint32_t REF_CONFIG = BASE + 0x22;
-/// Step/Direction interface configuration register (offset 34, shared with ABN2 and REF).
+
+/**
+ * @brief Step/Direction interface configuration register.
+ * 
+ * Configures step and direction pins for stepper motor control.
+ * This register is shared with ABN2 and reference switches at offset 0x22.
+ */
 constexpr uint32_t STEPDIR_CONFIG = BASE + 0x22;
-/// SPI encoder configuration register (offset 38).
+
+/**
+ * @brief SPI encoder configuration register.
+ * 
+ * Configures SPI encoder interface including block selection,
+ * communication mode, frequency, and chip select settings.
+ */
 constexpr uint32_t SPI_ENC_CONFIG = BASE + 0x26;
-/// Mechanical brake configuration register (offset 36, shared with BrakeChopper).
+
+/**
+ * @brief Mechanical brake configuration register.
+ * 
+ * Configures mechanical brake output pin and enable settings.
+ * This register is shared with brake chopper at offset 0x24.
+ */
 constexpr uint32_t MECH_BRAKE_CONFIG = BASE + 0x24;
-/// Brake chopper configuration register (offset 36, shared with MechBrake).
+
+/**
+ * @brief Brake chopper configuration register.
+ * 
+ * Configures brake chopper output pin and enable settings for dynamic braking.
+ * This register is shared with mechanical brake at offset 0x24.
+ */
 constexpr uint32_t BRAKECHOPPER_CONFIG = BASE + 0x24;
-/// External memory storage selection register (offset 40).
+
+/**
+ * @brief External memory storage selection register.
+ * 
+ * Configures which external memory types are used for storing
+ * TMCL scripts and parameter data.
+ */
 constexpr uint32_t MEM_STORAGE_CONFIG = BASE + 0x28;
 } // namespace bootaddr
 
-/// Configuration of the on-chip LDO regulators.
+/**
+ * @brief Configuration structure for on-chip LDO regulators.
+ * 
+ * Configures the TMC9660's internal LDO (Low Dropout) regulators
+ * that provide power to external components. These regulators can
+ * be configured for different voltage levels and power-up characteristics.
+ */
 struct LDOConfig {
-  bootcfg::LDOVoltage vext1{bootcfg::LDOVoltage::Disabled};
-  bootcfg::LDOVoltage vext2{bootcfg::LDOVoltage::Disabled};
-  bootcfg::LDOSlope slope_vext1{bootcfg::LDOSlope::Slope3ms};
-  bootcfg::LDOSlope slope_vext2{bootcfg::LDOSlope::Slope3ms};
-  bool ldo_short_fault{false};
+  bootcfg::LDOVoltage vext1{bootcfg::LDOVoltage::Disabled};      ///< VEXT1 output voltage setting
+  bootcfg::LDOVoltage vext2{bootcfg::LDOVoltage::Disabled};      ///< VEXT2 output voltage setting
+  bootcfg::LDOSlope slope_vext1{bootcfg::LDOSlope::Slope3ms};    ///< VEXT1 power-up slope control
+  bootcfg::LDOSlope slope_vext2{bootcfg::LDOSlope::Slope3ms};    ///< VEXT2 power-up slope control
+  bool ldo_short_fault{false};                                    ///< Enable LDO short-circuit fault detection
 };
 
-/// Bootloader behaviour configuration.
+/**
+ * @brief Bootloader behavior configuration structure.
+ * 
+ * Controls the bootloader's behavior including boot mode selection,
+ * fault handling, self-test options, and motor control startup.
+ */
 struct BootConfig {
-  bootcfg::BootMode boot_mode{bootcfg::BootMode::Parameter};
-  bool bl_ready_fault{false};
-  bool bl_exit_fault{true};
-  bool disable_selftest{false};
-  bool bl_config_fault{false};
-  bool start_motor_control{false};
+  bootcfg::BootMode boot_mode{bootcfg::BootMode::Parameter};  ///< Target boot mode (Register or Parameter)
+  bool bl_ready_fault{false};                                 ///< Enable bootloader ready fault detection
+  bool bl_exit_fault{true};                                   ///< Enable bootloader exit fault detection
+  bool disable_selftest{false};                               ///< Disable power-on self-test
+  bool bl_config_fault{false};                                ///< Enable bootloader configuration fault detection
+  bool start_motor_control{false};                            ///< Start motor control after configuration (CRITICAL!)
 };
 
-/// UART communication settings for the bootloader.
+/**
+ * @brief UART communication configuration structure.
+ * 
+ * Configures UART communication parameters for bootloader operation
+ * including addresses, pin assignments, and baud rate settings.
+ */
 struct UARTConfig {
-  uint8_t device_address{1};
-  uint8_t host_address{255};
-  bool disable_uart{false};
-  bootcfg::UartRxPin rx_pin{bootcfg::UartRxPin::GPIO7};
-  bootcfg::UartTxPin tx_pin{bootcfg::UartTxPin::GPIO6};
-  bootcfg::BaudRate baud_rate{bootcfg::BaudRate::BR115200};
+  uint8_t device_address{1};                                    ///< Device address for UART communication
+  uint8_t host_address{255};                                    ///< Host address for UART communication
+  bool disable_uart{false};                                     ///< Disable UART interface
+  bootcfg::UartRxPin rx_pin{bootcfg::UartRxPin::GPIO7};         ///< UART receive pin selection
+  bootcfg::UartTxPin tx_pin{bootcfg::UartTxPin::GPIO6};         ///< UART transmit pin selection
+  bootcfg::BaudRate baud_rate{bootcfg::BaudRate::BR115200};     ///< UART baud rate setting
 };
 
-/// Optional RS485 transceiver control via the UART_TXEN pin.
+/**
+ * @brief RS485 transceiver configuration structure.
+ * 
+ * Configures RS485 half-duplex communication including transmit enable
+ * pin selection and timing delays for proper transceiver control.
+ */
 struct RS485Config {
-  bool enable_rs485{false};
-  bootcfg::RS485TxEnPin txen_pin{bootcfg::RS485TxEnPin::None};
-  uint8_t txen_pre_delay{0};
-  uint8_t txen_post_delay{0};
+  bool enable_rs485{false};                                     ///< Enable RS485 half-duplex mode
+  bootcfg::RS485TxEnPin txen_pin{bootcfg::RS485TxEnPin::None};  ///< RS485 transmit enable pin selection
+  uint8_t txen_pre_delay{0};                                    ///< Pre-transmission delay (microseconds)
+  uint8_t txen_post_delay{0};                                   ///< Post-transmission delay (microseconds)
 };
 
-/// SPI interface used for bootloader commands.
+/**
+ * @brief SPI interface configuration for bootloader commands.
+ * 
+ * Configures the SPI interface used for bootloader communication
+ * including interface selection and pin assignments.
+ */
 struct SPIBootConfig {
-  bool disable_spi{false};
-  bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::IFACE0};
-  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO11};
+  bool disable_spi{false};                                      ///< Disable SPI interface
+  bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::IFACE0};  ///< SPI interface selection
+  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO11};       ///< SPI0 clock pin selection
 };
 
-/// External SPI flash configuration.
+/**
+ * @brief External SPI flash memory configuration structure.
+ * 
+ * Configures external SPI flash memory interface including
+ * enable settings, interface selection, and communication parameters.
+ */
 struct SPIFlashConfig {
-  bool enable_flash{false};
-  bootcfg::SPIInterface flash_spi_iface{bootcfg::SPIInterface::IFACE1};
-  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};
-  uint8_t cs_pin{0};
-  bootcfg::SPIFlashFreq freq_div{bootcfg::SPIFlashFreq::Div4};
+  bool enable_flash{false};                                     ///< Enable external SPI flash interface
+  bootcfg::SPIInterface flash_spi_iface{bootcfg::SPIInterface::IFACE1};  ///< SPI interface for flash
+  bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};         ///< SPI0 clock pin for flash
+  uint8_t cs_pin{0};                                            ///< Chip select pin for flash
+  bootcfg::SPIFlashFreq freq_div{bootcfg::SPIFlashFreq::Div4};  ///< SPI clock frequency divider
 };
 
-/// External I2C EEPROM configuration.
+/**
+ * @brief External I2C EEPROM configuration structure.
+ * 
+ * Configures external I2C EEPROM interface including
+ * enable settings, pin assignments, and communication parameters.
+ */
 struct I2CConfig {
-  bool enable_eeprom{false};
-  bootcfg::I2CSdaPin sda_pin{bootcfg::I2CSdaPin::GPIO5};
-  bootcfg::I2CSclPin scl_pin{bootcfg::I2CSclPin::GPIO4};
-  uint8_t address_bits{0};
-  bootcfg::I2CFreq freq_code{bootcfg::I2CFreq::Freq100k};
+  bool enable_eeprom{false};                                    ///< Enable external I2C EEPROM interface
+  bootcfg::I2CSdaPin sda_pin{bootcfg::I2CSdaPin::GPIO5};       ///< I2C data pin selection
+  bootcfg::I2CSclPin scl_pin{bootcfg::I2CSclPin::GPIO4};       ///< I2C clock pin selection
+  uint8_t address_bits{0};                                      ///< I2C address bit configuration
+  bootcfg::I2CFreq freq_code{bootcfg::I2CFreq::Freq100k};      ///< I2C communication frequency
 };
 
-/// System clock selection parameters.
+/**
+ * @brief System clock configuration structure.
+ * 
+ * Configures the TMC9660's system clock including source selection,
+ * PLL settings, and frequency dividers for optimal performance.
+ */
 struct ClockConfig {
-  bootcfg::ClockSource use_external{bootcfg::ClockSource::Internal};
-  bootcfg::ExtSourceType ext_source_type{bootcfg::ExtSourceType::Oscillator};
-  bootcfg::XtalDrive xtal_drive{bootcfg::XtalDrive::Freq16MHz};
-  bool xtal_boost{false};
-  bootcfg::SysClkSource pll_selection{bootcfg::SysClkSource::PLL};
-  uint8_t rdiv{14};
-  bootcfg::SysClkDiv sysclk_div{bootcfg::SysClkDiv::Div1};
+  bootcfg::ClockSource use_external{bootcfg::ClockSource::Internal};        ///< Use external or internal clock source
+  bootcfg::ExtSourceType ext_source_type{bootcfg::ExtSourceType::Oscillator}; ///< External source type (crystal/clock)
+  bootcfg::XtalDrive xtal_drive{bootcfg::XtalDrive::Freq16MHz};             ///< Crystal drive strength
+  bool xtal_boost{false};                                                   ///< Enable crystal boost mode
+  bootcfg::SysClkSource pll_selection{bootcfg::SysClkSource::PLL};          ///< System clock source (oscillator/PLL)
+  uint8_t rdiv{14};                                                         ///< PLL reference divider
+  bootcfg::SysClkDiv sysclk_div{bootcfg::SysClkDiv::Div1};                  ///< System clock divider
 };
 
-/// Initial state of the general purpose pins during boot.
+/**
+ * @brief GPIO configuration structure for bootloader operation.
+ * 
+ * Configures the initial state of all GPIO pins during bootloader operation
+ * including output levels, directions, pull settings, and analog mode.
+ */
 struct GPIOConfig {
-  /// GPIO output levels for GPIOs 0-15 (16-bit mask)
-  uint16_t outputMask_0_15{0};
-  /// GPIO output levels for GPIOs 16-18 (3-bit mask)
-  uint8_t outputMask_16_18{0};
-  /// GPIO direction (output enable) for GPIOs 0-15 (16-bit mask)
-  uint16_t directionMask_0_15{0};
-  /// GPIO direction (output enable) for GPIOs 16-18 (3-bit mask)
-  uint8_t directionMask_16_18{0};
-  /// GPIO pull-up enable for GPIOs 0-15 (16-bit mask)
-  uint16_t pullUpMask_0_15{0};
-  /// GPIO pull-up enable for GPIOs 16-18 (3-bit mask)
-  uint8_t pullUpMask_16_18{0};
-  /// GPIO pull-down enable for GPIOs 0-15 (16-bit mask)
-  uint16_t pullDownMask_0_15{0};
-  /// GPIO pull-down enable for GPIOs 16-18 (3-bit mask)
-  uint8_t pullDownMask_16_18{0};
-  /// GPIO analog enable for GPIOs 2-5 (4-bit mask)
-  uint8_t analogMask_2_5{0};
+  uint16_t outputMask_0_15{0};      ///< GPIO output levels for GPIOs 0-15 (16-bit mask)
+  uint8_t outputMask_16_18{0};      ///< GPIO output levels for GPIOs 16-18 (3-bit mask)
+  uint16_t directionMask_0_15{0};   ///< GPIO direction (output enable) for GPIOs 0-15 (16-bit mask)
+  uint8_t directionMask_16_18{0};   ///< GPIO direction (output enable) for GPIOs 16-18 (3-bit mask)
+  uint16_t pullUpMask_0_15{0};      ///< GPIO pull-up enable for GPIOs 0-15 (16-bit mask)
+  uint8_t pullUpMask_16_18{0};      ///< GPIO pull-up enable for GPIOs 16-18 (3-bit mask)
+  uint16_t pullDownMask_0_15{0};    ///< GPIO pull-down enable for GPIOs 0-15 (16-bit mask)
+  uint8_t pullDownMask_16_18{0};    ///< GPIO pull-down enable for GPIOs 16-18 (3-bit mask)
+  uint8_t analogMask_2_5{0};        ///< GPIO analog enable for GPIOs 2-5 (4-bit mask)
 };
 
 /// Hall encoder configuration.

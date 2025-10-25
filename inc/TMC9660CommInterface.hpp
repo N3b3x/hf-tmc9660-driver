@@ -68,35 +68,67 @@
 #include <span>
 #include <string>
 
-/// Supported physical communication modes
+/**
+ * @brief Supported physical communication modes for TMC9660.
+ * 
+ * Defines the available communication interfaces that can be used
+ * to communicate with the TMC9660 motor driver.
+ */
 enum class CommMode { 
-  SPI,  ///< SPI mode
-  UART  ///< UART mode
+  SPI,   ///< SPI (Serial Peripheral Interface) mode - 4-wire synchronous communication
+  UART   ///< UART (Universal Asynchronous Receiver-Transmitter) mode - 2-wire asynchronous communication
 };
 
-/// TMC9660 control pin identifiers (board-agnostic naming)
+/**
+ * @brief TMC9660 control pin identifiers with board-agnostic naming.
+ * 
+ * These pin identifiers abstract the physical pin assignments to provide
+ * a consistent interface regardless of board implementation (direct connection,
+ * inverters, level shifters, etc.).
+ */
 enum class TMC9660CtrlPin {
-  RST,     ///< External System Reset Input (pin 22)
-  DRV_EN,  ///< Driver enable input (pin 21)
-  FAULTN,  ///< FAULT output signal (open drain, pin 20)
-  WAKE     ///< Wake input (pin 19)
+  RST,     ///< External System Reset Input (pin 22) - Active high reset signal
+  DRV_EN,  ///< Driver enable input (pin 21) - Enables motor driver outputs
+  FAULTN,  ///< FAULT output signal (pin 20) - Open drain fault indication
+  WAKE     ///< Wake input (pin 19) - Wake from hibernation mode
 };
 
-/// GPIO signal states (board-agnostic)
+/**
+ * @brief GPIO signal states with board-agnostic naming.
+ * 
+ * These signal states abstract the physical voltage levels to provide
+ * a consistent interface regardless of board implementation (active-high
+ * or active-low signals, inverters, etc.).
+ */
 enum class GpioSignal {
-  INACTIVE = 0,  ///< Inactive signal state
-  ACTIVE = 1     ///< Active signal state
+  INACTIVE = 0,  ///< Inactive signal state (logical low)
+  ACTIVE = 1     ///< Active signal state (logical high)
 };
 
-/// SPI status codes as per TMC9660 Parameter Mode
+/**
+ * @brief SPI status codes as per TMC9660 Parameter Mode specification.
+ * 
+ * These status codes are returned in the first byte of SPI replies
+ * to indicate the communication status and any errors that occurred.
+ */
 enum class SPIStatus : uint8_t {
-  OK = 0xFF,
-  CHECKSUM_ERROR = 0x00,
-  FIRST_CMD = 0x0C,
-  NOT_READY = 0xF0,
+  OK = 0xFF,            ///< Operation successful
+  CHECKSUM_ERROR = 0x00, ///< Checksum verification failed
+  FIRST_CMD = 0x0C,     ///< First command after initialization
+  NOT_READY = 0xF0,     ///< System busy, resend datagram
 };
 
-/// Calculate 8-bit checksum (sum of bytes)
+/**
+ * @brief Calculate 8-bit checksum using sum of bytes method.
+ * 
+ * This function implements the TMCL checksum algorithm which is simply
+ * the sum of all bytes in the datagram. The checksum is used to verify
+ * data integrity during communication.
+ * 
+ * @param bytes Pointer to the data bytes to checksum
+ * @param n Number of bytes to include in the checksum calculation
+ * @return 8-bit checksum value
+ */
 static constexpr uint8_t tmclChecksum(const uint8_t *bytes, size_t n) noexcept {
   uint8_t sum = 0;
   for (size_t i = 0; i < n; ++i)

@@ -3,6 +3,17 @@
 #include <cmath>
 #include <thread>
 
+/**
+ * @brief Construct a TMC9660 driver instance.
+ * 
+ * Initializes the TMC9660 driver with the specified communication interface
+ * and optional bootloader configuration. The driver will automatically
+ * create a bootloader instance for SPI and UART interfaces.
+ * 
+ * @param comm Reference to a user-implemented communication interface
+ * @param address Module address for multi-device systems (0-127, masked to 7 bits)
+ * @param bootCfg Optional bootloader configuration (can be set later)
+ */
 TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address,
                  const tmc9660::BootloaderConfig *bootCfg) noexcept
     : comm_(comm), address_(address & 0x7F), bootCfg_(bootCfg) {
@@ -12,8 +23,15 @@ TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address,
   }
 }
 
+/**
+ * @brief Destructor for TMC9660 driver.
+ * 
+ * Cleans up resources and ensures proper shutdown of the motor driver.
+ * The destructor will automatically disable the motor if it's currently running.
+ */
 TMC9660::~TMC9660() noexcept {
   // Destructor does not need to do anything special.
+  // The motor should be explicitly disabled before destruction if needed.
 }
 
 TMC9660::BootloaderInitResult

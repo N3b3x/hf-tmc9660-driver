@@ -12,30 +12,80 @@
 #include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
-/** @brief Main class representing a TMC9660 motor driver in Parameter Mode.
- * Provides high-level functions to configure and control the TMC9660's
- * features. The class uses a TMC9660CommInterface for communication, making it
- * agnostic to the physical layer.
- *
- * All configuration and control is done by sending TMCL commands (Set/Get
- * Parameter, etc.) and reading/writing parameter values. The library covers
- * motor type setup, FOC control tuning, gate driver settings, sensor feedback
- * configuration, protection (voltage, temperature, current) settings, executing
- * scripts on the device's microcontroller, and reading telemetry data like
- * temperature, current, and voltage.
- *
- * @warning CRITICAL: Before using any motor control functions, you MUST initialize
+/**
+ * @brief Main class representing a TMC9660 motor driver in Parameter Mode.
+ * 
+ * The TMC9660 class provides a comprehensive high-level interface for configuring
+ * and controlling the TMC9660 motor driver chip. This class abstracts the complex
+ * low-level register operations into intuitive, easy-to-use methods for motor
+ * control applications.
+ * 
+ * ## Key Features
+ * 
+ * The TMC9660 class supports a wide range of motor control features:
+ * 
+ * - **Motor Type Support**: DC, BLDC/PMSM, and Stepper motors
+ * - **Control Algorithms**: Field-Oriented Control (FOC), open-loop, and closed-loop control
+ * - **Sensor Integration**: Hall sensors, incremental encoders, SPI encoders
+ * - **Protection Systems**: Overcurrent, overtemperature, overvoltage protection
+ * - **Communication**: TMCL command-based parameter access
+ * - **Scripting**: Execute custom scripts on the device's microcontroller
+ * - **Telemetry**: Real-time monitoring of temperature, current, voltage, and position
+ * 
+ * ## Communication Interface
+ * 
+ * The class uses a TMC9660CommInterface for communication, making it completely
+ * agnostic to the physical communication layer. This allows the same code to work
+ * with SPI, UART, or other communication methods by simply providing the appropriate
+ * communication interface implementation.
+ * 
+ * ## Parameter Mode Operation
+ * 
+ * All configuration and control is performed by sending TMCL (Trinamic Motion Control
+ * Language) commands to read and write parameter values. This provides a standardized
+ * interface that is consistent across different Trinamic motor drivers.
+ * 
+ * ## Initialization Requirements
+ * 
+ * @warning **CRITICAL**: Before using any motor control functions, you MUST initialize
  * the bootloader for parameter mode operation:
- *
+ * 
  * @code
  * tmc9660::BootloaderConfig cfg{};
  * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // Essential!
  * cfg.boot.start_motor_control = true;
  * auto result = driver.bootloaderInit(&cfg);
+ * if (result != TMC9660::BootloaderInitResult::Success) {
+ *     // Handle initialization failure
+ * }
  * @endcode
- *
+ * 
  * Without proper bootloader initialization, the TMC9660 will not respond to
  * TMCL commands and motor control will not function.
+ * 
+ * ## Usage Example
+ * 
+ * @code
+ * // Create communication interface (SPI example)
+ * auto spiComm = std::make_unique<MySPIInterface>();
+ * 
+ * // Create TMC9660 driver
+ * TMC9660 driver(*spiComm);
+ * 
+ * // Initialize bootloader
+ * tmc9660::BootloaderConfig cfg{};
+ * cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+ * cfg.boot.start_motor_control = true;
+ * driver.bootloaderInit(&cfg);
+ * 
+ * // Configure motor
+ * driver.motor.setType(tmc9660::tmcl::MotorType::BLDC, 7);  // 7 pole pairs
+ * driver.motor.setPWMFrequency(20000);  // 20 kHz PWM
+ * 
+ * // Start motor control
+ * driver.motor.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL);
+ * driver.motor.enable();
+ * @endcode
  */
 class TMC9660 {
 public:
