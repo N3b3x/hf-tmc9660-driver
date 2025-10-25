@@ -779,12 +779,19 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     
     // Create the appropriate communication interface
     if (use_uart) {
-        handle->interface = createUARTInterface();
+        // Configure UART interface to match bootloader settings
+        Esp32TMC9660BusConfig uart_config{};
+        uart_config.uart.baud_rate = 115200;  // Match bootloader BR115200 setting
+        uart_config.uart.address = 1;         // Match bootloader device_address = 1
+        uart_config.uart.tx_pin = GPIO_NUM_5;
+        uart_config.uart.rx_pin = GPIO_NUM_4;
+        
+        handle->interface = createUARTInterface(uart_config);
         if (!handle->interface) {
             ESP_LOGE(TAG, "Failed to create UART interface");
             return nullptr;
         }
-        ESP_LOGI(TAG, "Created UART interface");
+        ESP_LOGI(TAG, "Created UART interface (115200 baud, address 1)");
     } else {
         handle->interface = createSPIInterface();
         if (!handle->interface) {
@@ -875,7 +882,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     //   Range: 0-255
     //   Address of the host controller ← EVKIT uses 255 (broadcast)
     
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;
+    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
     //   Options:
     //   - BaudRate::BR9600 (0): 9600 baud
     //   - BaudRate::BR19200 (1): 19200 baud
@@ -884,7 +891,8 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     //   - BaudRate::BR115200 (4): 115200 baud
     //   - BaudRate::BR1000000 (5): 1000000 baud
     //   - BaudRate::Auto8x (6): Autobaud detection (8x oversampling)
-    //   - BaudRate::Auto16x (7): Autobaud detection (16x oversampling) ← EVKIT uses this
+    //   - BaudRate::Auto16x (7): Autobaud detection (16x oversampling)
+    //   ← FIXED: Using BR115200 to match ESP32 UART interface (115200 baud)
     
     cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
     //   Options:
@@ -1178,7 +1186,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     // 6. SESSION_START consumption (0x0C)
     // 7. TMCL communication verification (GetVersion)
     ESP_LOGI(TAG, "Performing complete initialization (reset + config + info + motor control + verify)...");
-    auto init_result = handle->driver->bootloaderInit(&cfg, true, true);  // performReset=true, retrieveBootloaderInfo=true
+    auto init_result = handle->driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
     if (init_result != TMC9660::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;

@@ -554,6 +554,11 @@ public:
             return false;
         }
 
+        // Log transmitted bytes
+        logDebug(2, "UART_TMCL", "[UART TX] %02X %02X %02X %02X %02X %02X %02X %02X %02X",
+                 uart_frame[0], uart_frame[1], uart_frame[2], uart_frame[3],
+                 uart_frame[4], uart_frame[5], uart_frame[6], uart_frame[7], uart_frame[8]);
+
         // Wait for transmission to complete
         uart_wait_tx_done(uart_num_, portMAX_DELAY);
 
@@ -562,8 +567,23 @@ public:
         int bytes_read = uart_read_bytes(uart_num_, uart_reply.data(), uart_reply.size(), pdMS_TO_TICKS(1000));
         if (bytes_read != static_cast<int>(uart_reply.size())) {
             ESP_LOGE(BUS_TAG, "UART read failed: expected %zu, read %d", uart_reply.size(), bytes_read);
+            // Log partial data if any was received
+            if (bytes_read > 0) {
+                logDebug(2, "UART_TMCL", "[UART RX] (partial %d bytes) %02X %02X %02X %02X %02X %02X %02X %02X %02X",
+                         bytes_read, 
+                         bytes_read > 0 ? uart_reply[0] : 0, bytes_read > 1 ? uart_reply[1] : 0,
+                         bytes_read > 2 ? uart_reply[2] : 0, bytes_read > 3 ? uart_reply[3] : 0,
+                         bytes_read > 4 ? uart_reply[4] : 0, bytes_read > 5 ? uart_reply[5] : 0,
+                         bytes_read > 6 ? uart_reply[6] : 0, bytes_read > 7 ? uart_reply[7] : 0,
+                         bytes_read > 8 ? uart_reply[8] : 0);
+            }
             return false;
         }
+
+        // Log received bytes
+        logDebug(2, "UART_TMCL", "[UART RX] %02X %02X %02X %02X %02X %02X %02X %02X %02X",
+                 uart_reply[0], uart_reply[1], uart_reply[2], uart_reply[3],
+                 uart_reply[4], uart_reply[5], uart_reply[6], uart_reply[7], uart_reply[8]);
 
         // ✅ FIX: Use TMCLReply::fromUart() for correct decoding
         // This handles checksum verification and proper field extraction
@@ -597,6 +617,10 @@ public:
             return false;
         }
 
+        // Log transmitted bytes
+        logDebug(2, "UART_BL", "[UART BL TX] %02X %02X %02X %02X %02X %02X %02X %02X",
+                 tx[0], tx[1], tx[2], tx[3], tx[4], tx[5], tx[6], tx[7]);
+
         // Wait for transmission to complete
         uart_wait_tx_done(uart_num_, portMAX_DELAY);
 
@@ -604,8 +628,21 @@ public:
         int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), pdMS_TO_TICKS(1000));
         if (bytes_read != static_cast<int>(rx.size())) {
             ESP_LOGE(BUS_TAG, "UART bootloader read failed: expected %zu, read %d", rx.size(), bytes_read);
+            // Log partial data if any was received
+            if (bytes_read > 0) {
+                logDebug(2, "UART_BL", "[UART BL RX] (partial %d bytes) %02X %02X %02X %02X %02X %02X %02X %02X",
+                         bytes_read,
+                         bytes_read > 0 ? rx[0] : 0, bytes_read > 1 ? rx[1] : 0,
+                         bytes_read > 2 ? rx[2] : 0, bytes_read > 3 ? rx[3] : 0,
+                         bytes_read > 4 ? rx[4] : 0, bytes_read > 5 ? rx[5] : 0,
+                         bytes_read > 6 ? rx[6] : 0, bytes_read > 7 ? rx[7] : 0);
+            }
             return false;
         }
+
+        // Log received bytes
+        logDebug(2, "UART_BL", "[UART BL RX] %02X %02X %02X %02X %02X %02X %02X %02X",
+                 rx[0], rx[1], rx[2], rx[3], rx[4], rx[5], rx[6], rx[7]);
 
         return true;
     }
@@ -795,8 +832,8 @@ struct Esp32TMC9660BusConfig {
     // UART Configuration  
     struct {
         uart_port_t uart_num = UART_NUM_1;
-        gpio_num_t tx_pin = GPIO_NUM_4;
-        gpio_num_t rx_pin = GPIO_NUM_5;
+        gpio_num_t tx_pin = GPIO_NUM_5;
+        gpio_num_t rx_pin = GPIO_NUM_4;
         uint32_t baud_rate = 115200;
         uint8_t address = 0;
     } uart;

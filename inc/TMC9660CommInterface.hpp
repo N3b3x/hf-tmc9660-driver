@@ -220,9 +220,9 @@ struct TMCLReply {
     // Store raw bytes (map 9-byte UART to 8-byte format, skip first byte)
     std::copy(in.begin() + 1, in.end(), r.rawBytes.begin());
     
-    // byte0 : host address (ignored)
-    // byte1 : sync bit + module address (7-bit)
-    if ((in[1] & 0x7F) != (addr & 0x7F))
+    // byte0 : sync bit + module address (7-bit)
+    // byte1 : host address (ignored)
+    if ((in[0] >> 1) != (addr & 0x7F))
       return false;
     if (tmclChecksum(in.data(), 8) != in[8])
       return false;              // checksum over first 8 bytes
@@ -267,10 +267,10 @@ struct TMCLFrame {
    * @param out Span of 9 bytes to fill: sync+addr, fields, checksum.
    */
   void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
-    out[0] = addr | 0x80; // sync bit set
+    out[0] = (addr << 1) | 0x01; // sync bit (bit 0) + module address (bits 1-7)
     out[1] = opcode;
-    out[2] = static_cast<uint8_t>(type >> 4);
-    out[3] = static_cast<uint8_t>((type << 4) | (motor & 0x0F));
+    out[2] = static_cast<uint8_t>(type & 0xFF);  // Type field (8 bits)
+    out[3] = static_cast<uint8_t>(motor & 0x0F); // Motor/Bank field (4 bits)
     out[4] = static_cast<uint8_t>(value >> 24);
     out[5] = static_cast<uint8_t>(value >> 16);
     out[6] = static_cast<uint8_t>(value >> 8);

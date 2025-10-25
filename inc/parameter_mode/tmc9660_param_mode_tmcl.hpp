@@ -98,7 +98,6 @@ namespace tmc9660::tmcl {
  * For scripting-related commands, see the manual for further details.
  */
 #define OP_LIST(X) \
-    X(NOP,             0,   /*!< For no operation placeholder. (Not defined in datasheet, only for practical sake)*/) \
     X(MST,             3,   /*!< Stop motor movement. TYPE: -, MOTOR/BANK: -, VALUE: -. */) \
     X(SAP,             5,   /*!< Set Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: value. */) \
     X(GAP,             6,   /*!< Get Axis Parameter. TYPE: parameter, MOTOR/BANK: 0, VALUE: -. */) \

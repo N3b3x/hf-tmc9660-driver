@@ -572,21 +572,44 @@ struct OtpBurnResult {
 
 /// Helper function for CRC-8 calculation (UART only)
 
-/// CRC-8 calculation for UART protocol
-/// Polynomial: x^8 + x^2 + x^1 + x^0
+/// Helper: Bit-reverse a byte (LSB ↔ MSB)
+static constexpr uint8_t reverseByte(uint8_t b) noexcept {
+  b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+  b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+  b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+  return b;
+}
+
+/// CRC-8 calculation for UART protocol (TMC9660 datasheet method)
+/// Polynomial: x^8 + x^2 + x^1 + x^0 (9-bit: 0b100000111)
+/// Algorithm: Bit-reverse each input byte, perform polynomial division, return MSB-first result
+/// Note: This is NOT a standard CRC-8! Each byte is bit-reversed before processing.
 static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcept {
-  uint8_t crc = 0;
+  uint16_t crc = 0;  // 9-bit register for polynomial division
+  const uint16_t POLY = 0x107;  // x^8 + x^2 + x^1 + x^0 in 9-bit form
+  
+  // Process each byte (bit-reversed, LSB-first)
   for (size_t i = 0; i < len; i++) {
-    crc ^= data[i];
-    for (int j = 0; j < 8; j++) {
-      if (crc & 0x80) {
-        crc = (crc << 1) ^ 0x07;  // Polynomial: x^8 + x^2 + x^1 + x^0
-      } else {
-        crc <<= 1;
+    uint8_t byte_reversed = reverseByte(data[i]);
+    
+    // Feed 8 bits into CRC register (MSB-first from reversed byte)
+    for (int bit = 7; bit >= 0; bit--) {
+      crc = (crc << 1) | ((byte_reversed >> bit) & 1);
+      if (crc & 0x100) {  // If bit 8 is set
+        crc ^= POLY;
       }
     }
   }
-  return crc;
+  
+  // Append 8 zero bits (flush remaining data through CRC)
+  for (int i = 0; i < 8; i++) {
+    crc <<= 1;
+    if (crc & 0x100) {
+      crc ^= POLY;
+    }
+  }
+  
+  return static_cast<uint8_t>(crc & 0xFF);
 }
 
 /// Bootloader command structure for SPI (40-bit / 5-byte protocol)
@@ -654,17 +677,20 @@ struct BootloaderReplySPI {
 };
 
 /// Bootloader reply structure for UART (64-bit / 8-byte protocol)
-/// Format: [SYNC(0x55)] [HOST_ADDR] [STATUS] [VALUE(32)] [CRC8]
+/// Format: [HOST_ADDR] [DEVICE_ADDR] [STATUS] [VALUE(32)] [CRC8]
 struct BootloaderReplyUART {
-  uint8_t hostAddr;  ///< Host address
-  uint8_t status;    ///< Status byte
-  uint32_t value;    ///< 32-bit data value
+  uint8_t hostAddr;    ///< Host address
+  uint8_t deviceAddr;  ///< Device address
+  uint8_t status;      ///< Status byte
+  uint32_t value;      ///< 32-bit data value
 
   /// Deserialize from 8-byte UART buffer
   static BootloaderReplyUART fromBuffer(const std::array<uint8_t, 8> &in) noexcept {
     BootloaderReplyUART r;
-    // UART protocol: [SYNC] [HOST_ADDR] [STATUS] [VALUE(32)] [CRC8]
-    r.hostAddr = in[1];
+    // UART protocol: [HOST_ADDR] [DEVICE_ADDR] [STATUS] [VALUE(32)] [CRC8]
+    // (No SYNC byte in reply, unlike the request which has 0x55 as first byte)
+    r.hostAddr = in[0];
+    r.deviceAddr = in[1];
     r.status = in[2];
     r.value = (static_cast<uint32_t>(in[3]) << 24) |  // MSB first
               (static_cast<uint32_t>(in[4]) << 16) |

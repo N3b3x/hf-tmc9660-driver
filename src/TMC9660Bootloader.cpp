@@ -597,21 +597,21 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to set LDO config register");
     return false;
   }
-  uint32_t ldo = 0;
-  ldo |= static_cast<uint32_t>(cfg.ldo.vext1) & 0x3;               // Bits 0-1: VEXT1
-  ldo |= (static_cast<uint32_t>(cfg.ldo.vext2) & 0x3) << 2;        // Bits 2-3: VEXT2
-  ldo |= (static_cast<uint32_t>(cfg.ldo.slope_vext1) & 0x3) << 4;  // Bits 4-5: SS_VEXT1
-  ldo |= (static_cast<uint32_t>(cfg.ldo.slope_vext2) & 0x3) << 6;  // Bits 6-7: SS_VEXT2
+  uint16_t ldo = 0;
+  ldo |= static_cast<uint16_t>(cfg.ldo.vext1) & 0x3;               // Bits 0-1: VEXT1
+  ldo |= (static_cast<uint16_t>(cfg.ldo.vext2) & 0x3) << 2;        // Bits 2-3: VEXT2
+  ldo |= (static_cast<uint16_t>(cfg.ldo.slope_vext1) & 0x3) << 4;  // Bits 4-5: SS_VEXT1
+  ldo |= (static_cast<uint16_t>(cfg.ldo.slope_vext2) & 0x3) << 6;  // Bits 6-7: SS_VEXT2
   ldo |= (cfg.ldo.ldo_short_fault ? 1u : 0u) << 8;                 // Bit 8: LDO_SHORT_FAULT
-  if (!write32(ldo)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write LDO config (0x%08X)", ldo);
+  if (!write16(ldo)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write LDO config (0x%04X)", ldo);
     return false;
   }
   comm_.logDebug(3, "TMC9660Bootloader", "LDO configured (VEXT1: %d, VEXT2: %d)", 
                  static_cast<int>(cfg.ldo.vext1), static_cast<int>(cfg.ldo.vext2));
   
   // Verify LDO configuration was written correctly
-  if (!readAndVerify32(ldo, "LDO config")) {
+  if (!readAndVerify16(ldo, "LDO config")) {
     if (failOnVerifyError) {
       comm_.logDebug(0, "TMC9660Bootloader", "LDO configuration verification failed");
     return false;
@@ -910,102 +910,6 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   
   comm_.logDebug(3, "TMC9660Bootloader", "GPIO configuration completed");
 
-  // Clock configuration (offset 0x18)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring clock settings");
-  if (!setAddress(bootaddr::CLOCK_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config register");
-    return false;
-  }
-  // ⚠️ CRITICAL: Bits 0-6 MUST be set to 99 (0x63) per datasheet requirement!
-  // "RESERVED_1: Bits 0-6. Reserved. Must always stay set to 99."
-  uint32_t clk = 99;  // Start with required reserved value
-  clk |= (static_cast<uint32_t>(cfg.clock.use_external) & 0x1) << 8;     // EXT_NOT_INT
-  clk |= (static_cast<uint32_t>(cfg.clock.xtal_drive) & 0x7) << 9;       // XTAL_CFG
-  clk |= (cfg.clock.xtal_boost ? 1u : 0u) << 12;                         // XTAL_BOOST
-  clk |= (static_cast<uint32_t>(cfg.clock.ext_source_type) & 0x1) << 13; // EXT_NOT_XTAL
-  clk |= (static_cast<uint32_t>(cfg.clock.pll_selection) & 0x3) << 16;   // PLL_OUT_SEL
-  clk |= (cfg.clock.rdiv & 0x1F) << 18;                                  // RDIV
-  clk |= (static_cast<uint32_t>(cfg.clock.sysclk_div) & 0x3) << 23;      // SYS_CLK_DIV
-  if (!write32(clk)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write clock config (0x%08X)", clk);
-    return false;
-  }
-  comm_.logDebug(3, "TMC9660Bootloader", "Clock configuration written (external: %s, xtal_drive: %d, rdiv: %d)", 
-                 cfg.clock.use_external == bootcfg::ClockSource::External ? "yes" : "no", 
-                 static_cast<int>(cfg.clock.xtal_drive), cfg.clock.rdiv);
-
-  // ⚠️ CRITICAL: Wait for PLL_STATUS bit to be set (clock reconfiguration complete)
-  // According to datasheet: "Any change to the clock configuration takes multiple milliseconds to apply.
-  // Wait for it to complete before sending any further datagrams."
-  comm_.logDebug(3, "TMC9660Bootloader", "Waiting for PLL_STATUS to indicate clock reconfiguration complete...");
-  
-  const int max_poll_attempts = 50;  // 50 * 10ms = 500ms max wait
-  const int poll_delay_ms = 10;      // Poll every 10ms
-  
-  for (int attempt = 0; attempt < max_poll_attempts; attempt++) {
-    comm_.delayMs(poll_delay_ms);
-    
-    // Read back the clock configuration to check PLL_STATUS bit (bit 30)
-    uint32_t pll_status = 0;
-    if (!read32(&pll_status)) {
-      comm_.logDebug(1, "TMC9660Bootloader", "Failed to read PLL status (attempt %d/%d)", attempt + 1, max_poll_attempts);
-      continue;
-    }
-    
-    // Check PLL_STATUS bit (bit 30)
-    if (pll_status & (1u << 30)) {
-      comm_.logDebug(3, "TMC9660Bootloader", "PLL_STATUS confirmed - clock reconfiguration complete (attempt %d/%d)", 
-                     attempt + 1, max_poll_attempts);
-      break;
-    }
-    
-    if (attempt == max_poll_attempts - 1) {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  PLL_STATUS timeout - clock reconfiguration may have failed");
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  PLL_STATUS=0x%08X (expected bit 30 to be set)", pll_status);
-      // Don't return false here - continue with bootloader config as clock might still work
-    } else if (attempt % 5 == 0) {  // Log every 50ms
-      comm_.logDebug(2, "TMC9660Bootloader", "PLL_STATUS polling... (attempt %d/%d, status=0x%08X)", 
-                     attempt + 1, max_poll_attempts, pll_status);
-    }
-  }
-  
-  comm_.logDebug(3, "TMC9660Bootloader", "Clock configuration sequence completed");
-  
-  // Verify clock config was written correctly (adjusting expected for PLL_STATUS bit)
-  uint32_t actualClock;
-  if (!read32(&actualClock)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back clock config");
-    if (failOnVerifyError) {
-      return false;
-    } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Clock config read failed (continuing)");
-    }
-  } else {
-    // Adjust expected value to include PLL_STATUS bit if it's set in actual value
-    uint32_t expectedAdjusted = clk;
-    if (actualClock & (1u << 30)) {
-      expectedAdjusted |= (1u << 30);  // Set PLL_STATUS bit in expected value
-    } else {
-      expectedAdjusted &= ~(1u << 30); // Clear PLL_STATUS bit in expected value
-    }
-    
-    if (actualClock != expectedAdjusted) {
-      if (failOnVerifyError) {
-        comm_.logDebug(0, "TMC9660Bootloader", "❌ Clock config verification failed: expected=0x%08X, actual=0x%08X", 
-                       expectedAdjusted, actualClock);
-        comm_.logDebug(0, "TMC9660Bootloader", "   Original expected=0x%08X, PLL_STATUS=%s", 
-                       clk, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
-        return false;
-      } else {
-        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Clock config verification failed: expected=0x%08X, actual=0x%08X (continuing)", 
-                       expectedAdjusted, actualClock);
-      }
-    } else {
-      comm_.logDebug(3, "TMC9660Bootloader", "✅ Clock config verified: 0x%08X (PLL_STATUS=%s)", 
-                     actualClock, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
-    }
-  }
-
   // Hall encoder and ABN encoder 1 configuration (offset 0x20 - shared register)
   comm_.logDebug(3, "TMC9660Bootloader", "Configuring Hall encoder and ABN encoder 1 settings");
   if (!setAddress(bootaddr::HALL_CONFIG)) {
@@ -1164,6 +1068,97 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
       return false;
     } else {
       comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Memory storage config verification failed (continuing)");
+    }
+  }
+
+  // ⚠️ CRITICAL: Clock configuration (offset 0x18) - MUST BE DONE RIGHT BEFORE MOTOR CONTROL START!
+  // Clock reconfiguration takes time and the TMC9660 cannot respond during this process.
+  // This must happen just before starting motor control to ensure proper timing.
+  comm_.logDebug(3, "TMC9660Bootloader", "Configuring clock settings (FINAL STEP BEFORE MOTOR CONTROL)");
+  if (!setAddress(bootaddr::CLOCK_CONFIG)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config register");
+    return false;
+  }
+  
+  // Test: Read current clock configuration before writing
+  comm_.logDebug(3, "TMC9660Bootloader", "Reading current clock configuration...");
+  uint32_t currentClock;
+  if (!read32(&currentClock)) {
+    comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to read current clock config (continuing)");
+  } else {
+    comm_.logDebug(3, "TMC9660Bootloader", "Current clock config: 0x%08X (PLL_STATUS=%s)", 
+                   currentClock, (currentClock & (1u << 30)) ? "SET" : "CLEAR");
+  }
+  // ⚠️ CRITICAL: Bits 0-6 MUST be set to 99 (0x63) per datasheet requirement!
+  // "RESERVED_1: Bits 0-6. Reserved. Must always stay set to 99."
+  uint32_t clk = 99u;  // Start with required reserved value
+  clk |= (static_cast<uint32_t>(cfg.clock.use_external) & 0x1) << 8;     // EXT_NOT_INT [0:6]
+  clk |= (static_cast<uint32_t>(cfg.clock.xtal_drive) & 0x7) << 9;       // XTAL_CFG [7:9]
+  clk |= (cfg.clock.xtal_boost ? 1u : 0u) << 12;                         // XTAL_BOOST [12:12]
+  clk |= (static_cast<uint32_t>(cfg.clock.ext_source_type) & 0x1) << 13; // EXT_NOT_XTAL [13:13]
+  clk |= (static_cast<uint32_t>(cfg.clock.pll_selection) & 0x3) << 16;   // PLL_OUT_SEL [16:17]
+  clk |= (cfg.clock.rdiv & 0x1F) << 18;                                  // RDIV [18:22]
+  clk |= (static_cast<uint32_t>(cfg.clock.sysclk_div) & 0x3) << 23;      // SYS_CLK_DIV [23:24]
+  if (!write32(clk)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write clock config (0x%08X)", clk);
+    return false;
+  }
+  comm_.logDebug(3, "TMC9660Bootloader", "Clock configuration written (external: %s, xtal_drive: %d, rdiv: %d)", 
+                 cfg.clock.use_external == bootcfg::ClockSource::External ? "yes" : "no", 
+                 static_cast<int>(cfg.clock.xtal_drive), cfg.clock.rdiv);
+
+  // ⚠️ CRITICAL: Wait for clock reconfiguration to complete
+  // According to datasheet: "Any change to the clock configuration takes multiple milliseconds to apply.
+  // The TMC9660 cannot respond to commands during clock reconfiguration."
+  comm_.logDebug(3, "TMC9660Bootloader", "Waiting for clock reconfiguration to complete...");
+  
+  // Fixed delay to allow clock reconfiguration to complete
+  // The TMC9660 cannot respond to commands during this process
+  comm_.delayMs(100);  // 100ms should be sufficient for clock reconfiguration
+  
+  comm_.logDebug(3, "TMC9660Bootloader", "Clock reconfiguration delay completed");
+  
+  // Verify clock config was written correctly and PLL_STATUS is SET
+  uint32_t actualClock;
+  if (!read32(&actualClock)) {
+    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back clock config");
+    if (failOnVerifyError) {
+      return false;
+    } else {
+      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Clock config read failed (continuing)");
+    }
+  } else {
+    // First check: PLL_STATUS must be SET after clock reconfiguration
+    if (!(actualClock & (1u << 30))) {
+      if (failOnVerifyError) {
+        comm_.logDebug(0, "TMC9660Bootloader", "❌ PLL_STATUS not set after clock reconfiguration: 0x%08X", actualClock);
+        comm_.logDebug(0, "TMC9660Bootloader", "   Clock reconfiguration may have failed or needs more time");
+        return false;
+      } else {
+        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  PLL_STATUS not set after clock reconfiguration: 0x%08X (continuing)", actualClock);
+      }
+    } else {
+      comm_.logDebug(3, "TMC9660Bootloader", "✅ PLL_STATUS confirmed SET: 0x%08X", actualClock);
+    }
+    
+    // Second check: Verify the actual configuration matches expected (excluding PLL_STATUS)
+    uint32_t expectedConfig = clk;
+    uint32_t actualConfig = actualClock & ~(1u << 30);  // Mask out PLL_STATUS bit for comparison
+    
+    if (actualConfig != expectedConfig) {
+      if (failOnVerifyError) {
+        comm_.logDebug(0, "TMC9660Bootloader", "❌ Clock config verification failed: expected=0x%08X, actual=0x%08X", 
+                       expectedConfig, actualConfig);
+        comm_.logDebug(0, "TMC9660Bootloader", "   Full actual value: 0x%08X (PLL_STATUS=%s)", 
+                       actualClock, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
+        return false;
+      } else {
+        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Clock config verification failed: expected=0x%08X, actual=0x%08X (continuing)", 
+                       expectedConfig, actualConfig);
+      }
+    } else {
+      comm_.logDebug(3, "TMC9660Bootloader", "✅ Clock config verified: 0x%08X (PLL_STATUS=%s)", 
+                     actualClock, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
     }
   }
 
