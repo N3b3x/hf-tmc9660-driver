@@ -211,50 +211,60 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   comm_.delayMs(100);
   
   // ======================================================================
-  // STEP 7: Consume SESSION_START and Verify Communication
+  // STEP 7: Wait for Motor Control Initialization and Verify Communication
   // ======================================================================
-  comm_.logDebug(2, "TMC9660", "Waiting for motor control initialization and consuming SESSION_START...");
+  // For SPI: Consume SESSION_START and wait for SPI_STATUS_OK
+  // For UART: Simply verify TMCL communication works (no status codes)
   
-  // Poll for chip readiness and SESSION_START
-  bool sessionStartReceived = false;
-  for (int attempt = 0; attempt < 50; ++attempt) {  // Timeout after 5 seconds (50 * 100ms)
-    TMCLReply firstReply2{}, finalReply2{};
-    comm_.transferTMCL(statusFrame, finalReply2, address_, &firstReply2);
+  if (comm_.mode() == CommMode::SPI) {
+    comm_.logDebug(2, "TMC9660", "SPI mode: Waiting for SESSION_START and consuming status codes...");
     
-    uint8_t rawStatus2 = finalReply2.rawBytes[0];  // Check the reply to the CURRENT command
-    comm_.logDebug(3, "TMC9660", "Attempt %d/50: Current reply raw status: 0x%02X", attempt + 1, rawStatus2);
-    
-    if (rawStatus2 == 0x0C) {
-      comm_.logDebug(2, "TMC9660", "✅ Parameter mode SESSION_START (0x0C) received after %d attempts", attempt + 1);
-      sessionStartReceived = true;
-      break;
-    } else if (rawStatus2 == 0xFF) {
-      comm_.logDebug(2, "TMC9660", "✅ SPI_STATUS_OK (0xFF) received after %d attempts - chip ready", attempt + 1);
-      sessionStartReceived = true;
-      break;
-    } else if (rawStatus2 == 0xF0) {
-      comm_.logDebug(3, "TMC9660", "SPI_STATUS_NOT_READY (0xF0) - waiting...");
-      comm_.delayMs(100);
-      continue;
-    } else if (rawStatus2 == 0x13) {
-      comm_.logDebug(1, "TMC9660", "⚠️  Still in bootloader mode (0x13) - motor control not ready yet");
-      comm_.delayMs(100);
-      continue;
-    } else if (rawStatus2 == 0x00) {
-      comm_.logDebug(1, "TMC9660", "⚠️  Bootloader OK (0x00) - motor control not ready yet");
-      comm_.delayMs(100);
-      continue;
-    } else {
-      comm_.logDebug(1, "TMC9660", "⚠️  Unexpected status 0x%02X - waiting...", rawStatus2);
-      comm_.delayMs(100);
-      continue;
+    // Poll for chip readiness and SESSION_START (SPI-specific)
+    bool sessionStartReceived = false;
+    for (int attempt = 0; attempt < 50; ++attempt) {  // Timeout after 5 seconds (50 * 100ms)
+      TMCLReply firstReply2{}, finalReply2{};
+      comm_.transferTMCL(statusFrame, finalReply2, address_, &firstReply2);
+      
+      uint8_t rawStatus2 = finalReply2.rawBytes[0];  // Check the reply to the CURRENT command
+      comm_.logDebug(3, "TMC9660", "Attempt %d/50: Current reply raw status: 0x%02X", attempt + 1, rawStatus2);
+      
+      if (rawStatus2 == 0x0C) {
+        comm_.logDebug(2, "TMC9660", "✅ Parameter mode SESSION_START (0x0C) received after %d attempts", attempt + 1);
+        sessionStartReceived = true;
+        break;
+      } else if (rawStatus2 == 0xFF) {
+        comm_.logDebug(2, "TMC9660", "✅ SPI_STATUS_OK (0xFF) received after %d attempts - chip ready", attempt + 1);
+        sessionStartReceived = true;
+        break;
+      } else if (rawStatus2 == 0xF0) {
+        comm_.logDebug(3, "TMC9660", "SPI_STATUS_NOT_READY (0xF0) - waiting...");
+        comm_.delayMs(100);
+        continue;
+      } else if (rawStatus2 == 0x13) {
+        comm_.logDebug(1, "TMC9660", "⚠️  Still in bootloader mode (0x13) - motor control not ready yet");
+        comm_.delayMs(100);
+        continue;
+      } else if (rawStatus2 == 0x00) {
+        comm_.logDebug(1, "TMC9660", "⚠️  Bootloader OK (0x00) - motor control not ready yet");
+        comm_.delayMs(100);
+        continue;
+      } else {
+        comm_.logDebug(1, "TMC9660", "⚠️  Unexpected status 0x%02X - waiting...", rawStatus2);
+        comm_.delayMs(100);
+        continue;
+      }
     }
-  }
-  
-  if (!sessionStartReceived) {
-    comm_.logDebug(0, "TMC9660", "❌ Timeout waiting for SESSION_START or SPI_STATUS_OK");
-    comm_.logDebug(0, "TMC9660", "   Motor control may not have started properly");
-  return BootloaderInitResult::Failure;
+    
+    if (!sessionStartReceived) {
+      comm_.logDebug(0, "TMC9660", "❌ Timeout waiting for SESSION_START or SPI_STATUS_OK");
+      comm_.logDebug(0, "TMC9660", "   Motor control may not have started properly");
+      return BootloaderInitResult::Failure;
+    }
+  } else {
+    // UART mode: No SESSION_START or status codes, just wait for motor control to initialize
+    comm_.logDebug(2, "TMC9660", "UART mode: Waiting for motor control initialization...");
+    comm_.delayMs(100);  // Give motor control time to start (adjust as needed)
+    comm_.logDebug(2, "TMC9660", "✅ Motor control initialization delay completed");
   }
   
   // ======================================================================

@@ -220,15 +220,25 @@ struct TMCLReply {
     // Store raw bytes (map 9-byte UART to 8-byte format, skip first byte)
     std::copy(in.begin() + 1, in.end(), r.rawBytes.begin());
     
-    // byte0 : sync bit + module address (7-bit)
-    // byte1 : host address (ignored)
-    if ((in[0] >> 1) != (addr & 0x7F))
+    // UART Reply Format (per datasheet):
+    // byte0: Host Address (8 bits)
+    // byte1: Sync bit (bit 0) + Module Address (bits 1-7)
+    // byte2: TMCL Status
+    // byte3: Operation
+    // byte4-7: Data (big-endian)
+    // byte8: Checksum
+    
+    // Verify module address in byte 1 (bits 1-7)
+    if ((in[1] >> 1) != (addr & 0x7F))
       return false;
+    
+    // Verify checksum over first 8 bytes
     if (tmclChecksum(in.data(), 8) != in[8])
-      return false;              // checksum over first 8 bytes
+      return false;
+    
     r.spiStatus = SPIStatus::OK; // UART has no SPI status field
-    r.status = in[2];
-    r.opcode = in[3];
+    r.status = in[2];            // TMCL Status at byte 2
+    r.opcode = in[3];            // Operation at byte 3
     r.value = (static_cast<uint32_t>(in[4]) << 24) | (static_cast<uint32_t>(in[5]) << 16) |
               (static_cast<uint32_t>(in[6]) << 8) | static_cast<uint32_t>(in[7]);
     return true;

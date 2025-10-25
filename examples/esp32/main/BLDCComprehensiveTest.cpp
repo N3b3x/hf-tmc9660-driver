@@ -882,7 +882,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     //   Range: 0-255
     //   Address of the host controller ← EVKIT uses 255 (broadcast)
     
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
+    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::Auto16x;
     //   Options:
     //   - BaudRate::BR9600 (0): 9600 baud
     //   - BaudRate::BR19200 (1): 19200 baud
@@ -912,11 +912,11 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     //   false: RS485 mode disabled ← EVKIT default
     //   true: Enable RS485 mode with TXEN pin control
     
-    cfg.rs485.txen_pre_delay = 1;
+    cfg.rs485.txen_pre_delay = 0;
     //   Range: 0-255
     //   Delay before transmission (in bit times) ← EVKIT default: 0
     
-    cfg.rs485.txen_post_delay = 1;
+    cfg.rs485.txen_post_delay = 0;
     //   Range: 0-255
     //   Delay after transmission (in bit times) ← EVKIT default: 0
     
@@ -935,9 +935,14 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     //   - SPIInterface::IFACE0 (0): Use SPI0 for communication ← EVKIT uses this
     //   - SPIInterface::IFACE1 (1): Use SPI1 for communication
     
-    cfg.spiComm.disable_spi = false;
-    //   false: SPI communication enabled ← EVKIT default
-    //   true: Disable SPI communication (UART only)
+    cfg.spiComm.disable_spi = false;  // Disable SPI when using UART
+    //   false: SPI communication enabled ← EVKIT default (for SPI mode)
+    //   true: Disable SPI communication (UART only) ← Required for UART mode
+    
+    cfg.spiComm.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    //   Options:
+    //   - SPI0SckPin::GPIO6 (0): Use GPIO6 for SPI0 SCK
+    //   - SPI0SckPin::GPIO11 (1): Use GPIO11 for SPI0 SCK ← EVKIT uses this
     
     // ============================================================================
     // 6. SPI FLASH CONFIGURATION
