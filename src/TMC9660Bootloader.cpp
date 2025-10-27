@@ -1277,9 +1277,9 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.ref.ref_r_pin) & 0x3) << 2; // Bits 2-3: REF_R_PIN
   abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.ref.ref_h_pin) & 0x7) << 4; // Bits 4-6: REF_H_PIN
   // Step/Direction (bits 8-11)
-  abn2_ref_stepdir |= (cfg.stepdir.enable ? 1u : 0u) << 8;                   // Bit 8: STEPDIR_ENABLE
-  abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.stepdir.step_pin) & 0x3) << 9;  // Bits 9-10: STEP_PIN
-  abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.stepdir.dir_pin) & 0x1) << 11;  // Bit 11: DIR_PIN
+  abn2_ref_stepdir |= (cfg.stepDir.enable ? 1u : 0u) << 8;                   // Bit 8: STEPDIR_ENABLE
+  abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.stepDir.step_pin) & 0x3) << 9;  // Bits 9-10: STEP_PIN
+  abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.stepDir.dir_pin) & 0x1) << 11;  // Bit 11: DIR_PIN
   // ABN encoder 2 (bits 12-15)
   abn2_ref_stepdir |= (cfg.abn2.enable ? 1u : 0u) << 12;                    // Bit 12: ABN2_ENABLE
   abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.abn2.a_pin) & 0x1) << 13;  // Bit 13: ABN2_A
@@ -1292,7 +1292,7 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
                  "ABN2/REF/StepDir configured (ABN2:%s, REF_L:%d, REF_R:%d, REF_H:%d, StepDir:%s)", 
                  cfg.abn2.enable ? "enabled" : "disabled", static_cast<int>(cfg.ref.ref_l_pin),
                  static_cast<int>(cfg.ref.ref_r_pin), static_cast<int>(cfg.ref.ref_h_pin),
-                 cfg.stepdir.enable ? "enabled" : "disabled");
+                 cfg.stepDir.enable ? "enabled" : "disabled");
   
   // Verify ABN2/REF/StepDir config was written correctly
   if (!readAndVerify16(abn2_ref_stepdir, "ABN2/REF/StepDir config")) {

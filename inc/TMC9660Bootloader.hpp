@@ -927,7 +927,7 @@ struct BootloaderConfig {
   ABN1Config abn1;
   ABN2Config abn2;
   RefConfig ref;
-  StepDirConfig stepdir;
+  StepDirConfig stepDir;
   SPIEncConfig spiEnc;
   MechBrakeConfig mechBrake;
   BrakeChopperConfig brakeChopper;

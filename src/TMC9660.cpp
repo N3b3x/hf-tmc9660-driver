@@ -277,7 +277,7 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
     if (!sessionStartReceived) {
       comm_.logDebug(0, "TMC9660", "❌ Timeout waiting for SESSION_START or SPI_STATUS_OK");
       comm_.logDebug(0, "TMC9660", "   Motor control may not have started properly");
-      return BootloaderInitResult::Failure;
+  return BootloaderInitResult::Failure;
     }
   } else {
     // UART mode: No SESSION_START or status codes, just wait for motor control to initialize
@@ -291,10 +291,37 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // ======================================================================
   comm_.logDebug(2, "TMC9660", "Verifying TMCL communication with GetVersion...");
   
+  // First, for UART mode, let's verify we're NOT still in bootloader mode
+  if (comm_.mode() == CommMode::UART) {
+    comm_.logDebug(2, "TMC9660", "UART mode: Testing if chip is still in bootloader mode...");
+    tmc9660::BootloaderVersion bootloaderVer;
+    if (bootloader_->getBootloaderVersion(&bootloaderVer)) {
+      comm_.logDebug(0, "TMC9660", "❌ ERROR: Chip is STILL in bootloader mode!");
+      comm_.logDebug(0, "TMC9660", "   Bootloader version: %d.%d", 
+                     bootloaderVer.major, bootloaderVer.minor);
+      comm_.logDebug(0, "TMC9660", "   Motor control did NOT start properly");
+      comm_.logDebug(0, "TMC9660", "   Check boot configuration: cfg.boot.start_motor_control should be true");
+      return BootloaderInitResult::Failure;
+    } else {
+      comm_.logDebug(2, "TMC9660", "✅ Bootloader commands fail (good - we're in parameter mode)");
+    }
+  }
+  
+  // Try a simple command first (MST - Motor Stop)
+  comm_.logDebug(2, "TMC9660", "Testing TMCL communication with MST (Motor Stop)...");
+  if (!sendCommand(tmc9660::tmcl::Op::MST, 0, 0, 0, nullptr)) {
+    comm_.logDebug(0, "TMC9660", "❌ TMCL communication failed (MST command failed)");
+    comm_.logDebug(0, "TMC9660", "   Motor control is not responding to TMCL commands");
+    return BootloaderInitResult::Failure;
+  }
+  comm_.logDebug(2, "TMC9660", "✅ MST command successful - TMCL communication working!");
+  
+  // Now try GetVersion
+  comm_.logDebug(2, "TMC9660", "Getting firmware version with GetVersion...");
   uint32_t version = 0;
   if (!sendCommand(tmc9660::tmcl::Op::GetVersion, 0, 0, 0, &version)) {
-    comm_.logDebug(0, "TMC9660", "❌ TMCL communication verification failed (GetVersion failed)");
-    comm_.logDebug(0, "TMC9660", "   Motor control may not be responding properly");
+    comm_.logDebug(0, "TMC9660", "❌ GetVersion failed (but MST worked)");
+    comm_.logDebug(0, "TMC9660", "   Basic TMCL works, but GetVersion has issues");
     return BootloaderInitResult::Failure;
   }
   

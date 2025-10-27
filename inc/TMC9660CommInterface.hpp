@@ -127,11 +127,12 @@ enum class SPIStatus : uint8_t {
  * 
  * @param bytes Pointer to the data bytes to checksum
  * @param n Number of bytes to include in the checksum calculation
+ * @param start Starting byte offset for checksum calculation (default: 0)
  * @return 8-bit checksum value
  */
-static constexpr uint8_t tmclChecksum(const uint8_t *bytes, size_t n) noexcept {
+static constexpr uint8_t tmclChecksum(const uint8_t *bytes, size_t n, uint8_t start = 0) noexcept {
   uint8_t sum = 0;
-  for (size_t i = 0; i < n; ++i)
+  for (size_t i = start; i < n; ++i)
     sum += bytes[i];
   return sum;
 }
@@ -261,7 +262,9 @@ struct TMCLReply {
     // byte8: Checksum
     
     // Verify module address in byte 1 (bits 1-7)
-    if ((in[1] >> 1) != (addr & 0x7F))
+    // "The module address reuses the upper 7 bits of the bootloader device address"
+    // Compare the upper 7 bits of byte 1 with the upper 7 bits of the address
+    if ((in[1] & 0xFE) != (addr & 0xFE))
       return false;
     
     // Verify checksum over first 8 bytes
@@ -309,7 +312,11 @@ struct TMCLFrame {
    * @param out Span of 9 bytes to fill: sync+addr, fields, checksum.
    */
   void toUart(uint8_t addr, std::span<uint8_t, 9> out) const noexcept {
-    out[0] = (addr << 1) | 0x01; // sync bit (bit 0) + module address (bits 1-7)
+    // Byte 0: [Sync bit (bit 0)] [Module Address (bits 1-7)]
+    // "The module address reuses the upper 7 bits of the bootloader device address"
+    // This means we take bits 7-1 of the address and place them in bits 7-1 of byte 0
+    // Then set bit 0 (sync bit) to 1
+    out[0] = (addr & 0xFE) | 0x01; // Keep upper 7 bits of address, set sync bit
     out[1] = opcode;
     out[2] = static_cast<uint8_t>(type & 0xFF);  // Type field (8 bits)
     out[3] = static_cast<uint8_t>(motor & 0x0F); // Motor/Bank field (4 bits)
