@@ -34,6 +34,9 @@ option(TMC9660_LOG_LEVEL_INFO "Enable info logging" ON)
 option(TMC9660_LOG_LEVEL_DEBUG "Enable debug logging" OFF)
 option(TMC9660_LOG_LEVEL_VERBOSE "Enable verbose logging" OFF)
 
+# Communication logging control - separate from main logging levels
+option(TMC9660_ENABLE_COMM_LOGGING "Enable raw SPI/UART communication logging" OFF)
+
 # =============================================================================
 # Build Parameter Validation
 # =============================================================================
@@ -88,6 +91,14 @@ else()
     else()
         message(STATUS "TMC9660 Logging: No levels enabled")
     endif()
+endif()
+
+# Apply communication logging configuration
+if(TMC9660_ENABLE_COMM_LOGGING)
+    message(STATUS "TMC9660 Communication Logging: Enabled")
+    list(APPEND TMC9660_LOG_DEFINITIONS TMC9660_ENABLE_COMM_LOGGING)
+else()
+    message(STATUS "TMC9660 Communication Logging: Disabled")
 endif()
 
 # =============================================================================

@@ -14,6 +14,7 @@
 // Uncomment this section for maximum logging during development
 /*
 #define TMC9660_LOG_LEVEL_ALL
+#define TMC9660_ENABLE_COMM_LOGGING  // Enable raw SPI/UART data logging
 */
 
 // ============================================================================
@@ -40,6 +41,7 @@
 #define TMC9660_LOG_LEVEL_ERROR
 #define TMC9660_LOG_LEVEL_WARNING
 #define TMC9660_LOG_LEVEL_INFO
+// Communication logging disabled by default (too verbose for production)
 */
 
 // ============================================================================
@@ -75,6 +77,17 @@
 // #define TMC9660_LOG_LEVEL_INFO    // Disable info messages
 #define TMC9660_LOG_LEVEL_DEBUG      // Enable debug messages
 // #define TMC9660_LOG_LEVEL_VERBOSE // Disable verbose messages
+*/
+
+// ============================================================================
+// CONFIGURATION 8: COMMUNICATION DEBUGGING
+// ============================================================================
+// Uncomment this section for debugging SPI/UART communication issues
+/*
+#define TMC9660_LOG_LEVEL_ERROR
+#define TMC9660_LOG_LEVEL_WARNING
+#define TMC9660_LOG_LEVEL_INFO
+#define TMC9660_ENABLE_COMM_LOGGING  // Enable raw SPI/UART data logging
 */
 
 // ============================================================================

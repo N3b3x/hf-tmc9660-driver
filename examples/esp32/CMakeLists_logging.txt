@@ -6,6 +6,7 @@
 # ============================================================================
 # This enables all logging levels for comprehensive debugging
 set(TMC9660_LOG_LEVEL_ALL ON)
+set(TMC9660_ENABLE_COMM_LOGGING ON)  # Enable raw SPI/UART data logging
 
 # ============================================================================
 # OPTION 2: Enable Specific Log Levels
@@ -37,6 +38,16 @@ set(TMC9660_LOG_LEVEL_VERBOSE ON)
 # ============================================================================
 # This completely disables all logging for maximum performance
 set(TMC9660_LOG_DISABLE_ALL ON)
+# Communication logging is also disabled (default)
+
+# ============================================================================
+# OPTION 4: Communication Debugging Only
+# ============================================================================
+# Enable only communication logging for debugging SPI/UART issues
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+set(TMC9660_LOG_LEVEL_INFO ON)
+set(TMC9660_ENABLE_COMM_LOGGING ON)  # Enable raw SPI/UART data logging
 
 # ============================================================================
 # USAGE IN YOUR CMakeLists.txt

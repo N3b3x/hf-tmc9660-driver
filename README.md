@@ -212,6 +212,12 @@ The TMC9660 library includes a comprehensive logging system that can be configur
 #define TMC9660_LOG_DISABLE_ALL
 ```
 
+**Control communication logging (SPI/UART raw data):**
+```cpp
+#define TMC9660_ENABLE_COMM_LOGGING  // Enable raw SPI/UART data logging
+// or leave undefined to disable verbose communication logging
+```
+
 ### Usage
 
 ```cpp
@@ -243,11 +249,13 @@ void exampleFunction() {
 ```cmake
 # Enable all logging
 set(TMC9660_LOG_LEVEL_ALL ON)
+set(TMC9660_ENABLE_COMM_LOGGING ON)  # Enable raw SPI/UART data logging
 
 # Or enable specific levels
 set(TMC9660_LOG_LEVEL_ERROR ON)
 set(TMC9660_LOG_LEVEL_WARNING ON)
 set(TMC9660_LOG_LEVEL_INFO ON)
+# Communication logging disabled by default (too verbose for production)
 ```
 
 For complete documentation, see [README_Logging.md](README_Logging.md) and [docs/LoggingConfigurationGuide.md](docs/LoggingConfigurationGuide.md).

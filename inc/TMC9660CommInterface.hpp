@@ -742,24 +742,30 @@ public:
     tx.toSpi(txBuf);
     
     // Log raw SPI bytes being transmitted
+    #ifdef TMC9660_ENABLE_COMM_LOGGING
     TMC9660_LOG_INFO("SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                      txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
                      txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+    #endif
     
     // Transaction 1: Send command, receive first reply
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
+    #ifdef TMC9660_ENABLE_COMM_LOGGING
     TMC9660_LOG_INFO("SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                      rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
                      rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    #endif
     
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (firstReply) {
       bool firstParseOk = TMCLReply::fromSpi(rxBuf, *firstReply);
+      #ifdef TMC9660_ENABLE_COMM_LOGGING
       TMC9660_LOG_INFO("SPI_TMCL", "          └─> Status=0x%02X, Value=0x%08X (parse %s)",
                        static_cast<uint8_t>(firstReply->spiStatus), firstReply->value,
                        firstParseOk ? "OK" : "failed");
+      #endif
       // Note: We don't return false here because SESSION_START may have non-standard format
       // The caller can check rawBytes[0] for SESSION_START status codes
     }
@@ -768,16 +774,20 @@ public:
     TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
     cmd2.toSpi(txBuf);
     
+    #ifdef TMC9660_ENABLE_COMM_LOGGING
     TMC9660_LOG_INFO("SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                      txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
                      txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+    #endif
     
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
+    #ifdef TMC9660_ENABLE_COMM_LOGGING
     TMC9660_LOG_INFO("SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                      rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
                      rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    #endif
     
     // Parse reply with command context (for handling special reply formats like GetVersion string)
     return TMCLReply::fromSpi(rxBuf, reply, tx.opcode, tx.type);

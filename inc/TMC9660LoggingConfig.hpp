@@ -31,6 +31,12 @@
  * #define TMC9660_LOG_DISABLE_ALL
  * ```
  * 
+ * ### Control Communication Logging (SPI/UART Raw Data)
+ * ```cpp
+ * #define TMC9660_ENABLE_COMM_LOGGING  // Enable raw SPI/UART data logging
+ * // or leave undefined to disable verbose communication logging
+ * ```
+ * 
  * ## CMake Integration
  * 
  * ```cmake
@@ -41,6 +47,9 @@
  * set(TMC9660_LOG_LEVEL_ERROR ON)
  * set(TMC9660_LOG_LEVEL_WARNING ON)
  * set(TMC9660_LOG_LEVEL_INFO ON)
+ * 
+ * # Control communication logging (separate from main logging)
+ * set(TMC9660_ENABLE_COMM_LOGGING ON)  # Enable raw SPI/UART data logging
  * 
  * # Or disable all logging
  * set(TMC9660_LOG_DISABLE_ALL ON)
@@ -92,6 +101,15 @@ enum class LogLevel : int {
 // ============================================================================
 // COMPILE-TIME LOGGING CONFIGURATION
 // ============================================================================
+
+// Communication logging control - easily disable verbose SPI/UART logging
+// Define TMC9660_ENABLE_COMM_LOGGING to enable raw communication data logging
+// This is separate from the main logging levels to allow fine-grained control
+#ifndef TMC9660_ENABLE_COMM_LOGGING
+    // Communication logging is disabled by default
+    // Uncomment the line below to enable raw SPI/UART data logging
+    // #define TMC9660_ENABLE_COMM_LOGGING
+#endif
 
 // Check for CMake-defined logging configuration
 #ifdef TMC9660_LOG_LEVEL_ALL
