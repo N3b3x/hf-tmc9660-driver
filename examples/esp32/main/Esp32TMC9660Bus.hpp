@@ -508,7 +508,7 @@ public:
             return false;
         }
 
-        int bytes_read = uart_read_bytes(uart_num_, data.data(), data.size(), pdMS_TO_TICKS(1000));
+        int bytes_read = uart_read_bytes(uart_num_, data.data(), data.size(), pdMS_TO_TICKS(10));
         if (bytes_read != static_cast<int>(data.size())) {
             ESP_LOGE(BUS_TAG, "UART read failed: expected %zu, read %d", data.size(), bytes_read);
             return false;
@@ -564,7 +564,7 @@ public:
 
         // Receive 9-byte UART reply
         std::array<uint8_t, 9> uart_reply;
-        int bytes_read = uart_read_bytes(uart_num_, uart_reply.data(), uart_reply.size(), pdMS_TO_TICKS(1000));
+        int bytes_read = uart_read_bytes(uart_num_, uart_reply.data(), uart_reply.size(), pdMS_TO_TICKS(10));
         if (bytes_read != static_cast<int>(uart_reply.size())) {
             ESP_LOGE(BUS_TAG, "UART read failed: expected %zu, read %d", uart_reply.size(), bytes_read);
             // Log partial data if any was received
@@ -585,9 +585,10 @@ public:
                  uart_reply[0], uart_reply[1], uart_reply[2], uart_reply[3],
                  uart_reply[4], uart_reply[5], uart_reply[6], uart_reply[7], uart_reply[8]);
 
-        // ✅ FIX: Use TMCLReply::fromUart() for correct decoding
+        // Use TMCLReply::fromUart() for correct decoding with command context
         // This handles checksum verification and proper field extraction
-        if (!TMCLReply::fromUart(uart_reply, address, reply)) {
+        // Pass command context (opcode, type) for handling special reply formats like GetVersion string
+        if (!TMCLReply::fromUart(uart_reply, address, reply, tx.opcode, tx.type)) {
             ESP_LOGE(BUS_TAG, "Failed to parse UART reply (checksum or address mismatch)");
             return false;
         }
@@ -625,7 +626,7 @@ public:
         uart_wait_tx_done(uart_num_, portMAX_DELAY);
 
         // Receive 8-byte bootloader reply
-        int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), pdMS_TO_TICKS(1000));
+        int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), pdMS_TO_TICKS(10));
         if (bytes_read != static_cast<int>(rx.size())) {
             ESP_LOGE(BUS_TAG, "UART bootloader read failed: expected %zu, read %d", rx.size(), bytes_read);
             // Log partial data if any was received

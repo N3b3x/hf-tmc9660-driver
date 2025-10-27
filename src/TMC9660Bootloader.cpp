@@ -362,6 +362,35 @@ bool TMC9660Bootloader::otpBurn(uint8_t page, uint8_t pageAddr) noexcept {
   return result.isSuccess;
 }
 
+/**
+ * @brief Perform OTP burn operation with Erratum 1 workaround for TMC9660.
+ * 
+ * This method implements a complex workaround for TMC9660 Erratum 1, which affects
+ * OTP (One-Time Programmable) memory burning operations. The workaround involves
+ * a specific sequence of register operations to ensure proper OTP programming.
+ * 
+ * The workaround sequence:
+ * 1. Set memory bank to 0
+ * 2. Set address to 0x4801B010 (specific register for workaround)
+ * 3. Read 32-bit value from the register
+ * 4. Clear bit 0 of the read value
+ * 5. Write the modified value back
+ * 6. Wait for VDRV voltage to drop below 8.4V (critical timing)
+ * 7. Perform the actual OTP burn operation
+ * 8. Verify the burn operation success
+ * 
+ * This workaround is essential for reliable OTP programming and must be used
+ * instead of the standard OTP burn procedure when working with affected TMC9660
+ * silicon revisions.
+ * 
+ * @param page OTP page number to burn
+ * @param pageAddr Address within the OTP page
+ * @param result Pointer to store burn operation result
+ * @param vdrvWaitMs Milliseconds to wait for VDRV voltage drop (typically 100-200ms)
+ * @return true if workaround sequence completed successfully, false on error
+ * @note This method implements TMC9660 Erratum 1 workaround - do not use standard OTP burn
+ * @warning VDRV voltage timing is critical - incorrect timing may cause burn failure
+ */
 bool TMC9660Bootloader::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, 
                                              uint32_t vdrvWaitMs) noexcept {
   if (!result) {
@@ -752,6 +781,32 @@ bool TMC9660Bootloader::getPartitionVersion(PartitionVersion *version) noexcept 
  * @param cfg Complete bootloader configuration to apply
  * @param failOnVerifyError If true, return false on read-back verification failure;
  *                          if false, log warning but continue
+ * @return true if configuration was applied successfully, false on error
+ * @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
+ * @warning Clock reconfiguration takes time and the TMC9660 cannot respond during this process
+ */
+/**
+ * @brief Apply complete bootloader configuration with proper register sequencing.
+ * 
+ * This method performs the complete bootloader configuration sequence by writing
+ * all configuration registers in the correct order. It handles complex register
+ * dependencies and ensures proper initialization of the TMC9660 system.
+ * 
+ * The configuration is applied in a specific order to handle dependencies:
+ * 1. LDO configuration - Power supply settings
+ * 2. Clock configuration - CRITICAL timing setup (may cause temporary unresponsiveness)
+ * 3. UART addresses and RS485 delays - Communication parameters
+ * 4. Communication interface selection - SPI/UART mode
+ * 5. SPI flash and I2C EEPROM configuration - External memory settings
+ * 6. GPIO configuration - Pin directions, levels, and pull settings
+ * 7. Encoder and sensor configuration - Feedback system setup
+ * 8. Brake and mechanical configuration - Safety and mechanical systems
+ * 9. Memory storage configuration - Data storage parameters
+ * 10. Boot configuration - FINAL step (may exit bootloader mode)
+ * 
+ * @param cfg Complete bootloader configuration structure to apply
+ * @param failOnVerifyError If true, return false on read-back verification failure;
+ *                          if false, log warning but continue with configuration
  * @return true if configuration was applied successfully, false on error
  * @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
  * @warning Clock reconfiguration takes time and the TMC9660 cannot respond during this process

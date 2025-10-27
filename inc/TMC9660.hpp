@@ -1,3 +1,24 @@
+/**
+ * @file TMC9660.hpp
+ * @brief Main TMC9660 motor driver interface and subsystem classes.
+ * 
+ * This file contains the primary TMC9660 class and all its subsystem interfaces
+ * for comprehensive motor control functionality including bootloader management,
+ * motor configuration, sensor integration, telemetry, and GPIO control.
+ * 
+ * @defgroup TMC9660_Core Core TMC9660 Driver
+ * @brief Main TMC9660 driver class and core functionality
+ * 
+ * @defgroup TMC9660_Subsystems Subsystem Interfaces
+ * @brief Specialized subsystem classes for different aspects of motor control
+ * 
+ * @defgroup TMC9660_Types Type Definitions
+ * @brief Enums, structs, and type definitions used throughout the driver
+ * 
+ * @defgroup TMC9660_Utilities Utility Functions
+ * @brief Helper functions and utilities for TMC9660 operations
+ */
+
 #pragma once
 
 #include <array>
@@ -14,6 +35,7 @@
 
 /**
  * @brief Main class representing a TMC9660 motor driver in Parameter Mode.
+ * @ingroup TMC9660_Core
  * 
  * The TMC9660 class provides a comprehensive high-level interface for configuring
  * and controlling the TMC9660 motor driver chip. This class abstracts the complex
@@ -89,6 +111,11 @@
  */
 class TMC9660 {
 public:
+  //================================================================================
+  // @name Core Initialization and Management
+  // @{
+  //================================================================================
+  
   /** @brief Construct a TMC9660 driver instance.
    * @param comm Reference to a user-implemented communication interface (SPI,
    * UART, etc).
@@ -108,9 +135,12 @@ public:
     return comm_;
   }
 
-  //***************************************************************************
-  //**                  BOOTLOADER INITIALIZATION                          **//
-  //***************************************************************************
+  // @}
+
+  //================================================================================
+  // @name Bootloader Management
+  // @{
+  //================================================================================
 
   /** @brief Bootloader initialization result codes.
    * @details These indicate the outcome of the bootloaderInit() method.
@@ -242,9 +272,12 @@ public:
     return sendCommand(tmc9660::tmcl::Op::Boot, 0x81, 0x92, 0xA3B4C5D6, nullptr);
   }
 
-  //***************************************************************************
-  //**               CORE PARAMETER ACCESS METHODS                         **//
-  //***************************************************************************
+  // @}
+
+  //================================================================================
+  // @name Core Parameter Access
+  // @{
+  //================================================================================
 
   /** @brief Set (write) an axis (motor-specific) parameter on the TMC9660.
    * @param id Parameter ID number (see TMC9660 documentation for the full
@@ -296,11 +329,30 @@ public:
   bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type = 0, uint8_t motor = 0,
                    uint32_t value = 0, uint32_t *reply = nullptr) noexcept;
 
-  //***************************************************************************
-  //**                  SUBSYSTEM: Motor Configuration                     **//
-  //***************************************************************************
+  // @}
 
-  /** @brief Subsystem for configuring motor type and basic settings */
+  //================================================================================
+  // @name Subsystem Interfaces
+  // @{
+  //================================================================================
+
+  /** @brief Motor configuration and control subsystem.
+   * @ingroup TMC9660_Subsystems
+   * 
+   * Provides high-level methods for configuring motor parameters such as
+   * motor type, pole pairs, PWM frequency, commutation mode, and control
+   * limits. This subsystem abstracts the low-level TMCL parameter access
+   * into intuitive, easy-to-use methods.
+   * 
+   * @code{.cpp}
+   * // Configure a BLDC motor
+   * driver.motor.setType(tmc9660::tmcl::MotorType::BLDC, 7);  // 7 pole pairs
+   * driver.motor.setPWMFrequency(20000);  // 20 kHz PWM
+   * driver.motor.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL);
+   * driver.motor.setMaxTorqueCurrent(2000);  // 2A torque current limit
+   * driver.motor.enable();  // Start motor control
+   * @endcode
+   */
   struct MotorConfig {
     /** @brief Configure the motor type (DC, BLDC, or stepper) and basic motor
      * settings.

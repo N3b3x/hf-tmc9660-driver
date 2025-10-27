@@ -34,6 +34,27 @@ TMC9660::~TMC9660() noexcept {
   // The motor should be explicitly disabled before destruction if needed.
 }
 
+/**
+ * @brief Initialize the TMC9660 bootloader and configure the device for parameter mode operation.
+ * 
+ * This method performs the complete bootloader initialization sequence including hardware reset,
+ * bootloader configuration, verification, and transition to parameter mode. It handles the
+ * complex multi-step process required to bring the TMC9660 from power-on to ready state.
+ * 
+ * The initialization process includes:
+ * - Hardware reset sequence (optional)
+ * - Bootloader configuration upload
+ * - Configuration verification
+ * - Bootloader information retrieval (optional)
+ * - Transition to parameter mode
+ * - TMCL communication verification
+ * 
+ * @param cfg Bootloader configuration to apply (nullptr uses stored config)
+ * @param performReset Whether to perform hardware reset sequence
+ * @param retrieveBootloaderInfo Whether to retrieve bootloader version info
+ * @param failOnVerifyError Whether to fail if configuration verification fails
+ * @return BootloaderInitResult indicating success or failure reason
+ */
 TMC9660::BootloaderInitResult
 TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, 
                         bool retrieveBootloaderInfo, bool failOnVerifyError) noexcept {
@@ -336,17 +357,52 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
 //**               CORE PARAMETER ACCESS METHODS                         **//
 //***************************************************************************
 
+/**
+ * @brief Write a parameter value to the TMC9660 using TMCL SAP command.
+ * 
+ * Sends a Set Axis Parameter (SAP) command to configure motor-specific parameters.
+ * This is the primary method for configuring motor control parameters such as
+ * motor type, pole pairs, PWM frequency, and control loop settings.
+ * 
+ * @param id Parameter identifier from tmc9660::tmcl::Parameters enum
+ * @param value Parameter value to write
+ * @param motorIndex Motor index (typically 0 for single motor systems)
+ * @return true if parameter was written successfully
+ */
 bool TMC9660::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value,
                              uint8_t motorIndex) noexcept {
   return sendCommand(tmc9660::tmcl::Op::SAP, static_cast<uint16_t>(id), motorIndex, value, nullptr);
 }
 
+/**
+ * @brief Read a parameter value from the TMC9660 using TMCL GAP command.
+ * 
+ * Sends a Get Axis Parameter (GAP) command to retrieve motor-specific parameters.
+ * This method is used to read back configuration values and monitor system status.
+ * 
+ * @param id Parameter identifier from tmc9660::tmcl::Parameters enum
+ * @param value Reference to store the retrieved parameter value
+ * @param motorIndex Motor index (typically 0 for single motor systems)
+ * @return true if parameter was read successfully
+ */
 bool TMC9660::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value,
                             uint8_t motorIndex) noexcept {
   return this->sendCommand(tmc9660::tmcl::Op::GAP, static_cast<uint16_t>(id), motorIndex, 0,
                            &value);
 }
 
+/**
+ * @brief Write a global parameter value using TMCL SGP command.
+ * 
+ * Sends a Set Global Parameter (SGP) command to configure module-wide settings
+ * such as communication parameters, GPIO configuration, and system settings.
+ * Global parameters affect the entire TMC9660 module, not just motor control.
+ * 
+ * @param id Global parameter identifier (supports multiple parameter types)
+ * @param bank Parameter bank (0=module, 2=user, 3=system)
+ * @param value Parameter value to write
+ * @return true if parameter was written successfully
+ */
 bool TMC9660::writeGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
                                    uint32_t value) noexcept {
   uint16_t paramId =
@@ -354,6 +410,18 @@ bool TMC9660::writeGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
   return this->sendCommand(tmc9660::tmcl::Op::SGP, paramId, bank, value, nullptr);
 }
 
+/**
+ * @brief Read a global parameter value using TMCL GGP command.
+ * 
+ * Sends a Get Global Parameter (GGP) command to retrieve module-wide settings
+ * and system information. This method is used to read back global configuration
+ * values and monitor system status across different parameter banks.
+ * 
+ * @param id Global parameter identifier (supports multiple parameter types)
+ * @param bank Parameter bank (0=module, 2=user, 3=system)
+ * @param value Reference to store the retrieved parameter value
+ * @return true if parameter was read successfully
+ */
 bool TMC9660::readGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
                                   uint32_t &value) noexcept {
   uint16_t paramId =
@@ -361,6 +429,27 @@ bool TMC9660::readGlobalParameter(GlobalParamBankVariant id, uint8_t bank,
   return this->sendCommand(tmc9660::tmcl::Op::GGP, paramId, bank, 0, &value);
 }
 
+/**
+ * @brief Send a raw TMCL command and optionally receive a reply.
+ * 
+ * This is the core communication method that handles all TMCL command transmission
+ * and reply processing. It provides low-level access to the TMCL protocol for
+ * advanced users who need direct command control.
+ * 
+ * The method handles:
+ * - TMCL frame assembly and transmission
+ * - Reply reception and validation
+ * - Special command handling (e.g., GetVersion string format)
+ * - Debug logging of command/reply pairs
+ * - Error detection and reporting
+ * 
+ * @param opcode TMCL operation code (SAP, GAP, SGP, GGP, etc.)
+ * @param type Parameter type or command-specific data
+ * @param motor Motor index or bank identifier
+ * @param value Command value or parameter data
+ * @param reply Optional pointer to store reply value
+ * @return true if command was sent and reply was received successfully
+ */
 bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor, uint32_t value,
                           uint32_t *reply) noexcept {
   TMCLFrame tx{};

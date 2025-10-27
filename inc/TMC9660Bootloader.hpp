@@ -1,6 +1,23 @@
 /**
  * @file TMC9660Bootloader.hpp
- * @brief Helper for configuring the TMC9660 bootloader registers.
+ * @brief TMC9660 bootloader interface and configuration structures.
+ * 
+ * This file provides comprehensive bootloader functionality for the TMC9660
+ * including memory operations, configuration management, OTP programming,
+ * and system initialization. The bootloader is essential for configuring
+ * the TMC9660 before transitioning to parameter mode operation.
+ * 
+ * @defgroup TMC9660_Bootloader Bootloader Interface
+ * @brief Core bootloader functionality and memory operations
+ * 
+ * @defgroup TMC9660_BootloaderConfig Configuration Structures
+ * @brief Bootloader configuration data structures and enums
+ * 
+ * @defgroup TMC9660_BootloaderProtocol Communication Protocol
+ * @brief SPI/UART protocol structures and command definitions
+ * 
+ * @defgroup TMC9660_BootloaderUtils Utility Functions
+ * @brief Helper functions for bootloader operations
  */
 
 #pragma once
@@ -11,10 +28,20 @@
 
 namespace tmc9660 {
 
+/**
+ * @brief Bootloader configuration namespace containing all configuration structures and enums.
+ * @ingroup TMC9660_BootloaderConfig
+ * 
+ * This namespace contains all the configuration structures, enumerations, and
+ * constants needed to configure the TMC9660 bootloader. These structures
+ * define hardware pin assignments, communication parameters, power supply
+ * settings, and system behavior options.
+ */
 namespace bootcfg {
 
 /**
  * @brief Enumerations describing bootloader configuration options.
+ * @ingroup TMC9660_BootloaderConfig
  * 
  * These enumerations define the various configuration options available
  * for the TMC9660 bootloader, including voltage settings, communication
@@ -847,7 +874,12 @@ struct GPIOConfig {
   uint8_t analogMask_2_5{0};        ///< GPIO analog enable for GPIOs 2-5 (4-bit mask)
 };
 
-/// Hall encoder configuration.
+/**
+ * @brief Hall encoder configuration for BLDC motor feedback.
+ * 
+ * Configures Hall sensor pins and enable settings for BLDC motor feedback.
+ * Hall sensors provide 60-degree position information for proper motor commutation.
+ */
 struct HallConfig {
   bool enable{false};
   bootcfg::HallUPin u_pin{bootcfg::HallUPin::GPIO2};
@@ -855,7 +887,12 @@ struct HallConfig {
   bootcfg::HallWPin w_pin{bootcfg::HallWPin::GPIO4};
 };
 
-/// ABN encoder 1 configuration.
+/**
+ * @brief ABN encoder 1 configuration for incremental encoder feedback.
+ * 
+ * Configures ABN encoder 1 pins and enable settings for incremental encoder feedback.
+ * ABN encoders provide high-resolution position and velocity feedback for precise motor control.
+ */
 struct ABN1Config {
   bool enable{false};
   bootcfg::ABN1APin a_pin{bootcfg::ABN1APin::GPIO5};
@@ -863,28 +900,52 @@ struct ABN1Config {
   bootcfg::ABN1NPin n_pin{bootcfg::ABN1NPin::Disabled};
 };
 
-/// ABN encoder 2 configuration.
+/**
+ * @brief ABN encoder 2 configuration for second incremental encoder.
+ * 
+ * Configures ABN encoder 2 pins and enable settings for dual-encoder applications
+ * or secondary position feedback. Enables applications requiring redundancy
+ * or separate position measurement systems.
+ */
 struct ABN2Config {
   bool enable{false};
   bootcfg::ABN2APin a_pin{bootcfg::ABN2APin::GPIO6};
   bootcfg::ABN2BPin b_pin{bootcfg::ABN2BPin::GPIO7};
 };
 
-/// Reference switches configuration.
+/**
+ * @brief Reference switches configuration for limit detection and homing.
+ * 
+ * Configures reference switch pins for detecting mechanical limits and home position.
+ * Left and right switches detect travel limits, while the home switch provides
+ * a reference position for absolute positioning.
+ */
 struct RefConfig {
   bootcfg::RefLPin ref_l_pin{bootcfg::RefLPin::Disabled};
   bootcfg::RefRPin ref_r_pin{bootcfg::RefRPin::Disabled};
   bootcfg::RefHPin ref_h_pin{bootcfg::RefHPin::Disabled};
 };
 
-/// Step/Direction interface configuration.
+/**
+ * @brief Step/Direction interface configuration for stepper motor control.
+ * 
+ * Configures step and direction pins for controlling stepper motors or providing
+ * external step/direction signals. The step pin generates pulses for position steps,
+ * while the direction pin controls the movement direction.
+ */
 struct StepDirConfig {
   bool enable{false};
   bootcfg::StepPin step_pin{bootcfg::StepPin::GPIO7};
   bootcfg::DirPin dir_pin{bootcfg::DirPin::GPIO6};
 };
 
-/// SPI encoder configuration.
+/**
+ * @brief SPI encoder configuration for SPI-based position sensors.
+ * 
+ * Configures SPI encoder interface including block selection, communication mode,
+ * frequency, chip select settings, and polarity. Used for communicating with
+ * external SPI-based encoders or position sensors.
+ */
 struct SPIEncConfig {
   bool enable{false};
   bootcfg::SPIEncBlock spi_block{bootcfg::SPIEncBlock::SPI0};
@@ -894,25 +955,49 @@ struct SPIEncConfig {
   bootcfg::SPIEncCSPol cs_polarity{bootcfg::SPIEncCSPol::ActiveLow};
 };
 
-/// Mechanical brake configuration.
+/**
+ * @brief Mechanical brake configuration for holding motor position.
+ * 
+ * Configures mechanical brake output pin and enable settings. Mechanical brakes
+ * hold motor position when power is removed, commonly used in servo applications
+ * where the motor must maintain position after power loss.
+ */
 struct MechBrakeConfig {
   bool enable{false};
   bootcfg::MechBrakeOutput output_pin{bootcfg::MechBrakeOutput::GPIO8};
 };
 
-/// Brake chopper configuration.
+/**
+ * @brief Brake chopper configuration for dynamic braking.
+ * 
+ * Configures brake chopper output pin and enable settings for dynamic braking.
+ * The brake chopper allows rapid motor deceleration by shorting the motor windings,
+ * providing faster stops than passive braking alone.
+ */
 struct BrakeChopperConfig {
   bool enable{false};
   bootcfg::BrakeChopperOutput output_pin{bootcfg::BrakeChopperOutput::GPIO0};
 };
 
-/// External memory storage configuration.
+/**
+ * @brief External memory storage configuration for TMCL scripts and parameters.
+ * 
+ * Configures which external memory types are used for storing TMCL scripts
+ * and parameter data. The bootloader can store TMCL application code and
+ * configuration parameters in external SPI flash or I2C EEPROM for persistence.
+ */
 struct MemStorageConfig {
   bootcfg::MemStorage tmcl_script{bootcfg::MemStorage::Disabled};
   bootcfg::MemStorage parameters{bootcfg::MemStorage::Disabled};
 };
 
-/// Aggregated bootloader configuration written by ::TMC9660Bootloader.
+/**
+ * @brief Complete bootloader configuration structure.
+ * 
+ * This structure aggregates all bootloader configuration settings into a single
+ * object for convenient configuration. Use ::TMC9660Bootloader::applyConfiguration()
+ * to write these settings to the TMC9660 bootloader registers.
+ */
 struct BootloaderConfig {
   LDOConfig ldo;
   BootConfig boot;
@@ -934,7 +1019,15 @@ struct BootloaderConfig {
   MemStorageConfig memStorage;
 };
 
-/// Bootloader status codes (per TMC9660 datasheet)
+/**
+ * @brief Bootloader status codes returned by command replies.
+ * 
+ * These status codes are returned by the bootloader to indicate the result
+ * of each command. Status OK (0) indicates successful command execution.
+ * Other status codes indicate various error conditions or special states.
+ * 
+ * @note Per TMC9660 datasheet Table 23
+ */
 enum class BootloaderStatus : uint8_t {
   OK = 0,                    ///< Command executed successfully
   CMD_NOT_FOUND = 1,         ///< The request has an invalid command number
@@ -949,7 +1042,15 @@ enum class BootloaderStatus : uint8_t {
   BOOTLOADER_RESUMED = 21    ///< First SPI datagram after returning to bootloader from motor control (SPI only)
 };
 
-/// Bootloader command codes (per TMC9660 datasheet Table 23)
+/**
+ * @brief Bootloader command codes for memory and configuration operations.
+ * 
+ * These commands allow reading and writing to memory banks, configuring
+ * external devices, and querying system information. Each command may be
+ * followed by command-specific parameters in the 32-bit value field.
+ * 
+ * @note Per TMC9660 datasheet Table 23
+ */
 enum class BootloaderCommand : uint8_t {
   GET_INFO = 0,               ///< Get various basic information about the connected TMC9660
   GET_BANK = 8,               ///< Get the currently selected memory bank
@@ -979,7 +1080,13 @@ enum class BootloaderCommand : uint8_t {
   BOOTSTRAP_RS485 = 255       ///< Set up RS485 settings
 };
 
-/// Memory bank identifiers
+/**
+ * @brief Memory bank identifiers for bootloader operations.
+ * 
+ * The TMC9660 organizes memory into several banks for different purposes.
+ * The bootloader allows reading from and writing to these memory banks
+ * for configuration and program storage.
+ */
 enum class MemoryBank : uint8_t {
   RAM = 0,           ///< Internal RAM
   OTP = 1,           ///< OTP memory
@@ -989,7 +1096,15 @@ enum class MemoryBank : uint8_t {
   CONFIG = 5         ///< Configuration memory (runtime reconfiguration)
 };
 
-/// GET_INFO query types (per TMC9660 datasheet Table 24)
+/**
+ * @brief GET_INFO query types for retrieving system information.
+ * 
+ * These query types retrieve various system information including chip type,
+ * bootloader version, available features, memory sizes, and hardware capabilities.
+ * Use ::TMC9660Bootloader::getInfo() to query these values.
+ * 
+ * @note Per TMC9660 datasheet Table 24
+ */
 enum class InfoQuery : uint32_t {
   CHIP_TYPE = 0,              ///< Get the Chip type (returns 0x544D0001)
   BL_VERSION = 1,             ///< Get bootloader version (major in upper 16 bits, minor in lower 16 bits)
@@ -1008,7 +1123,15 @@ enum class InfoQuery : uint32_t {
   CHIP_VARIANT = 28           ///< Get chip variant (TMC9660 reports value 2)
 };
 
-/// Bootloader version information
+/**
+ * @brief Bootloader version information structure.
+ * 
+ * Contains the bootloader version in major.minor format. The version is retrieved
+ * from the bootloader using GET_INFO query type ::InfoQuery::BL_VERSION.
+ * 
+ * Parses the 32-bit version value where the upper 16 bits contain the major version
+ * and the lower 16 bits contain the minor version.
+ */
 struct BootloaderVersion {
   uint16_t major;  ///< Major version number
   uint16_t minor;  ///< Minor version number
@@ -1022,7 +1145,12 @@ struct BootloaderVersion {
   }
 };
 
-/// Feature flags for available bootloader features
+/**
+ * @brief Feature flags indicating available bootloader capabilities.
+ * 
+ * These flags indicate which memory types and features are supported by the
+ * bootloader hardware. Retrieved via GET_INFO query type ::InfoQuery::FEATURES.
+ */
 struct BootloaderFeatures {
   bool sram_support;      ///< Bit 0: SRAM support
   bool rom;               ///< Bit 1: ROM
@@ -1042,7 +1170,13 @@ struct BootloaderFeatures {
   }
 };
 
-/// Git version control information
+/**
+ * @brief Git version control information from bootloader firmware.
+ * 
+ * Contains Git commit hash and dirty bit indicating the firmware build state.
+ * The dirty bit indicates if there were uncommitted changes when the firmware
+ * was built. Retrieved via GET_INFO query type ::InfoQuery::GIT_INFO.
+ */
 struct GitInfo {
   bool dirty;              ///< Bit 28: Dirty bit - uncommitted changes
   uint32_t commit_hash;    ///< Bits 27-0: 7-digit hex commit hash
@@ -1056,7 +1190,13 @@ struct GitInfo {
   }
 };
 
-/// Partition version information
+/**
+ * @brief External memory partition version information.
+ * 
+ * Indicates the version of the external memory partition format used by the
+ * TMC9660. This version affects how TMCL scripts and parameters are stored
+ * and retrieved from external memory (SPI flash or I2C EEPROM).
+ */
 struct PartitionVersion {
   uint8_t major;  ///< Bits 15-8: Major version
   uint8_t minor;  ///< Bits 7-0: Minor version
@@ -1070,7 +1210,13 @@ struct PartitionVersion {
   }
 };
 
-/// OTP load result information
+/**
+ * @brief OTP load operation result information.
+ * 
+ * Contains the result of loading data from OTP (One-Time Programmable) memory.
+ * The error count indicates how many bit errors were detected during load,
+ * while the page tag identifies the loaded OTP page.
+ */
 struct OtpLoadResult {
   uint8_t errorCount;  ///< OTP bit error count (bits 15-8)
   uint8_t pageTag;     ///< OTP page tag (bits 7-0)
@@ -1084,7 +1230,15 @@ struct OtpLoadResult {
   }
 };
 
-/// OTP burn error codes (per TMC9660 datasheet)
+/**
+ * @brief OTP burn operation error codes.
+ * 
+ * These error codes are returned when an OTP burn operation fails. Negative
+ * values indicate specific failure modes during the programming process.
+ * Positive values (0 or greater) indicate successful operations.
+ * 
+ * @note Per TMC9660 datasheet
+ */
 enum class OtpBurnError : int8_t {
   INVALID_PAGE = -1,           ///< The OTP page number is invalid
   NO_MORE_BURNS = -2,          ///< Last OTP page burnt, no more burns possible
@@ -1094,7 +1248,13 @@ enum class OtpBurnError : int8_t {
   CLOCK_RESTORE_FAILED = -6    ///< Restoring original clock setup after OTP operation failed
 };
 
-/// OTP burn result information
+/**
+ * @brief OTP burn operation result information.
+ * 
+ * Contains the result of burning data to OTP (One-Time Programmable) memory.
+ * The structure includes success status, error code, and human-readable
+ * error description for debugging failed burn operations.
+ */
 struct OtpBurnResult {
   bool isSuccess;                  ///< Whether the burn operation succeeded
   OtpBurnError errorCode;          ///< Error code if operation failed
@@ -1143,9 +1303,20 @@ struct OtpBurnResult {
   }
 };
 
-/// Helper function for CRC-8 calculation (UART only)
+/**
+ * @brief Helper function for CRC-8 calculation (UART only).
+ * 
+ * These functions are used by the UART bootloader protocol for checksum
+ * calculation. They are automatically called by the ::BootloaderCommandUART
+ * serialization methods.
+ */
 
-/// Helper: Bit-reverse a byte (LSB ↔ MSB)
+/**
+ * @brief Bit-reverse a byte (LSB ↔ MSB).
+ * 
+ * Helper function used by the bootloader CRC-8 calculation to reverse
+ * the bit order of each input byte before polynomial division.
+ */
 static constexpr uint8_t reverseByte(uint8_t b) noexcept {
   b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
   b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
@@ -1153,7 +1324,9 @@ static constexpr uint8_t reverseByte(uint8_t b) noexcept {
   return b;
 }
 
-/// CRC-8 calculation for UART protocol (TMC9660 datasheet method)
+/**
+ * @brief CRC-8 calculation for UART protocol (TMC9660 datasheet method).
+ */
 /// Polynomial: x^8 + x^2 + x^1 + x^0 (9-bit: 0b100000111)
 /// Algorithm: Bit-reverse each input byte, perform polynomial division, return MSB-first result
 /// Note: This is NOT a standard CRC-8! Each byte is bit-reversed before processing.
@@ -1185,7 +1358,14 @@ static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcep
   return static_cast<uint8_t>(crc & 0xFF);
 }
 
-/// Bootloader command structure for SPI (40-bit / 5-byte protocol)
+/**
+ * @brief Bootloader command structure for SPI (40-bit / 5-byte protocol).
+ * 
+ * Format: [COMMAND(8)] [VALUE(32)]
+ * 
+ * All bytes are bit-flipped during SPI transmission. Serialization is handled
+ * automatically by the ::TMC9660Bootloader::sendCommand() methods.
+ */
 struct BootloaderCommandSPI {
   uint8_t command;  ///< Command byte
   uint32_t value;   ///< 32-bit data value
@@ -1200,8 +1380,14 @@ struct BootloaderCommandSPI {
   }
 };
 
-/// Bootloader command structure for UART (64-bit / 8-byte protocol)
-/// Format: [SYNC(0x55)] [DEVICE_ADDR] [COMMAND] [VALUE(32)] [CRC8]
+/**
+ * @brief Bootloader command structure for UART (64-bit / 8-byte protocol).
+ * 
+ * Format: [SYNC(0x55)] [DEVICE_ADDR] [COMMAND] [VALUE(32 MSB first)] [CRC8]
+ * 
+ * No bit-flipping (unlike SPI). CRC-8 checksum with polynomial x^8 + x^2 + x^1 + x^0.
+ * Serialization is handled automatically by the ::TMC9660Bootloader::sendCommand() methods.
+ */
 struct BootloaderCommandUART {
   uint8_t deviceAddr;  ///< Device address
   uint8_t command;     ///< Command byte
@@ -1220,7 +1406,14 @@ struct BootloaderCommandUART {
   }
 };
 
-/// Bootloader reply structure for SPI (40-bit / 5-byte protocol)
+/**
+ * @brief Bootloader reply structure for SPI (40-bit / 5-byte protocol).
+ * 
+ * Format: [STATUS(8)] [VALUE(32)]
+ * 
+ * All bytes are bit-flipped during SPI reception. Replies are delayed by one
+ * SPI transaction (standard SPI behavior), requiring two transactions per command.
+ */
 struct BootloaderReplySPI {
   uint8_t status;   ///< Status byte
   uint32_t value;   ///< 32-bit data value
@@ -1249,8 +1442,14 @@ struct BootloaderReplySPI {
   }
 };
 
-/// Bootloader reply structure for UART (64-bit / 8-byte protocol)
-/// Format: [HOST_ADDR] [DEVICE_ADDR] [STATUS] [VALUE(32)] [CRC8]
+/**
+ * @brief Bootloader reply structure for UART (64-bit / 8-byte protocol).
+ * 
+ * Format: [HOST_ADDR] [DEVICE_ADDR] [STATUS] [VALUE(32 MSB first)] [CRC8]
+ * 
+ * Note: No SYNC byte in reply (unlike request which has 0x55 as first byte).
+ * CRC8 verification is automatically performed during deserialization.
+ */
 struct BootloaderReplyUART {
   uint8_t hostAddr;    ///< Host address
   uint8_t deviceAddr;  ///< Device address
@@ -1310,6 +1509,40 @@ struct BootloaderReplyUART {
  * - CRC-8 checksum with polynomial x^8 + x^2 + x^1 + x^0
  * - Reply comes immediately (no delayed transaction like SPI)
  */
+/**
+ * @brief Main TMC9660 bootloader interface class.
+ * @ingroup TMC9660_Bootloader
+ * 
+ * This class provides comprehensive bootloader functionality for the TMC9660
+ * including memory operations, configuration management, OTP programming,
+ * and system initialization. The bootloader is essential for configuring
+ * the TMC9660 before transitioning to parameter mode operation.
+ * 
+ * ## Key Features
+ * 
+ * - **Memory Operations**: Read/write to RAM, OTP, SPI Flash, I2C EEPROM
+ * - **Configuration Management**: Complete bootloader configuration application
+ * - **OTP Programming**: One-time programmable memory burning with workarounds
+ * - **System Information**: Retrieve bootloader version, features, and capabilities
+ * - **Protocol Support**: Both SPI and UART communication interfaces
+ * - **Error Handling**: Comprehensive error reporting and verification
+ * 
+ * ## Usage Pattern
+ * 
+ * @code{.cpp}
+ * // Create bootloader instance
+ * TMC9660Bootloader bootloader(commInterface);
+ * 
+ * // Configure the system
+ * BootloaderConfig cfg{};
+ * cfg.ldo.vext1_voltage = bootcfg::LDOVoltage::V3_3;
+ * cfg.boot.boot_mode = bootcfg::BootMode::Parameter;
+ * cfg.boot.start_motor_control = true;
+ * 
+ * // Apply configuration and start motor control
+ * bootloader.applyConfiguration(cfg);
+ * @endcode
+ */
 class TMC9660Bootloader {
 public:
   explicit TMC9660Bootloader(TMC9660CommInterface &comm) noexcept;
@@ -1318,153 +1551,355 @@ public:
   // BASIC MEMORY OPERATIONS
   //==================================================
 
-  /// Select the target register bank.
+  /**
+   * @brief Select the target memory bank for subsequent operations.
+   * 
+   * Sets which memory bank (RAM, OTP, SPI Flash, I2C EEPROM, or CONFIG) 
+   * will be accessed by subsequent read/write operations. The bank must be
+   * selected before performing any memory access operations.
+   * 
+   * @param bank Memory bank number (0-5, see ::MemoryBank enum)
+   * @return true if command successful
+   * @note Common banks: 0=RAM, 1=OTP, 5=CONFIG
+   */
   bool setBank(uint8_t bank) noexcept;
   
-  /// Select the target register bank using enum.
+  /**
+   * @brief Select the target register bank using enum (overloaded).
+   * 
+   * Convenience overload that accepts a ::MemoryBank enum instead of raw
+   * bank number. Automatically converts to the numeric value.
+   * 
+   * @param bank Memory bank enum value
+   * @return true if command successful
+   */
   bool setBank(MemoryBank bank) noexcept {
     return setBank(static_cast<uint8_t>(bank));
   }
   
-  /// Set the address within the current bank.
+  /**
+   * @brief Set the address within the current memory bank.
+   * 
+   * Sets the memory address for subsequent read/write operations within the
+   * currently selected bank. Addresses are bank-relative (offset within bank).
+   * 
+   * @param addr Memory address within current bank
+   * @return true if command successful
+   */
   bool setAddress(uint32_t addr) noexcept;
   
-  /// Write a single byte to the previously selected address.
+  /**
+   * @brief Write a single byte to the previously selected address.
+   * 
+   * Writes an 8-bit value to the current bank and address. Does not increment
+   * the address pointer.
+   * 
+   * @param v 8-bit value to write
+   * @return true if write successful
+   */
   bool write8(uint8_t v) noexcept;
   
-  /// Write a 16 bit word.
+  /**
+   * @brief Write a 16-bit word to the previously selected address.
+   * 
+   * Writes a 16-bit value to the current bank and address. Little-endian byte
+   * order. Does not increment the address pointer.
+   * 
+   * @param v 16-bit value to write
+   * @return true if write successful
+   */
   bool write16(uint16_t v) noexcept;
   
-  /// Write a 32 bit word.
+  /**
+   * @brief Write a 32-bit word to the previously selected address.
+   * 
+   * Writes a 32-bit value to the current bank and address. Little-endian byte
+   * order. Does not increment the address pointer.
+   * 
+   * @param v 32-bit value to write
+   * @return true if write successful
+   */
   bool write32(uint32_t v) noexcept;
   
-  /// Write a single byte and increment address by 1.
+  /**
+   * @brief Write a single byte and increment address by 1.
+   * 
+   * Writes an 8-bit value and automatically increments the address pointer.
+   * Useful for writing sequential data arrays.
+   * 
+   * @param v 8-bit value to write
+   * @return true if write successful
+   */
   bool write8Inc(uint8_t v) noexcept;
   
-  /// Write a 16 bit word and increment address by 2.
+  /**
+   * @brief Write a 16-bit word and increment address by 2.
+   * 
+   * Writes a 16-bit value and automatically increments the address pointer by 2.
+   * Useful for writing sequential data arrays.
+   * 
+   * @param v 16-bit value to write
+   * @return true if write successful
+   */
   bool write16Inc(uint16_t v) noexcept;
   
-  /// Write a 32 bit word and increment address by 4.
+  /**
+   * @brief Write a 32-bit word and increment address by 4.
+   * 
+   * Writes a 32-bit value and automatically increments the address pointer by 4.
+   * Commonly used for writing configuration registers and data arrays.
+   * 
+   * @param v 32-bit value to write
+   * @return true if write successful
+   */
   bool write32Inc(uint32_t v) noexcept;
   
-  /// Write multiple 32 bit words starting at the current address (uses WRITE_32_INC).
+  /**
+   * @brief Write multiple 32-bit words starting at the current address.
+   * 
+   * Writes multiple consecutive 32-bit words using WRITE_32_INC commands.
+   * The address pointer is incremented automatically for each word.
+   * 
+   * @param values Pointer to array of 32-bit values to write
+   * @param count Number of 32-bit words to write
+   * @return true if all writes successful
+   */
   bool write32IncMultiple(const uint32_t *values, size_t count) noexcept;
   
   //==================================================
   // READ OPERATIONS
   //==================================================
   
-  /// Read a single byte from the previously selected address.
-  /// @param value Returns the 8-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a single byte from the previously selected address.
+   * 
+   * Reads an 8-bit value from the current bank and address without 
+   * modifying the address pointer.
+   * 
+   * @param value Pointer to receive the 8-bit value read
+   * @return true if read successful
+   */
   bool read8(uint8_t *value) noexcept;
   
-  /// Read a 16-bit word from the previously selected address.
-  /// @param value Returns the 16-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a 16-bit word from the previously selected address.
+   * 
+   * Reads a 16-bit value from the current bank and address without 
+   * modifying the address pointer. Little-endian byte order.
+   * 
+   * @param value Pointer to receive the 16-bit value read
+   * @return true if read successful
+   */
   bool read16(uint16_t *value) noexcept;
   
-  /// Read a 32-bit word from the previously selected address.
-  /// @param value Returns the 32-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a 32-bit word from the previously selected address.
+   * 
+   * Reads a 32-bit value from the current bank and address without 
+   * modifying the address pointer. Little-endian byte order.
+   * 
+   * @param value Pointer to receive the 32-bit value read
+   * @return true if read successful
+   */
   bool read32(uint32_t *value) noexcept;
   
-  /// Read a single byte and increment address by 1.
-  /// @param value Returns the 8-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a single byte and increment address by 1.
+   * 
+   * Reads an 8-bit value and automatically increments the address pointer.
+   * Useful for reading sequential data arrays.
+   * 
+   * @param value Pointer to receive the 8-bit value read
+   * @return true if read successful
+   */
   bool read8Inc(uint8_t *value) noexcept;
   
-  /// Read a 16-bit word and increment address by 2.
-  /// @param value Returns the 16-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a 16-bit word and increment address by 2.
+   * 
+   * Reads a 16-bit value and automatically increments the address pointer by 2.
+   * Useful for reading sequential data arrays.
+   * 
+   * @param value Pointer to receive the 16-bit value read
+   * @return true if read successful
+   */
   bool read16Inc(uint16_t *value) noexcept;
   
-  /// Read a 32-bit word and increment address by 4.
-  /// @param value Returns the 32-bit value read
-  /// @return true if successful
+  /**
+   * @brief Read a 32-bit word and increment address by 4.
+   * 
+   * Reads a 32-bit value and automatically increments the address pointer by 4.
+   * Commonly used for reading configuration registers and data arrays.
+   * 
+   * @param value Pointer to receive the 32-bit value read
+   * @return true if read successful
+   */
   bool read32Inc(uint32_t *value) noexcept;
   
-  /// Get the currently selected memory bank.
-  /// @param bank Returns the current bank number
-  /// @return true if successful
+  /**
+   * @brief Get the currently selected memory bank.
+   * 
+   * Retrieves the memory bank number that was last selected via ::setBank().
+   * Useful for verifying the current bank configuration.
+   * 
+   * @param bank Pointer to receive the current bank number (0-5)
+   * @return true if query successful
+   */
   bool getBank(uint8_t *bank) noexcept;
   
-  /// Get the currently selected memory address.
-  /// @param address Returns the current address
-  /// @return true if successful
+  /**
+   * @brief Get the currently selected memory address.
+   * 
+   * Retrieves the memory address that was last set via ::setAddress() within
+   * the currently selected bank. Useful for tracking address pointer state.
+   * 
+   * @param address Pointer to receive the current address
+   * @return true if query successful
+   */
   bool getAddress(uint32_t *address) noexcept;
   
-  /// No operation - used to retrieve reply from previous command (SPI only).
+  /**
+   * @brief No operation - retrieve reply from previous command (SPI only).
+   * 
+   * Due to SPI protocol, replies are delayed by one transaction. This command
+   * sends a NO_OP to retrieve the reply from the previous command. Primarily
+   * used internally by the bootloader implementation.
+   * 
+   * @param reply Optional pointer to store the 32-bit reply value
+   * @return true if command successful
+   * @note Not needed when using UART protocol
+   */
   bool noOp(uint32_t *reply = nullptr) noexcept;
   
   //==================================================
   // VERIFICATION OPERATIONS
   //==================================================
   
-  /// Read back and verify an 8-bit value matches expected value.
-  /// @param expected The expected 8-bit value
-  /// @param configName Human-readable name for logging
-  /// @return true if read successful and value matches
+  /**
+   * @brief Read back and verify an 8-bit value matches the expected value.
+   * 
+   * Performs a read operation and compares the returned value with the expected
+   * value. Useful for verification after configuration writes. Logs the result
+   * for debugging purposes.
+   * 
+   * @param expected The expected 8-bit value to match
+   * @param configName Human-readable configuration name for logging
+   * @return true if read successful and value matches
+   */
   bool readAndVerify8(uint8_t expected, const char* configName) noexcept;
   
-  /// Read back and verify a 16-bit value matches expected value.
-  /// @param expected The expected 16-bit value
-  /// @param configName Human-readable name for logging
-  /// @return true if read successful and value matches
+  /**
+   * @brief Read back and verify a 16-bit value matches the expected value.
+   * 
+   * Performs a read operation and compares the returned value with the expected
+   * value. Useful for verification after configuration writes. Logs the result
+   * for debugging purposes.
+   * 
+   * @param expected The expected 16-bit value to match
+   * @param configName Human-readable configuration name for logging
+   * @return true if read successful and value matches
+   */
   bool readAndVerify16(uint16_t expected, const char* configName) noexcept;
   
-  /// Read back and verify a 32-bit value matches expected value.
-  /// @param expected The expected 32-bit value
-  /// @param configName Human-readable name for logging
-  /// @return true if read successful and value matches
+  /**
+   * @brief Read back and verify a 32-bit value matches the expected value.
+   * 
+   * Performs a read operation and compares the returned value with the expected
+   * value. Useful for verification after configuration writes. Logs the result
+   * for debugging purposes.
+   * 
+   * @param expected The expected 32-bit value to match
+   * @param configName Human-readable configuration name for logging
+   * @return true if read successful and value matches
+   */
   bool readAndVerify32(uint32_t expected, const char* configName) noexcept;
   
   //==================================================
   // OTP OPERATIONS
   //==================================================
   
-  /// Load an OTP page into the OTP memory bank.
-  /// @param page OTP page number to load
-  /// @param result Returns parsed OTP load result (error count + page tag)
-  /// @return true if successful (command executed without communication error)
-  /// @note Check result.errorCount for bit errors, result.pageTag for page tag
+  /**
+   * @brief Load an OTP (One-Time Programmable) page into the OTP memory bank.
+   * 
+   * Loads a previously programmed OTP page into RAM for reading. Returns information
+   * about the loaded page including the page tag and any bit errors detected.
+   * 
+   * @param page OTP page number to load (0-based)
+   * @param result Pointer to receive parsed OTP load result (error count + page tag)
+   * @return true if command executed successfully (check result.errorCount for bit errors)
+   * @note Check result.errorCount for bit errors, result.pageTag for page identification
+   */
   bool otpLoad(uint8_t page, OtpLoadResult *result) noexcept;
   
-  /// Load an OTP page into the OTP memory bank (legacy method).
-  /// @param page OTP page number to load
-  /// @param errorCount Returns bit error count (bits 15-8 of reply)
-  /// @param pageTag Returns page tag (bits 7-0 of reply)
-  /// @return true if successful
+  /**
+   * @brief Load an OTP page (legacy method with separate parameters).
+   * 
+   * Legacy overload that returns error count and page tag as separate parameters
+   * instead of a structured result object.
+   * 
+   * @param page OTP page number to load
+   * @param errorCount Optional pointer to receive bit error count (bits 15-8)
+   * @param pageTag Optional pointer to receive page tag (bits 7-0)
+   * @return true if successful
+   */
   bool otpLoad(uint8_t page, uint8_t *errorCount = nullptr, uint8_t *pageTag = nullptr) noexcept;
   
-  /// Permanently burn the given OTP page.
-  /// @param page OTP page number to burn (bits 7-0)
-  /// @param pageAddr OTP page address to write (bits 15-8)
-  /// @param result Returns detailed burn result with error information
-  /// @return true if successful (command executed without communication error)
-  /// @note Check result.success and result.errorCode for burn operation status
+  /**
+   * @brief Permanently burn data to OTP (One-Time Programmable) memory.
+   * 
+   * **WARNING:** OTP burn operations are IRREVERSIBLE! Once a page is burned,
+   * it cannot be modified. The burn operation requires specific voltage conditions
+   * and timing to succeed.
+   * 
+   * @param page OTP page number to burn (bits 7-0)
+   * @param pageAddr OTP page address to write (bits 15-8)
+   * @param result Pointer to receive detailed burn result with error information
+   * @return true if command executed (check result.isSuccess and result.errorCode)
+   * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
+   */
   bool otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result) noexcept;
   
-  /// Permanently burn the given OTP page (legacy method).
-  /// @param page OTP page number to burn (bits 7-0)
-  /// @param pageAddr OTP page address to write (bits 15-8)
-  /// @return true if successful
+  /**
+   * @brief Permanently burn OTP page (legacy method without detailed results).
+   * 
+   * Simplified version that only returns boolean success/failure without error details.
+   * Use the overload with OtpBurnResult for detailed error information.
+   * 
+   * @param page OTP page number to burn (bits 7-0)
+   * @param pageAddr OTP page address to write (bits 15-8)
+   * @return true if successful
+   * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
+   */
   bool otpBurn(uint8_t page, uint8_t pageAddr = 0) noexcept;
   
-  /// Permanently burn the given OTP page with Erratum 1 workaround.
-  /// @param page OTP page number to burn (bits 7-0)
-  /// @param pageAddr OTP page address to write (bits 15-8)
-  /// @param result Returns detailed burn result with error information
-  /// @param vdrvWaitMs Wait time for VDRV voltage to drop (default: 1000ms for 10uF capacitor)
-  /// @return true if successful (command executed without communication error)
-  /// @note This method implements the Erratum 1 workaround for reliable OTP burning
+  /**
+   * @brief Burn OTP page with Erratum 1 workaround for reliable operation.
+   * 
+   * Implements a workaround for silicon Erratum 1 that improves reliability of
+   * OTP burn operations. The workaround waits for VDRV voltage to stabilize
+   * before and after the burn operation.
+   * 
+   * @param page OTP page number to burn (bits 7-0)
+   * @param pageAddr OTP page address to write (bits 15-8)
+   * @param result Pointer to receive detailed burn result with error information
+   * @param vdrvWaitMs Wait time for VDRV voltage to drop (default 1000ms for 10uF capacitor)
+   * @return true if command executed (check result.isSuccess and result.errorCode)
+   * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
+   * @note Recommended method for production OTP burning
+   */
   bool otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, 
                             uint32_t vdrvWaitMs = 1000) noexcept;
   
-  /// Check OTP burn status using Erratum 1 workaround method.
-  /// @param result Returns true if burn was successful
-  /// @return true if status check completed successfully
-  /// @note This method implements the Erratum 1 status check workaround
+  /**
+   * @brief Check OTP burn status using Erratum 1 workaround verification.
+   * 
+   * Verifies the result of an OTP burn operation by checking multiple status
+   * indicators. Implements Erratum 1 workaround for reliable status verification.
+   * 
+   * @param result Pointer to receive true if burn was successful
+   * @return true if status check completed successfully
+   * @note This method implements the Erratum 1 status check workaround
+   */
   bool checkOtpBurnStatus(bool *result) noexcept;
   
   //==================================================

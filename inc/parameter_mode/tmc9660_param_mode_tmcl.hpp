@@ -4,13 +4,39 @@
 //  @brief Enumerations and helpers for **TMCL® operation & reply codes** when the TMC9660 is used
 //  in *Parameter Mode*.
 //
+//  This file provides comprehensive TMCL command definitions, parameter enumerations,
+//  and helper structures for the TMC9660 motor driver in parameter mode operation.
+//  It includes all operation codes, parameter definitions, and reply structures
+//  needed for complete motor control functionality.
+//
+//  @defgroup TMC9660_TMCL TMCL Command Interface
+//  @brief TMCL operation codes and command structures
+//
+//  @defgroup TMC9660_TMCLParameters TMCL Parameters
+//  @brief Parameter definitions for motor control and system configuration
+//
+//  @defgroup TMC9660_TMCLReplies TMCL Reply Structures
+//  @brief Reply structures and status codes for TMCL commands
+//
+//  @defgroup TMC9660_TMCLTypes TMCL Type Definitions
+//  @brief Enums and type definitions for TMCL operations
+//
 //  --------------------------------------------------------------------------------------------------
-//  © 2025 <Nebiyu Tadesse>. Released under the GNU GPL V3 License.
+//  © 2025 <Nebiyu Tadesse>. Released under the GNU GPL V3 License.
 //====================================================================================================================
 #pragma once
 
 #include <cstdint>
 
+/**
+ * @brief TMCL command interface namespace for TMC9660.
+ * @ingroup TMC9660_TMCL
+ * 
+ * This namespace contains all TMCL (Trinamic Motion Control Language) related
+ * definitions for the TMC9660 motor driver. It provides comprehensive command
+ * structures, parameter definitions, and reply handling for parameter mode
+ * operation of the TMC9660.
+ */
 namespace tmc9660::tmcl {
 
 
