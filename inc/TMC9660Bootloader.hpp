@@ -23,6 +23,7 @@
 #pragma once
 
 #include "TMC9660CommInterface.hpp"
+#include "TMC9660LoggingConfig.hpp"
 #include <cstddef>
 #include <cstdint>
 

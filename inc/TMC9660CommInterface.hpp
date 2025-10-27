@@ -82,6 +82,7 @@
 #include <cstring>
 #include <span>
 #include <string>
+#include "TMC9660LoggingConfig.hpp"
 
 /**
  * @brief Supported physical communication modes for TMC9660.
@@ -641,6 +642,11 @@ public:
    * @param ... Variable arguments for format string
    */
   void logDebug(int level, const char* tag, const char* format, ...) noexcept {
+    // Check if logging is enabled for this level at compile time
+    if (!TMC9660_LOG_LEVEL_AT_LEAST(level)) {
+      return;
+    }
+    
     va_list args;
     va_start(args, format);
     
@@ -736,24 +742,24 @@ public:
     tx.toSpi(txBuf);
     
     // Log raw SPI bytes being transmitted
-    logDebug(2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
-             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+    TMC9660_LOG_INFO("SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                     txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
+                     txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
     // Transaction 1: Send command, receive first reply
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    logDebug(2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    TMC9660_LOG_INFO("SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                     rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+                     rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
     
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (firstReply) {
       bool firstParseOk = TMCLReply::fromSpi(rxBuf, *firstReply);
-      logDebug(2, "SPI_TMCL", "          └─> Status=0x%02X, Value=0x%08X (parse %s)",
-               static_cast<uint8_t>(firstReply->spiStatus), firstReply->value,
-               firstParseOk ? "OK" : "failed");
+      TMC9660_LOG_INFO("SPI_TMCL", "          └─> Status=0x%02X, Value=0x%08X (parse %s)",
+                       static_cast<uint8_t>(firstReply->spiStatus), firstReply->value,
+                       firstParseOk ? "OK" : "failed");
       // Note: We don't return false here because SESSION_START may have non-standard format
       // The caller can check rawBytes[0] for SESSION_START status codes
     }
@@ -762,16 +768,16 @@ public:
     TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
     cmd2.toSpi(txBuf);
     
-    logDebug(2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
-             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+    TMC9660_LOG_INFO("SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                     txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
+                     txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    logDebug(2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    TMC9660_LOG_INFO("SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                     rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+                     rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
     
     // Parse reply with command context (for handling special reply formats like GetVersion string)
     return TMCLReply::fromSpi(rxBuf, reply, tx.opcode, tx.type);

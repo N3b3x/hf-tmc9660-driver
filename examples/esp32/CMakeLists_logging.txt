@@ -1,0 +1,88 @@
+# TMC9660 Logging Configuration Examples
+# Copy the relevant section to your CMakeLists.txt
+
+# ============================================================================
+# OPTION 1: Enable All Logging (Debug Build)
+# ============================================================================
+# This enables all logging levels for comprehensive debugging
+set(TMC9660_LOG_LEVEL_ALL ON)
+
+# ============================================================================
+# OPTION 2: Enable Specific Log Levels
+# ============================================================================
+# Enable only error and warning messages (minimal logging)
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+
+# Enable error, warning, and info messages (standard logging)
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+set(TMC9660_LOG_LEVEL_INFO ON)
+
+# Enable error, warning, info, and debug messages (detailed logging)
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+set(TMC9660_LOG_LEVEL_INFO ON)
+set(TMC9660_LOG_LEVEL_DEBUG ON)
+
+# Enable all levels including verbose (maximum logging)
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+set(TMC9660_LOG_LEVEL_INFO ON)
+set(TMC9660_LOG_LEVEL_DEBUG ON)
+set(TMC9660_LOG_LEVEL_VERBOSE ON)
+
+# ============================================================================
+# OPTION 3: Disable All Logging (Release Build)
+# ============================================================================
+# This completely disables all logging for maximum performance
+set(TMC9660_LOG_DISABLE_ALL ON)
+
+# ============================================================================
+# USAGE IN YOUR CMakeLists.txt
+# ============================================================================
+# Add one of the above options to your CMakeLists.txt, then:
+
+# Apply the logging configuration to your target
+if(TMC9660_LOG_LEVEL_ALL)
+    target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_ALL)
+elseif(TMC9660_LOG_DISABLE_ALL)
+    target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_DISABLE_ALL)
+else()
+    # Apply individual log level definitions
+    if(TMC9660_LOG_LEVEL_ERROR)
+        target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_ERROR)
+    endif()
+    if(TMC9660_LOG_LEVEL_WARNING)
+        target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_WARNING)
+    endif()
+    if(TMC9660_LOG_LEVEL_INFO)
+        target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_INFO)
+    endif()
+    if(TMC9660_LOG_LEVEL_DEBUG)
+        target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_DEBUG)
+    endif()
+    if(TMC9660_LOG_LEVEL_VERBOSE)
+        target_compile_definitions(your_target_name PRIVATE TMC9660_LOG_LEVEL_VERBOSE)
+    endif()
+endif()
+
+# ============================================================================
+# COMPILE-TIME DETECTION EXAMPLES
+# ============================================================================
+# You can also use compile-time detection in your code:
+
+# Check if logging is enabled at all
+#if TMC9660_LOG_ENABLED
+#    printf("Logging is enabled in this build\n");
+#endif
+
+# Check if specific log levels are enabled
+#if TMC9660_LOG_LEVEL_AT_LEAST(2)  // INFO level or higher
+#    printf("Info level logging is available\n");
+#endif
+
+# Check if debug logging is specifically enabled
+#if TMC9660_LOG_LEVEL_ENABLED(3)  // DEBUG level
+#    printf("Debug logging is enabled\n");
+#endif

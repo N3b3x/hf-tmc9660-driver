@@ -20,9 +20,10 @@ Online documentation is available via GitHub Pages at [https://n3b3x.github.io/h
 7. [Installation](#-installation)
 8. [Quick Start](#-quick-start)
 9. [Usage Examples](#-usage-examples)
-10. [Contributing](#-contributing)
-11. [License](#-license)
-12. [Resources](#-resources)
+10. [Logging Configuration](#-logging-configuration)
+11. [Contributing](#-contributing)
+12. [License](#-license)
+13. [Resources](#-resources)
 
 ## 🚀 Driver Highlights
 * **FOC control** for torque, velocity and position
@@ -40,6 +41,7 @@ Online documentation is available via GitHub Pages at [https://n3b3x.github.io/h
 | 📈 **Telemetry & RAMDebug** | Read temperature, current, voltage and capture high-rate logs with the on-chip RAMDebug system. |
 | 📜 **TMCL Scripting** | Upload and run TMCL programs directly on the device for custom standalone behavior. |
 | 🛡️ **Protection Settings** | Configure over-voltage, under-voltage, temperature and over-current limits to keep your hardware safe. |
+| 🔧 **Configurable Logging** | Compile-time logging control with zero overhead when disabled. Easy to determine if logging is compiled in or optimized out. |
 
 ---
 
@@ -186,6 +188,69 @@ Compile these along with `src/TMC9660.cpp` and your own implementation of
 `TMC9660CommInterface` (the examples use a simple `DummyBus` stub).  A more
 in-depth walkthrough of each scenario is provided in
 `docs/HardwareAgnosticExamples.md`.
+
+## 🔧 Logging Configuration
+
+The TMC9660 library includes a comprehensive logging system that can be configured at compile time. This allows you to control whether logging statements are compiled in or optimized out, providing zero overhead when logging is disabled.
+
+### Quick Start
+
+**Enable all logging (debug build):**
+```cpp
+#define TMC9660_LOG_LEVEL_ALL
+```
+
+**Enable specific log levels:**
+```cpp
+#define TMC9660_LOG_LEVEL_ERROR
+#define TMC9660_LOG_LEVEL_WARNING
+#define TMC9660_LOG_LEVEL_INFO
+```
+
+**Disable all logging (release build):**
+```cpp
+#define TMC9660_LOG_DISABLE_ALL
+```
+
+### Usage
+
+```cpp
+#include "TMC9660LoggingConfig.hpp"
+
+void exampleFunction() {
+    TMC9660_LOG_ERROR("MyTag", "This is an error message: %d", 42);
+    TMC9660_LOG_WARNING("MyTag", "This is a warning message");
+    TMC9660_LOG_INFO("MyTag", "This is an info message: %s", "hello");
+    TMC9660_LOG_DEBUG("MyTag", "This debug message may be optimized out");
+    TMC9660_LOG_VERBOSE("MyTag", "This verbose message may be optimized out");
+}
+```
+
+### Compile-Time Detection
+
+```cpp
+#if TMC9660_LOG_ENABLED
+    printf("Logging is enabled in this build\n");
+#endif
+
+#if TMC9660_LOG_LEVEL_AT_LEAST(2)  // INFO level or higher
+    printf("Info level logging is available\n");
+#endif
+```
+
+### CMake Integration
+
+```cmake
+# Enable all logging
+set(TMC9660_LOG_LEVEL_ALL ON)
+
+# Or enable specific levels
+set(TMC9660_LOG_LEVEL_ERROR ON)
+set(TMC9660_LOG_LEVEL_WARNING ON)
+set(TMC9660_LOG_LEVEL_INFO ON)
+```
+
+For complete documentation, see [README_Logging.md](README_Logging.md) and [docs/LoggingConfigurationGuide.md](docs/LoggingConfigurationGuide.md).
 
 ## 📖 Further Documentation
 Complete documentation is organized in [docs/index.md](docs/index.md). You can also browse the latest HTML documentation at [https://n3b3x.github.io/hf-tmc9660-driver/](https://n3b3x.github.io/hf-tmc9660-driver/). The major guides are listed below:
