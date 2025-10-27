@@ -135,14 +135,23 @@ enum class RS485TxEnPin : uint8_t {
 };
 
 /**
- * @brief SPI interface selection for bootloader communication.
+ * @brief SPI interface selection for bootloader and flash communication.
  * 
- * The TMC9660 supports two SPI interfaces. IFACE0 is typically used for
- * bootloader communication, while IFACE1 can be used for external flash.
+ * The TMC9660 has two physical SPI interfaces: SPI0 and SPI1.
+ * 
+ * **CRITICAL: BL_SPI_SELECT (bit 2 of COMM_CONFIG) has OPPOSITE meanings:**
+ * - For **Bootloader**: BL_SPI_SELECT=0 means SPI0, BL_SPI_SELECT=1 means SPI1
+ * - For **Flash**: BL_SPI_SELECT=0 means SPI1, BL_SPI_SELECT=1 means SPI0 (inverted!)
+ * 
+ * **This enum uses the PHYSICAL interface names (SPI0/SPI1).**
+ * The driver handles the bit inversion automatically in applyConfiguration().
+ * 
+ * **Constraint:** If both bootloader and flash are enabled, they MUST use
+ * different SPI interfaces (one on SPI0, the other on SPI1).
  */
 enum class SPIInterface : uint8_t { 
-  IFACE0 = 0,  ///< SPI interface 0 (primary bootloader interface)
-  IFACE1 = 1   ///< SPI interface 1 (secondary interface, often for flash)
+  SPI0 = 0,  ///< Physical SPI0 interface
+  SPI1 = 1   ///< Physical SPI1 interface
 };
 
 /**
@@ -808,7 +817,7 @@ struct RS485Config {
  */
 struct SPIBootConfig {
   bool disable_spi{false};                                      ///< Disable SPI interface
-  bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::IFACE0};  ///< SPI interface selection
+  bootcfg::SPIInterface boot_spi_iface{bootcfg::SPIInterface::SPI0};  ///< SPI interface selection
   bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO11};       ///< SPI0 clock pin selection
 };
 
@@ -820,7 +829,7 @@ struct SPIBootConfig {
  */
 struct SPIFlashConfig {
   bool enable_flash{false};                                     ///< Enable external SPI flash interface
-  bootcfg::SPIInterface flash_spi_iface{bootcfg::SPIInterface::IFACE1};  ///< SPI interface for flash
+  bootcfg::SPIInterface flash_spi_iface{bootcfg::SPIInterface::SPI1};  ///< SPI interface for flash
   bootcfg::SPI0SckPin spi0_sck_pin{bootcfg::SPI0SckPin::GPIO6};         ///< SPI0 clock pin for flash
   uint8_t cs_pin{0};                                            ///< Chip select pin for flash
   bootcfg::SPIFlashFreq freq_div{bootcfg::SPIFlashFreq::Div4};  ///< SPI clock frequency divider

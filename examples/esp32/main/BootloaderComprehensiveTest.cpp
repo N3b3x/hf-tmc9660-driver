@@ -80,7 +80,7 @@ bool test_bootloader_basic_initialization() noexcept {
     tmc9660::BootloaderConfig param_config{};
     param_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     param_config.boot.start_motor_control = true;
-    param_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    param_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     param_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
     if (!test_bootloader_config(param_config, "Parameter Mode")) {
@@ -97,8 +97,8 @@ bool test_bootloader_parameter_mode() noexcept {
 
     // Test 1: Parameter mode with different SPI interfaces
     std::vector<tmc9660::bootcfg::SPIInterface> spi_interfaces = {
-        tmc9660::bootcfg::SPIInterface::IFACE0,
-        tmc9660::bootcfg::SPIInterface::IFACE1
+        tmc9660::bootcfg::SPIInterface::SPI0,
+        tmc9660::bootcfg::SPIInterface::SPI1
     };
 
     for (auto spi_iface : spi_interfaces) {
@@ -127,7 +127,7 @@ bool test_bootloader_parameter_mode() noexcept {
         tmc9660::BootloaderConfig config{};
         config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
         config.boot.start_motor_control = true;
-        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
         config.uart.baud_rate = baud;
 
         if (!test_bootloader_config(config, "Parameter Mode UART")) {
@@ -146,7 +146,7 @@ bool test_bootloader_register_mode() noexcept {
     tmc9660::BootloaderConfig config{};
     config.boot.boot_mode = tmc9660::bootcfg::BootMode::Register;
     config.boot.start_motor_control = false; // Register mode typically doesn't start motor control
-    config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
     if (!test_bootloader_config(config, "Register Mode")) {
@@ -162,8 +162,8 @@ bool test_bootloader_spi_interface() noexcept {
 
     // Test 1: Different SPI interface configurations
     std::vector<tmc9660::bootcfg::SPIInterface> interfaces = {
-        tmc9660::bootcfg::SPIInterface::IFACE0,
-        tmc9660::bootcfg::SPIInterface::IFACE1
+        tmc9660::bootcfg::SPIInterface::SPI0,
+        tmc9660::bootcfg::SPIInterface::SPI1
     };
 
     for (auto iface : interfaces) {
@@ -199,7 +199,7 @@ bool test_bootloader_uart_interface() noexcept {
         tmc9660::BootloaderConfig config{};
         config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
         config.boot.start_motor_control = true;
-        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
         config.uart.baud_rate = baud;
 
         if (!test_bootloader_config(config, "UART Interface")) {
@@ -218,7 +218,7 @@ bool test_bootloader_clock_configuration() noexcept {
     tmc9660::BootloaderConfig internal_config{};
     internal_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     internal_config.boot.start_motor_control = true;
-    internal_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    internal_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     internal_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
     internal_config.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
     internal_config.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
@@ -231,7 +231,7 @@ bool test_bootloader_clock_configuration() noexcept {
     tmc9660::BootloaderConfig external_config{};
     external_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     external_config.boot.start_motor_control = true;
-    external_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    external_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     external_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
     external_config.clock.use_external = tmc9660::bootcfg::ClockSource::External;
     external_config.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
@@ -250,7 +250,7 @@ bool test_bootloader_clock_configuration() noexcept {
         tmc9660::BootloaderConfig config{};
         config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
         config.boot.start_motor_control = true;
-        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+        config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
         config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
         config.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
         config.clock.pll_selection = pll;
@@ -271,7 +271,7 @@ bool test_bootloader_error_handling() noexcept {
     tmc9660::BootloaderConfig invalid_config{};
     invalid_config.boot.boot_mode = static_cast<tmc9660::bootcfg::BootMode>(0xFF); // Invalid mode
     invalid_config.boot.start_motor_control = true;
-    invalid_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    invalid_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     invalid_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
     // Use test_bootloader_config for proper GPIO control (will fail due to invalid config)
@@ -305,7 +305,7 @@ bool test_bootloader_error_handling() noexcept {
     tmc9660::BootloaderConfig invalid_uart_config{};
     invalid_uart_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     invalid_uart_config.boot.start_motor_control = true;
-    invalid_uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    invalid_uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     invalid_uart_config.uart.baud_rate = static_cast<tmc9660::bootcfg::BaudRate>(0xFF);
 
     // Use test_bootloader_config for proper GPIO control (will fail due to invalid config)
@@ -326,7 +326,7 @@ bool test_bootloader_performance_benchmarks() noexcept {
     tmc9660::BootloaderConfig config{};
     config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     config.boot.start_motor_control = true;
-    config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
     // Use test_bootloader_config for proper GPIO control and timing
@@ -348,7 +348,7 @@ bool test_bootloader_performance_benchmarks() noexcept {
         tmc9660::BootloaderConfig cycle_config{};
         cycle_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
         cycle_config.boot.start_motor_control = true;
-        cycle_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+        cycle_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
         cycle_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
         // Use test_bootloader_config for proper GPIO control
@@ -389,7 +389,7 @@ bool test_bootloader_multi_device() noexcept {
     tmc9660::BootloaderConfig spi_config{};
     spi_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     spi_config.boot.start_motor_control = true;
-    spi_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    spi_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     spi_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
 
     // Use test_bootloader_config for proper GPIO control
@@ -401,7 +401,7 @@ bool test_bootloader_multi_device() noexcept {
     tmc9660::BootloaderConfig uart_config{};
     uart_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     uart_config.boot.start_motor_control = true;
-    uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE1;
+    uart_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI1;
     uart_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR1000000;
 
     // Use test_bootloader_config for proper GPIO control
@@ -427,7 +427,7 @@ bool test_bootloader_edge_cases() noexcept {
     tmc9660::BootloaderConfig extreme_config{};
     extreme_config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
     extreme_config.boot.start_motor_control = true;
-    extreme_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    extreme_config.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     extreme_config.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR1000000; // Highest baud rate
     extreme_config.clock.use_external = tmc9660::bootcfg::ClockSource::External;
     extreme_config.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
@@ -446,8 +446,8 @@ bool test_bootloader_edge_cases() noexcept {
         config.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
         config.boot.start_motor_control = (i % 2 == 0);
         config.spiComm.boot_spi_iface = (i % 2 == 0) ? 
-            tmc9660::bootcfg::SPIInterface::IFACE0 : 
-            tmc9660::bootcfg::SPIInterface::IFACE1;
+            tmc9660::bootcfg::SPIInterface::SPI0 : 
+            tmc9660::bootcfg::SPIInterface::SPI1;
         config.uart.baud_rate = (i % 2 == 0) ? 
             tmc9660::bootcfg::BaudRate::BR115200 : 
             tmc9660::bootcfg::BaudRate::BR1000000;

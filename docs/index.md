@@ -5,7 +5,7 @@ title: HF-TMC9660 Driver Documentation
 
 ## 🚀 HF-TMC9660 Driver Documentation
 
-Welcome to the comprehensive documentation for the **HF-TMC9660** driver library
+Welcome to the comprehensive documentation for the HardFOC TMC9660 driver library
 – a modern C++20 hardware-agnostic driver for the TMC9660 motor controller
 operating in **Parameter Mode**.
 
@@ -25,10 +25,9 @@ explanations for every aspect of the driver.
 ```mermaid
 graph LR
     A[📋 Setup Guide] --> B[🔌 Communication Interface]
-    B --> C[🏗️ Building Examples]
-    C --> D[⚡ Hardware Examples]
-    D --> E[🛠️ Common Operations]
-    E --> F[🚀 Advanced Usage]
+    B --> C[⚡ Hardware Examples]
+    C --> D[🛠️ Common Operations]
+    D --> E[🚀 Advanced Usage]
 ```
 
 ---
@@ -41,18 +40,25 @@ graph LR
    compilation
 2. **[🔌 Implementing Communication Interface](ImplementingCommInterface.html)**
    - Create your hardware-specific communication layer
-3. **[🏗️ Building Examples](BuildingExamples.html)** - Compile and run the provided
-   examples
 
 ### **Bootloader & Configuration**
 
 1. **[⭐ Bootloader Initialization Guide](BootloaderInitializationGuide.html)** - **START HERE!**
    Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering
-2. **[🔧 Bootloader Complete Guide](BootloaderGuide.html)** - **NEW!** Comprehensive
+2. **[🔧 Bootloader Complete Guide](BootloaderGuide.html)** - Comprehensive
    bootloader documentation with all 18 commands, protocols, OTP management, and
    external memory operations
-3. **[⚡ Bootloader Quick Reference](BootloaderQuickReference.html)** - **NEW!** Quick
+3. **[⚡ Bootloader Quick Reference](BootloaderQuickReference.html)** - Quick
    lookup card for commands, codes, and common operations
+4. **[🛠️ Bootloader Troubleshooting](BootloaderTroubleshooting.html)** - **NEW!** Complete
+   troubleshooting guide with real-world debugging solutions
+
+### **Communication Protocols**
+
+1. **[📡 Communication Protocol Guide](CommunicationProtocolGuide.html)** - **NEW!** Detailed
+   SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing
+2. **[📨 TMCL Protocol Guide](TMCLProtocolGuide.html)** - Parameter mode command reference
+   and usage patterns
 
 ### **Practical Application**
 
@@ -61,11 +67,6 @@ graph LR
 2. **[🛠️ Common Operations](CommonOperations.html)** - Everyday driver usage
    patterns
 3. **[📖 API Reference](annotated.html)** - Complete C++ class documentation
-
-### **Advanced Topics**
-
-1. **[🌐 GitHub Pages Hosting](HostingDocsWithGitHubPages.html)** - Host your own
-   documentation
 
 ---
 

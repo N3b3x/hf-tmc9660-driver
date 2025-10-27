@@ -93,7 +93,7 @@ struct TestDriverHandle {
     std::unique_ptr<TMC9660CommInterface> interface;
     std::unique_ptr<TMC9660> driver;
 };
-std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false) noexcept;
+std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;
 bool verify_motor_configuration(const TMC9660& driver) noexcept;
 bool verify_foc_gains(const TMC9660& driver) noexcept;
 void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
@@ -104,16 +104,16 @@ bool test_bldc_bootloader_initialization() noexcept {
 
     // Test 1: Basic bootloader initialization with SPI (using create_test_driver)
     ESP_LOGI(TAG, "Testing SPI bootloader initialization with EVKIT configuration...");
-    auto spi_handle = create_test_driver(false);  // use_uart = false
+    auto spi_handle = create_test_driver(false, false);  // use_uart = false, use_flash = false
     if (!spi_handle || !spi_handle->driver) {
         ESP_LOGE(TAG, "Failed to create SPI test driver for bootloader initialization test");
         return false;
     }
     ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with EVKIT config");
 
-    // Test 2: Bootloader initialization with UART (using same EVKIT configuration)
-    ESP_LOGI(TAG, "Testing UART bootloader initialization with same EVKIT configuration...");
-    auto uart_handle = create_test_driver(true);  // use_uart = true
+    // Test 2: Bootloader initialization with UART and flash (using same EVKIT configuration)
+    ESP_LOGI(TAG, "Testing UART bootloader initialization with flash enabled...");
+    auto uart_handle = create_test_driver(true, true);  // use_uart = true, use_flash = true
     if (!uart_handle || !uart_handle->driver) {
         ESP_LOGW(TAG, "Failed to create UART test driver for bootloader initialization test");
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
@@ -127,7 +127,7 @@ bool test_bldc_bootloader_initialization() noexcept {
 bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC motor type configuration...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -171,7 +171,7 @@ bool test_bldc_motor_type_configuration() noexcept {
 bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC Hall sensor configuration...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -225,7 +225,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
 bool test_bldc_abn_encoder_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC ABN encoder configuration...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -276,7 +276,7 @@ bool test_bldc_abn_encoder_configuration() noexcept {
 bool test_bldc_foc_control_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC FOC control configuration...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -330,7 +330,7 @@ bool test_bldc_foc_control_configuration() noexcept {
 bool test_bldc_velocity_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC velocity control...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -392,7 +392,7 @@ bool test_bldc_velocity_control() noexcept {
 bool test_bldc_current_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC current control...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -446,7 +446,7 @@ bool test_bldc_current_control() noexcept {
 bool test_bldc_commutation_modes() noexcept {
     ESP_LOGI(TAG, "Testing BLDC commutation modes...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -503,7 +503,7 @@ bool test_bldc_commutation_modes() noexcept {
 bool test_bldc_telemetry_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing BLDC telemetry monitoring...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -541,7 +541,7 @@ bool test_bldc_telemetry_monitoring() noexcept {
 bool test_bldc_performance_benchmarks() noexcept {
     ESP_LOGI(TAG, "Testing BLDC performance benchmarks...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -608,7 +608,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 bool test_bldc_error_handling() noexcept {
     ESP_LOGI(TAG, "Testing BLDC error handling...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -649,7 +649,7 @@ bool test_bldc_error_handling() noexcept {
 bool test_bldc_edge_cases() noexcept {
     ESP_LOGI(TAG, "Testing BLDC edge cases...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -694,7 +694,7 @@ bool test_bldc_multi_device_operations() noexcept {
     ESP_LOGI(TAG, "Testing BLDC multi-device operations...");
 
     // Test 1: Create multiple drivers with different interfaces
-    auto spi_handle = create_test_driver(false);
+    auto spi_handle = create_test_driver(false, false);
     if (!spi_handle || !spi_handle->driver) {
         ESP_LOGE(TAG, "Failed to create SPI driver for multi-device test");
         return false;
@@ -709,7 +709,7 @@ bool test_bldc_multi_device_operations() noexcept {
 bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing BLDC startup and shutdown procedures...");
 
-    auto handle = create_test_driver(false);
+    auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -774,7 +774,7 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
 }
 
 // Helper function implementations
-std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
+std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_flash) noexcept {
     auto handle = std::make_unique<TestDriverHandle>();
     
     // Create the appropriate communication interface
@@ -930,14 +930,14 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     // 5. SPI BOOT COMMUNICATION CONFIGURATION
     // ============================================================================
     // Controls which SPI interface is used for bootloader/parameter mode communication
-    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     //   Options:
-    //   - SPIInterface::IFACE0 (0): Use SPI0 for communication ← EVKIT uses this
-    //   - SPIInterface::IFACE1 (1): Use SPI1 for communication
+    //   - SPIInterface::SPI0 (0): Use SPI0 for communication ← EVKIT uses this
+    //   - SPIInterface::SPI1 (1): Use SPI1 for communication
     
-    cfg.spiComm.disable_spi = false;  // Disable SPI when using UART
+    cfg.spiComm.disable_spi = use_flash;  // Disable SPI communication when using flash (both use SPI0)
     //   false: SPI communication enabled ← EVKIT default (for SPI mode)
-    //   true: Disable SPI communication (UART only) ← Required for UART mode
+    //   true: Disable SPI communication ← Required when flash uses SPI0
     
     cfg.spiComm.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
     //   Options:
@@ -948,14 +948,14 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     // 6. SPI FLASH CONFIGURATION
     // ============================================================================
     // External SPI flash memory for storing motor profiles, parameters, etc.
-    cfg.spiFlash.enable_flash = false;
+    cfg.spiFlash.enable_flash = use_flash;
     //   false: No external SPI flash
     //   true: External SPI flash present ← EVKIT has flash
     
-    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE1;
+    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
     //   Options:
-    //   - SPIInterface::IFACE0 (0): Flash on SPI1
-    //   - SPIInterface::IFACE1 (1): Flash on SPI0 ← EVKIT uses this (bootloader uses SPI0)
+    //   - SPIInterface::SPI0 (0): Flash on SPI1
+    //   - SPIInterface::SPI1 (1): Flash on SPI0 ← EVKIT uses this (bootloader uses SPI0)
     
     cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
     //   Options:
@@ -1170,16 +1170,16 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart) noexcept {
     // ============================================================================
     // 15. EXTERNAL MEMORY STORAGE CONFIGURATION (EVKIT: SPI Flash)
     // ============================================================================
-    cfg.memStorage.tmcl_script = tmc9660::bootcfg::MemStorage::SPIFlash;
+    cfg.memStorage.tmcl_script = use_flash ? tmc9660::bootcfg::MemStorage::SPIFlash : tmc9660::bootcfg::MemStorage::Disabled;
     //   Options:
     //   - MemStorage::Disabled (0): TMCL script storage disabled
-    //   - MemStorage::SPIFlash (1): Store TMCL script in SPI flash ← EVKIT uses this
+    //   - MemStorage::SPIFlash (1): Store TMCL script in SPI flash ← Used when flash is enabled
     //   - MemStorage::I2CEEPROM (2): Store TMCL script in I2C EEPROM
     
-    cfg.memStorage.parameters = tmc9660::bootcfg::MemStorage::SPIFlash;
+    cfg.memStorage.parameters = use_flash ? tmc9660::bootcfg::MemStorage::SPIFlash : tmc9660::bootcfg::MemStorage::Disabled;
     //   Options:
     //   - MemStorage::Disabled (0): Parameter storage disabled
-    //   - MemStorage::SPIFlash (1): Store parameters in SPI flash ← EVKIT uses this
+    //   - MemStorage::SPIFlash (1): Store parameters in SPI flash ← Used when flash is enabled
     //   - MemStorage::I2CEEPROM (2): Store parameters in I2C EEPROM
     
     // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:

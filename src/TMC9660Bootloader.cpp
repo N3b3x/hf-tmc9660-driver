@@ -1029,21 +1029,76 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // SPI Configuration
   comm |= (cfg.spiComm.disable_spi ? 1u : 0u) << 1;                          // BL_DISABLE_SPI (bit 1)
   
-  // Handle shared BL_SPI_SELECT bit (bit 2) - determines which SPI interface each uses
-  bool bootloader_uses_spi0 = !cfg.spiComm.disable_spi && 
-                              (cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::IFACE0);
-  bool flash_uses_spi0 = cfg.spiFlash.enable_flash && 
-                         (cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::IFACE0);
+  // ============================================================================
+  // CRITICAL: Handle shared BL_SPI_SELECT (bit 2) and BL_SPI0_SCK (bit 10)
+  // ============================================================================
+  // These bits are SHARED between bootloader comm (offset 6) and flash (offset 10).
+  // Per datasheet: "If both flash and bootloader SPI communication are used, 
+  // they must always be on separate SPI interfaces."
+  //
+  // Priority rules:
+  //   1. If bootloader SPI enabled: bootloader config controls BL_SPI_SELECT
+  //   2. If bootloader SPI disabled but flash enabled: flash config controls it
+  //   3. Bootloader communication ALWAYS takes priority over flash
+  // ============================================================================
   
-  // Set BL_SPI_SELECT based on which interface uses SPI0
-  if (bootloader_uses_spi0) {
-    comm |= 0u << 2;  // BL_SPI_SELECT = 0 (bootloader uses SPI0)
-  } else if (flash_uses_spi0) {
-    comm |= 1u << 2;  // BL_SPI_SELECT = 1 (flash uses SPI0)
-  } else {
-    // Neither uses SPI0, set to 0 (default)
-    comm |= 0u << 2;
+  // Determine which physical SPI interface each component wants to use
+  bool bootloader_uses_spi0 = !cfg.spiComm.disable_spi && 
+                              (cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0);
+  bool flash_uses_spi0 = cfg.spiFlash.enable_flash && 
+                         (cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0);
+  
+  // Validate configuration: both cannot use the same SPI interface
+  if (!cfg.spiComm.disable_spi && cfg.spiFlash.enable_flash) {
+    if (bootloader_uses_spi0 == flash_uses_spi0) {
+      comm_.logDebug(0, "TMC9660Bootloader", "⚠️  CONFIGURATION ERROR:");
+      comm_.logDebug(0, "TMC9660Bootloader", "    Both bootloader and flash are configured for %s!", 
+                     bootloader_uses_spi0 ? "SPI0" : "SPI1");
+      comm_.logDebug(0, "TMC9660Bootloader", "    Per datasheet: they MUST be on separate interfaces");
+      comm_.logDebug(0, "TMC9660Bootloader", "    Current config:");
+      comm_.logDebug(0, "TMC9660Bootloader", "      - Bootloader SPI: %s (disable_spi=%d)", 
+                     cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1",
+                     cfg.spiComm.disable_spi ? 1 : 0);
+      comm_.logDebug(0, "TMC9660Bootloader", "      - Flash SPI: %s (enable_flash=%d)", 
+                     cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1",
+                     cfg.spiFlash.enable_flash ? 1 : 0);
+      comm_.logDebug(0, "TMC9660Bootloader", "    Fix: Set one to SPI0 and the other to SPI1");
+      return false;
+    }
   }
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "SPI interface allocation:");
+  comm_.logDebug(2, "TMC9660Bootloader", "  - Bootloader: %s (enabled=%d)", 
+                 bootloader_uses_spi0 ? "SPI0" : "SPI1", !cfg.spiComm.disable_spi ? 1 : 0);
+  comm_.logDebug(2, "TMC9660Bootloader", "  - Flash: %s (enabled=%d)", 
+                 flash_uses_spi0 ? "SPI0" : "SPI1", cfg.spiFlash.enable_flash ? 1 : 0);
+  
+  // ============================================================================
+  // Set BL_SPI_SELECT (bit 2) with correct bit inversion logic
+  // ============================================================================
+  // CRITICAL: BL_SPI_SELECT has OPPOSITE meanings for bootloader vs flash!
+  //   For Bootloader: 0=SPI0, 1=SPI1
+  //   For Flash:      0=SPI1, 1=SPI0 (inverted!)
+  //
+  // Priority: Bootloader config takes precedence over flash config
+  // ============================================================================
+  uint8_t bl_spi_select_bit;
+  if (!cfg.spiComm.disable_spi) {
+    // Bootloader SPI enabled - use bootloader's interface selection directly
+    bl_spi_select_bit = (cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0) ? 0 : 1;
+    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (bootloader on %s)", 
+                   bl_spi_select_bit, bootloader_uses_spi0 ? "SPI0" : "SPI1");
+  } else if (cfg.spiFlash.enable_flash) {
+    // Only flash enabled - use INVERTED flash interface selection
+    bl_spi_select_bit = (cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0) ? 1 : 0;
+    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (flash on %s, inverted bit)", 
+                   bl_spi_select_bit, flash_uses_spi0 ? "SPI0" : "SPI1");
+  } else {
+    // Neither enabled - default to 0
+    bl_spi_select_bit = 0;
+    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (default, neither enabled)", bl_spi_select_bit);
+  }
+  comm |= (bl_spi_select_bit & 0x1) << 2;
   
   // Handle shared BL_SPI0_SCK bit (bit 10) - only relevant if SPI0 is being used
   if (bootloader_uses_spi0) {
@@ -1099,22 +1154,55 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
     }
   }
 
-  // SPI flash configuration (offset 10) - separate register, no shared bits
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring SPI flash settings");
+  // ============================================================================
+  // SPI Flash Configuration (offset 10)
+  // ============================================================================
+  // NOTE: BL_SPI_SELECT (bit 2) and BL_SPI0_SCK (bit 10) are SHARED with 
+  // COMM_CONFIG (offset 6). They were already written above based on priority:
+  //   - If bootloader SPI enabled: bootloader config takes priority
+  //   - If bootloader SPI disabled but flash enabled: flash config is used
+  // 
+  // This register (offset 10) only contains:
+  //   - Bit 0: SPI_FLASH_EN
+  //   - Bits 3-7: SPI_FLASH_CS (chip select pin)
+  //   - Bits 8-11: SPI_FLASH_FREQ (frequency divider)
+  // ============================================================================
+  
+  comm_.logDebug(2, "TMC9660Bootloader", "Configuring SPI flash settings");
   if (!setAddress(bootaddr::SPI_FLASH)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to set SPI flash register");
     return false;
   }
+  
   uint16_t flash = (cfg.spiFlash.enable_flash ? 1u : 0u);                     // SPI_FLASH_EN (bit 0)
   flash |= (static_cast<uint16_t>(cfg.spiFlash.cs_pin & 0x1F)) << 3;           // SPI_FLASH_CS (bits 3-7)
   flash |= (static_cast<uint16_t>(cfg.spiFlash.freq_div) & 0xF) << 8;         // SPI_FLASH_FREQ (bits 8-11)
+  // NOTE: BL_SPI_SELECT and BL_SPI0_SCK are NOT in this register!
+  // They are in COMM_CONFIG (offset 6) and were already configured above
+  
   if (!write16(flash)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to write SPI flash config (0x%04X)", flash);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "SPI flash configured (enabled: %s, CS pin: %d, freq_div: %d)", 
-                 cfg.spiFlash.enable_flash ? "yes" : "no", 
-                 cfg.spiFlash.cs_pin, static_cast<int>(cfg.spiFlash.freq_div));
+  
+  // Determine which interface and SCK pin are actually being used (from COMM_CONFIG)
+  const char* actual_iface = flash_uses_spi0 ? "SPI0" : "SPI1";
+  const char* actual_sck = flash_uses_spi0 ? 
+    (cfg.spiFlash.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6 ? "GPIO6" : "GPIO11") : 
+    "N/A";
+  
+  comm_.logDebug(2, "TMC9660Bootloader", 
+                 "SPI flash config written: 0x%04X", flash);
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - SPI_FLASH_EN (bit 0): %d", cfg.spiFlash.enable_flash ? 1 : 0);
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - CS_PIN (bits 3-7): GPIO%d", cfg.spiFlash.cs_pin);
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - FREQ_DIV (bits 8-11): Div%d", 1 << static_cast<int>(cfg.spiFlash.freq_div));
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - SPI Interface (from COMM_CONFIG bit 2): %s", actual_iface);
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - SPI0_SCK Pin (from COMM_CONFIG bit 10): %s", actual_sck);
   
   // Verify SPI flash config was written correctly
   if (!readAndVerify16(flash, "SPI flash config")) {
@@ -1442,6 +1530,145 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
       return false;
     } else {
       comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Memory storage config verification failed (continuing)");
+    }
+  }
+
+  // ========================================================================
+  // External Memory Verification (if enabled)
+  // ========================================================================
+  
+  // Check SPI Flash if enabled
+  if (cfg.spiFlash.enable_flash) {
+    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
+    comm_.logDebug(2, "TMC9660Bootloader", "Verifying SPI Flash Memory Configuration");
+    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
+    comm_.logDebug(2, "TMC9660Bootloader", "Expected config:");
+    comm_.logDebug(2, "TMC9660Bootloader", "  - SPI_FLASH_EN: %s (bit 0)", cfg.spiFlash.enable_flash ? "ENABLED" : "DISABLED");
+    comm_.logDebug(2, "TMC9660Bootloader", "  - CS Pin: GPIO%d (bits 3-7)", cfg.spiFlash.cs_pin);
+    comm_.logDebug(2, "TMC9660Bootloader", "  - Frequency: Div%d (bits 8-11)", 1 << static_cast<int>(cfg.spiFlash.freq_div));
+    comm_.logDebug(2, "TMC9660Bootloader", "  - SPI Interface: %s (bit 12)", 
+                   cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1");
+    comm_.logDebug(2, "TMC9660Bootloader", "  - SCK Pin: %s (bit 13)",
+                   cfg.spiFlash.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6 ? "GPIO6" : "GPIO11");
+    
+    // Check if SPI Flash is configured
+    uint32_t isConfigured = 0;
+    comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_CONFIGURED (bank=1, SPI Flash)...");
+    if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONFIGURED), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isConfigured)) {
+      comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_CONFIGURED reply: %u", isConfigured);
+      if (isConfigured == 1) {
+        comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is CONFIGURED (bootloader sees SPI_FLASH_EN=1)");
+        
+        // Check if SPI Flash is connected
+        uint32_t isConnected = 0;
+        comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_CONNECTED (probing flash chip)...");
+        if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONNECTED), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isConnected)) {
+          comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_CONNECTED reply: %u", isConnected);
+          if (isConnected == 1) {
+            comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is CONNECTED (chip responded to probe)");
+            
+            // Check if SPI Flash is busy
+            uint32_t isBusy = 0;
+            comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_BUSY...");
+            if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_BUSY), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isBusy)) {
+              comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_BUSY reply: %u", isBusy);
+              if (isBusy == 0) {
+                comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is READY (not busy)");
+              } else {
+                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is BUSY (write in progress)");
+              }
+            } else {
+              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check SPI Flash busy status");
+            }
+            
+            // Query partition count
+            uint32_t partitionCount = 0;
+            comm_.logDebug(2, "TMC9660Bootloader", "Querying partition count (GET_INFO SPI_MEM_PARTITIONS)...");
+            if (sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_INFO), static_cast<uint32_t>(InfoQuery::SPI_MEM_PARTITIONS), &partitionCount)) {
+              comm_.logDebug(2, "TMC9660Bootloader", "SPI Flash partition count: %u", partitionCount);
+              if (partitionCount == 0) {
+                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash has NO partitions");
+                comm_.logDebug(1, "TMC9660Bootloader", "    Flash is connected but not partitioned (no partition table)");
+                comm_.logDebug(1, "TMC9660Bootloader", "    See datasheet Table 21 for partition header format");
+              } else {
+                comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash has %u partition(s)", partitionCount);
+              }
+            } else {
+              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to query SPI Flash partition count");
+            }
+          } else {
+            comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONNECTED");
+            comm_.logDebug(1, "TMC9660Bootloader", "    Possible causes:");
+            comm_.logDebug(1, "TMC9660Bootloader", "    1. No flash chip physically connected");
+            comm_.logDebug(1, "TMC9660Bootloader", "    2. Wrong CS pin configured (expected GPIO%d)", cfg.spiFlash.cs_pin);
+            comm_.logDebug(1, "TMC9660Bootloader", "    3. Wrong SPI interface (configured: %s)", 
+                           cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1");
+            comm_.logDebug(1, "TMC9660Bootloader", "    4. Flash chip not responding to probe (0xAB, 0x90, 0x9F)");
+          }
+        } else {
+          comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONNECTED command");
+        }
+      } else {
+        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONFIGURED");
+        comm_.logDebug(1, "TMC9660Bootloader", "    Bootloader reports SPI_FLASH_EN=0 (bit 0 of flash config)");
+        comm_.logDebug(1, "TMC9660Bootloader", "    This means the config write may have failed or been overwritten");
+        comm_.logDebug(1, "TMC9660Bootloader", "    Check that cfg.spiFlash.enable_flash = true");
+      }
+    } else {
+      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONFIGURED command");
+    }
+    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
+  }
+  
+  // Check I2C EEPROM if enabled
+  if (cfg.i2c.enable_eeprom) {
+    comm_.logDebug(2, "TMC9660Bootloader", "Verifying I2C EEPROM memory...");
+    
+    // Check if I2C EEPROM is configured
+    uint32_t isConfigured = 0;
+    if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONFIGURED), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isConfigured)) {
+      if (isConfigured == 1) {
+        comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is CONFIGURED");
+        
+        // Check if I2C EEPROM is connected
+        uint32_t isConnected = 0;
+        if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONNECTED), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isConnected)) {
+          if (isConnected == 1) {
+            comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is CONNECTED");
+            
+            // Check if I2C EEPROM is busy
+            uint32_t isBusy = 0;
+            if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_BUSY), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isBusy)) {
+              if (isBusy == 0) {
+                comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is READY (not busy)");
+              } else {
+                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is BUSY");
+              }
+            } else {
+              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM busy status");
+            }
+            
+            // Query partition count
+            uint32_t partitionCount = 0;
+            if (sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_INFO), static_cast<uint32_t>(InfoQuery::I2C_MEM_PARTITIONS), &partitionCount)) {
+              comm_.logDebug(2, "TMC9660Bootloader", "I2C EEPROM partition count: %u", partitionCount);
+              if (partitionCount == 0) {
+                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM has NO partitions (not partitioned)");
+              }
+            } else {
+              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to query I2C EEPROM partition count");
+            }
+          } else {
+            comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONNECTED (check wiring)");
+          }
+        } else {
+          comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM connection status");
+        }
+      } else {
+        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONFIGURED (check config settings)");
+      }
+    } else {
+      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM configuration status");
     }
   }
 
