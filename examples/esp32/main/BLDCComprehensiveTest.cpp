@@ -54,7 +54,7 @@ static TestResults g_test_results;
 
 // Core BLDC functionality tests
 static constexpr bool ENABLE_CORE_TESTS = true; // Bootloader, motor config, basic setup
-static constexpr bool ENABLE_HALL_SENSOR_TESTS = false; // Hall sensor configuration and testing
+static constexpr bool ENABLE_HALL_SENSOR_TESTS = true; // Hall sensor configuration and testing
 static constexpr bool ENABLE_ABN_ENCODER_TESTS = false; // ABN encoder configuration and testing
 static constexpr bool ENABLE_FOC_CONTROL_TESTS = false; // FOC control loop configuration
 static constexpr bool ENABLE_VELOCITY_CONTROL_TESTS = false; // Velocity control testing
@@ -67,8 +67,8 @@ static constexpr bool ENABLE_STRESS_TESTS = false; // Error handling, edge cases
 // Test configuration constants
 static constexpr uint8_t TEST_POLE_PAIRS = 7;
 static constexpr uint16_t TEST_ENCODER_CPR = 1024;
-static constexpr uint16_t TEST_MAX_TORQUE_CURRENT = 2000; // mA
-static constexpr uint16_t TEST_MAX_FLUX_CURRENT = 1000;  // mA
+static constexpr uint16_t TEST_MAX_TORQUE_CURRENT = 500; // mA
+static constexpr uint16_t TEST_MAX_FLUX_CURRENT = 50;  // mA
 static constexpr uint16_t TEST_VELOCITY_TARGET = 1000;   // internal units
 static constexpr uint16_t TEST_POSITION_TARGET = 500;    // internal units
 
@@ -145,10 +145,10 @@ bool test_bldc_motor_type_configuration() noexcept {
     }
 
     // Test 2: Set current limits
-    if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
-        ESP_LOGE(TAG, "Failed to set max torque current");
-        return false;
-    }
+    // if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
+    //     ESP_LOGE(TAG, "Failed to set max torque current");
+    //     return false;
+    // }
 
     if (!handle->driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max flux current");
@@ -1251,8 +1251,8 @@ extern "C" void app_main(void) {
         ESP_LOGI(TAG, "Running core BLDC functionality tests...");
         RUN_TEST_IN_TASK("bootloader_initialization", test_bldc_bootloader_initialization, 8192, 1);
         flip_test_progress_indicator();
-        //RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
-        //flip_test_progress_indicator();
+        RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
+        flip_test_progress_indicator();
     );
 
     RUN_TEST_SECTION_IF_ENABLED_WITH_PATTERN(

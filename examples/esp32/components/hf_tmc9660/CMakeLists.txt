@@ -105,6 +105,13 @@ idf_component_register(
 target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_20)
 
 # =============================================================================
+# Communication Debug Control
+# =============================================================================
+# Uncomment the line below to disable communication debug logging (TX/RX hex dumps)
+# This removes the logging code from the binary, saving code size and improving performance
+target_compile_definitions(${COMPONENT_LIB} PRIVATE TMC9660_DISABLE_COMM_DEBUG)
+
+# =============================================================================
 # Compiler Flags and Optimization
 # =============================================================================
 # General compiler flags for optimization and debugging

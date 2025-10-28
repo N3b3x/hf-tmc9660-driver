@@ -5292,6 +5292,52 @@ enum class Parameters : uint16_t {
     #undef X
 };
 
+/**
+ * @brief Convert Parameters enum to string representation
+ * 
+ * This function provides human-readable names for parameter IDs by looking up
+ * the parameter value using integer comparisons covering all defined parameters.
+ * 
+ * @param param The parameter ID to convert
+ * @return String representation of the parameter (e.g., "MOTOR_TYPE", "MAX_TORQUE")
+ * 
+ * @note This function uses integer comparison instead of switch to handle duplicate values
+ */
+inline const char* to_string(Parameters param) {
+    uint16_t value = static_cast<uint16_t>(param);
+    
+    // Use X-macro to generate if-else chain for all parameters
+    #define X(NAME, VALUE, DOC) if (value == static_cast<uint16_t>(Parameters::NAME)) return #NAME;
+    GATE_DRIVER_LIST(X)
+    OVERCURRENT_PROTECTION_LIST(X)
+    UNDERVOLTAGE_PROTECTION_LIST(X)
+    VGS_SHORT_PROTECTION_LIST(X)
+    MOTOR_CONFIG_LIST(X)
+    ADC_CONFIG_LIST(X)
+    FEEDBACK_SENSOR_CONFIG_LIST(X)
+    TORQUE_FLUX_CONTROL_LIST(X)
+    VELOCITY_CONTROL_LIST(X)
+    POSITION_CONTROL_LIST(X)
+    RAMPER_STOP_CONFIG_LIST(X)
+    BIQUAD_FILTER_LIST(X)
+    FAULT_HANDLING_LIST(X)
+    IIT_MONITOR_LIST(X)
+    TEMPERATURE_PROTECTION_LIST(X)
+    HEARTBEAT_MONITORING_LIST(X)
+    BRAKE_CHOPPER_LIST(X)
+    MECHANICAL_BRAKE_LIST(X)
+    REFERENCE_SEARCH_LIST(X)
+    STEP_DIR_LIST(X)
+    HIBERNATION_WAKEUP_LIST(X)
+    SYSTEM_STATUS_SUPPLY_LIST(X)
+    INTERNAL_MEASUREMENT_LIST(X)
+    COMBINED_DIAGNOSTIC_VALUES_LIST(X)
+    ERRORS_AND_FLAGS_LIST(X)
+    #undef X
+    
+    return "UNKNOWN_PARAM";
+}
+
 /* ───────────── Clean-up (optional but tidy) ───────────── */
 // Undefine all parameter-section X-macros to avoid polluting the global namespace.
 #undef GATE_DRIVER_LIST

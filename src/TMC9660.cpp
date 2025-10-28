@@ -459,8 +459,31 @@ bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor
   tx.value = value;
 
   // Debug logging for TMCL frame assembly
-  comm_.logDebug(3, "TMC9660", "[TMCL TX] Op=0x%02X, Type=0x%04X, Motor=0x%02X, Value=0x%08X",
-                 tx.opcode, tx.type, tx.motor, tx.value);
+  const char* opName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::Op>(tx.opcode));
+  
+  // Format type field based on the operation type
+  char typeStr[80];
+  switch (tx.opcode) {
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::SAP):  // Set Axis Parameter
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::GAP):  // Get Axis Parameter
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::AAP):  // Accumulator to Axis Parameter
+      {
+        const char* paramName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::Parameters>(tx.type));
+        snprintf(typeStr, sizeof(typeStr), "%s (0x%04X, %u)", paramName, tx.type, tx.type);
+      }
+      break;
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::SGP):  // Set Global Parameter
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::GGP):  // Get Global Parameter
+    case static_cast<uint8_t>(tmc9660::tmcl::Op::AGP):  // Accumulator to Global Parameter
+      snprintf(typeStr, sizeof(typeStr), "GlobalParam=0x%04X", tx.type);
+      break;
+    default:
+      snprintf(typeStr, sizeof(typeStr), "0x%04X", tx.type);
+      break;
+  }
+  
+  comm_.logDebug(3, "TMC9660", "[TMCL TX] %s (Op=0x%02X), Type=%s, Motor=0x%02X, Value=0x%08X",
+                 opName, tx.opcode, typeStr, tx.motor, tx.value);
 
   TMCLReply rep{};
   if (!comm_.transferTMCL(tx, rep, address_)) {
@@ -468,8 +491,9 @@ bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor
     return false;
   }
   
-  // Debug logging for TMCL reply
-  comm_.logDebug(3, "TMC9660", "[TMCL RX] Status=0x%02X, Value=0x%08X", rep.status, rep.value);
+  // Debug logging for TMCL reply with decoded status
+  const char* statusName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::ReplyCode>(rep.status));
+  comm_.logDebug(3, "TMC9660", "[TMCL RX] %s (Status=0x%02X), Value=0x%08X", statusName, rep.status, rep.value);
   
   // Special handling for GetVersion command (Type=0 returns string format)
   if (opcode == tmc9660::tmcl::Op::GetVersion && type == 0) {

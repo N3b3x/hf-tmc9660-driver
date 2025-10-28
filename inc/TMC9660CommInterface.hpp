@@ -6,6 +6,23 @@
  * supporting both SPI and UART protocols with TMCL command/reply structures. It includes
  * GPIO control interfaces and board-agnostic pin management for different hardware implementations.
  * 
+ * ## Compile-Time Configuration
+ * 
+ * **TMC9660_DISABLE_COMM_DEBUG**: Define this macro to completely disable communication
+ * debug logging (TX/RX hex dumps). This removes the logging code from the binary, saving
+ * code size and improving performance.
+ * 
+ * Example usage:
+ * ```cpp
+ * // In your build system or before including this header:
+ * #define TMC9660_DISABLE_COMM_DEBUG
+ * ```
+ * 
+ * Or in CMake:
+ * ```cmake
+ * target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_COMM_DEBUG)
+ * ```
+ * 
  * @defgroup TMC9660_CommInterface Communication Interfaces
  * @brief Core communication interface classes and protocols
  * 

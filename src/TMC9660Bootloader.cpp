@@ -1063,7 +1063,7 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
                      cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1",
                      cfg.spiFlash.enable_flash ? 1 : 0);
       comm_.logDebug(0, "TMC9660Bootloader", "    Fix: Set one to SPI0 and the other to SPI1");
-      return false;
+    return false;
     }
   }
   
@@ -1157,13 +1157,18 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // ============================================================================
   // SPI Flash Configuration (offset 10)
   // ============================================================================
-  // NOTE: BL_SPI_SELECT (bit 2) and BL_SPI0_SCK (bit 10) are SHARED with 
-  // COMM_CONFIG (offset 6). They were already written above based on priority:
+  // NOTE: This register mirrors some bits from COMM_CONFIG (offset 6):
+  //   - Bit 1: SPI_IFACE_SELECT (mirrors BL_SPI_SELECT from COMM_CONFIG bit 2)
+  //   - Bit 2: SPI0_SCK_SELECT (mirrors BL_SPI0_SCK from COMM_CONFIG bit 10)
+  // 
+  // These bits were determined above based on priority:
   //   - If bootloader SPI enabled: bootloader config takes priority
   //   - If bootloader SPI disabled but flash enabled: flash config is used
   // 
-  // This register (offset 10) only contains:
+  // This register (offset 10) contains:
   //   - Bit 0: SPI_FLASH_EN
+  //   - Bit 1: SPI_IFACE_SELECT (mirrors COMM_CONFIG bit 2)
+  //   - Bit 2: SPI0_SCK_SELECT (mirrors COMM_CONFIG bit 10)
   //   - Bits 3-7: SPI_FLASH_CS (chip select pin)
   //   - Bits 8-11: SPI_FLASH_FREQ (frequency divider)
   // ============================================================================
@@ -1174,11 +1179,20 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
     return false;
   }
   
+  // Determine SCK pin bit value (mirrors BL_SPI0_SCK from COMM_CONFIG bit 10)
+  uint8_t sck_pin_bit = 0;
+  if (bootloader_uses_spi0) {
+    sck_pin_bit = (cfg.spiComm.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6) ? 0 : 1;
+  } else if (flash_uses_spi0) {
+    sck_pin_bit = (cfg.spiFlash.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6) ? 0 : 1;
+  }
+  // If neither uses SPI0, sck_pin_bit remains 0 (default)
+  
   uint16_t flash = (cfg.spiFlash.enable_flash ? 1u : 0u);                     // SPI_FLASH_EN (bit 0)
-  flash |= (static_cast<uint16_t>(cfg.spiFlash.cs_pin & 0x1F)) << 3;           // SPI_FLASH_CS (bits 3-7)
+  flash |= (static_cast<uint16_t>(bl_spi_select_bit & 0x1)) << 1;             // SPI_IFACE_SELECT (bit 1, mirrors COMM_CONFIG bit 2)
+  flash |= (static_cast<uint16_t>(sck_pin_bit & 0x1)) << 2;                   // SPI0_SCK_SELECT (bit 2, mirrors COMM_CONFIG bit 10)
+  flash |= (static_cast<uint16_t>(cfg.spiFlash.cs_pin & 0x1F)) << 3;          // SPI_FLASH_CS (bits 3-7)
   flash |= (static_cast<uint16_t>(cfg.spiFlash.freq_div) & 0xF) << 8;         // SPI_FLASH_FREQ (bits 8-11)
-  // NOTE: BL_SPI_SELECT and BL_SPI0_SCK are NOT in this register!
-  // They are in COMM_CONFIG (offset 6) and were already configured above
   
   if (!write16(flash)) {
     comm_.logDebug(0, "TMC9660Bootloader", "Failed to write SPI flash config (0x%04X)", flash);
@@ -1196,15 +1210,25 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   comm_.logDebug(2, "TMC9660Bootloader",
                  "  - SPI_FLASH_EN (bit 0): %d", cfg.spiFlash.enable_flash ? 1 : 0);
   comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - SPI_IFACE_SELECT (bit 1): %d (mirrors COMM_CONFIG bit 2, %s)", 
+                 bl_spi_select_bit, actual_iface);
+  comm_.logDebug(2, "TMC9660Bootloader",
+                 "  - SPI0_SCK_SELECT (bit 2): %d (mirrors COMM_CONFIG bit 10, %s)", 
+                 sck_pin_bit, actual_sck);
+  comm_.logDebug(2, "TMC9660Bootloader",
                  "  - CS_PIN (bits 3-7): GPIO%d", cfg.spiFlash.cs_pin);
   comm_.logDebug(2, "TMC9660Bootloader",
                  "  - FREQ_DIV (bits 8-11): Div%d", 1 << static_cast<int>(cfg.spiFlash.freq_div));
-  comm_.logDebug(2, "TMC9660Bootloader",
-                 "  - SPI Interface (from COMM_CONFIG bit 2): %s", actual_iface);
-  comm_.logDebug(2, "TMC9660Bootloader",
-                 "  - SPI0_SCK Pin (from COMM_CONFIG bit 10): %s", actual_sck);
   
   // Verify SPI flash config was written correctly
+  // UART mode: has an issue if address not reset
+  if (comm_.mode() == CommMode::UART) {
+    if (!setAddress(bootaddr::SPI_FLASH)) {
+      comm_.logDebug(0, "TMC9660Bootloader", "Failed to reset SPI flash register address for verification");
+      if (failOnVerifyError) return false;
+    }
+  }
+  
   if (!readAndVerify16(flash, "SPI flash config")) {
     if (failOnVerifyError) {
       comm_.logDebug(0, "TMC9660Bootloader", "SPI flash config verification failed");
@@ -1234,6 +1258,14 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
                  static_cast<int>(cfg.i2c.scl_pin), cfg.i2c.address_bits);
   
   // Verify I2C config was written correctly
+  // UART mode: address has an issue if not reset
+  if (comm_.mode() == CommMode::UART) {
+    if (!setAddress(bootaddr::I2C_CONFIG)) {
+      comm_.logDebug(0, "TMC9660Bootloader", "Failed to reset I2C config register address for verification");
+      if (failOnVerifyError) return false;
+    }
+  }
+  
   if (!readAndVerify16(i2c, "I2C config")) {
     if (failOnVerifyError) {
       comm_.logDebug(0, "TMC9660Bootloader", "I2C config verification failed");
