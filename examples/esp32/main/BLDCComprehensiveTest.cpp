@@ -144,11 +144,18 @@ bool test_bldc_motor_type_configuration() noexcept {
         ESP_LOGI(TAG, "Successfully configured BLDC motor with %d pole pairs", pole_pair);
     }
 
-    // Test 2: Set current limits
-    // if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
-    //     ESP_LOGE(TAG, "Failed to set max torque current");
-    //     return false;
-    // }
+    // Test 2: Configure PWM frequency (required before setting current limits)
+    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+        ESP_LOGE(TAG, "Failed to set PWM frequency");
+        return false;
+    }
+    ESP_LOGI(TAG, "PWM frequency set to 25000 Hz");
+
+    // Test 3: Set current limits
+    if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
+        ESP_LOGE(TAG, "Failed to set max torque current");
+        return false;
+    }
 
     if (!handle->driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max flux current");
@@ -158,7 +165,7 @@ bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Current limits set: Torque=%dmA, Flux=%dmA", 
              TEST_MAX_TORQUE_CURRENT, TEST_MAX_FLUX_CURRENT);
 
-    // Test 3: Verify configuration
+    // Test 4: Verify configuration
     if (!verify_motor_configuration(*handle->driver)) {
         ESP_LOGE(TAG, "Motor configuration verification failed");
         return false;
@@ -401,6 +408,12 @@ bool test_bldc_current_control() noexcept {
     // Configure motor for current control
     if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for current control test");
+        return false;
+    }
+
+    // Set PWM frequency before setting current limits
+    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+        ESP_LOGE(TAG, "Failed to set PWM frequency");
         return false;
     }
 
@@ -721,6 +734,12 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     // Step 1: Configure motor type
     if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Startup step 1 failed: motor type configuration");
+        return false;
+    }
+
+    // Step 1.5: Set PWM frequency before current limits
+    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+        ESP_LOGE(TAG, "Startup step 1.5 failed: PWM frequency");
         return false;
     }
 
