@@ -1292,8 +1292,8 @@ extern "C" void app_main(void) {
     esp_log_level_set("TMC9660_Bus", ESP_LOG_DEBUG);  // Bus interface logs
     
     ESP_LOGI(TAG, "╔══════════════════════════════════════════════════════════════════════════════╗");
-    ESP_LOGI(TAG, "║                    ESP32-C6 BLDC COMPREHENSIVE TEST SUITE                   ║");
-    ESP_LOGI(TAG, "║                         HardFOC TMC9660 Driver Tests                        ║");
+    ESP_LOGI(TAG, "║                    ESP32-C6 BLDC COMPREHENSIVE TEST SUITE                    ║");
+    ESP_LOGI(TAG, "║                         HardFOC TMC9660 Driver Tests                         ║");
     ESP_LOGI(TAG, "╚══════════════════════════════════════════════════════════════════════════════╝");
     ESP_LOGI(TAG, "Debug logging enabled for TMCL communication traces");
 
