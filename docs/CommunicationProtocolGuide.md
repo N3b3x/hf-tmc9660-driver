@@ -9,7 +9,8 @@ permalink: /docs/CommunicationProtocolGuide/
 
 # 📡 TMC9660 Communication Protocol Guide
 
-Complete guide to SPI and UART communication protocols for the TMC9660, including bootloader and parameter mode (TMCL) protocols.
+Complete guide to SPI and UART communication protocols for the TMC9660, including
+bootloader and parameter mode (TMCL) protocols.
 
 ---
 

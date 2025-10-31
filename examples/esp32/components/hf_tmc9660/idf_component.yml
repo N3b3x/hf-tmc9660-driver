@@ -1,6 +1,6 @@
 ###############################################################################
 #  TMC9660 Driver – ESP-IDF Component Manager Manifest
-#  
+#
 #  This manifest file describes the TMC9660 driver component for the ESP-IDF
 #  Component Manager. The TMC9660 is a hardware-agnostic motor driver IC that
 #  supports BLDC, stepper, and DC motor control with advanced features like
@@ -67,7 +67,7 @@ targets:
 dependencies:
   # ESP-IDF Framework (required for all ESP32 development)
   idf: ">=5.0.0"
-  
+
   # ESP-IDF Core Components (built-in, no external dependencies needed)
   # These are automatically available when using ESP-IDF
 
@@ -81,27 +81,27 @@ files:
     - "idf_component.yml"
     - "LICENSE"
     - "README.md"
-  
+
   # Exclude development and documentation files to minimize package size
   exclude:
     # Documentation and examples (kept separate)
     - "**/docs/**"
     - "**/examples/**"
     - "**/tests/**"
-    
+
     # Development and CI files
     - "**/.github/**"
     - "**/.gitlab-ci.yml"
     - "**/.git/**"
     - "**/.svn/**"
-    
+
     # IDE and editor files
     - "**/.idea/**"
     - "**/.vscode/**"
     - "**/.settings/**"
     - "**/.DS_Store"
     - "**/Thumbs.db"
-    
+
     # Build artifacts
     - "**/build/**"
     - "**/dist/**"
@@ -110,7 +110,7 @@ files:
     - "**/sdkconfig"
     - "**/sdkconfig.old"
     - "**/.component_hash"
-    
+
     # Python and cache files
     - "**/__pycache__/**"
     - "**/*.pyc"
@@ -119,7 +119,7 @@ files:
 
 ###############################################################################
 #  Component Architecture Overview
-#  
+#
 #  The TMC9660 Driver consists of several layers:
 #
 #  1. Core Driver Classes (inc/)
@@ -146,16 +146,16 @@ files:
 #  ```cpp
 #  #include "TMC9660.hpp"
 #  #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
-#  
+#
 #  // Create driver instance
 #  TMC9660 driver;
-#  
+#
 #  // Initialize with SPI communication
 #  if (driver.Initialize(spi_interface, cs_pin)) {
 #      // Set motor parameters
 #      driver.SetMotorType(MotorType::BLDC);
 #      driver.SetMotorParameters(12, 0.1f, 1000);
-#      
+#
 #      // Start motor control
 #      driver.EnableMotor();
 #      driver.SetVelocity(1000);  // 1000 RPM

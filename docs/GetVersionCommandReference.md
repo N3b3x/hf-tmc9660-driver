@@ -15,21 +15,21 @@ The `GetVersion` command (Opcode 136, 0x88) retrieves firmware version informati
 
 ## Command Format
 
-```
+```text
 Opcode: 136 (0x88)
 Type: 0 (returns string format)
 Motor/Bank: 0 (not used)
 Value: 0 (not used)
-```
+```text
 
 ## Type Parameter Values
 
 ### Type = 0: Firmware Version String (Recommended)
 
 **Request:**
-```
+```text
 GetVersion (Op=0x88), Type=0x0000, Motor=0x00, Value=0x00000000
-```
+```text
 
 **Response Format:**
 - **SPI Mode**: Returns 8 bytes containing a version string in ASCII format
@@ -44,16 +44,16 @@ GetVersion (Op=0x88), Type=0x0000, Motor=0x00, Value=0x00000000
   - Format: `[HOST_ADDR][SYNC+ADDR][VERSION_STRING_7_CHARS]`
 
 **Example Response:**
-```
+```text
 Raw bytes (UART): FF 01 64 88 30 30 35 31 56 31 30 30 [CRC]
 Decoded: "051V100"
-```
+```text
 
 **Version String Format:**
 The firmware version string follows the pattern:
-```
+```text
 [PREFIX][VERSION_NUMBER]V[BUILD_NUMBER]
-```
+```text
 
 Example: `051V100`
 - `051`: Prefix or version identifier
@@ -99,7 +99,7 @@ if (opcode == tmc9660::tmcl::Op::GetVersion && type == 0) {
         return true;
     }
 }
-```
+```text
 
 The `TMCLReply::getVersionString()` method:
 - Checks if opcode is 136 (GetVersion)
@@ -122,7 +122,7 @@ bool success = driver.sendCommand(
 
 // Version string is logged in sendCommand()
 // Output: "✅ GetVersion successful - Firmware version: 051V100"
-```
+```text
 
 ## Sources
 

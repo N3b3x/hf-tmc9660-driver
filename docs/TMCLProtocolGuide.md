@@ -24,10 +24,14 @@ permalink: /docs/TMCLProtocolGuide/
 
 ## Overview
 
-The TMC9660 Parameter Mode uses the TMCL (Trinamic Motion Control Language) protocol for communication over both SPI and UART interfaces. This guide provides detailed information about the protocol implementation, including critical details learned through extensive debugging.
+The TMC9660 Parameter Mode uses the TMCL (Trinamic Motion Control Language) protocol
+for communication over both SPI and UART interfaces. This guide provides detailed
+information about the protocol implementation, including critical details learned
+through extensive debugging.
 
 ### Key Characteristics
-- **Strict Command/Reply Order**: Never send a new command before receiving the reply to the previous command
+- **Strict Command/Reply Order**: Never send a new command before receiving the
+  reply to the previous command
 - **Shared Structure**: SPI and UART use the same command format with interface-specific framing
 - **Checksum Protected**: All datagrams include a checksum for data integrity
 - **Special Reply Formats**: Some commands (like GetVersion) return non-standard formats
@@ -133,7 +137,7 @@ The datasheet states: **"The module address reuses the upper 7 bits of the bootl
 
 This is **NOT** a shift operation! Here's the correct implementation:
 
-#### UART TX (Command):
+#### UART TX (Command)
 ```cpp
 // INCORRECT (common mistake):
 out[0] = (addr << 1) | 0x01;  // ❌ WRONG - shifts the address
@@ -142,7 +146,7 @@ out[0] = (addr << 1) | 0x01;  // ❌ WRONG - shifts the address
 out[0] = (addr & 0xFE) | 0x01;  // ✅ Keeps upper 7 bits, sets sync bit
 ```
 
-#### UART RX (Reply):
+#### UART RX (Reply)
 ```cpp
 // INCORRECT (common mistake):
 if ((in[1] >> 1) != (addr & 0x7F))  // ❌ WRONG - shifts for comparison
@@ -151,7 +155,7 @@ if ((in[1] >> 1) != (addr & 0x7F))  // ❌ WRONG - shifts for comparison
 if ((in[1] & 0xFE) != (addr & 0xFE))  // ✅ Compares upper 7 bits directly
 ```
 
-#### Why This Matters:
+#### Why This Matters
 - **Byte 0 Format**: `[Sync bit (bit 0)] [Module Address (bits 1-7)]`
 - **Address = 0x01** (binary: `00000001`):
   - **Wrong method** produces: `0x03` (binary: `00000011`) - module address becomes `0x01` in bits 1-7
@@ -159,7 +163,7 @@ if ((in[1] & 0xFE) != (addr & 0xFE))  // ✅ Compares upper 7 bits directly
   
 The device address `0x01` means module address `0x00` (upper 7 bits = `0000000`), NOT module address `0x01`!
 
-### Example Address Mappings:
+### Example Address Mappings
 
 | Device Address | Binary | Upper 7 Bits | Byte 0 (UART TX) | Module Address (bits 1-7) |
 |----------------|---------|--------------|------------------|---------------------------|
@@ -186,15 +190,15 @@ uint8_t tmclChecksum(const uint8_t *bytes, size_t n) {
 }
 ```
 
-#### For UART:
+#### For UART
 - **Checksum covers**: Bytes 0-7 (including sync+address byte)
 - **Checksum stored**: Byte 8
 
-#### For SPI:
+#### For SPI
 - **Checksum covers**: Bytes 0-6 (operation through value)
 - **Checksum stored**: Byte 7
 
-### Example Calculation:
+### Example Calculation
 
 Command: `SAP 4, 0, 1000` (Set Axis Parameter: Type=4, Motor=0, Value=1000)
 ```
@@ -297,7 +301,7 @@ Byte 4-7: Value (big-endian)
 Byte 8: Checksum (sum of bytes 0-7)
 ```
 
-#### Reply (TMC9660 → Host):
+#### Reply (TMC9660 → Host)
 ```
 Byte 0: Host Address
 Byte 1: Sync bit (bit 0 = 1) + Module Address (bits 1-7)
@@ -433,7 +437,7 @@ out[0] = (addr & 0xFE) | 0x01;
 
 ## Implementation Checklist
 
-### UART Communication:
+### UART Communication
 - [ ] Address encoding uses upper 7 bits (not shifted)
 - [ ] Checksum covers all 8 bytes (including sync+address)
 - [ ] Module address validation compares upper 7 bits
@@ -441,7 +445,7 @@ out[0] = (addr & 0xFE) | 0x01;
 - [ ] GetVersion string format handled (no checksum validation)
 - [ ] 10ms timeout for incomplete datagrams
 
-### SPI Communication:
+### SPI Communication
 - [ ] Handle `SESSION_START` on first command
 - [ ] Handle one-transaction reply delay
 - [ ] Poll for `SPI_STATUS_OK` after bootloader exit
@@ -452,7 +456,7 @@ out[0] = (addr & 0xFE) | 0x01;
 - [ ] GetVersion string format handled
 - [ ] Use `TMCLReply::fromSpi()` for parsing (includes context for special replies)
 
-### Both Interfaces:
+### Both Interfaces
 - [ ] Strict command/reply order enforced
 - [ ] Command context passed to reply parser
 - [ ] TMCL status codes checked

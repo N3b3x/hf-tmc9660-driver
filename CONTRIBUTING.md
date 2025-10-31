@@ -9,7 +9,8 @@ permalink: /CONTRIBUTING/
 
 # 🤝 Contributing to HardFOC TMC9660 Driver
 
-Thank you for your interest in contributing to the HardFOC TMC9660 Driver! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to the HardFOC TMC9660 Driver! This document
+provides guidelines and information for contributors.
 
 ## 📋 **Code Standards**
 
@@ -96,5 +97,5 @@ When proposing new features:
 
 ## 🚀 Thank You for Contributing to HardFOC
 
-Your contributions help make HardFOC motor controller boards more accessible and powerful for everyone.
-
+Your contributions help make HardFOC motor controller boards more accessible and powerful
+for everyone.

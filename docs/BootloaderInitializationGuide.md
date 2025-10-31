@@ -17,11 +17,11 @@ The TMC9660 bootloader has **two distinct operational modes** depending on where
 
 When `START_MOTOR_CONTROL = 1` is **burned into OTP memory**:
 
-```
+```text
 Power-Up → Bootloader reads OTP → Sees START_MOTOR_CTRL=1 → Immediately starts motor control
                                                               ↓
                                                     ❌ NO bootloader commands accepted!
-```
+```text
 
 **Characteristics:**
 - ✅ Autonomous operation - no host needed
@@ -38,11 +38,11 @@ Power-Up → Bootloader reads OTP → Sees START_MOTOR_CTRL=1 → Immediately st
 
 When `START_MOTOR_CONTROL = 1` is **written to CONFIG bank at runtime**:
 
-```
+```text
 Power-Up → Bootloader active → Accept commands → ... → Write START_MOTOR_CTRL=1 → Exit bootloader
                                                                                    ↓
                                                                     Motor control starts
-```
+```text
 
 **Characteristics:**
 - ✅ **Can send multiple bootloader commands** before exiting
@@ -76,7 +76,7 @@ setAddress(0x00020002);               // ❌ FAILS - motor control is running
 write16(uart_addresses);              // ❌ FAILS - bootloader not listening
 setAddress(0x00020018);               // ❌ FAILS
 write32(clock_config);                // ❌ FAILS
-```
+```text
 
 ### **✅ CORRECT: START_MOTOR_CTRL written LAST**
 
@@ -125,7 +125,7 @@ boot |= (1u << 12);                     // Bit 12: START_MOTOR_CTRL = 1
 write32(boot);                          // 🚪 Bootloader exits HERE!
 
 // Motor control is now running - bootloader commands no longer work
-```
+```text
 
 ---
 
@@ -141,7 +141,7 @@ vTaskDelay(pdMS_TO_TICKS(100));  // Hold reset for 100ms
 // Release RST pin (inactive)
 gpioSetInactive(TMC9660CtrlPin::RST);
 vTaskDelay(pdMS_TO_TICKS(100));  // Wait for chip to stabilize
-```
+```text
 
 **Timing notes:**
 - Minimum reset pulse: 100ms recommended
@@ -188,7 +188,7 @@ if (result != TMC9660::BootloaderInitResult::Success) {
     ESP_LOGE(TAG, "Bootloader initialization failed!");
     return false;
 }
-```
+```text
 
 ### **Step 3: Wait for Motor Control to Start**
 
@@ -201,7 +201,7 @@ if (result != TMC9660::BootloaderInitResult::Success) {
 vTaskDelay(pdMS_TO_TICKS(150));  // Give motor control time to start
 
 ESP_LOGI(TAG, "Motor control application should now be running");
-```
+```text
 
 ### **Step 4: Verify Motor Control is Active**
 
@@ -216,7 +216,7 @@ if (success) {
 } else {
     ESP_LOGE(TAG, "❌ Motor control not responding - bootloader may not have exited");
 }
-```
+```text
 
 ---
 
@@ -233,23 +233,23 @@ The FAULTN pin behavior is controlled by **three bits** in the Bootstrap Configu
 ### **Official FAULTN Pin Behavior (Per TMC9660 Datasheet):**
 
 #### **Power-On Sequence:**
-```
+```text
 Power-Up → FAULTN ASSERTED (Active) → Reset Released → Bootloader Initializing
-```
+```text
 
 #### **Bootloader Ready (Default: BL_READY_FAULT=0):**
-```
+```text
 Bootloader Ready → FAULTN DEASSERTS (Inactive) → Ready for Commands
-```
+```text
 
 #### **Motor Control Start (Default: BL_EXIT_FAULT=1):**
-```
+```text
 Write START_MOTOR_CTRL=1 → Bootloader Exits → FAULTN ASSERTS (Active) → Motor Control Starts
-```
+```text
 
 ### **Complete Sequence with Default Settings:**
 
-```
+```text
 Power-Up → FAULTN ACTIVE → Reset Released → Bootloader Initializing
                                                        ↓
                                               Bootloader Ready
@@ -267,7 +267,7 @@ Power-Up → FAULTN ACTIVE → Reset Released → Bootloader Initializing
                                       Motor control starts
                                                        ↓
                                 Motor control deasserts FAULTN when ready
-```
+```text
 
 ### **Key Points:**
 
@@ -287,42 +287,42 @@ This is **NOT an error** - it's a signal that the bootloader has exited.
 cfg.boot.bl_ready_fault = false;   // FAULTN deasserts when bootloader ready
 cfg.boot.bl_exit_fault = true;     // FAULTN asserts when bootloader exits
 cfg.boot.bl_config_fault = false;  // No FAULTN during config updates
-```
+```text
 
 **Timeline:**
-```
+```text
 Power-Up → FAULTN ACTIVE → Bootloader Ready → FAULTN INACTIVE → 
 Config Commands → START_MOTOR_CTRL=1 → Bootloader Exit → FAULTN ACTIVE → 
 Motor Control Ready → FAULTN INACTIVE
-```
+```text
 
 #### **Option 2: Signal Configuration Completion**
 ```cpp
 cfg.boot.bl_ready_fault = false;   // FAULTN deasserts when bootloader ready
 cfg.boot.bl_exit_fault = false;    // No FAULTN on bootloader exit
 cfg.boot.bl_config_fault = true;   // FAULTN asserts during config updates
-```
+```text
 
 **Timeline:**
-```
+```text
 Power-Up → FAULTN ACTIVE → Bootloader Ready → FAULTN INACTIVE → 
 Config Write → FAULTN ACTIVE → Config Complete → FAULTN INACTIVE → 
 START_MOTOR_CTRL=1 → Motor Control Starts (no FAULTN change)
-```
+```text
 
 #### **Option 3: Signal Bootloader Readiness**
 ```cpp
 cfg.boot.bl_ready_fault = true;    // FAULTN asserts when bootloader ready
 cfg.boot.bl_exit_fault = true;     // FAULTN asserts when bootloader exits
 cfg.boot.bl_config_fault = false;  // No FAULTN during config updates
-```
+```text
 
 **Timeline:**
-```
+```text
 Power-Up → FAULTN ACTIVE → Bootloader Ready → FAULTN STAYS ACTIVE → 
 Config Commands → START_MOTOR_CTRL=1 → Bootloader Exit → FAULTN STAYS ACTIVE → 
 Motor Control Ready → FAULTN INACTIVE
-```
+```text
 
 ### **When to Use Each Configuration:**
 
@@ -365,7 +365,7 @@ void wait_for_motor_control_start() {
     }
     ESP_LOGI(TAG, "Motor control ready (FAULTN inactive)");
 }
-```
+```text
 
 ---
 
@@ -384,7 +384,7 @@ The **most flexible approach** combines `applyConfiguration()` with `startMotorC
 
 ### **The Workflow:**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. applyConfiguration() with start_motor_control = FALSE   │
 │    → Applies ALL standard settings (LDO, UART, Clock, etc) │
@@ -409,7 +409,7 @@ The **most flexible approach** combines `applyConfiguration()` with `startMotorC
 │    → Bootloader exits                                       │
 │    → Motor control starts                                   │
 └─────────────────────────────────────────────────────────────┘
-```
+```text
 
 ### **Complete Example: Production OTP Programming**
 
@@ -583,7 +583,7 @@ void app_main() {
         driver.focControl.setTargetVelocity(1000);
     }
 }
-```
+```text
 
 ### **Simpler Example: Conditional Startup**
 
@@ -618,7 +618,7 @@ if (bootloader) {
         // Can monitor or wait for condition to change
     }
 }
-```
+```text
 
 ### **Key Advantages of Hybrid Approach:**
 
@@ -657,7 +657,7 @@ For scenarios where you want fine-grained control over bootloader operations, us
 bool TMC9660Bootloader::startMotorControl(
     bootcfg::BootMode bootMode = bootcfg::BootMode::Parameter
 ) noexcept;
-```
+```text
 
 **Parameters:**
 - `bootMode`: Motor control mode to start
@@ -698,7 +698,7 @@ if (bootloader.startMotorControl(tmc9660::bootcfg::BootMode::Parameter)) {
 } else {
     ESP_LOGE(TAG, "Failed to start motor control!");
 }
-```
+```text
 
 ### **Usage Example 2: OTP Programming Then Start**
 
@@ -728,7 +728,7 @@ if (bootloader.otpLoad(0, &errorCount, &pageTag)) {
 // 4. Start motor control with the OTP configuration
 bootloader.startMotorControl(tmc9660::bootcfg::BootMode::Parameter);
 vTaskDelay(pdMS_TO_TICKS(150));
-```
+```text
 
 ### **Usage Example 3: Conditional Start Based on External Input**
 
@@ -757,7 +757,7 @@ if (!button_pressed()) {
     ESP_LOGI(TAG, "Motor start skipped, staying in bootloader mode");
     // Can continue sending bootloader commands
 }
-```
+```text
 
 ### **Important Notes:**
 
@@ -802,7 +802,7 @@ if (!button_pressed()) {
 **Fix:**
 ```cpp
 cfg.boot.start_motor_control = true;  // MUST be TRUE!
-```
+```text
 
 ### **Problem: Subsequent bootloader commands fail**
 
@@ -835,7 +835,7 @@ cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
 // Check clock configuration
 cfg.clock.use_external = tmc9660::bootcfg::ClockSource::Internal;
 cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
-```
+```text
 
 ---
 
@@ -886,7 +886,7 @@ vTaskDelay(150ms);
 
 // 3. Use motor control
 driver.motorConfig.setType(...);
-```
+```text
 
 #### **Method 2: Using `startMotorControl()` (Full manual control)**
 
@@ -914,7 +914,7 @@ vTaskDelay(150ms);
 
 // 5. Use motor control
 driver.motorConfig.setType(...);
-```
+```text
 
 #### **Method 3: Hybrid Approach** ⭐ **RECOMMENDED for Advanced Workflows**
 
@@ -963,7 +963,7 @@ vTaskDelay(150ms);
 
 // 5. Use motor control
 driver.motorConfig.setType(...);
-```
+```text
 
 ### **For Production (OTP Configuration):**
 
@@ -973,7 +973,7 @@ driver.motorConfig.setType(...);
 // → Motor control starts automatically
 // → No bootloader commands needed
 // → Fastest startup
-```
+```text
 
 ### **Three Initialization Methods Compared:**
 
