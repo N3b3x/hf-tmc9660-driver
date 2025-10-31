@@ -9,7 +9,9 @@ permalink: /docs/BootloaderGuide/
 
 ## 🔧 TMC9660 Bootloader Complete Guide
 
-This comprehensive guide covers **all** bootloader functionality for the TMC9660, including detailed protocol specifications, command reference, and practical examples for both SPI and UART interfaces.
+This comprehensive guide covers**all**bootloader functionality for the TMC9660, including
+detailed protocol specifications, command reference, and practical examples for both SPI and
+UART interfaces.
 
 ---
 
@@ -29,7 +31,8 @@ This comprehensive guide covers **all** bootloader functionality for the TMC9660
 
 ## 🎯 Overview
 
-The TMC9660 bootloader provides low-level access to configure the chip before starting motor control. It supports:
+The TMC9660 bootloader provides low-level access to configure the chip before starting motor
+control. It supports:
 
 - ✅ **Dual Protocol Support**: SPI (5-byte) and UART (8-byte)
 - ✅ **18 Commands**: Complete control over chip configuration
@@ -65,7 +68,7 @@ The TMC9660 bootloader provides low-level access to configure the chip before st
 │  ⚠️  Reply comes in NEXT transaction (standard SPI)          │
 │                                                               │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 **Key Features:**
 - **Frame Size**: 5 bytes (40 bits)
@@ -77,29 +80,29 @@ The TMC9660 bootloader provides low-level access to configure the chip before st
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                   UART BOOTLOADER PROTOCOL                   │
+│                   UART BOOTLOADER PROTOCOL                  │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  COMMAND FRAME (8 bytes):                                    │
+│                                                             │
+│  COMMAND FRAME (8 bytes):                                   │
 │  ┌────┬────┬────┬────────────────────────┬────┐             │
 │  │0x55│DEVA│CMD │    VALUE (32-bit)      │CRC8│             │
 │  │    │DDR │    │   [MSB ... ... LSB]    │    │             │
 │  └────┴────┴────┴────────────────────────┴────┘             │
 │   Sync  Dev  Cmd    Byte3 Byte2 Byte1 Byte0  Checksum       │
-│                                                               │
-│  REPLY FRAME (8 bytes):                                      │
+│                                                             │
+│  REPLY FRAME (8 bytes):                                     │
 │  ┌────┬────┬────┬────────────────────────┬────┐             │
 │  │0x55│HOST│STAT│    VALUE (32-bit)      │CRC8│             │
 │  │    │ADDR│US  │   [MSB ... ... LSB]    │    │             │
 │  └────┴────┴────┴────────────────────────┴────┘             │
 │   Sync  Host Stat   Byte3 Byte2 Byte1 Byte0  Checksum       │
-│                                                               │
-│  ✅ NO bit-flipping (unlike SPI)                             │
-│  ✅ Immediate reply (no delay like SPI)                      │
-│  ✅ CRC-8 checksum (polynomial: x⁸+x²+x¹+x⁰)                 │
-│                                                               │
+│                                                             │
+│  ✅ NO bit-flipping (unlike SPI)                            │
+│  ✅ Immediate reply (no delay like SPI)                     │
+│  ✅ CRC-8 checksum (polynomial: x⁸+x²+x¹+x⁰)                │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 **Key Features:**
 - **Frame Size**: 8 bytes (64 bits)
@@ -159,13 +162,15 @@ enum class BootloaderStatus : uint8_t {
   CMD_NOT_AVAILABLE = 20,    // The command is currently not available
   BOOTLOADER_RESUMED = 21    // First SPI datagram after returning to bootloader from motor control (SPI only)
 };
-```text
+```
 
 ---
 
 ## 📊 GET_INFO Command Details
 
-The `GET_INFO` command allows readout of various basic information about the connected TMC9660. Each query type returns specific information as defined in the TMC9660 datasheet Table 24.
+The `GET_INFO` command allows readout of various basic information about the connected
+TMC9660. Each query type returns specific information as defined in the TMC9660 datasheet
+Table 24.
 
 ### Available Information Queries
 
@@ -232,13 +237,15 @@ if (bootloader.getConfigMemStart(&configStart) &&
     bootloader.getConfigMemSize(&configSize)) {
     printf("CONFIG Memory: 0x%08X, size: %d bytes\n", configStart, configSize);
 }
-```text
+```
 
 ---
 
 ## 🔥 OTP Operations
 
-The TMC9660 supports One-Time Programmable (OTP) memory operations for permanent configuration storage. OTP operations have specific error handling and return value parsing as defined in the datasheet.
+The TMC9660 supports One-Time Programmable (OTP) memory operations for permanent
+configuration storage. OTP operations have specific error handling and return value parsing
+as defined in the datasheet.
 
 ### OTP_LOAD Command
 
@@ -257,7 +264,8 @@ Loads an OTP page into the OTP memory bank for reading.
 
 ### OTP_BURN Command
 
-⚠️ **CRITICAL**: This command has **Erratum 1** - use only with the workaround described below for reliable OTP burning.
+⚠️ **CRITICAL**: This command has **Erratum 1** - use only with the workaround described
+below for reliable OTP burning.
 
 Burns the contents of the OTP memory bank into an OTP page.
 
@@ -327,7 +335,7 @@ uint8_t errorCount, pageTag;
 if (bootloader.otpLoad(0, &errorCount, &pageTag)) {
     printf("Legacy: Error count=%d, Page tag=0x%02X\n", errorCount, pageTag);
 }
-```text
+```
 
 ---
 
@@ -338,14 +346,16 @@ The TMC9660 has known issues that require specific workarounds for reliable oper
 ### Erratum 1: Bootloader OTP_BURN Command
 
 **Issue**: The OTP_BURN command has two critical problems:
-1. When motor system control was started, VDRV pin is charged to 12V, causing OTP burn requests to fail with 500ms timeout
-2. Any subsequent OTP_BURN commands after the first one will always report failure, regardless of actual result
+1. When motor system control was started, VDRV pin is charged to 12V, causing OTP burn
+   requests to fail with 500ms timeout
+2. Any subsequent OTP_BURN commands after the first one will always report failure,
+   regardless of actual result
 
 **Impact**: OTP burning is unreliable without proper workaround
 
 **Workaround**: Use `otpBurnWithWorkaround()` method which implements the complete Erratum 1 workaround:
 
-```cpp
+```text
 // Use the workaround method for reliable OTP burning
 OtpBurnResult result;
 if (bootloader.otpBurnWithWorkaround(0, 0x10, &result, 1000)) {
@@ -361,7 +371,7 @@ bool burnSuccess;
 if (bootloader.checkOtpBurnStatus(&burnSuccess)) {
     printf("OTP burn status: %s\n", burnSuccess ? "Success" : "Failed");
 }
-```text
+```
 
 **Workaround Steps** (automatically handled by `otpBurnWithWorkaround()`):
 1. Send `SET_BANK`, value 0
@@ -395,7 +405,9 @@ if (bootloader.checkOtpBurnStatus(&burnSuccess)) {
 
 ### Virtual Delay Function
 
-The bootloader uses a virtual `delayMs()` function for platform-independent timing operations. This allows the bootloader to work on any platform without direct dependencies on specific RTOS or timing libraries.
+The bootloader uses a virtual `delayMs()` function for platform-independent timing
+operations. This allows the bootloader to work on any platform without direct dependencies
+on specific RTOS or timing libraries.
 
 **Implementation Requirements:**
 - Must be implemented by the communication interface class
@@ -407,15 +419,15 @@ The bootloader uses a virtual `delayMs()` function for platform-independent timi
 void delayMs(uint32_t ms) noexcept override {
     vTaskDelay(pdMS_TO_TICKS(ms));
 }
-```text
+```
 
 **Custom Platform Implementation:**
 ```cpp
 void delayMs(uint32_t ms) noexcept override {
     // Platform-specific delay implementation
-    // e.g., usleep(ms * 1000), HAL_Delay(ms), etc.
+    // e.g., usleep(ms* 1000), HAL_Delay(ms), etc.
 }
-```text
+```
 
 ---
 
@@ -423,7 +435,7 @@ void delayMs(uint32_t ms) noexcept override {
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                     MEMORY BANK LAYOUT                       │
+│                     MEMORY BANK LAYOUT                      │
 ├──────┬──────────────────────────────────────────────────────┤
 │ ID   │ Name         │ Description                           │
 ├──────┼──────────────┼───────────────────────────────────────┤
@@ -434,7 +446,7 @@ void delayMs(uint32_t ms) noexcept override {
 │ 4    │ RESERVED     │ Reserved for future use               │
 │ 5    │ CONFIG       │ Runtime configuration (0x00020000)    │
 └──────┴──────────────┴───────────────────────────────────────┘
-```text
+```
 
 ### CONFIG Memory Bank (Bank 5)
 
@@ -457,14 +469,14 @@ Size: 64 bytes
 │ 0x0E-0x15│ GPIO Configuration                      │
 │ 0x18     │ Clock Configuration                     │
 └──────────┴─────────────────────────────────────────┘
-```text
+```
 
 **Example: Change UART Addresses at Runtime**
 ```cpp
 bootloader.setBank(MemoryBank::CONFIG);
 bootloader.setAddress(0x00020002);  // Device/Host address offset
 bootloader.write16(0x0403);         // Device=3, Host=4
-```text
+```
 
 ---
 
@@ -474,61 +486,61 @@ bootloader.write16(0x0403);         // Device=3, Host=4
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                    OTP PAGE STRUCTURE                        │
+│                    OTP PAGE STRUCTURE                       │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  Pages 0-3: Configuration Storage (checked in reverse)       │
+│                                                             │
+│  Pages 0-3: Configuration Storage (checked in reverse)      │
 │  ┌──────────┬──────────┬──────────┬──────────┐              │
 │  │ Page 0   │ Page 1   │ Page 2   │ Page 3   │              │
 │  │ (First)  │ (Second) │ (Third)  │ (Latest) │              │
 │  └──────────┴──────────┴──────────┴──────────┘              │
-│       ↑          ↑          ↑          ↑                     │
-│       └──────────┴──────────┴──────────┘                     │
-│           Bootloader checks 3→2→1→0                          │
-│           (uses first valid config found)                    │
-│                                                               │
-│  Page Tag = 4: Configuration page                            │
-│  Other tags: Application-specific data                       │
-│                                                               │
-│  ⚠️  OTP can only be written ONCE per page!                  │
-│  ⚠️  Use pages 0-3 sequentially for config updates           │
-│                                                               │
+│       ↑          ↑          ↑          ↑                    │
+│       └──────────┴──────────┴──────────┘                    │
+│           Bootloader checks 3→2→1→0                         │
+│           (uses first valid config found)                   │
+│                                                             │
+│  Page Tag = 4: Configuration page                           │
+│  Other tags: Application-specific data                      │
+│                                                             │
+│  ⚠️  OTP can only be written ONCE per page!                 │
+│  ⚠️  Use pages 0-3 sequentially for config updates          │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 ### OTP Configuration Workflow
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│              OTP CONFIGURATION WORKFLOW                      │
+│              OTP CONFIGURATION WORKFLOW                     │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  Step 1: Test Configuration (Runtime)                        │
+│                                                             │
+│  Step 1: Test Configuration (Runtime)                       │
 │  ┌────────────────────────────────────────┐                 │
 │  │ Use CONFIG bank (Bank 5) to test       │                 │
-│  │ settings without burning OTP            │                 │
+│  │ settings without burning OTP           │                 │
 │  └────────────────────────────────────────┘                 │
-│                    ↓                                          │
-│  Step 2: Prepare Configuration                               │
+│                    ↓                                        │
+│  Step 2: Prepare Configuration                              │
 │  ┌────────────────────────────────────────┐                 │
-│  │ Write configuration to RAM/OTP bank     │                 │
-│  │ Verify all settings are correct         │                 │
+│  │ Write configuration to RAM/OTP bank    │                 │
+│  │ Verify all settings are correct        │                 │
 │  └────────────────────────────────────────┘                 │
-│                    ↓                                          │
-│  Step 3: Burn to OTP                                         │
+│                    ↓                                        │
+│  Step 3: Burn to OTP                                        │
 │  ┌────────────────────────────────────────┐                 │
-│  │ otpBurn(page, pageTag=4)                │                 │
-│  │ ⚠️  IRREVERSIBLE - Cannot undo!         │                 │
+│  │ otpBurn(page, pageTag=4)               │                 │
+│  │ ⚠️  IRREVERSIBLE - Cannot undo!        │                 │
 │  └────────────────────────────────────────┘                 │
-│                    ↓                                          │
-│  Step 4: Verify                                              │
+│                    ↓                                        │
+│  Step 4: Verify                                             │
 │  ┌────────────────────────────────────────┐                 │
-│  │ otpLoad(page, &errors, &tag)            │                 │
-│  │ Check error count and page tag          │                 │
+│  │ otpLoad(page, &errors, &tag)            │                │
+│  │ Check error count and page tag          │                │
 │  └────────────────────────────────────────┘                 │
-│                                                               │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 ### OTP Code Examples
 
@@ -547,7 +559,7 @@ if (bootloader.otpLoad(0, &errorCount, &pageTag)) {
         printf("✅ Configuration page detected\n");
     }
 }
-```text
+```
 
 **Burn Configuration to OTP:**
 ```cpp
@@ -573,7 +585,7 @@ if (bootloader.otpBurn(0, 4)) {
 } else {
     printf("❌ OTP burn failed!\n");
 }
-```text
+```
 
 ---
 
@@ -597,7 +609,7 @@ if (bootloader.otpBurn(0, 4)) {
 │  3. flashReadBuffer(offset, &data) - Read reply from buffer │
 │                                                               │
 └─────────────────────────────────────────────────────────────┘
-```text
+```
 
 **Read JEDEC Manufacturer ID:**
 ```cpp
@@ -610,7 +622,7 @@ if (bootloader.flashReadJedecId(&manufacturerId)) {
     // 0xC2 - Macronix
     // 0x20 - Micron
 }
-```text
+```
 
 **Manual Flash Command (Advanced):**
 ```cpp
@@ -626,9 +638,10 @@ uint32_t data;
 bootloader.flashReadBuffer(0, &data);
 uint8_t status = (data >> 8) & 0xFF;
 printf("Flash Status: 0x%02X\n", status);
-```text
+```
 
 **Erase Flash Sector:**
+
 ```cpp
 // Erase sector at address 0x010000
 if (bootloader.flashEraseSector(0x010000)) {
@@ -643,7 +656,7 @@ if (bootloader.flashEraseSector(0x010000)) {
     
     printf("✅ Erase complete\n");
 }
-```text
+```
 
 ### I2C EEPROM Operations
 
@@ -667,7 +680,7 @@ if (isConfigured) {
         }
     }
 }
-```text
+```
 
 **Write to EEPROM:**
 ```cpp
@@ -685,7 +698,7 @@ do {
     bootloader.memIsBusy(MemoryBank::I2C_EEPROM, &busy);
     delay_ms(5);
 } while (busy);
-```text
+```
 
 ---
 
@@ -707,7 +720,7 @@ uint32_t commConfig = 0;
 // Set BL_UART_BAUDRATE bits [7:9] = 4 (115200 baud)
 commConfig |= (4 << 7);
 bootloader.write32(commConfig);
-```text
+```
 
 ### Clock Configuration
 
@@ -730,7 +743,7 @@ delay_ms(10);
 uint32_t status;
 // Read back to verify
 // ... (would need read command - not shown in basic bootloader)
-```text
+```
 
 ### RS485 Configuration
 
@@ -745,7 +758,7 @@ if (bootloader.bootstrapRS485(
     printf("✅ RS485 configured\n");
     // All subsequent commands will use RS485 protocol
 }
-```text
+```
 
 ---
 
@@ -796,7 +809,7 @@ if (result != TMC9660::BootloaderInitResult::Success) {
 }
 
 printf("✅ TMC9660 initialized and ready for motor control\n");
-```text
+```
 
 ### Example 2: OTP Configuration Backup
 
@@ -851,7 +864,7 @@ uint8_t findNextAvailableOTPPage(TMC9660Bootloader& bootloader) {
     }
     return 4;  // No pages available
 }
-```text
+```
 
 ### Example 3: External Flash Management
 
@@ -936,7 +949,7 @@ private:
         return false;
     }
 };
-```text
+```
 
 ---
 
@@ -950,7 +963,7 @@ private:
 ```text
 Failed to send command (op=0x01, type=0x0000)
 Failed to set bank 5
-```text
+```
 
 **Causes & Solutions:**
 
@@ -983,7 +996,7 @@ if (bootloader.otpLoad(page, &errors, &tag)) {
         printf("⚠️  Page already burned!\n");
     }
 }
-```text
+```
 
 #### Issue 3: "MEM_UNCONFIGURED" Status
 
@@ -1007,7 +1020,7 @@ if (!configured) {
     
     bootloader.write32(flashConfig);
 }
-```text
+```
 
 #### Issue 4: SPI vs UART Confusion
 
@@ -1034,20 +1047,20 @@ void debugLog(int level, const char* tag, const char* format, va_list args) noex
         printf("\n");
     }
 }
-```text
+```
 
 **Example Output:**
 ```text
 [TMC9660Bootloader] Sending SPI bootloader command: cmd=0x01, value=0x00000005
 [TMC9660Bootloader] SPI command successful: status=0x64, value=0x00000000 (cmd=0x01)
-```text
+```
 
 ---
 
 ## 📖 API Quick Reference
 
 ### Basic Operations
-```cpp
+```text
 // Memory operations
 bootloader.setBank(MemoryBank::CONFIG);
 bootloader.setAddress(0x00020000);
@@ -1058,7 +1071,7 @@ bootloader.write8Inc(value);   // Auto-increment
 bootloader.write16Inc(value);
 bootloader.write32Inc(value);
 bootloader.noOp(&reply);        // Get previous reply (SPI)
-```text
+```
 
 ### OTP Operations
 ```cpp
@@ -1068,7 +1081,7 @@ bootloader.otpLoad(page, &errors, &tag);
 
 // Burn OTP page
 bootloader.otpBurn(page, pageTag);
-```text
+```
 
 ### External Memory
 ```cpp
@@ -1084,7 +1097,7 @@ bootloader.flashReadBuffer(offset, &data);
 bootloader.flashSendDatagram(numBytes);
 bootloader.flashEraseSector(address);
 bootloader.flashReadJedecId(&mfgId);
-```text
+```
 
 ### Configuration
 ```cpp
@@ -1096,7 +1109,7 @@ uint32_t value;
 bootloader.getInfo(InfoQuery::CONFIG_MEM_START, &value);
 bootloader.getConfigMemStart(&address);
 bootloader.getConfigMemSize(&size);
-```text
+```
 
 ---
 
@@ -1112,7 +1125,7 @@ bootloader.setBank(MemoryBank::CONFIG);
 // ❌ BAD: Burn directly to OTP without testing
 bootloader.setBank(MemoryBank::OTP);
 bootloader.otpBurn(0, 4);  // Can't undo if wrong!
-```text
+```
 
 ### 2. Verify OTP After Burning
 ```cpp
@@ -1124,7 +1137,7 @@ if (bootloader.otpBurn(page, tag)) {
         printf("❌ Verification failed!\n");
     }
 }
-```text
+```
 
 ### 3. Check Memory Status Before Operations
 ```cpp
@@ -1136,7 +1149,7 @@ bootloader.memIsConnected(MemoryBank::SPI_FLASH, &connected);
 if (configured && connected) {
     // Safe to use flash
 }
-```text
+```
 
 ### 4. Use Enums Instead of Magic Numbers
 ```cpp
@@ -1145,13 +1158,14 @@ bootloader.setBank(MemoryBank::CONFIG);
 
 // ❌ BAD: Magic numbers
 bootloader.setBank(5);
-```text
+```
 
 ### 5. Handle All Error Cases
+
 ```cpp
 // ✅ GOOD: Comprehensive error handling
 if (!bootloader.write32(value)) {
-    BootloaderStatus status = /* get from reply */;
+    BootloaderStatus status = /*get from reply*/;
     switch (status) {
         case BootloaderStatus::INVALID_ADDR:
             printf("Invalid address\n");
@@ -1162,16 +1176,17 @@ if (!bootloader.write32(value)) {
         // ... handle all cases ...
     }
 }
-```text
+```
 
 ---
 
 ## 📚 Additional Resources
 
-- **[⚡ Bootloader Quick Reference](BootloaderQuickReference.html)** - Quick lookup card for commands and codes
-- **[Common Operations Guide](CommonOperations.html)** - Motor control after bootloader init
-- **[API Reference](annotated.html)** - Complete class documentation
-- **[Setup Guide](SetupGuide.html)** - Getting started with the driver
+- **[⚡ Bootloader Quick Reference](BootloaderQuickReference.md)** - Quick lookup card
+  for commands and codes
+- **[Common Operations Guide](CommonOperations.md)** - Motor control after bootloader init
+- **[API Reference](annotated.md)** - Complete class documentation
+- **[Setup Guide](SetupGuide.md)** - Getting started with the driver
 
 ---
 
@@ -1192,10 +1207,12 @@ Before moving to motor control, ensure:
 
 <div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
   <strong>🎉 Ready to control motors?</strong><br>
-  <a href="CommonOperations.html" style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em; background: #28a745; color: white; text-decoration: none; border-radius: 4px;">Motor Control Guide →</a>
+  <a href="CommonOperations.md"
+     style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em;
+     background: #28a745; color: white; text-decoration: none;
+     border-radius: 4px;">Motor Control Guide →</a>
 </div>
 
 ---
 
 **Last Updated**: 2024 | TMC9660 Bootloader Complete Guide v1.0
-

@@ -9,7 +9,8 @@ permalink: /docs/BootloaderTroubleshooting/
 
 # 🔧 TMC9660 Bootloader Troubleshooting Guide
 
-Comprehensive troubleshooting guide for TMC9660 bootloader initialization and communication issues, based on real-world debugging experiences.
+Comprehensive troubleshooting guide for TMC9660 bootloader initialization and
+communication issues, based on real-world debugging experiences.
 
 ---
 
@@ -58,7 +59,7 @@ Configuration
 ├─ ✅ START_MOTOR_CTRL written last?
 ├─ ✅ Delays after clock configuration?
 └─ ✅ SPI disabled when using UART?
-```text
+```
 
 ---
 
@@ -70,7 +71,7 @@ Configuration
 ```text
 [UART BL TX] 55 01 00 00 00 00 01 1D
 E (xxxx) TMC9660_Bus: UART bootloader read failed: expected 8, read 0
-```text
+```
 
 #### Root Causes & Solutions
 
@@ -93,10 +94,10 @@ cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
 // In ESP32 UART config
 uart_config.uart.tx_pin = GPIO_NUM_5;  // Connects to TMC9660 RX
 uart_config.uart.rx_pin = GPIO_NUM_4;  // Connects to TMC9660 TX
-```text
+```
 
 **Cause 2: Wrong CRC8 Algorithm**
-```text
+```cpp
 ❌ Using standard CRC8:
 uint8_t crc = crc8_standard(data, 7);  // ❌ WRONG!
 
@@ -124,10 +125,10 @@ uint8_t crc8Bootloader(const uint8_t* data, size_t len) {
   }
   return static_cast<uint8_t>(crc & 0xFF);
 }
-```text
+```
 
 **Cause 3: Incorrect Bootloader Reply Parsing**
-```text
+```cpp
 ❌ WRONG: Missing device address field
 struct BootloaderReplyUART {
   uint8_t hostAddr;
@@ -143,7 +144,7 @@ struct BootloaderReplyUART {
   uint8_t status;       // Byte 2
   uint32_t value;       // Bytes 3-6
 };
-```text
+```
 
 ---
 
@@ -155,7 +156,7 @@ struct BootloaderReplyUART {
 ✅ CRC verified: 0xFD
 [UART BL RX] FF 01 00 00 02 00 0A 99
 ❌ CRC failed: expected 0x99, got 0xXX
-```text
+```
 
 #### Solutions
 
@@ -170,16 +171,16 @@ assert(crc == 0x1D);  // From datasheet example
 const uint8_t reply[] = {0xFF, 0x01, 0x00, 0x00, 0x00, 0x00, 0x01};
 crc = crc8Bootloader(reply, 7);
 // Compare with byte 7 of actual reply
-```text
+```
 
 **Common Mistake: Wrong Byte Count**
-```text
+```cpp
 ❌ WRONG: CRC over 8 bytes
 crc8Bootloader(frame, 8);  // Includes CRC byte itself!
 
 ✅ CORRECT: CRC over first 7 bytes
 crc8Bootloader(frame, 7);  // Excludes CRC byte
-```text
+```
 
 ---
 
@@ -191,7 +192,7 @@ crc8Bootloader(frame, 7);  // Excludes CRC byte
 [UART TX] 03 03 00 00 00 00 00 00 06
 E (xxxx) TMC9660_Bus: UART read failed: expected 9, read 0
 ❌ TMCL communication failed (MST command failed)
-```text
+```
 
 #### Root Cause: Incorrect Module Address Encoding
 
@@ -209,7 +210,7 @@ out[0] = (addr & 0xFE) | 0x01;
        = (0x01 & 0xFE) | 0x01
        = 0x00 | 0x01
        = 0x01  ← TMC9660 accepts this!
-```text
+```
 
 **Detailed Explanation:**
 ```text
@@ -226,7 +227,7 @@ Byte 0 Format:  [Module Address bits 1-7][Sync bit 0]
                   From device addr bits 7-1
 
 Result: 0x01 (NOT 0x03!)
-```text
+```
 
 **Fix in Code:**
 ```cpp
@@ -249,7 +250,7 @@ static bool fromUart(std::span<const uint8_t, 9> in, uint8_t addr, TMCLReply &r)
   if ((in[1] & 0xFE) != (addr & 0xFE)) return false;
   // ... rest of validation
 }
-```text
+```
 
 ---
 
@@ -261,7 +262,7 @@ Clock configuration written (external: yes, xtal_drive: 3, rdiv: 15)
 Waiting for clock reconfiguration to complete...
 E (xxxx) TMC9660Bootloader: Failed to read back clock config
 ❌ PLL_STATUS not set after clock reconfiguration
-```text
+```
 
 #### Solutions
 
@@ -277,7 +278,7 @@ comm_.delayMs(10);  // Too short!
 comm_.delayMs(100);  // 100ms recommended
 
 // TMC9660 cannot respond during clock reconfiguration!
-```text
+```
 
 **Solution 2: Skip PLL Status Polling in Bootloader**
 ```cpp
@@ -290,7 +291,7 @@ comm_.delayMs(100);
 
 // ✅ CORRECT: Fixed delay, verify later via TMCL
 // PLL status will be stable in parameter mode
-```text
+```
 
 **Solution 3: Correct Clock Configuration Order**
 ```cpp
@@ -307,7 +308,7 @@ comm_.delayMs(100);
 configure_uart();
 configure_spi();
 // ... other configs
-```text
+```
 
 ---
 
@@ -322,11 +323,11 @@ NEW COMM_CONFIG to be written: 0x0600
   New Bit 1 (SPI disabled): 0      ← Still enabled!
   
 // Later: UART stops working
-```text
+```
 
 #### Root Cause: Both SPI and UART Enabled
 
-```text
+```cpp
 ❌ WRONG: Conflicting configuration
 cfg.spiComm.disable_spi = false;   // SPI enabled
 cfg.uart.disable_uart = false;     // UART also enabled
@@ -341,7 +342,7 @@ if (use_uart) {
   cfg.spiComm.disable_spi = false;  // Enable SPI
   cfg.uart.disable_uart = true;     // Disable UART
 }
-```text
+```
 
 **Additional Fix: Flash Configuration**
 ```cpp
@@ -353,7 +354,7 @@ cfg.spiFlash.flash_spi_iface = SPIInterface::IFACE1;  // Flash uses SPI1
 // COMM_CONFIG register:
 // Bit 1: BL_DISABLE_SPI = 1
 // Bit 2: BL_SPI_SELECT = 1 (flash uses SPI0)
-```text
+```
 
 ---
 
@@ -369,7 +370,7 @@ Configuring SPI flash settings
 [UART BL TX] 55 01 0E 00 00 00 00 0A   ← READ_16
 [UART BL RX] FF 01 00 00 00 00 0B 96   ← Wrong value! (0x000B instead of 0x0361)
 ❌ SPI flash config verification failed: expected=0x0361, actual=0x000B
-```text
+```
 
 #### Root Cause: Address Pointer Resetting
 
@@ -388,7 +389,7 @@ setAddress(0x0A);
 write16(value);
 setAddress(0x0A);  // Re-set address!
 uint16_t readback = read16();
-```text
+```
 
 ---
 
@@ -398,7 +399,7 @@ uint16_t readback = read16();
 ```text
 [TMCL RX] 30 30 35 31 56 31 30 30
 Checksum validation failed!  ← Byte 2 is '0', not status 100
-```text
+```
 
 #### Root Cause: Special Format for Type=0
 
@@ -422,7 +423,7 @@ bool TMCLFrame::fromSpi(std::span<const uint8_t, 8> in, TMCLReply &r,
   r.tmclStatus = static_cast<TMCLStatus>(in[2]);
   // ... rest of normal parsing
 }
-```text
+```
 
 ---
 
@@ -444,10 +445,10 @@ Solutions:
 • Add 100ms delay after clock configuration
 • Implement retry logic (max 100 attempts)
 • Reduce SPI clock speed (<= 10MHz)
-```text
+```
 
 **Problem: SPI Delayed Replies Not Handled**
-```text
+```cpp
 ❌ WRONG: Expect immediate reply
 spi_transfer(GET_INFO);
 reply = spi_transfer(dummy_byte);  // Gets previous reply!
@@ -456,12 +457,12 @@ reply = spi_transfer(dummy_byte);  // Gets previous reply!
 spi_transfer(GET_INFO);
 spi_transfer(NO_OP);  // Dummy command
 reply = spi_transfer(NO_OP);  // Gets GET_INFO reply
-```text
+```
 
 ### UART Issues
 
 **Problem: Autobaud Not Working**
-```text
+```cpp
 // Autobaud requires sync byte 0x55
 cfg.uart.baud_rate = BaudRate::Auto16x;
 
@@ -470,7 +471,7 @@ tx[0] = device_addr;  // Variable value
 
 // ✅ CORRECT: Bootloader automatically uses 0x55
 // (Bootloader protocol always starts with 0x55)
-```text
+```
 
 **Problem: UART Stops After Configuration**
 ```text
@@ -484,7 +485,7 @@ New: 0x0600
   Bit 7-9 (Baud rate): 3    ← Changed to 57600!
   
 Solution: Match baud rate in config and ESP32 UART
-```text
+```
 
 ---
 
@@ -496,7 +497,7 @@ Solution: Match baud rate in config and ESP32 UART
 ```text
 [UART BL TX] 55 01 0C 00 00 00 00 77  ← READ_32
 [UART BL RX] FF 01 00 00 00 00 00 00  ← Returns 0 or fails
-```text
+```
 
 #### Solution: Use Two `READ_16` Operations
 ```cpp
@@ -517,7 +518,7 @@ bool read32(uint32_t *value) {
   // SPI: use normal READ_32
   return sendCommand(READ_32, 0, value);
 }
-```text
+```
 
 ---
 
@@ -534,11 +535,11 @@ comm_.setLogLevel(4);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 [UART BL RX] FF 01 00 00 00 00 01 FD
 ✅ CRC verified: 0xFD
 Chip Type: 0x544D0001 (TMC9660 ✓)
-```text
+```
 
 ### Decode Raw Bytes
 
-```text
+```cpp
 UART Bootloader Command: [55 01 00 00 00 00 01 1D]
   [0] 0x55 = Sync byte
   [1] 0x01 = Device address
@@ -568,7 +569,7 @@ UART TMCL Reply: [FF 01 64 06 00 00 00 00 ...]
   [3] 0x06 = Operation (GAP echoed)
   [4-7] 0x00000000 = Value
   [8] 0x... = Checksum
-```text
+```
 
 ### Logic Analyzer Capture Points
 
@@ -590,16 +591,16 @@ Timing Checks:
 ├─ Post-reset delay: >= 100ms
 ├─ Clock config delay: >= 100ms
 └─ UART command spacing: >= 10ms (autobaud)
-```text
+```
 
 ---
 
 ## 📚 Related Documentation
 
-- **[Communication Protocol Guide](CommunicationProtocolGuide.html)** - Detailed protocol specs
-- **[Bootloader Initialization Guide](BootloaderInitializationGuide.html)** - Complete setup process
-- **[TMCL Protocol Guide](TMCLProtocolGuide.html)** - Parameter mode operations
-- **[Common Operations](CommonOperations.html)** - Practical usage examples
+- **[Communication Protocol Guide](CommunicationProtocolGuide.md)** - Detailed protocol specs
+- **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - Complete setup process
+- **[TMCL Protocol Guide](TMCLProtocolGuide.md)** - Parameter mode operations
+- **[Common Operations](CommonOperations.md)** - Practical usage examples
 
 ---
 
@@ -628,6 +629,3 @@ If you've tried everything in this guide and still have problems:
    - Verify reply parsing with captured data
 
 ---
-
-*Last updated: 2025 | HF-TMC9660 Driver v1.0*
-

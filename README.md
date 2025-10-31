@@ -7,7 +7,7 @@ permalink: /
 has_children: true
 ---
 
-# 🔧 HardFOC TMC9660 Driver:
+# 🔧 HardFOC TMC9660 Driver
 **Hardware-Agnostic Motor Controller Driver**
 
 ![TMC9660](https://img.shields.io/badge/TMC9660-Motor%20Controller-blue?style=for-the-badge&logo=microchip)
@@ -17,7 +17,8 @@ has_children: true
 
 ## 🎯 Universal Motor Controller Interface for Multi-MCU Development
 
-*A professional hardware-agnostic driver enabling seamless TMC9660 motor control across multiple MCU platforms - designed for the HardFOC board ecosystem*
+*A professional hardware-agnostic driver enabling seamless TMC9660 motor control across
+multiple MCU platforms - designed for the HardFOC board ecosystem*
 
 ---
 
@@ -40,7 +41,10 @@ has_children: true
 > **📖 [📚🌐 Live Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - 
 > Interactive guides, examples, and step-by-step tutorials
 
-**HF-TMC9660** is a portable C++20 driver for the **TMC9660** motor controller from Trinamic. It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL scripting. The driver is transport agnostic – implement `TMC9660CommInterface` for SPI or UART and run it on any MCU or host.
+**HF-TMC9660** is a portable C++20 driver for the **TMC9660** motor controller from Trinamic.
+It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL
+scripting. The driver is transport agnostic – implement `TMC9660CommInterface` for SPI or
+UART and run it on any MCU or host.
 
 ### 🏆 **Core Benefits**
 
@@ -139,7 +143,7 @@ public:
 ## 🚀 **Quick Start**
 
 ### **1. Clone Repository**
-```bash
+```cpp
 git clone https://github.com/n3b3x/hf-tmc9660-driver.git
 cd hf-tmc9660-driver
 ```
@@ -192,7 +196,8 @@ cd examples/esp32
 ## 📖 **API Documentation**
 
 ### **Generated Documentation**
-- **[📚 Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - Interactive guides and tutorials
+- **[📚 Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - Interactive
+  guides and tutorials
 - **[API Reference](docs/index.md)** - Complete driver API documentation
 - **[Setup Guide](docs/SetupGuide.md)** - Installation and configuration
 
@@ -210,7 +215,7 @@ auto result = driver.bootloaderInit(&cfg);
 ```
 
 #### **Motor Configuration**
-```cpp
+```text
 // Set motor type and pole pairs
 driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
 
@@ -222,7 +227,7 @@ driver.feedbackSense.configureHall();
 ```
 
 #### **FOC Control**
-```cpp
+```text
 // Configure control gains
 driver.focControl.setCurrentLoopGains(50, 100);
 driver.focControl.setVelocityLoopGains(800, 1);
@@ -248,7 +253,7 @@ cd examples/esp32
 ./scripts/setup_repo.sh
 ./scripts/build_app.sh <app_name> <build_type>
 
-## Examples:
+## Examples
 ./scripts/build_app.sh bldc_test Release
 ./scripts/build_app.sh stepper_test Debug
 ./scripts/build_app.sh telemetry_test Release
@@ -269,7 +274,7 @@ cd examples/esp32
 | **bootloader_test** | Bootloader configuration | Parameter mode setup |
 
 ### **Usage Examples**
-```cpp
+```text
 // BLDC Motor with Hall Sensors
 driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7);
 driver.feedbackSense.configureHall();

@@ -34,7 +34,7 @@ examples for different platforms.
 
 The communication system uses an abstract base class that you inherit from:
 
-```cpp
+```text
 TMC9660CommInterface (Abstract Base)
 ├── SPITMC9660CommInterface (SPI Implementation)
 └── UARTTMC9660CommInterface (UART Implementation)
@@ -464,15 +464,15 @@ Before integrating your communication interface:
 
 With your communication interface working, you're ready to explore motor control:
 
-**👉 [Building Examples](BuildingExamples.html)** - Compile and test the provided
+**👉 [Building Examples](BuildingExamples.md)** - Compile and test the provided
 examples
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.html)** - Complete motor
+**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.md)** - Complete motor
 control scenarios
 
 ---
 
-[⬅️ Setup Guide](SetupGuide.html) | [⬆️ Back to Index](index.html) | [Next ➡️ Building Examples](BuildingExamples.html)
+[⬅️ Setup Guide](SetupGuide.md) | [⬆️ Back to Index](index.md) | [Next ➡️ Building Examples](BuildingExamples.md)
 
 ---
 

@@ -71,7 +71,7 @@ Both SPI and UART share the same core TMCL command structure:
 
 ⚠️ **CRITICAL: Type field is 12 bits, not 8 bits! Motor shares Byte 2 with Type!**
 
-```
+```text
 ┌──────┬──────┬─────────────┬──────────────────┬──────┐
 │ Byte │  0   │      1-2     │      3-6         │  7   │
 ├──────┼──────┼─────────────┼──────────────────┼──────┤
@@ -118,7 +118,7 @@ Frame Bit Positions (from datasheet Table 3):
 
 ### UART Frame Format (9 bytes)
 
-```
+```yaml
 Byte:  0             1        2        3        4-7      8
 Field: [Sync+Addr  ] [OpCode] [Type  ] [Motor ] [Value (32-bit) ] [Checksum]
        └─ Bit 0: Sync (always 1)
@@ -138,7 +138,7 @@ The datasheet states: **"The module address reuses the upper 7 bits of the bootl
 This is **NOT** a shift operation! Here's the correct implementation:
 
 #### UART TX (Command)
-```cpp
+```yaml
 // INCORRECT (common mistake):
 out[0] = (addr << 1) | 0x01;  // ❌ WRONG - shifts the address
 
@@ -147,7 +147,7 @@ out[0] = (addr & 0xFE) | 0x01;  // ✅ Keeps upper 7 bits, sets sync bit
 ```
 
 #### UART RX (Reply)
-```cpp
+```yaml
 // INCORRECT (common mistake):
 if ((in[1] >> 1) != (addr & 0x7F))  // ❌ WRONG - shifts for comparison
 
@@ -161,7 +161,8 @@ if ((in[1] & 0xFE) != (addr & 0xFE))  // ✅ Compares upper 7 bits directly
   - **Wrong method** produces: `0x03` (binary: `00000011`) - module address becomes `0x01` in bits 1-7
   - **Correct method** produces: `0x01` (binary: `00000001`) - module address is `0x00` in bits 1-7
   
-The device address `0x01` means module address `0x00` (upper 7 bits = `0000000`), NOT module address `0x01`!
+The device address `0x01` means module address `0x00` (upper 7 bits = `0000000`), NOT
+module address `0x01`!
 
 ### Example Address Mappings
 
@@ -179,7 +180,8 @@ The device address `0x01` means module address `0x00` (upper 7 bits = `0000000`)
 
 ### TMCL Checksum (8-bit Addition)
 
-The TMCL checksum is calculated by summing all bytes (excluding the checksum byte itself) using 8-bit arithmetic:
+The TMCL checksum is calculated by summing all bytes (excluding the checksum byte itself)
+using 8-bit arithmetic:
 
 ```cpp
 uint8_t tmclChecksum(const uint8_t *bytes, size_t n) {
@@ -201,7 +203,7 @@ uint8_t tmclChecksum(const uint8_t *bytes, size_t n) {
 ### Example Calculation
 
 Command: `SAP 4, 0, 1000` (Set Axis Parameter: Type=4, Motor=0, Value=1000)
-```
+```yaml
 Byte 0: 0x05 (SAP opcode = 0x05)
 Byte 1: 0x04 (Type lower 8 bits = 0x04)
 Byte 2: 0x00 ((Motor << 4) | (Type upper 4 bits)) = (0 << 4) | 0 = 0x00
@@ -218,7 +220,7 @@ Checksum: 0x05 + 0x04 + 0x00 + 0x00 + 0x00 + 0x03 + 0xE8 = 0xF4
 
 ### Transaction Flow
 
-```
+```text
 [Master] → Command N → [Slave]
          ← Reply to Command N-1 ←
 ```
@@ -241,7 +243,7 @@ The first byte of every SPI reply contains a status code:
 
 ### SPI Reply Format
 
-```
+```yaml
 Byte 0: SPI Status (0xFF, 0x13, 0x0C, 0xF0, or 0x00)
 Byte 1: TMCL Status (100 = REPLY_OK, errors vary)
 Byte 2: Operation (echoed from command)
@@ -249,7 +251,8 @@ Byte 3-6: Value (big-endian, 32-bit)
 Byte 7: Checksum (sum of bytes 0-6)
 ```
 
-**⚠️ Important:** The SPI reply format does NOT include a separate host address byte. The first byte is always the SPI status code.
+**⚠️ Important:** The SPI reply format does NOT include a separate host address byte. The
+first byte is always the SPI status code.
 
 ### SPI_STATUS_NOT_READY Retry Logic
 
@@ -269,7 +272,8 @@ comm.setSpiRetryInterval(100);      // Default: 100 microseconds
 **Retry Behavior:**
 - Retry interval is in **microseconds** (not milliseconds) for precise timing
 - Each retry sends the **same command** again
-- Logging shows retry attempts: `⚠️  SPI_STATUS_NOT_READY received, retrying (attempt 1/4) after 100 us`
+- Logging shows retry attempts: `⚠️  SPI_STATUS_NOT_READY received, retrying (attempt 1/4)
+  after 100 us`
 - If all retries fail, the reply structure is manually populated and function returns `false`
 
 ### Polling for SPI_STATUS_OK
@@ -291,8 +295,8 @@ for (int i = 0; i < MAX_ATTEMPTS; i++) {
 
 ### Frame Format
 
-#### Command (Host → TMC9660):
-```
+#### Command (Host → TMC9660)
+```yaml
 Byte 0: Sync bit (bit 0 = 1) + Module Address (bits 1-7)
 Byte 1: Operation
 Byte 2: Type
@@ -302,7 +306,7 @@ Byte 8: Checksum (sum of bytes 0-7)
 ```
 
 #### Reply (TMC9660 → Host)
-```
+```yaml
 Byte 0: Host Address
 Byte 1: Sync bit (bit 0 = 1) + Module Address (bits 1-7)
 Byte 2: TMCL Status
@@ -339,14 +343,15 @@ The sync bit (always 1 in byte 0) is used for automatic baud rate detection:
 The GetVersion command has **TWO different reply formats** depending on the Type field:
 
 #### Type 0: String Format (8-character version)
-```
+```yaml
 SPI Format:  [Host Addr] [8-character ASCII string]
 UART Format: [Host Addr] [Sync+Addr] [7-character ASCII string]
 
 Example: "051V100\0" (firmware version 0.51, HW version 1.00)
 ```
 
-**⚠️ CRITICAL**: String format replies do **NOT** include a valid checksum! The checksum byte is part of the version string. Your parser must:
+**⚠️ CRITICAL**: String format replies do **NOT** include a valid checksum! The checksum byte
+is part of the version string. Your parser must:
 1. Detect GetVersion Type=0 was sent
 2. Skip checksum validation
 3. Extract ASCII string from reply bytes
@@ -361,7 +366,7 @@ if (sentOpcode == 136 && sentType == 0) {
 ```
 
 #### Type 1: Binary Format (standard TMCL)
-```
+```text
 Standard TMCL reply with 32-bit value and valid checksum
 Value contains version info encoded as integers
 ```
@@ -369,13 +374,13 @@ Value contains version info encoded as integers
 ### SESSION_START Reply (SPI Only)
 
 When first communicating after reset:
-```
+```text
 [Master] → First Command → [Slave]
          ← SESSION_START (0x13) ←
 ```
 
 The SESSION_START reply format:
-```
+```yaml
 Byte 0: 0x13 (SESSION_START)
 Byte 1: 0x00
 Byte 2: Bootloader version (e.g., 0x01 for v1.0)
@@ -426,12 +431,14 @@ out[0] = (addr & 0xFE) | 0x01;
 **Problem**: Treating Type field as 8 bits instead of 12 bits, or incorrect byte packing
 **Solution**:
 - **BYTE 1**: Type bits 0-7 (lower 8 bits) = `type & 0xFF`
-- **BYTE 2**: Upper nibble = Motor, Lower nibble = Type bits 8-11 = `((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)`
+- **BYTE 2**: Upper nibble = Motor, Lower nibble = Type bits 8-11 = `((motor & 0x0F) << 4)
+  | ((type & 0xF00) >> 8)`
 - Always use `TMCLFrame::toSpi()` for encoding and `TMCLReply::fromSpi()` for decoding
 
 ### 9. SPI_STATUS_NOT_READY Not Handled
 **Problem**: Not retrying commands that return `SPI_STATUS_NOT_READY`
-**Solution**: Use the built-in retry logic with `setSpiRetryMaxCount()` and `setSpiRetryInterval()`, or implement manual retry in your application code
+**Solution**: Use the built-in retry logic with `setSpiRetryMaxCount()` and
+`setSpiRetryInterval()`, or implement manual retry in your application code
 
 ---
 
@@ -473,6 +480,3 @@ out[0] = (addr & 0xFE) | 0x01;
 - `docs/BootloaderGuide.md` - Bootloader configuration guide
 
 ---
-
-*Last Updated: 2025-01-27*
-

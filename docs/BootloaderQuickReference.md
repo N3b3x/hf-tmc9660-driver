@@ -59,7 +59,7 @@ permalink: /docs/BootloaderQuickReference/
 │ 0x28 │ MEM_IS_BUSY       │ Check memory busy           │
 │ 0xFF │ BOOTSTRAP_RS485   │ Configure RS485             │
 └──────┴───────────────────┴─────────────────────────────┘
-```text
+```
 
 ## Status Codes
 
@@ -110,7 +110,7 @@ permalink: /docs/BootloaderQuickReference/
 3 = I2C_EEPROM    External I2C EEPROM
 4 = RESERVED      Reserved
 5 = CONFIG        Runtime config (0x00020000)
-```text
+```
 
 ---
 
@@ -122,27 +122,27 @@ tmc9660::BootloaderConfig cfg{};
 cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
 cfg.boot.start_motor_control = true;
 auto result = driver.bootloaderInit(&cfg);
-```text
+```
 
 ### Change Runtime Config
 ```cpp
 bootloader.setBank(MemoryBank::CONFIG);
 bootloader.setAddress(0x00020002);
 bootloader.write16(0x0403);  // Dev=3, Host=4
-```text
+```
 
 ### Check External Memory
 ```cpp
 bool configured, connected;
 bootloader.memIsConfigured(MemoryBank::SPI_FLASH, &configured);
 bootloader.memIsConnected(MemoryBank::SPI_FLASH, &connected);
-```text
+```
 
 ### Load OTP Page
 ```cpp
 uint8_t errors, tag;
 bootloader.otpLoad(0, &errors, &tag);
-```text
+```
 
 ### Burn OTP Page
 ```cpp
@@ -150,13 +150,13 @@ bootloader.setBank(MemoryBank::OTP);
 bootloader.setAddress(0x00000000);
 // ... write data ...
 bootloader.otpBurn(0, 4);  // Page 0, tag 4
-```text
+```
 
 ### Read Flash ID
 ```cpp
 uint8_t mfgId;
 bootloader.flashReadJedecId(&mfgId);
-```text
+```
 
 ### Erase Flash Sector
 ```cpp
@@ -165,7 +165,7 @@ bool busy;
 do {
     bootloader.memIsBusy(MemoryBank::SPI_FLASH, &busy);
 } while (busy);
-```text
+```
 
 ### Configure RS485
 ```cpp
@@ -175,13 +175,13 @@ bootloader.bootstrapRS485(
     255,  // Host address
     1     // Device address
 );
-```text
+```
 
 ---
 
 ## 🔍 CONFIG Bank Offsets
 
-```text
+```yaml
 0x00020000 + Offset:
   0x00 = LDO Config
   0x02 = Device/Host Address
@@ -192,7 +192,7 @@ bootloader.bootstrapRS485(
   0x0C = I2C EEPROM Config
   0x0E = GPIO Config (start)
   0x18 = Clock Configuration
-```text
+```
 
 ---
 
@@ -217,7 +217,7 @@ bootloader.bootstrapRS485(
 
 ```cpp
 bool startMotorControl(bootcfg::BootMode bootMode = bootcfg::BootMode::Parameter)
-```text
+```
 
 **Purpose:** Manually start motor control and exit bootloader mode
 
@@ -239,7 +239,7 @@ bootloader.write16(uart_config);
 // Start motor control
 bootloader.startMotorControl(tmc9660::bootcfg::BootMode::Parameter);
 vTaskDelay(150);  // Wait for motor control to initialize
-```text
+```
 
 **⚠️ CRITICAL:** Bootloader exits immediately after this call!
 
@@ -247,10 +247,10 @@ vTaskDelay(150);  // Wait for motor control to initialize
 
 For complete details, examples, and troubleshooting:
 
-👉 **[Bootloader Initialization Guide](BootloaderInitializationGuide.html)** - START HERE for proper initialization  
-👉 **[Bootloader Complete Guide](BootloaderGuide.html)** - Full command reference
+👉 **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - START HERE for
+  proper initialization  
+👉 **[Bootloader Complete Guide](BootloaderGuide.md)** - Full command reference
 
 ---
 
 **Quick Reference v1.0** | [Back to Index](index.html)
-

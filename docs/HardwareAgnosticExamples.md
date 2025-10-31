@@ -56,7 +56,7 @@ int main() {
 
 Compile with:
 
-```bash
+```cpp
 g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
     docs/bootloader_example.cpp -o bootloader_demo
 ```
@@ -206,4 +206,4 @@ These snippets are minimal but cover the main features of the library. Refer to
 
 ---
 
-[⬅️ Prev](BuildingExamples.html) | [⬆️ Back to Index](index.html) | [Next ➡️](CommonOperations.html)
+[⬅️ Prev](BuildingExamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](CommonOperations.md)

@@ -34,7 +34,7 @@ Each interface has two protocols:
 - **Bootloader Protocol**: **5-byte frames (40 bits)** for SPI, 8-byte for UART
 - **Parameter Mode Protocol (TMCL)**: **8-byte frames (64 bits)** for SPI, 9-byte for UART
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────┐
 │                    TMC9660 COMMUNICATION                         │
 ├────────────────────────────────┬─────────────────────────────────┤
@@ -63,7 +63,8 @@ Used for **initial configuration**, **OTP programming**, and **external memory**
 The bootloader uses **5-byte frames** (40 bits), while parameter mode uses 8-byte frames (64 bits).
 
 #### Command Frame (5 bytes, TX)
-```
+
+```text
 ┌──────┬──────┬────────────────────────┐
 │ Byte │  0   │         1-4            │
 ├──────┼──────┼────────────────────────┤
@@ -85,7 +86,8 @@ TX: [1D 00 00 00 00]
 ```
 
 #### Reply Frame (5 bytes, RX - Delayed by 1 command!)
-```
+
+```text
 ┌──────┬──────┬────────────────────────┐
 │ Byte │  0   │         1-4            │
 ├──────┼──────┼────────────────────────┤
@@ -116,7 +118,8 @@ RX: [13 00 00 01 00]
 ```
 
 **⚠️ CRITICAL: SPI Reply Timing**
-```
+
+```text
 TX Cmd 1 ──────►  [Process]
                      │
 TX Cmd 2 ──────►     │          Reply 1 ◄──
@@ -131,7 +134,8 @@ Each TX receives the reply from the PREVIOUS command!
 ### UART Bootloader Protocol
 
 #### Command Frame (8 bytes, TX)
-```
+
+```text
 ┌──────┬──────┬──────┬──────┬────────────────┬──────┐
 │ Byte │  0   │  1   │  2   │     3-6        │  7   │
 ├──────┼──────┼──────┼──────┼────────────────┼──────┤
@@ -151,11 +155,11 @@ TX: [55 01 00 00 00 00 01 1D]
      │  │  │    Value: 1   │
      │  │  └─ Command: 0   │
      │  └─ Device addr: 1  │
-     └─ Sync byte         └─ CRC8
+     └─ Sync byte          └─ CRC8
 ```
 
 #### Reply Frame (8 bytes, RX)
-```
+```text
 ┌──────┬──────┬──────┬──────┬────────────────┬──────┐
 │ Byte │  0   │  1   │  2   │     3-6        │  7   │
 ├──────┼──────┼──────┼──────┼────────────────┼──────┤
@@ -201,13 +205,14 @@ Used for **motor control**, **parameter access**, and **real-time operation** af
 ### SPI TMCL Protocol
 
 #### Command Frame (8 bytes / 64 bits, TX)
-```
-┌──────┬──────┬─────────────┬──────────────────┬──────┐
-│ Byte │  0   │      1-2     │      3-6        │  7   │
-├──────┼──────┼─────────────┼──────────────────┼──────┤
-│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)   │ CSUM │
-│ Bits │ 0-7  │  8-19 + 20-23│    24-55        │56-63 │
-└──────┴──────┴─────────────┴──────────────────┴──────┘
+
+```text
+┌──────┬──────┬──────────────┬──────────────────┬──────┐
+│ Byte │  0   │      1-2     │      3-6         │  7   │
+├──────┼──────┼──────────────┼──────────────────┼──────┤
+│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)    │ CSUM │
+│ Bits │ 0-7  │  8-19 + 20-23│    24-55         │56-63 │
+└──────┴──────┴──────────────┴──────────────────┴──────┘
 
 Byte Layout Detail:
 ┌──────┬──────┬──────────────────┬──────────────────┐
@@ -272,7 +277,8 @@ TX: [06 00 00 00 00 00 00 06]
 ```
 
 #### Reply Frame (8 bytes / 64 bits, RX - Delayed by 1 command!)
-```
+
+```text
 ┌──────┬──────┬──────┬──────┬────────────────┬──────┐
 │ Byte │  0   │  1   │  2   │     3-6        │  7   │
 ├──────┼──────┼──────┼──────┼────────────────┼──────┤
@@ -336,7 +342,7 @@ while (retries < maxRetries) {
 ### UART TMCL Protocol
 
 #### Command Frame (9 bytes, TX)
-```
+```text
 ┌──────┬──────┬──────┬──────┬──────┬────────────────┬──────┐
 │ Byte │  0   │  1   │  2   │  3   │     4-7        │  8   │
 ├──────┼──────┼──────┼──────┼──────┼────────────────┼──────┤
@@ -368,7 +374,7 @@ TX: [01 06 00 00 00 00 00 00 07]
 ```
 
 #### Reply Frame (9 bytes, RX)
-```
+```text
 ┌──────┬──────┬──────┬──────┬──────┬────────────────┬──────┐
 │ Byte │  0   │  1   │  2   │  3   │     4-7        │  8   │
 ├──────┼──────┼──────┼──────┼──────┼────────────────┼──────┤
@@ -409,7 +415,7 @@ CSUM   = Sum of first 8 bytes
 
 **⚠️ CRITICAL**: This is a **non-standard bit-reversed CRC8** algorithm!
 
-```
+```cpp
 Polynomial: x^8 + x^2 + x^1 + x^0 = 0x107 (9-bit form)
 Initial value: 0
 Final XOR: None
@@ -457,7 +463,7 @@ uint8_t crc8Bootloader(const uint8_t* data, size_t len) {
 ```
 
 #### Example Calculation
-```
+```text
 Input: [55 01 00 00 00 00 01]
        (SYNC, ADDR=1, CMD=0, VALUE=1)
 
@@ -489,7 +495,7 @@ uint8_t tmclChecksum(const uint8_t* bytes, size_t n) {
 ```
 
 #### Example Calculation
-```
+```text
 Input: [01 06 00 00 00 00 00 00]
 
 Checksum = 0x01 + 0x06 + 0x00 + ... = 0x07
@@ -507,7 +513,7 @@ Final frame: [01 06 00 00 00 00 00 00 07]
 ```cpp
 // DON'T shift the address left!
 out[0] = (addr << 1) | 0x01;  // ❌ WRONG!
-```
+```cpp
 
 ✅ **CORRECT:**
 ```cpp
@@ -659,7 +665,7 @@ comm.setLogLevel(2);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 - **Level 4 (Verbose)**: All internal operations
 
 ### Understanding Log Messages
-```
+```text
 [TMCL RX] REPLY_OK (SPI_Status=0xFF, TMCL_Status=0x64), Op=SAP (0x05), Value=0x00000064
 ```
 - `SPI_Status=0xFF`: SPI communication successful
@@ -685,12 +691,8 @@ comm.setLogLevel(2);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 
 ## 📚 Additional Resources
 
-- **[Bootloader Initialization Guide](BootloaderInitializationGuide.html)** - Complete bootloader setup
-- **[TMCL Protocol Guide](TMCLProtocolGuide.html)** - Detailed TMCL operations
+- **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - Complete bootloader setup
+- **[TMCL Protocol Guide](TMCLProtocolGuide.md)** - Detailed TMCL operations
 - **TMC9660 Datasheet** - Official protocol specifications
-- **[Common Operations](CommonOperations.html)** - Practical usage examples
-
+- **[Common Operations](CommonOperations.md)** - Practical usage examples
 ---
-
-*Last updated: 2025-01-27 | HF-TMC9660 Driver - Updated for current implementation*
-

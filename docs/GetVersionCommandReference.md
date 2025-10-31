@@ -11,16 +11,17 @@ permalink: /docs/GetVersionCommandReference/
 
 ## Overview
 
-The `GetVersion` command (Opcode 136, 0x88) retrieves firmware version information from the TMC9660 chip in Parameter Mode.
+The `GetVersion` command (Opcode 136, 0x88) retrieves firmware version information from
+the TMC9660 chip in Parameter Mode.
 
 ## Command Format
 
-```text
+```yaml
 Opcode: 136 (0x88)
 Type: 0 (returns string format)
 Motor/Bank: 0 (not used)
 Value: 0 (not used)
-```text
+```
 
 ## Type Parameter Values
 
@@ -29,7 +30,7 @@ Value: 0 (not used)
 **Request:**
 ```text
 GetVersion (Op=0x88), Type=0x0000, Motor=0x00, Value=0x00000000
-```text
+```
 
 **Response Format:**
 - **SPI Mode**: Returns 8 bytes containing a version string in ASCII format
@@ -44,16 +45,16 @@ GetVersion (Op=0x88), Type=0x0000, Motor=0x00, Value=0x00000000
   - Format: `[HOST_ADDR][SYNC+ADDR][VERSION_STRING_7_CHARS]`
 
 **Example Response:**
-```text
+```yaml
 Raw bytes (UART): FF 01 64 88 30 30 35 31 56 31 30 30 [CRC]
 Decoded: "051V100"
-```text
+```
 
 **Version String Format:**
 The firmware version string follows the pattern:
-```text
+```yaml
 [PREFIX][VERSION_NUMBER]V[BUILD_NUMBER]
-```text
+```
 
 Example: `051V100`
 - `051`: Prefix or version identifier
@@ -75,7 +76,8 @@ Based on codebase analysis and testing:
 - **Type ≠ 0**: Not currently implemented/tested in the driver; behavior unknown
 
 **TMCL Protocol Notes:**
-- The TMC9660 Parameter Mode Reference Manual (Table 18) lists GetVersion with Type as "-", indicating Type may not be standardized in the base TMCL specification
+- The TMC9660 Parameter Mode Reference Manual (Table 18) lists GetVersion with Type as "-",
+  indicating Type may not be standardized in the base TMCL specification
 - However, the TMC9660 firmware clearly supports `Type=0` for string format returns
 - Other Type values may exist but are not documented in available sources
 
@@ -99,7 +101,7 @@ if (opcode == tmc9660::tmcl::Op::GetVersion && type == 0) {
         return true;
     }
 }
-```text
+```
 
 The `TMCLReply::getVersionString()` method:
 - Checks if opcode is 136 (GetVersion)
@@ -122,7 +124,7 @@ bool success = driver.sendCommand(
 
 // Version string is logged in sendCommand()
 // Output: "✅ GetVersion successful - Firmware version: 051V100"
-```text
+```
 
 ## Sources
 
@@ -134,5 +136,5 @@ bool success = driver.sendCommand(
 ## References
 
 - **TMCL Protocol Reference**: See [TMCLProtocolGuide.md](./TMCLProtocolGuide.md)
-- **Parameter Mode Manual**: See TMC9660 Parameter Mode Reference Manual PDF in `Datasheet/` directory
-
+- **Parameter Mode Manual**: See TMC9660 Parameter Mode Reference Manual PDF in `Datasheet/`
+  directory

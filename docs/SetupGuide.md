@@ -83,7 +83,7 @@ echo '#include <span>' | g++ -std=c++20 -x c++ -c - 2>/dev/null && echo "✅ C++
 
 ### Windows
 
-```cmd
+```bash
 REM Visual Studio 2019+ with C++20
 cl.exe
 
@@ -167,7 +167,7 @@ g++ -std=c++20 -Iinc \
 
 **Expected Output:**
 
-```text
+```bash
 ✓ Bootloader configured successfully for parameter mode
   - Boot mode: Parameter
   - Motor control: Enabled
@@ -328,12 +328,12 @@ connections.
 
 Congratulations! Your HF-TMC9660 development environment is ready. Continue with:
 
-**👉 [Implementing Communication Interface](ImplementingCommInterface.html)** -
+**👉 [Implementing Communication Interface](ImplementingCommInterface.md)** -
 Create your hardware-specific communication layer
 
 ---
 
-[⬅️ Back to Index](index.html) | [Next ➡️ Communication Interface](ImplementingCommInterface.html)
+[⬅️ Back to Index](index.md) | [Next ➡️ Communication Interface](ImplementingCommInterface.md)
 
 ---
 

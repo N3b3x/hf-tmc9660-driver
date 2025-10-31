@@ -29,7 +29,10 @@
 
 ## 🎯 Overview
 
-The HardFOC CI/CD pipeline provides comprehensive automated testing, building, and deployment capabilities for our multi-MCU interface wrapper library. The pipeline is designed to test examples across multiple MCU platforms and create unified releases of the complete library.
+The HardFOC CI/CD pipeline provides comprehensive automated testing, building, and
+deployment capabilities for our multi-MCU interface wrapper library. The pipeline is
+designed to test examples across multiple MCU platforms and create unified releases of
+the complete library.
 
 ### **Key Features**
 - 🔄 **Multi-MCU Support** - Test examples across different MCU platforms (ESP32, future MCUs)
@@ -46,7 +49,7 @@ The HardFOC CI/CD pipeline provides comprehensive automated testing, building, a
 
 The library provides a unified interface across multiple MCU platforms:
 
-```
+```text
 hf-internal-interface-wrap/
 ├── inc/                          # Core library headers (MCU-agnostic and )
 ├── src/                          # Core library implementation (MCU-agnostic)
@@ -67,7 +70,7 @@ hf-internal-interface-wrap/
 
 Each MCU has its own project tools and CI pipelines:
 
-```
+```text
 examples/esp32/scripts/  # Git submodule: hf-espidf-project-tools
 ├── build_app.sh         # ESP32 build automation
 ├── generate_matrix.py   # ESP32 matrix generation
@@ -82,7 +85,7 @@ examples/stm32/scripts/  # Future: hf-stm32-project-tools
 
 ### **Multi-MCU Workflow Dependencies**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                        🚀 Multi-MCU CI Workflows Layer                          │
 ├─────────────────────────────────────────────────────────────────────────────────┤
@@ -137,7 +140,8 @@ examples/stm32/scripts/  # Future: hf-stm32-project-tools
 **Note**: This is the first MCU implementation. Future MCUs will have similar workflows (e.g., `stm32-examples-build-ci.yml`)
 
 **Workflow Process**:
-```
+
+```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Validate      │    │   Build         │    │   Lint          │
 │   Configuration │───▶│   MCU           │───▶│   Code          │
@@ -177,7 +181,8 @@ examples/stm32/scripts/  # Future: hf-stm32-project-tools
 - ✅ **Automatic Changelog** generation
 
 **Release Package Contents**:
-```
+
+```text
 hardfoc-interface-wrapper-v1.0.0-complete.zip
 ├── inc/                          # Core library headers (MCU-agnostic)
 ├── src/                          # Core library implementation (MCU-agnostic)
@@ -208,7 +213,8 @@ hardfoc-interface-wrapper-v1.0.0-complete.zip
 ```
 
 **Release Process**:
-```
+
+```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Wait for      │    │   Package       │    │   Create        │
 │   ALL MCU       │───▶│   Complete      │───▶│   Unified       │
@@ -241,7 +247,8 @@ hardfoc-interface-wrapper-v1.0.0-complete.zip
 - ✅ **GitHub Pages Deployment**
 
 **Documentation Process**:
-```
+
+```text
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Check         │    │   Generate      │    │   Deploy to     │
 │   Links         │───▶│   Doxygen       │───▶│   GitHub        │
@@ -314,7 +321,8 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 | Workflow | Main | Develop | Feature/* | Release/* | Tags | Manual |
 |----------|------|---------|-----------|-----------|------|--------|
 | ESP32 Examples Build CI | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| STM32 Examples Build CI | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | (future) |
+| STM32 Examples Build CI | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| STM32 Examples Build CI (future) | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
 | Release CI | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | Documentation CI | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
 
@@ -324,7 +332,7 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 
 ### **Comprehensive Security Scanning**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    🛡️ Security Pipeline                         │
 ├─────────────────────────────────────────────────────────────────┤
@@ -352,7 +360,7 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### **Security Checks Include**:
+### **Security Checks Include**
 - **CodeQL Analysis**: Static code analysis for security vulnerabilities
 - **Dependency Scanning**: CVE detection in dependencies
 - **Secret Scanning**: Detection of exposed secrets and credentials
@@ -365,7 +373,7 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 
 ### **Parallel Execution Strategy**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    ⚡ Performance Pipeline                       │
 ├─────────────────────────────────────────────────────────────────┤
@@ -391,13 +399,13 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### **Caching Strategy**:
+### **Caching Strategy**
 - **ESP-IDF Cache**: Reuses ESP-IDF installation across runs
 - **Build Artifacts**: Caches compiled objects and libraries
 - **Dependency Cache**: Caches Python packages and tools
 - **Incremental Builds**: Only rebuilds changed components
 
-### **Resource Optimization**:
+### **Resource Optimization**
 - **Parallel Matrix Builds**: Up to 32 simultaneous builds
 - **Smart Job Distribution**: Load balancing across available runners
 - **Efficient Resource Usage**: Optimized memory and CPU utilization
@@ -410,7 +418,8 @@ uses: N3b3x/hf-espidf-ci-tools/.github/workflows/security.yml@main
 ### **Common Issues and Solutions**
 
 #### **1. Submodule Issues**
-```
+
+```text
 Problem: "fatal: remote error: upload-pack: not our ref"
 Solution: Update submodule reference to latest commit
 Commands:
@@ -420,7 +429,8 @@ git submodule update --init --recursive
 ```
 
 #### **2. Permission Errors**
-```
+
+```text
 Problem: "The workflow is requesting 'contents: write', but is only allowed 'contents: read'"
 Solution: Add required permissions to workflow
 YAML Fix:
@@ -430,7 +440,8 @@ YAML Fix:
 ```
 
 #### **3. Script Path Issues**
-```
+
+```text
 Problem: "python3: can't open file '.../generate_matrix.py': [Errno 2] No such file or directory"
 Solution: Use correct working directory
 Commands:
@@ -439,7 +450,8 @@ Commands:
 ```
 
 #### **4. Build Failures**
-```
+
+```text
 Problem: ESP32 build failures
 Solution: Check ESP-IDF environment and dependencies
 Commands:
@@ -450,7 +462,7 @@ Commands:
 
 ### **Debug Commands**
 
-```bash
+```text
 # Check submodule status
 git submodule status
 
@@ -467,7 +479,7 @@ idf.py --version
 
 ### **Log Analysis**
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                    🔍 Log Analysis Guide                        │
 ├─────────────────────────────────────────────────────────────────┤
