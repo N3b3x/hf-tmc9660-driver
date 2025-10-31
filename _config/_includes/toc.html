@@ -1,0 +1,159 @@
+{% comment %}
+  Table of contents component with collapsible sections
+  
+  Usage:
+  {% include toc.html items=page.toc %}
+  {% include toc.html items=site.data.navigation %}
+{% endcomment %}
+
+{% assign items = include.items %}
+{% assign level = include.level | default: 1 %}
+{% assign max_level = include.max_level | default: 3 %}
+
+{% if items %}
+  <nav class="toc" aria-label="Table of contents">
+    <ul class="toc-list toc-level-{{ level }}">
+      {% for item in items %}
+        {% if item.title and level <= max_level %}
+          <li class="toc-item">
+            <a href="{{ item.url | default: '#' }}" class="toc-link">
+              {% if item.icon %}
+                <i class="{{ item.icon }}"></i>
+              {% endif %}
+              {{ item.title }}
+            </a>
+            
+            {% if item.children and level < max_level %}
+              <button class="toc-toggle" aria-expanded="false" aria-controls="toc-{{ forloop.index }}">
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <ul class="toc-sublist" id="toc-{{ forloop.index }}">
+                {% include toc.html items=item.children level=level | plus: 1 max_level=max_level %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}
+
+<style>
+.toc {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-item {
+  margin: 0;
+  padding: 0;
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: #495057;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.toc-link:hover {
+  background-color: #e9ecef;
+  color: #212529;
+  text-decoration: none;
+}
+
+.toc-link i {
+  width: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.toc-toggle {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: auto;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.toc-toggle:hover {
+  color: #495057;
+}
+
+.toc-toggle[aria-expanded="true"] {
+  transform: rotate(180deg);
+}
+
+.toc-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.toc-sublist.expanded {
+  max-height: 1000px;
+}
+
+.toc-level-2 .toc-link {
+  padding-left: 2rem;
+  font-size: 0.875rem;
+}
+
+.toc-level-3 .toc-link {
+  padding-left: 3rem;
+  font-size: 0.8125rem;
+}
+
+.toc-level-4 .toc-link {
+  padding-left: 4rem;
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 768px) {
+  .toc {
+    margin: 1rem 0;
+    padding: 0.75rem;
+  }
+  
+  .toc-link {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggles = document.querySelectorAll('.toc-toggle');
+  
+  toggles.forEach(toggle => {
+    toggle.addEventListener('click', function() {
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      const sublist = document.getElementById(this.getAttribute('aria-controls'));
+      
+      this.setAttribute('aria-expanded', !isExpanded);
+      sublist.classList.toggle('expanded', !isExpanded);
+    });
+  });
+});
+</script>
+

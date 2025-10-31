@@ -1,6 +1,10 @@
 ---
 layout: default
-title: Bootloader Troubleshooting Guide
+title: "🛠️ Bootloader Troubleshooting"
+description: "Complete troubleshooting guide with real-world debugging solutions for bootloader issues"
+nav_order: 5
+parent: "📚 Documentation"
+permalink: /docs/BootloaderTroubleshooting/
 ---
 
 # 🔧 TMC9660 Bootloader Troubleshooting Guide

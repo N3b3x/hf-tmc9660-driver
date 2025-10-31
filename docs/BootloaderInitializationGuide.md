@@ -1,3 +1,12 @@
+---
+layout: default
+title: "⭐ Bootloader Initialization Guide"
+description: "Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering"
+nav_order: 2
+parent: "📚 Documentation"
+permalink: /docs/BootloaderInitializationGuide/
+---
+
 # TMC9660 Bootloader Initialization Guide
 
 ## 🎯 **Critical Understanding: OTP vs Runtime Configuration**

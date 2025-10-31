@@ -1,0 +1,140 @@
+{% comment %}
+  Card component for displaying content in card format
+  
+  Usage:
+  {% include card.html title="Card Title" content="Card content" %}
+  {% include card.html title="Featured Card" content="Content" type="featured" %}
+{% endcomment %}
+
+{% assign title = include.title %}
+{% assign content = include.content %}
+{% assign type = include.type | default: "default" %}
+{% assign icon = include.icon %}
+{% assign link = include.link %}
+
+{% case type %}
+  {% when "featured" %}
+    {% assign card_class = "card-featured" %}
+  {% when "highlight" %}
+    {% assign card_class = "card-highlight" %}
+  {% else %}
+    {% assign card_class = "card-default" %}
+{% endcase %}
+
+<div class="card {{ card_class }}">
+  {% if link %}
+    <a href="{{ link }}" class="card-link">
+  {% endif %}
+  
+  <div class="card-header">
+    {% if icon %}
+      <div class="card-icon">
+        <i class="{{ icon }}"></i>
+      </div>
+    {% endif %}
+    <h3 class="card-title">{{ title }}</h3>
+  </div>
+  
+  <div class="card-content">
+    {{ content | markdownify }}
+  </div>
+  
+  {% if link %}
+    </a>
+  {% endif %}
+</div>
+
+<style>
+.card {
+  border: 1px solid #e9ecef;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  overflow: hidden;
+  background-color: #fff;
+  transition: box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #007bff;
+  color: white;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.card-content {
+  padding: 1rem;
+}
+
+.card-content p:last-child {
+  margin-bottom: 0;
+}
+
+.card-featured {
+  border-color: #007bff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 123, 255, 0.125);
+}
+
+.card-featured .card-header {
+  background-color: #e7f3ff;
+  border-bottom-color: #007bff;
+}
+
+.card-highlight {
+  border-color: #28a745;
+  box-shadow: 0 0.125rem 0.25rem rgba(40, 167, 69, 0.125);
+}
+
+.card-highlight .card-header {
+  background-color: #e8f5e8;
+  border-bottom-color: #28a745;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .card-icon {
+    margin-bottom: 0.5rem;
+  }
+}
+</style>
+

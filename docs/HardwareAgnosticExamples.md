@@ -1,6 +1,10 @@
 ---
 layout: default
-title: Extensive TMC9660 Examples
+title: "⚡ Hardware-Agnostic Examples"
+description: "Complete motor control scenarios with detailed code examples"
+nav_order: 9
+parent: "📚 Documentation"
+permalink: /docs/HardwareAgnosticExamples/
 ---
 
 ## Extensive TMC9660 Examples

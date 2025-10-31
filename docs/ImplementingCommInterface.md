@@ -1,6 +1,10 @@
 ---
 layout: default
-title: Implementing a Custom Communication Interface
+title: "🔌 Implementing Communication Interface"
+description: "Create your hardware-specific communication layer for SPI or UART"
+nav_order: 8
+parent: "📚 Documentation"
+permalink: /docs/ImplementingCommInterface/
 ---
 
 ## 🔌 Implementing a Custom Communication Interface

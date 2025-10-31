@@ -1,6 +1,11 @@
 ---
 layout: default
-title: HF-TMC9660 Driver Documentation
+title: "📚 Documentation"
+description: "Complete documentation for the HardFOC TMC9660 Driver - Setup guides, API reference, and usage examples"
+nav_order: 2
+parent: "🔧 HardFOC TMC9660 Driver"
+permalink: /docs/
+has_children: true
 ---
 
 ## 🚀 HF-TMC9660 Driver Documentation

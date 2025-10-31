@@ -1,6 +1,10 @@
 ---
 layout: default
-title: TMC9660 Bootloader Complete Guide
+title: "🔧 Bootloader Complete Guide"
+description: "Comprehensive bootloader documentation with all 18 commands, protocols, OTP management, and external memory operations"
+nav_order: 3
+parent: "📚 Documentation"
+permalink: /docs/BootloaderGuide/
 ---
 
 ## 🔧 TMC9660 Bootloader Complete Guide

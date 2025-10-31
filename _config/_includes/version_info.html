@@ -1,0 +1,136 @@
+<!-- Version Information Display Component -->
+<div class="version-info-display">
+  <div class="version-details">
+    <span class="version-label">Version:</span>
+    <span class="version-value">{{ site.tmc9660.version }}</span>
+    <span class="version-badge version-{{ site.tmc9660.version_type }}">{{ site.tmc9660.version_type }}</span>
+  </div>
+  
+  <div class="version-meta">
+    <span class="branch-info">
+      <span class="branch-icon">🌿</span>
+      <span class="branch-name">{{ site.tmc9660.branch }}</span>
+    </span>
+    
+    <span class="build-info">
+      <span class="build-icon">🔨</span>
+      <span class="build-date">{{ site.time | date: "%Y-%m-%d" }}</span>
+    </span>
+  </div>
+</div>
+
+<style>
+.version-info-display {
+  background: var(--nav-child-link-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.version-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.version-label {
+  font-weight: 500;
+  color: var(--body-text-color);
+}
+
+.version-value {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 600;
+  color: var(--link-color);
+  background: var(--code-bg);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.version-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.version-badge.development {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.version-badge.stable {
+  background: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.version-badge.release {
+  background: #fff3e0;
+  color: #f57c00;
+  border: 1px solid #ffcc02;
+}
+
+.version-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.branch-info,
+.build-info {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--body-text-color);
+  font-size: 0.85rem;
+}
+
+.branch-icon,
+.build-icon {
+  font-size: 0.9rem;
+}
+
+.branch-name {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 500;
+}
+
+.build-date {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .version-info-display {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .version-details,
+  .version-meta {
+    justify-content: center;
+  }
+  
+  .version-meta {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+}
+</style>
+

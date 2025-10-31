@@ -46,6 +46,9 @@ tests/build/
 **/docs/doxygen/
 docs/doxygen/
 .DS_Store
+# Allow doxygen-extensions directory (contains submodule)
+!_config/doxygen-extensions/
+!_config/doxygen-extensions/doxygen-awesome-css/
 **/doxygen*
 **/.cache/
 

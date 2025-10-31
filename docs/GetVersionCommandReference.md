@@ -1,3 +1,12 @@
+---
+layout: default
+title: "📖 GetVersion Command Reference"
+description: "Reference documentation for the GetVersion command and version information"
+nav_order: 11
+parent: "📚 Documentation"
+permalink: /docs/GetVersionCommandReference/
+---
+
 # GetVersion Command Reference
 
 ## Overview

@@ -1,6 +1,10 @@
 ---
 layout: default
-title: Common HF-TMC9660 Operations
+title: "🛠️ Common Operations"
+description: "Everyday driver usage patterns and quick reference for typical driver calls"
+nav_order: 10
+parent: "📚 Documentation"
+permalink: /docs/CommonOperations/
 ---
 
 ## 🛠️ Common HF-TMC9660 Operations

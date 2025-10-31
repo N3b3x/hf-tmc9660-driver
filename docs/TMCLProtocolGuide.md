@@ -1,3 +1,12 @@
+---
+layout: default
+title: "📨 TMCL Protocol Guide"
+description: "Parameter mode command reference and usage patterns for TMCL scripting"
+nav_order: 7
+parent: "📚 Documentation"
+permalink: /docs/TMCLProtocolGuide/
+---
+
 # TMC9660 TMCL Protocol Guide
 
 ## Table of Contents

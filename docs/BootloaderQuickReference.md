@@ -1,6 +1,10 @@
 ---
 layout: default
-title: TMC9660 Bootloader Quick Reference
+title: "⚡ Bootloader Quick Reference"
+description: "Quick lookup card for bootloader commands, codes, and common operations"
+nav_order: 4
+parent: "📚 Documentation"
+permalink: /docs/BootloaderQuickReference/
 ---
 
 ## 🚀 TMC9660 Bootloader Quick Reference Card

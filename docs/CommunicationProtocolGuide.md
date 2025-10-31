@@ -1,6 +1,10 @@
 ---
 layout: default
-title: TMC9660 Communication Protocol Guide
+title: "📡 Communication Protocol Guide"
+description: "Detailed SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing"
+nav_order: 6
+parent: "📚 Documentation"
+permalink: /docs/CommunicationProtocolGuide/
 ---
 
 # 📡 TMC9660 Communication Protocol Guide

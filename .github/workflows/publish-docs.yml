@@ -1,0 +1,79 @@
+# =============================================================================
+# Publish Versioned Documentation
+# =============================================================================
+# This workflow publishes the repository's documentation using the enhanced
+# docs.yml workflow with versioning enabled by default.
+#
+# Key Features:
+# - Automatic version detection from git branches/tags
+# - Versioned deployment to gh-pages branch
+# - Jekyll site generation with front matter navigation
+# - Quality assurance (link checking, markdown linting)
+# - Centralized Doxygen artifact management (if Doxygen is enabled)
+#
+# Versioning Strategy:
+# - main branch → development version
+# - release/* branches → versioned releases (e.g., v1.2.0)
+# - v* tags → stable releases (e.g., v1.2.0)
+# =============================================================================
+name: '📚 Publish Documentation'
+
+on:
+  push:
+    branches: ['main', 'release/*']  # Run on main and release branches
+    tags: ['v*']  # Run on version tags
+  pull_request:
+    branches: ['main']  # Only run on PRs targeting main branch
+  workflow_dispatch:
+
+permissions:
+  contents: 'write'
+  pages: 'write'
+  id-token: 'write'
+
+concurrency:
+  group: 'docs-versioned-with-doxygen-${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  publish-docs:
+    uses: 'N3b3x/hf-general-ci-tools/.github/workflows/docs.yml@main'
+    with:
+      checkout_recursive: true
+      doxygen_config: 'Doxyfile'
+
+      # =============================================================================
+      # Versioning Configuration (Always Enabled)
+      # =============================================================================
+      deployment_branch: 'gh-pages'  # Required for versioned documentation
+
+      # =============================================================================
+      # Jekyll Configuration
+      # =============================================================================
+      jekyll_enabled: true
+      jekyll_config: '_config/_config.yml'
+      jekyll_source: '.'
+      jekyll_destination: '_site'
+      jekyll_layouts_dir: '_config/_layouts'
+
+      # =============================================================================
+      # Quality Assurance
+      # =============================================================================
+      run_link_check: true
+      link_check_paths: '**/*.md'
+      verbose: true
+
+      # Markdown linting
+      run_markdown_lint: true
+      markdown_lint_paths: '**/*.md'
+
+      # Spell checking
+      run_spell_check: false
+      spell_check_paths: '**/*.md'
+      spell_check_config: '.cspell.json'
+
+      # =============================================================================
+      # GitHub Pages Deployment
+      # =============================================================================
+      deploy_pages: true
+

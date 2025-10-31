@@ -1,0 +1,26 @@
+/* Custom CSS for hf-tmc9660-driver documentation */
+
+/* Ensure navigation dropdowns work properly */
+.nav-list .nav-list-item .nav-list-expander {
+  display: block;
+}
+
+.nav-list .nav-list-item .nav-list-link {
+  display: block;
+}
+
+/* Ensure proper z-index for navigation */
+.nav-list {
+  z-index: 100;
+}
+
+/* Fix any potential overflow issues */
+.site-nav {
+  overflow: visible;
+}
+
+/* Ensure navigation items are properly positioned */
+.nav-list .nav-list-item {
+  position: relative;
+}
+

@@ -1,0 +1,68 @@
+# Feature definitions for the TMC9660 Driver
+
+core_features:
+  - title: "BLDC Motor Control"
+    description: "Comprehensive brushless DC motor control with field-oriented control (FOC) support"
+    icon: "fas fa-cog"
+    badges:
+      - text: "FOC Support"
+        type: "success"
+      - text: "High Precision"
+        type: "info"
+
+  - title: "Stepper Motor Control"
+    description: "Precise stepper motor control with microstepping and acceleration profiles"
+    icon: "fas fa-sliders-h"
+    badges:
+      - text: "Microstepping"
+        type: "success"
+      - text: "Acceleration"
+        type: "info"
+
+  - title: "DC Motor Control"
+    description: "Simple DC motor control with PWM speed regulation"
+    icon: "fas fa-bolt"
+    badges:
+      - text: "PWM Control"
+        type: "success"
+      - text: "Speed Regulation"
+        type: "info"
+
+communication:
+  - title: "UART Interface"
+    description: "UART communication for parameter mode and TMCL protocol"
+    icon: "fas fa-exchange-alt"
+    badges:
+      - text: "TMCL Protocol"
+        type: "success"
+      - text: "Parameter Mode"
+        type: "info"
+
+  - title: "SPI Interface"
+    description: "SPI communication for register mode operations"
+    icon: "fas fa-link"
+    badges:
+      - text: "Register Mode"
+        type: "success"
+      - text: "High Speed"
+        type: "info"
+
+system_features:
+  - title: "Bootloader Support"
+    description: "Built-in bootloader for firmware updates and configuration"
+    icon: "fas fa-download"
+    badges:
+      - text: "Firmware Updates"
+        type: "success"
+      - text: "Configuration"
+        type: "info"
+
+  - title: "Telemetry & Diagnostics"
+    description: "Comprehensive telemetry data and diagnostic capabilities"
+    icon: "fas fa-chart-line"
+    badges:
+      - text: "Real-time Data"
+        type: "success"
+      - text: "Diagnostics"
+        type: "info"
+

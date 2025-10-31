@@ -1,6 +1,10 @@
 ---
 layout: default
-title: HF-TMC9660 Setup Guide
+title: "📋 Setup Guide"
+description: "Step-by-step setup and build instructions for the HardFOC TMC9660 Driver"
+nav_order: 1
+parent: "📚 Documentation"
+permalink: /docs/SetupGuide/
 ---
 
 ## 📋 HF-TMC9660 Setup Guide
