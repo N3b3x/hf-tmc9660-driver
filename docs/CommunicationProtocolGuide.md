@@ -197,57 +197,114 @@ Used for **motor control**, **parameter access**, and **real-time operation** af
 
 #### Command Frame (8 bytes / 64 bits, TX)
 ```
-┌──────┬──────┬──────────┬──────┬────────────────┬──────┐
-│ Byte │  0   │   1-2    │  3   │     4-7        │  8   │
-├──────┼──────┼──────────┼──────┼────────────────┼──────┤
-│ Desc │ OP   │ TYPE(12) │MOTOR │ DATA (32-bit)  │ CSUM │
-│ Bits │ 0-7  │  8-19    │20-23 │    24-55       │56-63 │
-└──────┴──────┴──────────┴──────┴────────────────┴──────┘
+┌──────┬──────┬─────────────┬──────────────────┬──────┐
+│ Byte │  0   │      1-2     │      3-6         │  7   │
+├──────┼──────┼─────────────┼──────────────────┼──────┤
+│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)    │ CSUM │
+│ Bits │ 0-7  │  8-19 + 20-23│    24-55         │56-63 │
+└──────┴──────┴─────────────┴──────────────────┴──────┘
 
-⚠️ Note: Type field is 12 bits (not 8 bits!)
-  Byte 1: Bits 8-15 of type
-  Byte 2: Bits 16-19 of type (upper 4 bits)
-          Bits 20-23 contain motor/bank (lower 4 bits)
+Byte Layout Detail:
+┌──────┬──────┬──────────────────┬──────────────────┐
+│ Byte │  0   │       1          │       2          │
+├──────┼──────┼──────────────────┼──────────────────┤
+│ Field│ OP   │ Type bits 0-7    │ Type 8-11 | Motor│
+│ Bits │ 0-7  │    8-15          │  16-19   | 20-23 │
+│      │      │ (lower 8 bits)   │(lower)   |(upper)│
+└──────┴──────┴──────────────────┴──────────────────┘
 
-Example: Read parameter 0 (GetVersion)
+Note: In Byte 2, Type bits 16-19 are in the lower nibble, Motor bits 20-23 are in the upper nibble
+
+⚠️ CRITICAL: Type field is 12 bits, Motor is 4 bits - BOTH share Byte 2!
+  Byte 1: Type bits 0-7 (lower 8 bits of 12-bit Type field) = type & 0xFF
+  Byte 2: Upper nibble (bits 4-7 of byte) = Motor/Bank (bits 20-23 of frame)
+          Lower nibble (bits 0-3 of byte) = Type bits 8-11 (upper 4 bits of 12-bit Type)
+          Encoding: ((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)
+  
+  Note: Byte 3-6 contain the 32-bit Value field (big-endian)
+
+Example: SAP command (Type=110=0x006E, Motor=0, Value=100=0x64)
+TX: [05 6E 00 00 00 00 64 D7]
+     │  │  │              │
+     │  │  └─ Value: 100  │
+     │  └─ BYTE2: Motor=0 (upper), Type upper 4 bits=0x0 (lower)
+     └─ Opcode: 0x05 (SAP)
+     
+     Byte 1: 0x6E (type & 0xFF = 110 decimal = 0x6E)
+     Byte 2: 0x00 ((0 << 4) | ((0x006E & 0xF00) >> 8) = 0 | 0 = 0x00)
+     Checksum: 0x05 + 0x6E + 0x00 + 0x00 + 0x00 + 0x00 + 0x64 = 0xD7 (215 decimal)
+
+Example: GAP command (Type=0, Motor=0)
 TX: [06 00 00 00 00 00 00 06]
-     │  └──┬──┘ │  └────┬────┘ │
-     │   Type:0 │    Data: 0   │
-     │          └─ Motor: 0     │
-     └─ Operation: 6 (GAP)    └─ Checksum
+     │  │  │              │
+     │  │  └─ Value: 0    │
+     │  └─ BYTE2: Motor=0, Type upper=0
+     └─ Opcode: 0x06 (GAP)
+     
+Checksum: 0x06 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 = 0x06
 ```
 
 #### Reply Frame (8 bytes / 64 bits, RX - Delayed by 1 command!)
 ```
-┌──────┬──────┬──────────┬──────┬────────────────┬──────┐
-│ Byte │  0   │   1-2    │  3   │     4-7        │  8   │
-├──────┼──────┼──────────┼──────┼────────────────┼──────┤
-│ Desc │SPIST │  TMCL    │ OP   │ DATA (32-bit)  │ CSUM │
-│ Bits │ 0-7  │  STATUS  │20-23 │    24-55       │56-63 │
-│      │      │  8-19    │      │                │      │
-└──────┴──────┴──────────┴──────┴────────────────┴──────┘
+┌──────┬──────┬──────┬──────┬────────────────┬──────┐
+│ Byte │  0   │  1   │  2   │     3-6        │  7   │
+├──────┼──────┼──────┼──────┼────────────────┼──────┤
+│ Desc │SPIST │TMCL  │ OP   │ DATA (32-bit)  │ CSUM │
+│ Bits │ 0-7  │ 8    │ 8    │    24-55       │56-63 │
+└──────┴──────┴──────┴──────┴────────────────┴──────┘
 
 SPIST = SPI Status Code:
   0xFF = SPI_STATUS_OK (normal operation)
   0x00 = SPI_STATUS_CHECKSUM_ERROR
   0x0C = SPI_STATUS_FIRST_CMD (initial response after init)
   0xF0 = SPI_STATUS_NOT_READY (busy, resend command)
+  0x13 = SESSION_START (bootloader first reply)
 
-TMCL STATUS = TMCL Status Code (12 bits):
-  100 = Success
-  Other values = Error codes
+TMCL STATUS = TMCL Status Code (8 bits in byte 1):
+  100 = REPLY_OK (Success)
+  1 = REPLY_CHKERR (Check error)
+  2 = REPLY_INVALID_CMD (Invalid command)
+  3 = REPLY_WRONG_TYPE (Wrong type of data)
+  4 = REPLY_INVALID_VALUE (Invalid value)
+  6 = REPLY_CMD_NOT_AVAILABLE (Command not available)
+  7 = REPLY_CMD_LOAD_ERROR (Error loading command)
+  9 = REPLY_MAX_EXCEEDED (Maximum limit exceeded)
+  10 = REPLY_DOWNLOAD_NOT_POSSIBLE (Download not possible)
 
-OP = Operation echoed back (4 bits, bits 20-23)
-DATA = Return value (32 bits, big-endian)
-CSUM = Checksum (8 bits)
+OP = Operation echoed back (byte 2)
+DATA = Return value (32 bits, big-endian, bytes 3-6)
+CSUM = Checksum (8 bits, byte 7, sum of bytes 0-6)
 ```
 
 **⚠️ SPI_STATUS_NOT_READY Handling:**
-When you receive `0xF0` (SPI_STATUS_NOT_READY):
-- The system is still busy processing
-- The reply is NOT valid
-- The command you just sent was IGNORED
-- **Solution:** Resend the same command until status changes
+The driver includes **automatic retry logic** for `SPI_STATUS_NOT_READY` (0xF0) responses:
+
+```cpp
+// Configuration (defaults):
+comm.setSpiRetryMaxCount(3);        // Maximum retry attempts (default: 3)
+comm.setSpiRetryInterval(100);     // Retry delay in microseconds (default: 100µs)
+
+// Behavior:
+// - When SPI_STATUS_NOT_READY is received, command is automatically resent
+// - Retry continues up to maxRetryCount times
+// - Delay between retries is configurable (default: 100 microseconds)
+// - If all retries fail, returns false with NOT_READY status populated
+```
+
+**Manual Retry (if needed):**
+```cpp
+// If automatic retry isn't sufficient, implement manual retry:
+int retries = 0;
+while (retries < maxRetries) {
+    if (spi_transfer(cmd, reply)) {
+        if (reply.spiStatus != SPIStatus::NOT_READY) {
+            break;  // Success
+        }
+    }
+    delayUs(retryInterval);
+    retries++;
+}
+```
 
 ### UART TMCL Protocol
 
@@ -487,7 +544,22 @@ uart_send(cmd2);
 uart_receive(reply2);
 ```
 
-### 5. GetVersion Special Format
+### 5. SPI Type Field Encoding (12-bit)
+**Problem**: Incorrectly encoding Type field as 8 bits or wrong byte packing
+**Solution**:
+```cpp
+// Correct encoding:
+out[1] = type & 0xFF;  // Type lower 8 bits
+out[2] = ((motor & 0x0F) << 4) | ((type & 0xF00) >> 8);  // Motor upper, Type upper 4 bits lower
+
+// Correct decoding:
+type = in[1] | ((in[2] & 0x0F) << 8);  // BYTE1 | (BYTE2 lower nibble << 8)
+motor = (in[2] >> 4) & 0x0F;  // BYTE2 upper nibble
+```
+
+Always use `TMCLFrame::toSpi()` and `TMCLReply::fromSpi()` for encoding/decoding.
+
+### 6. GetVersion Special Format
 
 The `GetVersion` command (Type=0) returns an **ASCII string** instead of a status code!
 
@@ -532,12 +604,41 @@ if (is_get_version_command) {
 ### Enable Debug Logging
 ```cpp
 // Set log level to see all communication
-comm.setLogLevel(4);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
+comm.setLogLevel(2);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 
-// Example output:
+// Example SPI TMCL output (level 2):
+// [TMCL TX 1 ] 05 6E 00 00 00 00 64 73
+// [TMCL RX 1 ] FF 64 05 00 00 00 64 73
+// [TMCL TX 2 ] 00 00 00 00 00 00 00 00
+// [TMCL RX 2 ] FF 64 05 00 00 00 64 73
+
+// Example with retry (level 2):
+// [TMCL TX 2 ] 05 6E 00 00 00 00 64 73
+// [TMCL RX 2 ] F0 64 05 00 00 00 64 73
+// ⚠️  SPI_STATUS_NOT_READY received, retrying (attempt 1/4) after 100 us
+// [TMCL TX 2 ] 05 6E 00 00 00 00 64 73 (retry)
+// [TMCL RX 2 ] FF 64 05 00 00 00 64 73
+
+// Example UART bootloader output (level 2):
 // [UART BL TX] 55 01 00 00 00 00 01 1D
 // [UART BL RX] FF 01 00 00 00 00 01 FD
 ```
+
+### Debug Log Levels
+- **Level 0 (Error)**: Only critical errors
+- **Level 1 (Warning)**: Errors and warnings (retry failures, checksum errors)
+- **Level 2 (Info)**: All communication transactions (TX/RX bytes)
+- **Level 3 (Debug)**: Detailed parsing information (SPI_Status, TMCL_Status breakdown)
+- **Level 4 (Verbose)**: All internal operations
+
+### Understanding Log Messages
+```
+[TMCL RX] REPLY_OK (SPI_Status=0xFF, TMCL_Status=0x64), Op=SAP (0x05), Value=0x00000064
+```
+- `SPI_Status=0xFF`: SPI communication successful
+- `TMCL_Status=0x64`: TMCL command successful (100 decimal = REPLY_OK)
+- `Op=SAP (0x05)`: Operation code echoed back
+- `Value=0x00000064`: Return value (100 decimal)
 
 ### Common Error Patterns
 
@@ -564,5 +665,5 @@ comm.setLogLevel(4);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 
 ---
 
-*Last updated: 2025 | HF-TMC9660 Driver v1.0*
+*Last updated: 2025-01-27 | HF-TMC9660 Driver - Updated for current implementation*
 

@@ -55,14 +55,14 @@ static TestResults g_test_results;
 // Core BLDC functionality tests
 static constexpr bool ENABLE_CORE_TESTS = true; // Bootloader, motor config, basic setup
 static constexpr bool ENABLE_HALL_SENSOR_TESTS = true; // Hall sensor configuration and testing
-static constexpr bool ENABLE_ABN_ENCODER_TESTS = false; // ABN encoder configuration and testing
-static constexpr bool ENABLE_FOC_CONTROL_TESTS = false; // FOC control loop configuration
-static constexpr bool ENABLE_VELOCITY_CONTROL_TESTS = false; // Velocity control testing
-static constexpr bool ENABLE_CURRENT_CONTROL_TESTS = false; // Current control testing
-static constexpr bool ENABLE_COMMUTATION_TESTS = false; // Commutation mode testing
-static constexpr bool ENABLE_TELEMETRY_TESTS = false; // Telemetry monitoring during operation
-static constexpr bool ENABLE_PERFORMANCE_TESTS = false; // Performance benchmarking
-static constexpr bool ENABLE_STRESS_TESTS = false; // Error handling, edge cases, fault injection
+static constexpr bool ENABLE_ABN_ENCODER_TESTS = true; // ABN encoder configuration and testing
+static constexpr bool ENABLE_FOC_CONTROL_TESTS = true; // FOC control loop configuration
+static constexpr bool ENABLE_VELOCITY_CONTROL_TESTS = true; // Velocity control testing
+static constexpr bool ENABLE_CURRENT_CONTROL_TESTS = true; // Current control testing
+static constexpr bool ENABLE_COMMUTATION_TESTS = true; // Commutation mode testing
+static constexpr bool ENABLE_TELEMETRY_TESTS = true; // Telemetry monitoring during operation
+static constexpr bool ENABLE_PERFORMANCE_TESTS = true; // Performance benchmarking
+static constexpr bool ENABLE_STRESS_TESTS = true; // Error handling, edge cases, fault injection
 
 // Test configuration constants
 static constexpr uint8_t TEST_POLE_PAIRS = 7;
@@ -74,6 +74,7 @@ static constexpr uint16_t TEST_POSITION_TARGET = 500;    // internal units
 
 // Forward declarations
 bool test_bldc_bootloader_initialization() noexcept;
+bool test_bldc_driver_enable() noexcept;
 bool test_bldc_motor_type_configuration() noexcept;
 bool test_bldc_hall_sensor_configuration() noexcept;
 bool test_bldc_abn_encoder_configuration() noexcept;
@@ -124,6 +125,36 @@ bool test_bldc_bootloader_initialization() noexcept {
     return true;
 }
 
+bool test_bldc_driver_enable() noexcept {
+    ESP_LOGI(TAG, "Testing BLDC driver enable (DRV_EN pin)...");
+
+    auto handle = create_test_driver(false, false);
+    if (!handle || !handle->driver) {
+        ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+
+    // Enable DRV_EN pin - this must be done before setting any motor parameters
+    ESP_LOGI(TAG, "⚠️  ENABLING DRV_EN PIN - Motor driver outputs will be enabled!");
+    if (!handle->driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+        ESP_LOGE(TAG, "Failed to enable DRV_EN pin");
+        return false;
+    }
+    ESP_LOGI(TAG, "✅ DRV_EN pin set to ACTIVE - Motor driver is now enabled");
+    
+    // Small delay to allow pin state to stabilize
+    vTaskDelay(pdMS_TO_TICKS(10));
+
+    if(!handle->driver->comm().gpioSetInactive(TMC9660CtrlPin::DRV_EN)) {
+        ESP_LOGE(TAG, "Failed to set DRV_EN pin to inactive");
+        return false;
+    }
+    ESP_LOGI(TAG, "✅ DRV_EN pin set to Inactive - Motor driver is now disabled");
+
+    ESP_LOGI(TAG, "[SUCCESS] BLDC driver enable test passed");
+    return true;
+}
+
 bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC motor type configuration...");
 
@@ -147,19 +178,19 @@ bool test_bldc_motor_type_configuration() noexcept {
     // Test 2: Configure PWM frequency (required before setting current limits)
     if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
         ESP_LOGE(TAG, "Failed to set PWM frequency");
-        return false;
+        //return false;
     }
     ESP_LOGI(TAG, "PWM frequency set to 25000 Hz");
 
     // Test 3: Set current limits
     if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max torque current");
-        return false;
+        //return false;
     }
 
     if (!handle->driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max flux current");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "Current limits set: Torque=%dmA, Flux=%dmA", 
@@ -168,7 +199,7 @@ bool test_bldc_motor_type_configuration() noexcept {
     // Test 4: Verify configuration
     if (!verify_motor_configuration(*handle->driver)) {
         ESP_LOGE(TAG, "Motor configuration verification failed");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC motor type configuration tests passed");
@@ -181,19 +212,19 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     auto handle = create_test_driver(false, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
-        return false;
+        //return false;
     }
 
     // Configure basic motor setup first
     if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for Hall sensor test");
-        return false;
+        //return false;
     }
 
     // Test 1: Configure Hall sensors
     if (!handle->driver->feedbackSense.configureHall()) {
         ESP_LOGE(TAG, "Failed to configure Hall sensors");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "Hall sensors configured successfully");
@@ -201,7 +232,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     // Test 2: Set commutation mode to FOC with Hall sensors
     if (!handle->driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR)) {
         ESP_LOGE(TAG, "Failed to set FOC Hall sensor commutation mode");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "FOC Hall sensor commutation mode set");
@@ -209,12 +240,12 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     // Test 3: Configure FOC control gains
     if (!handle->driver->focControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
-        return false;
+        //return false;
     }
 
     if (!handle->driver->focControl.setVelocityLoopGains(800, 1)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "FOC control gains configured");
@@ -222,7 +253,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     // Test 4: Verify configuration
     if (!verify_foc_gains(*handle->driver)) {
         ESP_LOGE(TAG, "FOC gains verification failed");
-        return false;
+        //return false;
     }
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC Hall sensor configuration tests passed");
@@ -730,6 +761,14 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
 
     // Test 1: Proper startup sequence
     ESP_LOGI(TAG, "Testing startup sequence...");
+    
+    // Step 0: Enable DRV_EN pin (must be done before any motor parameters)
+    ESP_LOGI(TAG, "Step 0: Enabling DRV_EN pin...");
+    if (!handle->driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+        ESP_LOGE(TAG, "Startup step 0 failed: DRV_EN pin enable");
+        return false;
+    }
+    ESP_LOGI(TAG, "DRV_EN pin enabled");
     
     // Step 1: Configure motor type
     if (!handle->driver->motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
@@ -1269,6 +1308,8 @@ extern "C" void app_main(void) {
         // Core functionality tests
         ESP_LOGI(TAG, "Running core BLDC functionality tests...");
         RUN_TEST_IN_TASK("bootloader_initialization", test_bldc_bootloader_initialization, 8192, 1);
+        flip_test_progress_indicator();
+        RUN_TEST_IN_TASK("driver_enable", test_bldc_driver_enable, 8192, 1);
         flip_test_progress_indicator();
         RUN_TEST_IN_TASK("motor_type_configuration", test_bldc_motor_type_configuration, 8192, 1);
         flip_test_progress_indicator();

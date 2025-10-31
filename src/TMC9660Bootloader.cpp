@@ -34,7 +34,7 @@ bool TMC9660Bootloader::sendCommand(uint8_t cmd, uint32_t value, uint32_t *reply
   } else if (comm_.mode() == CommMode::UART) {
     return sendCommandUART(cmd, value, reply);
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Unsupported interface mode for bootloader");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Unsupported interface mode for bootloader");
     return false;
   }
 }
@@ -57,25 +57,25 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   auto* spiComm = static_cast<SPITMC9660CommInterface*>(&comm_);
   BootloaderCommandSPI tx{cmd, value};
   
-  comm_.logDebug(4, "TMC9660Bootloader", "Sending SPI bootloader command: cmd=0x%02X, value=0x%08X", 
+  TMC9660_LOG_DEBUG(comm_,4, "TMC9660Bootloader", "Sending SPI bootloader command: cmd=0x%02X, value=0x%08X", 
                  cmd, value);
 
   std::array<uint8_t, 5> txBuf, rxBuf;
   tx.toBuffer(txBuf);
   
-  comm_.logDebug(2, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
-                 txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
+  // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
+  //                txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
   
   // Step 1: Send the command
   // NOTE: In SPI, the reply to THIS command will come in the NEXT transaction.
   // The rxBuf here contains the reply from the PREVIOUS command (we ignore it).
   if (!spiComm->spiTransferBootloader(txBuf, rxBuf)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to send SPI command (cmd=0x%02X)", cmd);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to send SPI command (cmd=0x%02X)", cmd);
     return false;
   }
   
-  comm_.logDebug(2, "TMC9660Bootloader", "[BL RX PREV] %02X %02X %02X %02X %02X (ignored)",
-                 rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], rxBuf[4]);
+  // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL RX PREV] %02X %02X %02X %02X %02X (ignored)",
+  //                rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], rxBuf[4]);
   
   // Step 2: Send NO_OP command to clock out the reply to our command
   // This is standard SPI behavior - replies are delayed by one transaction.
@@ -85,22 +85,22 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   };
   std::array<uint8_t, 5> replyBuf;
   
-  comm_.logDebug(2, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
                  dummyTx[0], dummyTx[1], dummyTx[2], dummyTx[3], dummyTx[4]);
   
   if (!spiComm->spiTransferBootloader(dummyTx, replyBuf)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to receive SPI reply (cmd=0x%02X)", cmd);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to receive SPI reply (cmd=0x%02X)", cmd);
     return false;
   }
   
-  comm_.logDebug(2, "TMC9660Bootloader", "[BL RX RPLY] %02X %02X %02X %02X %02X",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL RX RPLY] %02X %02X %02X %02X %02X",
                  replyBuf[0], replyBuf[1], replyBuf[2], replyBuf[3], replyBuf[4]);
   
   // Parse reply from the second transaction
   BootloaderReplySPI rep = BootloaderReplySPI::fromBuffer(replyBuf);
   
   if (!rep.isOK()) {
-    comm_.logDebug(0, "TMC9660Bootloader", "SPI command failed: status=0x%02X (cmd=0x%02X)", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "SPI command failed: status=0x%02X (cmd=0x%02X)", 
                    rep.status, cmd);
     return false;
   }
@@ -108,7 +108,7 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t *re
   if (reply)
     *reply = rep.value;
   
-  comm_.logDebug(4, "TMC9660Bootloader", "SPI command successful: status=0x%02X, value=0x%08X (cmd=0x%02X)", 
+  TMC9660_LOG_DEBUG(comm_,4, "TMC9660Bootloader", "SPI command successful: status=0x%02X, value=0x%08X (cmd=0x%02X)", 
                  rep.status, rep.value, cmd);
   return true;
 }
@@ -129,29 +129,37 @@ bool TMC9660Bootloader::sendCommandUART(uint8_t cmd, uint32_t value, uint32_t *r
   auto* uartComm = static_cast<UARTTMC9660CommInterface*>(&comm_);
   BootloaderCommandUART tx{deviceAddr_, cmd, value};
   
-  comm_.logDebug(4, "TMC9660Bootloader", "Sending UART bootloader command: cmd=0x%02X, value=0x%08X", 
+  TMC9660_LOG_DEBUG(comm_,4, "TMC9660Bootloader", "Sending UART bootloader command: cmd=0x%02X, value=0x%08X", 
                  cmd, value);
 
   std::array<uint8_t, 8> txBuf, rxBuf;
   tx.toBuffer(txBuf);
   
+  // Log transmitted bytes
+  // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[UART BL TX] %02X %02X %02X %02X %02X %02X %02X %02X",
+  //                txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
+  
   // UART: Send command and receive reply in same transaction (no delayed reply like SPI)
   if (!uartComm->uartTransferBootloader(txBuf, rxBuf)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to send UART command (cmd=0x%02X)", cmd);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to send UART command (cmd=0x%02X)", cmd);
     return false;
   }
+  
+  // Log received bytes
+  // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[UART BL RX] %02X %02X %02X %02X %02X %02X %02X %02X",
+  //                rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
   
   // Parse reply
   BootloaderReplyUART rep = BootloaderReplyUART::fromBuffer(rxBuf);
   
   // Verify CRC
   if (!rep.verifyCRC(rxBuf)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "UART reply CRC mismatch (cmd=0x%02X)", cmd);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "UART reply CRC mismatch (cmd=0x%02X)", cmd);
     return false;
   }
   
   if (!rep.isOK()) {
-    comm_.logDebug(0, "TMC9660Bootloader", "UART command failed: status=0x%02X (cmd=0x%02X)", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "UART command failed: status=0x%02X (cmd=0x%02X)", 
                    rep.status, cmd);
     return false;
   }
@@ -159,7 +167,7 @@ bool TMC9660Bootloader::sendCommandUART(uint8_t cmd, uint32_t value, uint32_t *r
   if (reply)
     *reply = rep.value;
   
-  comm_.logDebug(4, "TMC9660Bootloader", "UART command successful: status=0x%02X, value=0x%08X (cmd=0x%02X)", 
+  TMC9660_LOG_DEBUG(comm_,4, "TMC9660Bootloader", "UART command successful: status=0x%02X, value=0x%08X (cmd=0x%02X)", 
                  rep.status, rep.value, cmd);
   return true;
 }
@@ -286,7 +294,7 @@ bool TMC9660Bootloader::noOp(uint32_t *reply) noexcept {
  */
 bool TMC9660Bootloader::otpLoad(uint8_t page, OtpLoadResult *result) noexcept {
   if (!result) {
-    comm_.logDebug(0, "TMC9660Bootloader", "otpLoad: null result pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "otpLoad: null result pointer");
     return false;
   }
   
@@ -329,7 +337,7 @@ bool TMC9660Bootloader::otpLoad(uint8_t page, uint8_t *errorCount, uint8_t *page
  */
 bool TMC9660Bootloader::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result) noexcept {
   if (!result) {
-    comm_.logDebug(0, "TMC9660Bootloader", "otpBurn: null result pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "otpBurn: null result pointer");
     return false;
   }
   
@@ -394,72 +402,72 @@ bool TMC9660Bootloader::otpBurn(uint8_t page, uint8_t pageAddr) noexcept {
 bool TMC9660Bootloader::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, 
                                              uint32_t vdrvWaitMs) noexcept {
   if (!result) {
-    comm_.logDebug(0, "TMC9660Bootloader", "otpBurnWithWorkaround: null result pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "otpBurnWithWorkaround: null result pointer");
     return false;
   }
   
-  comm_.logDebug(2, "TMC9660Bootloader", "Starting OTP burn with Erratum 1 workaround (page=%d, addr=0x%02X)", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Starting OTP burn with Erratum 1 workaround (page=%d, addr=0x%02X)", 
                  page, pageAddr);
   
   // Step 1: Send SET_BANK, value 0
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 1: Setting bank to 0");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 1: Setting bank to 0");
   if (!setBank(0)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set bank 0");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set bank 0");
     *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
     return false;
   }
   
   // Step 2: Send SET_ADDRESS, value 0x4801B010
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 2: Setting address to 0x4801B010");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 2: Setting address to 0x4801B010");
   if (!setAddress(0x4801B010)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set address 0x4801B010");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set address 0x4801B010");
     *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
     return false;
   }
   
   // Step 3: Send READ_32
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 3: Reading 32-bit value");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 3: Reading 32-bit value");
   uint32_t readValue;
   if (!read32(&readValue)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read 32-bit value");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read 32-bit value");
     *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
     return false;
   }
   
   // Step 4: Clear bit 0 of the read value (0x00000001)
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 4: Clearing bit 0 (read=0x%08X)", readValue);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 4: Clearing bit 0 (read=0x%08X)", readValue);
   uint32_t modifiedValue = readValue & ~0x00000001;
   
   // Step 5: Send WRITE_32 with the modified read value
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 5: Writing modified value 0x%08X", modifiedValue);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 5: Writing modified value 0x%08X", modifiedValue);
   if (!write32(modifiedValue)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write modified value");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write modified value");
     *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
     return false;
   }
   
   // Step 6: Wait for VDRV voltage to drop below 8.4V
-  comm_.logDebug(2, "TMC9660Bootloader", "Step 6: Waiting %dms for VDRV voltage to drop below 8.4V", vdrvWaitMs);
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Step 6: Waiting %dms for VDRV voltage to drop below 8.4V", vdrvWaitMs);
   comm_.delayMs(vdrvWaitMs);
   
   // Step 7: Send OTP_BURN
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 7: Sending OTP_BURN command");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 7: Sending OTP_BURN command");
   uint32_t value = (static_cast<uint32_t>(pageAddr) << 8) | page;
   uint32_t reply = 0;
   
   if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value, &reply)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to send OTP_BURN command");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to send OTP_BURN command");
     *result = OtpBurnResult::createError(OtpBurnError::BURN_PROCEDURE_FAILED);
     return false;
   }
   
   // Parse the result
   if (reply == 0) {
-    comm_.logDebug(2, "TMC9660Bootloader", "OTP burn command completed successfully");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "OTP burn command completed successfully");
     *result = OtpBurnResult::createSuccess();
   } else {
     int8_t errorCode = static_cast<int8_t>(reply);
-    comm_.logDebug(0, "TMC9660Bootloader", "OTP burn command failed with error code: %d", errorCode);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "OTP burn command failed with error code: %d", errorCode);
     *result = OtpBurnResult::createError(static_cast<OtpBurnError>(errorCode));
   }
   
@@ -468,35 +476,35 @@ bool TMC9660Bootloader::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, Ot
 
 bool TMC9660Bootloader::checkOtpBurnStatus(bool *result) noexcept {
   if (!result) {
-    comm_.logDebug(0, "TMC9660Bootloader", "checkOtpBurnStatus: null result pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "checkOtpBurnStatus: null result pointer");
     return false;
   }
   
-  comm_.logDebug(2, "TMC9660Bootloader", "Checking OTP burn status using Erratum 1 workaround");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Checking OTP burn status using Erratum 1 workaround");
   
   // Step 1: Configure clock settings to have PLL active, SYS_CLK_DIV set to 3 (15MHz)
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 1: Configuring clock for 15MHz system clock");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 1: Configuring clock for 15MHz system clock");
   if (!setBank(5)) {  // CONFIG bank
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set CONFIG bank");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set CONFIG bank");
     return false;
   }
   
   // Read current clock configuration
   if (!setAddress(0x00020018)) {  // Clock config offset
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config address");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set clock config address");
     return false;
   }
   
   uint32_t clockConfig;
   if (!read32(&clockConfig)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read clock configuration");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read clock configuration");
     return false;
   }
   
   // Set SYS_CLK_DIV to 3 (15MHz system clock)
   uint32_t modifiedClockConfig = (clockConfig & ~0x03000000) | (3 << 24);
   if (!write32(modifiedClockConfig)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write modified clock configuration");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write modified clock configuration");
     return false;
   }
   
@@ -504,46 +512,46 @@ bool TMC9660Bootloader::checkOtpBurnStatus(bool *result) noexcept {
   comm_.delayMs(100);
   
   // Step 2: Send SET_BANK, value 0
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 2: Setting bank to 0");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 2: Setting bank to 0");
   if (!setBank(0)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set bank 0");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set bank 0");
     return false;
   }
   
   // Step 3: Send SET_ADDRESS, value 0x48020014
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 3: Setting address to 0x48020014");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 3: Setting address to 0x48020014");
   if (!setAddress(0x48020014)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set address 0x48020014");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set address 0x48020014");
     return false;
   }
   
   // Step 4: Send READ_16
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 4: Reading 16-bit value");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 4: Reading 16-bit value");
   uint16_t readValue;
   if (!read16(&readValue)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read 16-bit value");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read 16-bit value");
     return false;
   }
   
   // Step 5: Check if read value is 0x80 or 0x84 (successful burn)
   *result = (readValue == 0x80) || (readValue == 0x84);
-  comm_.logDebug(2, "TMC9660Bootloader", "OTP burn status check: read=0x%04X, success=%s", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "OTP burn status check: read=0x%04X, success=%s", 
                  readValue, *result ? "true" : "false");
   
   // Step 6: Set SYS_CLK_DIV back to 0 (40MHz)
-  comm_.logDebug(3, "TMC9660Bootloader", "Step 6: Restoring clock to 40MHz");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Step 6: Restoring clock to 40MHz");
   if (!setBank(5)) {  // CONFIG bank
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set CONFIG bank for clock restore");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set CONFIG bank for clock restore");
     return false;
   }
   
   if (!setAddress(0x00020018)) {  // Clock config offset
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config address for restore");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set clock config address for restore");
     return false;
   }
   
   if (!write32(clockConfig)) {  // Restore original clock config
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to restore original clock configuration");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to restore original clock configuration");
     return false;
   }
   
@@ -701,7 +709,7 @@ bool TMC9660Bootloader::getInfo(InfoQuery query, uint32_t *value) noexcept {
  */
 bool TMC9660Bootloader::getBootloaderVersion(BootloaderVersion *version) noexcept {
   if (!version) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getBootloaderVersion: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getBootloaderVersion: null pointer");
     return false;
   }
   
@@ -716,7 +724,7 @@ bool TMC9660Bootloader::getBootloaderVersion(BootloaderVersion *version) noexcep
 
 bool TMC9660Bootloader::getFeatures(BootloaderFeatures *features) noexcept {
   if (!features) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getFeatures: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getFeatures: null pointer");
     return false;
   }
   
@@ -731,7 +739,7 @@ bool TMC9660Bootloader::getFeatures(BootloaderFeatures *features) noexcept {
 
 bool TMC9660Bootloader::getGitInfo(GitInfo *gitInfo) noexcept {
   if (!gitInfo) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getGitInfo: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getGitInfo: null pointer");
     return false;
   }
   
@@ -746,7 +754,7 @@ bool TMC9660Bootloader::getGitInfo(GitInfo *gitInfo) noexcept {
 
 bool TMC9660Bootloader::getPartitionVersion(PartitionVersion *version) noexcept {
   if (!version) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getPartitionVersion: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getPartitionVersion: null pointer");
     return false;
   }
   
@@ -812,18 +820,18 @@ bool TMC9660Bootloader::getPartitionVersion(PartitionVersion *version) noexcept 
  * @warning Clock reconfiguration takes time and the TMC9660 cannot respond during this process
  */
 bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool failOnVerifyError) noexcept {
-  comm_.logDebug(3, "TMC9660Bootloader", "Starting bootloader configuration application");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Starting bootloader configuration application");
   
   if (!setBank(5)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set bank 5");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set bank 5");
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "Successfully set bank 5 (CONFIG memory bank)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Successfully set bank 5 (CONFIG memory bank)");
     
   // LDO configuration (offset 0x00)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring LDO settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring LDO settings");
   if (!setAddress(bootaddr::LDO_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set LDO config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set LDO config register");
     return false;
   }
   uint16_t ldo = 0;
@@ -833,38 +841,38 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   ldo |= (static_cast<uint16_t>(cfg.ldo.slope_vext2) & 0x3) << 6;  // Bits 6-7: SS_VEXT2
   ldo |= (cfg.ldo.ldo_short_fault ? 1u : 0u) << 8;                 // Bit 8: LDO_SHORT_FAULT
   if (!write16(ldo)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write LDO config (0x%04X)", ldo);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write LDO config (0x%04X)", ldo);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "LDO configured (VEXT1: %d, VEXT2: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "LDO configured (VEXT1: %d, VEXT2: %d)", 
                  static_cast<int>(cfg.ldo.vext1), static_cast<int>(cfg.ldo.vext2));
   
   // Verify LDO configuration was written correctly
   if (!readAndVerify16(ldo, "LDO config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "LDO configuration verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "LDO configuration verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  LDO configuration verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  LDO configuration verification failed (continuing)");
     }
   }
 
   // ⚠️ CRITICAL: Clock configuration (offset 0x18) - MUST BE DONE RIGHT BEFORE MOTOR CONTROL START!
   // Clock reconfiguration takes time and the TMC9660 cannot respond during this process.
   // This must happen just before starting motor control to ensure proper timing.
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring clock settings (FINAL STEP BEFORE MOTOR CONTROL)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring clock settings (FINAL STEP BEFORE MOTOR CONTROL)");
   if (!setAddress(bootaddr::CLOCK_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set clock config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set clock config register");
     return false;
   }
   
   // Test: Read current clock configuration before writing
-  comm_.logDebug(3, "TMC9660Bootloader", "Reading current clock configuration...");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Reading current clock configuration...");
   uint32_t currentClock;
   if (!read32(&currentClock)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to read current clock config (continuing)");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to read current clock config (continuing)");
   } else {
-    comm_.logDebug(3, "TMC9660Bootloader", "Current clock config: 0x%08X (PLL_STATUS=%s)", 
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Current clock config: 0x%08X (PLL_STATUS=%s)", 
                    currentClock, (currentClock & (1u << 30)) ? "SET" : "CLEAR");
   }
   // ⚠️ CRITICAL: Bits 0-6 MUST be set to 99 (0x63) per datasheet requirement!
@@ -878,47 +886,47 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   clk |= (cfg.clock.rdiv & 0x1F) << 18;                                  // RDIV [18:22]
   clk |= (static_cast<uint32_t>(cfg.clock.sysclk_div) & 0x3) << 23;      // SYS_CLK_DIV [23:24]
   if (!write32(clk)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write clock config (0x%08X)", clk);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write clock config (0x%08X)", clk);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "Clock configuration written (external: %s, xtal_drive: %d, rdiv: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Clock configuration written (external: %s, xtal_drive: %d, rdiv: %d)", 
                  cfg.clock.use_external == bootcfg::ClockSource::External ? "yes" : "no", 
                  static_cast<int>(cfg.clock.xtal_drive), cfg.clock.rdiv);
 
   // ⚠️ CRITICAL: Wait for clock reconfiguration to complete
   // According to datasheet: "Any change to the clock configuration takes multiple milliseconds to apply.
   // The TMC9660 cannot respond to commands during clock reconfiguration."
-  comm_.logDebug(3, "TMC9660Bootloader", "Waiting for clock reconfiguration to complete...");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Waiting for clock reconfiguration to complete...");
   
   // Fixed delay to allow clock reconfiguration to complete
   // The TMC9660 cannot respond to commands during this process
   comm_.delayMs(100);  // 100ms should be sufficient for clock reconfiguration
   
-  comm_.logDebug(3, "TMC9660Bootloader", "Clock reconfiguration delay completed");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Clock reconfiguration delay completed");
   
   // Verify clock config was written correctly and PLL_STATUS is SET
   uint32_t actualClock;
   if (!read32(&actualClock)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back clock config");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read back clock config");
     if (failOnVerifyError) {
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Clock config read failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Clock config read failed (continuing)");
     }
   } else {
     // First check: PLL_STATUS must be SET after clock reconfiguration
     if (!(actualClock & (1u << 30))) {
       if (failOnVerifyError) {
-        comm_.logDebug(0, "TMC9660Bootloader", 
+        TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", 
                        "❌ PLL_STATUS not set after clock reconfiguration: 0x%08X", actualClock);
-        comm_.logDebug(0, "TMC9660Bootloader", "   Clock reconfiguration may have failed or needs more time");
+        TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "   Clock reconfiguration may have failed or needs more time");
         return false;
       } else {
-        comm_.logDebug(1, "TMC9660Bootloader", 
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                        "⚠️  PLL_STATUS not set after clock reconfiguration: 0x%08X (continuing)", actualClock);
       }
     } else {
-      comm_.logDebug(3, "TMC9660Bootloader", "✅ PLL_STATUS confirmed SET: 0x%08X", actualClock);
+      TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "✅ PLL_STATUS confirmed SET: 0x%08X", actualClock);
     }
     
     // Second check: Verify the actual configuration matches expected (excluding PLL_STATUS)
@@ -927,93 +935,93 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
     
     if (actualConfig != expectedConfig) {
       if (failOnVerifyError) {
-        comm_.logDebug(0, "TMC9660Bootloader", "❌ Clock config verification failed: expected=0x%08X, actual=0x%08X", 
+        TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "❌ Clock config verification failed: expected=0x%08X, actual=0x%08X", 
                        expectedConfig, actualConfig);
-        comm_.logDebug(0, "TMC9660Bootloader", "   Full actual value: 0x%08X (PLL_STATUS=%s)", 
+        TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "   Full actual value: 0x%08X (PLL_STATUS=%s)", 
                        actualClock, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
         return false;
       } else {
-        comm_.logDebug(1, "TMC9660Bootloader", 
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                        "⚠️  Clock config verification failed: expected=0x%08X, actual=0x%08X (continuing)", 
                        expectedConfig, actualConfig);
       }
     } else {
-      comm_.logDebug(3, "TMC9660Bootloader", "✅ Clock config verified: 0x%08X (PLL_STATUS=%s)", 
+      TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "✅ Clock config verified: 0x%08X (PLL_STATUS=%s)", 
                      actualClock, (actualClock & (1u << 30)) ? "SET" : "CLEAR");
     }
   }
   
   // UART addresses (offset 0x02)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring UART addresses");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring UART addresses");
   if (!setAddress(bootaddr::UART_ADDR)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set UART address register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set UART address register");
     return false;
   }
   uint16_t addrWord = static_cast<uint16_t>(cfg.uart.device_address) |
                       (static_cast<uint16_t>(cfg.uart.host_address) << 8);
   if (!write16(addrWord)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write UART address word (0x%04X)", addrWord);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write UART address word (0x%04X)", addrWord);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "UART addresses configured (device: %d, host: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "UART addresses configured (device: %d, host: %d)", 
                  cfg.uart.device_address, cfg.uart.host_address);
   
   // Verify UART addresses were written correctly
   if (!readAndVerify16(addrWord, "UART addresses")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "UART addresses verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "UART addresses verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  UART addresses verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  UART addresses verification failed (continuing)");
     }
   }
 
   // RS485 delays
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring RS485 delays");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring RS485 delays");
   if (!setAddress(bootaddr::RS485_DELAY)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set RS485 delay register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set RS485 delay register");
     return false;
   }
   uint16_t rs485 = static_cast<uint16_t>(cfg.rs485.txen_post_delay) |
                    (static_cast<uint16_t>(cfg.rs485.txen_pre_delay) << 8);
   if (!write16(rs485)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write RS485 delay config (0x%08X)", rs485);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write RS485 delay config (0x%08X)", rs485);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "RS485 delays configured (pre: %d, post: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "RS485 delays configured (pre: %d, post: %d)", 
                  cfg.rs485.txen_pre_delay, cfg.rs485.txen_post_delay);
   
   // Verify RS485 delays were written correctly
   if (!readAndVerify16(rs485, "RS485 delays")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "RS485 delays verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "RS485 delays verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  RS485 delays verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  RS485 delays verification failed (continuing)");
     }
   }
 
   // Communication configuration (UART/SPI/RS485) - SHARED REGISTER with SPI Flash
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring communication settings (shared register with SPI flash)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring communication settings (shared register with SPI flash)");
   if (!setAddress(bootaddr::COMM_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set communication config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set communication config register");
     return false;
   }
   
   // Read current communication config before overwriting
   uint16_t currentComm = 0;
   if (read16(&currentComm)) {
-    comm_.logDebug(3, "TMC9660Bootloader", "Current COMM_CONFIG before overwrite: 0x%04X", currentComm);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 0 (UART disabled): %d", (currentComm >> 0) & 0x1);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 1 (SPI disabled): %d", (currentComm >> 1) & 0x1);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 2 (SPI SELECT): %d", (currentComm >> 2) & 0x1);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 3 (UART RX): %d", (currentComm >> 3) & 0x1);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 4 (UART TX): %d", (currentComm >> 4) & 0x1);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bits 5-6 (UART TXEN): %d", (currentComm >> 5) & 0x3);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bits 7-9 (UART BAUD): %d", (currentComm >> 7) & 0x7);
-    comm_.logDebug(3, "TMC9660Bootloader", "  Current Bit 10 (SPI0 SCK): %d", (currentComm >> 10) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Current COMM_CONFIG before overwrite: 0x%04X", currentComm);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 0 (UART disabled): %d", (currentComm >> 0) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 1 (SPI disabled): %d", (currentComm >> 1) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 2 (SPI SELECT): %d", (currentComm >> 2) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 3 (UART RX): %d", (currentComm >> 3) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 4 (UART TX): %d", (currentComm >> 4) & 0x1);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bits 5-6 (UART TXEN): %d", (currentComm >> 5) & 0x3);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bits 7-9 (UART BAUD): %d", (currentComm >> 7) & 0x7);
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  Current Bit 10 (SPI0 SCK): %d", (currentComm >> 10) & 0x1);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to read current COMM_CONFIG (continuing)");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to read current COMM_CONFIG (continuing)");
   }
   
   // Build the shared register value (offset 6) - 16-bit write (highest bit is 10)
@@ -1051,26 +1059,26 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // Validate configuration: both cannot use the same SPI interface
   if (!cfg.spiComm.disable_spi && cfg.spiFlash.enable_flash) {
     if (bootloader_uses_spi0 == flash_uses_spi0) {
-      comm_.logDebug(0, "TMC9660Bootloader", "⚠️  CONFIGURATION ERROR:");
-      comm_.logDebug(0, "TMC9660Bootloader", "    Both bootloader and flash are configured for %s!", 
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "⚠️  CONFIGURATION ERROR:");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "    Both bootloader and flash are configured for %s!", 
                      bootloader_uses_spi0 ? "SPI0" : "SPI1");
-      comm_.logDebug(0, "TMC9660Bootloader", "    Per datasheet: they MUST be on separate interfaces");
-      comm_.logDebug(0, "TMC9660Bootloader", "    Current config:");
-      comm_.logDebug(0, "TMC9660Bootloader", "      - Bootloader SPI: %s (disable_spi=%d)", 
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "    Per datasheet: they MUST be on separate interfaces");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "    Current config:");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "      - Bootloader SPI: %s (disable_spi=%d)", 
                      cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1",
                      cfg.spiComm.disable_spi ? 1 : 0);
-      comm_.logDebug(0, "TMC9660Bootloader", "      - Flash SPI: %s (enable_flash=%d)", 
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "      - Flash SPI: %s (enable_flash=%d)", 
                      cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1",
                      cfg.spiFlash.enable_flash ? 1 : 0);
-      comm_.logDebug(0, "TMC9660Bootloader", "    Fix: Set one to SPI0 and the other to SPI1");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "    Fix: Set one to SPI0 and the other to SPI1");
     return false;
     }
   }
   
-  comm_.logDebug(2, "TMC9660Bootloader", "SPI interface allocation:");
-  comm_.logDebug(2, "TMC9660Bootloader", "  - Bootloader: %s (enabled=%d)", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "SPI interface allocation:");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - Bootloader: %s (enabled=%d)", 
                  bootloader_uses_spi0 ? "SPI0" : "SPI1", !cfg.spiComm.disable_spi ? 1 : 0);
-  comm_.logDebug(2, "TMC9660Bootloader", "  - Flash: %s (enabled=%d)", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - Flash: %s (enabled=%d)", 
                  flash_uses_spi0 ? "SPI0" : "SPI1", cfg.spiFlash.enable_flash ? 1 : 0);
   
   // ============================================================================
@@ -1086,58 +1094,58 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   if (!cfg.spiComm.disable_spi) {
     // Bootloader SPI enabled - use bootloader's interface selection directly
     bl_spi_select_bit = (cfg.spiComm.boot_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0) ? 0 : 1;
-    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (bootloader on %s)", 
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (bootloader on %s)", 
                    bl_spi_select_bit, bootloader_uses_spi0 ? "SPI0" : "SPI1");
   } else if (cfg.spiFlash.enable_flash) {
     // Only flash enabled - use INVERTED flash interface selection
     bl_spi_select_bit = (cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0) ? 1 : 0;
-    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (flash on %s, inverted bit)", 
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (flash on %s, inverted bit)", 
                    bl_spi_select_bit, flash_uses_spi0 ? "SPI0" : "SPI1");
   } else {
     // Neither enabled - default to 0
     bl_spi_select_bit = 0;
-    comm_.logDebug(2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (default, neither enabled)", bl_spi_select_bit);
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - BL_SPI_SELECT=%d (default, neither enabled)", bl_spi_select_bit);
   }
   comm |= (bl_spi_select_bit & 0x1) << 2;
   
   // Handle shared BL_SPI0_SCK bit (bit 10) - only relevant if SPI0 is being used
   if (bootloader_uses_spi0) {
     comm |= (static_cast<uint16_t>(cfg.spiComm.spi0_sck_pin) & 0x1) << 10;   // BL_SPI0_SCK (bit 10): 0=GPIO6, 1=GPIO11
-    comm_.logDebug(3, "TMC9660Bootloader", "BL_SPI0_SCK set from bootloader config (SPI0_SCK pin: %d)", 
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "BL_SPI0_SCK set from bootloader config (SPI0_SCK pin: %d)", 
                    static_cast<int>(cfg.spiComm.spi0_sck_pin));
   } else if (flash_uses_spi0) {
     // Flash uses SPI0, so set SCK pin based on flash config
     comm |= (static_cast<uint32_t>(cfg.spiFlash.spi0_sck_pin) & 0x1) << 10;
-    comm_.logDebug(3, "TMC9660Bootloader", "BL_SPI0_SCK set from flash config (SPI0_SCK pin: %d)", 
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "BL_SPI0_SCK set from flash config (SPI0_SCK pin: %d)", 
                    static_cast<int>(cfg.spiFlash.spi0_sck_pin));
   }
   // If neither uses SPI0, leave BL_SPI0_SCK as 0 (default)
   
   // Debug: Show detailed bit breakdown of NEW configuration
-  comm_.logDebug(3, "TMC9660Bootloader", "NEW COMM_CONFIG to be written: 0x%04X", comm);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 0 (UART disabled): %d", (comm >> 0) & 0x1);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 1 (SPI disabled): %d", (comm >> 1) & 0x1);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 2 (SPI SELECT): %d", (comm >> 2) & 0x1);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 3 (UART RX): %d", (comm >> 3) & 0x1);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 4 (UART TX): %d", (comm >> 4) & 0x1);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bits 5-6 (UART TXEN): %d", (comm >> 5) & 0x3);
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bits 7-9 (UART BAUD): %d (expected: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "NEW COMM_CONFIG to be written: 0x%04X", comm);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 0 (UART disabled): %d", (comm >> 0) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 1 (SPI disabled): %d", (comm >> 1) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 2 (SPI SELECT): %d", (comm >> 2) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 3 (UART RX): %d", (comm >> 3) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 4 (UART TX): %d", (comm >> 4) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bits 5-6 (UART TXEN): %d", (comm >> 5) & 0x3);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bits 7-9 (UART BAUD): %d (expected: %d)", 
                  (comm >> 7) & 0x7, static_cast<int>(cfg.uart.baud_rate));
-  comm_.logDebug(3, "TMC9660Bootloader", "  New Bit 10 (SPI0 SCK): %d", (comm >> 10) & 0x1);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  New Bit 10 (SPI0 SCK): %d", (comm >> 10) & 0x1);
   
   if (!write16(comm)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write communication config (0x%04X)", comm);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write communication config (0x%04X)", comm);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "Communication config written (0x%04X):", comm);
-  comm_.logDebug(3, "TMC9660Bootloader", "  UART: disabled=%s, RX=GPIO%d, TX=GPIO%d, TXEN=%s, baud=%d", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Communication config written (0x%04X):", comm);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  UART: disabled=%s, RX=GPIO%d, TX=GPIO%d, TXEN=%s, baud=%d", 
                  cfg.uart.disable_uart ? "yes" : "no",
                  cfg.uart.rx_pin == tmc9660::bootcfg::UartRxPin::GPIO7 ? 7 : 1,
                  cfg.uart.tx_pin == tmc9660::bootcfg::UartTxPin::GPIO6 ? 6 : 0,
                  cfg.rs485.txen_pin == tmc9660::bootcfg::RS485TxEnPin::GPIO8 ? "GPIO8" : 
                  cfg.rs485.txen_pin == tmc9660::bootcfg::RS485TxEnPin::GPIO2 ? "GPIO2" : "None",
                  static_cast<int>(cfg.uart.baud_rate));
-  comm_.logDebug(3, "TMC9660Bootloader", "  SPI: disabled=%s, bootloader_SPI0=%s, flash_SPI0=%s, SPI0_SCK=GPIO%d", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "  SPI: disabled=%s, bootloader_SPI0=%s, flash_SPI0=%s, SPI0_SCK=GPIO%d", 
                  cfg.spiComm.disable_spi ? "yes" : "no", 
                  bootloader_uses_spi0 ? "yes" : "no",
                  flash_uses_spi0 ? "yes" : "no",
@@ -1147,10 +1155,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // Verify communication config was written correctly
   if (!readAndVerify16(comm, "Communication config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Communication config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Communication config verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Communication config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Communication config verification failed (continuing)");
     }
   }
 
@@ -1173,9 +1181,9 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   //   - Bits 8-11: SPI_FLASH_FREQ (frequency divider)
   // ============================================================================
   
-  comm_.logDebug(2, "TMC9660Bootloader", "Configuring SPI flash settings");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Configuring SPI flash settings");
   if (!setAddress(bootaddr::SPI_FLASH)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set SPI flash register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set SPI flash register");
     return false;
   }
   
@@ -1195,7 +1203,7 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   flash |= (static_cast<uint16_t>(cfg.spiFlash.freq_div) & 0xF) << 8;         // SPI_FLASH_FREQ (bits 8-11)
   
   if (!write16(flash)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write SPI flash config (0x%04X)", flash);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write SPI flash config (0x%04X)", flash);
     return false;
   }
   
@@ -1205,43 +1213,43 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
     (cfg.spiFlash.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6 ? "GPIO6" : "GPIO11") : 
     "N/A";
   
-  comm_.logDebug(2, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", 
                  "SPI flash config written: 0x%04X", flash);
-  comm_.logDebug(2, "TMC9660Bootloader",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader",
                  "  - SPI_FLASH_EN (bit 0): %d", cfg.spiFlash.enable_flash ? 1 : 0);
-  comm_.logDebug(2, "TMC9660Bootloader",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader",
                  "  - SPI_IFACE_SELECT (bit 1): %d (mirrors COMM_CONFIG bit 2, %s)", 
                  bl_spi_select_bit, actual_iface);
-  comm_.logDebug(2, "TMC9660Bootloader",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader",
                  "  - SPI0_SCK_SELECT (bit 2): %d (mirrors COMM_CONFIG bit 10, %s)", 
                  sck_pin_bit, actual_sck);
-  comm_.logDebug(2, "TMC9660Bootloader",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader",
                  "  - CS_PIN (bits 3-7): GPIO%d", cfg.spiFlash.cs_pin);
-  comm_.logDebug(2, "TMC9660Bootloader",
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader",
                  "  - FREQ_DIV (bits 8-11): Div%d", 1 << static_cast<int>(cfg.spiFlash.freq_div));
   
   // Verify SPI flash config was written correctly
   // UART mode: has an issue if address not reset
   if (comm_.mode() == CommMode::UART) {
     if (!setAddress(bootaddr::SPI_FLASH)) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Failed to reset SPI flash register address for verification");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to reset SPI flash register address for verification");
       if (failOnVerifyError) return false;
     }
   }
   
   if (!readAndVerify16(flash, "SPI flash config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "SPI flash config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "SPI flash config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI flash config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI flash config verification failed (continuing)");
     }
   }
 
   // I2C EEPROM configuration
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring I2C EEPROM settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring I2C EEPROM settings");
   if (!setAddress(bootaddr::I2C_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set I2C config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set I2C config register");
     return false;
   }
   uint16_t i2c = (cfg.i2c.enable_eeprom ? 1u : 0u);                          // I2C_EN (bit 0)
@@ -1250,10 +1258,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   i2c |= (static_cast<uint16_t>(cfg.i2c.address_bits & 0x7)) << 5;            // I2C_ADDR_BITS (bits 5-7)
   i2c |= (static_cast<uint16_t>(cfg.i2c.freq_code) & 0x7) << 8;              // I2C_FREQ (bits 8-10)
   if (!write16(i2c)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write I2C config (0x%04X)", i2c);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write I2C config (0x%04X)", i2c);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "I2C EEPROM configured (enabled: %s, SDA: %d, SCL: %d, addr_bits: %d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "I2C EEPROM configured (enabled: %s, SDA: %d, SCL: %d, addr_bits: %d)", 
                  cfg.i2c.enable_eeprom ? "yes" : "no", static_cast<int>(cfg.i2c.sda_pin), 
                  static_cast<int>(cfg.i2c.scl_pin), cfg.i2c.address_bits);
   
@@ -1261,118 +1269,118 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // UART mode: address has an issue if not reset
   if (comm_.mode() == CommMode::UART) {
     if (!setAddress(bootaddr::I2C_CONFIG)) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Failed to reset I2C config register address for verification");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to reset I2C config register address for verification");
       if (failOnVerifyError) return false;
     }
   }
   
   if (!readAndVerify16(i2c, "I2C config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "I2C config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "I2C config verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  I2C config verification failed (continuing)");
     }
   }
 
   // GPIO configuration (according to datasheet specification)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO settings");
   
   // GPIO output levels for GPIOs 0-15 (offset 14)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO output levels (GPIOs 0-15)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO output levels (GPIOs 0-15)");
   if (!setAddress(bootaddr::GPIO_OUT)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set GPIO output register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set GPIO output register");
     return false;
   }
   if (!write16(cfg.gpio.outputMask_0_15)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write GPIO output mask (0x%04X)", cfg.gpio.outputMask_0_15);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write GPIO output mask (0x%04X)", cfg.gpio.outputMask_0_15);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "GPIO output levels configured (GPIOs 0-15: 0x%04X)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "GPIO output levels configured (GPIOs 0-15: 0x%04X)", 
                  cfg.gpio.outputMask_0_15);
   
   // Verify GPIO output levels were written correctly
   if (!readAndVerify16(cfg.gpio.outputMask_0_15, "GPIO output levels")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "GPIO output levels verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "GPIO output levels verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  GPIO output levels verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  GPIO output levels verification failed (continuing)");
     }
   }
   
   // GPIO direction (output enable) for GPIOs 0-15 (offset 16)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO direction (GPIOs 0-15)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO direction (GPIOs 0-15)");
   if (!setAddress(bootaddr::GPIO_DIR)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set GPIO direction register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set GPIO direction register");
     return false;
   }
   if (!write16(cfg.gpio.directionMask_0_15)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write GPIO direction mask (0x%04X)", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write GPIO direction mask (0x%04X)", 
                    cfg.gpio.directionMask_0_15);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "GPIO direction configured (GPIOs 0-15: 0x%04X)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "GPIO direction configured (GPIOs 0-15: 0x%04X)", 
                  cfg.gpio.directionMask_0_15);
   
   // Verify GPIO direction was written correctly
   if (!readAndVerify16(cfg.gpio.directionMask_0_15, "GPIO direction")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "GPIO direction verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "GPIO direction verification failed");
     return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  GPIO direction verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  GPIO direction verification failed (continuing)");
     }
   }
   
   // GPIO pull-up enable for GPIOs 0-15 (offset 18)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO pull-up (GPIOs 0-15)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO pull-up (GPIOs 0-15)");
   if (!setAddress(bootaddr::GPIO_PU)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set GPIO pull-up register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set GPIO pull-up register");
     return false;
   }
   if (!write16(cfg.gpio.pullUpMask_0_15)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write GPIO pull-up mask (0x%04X)", cfg.gpio.pullUpMask_0_15);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write GPIO pull-up mask (0x%04X)", cfg.gpio.pullUpMask_0_15);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "GPIO pull-up configured (GPIOs 0-15: 0x%04X)", cfg.gpio.pullUpMask_0_15);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "GPIO pull-up configured (GPIOs 0-15: 0x%04X)", cfg.gpio.pullUpMask_0_15);
   
   // Verify GPIO pull-up was written correctly
   if (!readAndVerify16(cfg.gpio.pullUpMask_0_15, "GPIO pull-up")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "GPIO pull-up verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "GPIO pull-up verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  GPIO pull-up verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  GPIO pull-up verification failed (continuing)");
     }
   }
   
   // GPIO pull-down enable for GPIOs 0-15 (offset 20)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO pull-down (GPIOs 0-15)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO pull-down (GPIOs 0-15)");
   if (!setAddress(bootaddr::GPIO_PD)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set GPIO pull-down register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set GPIO pull-down register");
     return false;
   }
   if (!write16(cfg.gpio.pullDownMask_0_15)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write GPIO pull-down mask (0x%04X)", cfg.gpio.pullDownMask_0_15);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write GPIO pull-down mask (0x%04X)", cfg.gpio.pullDownMask_0_15);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "GPIO pull-down configured (GPIOs 0-15: 0x%04X)", cfg.gpio.pullDownMask_0_15);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "GPIO pull-down configured (GPIOs 0-15: 0x%04X)", cfg.gpio.pullDownMask_0_15);
   
   // Verify GPIO pull-down was written correctly
   if (!readAndVerify16(cfg.gpio.pullDownMask_0_15, "GPIO pull-down")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "GPIO pull-down verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "GPIO pull-down verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  GPIO pull-down verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  GPIO pull-down verification failed (continuing)");
     }
   }
   
   // GPIO extended configuration (offset 22) - GPIOs 16-18 + analog GPIOs 2-5
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring GPIO extended settings (GPIOs 16-18 + analog 2-5)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring GPIO extended settings (GPIOs 16-18 + analog 2-5)");
   if (!setAddress(bootaddr::GPIO_EXT)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set GPIO extended register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set GPIO extended register");
     return false;
   }
   uint16_t gpioExt = 0;
@@ -1382,10 +1390,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   gpioExt |= (cfg.gpio.pullUpMask_16_18 & 0x7) << 9;               // Bits 9-11: GPIO16-18 pull-up
   gpioExt |= (cfg.gpio.analogMask_2_5 & 0xF) << 12;                // Bits 12-15: GPIO2-5 analog enable
   if (!write16(gpioExt)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write GPIO extended config (0x%04X)", gpioExt);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write GPIO extended config (0x%04X)", gpioExt);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", 
                  "GPIO extended configured (output_16_18:0x%X, dir_16_18:0x%X, pd_16_18:0x%X, pu_16_18:0x%X, analog_2_5:0x%X)", 
                  cfg.gpio.outputMask_16_18, cfg.gpio.directionMask_16_18, 
                  cfg.gpio.pullDownMask_16_18, cfg.gpio.pullUpMask_16_18, cfg.gpio.analogMask_2_5);
@@ -1393,19 +1401,19 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // Verify GPIO extended config was written correctly
   if (!readAndVerify16(gpioExt, "GPIO extended config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "GPIO extended config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "GPIO extended config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  GPIO extended config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  GPIO extended config verification failed (continuing)");
     }
   }
   
-  comm_.logDebug(3, "TMC9660Bootloader", "GPIO configuration completed");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "GPIO configuration completed");
 
   // Hall encoder and ABN encoder 1 configuration (offset 0x20 - shared register)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring Hall encoder and ABN encoder 1 settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring Hall encoder and ABN encoder 1 settings");
   if (!setAddress(bootaddr::HALL_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set Hall/ABN1 config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set Hall/ABN1 config register");
     return false;
   }
   uint16_t hall_abn1 = 0;
@@ -1420,10 +1428,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   hall_abn1 |= (static_cast<uint16_t>(cfg.abn1.b_pin) & 0x3) << 12;         // Bits 12-13: ABN1_B
   hall_abn1 |= (static_cast<uint16_t>(cfg.abn1.n_pin) & 0x3) << 14;         // Bits 14-15: ABN1_N
   if (!write16(hall_abn1)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write Hall/ABN1 config (0x%08X)", hall_abn1);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write Hall/ABN1 config (0x%08X)", hall_abn1);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", 
                  "Hall/ABN1 configured - Hall(enabled:%s, U:%d, V:%d, W:%d), ABN1(enabled:%s, A:%d, B:%d, N:%d)", 
                  cfg.hall.enable ? "yes" : "no", static_cast<int>(cfg.hall.u_pin), 
                  static_cast<int>(cfg.hall.v_pin), static_cast<int>(cfg.hall.w_pin),
@@ -1433,17 +1441,17 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // Verify Hall/ABN1 config was written correctly
   if (!readAndVerify16(hall_abn1, "Hall/ABN1 config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Hall/ABN1 config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Hall/ABN1 config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Hall/ABN1 config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Hall/ABN1 config verification failed (continuing)");
     }
   }
 
   // ABN encoder 2, Reference switches, and Step/Direction configuration (offset 0x22)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring ABN2, REF switches, and Step/Dir settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring ABN2, REF switches, and Step/Dir settings");
   if (!setAddress(bootaddr::ABN2_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set ABN2/REF/StepDir config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set ABN2/REF/StepDir config register");
     return false;
   }
   uint16_t abn2_ref_stepdir = 0;
@@ -1460,10 +1468,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.abn2.a_pin) & 0x1) << 13;  // Bit 13: ABN2_A
   abn2_ref_stepdir |= (static_cast<uint16_t>(cfg.abn2.b_pin) & 0x3) << 14;  // Bits 14-15: ABN2_B
   if (!write16(abn2_ref_stepdir)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write ABN2/REF/StepDir config (0x%08X)", abn2_ref_stepdir);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write ABN2/REF/StepDir config (0x%08X)", abn2_ref_stepdir);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", 
                  "ABN2/REF/StepDir configured (ABN2:%s, REF_L:%d, REF_R:%d, REF_H:%d, StepDir:%s)", 
                  cfg.abn2.enable ? "enabled" : "disabled", static_cast<int>(cfg.ref.ref_l_pin),
                  static_cast<int>(cfg.ref.ref_r_pin), static_cast<int>(cfg.ref.ref_h_pin),
@@ -1472,17 +1480,17 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // Verify ABN2/REF/StepDir config was written correctly
   if (!readAndVerify16(abn2_ref_stepdir, "ABN2/REF/StepDir config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "ABN2/REF/StepDir config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "ABN2/REF/StepDir config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  ABN2/REF/StepDir config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  ABN2/REF/StepDir config verification failed (continuing)");
     }
   }
 
   // Mechanical brake and Brake chopper configuration (offset 0x24)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring mechanical brake and brake chopper settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring mechanical brake and brake chopper settings");
   if (!setAddress(bootaddr::MECH_BRAKE_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set brake config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set brake config register");
     return false;
   }
   uint16_t brake = 0;
@@ -1493,27 +1501,27 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   brake |= (cfg.mechBrake.enable ? 1u : 0u) << 12;                          // Bit 12: MECH_BRAKE_ENABLE
   brake |= (static_cast<uint16_t>(cfg.mechBrake.output_pin) & 0x3) << 13;   // Bits 13-14: MECH_BRAKE_OUTPUT
   if (!write16(brake)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write brake config (0x%04X)", brake);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write brake config (0x%04X)", brake);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "Brake configuration completed (mech_brake:%s, brake_chopper:%s)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Brake configuration completed (mech_brake:%s, brake_chopper:%s)", 
                  cfg.mechBrake.enable ? "enabled" : "disabled", 
                  cfg.brakeChopper.enable ? "enabled" : "disabled");
   
   // Verify brake config was written correctly
   if (!readAndVerify16(brake, "Brake config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Brake config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Brake config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Brake config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Brake config verification failed (continuing)");
     }
   }
 
   // SPI encoder configuration (offset 0x26)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring SPI encoder settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring SPI encoder settings");
   if (!setAddress(bootaddr::SPI_ENC_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set SPI encoder config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set SPI encoder config register");
     return false;
   }
   uint16_t spiEnc = (cfg.spiEnc.enable ? 1u : 0u);                          // Bit 0: SPI_ENC_ENABLE
@@ -1523,45 +1531,45 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   spiEnc |= (static_cast<uint16_t>(cfg.spiEnc.cs_pin) & 0x3) << 8;           // Bits 8-9: SPI_ENC_CS_PIN
   spiEnc |= (static_cast<uint16_t>(cfg.spiEnc.cs_polarity) & 0x1) << 10;     // Bit 10: SPI_ENC_CS_POL
   if (!write16(spiEnc)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write SPI encoder config (0x%04X)", spiEnc);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write SPI encoder config (0x%04X)", spiEnc);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "SPI encoder configured (enabled: %s, block:%d, mode:%d, freq:%d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "SPI encoder configured (enabled: %s, block:%d, mode:%d, freq:%d)", 
                  cfg.spiEnc.enable ? "yes" : "no", static_cast<int>(cfg.spiEnc.spi_block),
                  static_cast<int>(cfg.spiEnc.spi_mode), static_cast<int>(cfg.spiEnc.spi_freq));
   
   // Verify SPI encoder config was written correctly
   if (!readAndVerify16(spiEnc, "SPI encoder config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "SPI encoder config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "SPI encoder config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI encoder config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI encoder config verification failed (continuing)");
     }
   }
 
   // External memory storage configuration (offset 0x28)
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring external memory storage settings");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring external memory storage settings");
   if (!setAddress(bootaddr::MEM_STORAGE_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set memory storage config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set memory storage config register");
     return false;
   }
   uint8_t memStorage = static_cast<uint8_t>(cfg.memStorage.tmcl_script) & 0x3;        // Bits 0-1: MEM_TMCL_SCRIPT
   memStorage |= (static_cast<uint8_t>(cfg.memStorage.parameters) & 0x3) << 2;           // Bits 2-3: MEM_PARAMETERS
   if (!write8(memStorage)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write memory storage config (0x%02X)", memStorage);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write memory storage config (0x%02X)", memStorage);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", "Memory storage configured (TMCL_script:%d, parameters:%d)", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Memory storage configured (TMCL_script:%d, parameters:%d)", 
                  static_cast<int>(cfg.memStorage.tmcl_script), static_cast<int>(cfg.memStorage.parameters));
   
   // Verify memory storage config was written correctly
   if (!readAndVerify8(memStorage, "Memory storage config")) {
     if (failOnVerifyError) {
-      comm_.logDebug(0, "TMC9660Bootloader", "Memory storage config verification failed");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Memory storage config verification failed");
       return false;
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Memory storage config verification failed (continuing)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Memory storage config verification failed (continuing)");
     }
   }
 
@@ -1571,145 +1579,145 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   
   // Check SPI Flash if enabled
   if (cfg.spiFlash.enable_flash) {
-    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
-    comm_.logDebug(2, "TMC9660Bootloader", "Verifying SPI Flash Memory Configuration");
-    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
-    comm_.logDebug(2, "TMC9660Bootloader", "Expected config:");
-    comm_.logDebug(2, "TMC9660Bootloader", "  - SPI_FLASH_EN: %s (bit 0)", cfg.spiFlash.enable_flash ? "ENABLED" : "DISABLED");
-    comm_.logDebug(2, "TMC9660Bootloader", "  - CS Pin: GPIO%d (bits 3-7)", cfg.spiFlash.cs_pin);
-    comm_.logDebug(2, "TMC9660Bootloader", "  - Frequency: Div%d (bits 8-11)", 1 << static_cast<int>(cfg.spiFlash.freq_div));
-    comm_.logDebug(2, "TMC9660Bootloader", "  - SPI Interface: %s (bit 12)", 
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "========================================");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Verifying SPI Flash Memory Configuration");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "========================================");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Expected config:");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - SPI_FLASH_EN: %s (bit 0)", cfg.spiFlash.enable_flash ? "ENABLED" : "DISABLED");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - CS Pin: GPIO%d (bits 3-7)", cfg.spiFlash.cs_pin);
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - Frequency: Div%d (bits 8-11)", 1 << static_cast<int>(cfg.spiFlash.freq_div));
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - SPI Interface: %s (bit 12)", 
                    cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1");
-    comm_.logDebug(2, "TMC9660Bootloader", "  - SCK Pin: %s (bit 13)",
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "  - SCK Pin: %s (bit 13)",
                    cfg.spiFlash.spi0_sck_pin == tmc9660::bootcfg::SPI0SckPin::GPIO6 ? "GPIO6" : "GPIO11");
     
     // Check if SPI Flash is configured
     uint32_t isConfigured = 0;
-    comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_CONFIGURED (bank=1, SPI Flash)...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Checking MEM_IS_CONFIGURED (bank=1, SPI Flash)...");
     if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONFIGURED), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isConfigured)) {
-      comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_CONFIGURED reply: %u", isConfigured);
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "MEM_IS_CONFIGURED reply: %u", isConfigured);
       if (isConfigured == 1) {
-        comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is CONFIGURED (bootloader sees SPI_FLASH_EN=1)");
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ SPI Flash is CONFIGURED (bootloader sees SPI_FLASH_EN=1)");
         
         // Check if SPI Flash is connected
         uint32_t isConnected = 0;
-        comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_CONNECTED (probing flash chip)...");
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Checking MEM_IS_CONNECTED (probing flash chip)...");
         if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONNECTED), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isConnected)) {
-          comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_CONNECTED reply: %u", isConnected);
+          TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "MEM_IS_CONNECTED reply: %u", isConnected);
           if (isConnected == 1) {
-            comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is CONNECTED (chip responded to probe)");
+            TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ SPI Flash is CONNECTED (chip responded to probe)");
             
             // Check if SPI Flash is busy
             uint32_t isBusy = 0;
-            comm_.logDebug(2, "TMC9660Bootloader", "Checking MEM_IS_BUSY...");
+            TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Checking MEM_IS_BUSY...");
             if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_BUSY), static_cast<uint32_t>(MemoryBank::SPI_FLASH), &isBusy)) {
-              comm_.logDebug(2, "TMC9660Bootloader", "MEM_IS_BUSY reply: %u", isBusy);
+              TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "MEM_IS_BUSY reply: %u", isBusy);
               if (isBusy == 0) {
-                comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash is READY (not busy)");
+                TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ SPI Flash is READY (not busy)");
               } else {
-                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is BUSY (write in progress)");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI Flash is BUSY (write in progress)");
               }
             } else {
-              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check SPI Flash busy status");
+              TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to check SPI Flash busy status");
             }
             
             // Query partition count
             uint32_t partitionCount = 0;
-            comm_.logDebug(2, "TMC9660Bootloader", "Querying partition count (GET_INFO SPI_MEM_PARTITIONS)...");
+            TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Querying partition count (GET_INFO SPI_MEM_PARTITIONS)...");
             if (sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_INFO), static_cast<uint32_t>(InfoQuery::SPI_MEM_PARTITIONS), &partitionCount)) {
-              comm_.logDebug(2, "TMC9660Bootloader", "SPI Flash partition count: %u", partitionCount);
+              TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "SPI Flash partition count: %u", partitionCount);
               if (partitionCount == 0) {
-                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash has NO partitions");
-                comm_.logDebug(1, "TMC9660Bootloader", "    Flash is connected but not partitioned (no partition table)");
-                comm_.logDebug(1, "TMC9660Bootloader", "    See datasheet Table 21 for partition header format");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI Flash has NO partitions");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    Flash is connected but not partitioned (no partition table)");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    See datasheet Table 21 for partition header format");
               } else {
-                comm_.logDebug(2, "TMC9660Bootloader", "✅ SPI Flash has %u partition(s)", partitionCount);
+                TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ SPI Flash has %u partition(s)", partitionCount);
               }
             } else {
-              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to query SPI Flash partition count");
+              TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to query SPI Flash partition count");
             }
           } else {
-            comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONNECTED");
-            comm_.logDebug(1, "TMC9660Bootloader", "    Possible causes:");
-            comm_.logDebug(1, "TMC9660Bootloader", "    1. No flash chip physically connected");
-            comm_.logDebug(1, "TMC9660Bootloader", "    2. Wrong CS pin configured (expected GPIO%d)", cfg.spiFlash.cs_pin);
-            comm_.logDebug(1, "TMC9660Bootloader", "    3. Wrong SPI interface (configured: %s)", 
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONNECTED");
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    Possible causes:");
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    1. No flash chip physically connected");
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    2. Wrong CS pin configured (expected GPIO%d)", cfg.spiFlash.cs_pin);
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    3. Wrong SPI interface (configured: %s)", 
                            cfg.spiFlash.flash_spi_iface == tmc9660::bootcfg::SPIInterface::SPI0 ? "SPI0" : "SPI1");
-            comm_.logDebug(1, "TMC9660Bootloader", "    4. Flash chip not responding to probe (0xAB, 0x90, 0x9F)");
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    4. Flash chip not responding to probe (0xAB, 0x90, 0x9F)");
           }
         } else {
-          comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONNECTED command");
+          TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONNECTED command");
         }
       } else {
-        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONFIGURED");
-        comm_.logDebug(1, "TMC9660Bootloader", "    Bootloader reports SPI_FLASH_EN=0 (bit 0 of flash config)");
-        comm_.logDebug(1, "TMC9660Bootloader", "    This means the config write may have failed or been overwritten");
-        comm_.logDebug(1, "TMC9660Bootloader", "    Check that cfg.spiFlash.enable_flash = true");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  SPI Flash is NOT CONFIGURED");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    Bootloader reports SPI_FLASH_EN=0 (bit 0 of flash config)");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    This means the config write may have failed or been overwritten");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "    Check that cfg.spiFlash.enable_flash = true");
       }
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONFIGURED command");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to send MEM_IS_CONFIGURED command");
     }
-    comm_.logDebug(2, "TMC9660Bootloader", "========================================");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "========================================");
   }
   
   // Check I2C EEPROM if enabled
   if (cfg.i2c.enable_eeprom) {
-    comm_.logDebug(2, "TMC9660Bootloader", "Verifying I2C EEPROM memory...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Verifying I2C EEPROM memory...");
     
     // Check if I2C EEPROM is configured
     uint32_t isConfigured = 0;
     if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONFIGURED), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isConfigured)) {
       if (isConfigured == 1) {
-        comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is CONFIGURED");
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ I2C EEPROM is CONFIGURED");
         
         // Check if I2C EEPROM is connected
         uint32_t isConnected = 0;
         if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_CONNECTED), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isConnected)) {
           if (isConnected == 1) {
-            comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is CONNECTED");
+            TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ I2C EEPROM is CONNECTED");
             
             // Check if I2C EEPROM is busy
             uint32_t isBusy = 0;
             if (sendCommand(static_cast<uint8_t>(BootloaderCommand::MEM_IS_BUSY), static_cast<uint32_t>(MemoryBank::I2C_EEPROM), &isBusy)) {
               if (isBusy == 0) {
-                comm_.logDebug(2, "TMC9660Bootloader", "✅ I2C EEPROM is READY (not busy)");
+                TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "✅ I2C EEPROM is READY (not busy)");
               } else {
-                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is BUSY");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  I2C EEPROM is BUSY");
               }
             } else {
-              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM busy status");
+              TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM busy status");
             }
             
             // Query partition count
             uint32_t partitionCount = 0;
             if (sendCommand(static_cast<uint8_t>(BootloaderCommand::GET_INFO), static_cast<uint32_t>(InfoQuery::I2C_MEM_PARTITIONS), &partitionCount)) {
-              comm_.logDebug(2, "TMC9660Bootloader", "I2C EEPROM partition count: %u", partitionCount);
+              TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "I2C EEPROM partition count: %u", partitionCount);
               if (partitionCount == 0) {
-                comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM has NO partitions (not partitioned)");
+                TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  I2C EEPROM has NO partitions (not partitioned)");
               }
             } else {
-              comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to query I2C EEPROM partition count");
+              TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to query I2C EEPROM partition count");
             }
           } else {
-            comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONNECTED (check wiring)");
+            TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONNECTED (check wiring)");
           }
         } else {
-          comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM connection status");
+          TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM connection status");
         }
       } else {
-        comm_.logDebug(1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONFIGURED (check config settings)");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  I2C EEPROM is NOT CONFIGURED (check config settings)");
       }
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM configuration status");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Failed to check I2C EEPROM configuration status");
     }
   }
 
   // ⚠️ CRITICAL: Boot configuration (offset 0x08) - WRITE THIS LAST!
   // When START_MOTOR_CTRL=1 is written, the bootloader IMMEDIATELY exits and starts motor control.
   // Any commands sent after this will fail because the bootloader is no longer running.
-  comm_.logDebug(3, "TMC9660Bootloader", "Configuring boot settings (FINAL STEP)");
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "Configuring boot settings (FINAL STEP)");
   if (!setAddress(bootaddr::BOOT_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set boot config register");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set boot config register");
     return false;
   }
   uint16_t boot = 0;
@@ -1720,10 +1728,10 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   boot |= (cfg.boot.bl_config_fault ? 1u : 0u) << 9;                      // Bit 9: BL_CONFIG_FAULT
   boot |= (cfg.boot.start_motor_control ? 1u : 0u) << 12;                 // Bit 12: START_MOTOR_CTRL
   if (!write16(boot)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write boot config (0x%04X)", boot);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write boot config (0x%04X)", boot);
     return false;
   }
-  comm_.logDebug(3, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", 
                  "Boot config written: mode=%d, start_motor_ctrl=%s, bl_exit_fault=%s", 
                  static_cast<int>(cfg.boot.boot_mode),
                  cfg.boot.start_motor_control ? "TRUE" : "FALSE",
@@ -1733,24 +1741,24 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
   // // Verify boot config was written correctly
   // if (!readAndVerify16(boot, "Boot config")) {
   //   if (failOnVerifyError) {
-  //     comm_.logDebug(0, "TMC9660Bootloader", "Boot config verification failed");
+  //     TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Boot config verification failed");
   //     return false;
   //   } else {
-  //     comm_.logDebug(1, "TMC9660Bootloader", "⚠️  Boot config verification failed (continuing)");
+  //     TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "⚠️  Boot config verification failed (continuing)");
   //   }
   // }
 
   if (cfg.boot.start_motor_control) {
-    comm_.logDebug(1, "TMC9660Bootloader", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                    "⚠️  START_MOTOR_CTRL=1 written - Bootloader will hopefully EXIT and motor control will START!");
-    comm_.logDebug(1, "TMC9660Bootloader", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                    "⚠️  No further bootloader commands will be accepted after this point!");
   } else {
-    comm_.logDebug(2, "TMC9660Bootloader", 
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", 
                    "START_MOTOR_CTRL=0 - Bootloader remains active, motor control NOT started");
   }
 
-  comm_.logDebug(3, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", 
           "Bootloader configuration application completed successfully");
   return true;
 }
@@ -1790,18 +1798,18 @@ bool TMC9660Bootloader::applyConfiguration(const BootloaderConfig &cfg, bool fai
  * @endcode
  */
 bool TMC9660Bootloader::startMotorControl(bootcfg::BootMode bootMode) noexcept {
-  comm_.logDebug(2, "TMC9660Bootloader", "Starting motor control system (mode: %d)...", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "Starting motor control system (mode: %d)...", 
                  static_cast<int>(bootMode));
   
   // Set bank to CONFIG (bank 5)
   if (!setBank(5)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set CONFIG bank before starting motor control");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set CONFIG bank before starting motor control");
     return false;
   }
   
   // Set address to BOOT_CONFIG register (offset 0x08)
   if (!setAddress(bootaddr::BOOT_CONFIG)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to set BOOT_CONFIG address");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to set BOOT_CONFIG address");
     return false;
   }
   
@@ -1817,25 +1825,25 @@ bool TMC9660Bootloader::startMotorControl(bootcfg::BootMode bootMode) noexcept {
   // Optional: Set BL_EXIT_FAULT to get FAULTN signal when exiting (helps debugging)
   bootConfig |= (1u << 3);  // Bit 3: BL_EXIT_FAULT = 1
   
-  comm_.logDebug(2, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", 
                  "Writing BOOT_CONFIG=0x%08X (mode=%d, START_MOTOR_CTRL=1)", 
                  bootConfig, static_cast<int>(bootMode));
   
   // Write the boot configuration
   // ⚠️ CRITICAL: After this write completes, the bootloader will EXIT!
   if (!write32(bootConfig)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to write BOOT_CONFIG");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to write BOOT_CONFIG");
     return false;
   }
   
-  comm_.logDebug(1, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                  "⚠️  START_MOTOR_CTRL command sent - Bootloader is EXITING NOW!");
-  comm_.logDebug(1, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                  "⚠️  Motor control system starting in %s mode", 
                  bootMode == bootcfg::BootMode::Parameter ? "PARAMETER" : "REGISTER");
-  comm_.logDebug(1, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                  "⚠️  Allow 100-150ms for motor control to fully initialize");
-  comm_.logDebug(1, "TMC9660Bootloader", 
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", 
                  "⚠️  Bootloader commands will NO LONGER work after this point");
 
   return true;
@@ -1856,7 +1864,7 @@ bool TMC9660Bootloader::startMotorControl(bootcfg::BootMode bootMode) noexcept {
  */
 bool TMC9660Bootloader::read8(uint8_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read8: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read8: null pointer");
     return false;
   }
   
@@ -1880,7 +1888,7 @@ bool TMC9660Bootloader::read8(uint8_t *value) noexcept {
  */
 bool TMC9660Bootloader::read16(uint16_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read16: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read16: null pointer");
     return false;
   }
   
@@ -1904,7 +1912,7 @@ bool TMC9660Bootloader::read16(uint16_t *value) noexcept {
  */
 bool TMC9660Bootloader::read32(uint32_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read32: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read32: null pointer");
     return false;
   }
   
@@ -1913,7 +1921,7 @@ bool TMC9660Bootloader::read32(uint32_t *value) noexcept {
 
 bool TMC9660Bootloader::read8Inc(uint8_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read8Inc: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read8Inc: null pointer");
     return false;
   }
   
@@ -1928,7 +1936,7 @@ bool TMC9660Bootloader::read8Inc(uint8_t *value) noexcept {
 
 bool TMC9660Bootloader::read16Inc(uint16_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read16Inc: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read16Inc: null pointer");
     return false;
   }
   
@@ -1943,7 +1951,7 @@ bool TMC9660Bootloader::read16Inc(uint16_t *value) noexcept {
 
 bool TMC9660Bootloader::read32Inc(uint32_t *value) noexcept {
   if (!value) {
-    comm_.logDebug(0, "TMC9660Bootloader", "read32Inc: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "read32Inc: null pointer");
     return false;
   }
   
@@ -1952,7 +1960,7 @@ bool TMC9660Bootloader::read32Inc(uint32_t *value) noexcept {
 
 bool TMC9660Bootloader::getBank(uint8_t *bank) noexcept {
   if (!bank) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getBank: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getBank: null pointer");
     return false;
   }
 
@@ -1968,57 +1976,57 @@ bool TMC9660Bootloader::getBank(uint8_t *bank) noexcept {
 bool TMC9660Bootloader::readAndVerify8(uint8_t expected, const char* configName) noexcept {
   uint8_t actual;
   if (!read8(&actual)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back %s", configName);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read back %s", configName);
     return false;
   }
   
   if (actual != expected) {
-    comm_.logDebug(0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%02X, actual=0x%02X", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%02X, actual=0x%02X", 
                    configName, expected, actual);
     return false;
   }
   
-  comm_.logDebug(3, "TMC9660Bootloader", "✅ %s verified: 0x%02X", configName, actual);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "✅ %s verified: 0x%02X", configName, actual);
   return true;
 }
 
 bool TMC9660Bootloader::readAndVerify16(uint16_t expected, const char* configName) noexcept {
   uint16_t actual;
   if (!read16(&actual)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back %s", configName);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read back %s", configName);
     return false;
   }
   
   if (actual != expected) {
-    comm_.logDebug(0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%04X, actual=0x%04X", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%04X, actual=0x%04X", 
                    configName, expected, actual);
     return false;
   }
   
-  comm_.logDebug(3, "TMC9660Bootloader", "✅ %s verified: 0x%04X", configName, actual);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "✅ %s verified: 0x%04X", configName, actual);
   return true;
 }
 
 bool TMC9660Bootloader::readAndVerify32(uint32_t expected, const char* configName) noexcept {
   uint32_t actual;
   if (!read32(&actual)) {
-    comm_.logDebug(0, "TMC9660Bootloader", "Failed to read back %s", configName);
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Failed to read back %s", configName);
     return false;
   }
   
   if (actual != expected) {
-    comm_.logDebug(0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%08X, actual=0x%08X", 
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "❌ %s verification failed: expected=0x%08X, actual=0x%08X", 
                    configName, expected, actual);
     return false;
   }
 
-  comm_.logDebug(3, "TMC9660Bootloader", "✅ %s verified: 0x%08X", configName, actual);
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660Bootloader", "✅ %s verified: 0x%08X", configName, actual);
   return true;
 }
 
 bool TMC9660Bootloader::getAddress(uint32_t *address) noexcept {
   if (!address) {
-    comm_.logDebug(0, "TMC9660Bootloader", "getAddress: null pointer");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "getAddress: null pointer");
     return false;
   }
   
@@ -2026,104 +2034,104 @@ bool TMC9660Bootloader::getAddress(uint32_t *address) noexcept {
 }
 
 bool TMC9660Bootloader::getAllBootloaderInfo() noexcept {
-  comm_.logDebug(1, "TMC9660Bootloader", "");
-  comm_.logDebug(1, "TMC9660Bootloader", "╔══════════════════════════════════════════════════════════════╗");
-  comm_.logDebug(1, "TMC9660Bootloader", "║          TMC9660 BOOTLOADER INFORMATION                      ║");
-  comm_.logDebug(1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "╔══════════════════════════════════════════════════════════════╗");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "║          TMC9660 BOOTLOADER INFORMATION                      ║");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
   
   bool success = true;
   uint32_t value = 0;
   
   // 1. Chip Type
   if (getChipType(&value)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Chip Type:           0x%08X %s", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Chip Type:           0x%08X %s", 
                    value, (value == 0x544D0001) ? "(TMC9660 ✓)" : "(Unknown!)");
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Chip Type:           FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Chip Type:           FAILED TO READ");
     success = false;
   }
   
   // 2. Bootloader Version
   BootloaderVersion blVer;
   if (getBootloaderVersion(&blVer)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Bootloader Version:  v%u.%u", blVer.major, blVer.minor);
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Bootloader Version:  v%u.%u", blVer.major, blVer.minor);
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Bootloader Version:  FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Bootloader Version:  FAILED TO READ");
   }
   
   // 3. Chip Version (Silicon Revision)
   if (getChipVersion(&value)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Silicon Revision:    %u", value);
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Silicon Revision:    %u", value);
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Silicon Revision:    FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Silicon Revision:    FAILED TO READ");
   }
   
   // 4. Chip Variant
   if (getChipVariant(&value)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Chip Variant:        %u %s", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Chip Variant:        %u %s", 
                    value, (value == 2) ? "(TMC9660 ✓)" : "(Unexpected!)");
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Chip Variant:        FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Chip Variant:        FAILED TO READ");
   }
   
   // 5. System Frequency
   if (getChipFrequency(&value)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "System Frequency:    %u MHz", value);
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "System Frequency:    %u MHz", value);
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "System Frequency:    FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "System Frequency:    FAILED TO READ");
   }
   
   // 6. Git Info
   GitInfo gitInfo;
   if (getGitInfo(&gitInfo)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Git Commit:          %07X%s", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Git Commit:          %07X%s", 
                    gitInfo.commit_hash, gitInfo.dirty ? " (dirty)" : "");
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Git Commit:          FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Git Commit:          FAILED TO READ");
   }
   
   // 7. Features
   BootloaderFeatures features;
   if (getFeatures(&features)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Features:");
-    comm_.logDebug(1, "TMC9660Bootloader", "  - SRAM Support:    %s", features.sram_support ? "YES" : "NO");
-    comm_.logDebug(1, "TMC9660Bootloader", "  - ROM:             %s", features.rom ? "YES" : "NO");
-    comm_.logDebug(1, "TMC9660Bootloader", "  - OTP:             %s", features.otp ? "YES" : "NO");
-    comm_.logDebug(1, "TMC9660Bootloader", "  - SPI Flash:       %s", features.spi_flash ? "YES" : "NO");
-    comm_.logDebug(1, "TMC9660Bootloader", "  - I2C EEPROM:      %s", features.i2c_eeprom ? "YES" : "NO");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Features:");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "  - SRAM Support:    %s", features.sram_support ? "YES" : "NO");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "  - ROM:             %s", features.rom ? "YES" : "NO");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "  - OTP:             %s", features.otp ? "YES" : "NO");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "  - SPI Flash:       %s", features.spi_flash ? "YES" : "NO");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "  - I2C EEPROM:      %s", features.i2c_eeprom ? "YES" : "NO");
   } else {
-    comm_.logDebug(0, "TMC9660Bootloader", "Features:            FAILED TO READ");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Features:            FAILED TO READ");
   }
   
   // 8. CONFIG Memory Info
   uint32_t configStart = 0, configSize = 0;
   if (getConfigMemStart(&configStart) && getConfigMemSize(&configSize)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "CONFIG Memory:       Start=0x%08X, Size=%u bytes", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "CONFIG Memory:       Start=0x%08X, Size=%u bytes", 
                    configStart, configSize);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "CONFIG Memory:       Info not available");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "CONFIG Memory:       Info not available");
   }
   
   // 9. OTP Memory Size
   if (getOtpMemSize(&value)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "OTP Page Size:       %u bytes", value);
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "OTP Page Size:       %u bytes", value);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "OTP Page Size:       Not available");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "OTP Page Size:       Not available");
   }
   
   // 10. External Memory Partition Version
   PartitionVersion partVer;
   if (getPartitionVersion(&partVer)) {
-    comm_.logDebug(1, "TMC9660Bootloader", "Partition Version:   v%u.%u", partVer.major, partVer.minor);
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Partition Version:   v%u.%u", partVer.major, partVer.minor);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "Partition Version:   Not available");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "Partition Version:   Not available");
   }
   
   // 11. SPI Flash Info (may fail if no flash connected)
   uint32_t spiSize = 0, spiPartitions = 0;
   bool hasSpiFlash = getSpiMemSize(&spiSize);
   if (hasSpiFlash) {
-    comm_.logDebug(1, "TMC9660Bootloader", "SPI Flash Size:      %u bytes (%.2f KB)", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "SPI Flash Size:      %u bytes (%.2f KB)", 
                    spiSize, spiSize / 1024.0f);
     
     // Try to get partition count (requires SPI bank to be selected)
@@ -2132,22 +2140,22 @@ bool TMC9660Bootloader::getAllBootloaderInfo() noexcept {
     setBank(MemoryBank::SPI_FLASH);
     
     if (getSpiMemPartitions(&spiPartitions)) {
-      comm_.logDebug(1, "TMC9660Bootloader", "SPI Partitions:      %u", spiPartitions);
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "SPI Partitions:      %u", spiPartitions);
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "SPI Partitions:      Not available (may need partitioning)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "SPI Partitions:      Not available (may need partitioning)");
     }
     
     // Restore original bank
     setBank(currentBank);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "SPI Flash:           Not connected or not configured");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "SPI Flash:           Not connected or not configured");
   }
   
   // 12. I2C EEPROM Info (may fail if no EEPROM connected)
   uint32_t i2cSize = 0, i2cPartitions = 0;
   bool hasI2cEeprom = getI2cMemSize(&i2cSize);
   if (hasI2cEeprom) {
-    comm_.logDebug(1, "TMC9660Bootloader", "I2C EEPROM Size:     %u bytes (%.2f KB)", 
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "I2C EEPROM Size:     %u bytes (%.2f KB)", 
                    i2cSize, i2cSize / 1024.0f);
     
     // Try to get partition count (requires I2C bank to be selected)
@@ -2156,19 +2164,19 @@ bool TMC9660Bootloader::getAllBootloaderInfo() noexcept {
     setBank(MemoryBank::I2C_EEPROM);
     
     if (getI2cMemPartitions(&i2cPartitions)) {
-      comm_.logDebug(1, "TMC9660Bootloader", "I2C Partitions:      %u", i2cPartitions);
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "I2C Partitions:      %u", i2cPartitions);
     } else {
-      comm_.logDebug(1, "TMC9660Bootloader", "I2C Partitions:      Not available (may need partitioning)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "I2C Partitions:      Not available (may need partitioning)");
     }
     
     // Restore original bank
     setBank(currentBank);
   } else {
-    comm_.logDebug(1, "TMC9660Bootloader", "I2C EEPROM:          Not connected or not configured");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "I2C EEPROM:          Not connected or not configured");
   }
   
-  comm_.logDebug(1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
-  comm_.logDebug(1, "TMC9660Bootloader", "");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "╚══════════════════════════════════════════════════════════════╝");
+  TMC9660_LOG_DEBUG(comm_,1, "TMC9660Bootloader", "");
   
   return success;
 }

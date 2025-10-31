@@ -20,6 +20,7 @@
 #include "driver/gpio.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "esp_rom_sys.h"
 #include <array>
 #include <cstdarg>
 #include <cstring>
@@ -290,6 +291,18 @@ public:
     
     void delayMs(uint32_t ms) noexcept override {
         vTaskDelay(pdMS_TO_TICKS(ms));
+    }
+
+    void delayUs(uint32_t us) noexcept override {
+        // ESP32: Use esp_rom_delay_us for accurate microsecond delays
+        // For FreeRTOS tasks, convert >= 1ms delays to task delays to avoid blocking
+        if (us >= 1000) {
+            // For >= 1ms, use task delay (non-blocking)
+            vTaskDelay(pdMS_TO_TICKS((us + 999) / 1000));
+        } else {
+            // For < 1ms, use busy-wait delay (accurate but blocks)
+            esp_rom_delay_us(us);
+        }
     }
 
 private:
@@ -618,12 +631,6 @@ public:
             return false;
         }
 
-#ifndef TMC9660_DISABLE_COMM_DEBUG
-        // Log transmitted bytes
-        logDebug(2, "UART_BL", "[UART BL TX] %02X %02X %02X %02X %02X %02X %02X %02X",
-                 tx[0], tx[1], tx[2], tx[3], tx[4], tx[5], tx[6], tx[7]);
-#endif
-
         // Wait for transmission to complete
         uart_wait_tx_done(uart_num_, portMAX_DELAY);
 
@@ -631,25 +638,8 @@ public:
         int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), pdMS_TO_TICKS(10));
         if (bytes_read != static_cast<int>(rx.size())) {
             ESP_LOGE(BUS_TAG, "UART bootloader read failed: expected %zu, read %d", rx.size(), bytes_read);
-#ifndef TMC9660_DISABLE_COMM_DEBUG
-            // Log partial data if any was received
-            if (bytes_read > 0) {
-                logDebug(2, "UART_BL", "[UART BL RX] (partial %d bytes) %02X %02X %02X %02X %02X %02X %02X %02X",
-                         bytes_read,
-                         bytes_read > 0 ? rx[0] : 0, bytes_read > 1 ? rx[1] : 0,
-                         bytes_read > 2 ? rx[2] : 0, bytes_read > 3 ? rx[3] : 0,
-                         bytes_read > 4 ? rx[4] : 0, bytes_read > 5 ? rx[5] : 0,
-                         bytes_read > 6 ? rx[6] : 0, bytes_read > 7 ? rx[7] : 0);
-            }
-#endif
             return false;
         }
-
-#ifndef TMC9660_DISABLE_COMM_DEBUG
-        // Log received bytes
-        logDebug(2, "UART_BL", "[UART BL RX] %02X %02X %02X %02X %02X %02X %02X %02X",
-                 rx[0], rx[1], rx[2], rx[3], rx[4], rx[5], rx[6], rx[7]);
-#endif
 
         return true;
     }
@@ -742,6 +732,18 @@ public:
     
     void delayMs(uint32_t ms) noexcept override {
         vTaskDelay(pdMS_TO_TICKS(ms));
+    }
+
+    void delayUs(uint32_t us) noexcept override {
+        // ESP32: Use esp_rom_delay_us for accurate microsecond delays
+        // For FreeRTOS tasks, convert >= 1ms delays to task delays to avoid blocking
+        if (us >= 1000) {
+            // For >= 1ms, use task delay (non-blocking)
+            vTaskDelay(pdMS_TO_TICKS((us + 999) / 1000));
+        } else {
+            // For < 1ms, use busy-wait delay (accurate but blocks)
+            esp_rom_delay_us(us);
+        }
     }
 
 private:

@@ -49,17 +49,50 @@ Both SPI and UART share the same core TMCL command structure:
 
 | Field | Size | Description | Notes |
 |-------|------|-------------|-------|
-| **Operation** | 1 byte | TMCL operation code | e.g., 0x06 for SAP, 0x88 for GetVersion |
-| **Type** | 1 byte | Parameter type or address | Context-dependent on operation |
-| **Motor/Bank** | 1 byte | Motor number or memory bank | Lower 4 bits used |
+| **Operation** | 1 byte | TMCL operation code | e.g., 0x05 for SAP, 0x06 for GAP, 0x88 for GetVersion |
+| **Type** | 12 bits | Parameter type or address | SPI: split across bytes 1-2, UART: 8 bits in byte 2 |
+| **Motor/Bank** | 4 bits | Motor number or memory bank | SPI: in byte 2 upper nibble, UART: in byte 3 lower nibble |
 | **Value** | 4 bytes | Data value (big-endian) | MSB first |
 
 ### SPI Frame Format (8 bytes)
 
+⚠️ **CRITICAL: Type field is 12 bits, not 8 bits! Motor shares Byte 2 with Type!**
+
 ```
-Byte:  0        1        2        3        4-7      8
-Field: [OpCode] [Type  ] [Motor ] [Value (32-bit) ] [Checksum]
+┌──────┬──────┬─────────────┬──────────────────┬──────┐
+│ Byte │  0   │      1-2     │      3-6         │  7   │
+├──────┼──────┼─────────────┼──────────────────┼──────┤
+│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)    │ CSUM │
+│ Bits │ 0-7  │  8-19 + 20-23│    24-55         │56-63 │
+└──────┴──────┴─────────────┴──────────────────┴──────┘
+
+Detailed Byte Layout:
+┌──────┬──────┬──────────────────┬──────────────────┐
+│ Byte │  0   │       1          │       2          │
+├──────┼──────┼──────────────────┼──────────────────┤
+│ Field│ OP   │ Type bits 0-7    │ Type 8-11 | Motor│
+│ Bits │ 0-7  │    8-15          │  16-19   | 20-23 │
+│      │      │ (lower 8 bits)   │(lower)   |(upper)│
+└──────┴──────┴──────────────────┴──────────────────┘
+
+Note: In Byte 2, Type bits 16-19 are in the lower nibble, Motor bits 20-23 are in the upper nibble
+
+Byte 1: Type bits 0-7 (lower 8 bits of 12-bit Type field)
+Byte 2: Upper nibble (bits 4-7) = Motor/Bank (bits 20-23)
+        Lower nibble (bits 0-3) = Type bits 8-11 (upper 4 bits of 12-bit Type)
+Byte 3-6: 32-bit Value (big-endian)
 ```
+
+**Encoding Example (Type=110=0x006E, Motor=0):**
+- Byte 0: Opcode (e.g., 0x05 for SAP)
+- Byte 1: `type & 0xFF` = `0x6E` (lower 8 bits of type)
+- Byte 2: `((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)`
+- Bytes 3-6: Value (big-endian)
+- Byte 7: Checksum
+
+**Decoding:**
+- Type = `in[1] | ((in[2] & 0x0F) << 8)` (BYTE1 lower 8 bits + BYTE2 lower nibble shifted)
+- Motor = `(in[2] >> 4) & 0x0F` (BYTE2 upper nibble)
 
 ### UART Frame Format (9 bytes)
 
@@ -68,6 +101,8 @@ Byte:  0             1        2        3        4-7      8
 Field: [Sync+Addr  ] [OpCode] [Type  ] [Motor ] [Value (32-bit) ] [Checksum]
        └─ Bit 0: Sync (always 1)
        └─ Bits 1-7: Module Address
+       
+Note: UART Type field is 8 bits (byte 2), Motor is 4 bits in byte 3 lower nibble
 ```
 
 ---
@@ -143,13 +178,16 @@ uint8_t tmclChecksum(const uint8_t *bytes, size_t n) {
 
 ### Example Calculation:
 
-Command: `SAP 4, 0, 1000` (Set Max Current to 1000)
+Command: `SAP 4, 0, 1000` (Set Axis Parameter: Type=4, Motor=0, Value=1000)
 ```
-Byte 0: 0x06 (SAP opcode)
-Byte 1: 0x04 (Type = max current)
-Byte 2: 0x00 (Motor 0)
-Byte 3-6: 0x000003E8 (1000 in big-endian)
-Checksum: 0x06 + 0x04 + 0x00 + 0x00 + 0x00 + 0x03 + 0xE8 = 0xF5
+Byte 0: 0x05 (SAP opcode = 0x05)
+Byte 1: 0x04 (Type lower 8 bits = 0x04)
+Byte 2: 0x00 ((Motor << 4) | (Type upper 4 bits)) = (0 << 4) | 0 = 0x00
+Byte 3: 0x00 (Value MSB)
+Byte 4: 0x00
+Byte 5: 0x03 (Value)
+Byte 6: 0xE8 (Value LSB = 1000 decimal)
+Checksum: 0x05 + 0x04 + 0x00 + 0x00 + 0x00 + 0x03 + 0xE8 = 0xF4
 ```
 
 ---
@@ -183,11 +221,34 @@ The first byte of every SPI reply contains a status code:
 
 ```
 Byte 0: SPI Status (0xFF, 0x13, 0x0C, 0xF0, or 0x00)
-Byte 1: Host Address (usually 0xFF in replies)
-Byte 2: TMCL Status (100 = success, errors vary)
-Byte 3: Operation (echoed from command)
-Byte 4-7: Value (big-endian)
+Byte 1: TMCL Status (100 = REPLY_OK, errors vary)
+Byte 2: Operation (echoed from command)
+Byte 3-6: Value (big-endian, 32-bit)
+Byte 7: Checksum (sum of bytes 0-6)
 ```
+
+**⚠️ Important:** The SPI reply format does NOT include a separate host address byte. The first byte is always the SPI status code.
+
+### SPI_STATUS_NOT_READY Retry Logic
+
+The driver includes **automatic retry logic** for `SPI_STATUS_NOT_READY` (0xF0) responses:
+
+```cpp
+// Configurable retry settings (defaults):
+comm.setSpiRetryMaxCount(3);        // Default: 3 retries
+comm.setSpiRetryInterval(100);      // Default: 100 microseconds
+
+// When SPI_STATUS_NOT_READY is received:
+// 1. Command is automatically resent after delay
+// 2. Retries continue up to maxRetryCount
+// 3. If max retries exceeded, returns false with NOT_READY status
+```
+
+**Retry Behavior:**
+- Retry interval is in **microseconds** (not milliseconds) for precise timing
+- Each retry sends the **same command** again
+- Logging shows retry attempts: `⚠️  SPI_STATUS_NOT_READY received, retrying (attempt 1/4) after 100 us`
+- If all retries fail, the reply structure is manually populated and function returns `false`
 
 ### Polling for SPI_STATUS_OK
 
@@ -339,6 +400,17 @@ out[0] = (addr & 0xFE) | 0x01;
 **Problem**: Waiting forever for incomplete UART datagram
 **Solution**: Implement 10ms timeout, drop incomplete data
 
+### 8. Incorrect SPI Type Field Encoding
+**Problem**: Treating Type field as 8 bits instead of 12 bits, or incorrect byte packing
+**Solution**:
+- **BYTE 1**: Type bits 0-7 (lower 8 bits) = `type & 0xFF`
+- **BYTE 2**: Upper nibble = Motor, Lower nibble = Type bits 8-11 = `((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)`
+- Always use `TMCLFrame::toSpi()` for encoding and `TMCLReply::fromSpi()` for decoding
+
+### 9. SPI_STATUS_NOT_READY Not Handled
+**Problem**: Not retrying commands that return `SPI_STATUS_NOT_READY`
+**Solution**: Use the built-in retry logic with `setSpiRetryMaxCount()` and `setSpiRetryInterval()`, or implement manual retry in your application code
+
 ---
 
 ## Implementation Checklist
@@ -355,9 +427,12 @@ out[0] = (addr & 0xFE) | 0x01;
 - [ ] Handle `SESSION_START` on first command
 - [ ] Handle one-transaction reply delay
 - [ ] Poll for `SPI_STATUS_OK` after bootloader exit
-- [ ] Handle `SPI_STATUS_NOT_READY` by resending
+- [ ] Configure retry logic for `SPI_STATUS_NOT_READY` (`setSpiRetryMaxCount`, `setSpiRetryInterval`)
 - [ ] Checksum covers bytes 0-6 only
+- [ ] Type field correctly encoded as 12 bits across bytes 1-2
+- [ ] Motor field in BYTE2 upper nibble, Type upper 4 bits in BYTE2 lower nibble
 - [ ] GetVersion string format handled
+- [ ] Use `TMCLReply::fromSpi()` for parsing (includes context for special replies)
 
 ### Both Interfaces:
 - [ ] Strict command/reply order enforced
@@ -378,5 +453,4 @@ out[0] = (addr & 0xFE) | 0x01;
 ---
 
 *Last Updated: 2025-01-27*
-*Version: 2.0 - Includes all critical fixes and protocol nuances*
 

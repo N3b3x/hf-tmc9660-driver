@@ -8,19 +8,27 @@
  * 
  * ## Compile-Time Configuration
  * 
- * **TMC9660_DISABLE_COMM_DEBUG**: Define this macro to completely disable communication
- * debug logging (TX/RX hex dumps). This removes the logging code from the binary, saving
- * code size and improving performance.
+ * **TMC9660_DISABLE_DEBUG_LOGGING**: Define this macro to completely disable all debug
+ * logging throughout the TMC9660 library (including TX/RX hex dumps, bootloader logs,
+ * and initialization messages). This removes all logging code from the binary at compile
+ * time, saving code size and improving performance. When disabled, all TMC9660_LOG_DEBUG
+ * macro calls are optimized out completely, including argument evaluation.
  * 
  * Example usage:
  * ```cpp
  * // In your build system or before including this header:
- * #define TMC9660_DISABLE_COMM_DEBUG
+ * #define TMC9660_DISABLE_DEBUG_LOGGING
+ * #include "TMC9660CommInterface.hpp"
+ * ```
+ * 
+ * Or via compiler flags:
+ * ```bash
+ * -DTMC9660_DISABLE_DEBUG_LOGGING
  * ```
  * 
  * Or in CMake:
  * ```cmake
- * target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_COMM_DEBUG)
+ * target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_DEBUG_LOGGING)
  * ```
  * 
  * @defgroup TMC9660_CommInterface Communication Interfaces
@@ -99,6 +107,29 @@
 #include <cstring>
 #include <span>
 #include <string>
+
+/**
+ * @brief Compile-time debug logging control for TMC9660 library
+ * 
+ * Define TMC9660_DISABLE_DEBUG_LOGGING before including this header to completely
+ * disable all debug logging. When disabled, all logDebug() calls are optimized out
+ * at compile time, including argument evaluation (via macro replacement).
+ * 
+ * Example usage:
+ *   #define TMC9660_DISABLE_DEBUG_LOGGING
+ *   #include "TMC9660CommInterface.hpp"
+ * 
+ * Or via compiler flags:
+ *   -DTMC9660_DISABLE_DEBUG_LOGGING
+ */
+#ifndef TMC9660_DISABLE_DEBUG_LOGGING
+  // Debug logging enabled - use actual function call
+  #define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) \
+    (comm_obj).logDebug(level, tag, __VA_ARGS__)
+#else
+  // Debug logging disabled - optimize out completely (arguments not evaluated)
+  #define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) ((void)0)
+#endif
 
 /**
  * @brief Supported physical communication modes for TMC9660.
@@ -355,15 +386,15 @@ struct TMCLReply {
 };
 
 /**
- * @brief Frame structure for TMCL commands and replies.
+ * @brief Frame structure for TMCL commands.
  *
  * Supports conversion to/from SPI (8 bytes) and UART (9 bytes) formats.
  */
 struct TMCLFrame {
   uint8_t opcode = 0; ///< Operation code field (BYTE 0, bits 0-7).
   uint16_t type = 0;  ///< Parameter or command type (BYTE 1-2, bits 8-19).
-  uint8_t motor = 0;  ///< Motor or bank identifier (BYTE 3, bits 20-23).
-  uint32_t value = 0; ///< 32-bit data value (BYTE 4-7, bits 24-55).
+  uint8_t motor = 0;  ///< Motor or bank identifier (BYTE 2, bits 20-23).
+  uint32_t value = 0; ///< 32-bit data value (BYTE 3-6, bits 24-55).
 
   /**
    * @brief Serialize frame into 8-byte SPI buffer.
@@ -371,8 +402,9 @@ struct TMCLFrame {
    */
   void toSpi(std::span<uint8_t, 8> out) const noexcept {
     out[0] = opcode;
-    out[1] = static_cast<uint8_t>(type >> 4);
-    out[2] = static_cast<uint8_t>((type << 4) | (motor & 0x0F));
+    out[1] = static_cast<uint8_t>(type & 0xFF);  // Type lower 8 bits (bits 0-7)
+    // BYTE2: bits 20-23 (high nibble) = Motor/Bank, bits 16-19 (upper nibble) = Type upper 4 bits
+    out[2] = static_cast<uint8_t>(((motor & 0x0F) << 4) | ((type & 0xF00) >> 8));
     out[3] = static_cast<uint8_t>(value >> 24);
     out[4] = static_cast<uint8_t>(value >> 16);
     out[5] = static_cast<uint8_t>(value >> 8);
@@ -409,8 +441,10 @@ struct TMCLFrame {
   static TMCLFrame fromSpi(std::span<const uint8_t, 8> in) noexcept {
     TMCLFrame f;
     f.opcode = in[0];
-    f.type = static_cast<uint16_t>(in[1]) << 4 | (in[2] >> 4);
-    f.motor = in[2] & 0x0F;
+    // BYTE1: Type lower 8 bits (bits 0-7)
+    // BYTE2: bits 20-23 (high nibble) = Motor/Bank, bits 16-19 (low nibble) = Type upper 4 bits
+    f.type = static_cast<uint16_t>(in[1] | ((in[2] & 0x0F) << 8));
+    f.motor = (in[2] >> 4) & 0x0F;
     f.value = (static_cast<uint32_t>(in[3]) << 24) | (static_cast<uint32_t>(in[4]) << 16) |
               (static_cast<uint32_t>(in[5]) << 8) | static_cast<uint32_t>(in[6]);
     return f;
@@ -609,6 +643,48 @@ public:
     return true;
   }
 
+  /**
+   * @brief Set maximum number of retries for SPI_STATUS_NOT_READY responses.
+   * 
+   * When a command receives SPI_STATUS_NOT_READY (0xF0), the system will
+   * automatically retry the command up to the specified number of times.
+   * 
+   * @param maxRetries Maximum number of retry attempts (0 = no retries, only original attempt)
+   * @note Setting to 0 disables retry logic entirely
+   */
+  void setSpiRetryMaxCount(uint8_t maxRetries) noexcept {
+    spiRetryMaxCount_ = maxRetries;
+  }
+
+  /**
+   * @brief Get current maximum retry count for SPI_STATUS_NOT_READY.
+   * @return Current maximum retry count
+   */
+  uint8_t getSpiRetryMaxCount() const noexcept {
+    return spiRetryMaxCount_;
+  }
+
+  /**
+   * @brief Set delay interval between retry attempts for SPI_STATUS_NOT_READY.
+   * 
+   * When retrying a command due to SPI_STATUS_NOT_READY, wait this many
+   * microseconds before retrying.
+   * 
+   * @param intervalUs Delay in microseconds between retry attempts
+   * @note Typical values: 10-1000 microseconds for SPI communication
+   */
+  void setSpiRetryInterval(uint32_t intervalUs) noexcept {
+    spiRetryIntervalUs_ = intervalUs;
+  }
+
+  /**
+   * @brief Get current retry interval for SPI_STATUS_NOT_READY.
+   * @return Current retry interval in microseconds
+   */
+  uint32_t getSpiRetryInterval() const noexcept {
+    return spiRetryIntervalUs_;
+  }
+
 protected:
   /**
    * @brief Pin active level configuration storage.
@@ -623,6 +699,24 @@ protected:
    * @see ::signalToGpioLevel() for usage
    */
   bool pinActiveLevels_[4];
+
+  /**
+   * @brief Maximum number of retries for SPI_STATUS_NOT_READY responses.
+   * 
+   * When a command receives SPI_STATUS_NOT_READY (0xF0), the system will
+   * automatically retry the command up to this many times.
+   * Default: 3 retries
+   */
+  uint8_t spiRetryMaxCount_ = 3;
+
+  /**
+   * @brief Delay interval in microseconds between retry attempts.
+   * 
+   * When retrying a command due to SPI_STATUS_NOT_READY, wait this many
+   * microseconds before retrying.
+   * Default: 100us (0.1ms) - fine-grained for fast SPI communication
+   */
+  uint32_t spiRetryIntervalUs_ = 100;
 
   /**
    * @brief Debug logging function for detailed debugging information.
@@ -646,6 +740,21 @@ public:
    * @note Used by bootloader operations that require timing (e.g., VDRV voltage drop wait)
    */
   virtual void delayMs(uint32_t ms) noexcept = 0;
+
+  /**
+   * @brief Delay execution for specified microseconds
+   * @param us Microseconds to delay
+   * @note This function should be implemented by the user to provide platform-specific delay
+   * @note Used for fine-grained retry timing in SPI communication
+   * @note Default implementation converts to milliseconds (may lose precision for < 1ms)
+   * @note Platform implementations should provide accurate microsecond delays when possible
+   */
+  virtual void delayUs(uint32_t us) noexcept {
+    // Default implementation: convert to milliseconds (rounds up to avoid zero delay)
+    if (us == 0) return;
+    uint32_t ms = (us + 999) / 1000;  // Round up to nearest millisecond
+    delayMs(ms);
+  }
   /**
    * @brief Public debug logging wrapper for external classes.
    * 
@@ -656,7 +765,11 @@ public:
    * @param tag Log tag for categorization
    * @param format printf-style format string
    * @param ... Variable arguments for format string
+   * 
+   * @note When TMC9660_DISABLE_DEBUG_LOGGING is defined, this function becomes a no-op
+   *       and all logging code is optimized out at compile time.
    */
+#ifndef TMC9660_DISABLE_DEBUG_LOGGING
   void logDebug(int level, const char* tag, const char* format, ...) noexcept {
     va_list args;
     va_start(args, format);
@@ -682,6 +795,12 @@ public:
     
     va_end(args);
   }
+#else
+  // Debug logging disabled - function optimized out completely
+  inline void logDebug(int /*level*/, const char* /*tag*/, const char* /*format*/, ...) noexcept {
+    // Empty function body - all logging optimized out
+  }
+#endif
 };
 
 /**
@@ -753,7 +872,7 @@ public:
     tx.toSpi(txBuf);
     
     // Log raw SPI bytes being transmitted
-    logDebug(2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+    TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
              txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
              txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
     
@@ -761,37 +880,83 @@ public:
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
     
-    logDebug(2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+    TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
              rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
              rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
     
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (firstReply) {
       bool firstParseOk = TMCLReply::fromSpi(rxBuf, *firstReply);
-      logDebug(2, "SPI_TMCL", "          └─> Status=0x%02X, Value=0x%08X (parse %s)",
-               static_cast<uint8_t>(firstReply->spiStatus), firstReply->value,
+      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
+               static_cast<uint8_t>(firstReply->spiStatus), firstReply->status, firstReply->value,
                firstParseOk ? "OK" : "failed");
       // Note: We don't return false here because SESSION_START may have non-standard format
       // The caller can check rawBytes[0] for SESSION_START status codes
     }
     
     // Transaction 2: Send second command (or NO_OP), receive final reply
+    // This transaction is wrapped in retry logic for SPI_STATUS_NOT_READY
     TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
     cmd2.toSpi(txBuf);
     
-    logDebug(2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
-             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
-    
-    if (!spiTransferTMCL(txBuf, rxBuf))
-      return false;
-    
-    logDebug(2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+    // Retry loop for SPI_STATUS_NOT_READY responses
+    uint8_t retryCount = 0;
+    while (true) {
+      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X%s",
+               txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
+               txBuf[4], txBuf[5], txBuf[6], txBuf[7],
+               retryCount > 0 ? " (retry)" : "");
+      
+      if (!spiTransferTMCL(txBuf, rxBuf))
+        return false;
+      
+      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+               rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
+               rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+      
+      // Check SPI status byte (first byte) for NOT_READY
+      SPIStatus spiStatus = static_cast<SPIStatus>(rxBuf[0]);
+      
+      if (spiStatus == SPIStatus::NOT_READY) {
+        // System not ready - retry if we haven't exceeded max retries
+        if (retryCount < spiRetryMaxCount_) {
+          retryCount++;
+          TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us",
+                   retryCount, spiRetryMaxCount_ + 1, spiRetryIntervalUs_);
+          delayUs(spiRetryIntervalUs_);
+          continue; // Retry the transaction
+        } else {
+          // Max retries exceeded - parse reply manually since fromSpi returns false for NOT_READY
+          TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL", "❌ SPI_STATUS_NOT_READY: Max retries (%u) exceeded", spiRetryMaxCount_);
+          // Validate checksum before parsing
+          if (tmclChecksum(rxBuf.data(), 7) != rxBuf[7]) {
+            TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL", "⚠️  Checksum error in NOT_READY response");
+            return false;
+          }
+          // Manually populate reply structure for NOT_READY response
+          std::copy(rxBuf.begin(), rxBuf.end(), reply.rawBytes.begin());
+          reply.spiStatus = SPIStatus::NOT_READY;
+          reply.status = rxBuf[1];  // TMCL status
+          reply.opcode = rxBuf[2];  // Operation code
+          reply.value = (static_cast<uint32_t>(rxBuf[3]) << 24) |
+                       (static_cast<uint32_t>(rxBuf[4]) << 16) |
+                       (static_cast<uint32_t>(rxBuf[5]) << 8) |
+                       static_cast<uint32_t>(rxBuf[6]);
+          return false; // Return false to indicate failure
+        }
+      }
+      
+      // Not NOT_READY - parse and return normally
+      break;
+    }
     
     // Parse reply with command context (for handling special reply formats like GetVersion string)
-    return TMCLReply::fromSpi(rxBuf, reply, tx.opcode, tx.type);
+    bool parseOk = TMCLReply::fromSpi(rxBuf, reply, tx.opcode, tx.type);
+    if (!parseOk && static_cast<SPIStatus>(rxBuf[0]) == SPIStatus::NOT_READY) {
+      // This shouldn't happen due to retry logic, but handle it just in case
+      TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL", "⚠️  Unexpected NOT_READY after retry loop");
+    }
+    return parseOk;
   }
 
 };

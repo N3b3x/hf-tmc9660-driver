@@ -73,61 +73,61 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // STEP 1: Hardware Reset Sequence (if requested)
   // ======================================================================
   if (performReset) {
-    comm_.logDebug(2, "TMC9660", "Performing hardware reset sequence...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Performing hardware reset sequence...");
     
     // 1.1: Assert RST (active high) to enter reset state
     if (!comm_.gpioSetActive(TMC9660CtrlPin::RST)) {
-      comm_.logDebug(0, "TMC9660", "Failed to assert RST pin");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Failed to assert RST pin");
       return BootloaderInitResult::Failure;
     }
     comm_.delayMs(10);  // Hold reset for 10ms
     
     // 1.2: Release RST to exit reset state
     if (!comm_.gpioSetInactive(TMC9660CtrlPin::RST)) {
-      comm_.logDebug(0, "TMC9660", "Failed to release RST pin");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Failed to release RST pin");
       return BootloaderInitResult::Failure;
     }
     
     // 1.3: Wait for FAULTN to go inactive (chip ready)
-    comm_.logDebug(3, "TMC9660", "Waiting for FAULTN to go inactive (chip ready)...");
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "Waiting for FAULTN to go inactive (chip ready)...");
     bool chipReady = false;
     for (int i = 0; i < 100; ++i) {  // Timeout after 1 second
       GpioSignal faultnSignal;
       if (!comm_.gpioRead(TMC9660CtrlPin::FAULTN, faultnSignal)) {
-        comm_.logDebug(1, "TMC9660", "⚠️  Failed to read FAULTN pin - continuing anyway");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Failed to read FAULTN pin - continuing anyway");
         break;  // Don't fail, just continue without FAULTN monitoring
       }
       
       // FAULTN is active-low, so INACTIVE means chip is ready
       if (faultnSignal == GpioSignal::INACTIVE) {
         chipReady = true;
-        comm_.logDebug(2, "TMC9660", "✅ FAULTN inactive - chip ready after %d ms", i * 10);
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ FAULTN inactive - chip ready after %d ms", i * 10);
         break;
       }
       comm_.delayMs(10);
     }
     
     if (!chipReady) {
-      comm_.logDebug(1, "TMC9660", "⚠️  FAULTN did not go inactive within timeout - continuing anyway");
-      comm_.logDebug(1, "TMC9660", "   (FAULTN may not be configured or chip may be in different state)");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  FAULTN did not go inactive within timeout - continuing anyway");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "   (FAULTN may not be configured or chip may be in different state)");
     }
     
     // Small delay for chip to fully stabilize in bootloader
     comm_.delayMs(50);
   } else {
-    comm_.logDebug(2, "TMC9660", "Skipping hardware reset (performReset=false)");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Skipping hardware reset (performReset=false)");
   }
 
   // ======================================================================
   // STEP 2: Detect Current Mode (Bootloader vs Parameter Mode)
   // ======================================================================
-  comm_.logDebug(2, "TMC9660", "Detecting chip mode (bootloader vs parameter)...");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Detecting chip mode (bootloader vs parameter)...");
   
   // Additional delay for UART communication to stabilize after reset
   // UART requires more setup time than SPI
   if (comm_.mode() == CommMode::UART) {
     comm_.delayMs(100);
-    comm_.logDebug(3, "TMC9660", "UART mode: Added 100ms stabilization delay");
+    TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "UART mode: Added 100ms stabilization delay");
   }
   
   bool inBootloaderMode = false;
@@ -137,38 +137,38 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   bool tmclSuccess = comm_.transferTMCL(statusFrame, finalReply, address_, &firstReply);
   
   uint8_t rawStatus = firstReply.rawBytes[0];
-  comm_.logDebug(3, "TMC9660", "First reply raw status: 0x%02X (TMCL parse %s)",
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "First reply raw status: 0x%02X (TMCL parse %s)",
                 rawStatus, tmclSuccess ? "succeeded" : "failed");
   
   // For UART: If TMCL transfer completely failed (no response), chip is likely in bootloader mode
   // For SPI: Always get a response due to full-duplex nature, check status codes
   if (comm_.mode() == CommMode::UART && !tmclSuccess) {
     inBootloaderMode = true;
-    comm_.logDebug(2, "TMC9660", "Chip in BOOTLOADER mode (UART: no TMCL response)");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in BOOTLOADER mode (UART: no TMCL response)");
   }
   else if (rawStatus == 0x13) {
     inBootloaderMode = true;
     uint32_t version = firstReply.extractRawValue(1);
-    comm_.logDebug(2, "TMC9660", "Chip in BOOTLOADER mode (SESSION_START), version: %d.%d",
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in BOOTLOADER mode (SESSION_START), version: %d.%d",
                   (version >> 16) & 0xFFFF, version & 0xFFFF);
   }
   else if (rawStatus == 0x0C) {
     inParameterMode = true;
     uint32_t version = tmclSuccess ? firstReply.value : firstReply.extractRawValue(1);
-    comm_.logDebug(2, "TMC9660", "Chip in PARAMETER mode (FIRST_CMD), version: %d.%d",
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in PARAMETER mode (FIRST_CMD), version: %d.%d",
                   (version >> 16) & 0xFFFF, version & 0xFFFF);
   }
   else if (rawStatus == 0xFF && tmclSuccess && (firstReply.status == 100 || firstReply.status == 101)) {
     inParameterMode = true;
-    comm_.logDebug(2, "TMC9660", "Chip in PARAMETER mode (initialized)");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in PARAMETER mode (initialized)");
   }
   else if (rawStatus == 0x00 && comm_.mode() == CommMode::SPI) {
     // For SPI: 0x00 can indicate bootloader OK status
     inBootloaderMode = true;
-    comm_.logDebug(2, "TMC9660", "Chip in BOOTLOADER mode (SPI: OK status 0x00)");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in BOOTLOADER mode (SPI: OK status 0x00)");
   }
   else {
-    comm_.logDebug(0, "TMC9660", "Unable to detect chip mode (unknown status: 0x%02X, TMCL %s)",
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Unable to detect chip mode (unknown status: 0x%02X, TMCL %s)",
                   rawStatus, tmclSuccess ? "succeeded" : "failed");
     return BootloaderInitResult::Failure;
   }
@@ -177,11 +177,11 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // STEP 3: Handle Parameter Mode Scenarios
   // ======================================================================
   if (inParameterMode && !inBootloaderMode) {
-    comm_.logDebug(2, "TMC9660", "Chip in parameter mode, transitioning to bootloader...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Chip in parameter mode, transitioning to bootloader...");
     
     // Send Boot command to enter bootloader
     if (!enterBootloaderMode()) {
-      comm_.logDebug(0, "TMC9660", "Failed to send Boot command");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Failed to send Boot command");
       return BootloaderInitResult::Failure;
     }
     
@@ -191,15 +191,15 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
     // Verify we're now in bootloader mode
     uint32_t replyAfterBoot = 0;
     if (!bootloader_->noOp(&replyAfterBoot)) {
-      comm_.logDebug(0, "TMC9660", "Failed to verify bootloader mode after Boot command");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Failed to verify bootloader mode after Boot command");
       return BootloaderInitResult::Failure;
     }
     
     uint8_t statusAfterBoot = static_cast<uint8_t>((replyAfterBoot >> 24) & 0xFF);
     if (statusAfterBoot != 0x15) {  // BOOTLOADER_RESUMED status
-      comm_.logDebug(1, "TMC9660", "⚠️  Expected BOOTLOADER_RESUMED (0x15), got 0x%02X", statusAfterBoot);
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Expected BOOTLOADER_RESUMED (0x15), got 0x%02X", statusAfterBoot);
     } else {
-      comm_.logDebug(2, "TMC9660", "✅ Successfully entered bootloader mode");
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Successfully entered bootloader mode");
     }
     
     inBootloaderMode = true;
@@ -214,21 +214,21 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
     // STEP 4.5: Retrieve Bootloader Information (if requested)
     // ======================================================================
     if (retrieveBootloaderInfo) {
-      comm_.logDebug(2, "TMC9660", "Retrieving bootloader information...");
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Retrieving bootloader information...");
       if (!bootloader_->getAllBootloaderInfo()) {
-        comm_.logDebug(1, "TMC9660", "⚠️  Failed to retrieve some bootloader information");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Failed to retrieve some bootloader information");
       }
     }
     else {
-      comm_.logDebug(2, "TMC9660", "Skipping bootloader information retrieval (retrieveBootloaderInfo=false)");
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Skipping bootloader information retrieval (retrieveBootloaderInfo=false)");
     }
 
-    comm_.logDebug(2, "TMC9660", "Applying bootloader configuration...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Applying bootloader configuration...");
     if (!bootloader_->applyConfiguration(*useCfg, failOnVerifyError)) {
-      comm_.logDebug(0, "TMC9660", "Failed to apply bootloader configuration");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "Failed to apply bootloader configuration");
       return BootloaderInitResult::Failure;
     }
-    comm_.logDebug(2, "TMC9660", "✅ Bootloader configuration applied successfully");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Bootloader configuration applied successfully");
   }
 
 
@@ -236,18 +236,18 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // STEP 5: Check if motor control should be started
   // ======================================================================
   if (!useCfg->boot.start_motor_control) {
-    comm_.logDebug(2, "TMC9660", "✅ Bootloader initialization complete (motor control NOT started)");
-    comm_.logDebug(2, "TMC9660", "   cfg.boot.start_motor_control=false - chip remains in bootloader mode");
-    comm_.logDebug(2, "TMC9660", "   Call bootloader_->startMotorControl() when ready");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Bootloader initialization complete (motor control NOT started)");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "   cfg.boot.start_motor_control=false - chip remains in bootloader mode");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "   Call bootloader_->startMotorControl() when ready");
     return BootloaderInitResult::Success;
   }
 
   // Motor control will be started automatically by Bootloader after applyConfiguration() when 
   // cfg.boot.start_motor_control=true is written to the boot config register
-  comm_.logDebug(2, "TMC9660", "✅ Bootloader initialization complete");
-  comm_.logDebug(2, "TMC9660", "   Motor control started automatically via cfg.boot.start_motor_control=true");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Bootloader initialization complete");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "   Motor control started automatically via cfg.boot.start_motor_control=true");
   
-  comm_.logDebug(2, "TMC9660", "⚠️  Waiting for initialization...");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "⚠️  Waiting for initialization...");
   comm_.delayMs(100);
   
   // ======================================================================
@@ -257,7 +257,7 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
   // For UART: Simply verify TMCL communication works (no status codes)
   
   if (comm_.mode() == CommMode::SPI) {
-    comm_.logDebug(2, "TMC9660", "SPI mode: Waiting for SESSION_START and consuming status codes...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "SPI mode: Waiting for SESSION_START and consuming status codes...");
     
     // Poll for chip readiness and SESSION_START (SPI-specific)
     bool sessionStartReceived = false;
@@ -266,89 +266,89 @@ TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset,
       comm_.transferTMCL(statusFrame, finalReply2, address_, &firstReply2);
       
       uint8_t rawStatus2 = finalReply2.rawBytes[0];  // Check the reply to the CURRENT command
-      comm_.logDebug(3, "TMC9660", "Attempt %d/50: Current reply raw status: 0x%02X", attempt + 1, rawStatus2);
+      TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "Attempt %d/50: Current reply raw status: 0x%02X", attempt + 1, rawStatus2);
       
       if (rawStatus2 == 0x0C) {
-        comm_.logDebug(2, "TMC9660", "✅ Parameter mode SESSION_START (0x0C) received after %d attempts", attempt + 1);
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Parameter mode SESSION_START (0x0C) received after %d attempts", attempt + 1);
         sessionStartReceived = true;
         break;
       } else if (rawStatus2 == 0xFF) {
-        comm_.logDebug(2, "TMC9660", "✅ SPI_STATUS_OK (0xFF) received after %d attempts - chip ready", attempt + 1);
+        TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ SPI_STATUS_OK (0xFF) received after %d attempts - chip ready", attempt + 1);
         sessionStartReceived = true;
         break;
       } else if (rawStatus2 == 0xF0) {
-        comm_.logDebug(3, "TMC9660", "SPI_STATUS_NOT_READY (0xF0) - waiting...");
+        TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "SPI_STATUS_NOT_READY (0xF0) - waiting...");
         comm_.delayMs(100);
         continue;
       } else if (rawStatus2 == 0x13) {
-        comm_.logDebug(1, "TMC9660", "⚠️  Still in bootloader mode (0x13) - motor control not ready yet");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Still in bootloader mode (0x13) - motor control not ready yet");
         comm_.delayMs(100);
         continue;
       } else if (rawStatus2 == 0x00) {
-        comm_.logDebug(1, "TMC9660", "⚠️  Bootloader OK (0x00) - motor control not ready yet");
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Bootloader OK (0x00) - motor control not ready yet");
         comm_.delayMs(100);
         continue;
       } else {
-        comm_.logDebug(1, "TMC9660", "⚠️  Unexpected status 0x%02X - waiting...", rawStatus2);
+        TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  Unexpected status 0x%02X - waiting...", rawStatus2);
         comm_.delayMs(100);
         continue;
       }
     }
     
     if (!sessionStartReceived) {
-      comm_.logDebug(0, "TMC9660", "❌ Timeout waiting for SESSION_START or SPI_STATUS_OK");
-      comm_.logDebug(0, "TMC9660", "   Motor control may not have started properly");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "❌ Timeout waiting for SESSION_START or SPI_STATUS_OK");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Motor control may not have started properly");
   return BootloaderInitResult::Failure;
     }
   } else {
     // UART mode: No SESSION_START or status codes, just wait for motor control to initialize
-    comm_.logDebug(2, "TMC9660", "UART mode: Waiting for motor control initialization...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "UART mode: Waiting for motor control initialization...");
     comm_.delayMs(100);  // Give motor control time to start (adjust as needed)
-    comm_.logDebug(2, "TMC9660", "✅ Motor control initialization delay completed");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Motor control initialization delay completed");
   }
   
   // ======================================================================
   // STEP 8: Verify TMCL Communication with GetVersion
   // ======================================================================
-  comm_.logDebug(2, "TMC9660", "Verifying TMCL communication with GetVersion...");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Verifying TMCL communication with GetVersion...");
   
   // First, for UART mode, let's verify we're NOT still in bootloader mode
   if (comm_.mode() == CommMode::UART) {
-    comm_.logDebug(2, "TMC9660", "UART mode: Testing if chip is still in bootloader mode...");
+    TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "UART mode: Testing if chip is still in bootloader mode...");
     tmc9660::BootloaderVersion bootloaderVer;
     if (bootloader_->getBootloaderVersion(&bootloaderVer)) {
-      comm_.logDebug(0, "TMC9660", "❌ ERROR: Chip is STILL in bootloader mode!");
-      comm_.logDebug(0, "TMC9660", "   Bootloader version: %d.%d", 
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "❌ ERROR: Chip is STILL in bootloader mode!");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Bootloader version: %d.%d", 
                      bootloaderVer.major, bootloaderVer.minor);
-      comm_.logDebug(0, "TMC9660", "   Motor control did NOT start properly");
-      comm_.logDebug(0, "TMC9660", "   Check boot configuration: cfg.boot.start_motor_control should be true");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Motor control did NOT start properly");
+      TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Check boot configuration: cfg.boot.start_motor_control should be true");
       return BootloaderInitResult::Failure;
     } else {
-      comm_.logDebug(2, "TMC9660", "✅ Bootloader commands fail (good - we're in parameter mode)");
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Bootloader commands fail (good - we're in parameter mode)");
     }
   }
   
   // Try a simple command first (MST - Motor Stop)
-  comm_.logDebug(2, "TMC9660", "Testing TMCL communication with MST (Motor Stop)...");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Testing TMCL communication with MST (Motor Stop)...");
   if (!sendCommand(tmc9660::tmcl::Op::MST, 0, 0, 0, nullptr)) {
-    comm_.logDebug(0, "TMC9660", "❌ TMCL communication failed (MST command failed)");
-    comm_.logDebug(0, "TMC9660", "   Motor control is not responding to TMCL commands");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "❌ TMCL communication failed (MST command failed)");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Motor control is not responding to TMCL commands");
     return BootloaderInitResult::Failure;
   }
-  comm_.logDebug(2, "TMC9660", "✅ MST command successful - TMCL communication working!");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ MST command successful - TMCL communication working!");
   
   // Now try GetVersion
-  comm_.logDebug(2, "TMC9660", "Getting firmware version with GetVersion...");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "Getting firmware version with GetVersion...");
   uint32_t version = 0;
   if (!sendCommand(tmc9660::tmcl::Op::GetVersion, 0, 0, 0, &version)) {
-    comm_.logDebug(0, "TMC9660", "❌ GetVersion failed (but MST worked)");
-    comm_.logDebug(0, "TMC9660", "   Basic TMCL works, but GetVersion has issues");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "❌ GetVersion failed (but MST worked)");
+    TMC9660_LOG_DEBUG(comm_,0, "TMC9660", "   Basic TMCL works, but GetVersion has issues");
     return BootloaderInitResult::Failure;
   }
   
   // GetVersion success is already logged in sendCommand() with the version string
-  comm_.logDebug(2, "TMC9660", "✅ TMCL communication verified - GetVersion successful");
-  comm_.logDebug(2, "TMC9660", "✅ Chip fully initialized and ready for motor control commands");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ TMCL communication verified - GetVersion successful");
+  TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ Chip fully initialized and ready for motor control commands");
   
   return BootloaderInitResult::Success;
 }
@@ -482,33 +482,53 @@ bool TMC9660::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor
       break;
   }
   
-  comm_.logDebug(3, "TMC9660", "[TMCL TX] %s (Op=0x%02X), Type=%s, Motor=0x%02X, Value=0x%08X",
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "[TMCL TX] %s (Op=0x%02X), Type=%s, Motor=0x%02X, Value=0x%08X",
                  opName, tx.opcode, typeStr, tx.motor, tx.value);
 
   TMCLReply rep{};
   if (!comm_.transferTMCL(tx, rep, address_)) {
-    comm_.logDebug(1, "TMC9660", "[TMCL] Transfer failed");
+    TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "[TMCL] Transfer failed");
     return false;
   }
   
-  // Debug logging for TMCL reply with decoded status
+  // Debug logging for TMCL reply with decoded status and opcode
+  // Note: SPI response format: byte0=SPI_STATUS, byte1=TMCL_STATUS, byte2=OPCODE, byte3-6=VALUE, byte7=CHECKSUM
   const char* statusName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::ReplyCode>(rep.status));
-  comm_.logDebug(3, "TMC9660", "[TMCL RX] %s (Status=0x%02X), Value=0x%08X", statusName, rep.status, rep.value);
+  const char* rxOpName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::Op>(rep.opcode));
+  TMC9660_LOG_DEBUG(comm_,3, "TMC9660", "[TMCL RX] %s (SPI_Status=0x%02X, TMCL_Status=0x%02X), Op=%s (0x%02X), Value=0x%08X", 
+                 statusName, static_cast<uint8_t>(rep.spiStatus), rep.status, rxOpName, rep.opcode, rep.value);
   
   // Special handling for GetVersion command (Type=0 returns string format)
   if (opcode == tmc9660::tmcl::Op::GetVersion && type == 0) {
     std::string versionString = rep.getVersionString();
     if (!versionString.empty()) {
-      comm_.logDebug(2, "TMC9660", "✅ GetVersion successful - Firmware version: %s", versionString.c_str());
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "✅ GetVersion successful - Firmware version: %s", versionString.c_str());
       if (reply) *reply = 0;  // No numeric value for string format
       return true;
     } else {
-      comm_.logDebug(1, "TMC9660", "⚠️  GetVersion string format not detected, trying standard parsing");
+      TMC9660_LOG_DEBUG(comm_,1, "TMC9660", "⚠️  GetVersion string format not detected, trying standard parsing");
     }
   }
   
   if (!rep.isOK()) {
-    comm_.logDebug(2, "TMC9660", "[TMCL] Reply not OK (status=0x%02X)", rep.status);
+    // Distinguish between SPI communication failure and TMCL command failure
+    if (rep.spiStatus == SPIStatus::OK) {
+      // SPI communication successful, but TMCL command failed
+      const char* tmclStatusName = tmc9660::tmcl::to_string(static_cast<tmc9660::tmcl::ReplyCode>(rep.status));
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "[TMCL] Command failed: %s (TMCL_Status=0x%02X)", 
+                   tmclStatusName, rep.status);
+    } else {
+      // SPI communication failure
+      const char* spiStatusStr = "UNKNOWN";
+      switch (rep.spiStatus) {
+        case SPIStatus::CHECKSUM_ERROR: spiStatusStr = "CHECKSUM_ERROR"; break;
+        case SPIStatus::NOT_READY: spiStatusStr = "NOT_READY"; break;
+        case SPIStatus::FIRST_CMD: spiStatusStr = "FIRST_CMD"; break;
+        default: spiStatusStr = "UNKNOWN"; break;
+      }
+      TMC9660_LOG_DEBUG(comm_,2, "TMC9660", "[TMCL] SPI communication failed: %s (SPI_Status=0x%02X)", 
+                   spiStatusStr, static_cast<uint8_t>(rep.spiStatus));
+    }
     return false;
   }
   if (reply)
