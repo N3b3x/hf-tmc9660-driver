@@ -1,6 +1,6 @@
 <map id="test_telemetry_basic_monitoring" name="test_telemetry_basic_monitoring">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,47,164,87"/>
-<area shape="rect" id="Node000002" href="$TelemetryComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="233,5,373,31"/>
+<area shape="rect" id="Node000002" href="$BootloaderComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="233,5,373,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,47,232,31,233,36,165,52"/>
 <area shape="rect" id="Node000004" href="$TelemetryComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba" title=" " alt="" coords="228,55,377,80"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,65,214,65,214,70,164,70"/>
