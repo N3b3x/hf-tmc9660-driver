@@ -1,0 +1,9 @@
+<map id="test_bldc_motor_type_configuration" name="test_bldc_motor_type_configuration">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,168,63"/>
+<area shape="rect" id="Node000002" href="$BootloaderComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="245,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,32,231,25,231,30,168,37"/>
+<area shape="rect" id="Node000004" href="$BLDCComprehensiveTest_8cpp.html#ae06c726004ca44a68ed24eb99c38c9fb" title=" " alt="" coords="216,55,413,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,49,203,53,202,58,168,55"/>
+<area shape="rect" id="Node000003" href="$Esp32TMC9660Bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="461,5,603,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,15,448,15,448,21,385,21"/>
+</map>

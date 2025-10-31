@@ -1,0 +1,26 @@
+<map id="TMC9660Bootloader.cpp" name="TMC9660Bootloader.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="213,5,393,31"/>
+<area shape="rect" id="Node000002" href="$TMC9660Bootloader_8hpp.html" title="TMC9660 bootloader interface and configuration structures." alt="" coords="195,79,411,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,31,305,65,300,65,300,31"/>
+<area shape="rect" id="Node000003" href="$TMC9660CommInterface_8hpp.html" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="197,152,409,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="305,104,305,138,300,138,300,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,225,72,251"/>
+<area shape="poly" id="edge12_Node000002_Node000006" title=" " alt="" coords="280,106,187,154,71,221,68,216,184,150,278,102"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="433,152,503,177"/>
+<area shape="poly" id="edge11_Node000002_Node000012" title=" " alt="" coords="330,102,430,144,427,149,328,106"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="96,225,152,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="275,180,166,223,164,218,273,175"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="177,225,247,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="290,179,239,219,236,214,286,175"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="261,180,86,227,85,222,260,175"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="272,225,333,251"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="305,178,305,212,300,212,300,178"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="358,225,423,251"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="318,175,367,214,364,219,315,179"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="448,225,515,251"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="332,175,441,218,439,223,330,180"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="539,225,592,251"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="348,175,526,222,525,228,346,180"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="616,225,675,251"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="368,175,603,223,602,228,367,180"/>
+</map>

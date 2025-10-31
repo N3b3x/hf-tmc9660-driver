@@ -1,0 +1,17 @@
+<map id="tmc9660_param_mode_tmcl.hpp" name="tmc9660_param_mode_tmcl.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="643,5,815,45"/>
+<area shape="rect" id="Node000002" href="$TMC9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="673,93,784,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="731,59,731,93,726,93,726,59"/>
+<area shape="rect" id="Node000003" href="$BLDCComprehensiveTest_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,167,217,192"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="660,118,211,169,210,164,659,113"/>
+<area shape="rect" id="Node000004" href="$BootloaderComprehensiveTest_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="241,167,489,192"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="660,123,424,169,423,164,659,118"/>
+<area shape="rect" id="Node000005" href="$DCComprehensiveTest_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="513,167,709,192"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="699,128,632,169,629,164,697,123"/>
+<area shape="rect" id="Node000006" href="$StepperComprehensiveTest_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="734,167,961,192"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="761,123,829,164,827,169,758,128"/>
+<area shape="rect" id="Node000007" href="$TMC9660_8cpp.html" title=" " alt="" coords="985,167,1096,192"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="793,119,991,164,990,169,791,124"/>
+<area shape="rect" id="Node000008" href="$TelemetryComprehensiveTest_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="1121,167,1363,192"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="798,114,1160,164,1159,169,797,119"/>
+</map>

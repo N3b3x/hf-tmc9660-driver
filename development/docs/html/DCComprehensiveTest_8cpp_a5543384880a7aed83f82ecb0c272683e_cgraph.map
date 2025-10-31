@@ -1,0 +1,10 @@
+<map id="test_dc_bootloader_initialization" name="test_dc_bootloader_initialization">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,152,111"/>
+<area shape="rect" id="Node000002" href="$classTMC9660.html#ad1164f1632c501f522054545fd2d709e" title="Complete bootloader initialization and transition to parameter mode." alt="" coords="200,29,383,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,72,221,55,223,61,153,77"/>
+<area shape="rect" id="Node000003" href="$Esp32TMC9660Bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="221,79,362,104"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="152,89,207,89,207,94,152,94"/>
+<area shape="rect" id="Node000004" href="$Esp32TMC9660Bus_8hpp.html#a9139fa0d0c10a85938e971186348ca9c" title="Create and initialize UART communication interface." alt="" coords="213,128,369,153"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="153,106,223,122,221,127,152,111"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="257,31,249,21,253,11,268,5,291,3,321,6,332,15,329,20,319,11,291,8,269,10,257,15,255,20,261,28"/>
+</map>
