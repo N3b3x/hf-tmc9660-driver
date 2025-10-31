@@ -158,7 +158,7 @@ bool test_bldc_driver_enable() noexcept {
 bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC motor type configuration...");
 
-    auto handle = create_test_driver(false, false);
+    auto handle = create_test_driver(true, false);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
@@ -209,7 +209,7 @@ bool test_bldc_motor_type_configuration() noexcept {
 bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC Hall sensor configuration...");
 
-    auto handle = create_test_driver(false, false);
+    auto handle = create_test_driver(true, true);
     if (!handle || !handle->driver) {
         ESP_LOGE(TAG, "Failed to create test driver");
         //return false;

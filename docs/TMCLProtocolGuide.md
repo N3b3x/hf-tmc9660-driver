@@ -75,24 +75,33 @@ Detailed Byte Layout:
 │      │      │ (lower 8 bits)   │(lower)   |(upper)│
 └──────┴──────┴──────────────────┴──────────────────┘
 
-Note: In Byte 2, Type bits 16-19 are in the lower nibble, Motor bits 20-23 are in the upper nibble
+Note: Byte 2 lower nibble = Type bits 16-19 (frame bits), Byte 2 upper nibble = Motor bits 20-23 (frame bits)
 
-Byte 1: Type bits 0-7 (lower 8 bits of 12-bit Type field)
-Byte 2: Upper nibble (bits 4-7) = Motor/Bank (bits 20-23)
-        Lower nibble (bits 0-3) = Type bits 8-11 (upper 4 bits of 12-bit Type)
-Byte 3-6: 32-bit Value (big-endian)
+Frame Bit Positions (from datasheet Table 3):
+- Byte 1: Frame bits 8-15 = Type bits 8-15 (Type lower 8 bits of 12-bit field)
+- Byte 2 lower nibble: Frame bits 16-19 = Type bits 16-19 (Type upper 4 bits of 12-bit field)
+- Byte 2 upper nibble: Frame bits 20-23 = Motor/Bank (4 bits)
+- Bytes 3-6: Frame bits 24-55 = 32-bit Value (big-endian)
 ```
 
 **Encoding Example (Type=110=0x006E, Motor=0):**
-- Byte 0: Opcode (e.g., 0x05 for SAP)
-- Byte 1: `type & 0xFF` = `0x6E` (lower 8 bits of type)
-- Byte 2: `((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)`
-- Bytes 3-6: Value (big-endian)
-- Byte 7: Checksum
+- Byte 0 (frame bits 0-7): Opcode = 0x05 (SAP)
+- Byte 1 (frame bits 8-15): `type & 0xFF` = `0x006E & 0xFF` = `0x6E` (Type lower 8 bits)
+- Byte 2 (frame bits 16-23):
+  - Lower nibble (bits 0-3, frame bits 16-19): `(type & 0xF00) >> 8` = `(0x006E & 0xF00) >> 8` = `0x00`
+  - Upper nibble (bits 4-7, frame bits 20-23): `(motor & 0x0F) << 4` = `(0 & 0x0F) << 4` = `0x00`
+  - Result: `0x00 | 0x00` = `0x00`
+- Bytes 3-6 (frame bits 24-55): Value (big-endian, 32-bit)
+- Byte 7 (frame bits 56-63): Checksum (sum of bytes 0-6)
 
 **Decoding:**
-- Type = `in[1] | ((in[2] & 0x0F) << 8)` (BYTE1 lower 8 bits + BYTE2 lower nibble shifted)
-- Motor = `(in[2] >> 4) & 0x0F` (BYTE2 upper nibble)
+- Type = `in[1] | ((in[2] & 0x0F) << 8)`
+  - From Byte 1 (frame bits 8-15): Type lower 8 bits
+  - From Byte 2 lower nibble (frame bits 16-19): Type upper 4 bits, shifted left by 8
+  - Example: `0x6E | (0x00 << 8)` = `0x006E` = 110
+- Motor = `(in[2] >> 4) & 0x0F`
+  - From Byte 2 upper nibble (frame bits 20-23)
+  - Example: `(0x00 >> 4) & 0x0F` = `0x00` = 0
 
 ### UART Frame Format (9 bytes)
 

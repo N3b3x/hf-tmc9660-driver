@@ -198,50 +198,72 @@ Used for **motor control**, **parameter access**, and **real-time operation** af
 #### Command Frame (8 bytes / 64 bits, TX)
 ```
 ┌──────┬──────┬─────────────┬──────────────────┬──────┐
-│ Byte │  0   │      1-2     │      3-6         │  7   │
+│ Byte │  0   │      1-2     │      3-6        │  7   │
 ├──────┼──────┼─────────────┼──────────────────┼──────┤
-│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)    │ CSUM │
-│ Bits │ 0-7  │  8-19 + 20-23│    24-55         │56-63 │
+│ Desc │ OP   │ TYPE+MOTOR   │ DATA (32-bit)   │ CSUM │
+│ Bits │ 0-7  │  8-19 + 20-23│    24-55        │56-63 │
 └──────┴──────┴─────────────┴──────────────────┴──────┘
 
 Byte Layout Detail:
 ┌──────┬──────┬──────────────────┬──────────────────┐
 │ Byte │  0   │       1          │       2          │
 ├──────┼──────┼──────────────────┼──────────────────┤
-│ Field│ OP   │ Type bits 0-7    │ Type 8-11 | Motor│
+│ Field│ OP   │ Type bits 0-7    │Type 8-11 | Motor │
 │ Bits │ 0-7  │    8-15          │  16-19   | 20-23 │
-│      │      │ (lower 8 bits)   │(lower)   |(upper)│
+│      │      │ (lower 8 bits)   │ (lower)  |(upper)│
 └──────┴──────┴──────────────────┴──────────────────┘
 
 Note: In Byte 2, Type bits 16-19 are in the lower nibble, Motor bits 20-23 are in the upper nibble
 
-⚠️ CRITICAL: Type field is 12 bits, Motor is 4 bits - BOTH share Byte 2!
-  Byte 1: Type bits 0-7 (lower 8 bits of 12-bit Type field) = type & 0xFF
-  Byte 2: Upper nibble (bits 4-7 of byte) = Motor/Bank (bits 20-23 of frame)
-          Lower nibble (bits 0-3 of byte) = Type bits 8-11 (upper 4 bits of 12-bit Type)
-          Encoding: ((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)
+⚠️ CRITICAL: Type field is 12 bits (frame bits 8-19), Motor is 4 bits (frame bits 20-23) - BOTH share Byte 2!
   
-  Note: Byte 3-6 contain the 32-bit Value field (big-endian)
+  Frame Bit Positions (from datasheet Table 3):
+  - Byte 1: Frame bits 8-15 = Type bits 8-15 (Type lower 8 bits) = type & 0xFF
+  - Byte 2 lower nibble: Frame bits 16-19 = Type bits 16-19 (Type upper 4 bits of 12-bit field)
+  - Byte 2 upper nibble: Frame bits 20-23 = Motor/Bank (4 bits)
+  
+  Encoding:
+  - Byte 1: type & 0xFF (Type lower 8 bits)
+  - Byte 2: ((motor & 0x0F) << 4) | ((type & 0xF00) >> 8)
+           = Motor in upper nibble (frame bits 20-23)
+           | Type upper 4 bits in lower nibble (frame bits 16-19)
+  
+  Note: Byte 3-6 contain the 32-bit Value field (frame bits 24-55, big-endian)
 
 Example: SAP command (Type=110=0x006E, Motor=0, Value=100=0x64)
 TX: [05 6E 00 00 00 00 64 D7]
-     │  │  │              │
-     │  │  └─ Value: 100  │
-     │  └─ BYTE2: Motor=0 (upper), Type upper 4 bits=0x0 (lower)
-     └─ Opcode: 0x05 (SAP)
+     │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  └─ Checksum: 0xD7
+     │  │  │  │  │  │  └─ Value byte 3: 0x64 (100 decimal, LSB)
+     │  │  │  │  │  └─ Value byte 2: 0x00
+     │  │  │  │  └─ Value byte 1: 0x00
+     │  │  │  └─ Value byte 0: 0x00 (MSB)
+     │  │  └─ Byte 2: 0x00
+     │  │     └─ Upper nibble (bits 4-7): Motor = 0x0 (frame bits 20-23)
+     │  │     └─ Lower nibble (bits 0-3): Type upper 4 bits = 0x0 (frame bits 16-19)
+     │  │        Calculation: ((0 & 0x0F) << 4) | ((0x006E & 0xF00) >> 8) = 0 | 0 = 0x00
+     │  └─ Byte 1: 0x6E (frame bits 8-15)
+     │     └─ Type lower 8 bits: type & 0xFF = 0x006E & 0xFF = 0x6E
+     └─ Byte 0: 0x05 (frame bits 0-7) - SAP opcode
      
-     Byte 1: 0x6E (type & 0xFF = 110 decimal = 0x6E)
-     Byte 2: 0x00 ((0 << 4) | ((0x006E & 0xF00) >> 8) = 0 | 0 = 0x00)
-     Checksum: 0x05 + 0x6E + 0x00 + 0x00 + 0x00 + 0x00 + 0x64 = 0xD7 (215 decimal)
+     Checksum calculation: 0x05 + 0x6E + 0x00 + 0x00 + 0x00 + 0x00 + 0x64 = 0xD7 (215 decimal)
 
-Example: GAP command (Type=0, Motor=0)
+Example: GAP command (Type=0, Motor=0, Value=0)
 TX: [06 00 00 00 00 00 00 06]
-     │  │  │              │
-     │  │  └─ Value: 0    │
-     │  └─ BYTE2: Motor=0, Type upper=0
-     └─ Opcode: 0x06 (GAP)
+     │  │  │  │  │  │  │  │
+     │  │  │  │  │  │  │  └─ Checksum: 0x06
+     │  │  │  │  │  │  └─ Value byte 3: 0x00 (LSB)
+     │  │  │  │  │  └─ Value byte 2: 0x00
+     │  │  │  │  └─ Value byte 1: 0x00
+     │  │  │  └─ Value byte 0: 0x00 (MSB)
+     │  │  └─ Byte 2: 0x00
+     │  │     └─ Upper nibble: Motor = 0x0 (frame bits 20-23)
+     │  │     └─ Lower nibble: Type upper 4 bits = 0x0 (frame bits 16-19)
+     │  └─ Byte 1: 0x00 (frame bits 8-15)
+     │     └─ Type lower 8 bits: type & 0xFF = 0 & 0xFF = 0x00
+     └─ Byte 0: 0x06 (frame bits 0-7) - GAP opcode
      
-Checksum: 0x06 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 = 0x06
+     Checksum: 0x06 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 + 0x00 = 0x06
 ```
 
 #### Reply Frame (8 bytes / 64 bits, RX - Delayed by 1 command!)
