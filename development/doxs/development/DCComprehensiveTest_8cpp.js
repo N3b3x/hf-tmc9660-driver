@@ -1,7 +1,8 @@
 var DCComprehensiveTest_8cpp =
 [
+    [ "TestDriverHandle", "structTestDriverHandle.html", "structTestDriverHandle" ],
     [ "app_main", "DCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70", null ],
-    [ "create_test_driver", "DCComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e", null ],
+    [ "create_test_driver", "DCComprehensiveTest_8cpp.html#a70effab5ba3fdfc70e3855b679378371", null ],
     [ "log_dc_telemetry_data", "DCComprehensiveTest_8cpp.html#adb1bb39051eeb493bb040456a36956fa", null ],
     [ "test_dc_bootloader_initialization", "DCComprehensiveTest_8cpp.html#a5543384880a7aed83f82ecb0c272683e", null ],
     [ "test_dc_current_control", "DCComprehensiveTest_8cpp.html#a38ccf3cff820e8488c60da01cdcfb64a", null ],

@@ -1805,888 +1805,1182 @@
     
     "relUrl": "/docs/ImplementingCommInterface/"
   },"258": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "content": "This directory contains comprehensive test suites for the TMC9660 motor driver using the ESP32-C6 DevKit-M-1. The tests support both the TMC9660-3PH-EVKIT (BLDC motor board) and TMC9660-STP-EVKIT (Stepper motor board). ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#esp32-c6-tmc9660-comprehensive-test-suite",
+    
+    "relUrl": "/examples/esp32/#esp32-c6-tmc9660-comprehensive-test-suite"
+  },"259": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "📋 Table of Contents",
+    "content": ". | Hardware Overview | Pin Connections | Hardware Setup . | BLDC Motor Board Setup | Stepper Motor Board Setup | . | Building the Tests | Running the Tests | Test Suites | Troubleshooting | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-table-of-contents",
+    
+    "relUrl": "/examples/esp32/#-table-of-contents"
+  },"260": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🔌 Hardware Overview",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-hardware-overview",
+    
+    "relUrl": "/examples/esp32/#-hardware-overview"
+  },"261": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "ESP32-C6 DevKit-M-1",
+    "content": "The ESP32-C6 DevKit-M-1 serves as the host controller for communicating with the TMC9660 motor driver via SPI or UART. | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 . | ┌─────────────────────────────────────────────────┐ │ ESP32-C6 DevKit-M-1 │ │ │ │ ┌──────────────────────────────────────────┐ │ │ │ ESP32-C6 Microcontroller │ │ │ │ │ │ │ │ GPIO Pins: │ │ │ │ • SPI: MOSI, MISO, SCLK, CS │ │ │ │ • UART: TX, RX │ │ │ │ • Control: RST, DRV_EN, FAULTN, WAKE │ │ │ └──────────────────────────────────────────┘ │ │ │ │ USB-C Connector │ │ (Power + Serial Communication) │ └─────────────────────────────────────────────────┘ . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#esp32-c6-devkit-m-1",
+    
+    "relUrl": "/examples/esp32/#esp32-c6-devkit-m-1"
+  },"262": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "TMC9660-3PH-EVKIT (BLDC Motor Board)",
+    "content": "Evaluation kit for 3-phase BLDC motor control with Hall sensors and ABN encoders. | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 . | ┌─────────────────────────────────────────────────┐ │ TMC9660-3PH-EVKIT │ │ │ │ ┌──────────────────────────────────────────┐ │ │ │ TMC9660 IC │ │ │ │ │ │ │ │ Features: │ │ │ │ • 3-phase BLDC motor driver │ │ │ │ • Hall sensor inputs (U, V, W) │ │ │ │ • Dual ABN encoder inputs │ │ │ │ • SPI Flash memory │ │ │ │ • Brake chopper &amp; mechanical brake │ │ │ └──────────────────────────────────────────┘ │ │ │ │ Motor Connectors: │ │ • U, V, W (3-phase motor) │ │ • Hall sensors (GPIO2, 3, 4) │ │ • ABN encoder 1 (GPIO8, 13, 14) │ │ • ABN encoder 2 (GPIO15, 16) │ └─────────────────────────────────────────────────┘ . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#tmc9660-3ph-evkit-bldc-motor-board",
+    
+    "relUrl": "/examples/esp32/#tmc9660-3ph-evkit-bldc-motor-board"
+  },"263": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "TMC9660-STP-EVKIT (Stepper Motor Board)",
+    "content": "Evaluation kit for stepper motor control with reference switches and ABN encoders. | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 . | ┌─────────────────────────────────────────────────┐ │ TMC9660-STP-EVKIT │ │ │ │ ┌──────────────────────────────────────────┐ │ │ │ TMC9660 IC │ │ │ │ │ │ │ │ Features: │ │ │ │ • Stepper motor driver │ │ │ │ • Reference switches (Left, Right, Home)│ │ │ │ • Dual ABN encoder inputs │ │ │ │ • SPI Flash memory │ │ │ └──────────────────────────────────────────┘ │ │ │ │ Motor Connectors: │ │ • Step/Direction interface │ │ • Reference switches (GPIO2, 3, 4) │ │ • ABN encoder 1 (GPIO8, 13, 14) │ │ • ABN encoder 2 (GPIO15, 16) │ └─────────────────────────────────────────────────┘ . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#tmc9660-stp-evkit-stepper-motor-board",
+    
+    "relUrl": "/examples/esp32/#tmc9660-stp-evkit-stepper-motor-board"
+  },"264": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🔗 Pin Connections",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-pin-connections",
+    
+    "relUrl": "/examples/esp32/#-pin-connections"
+  },"265": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "SPI Communication Interface",
+    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 . | ESP32-C6 DevKit-M-1 TMC9660-3PH-EVKIT / STP-EVKIT ────────────────── ─────────────────────────────── GPIO7 (MOSI) ───────&gt; SPI MOSI GPIO2 (MISO) &lt;─────── SPI MISO GPIO6 (SCLK) ───────&gt; SPI SCLK GPIO18 (CS) ───────&gt; SPI CS Control Pins: ────────────────── ─────────────────────────────── GPIO22 (RST) ───────&gt; RST (Active HIGH) GPIO20 (DRV_EN) ───────&gt; DRV_EN (Active HIGH) GPIO19 (FAULTN) &lt;─────── FAULTN (Active LOW, open-drain) GPIO21 (WAKE) ───────&gt; WAKE (Active LOW) . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#spi-communication-interface",
+    
+    "relUrl": "/examples/esp32/#spi-communication-interface"
+  },"266": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "UART Communication Interface (Alternative)",
+    "content": "| 1 2 3 4 . | ESP32-C6 DevKit-M-1 TMC9660-3PH-EVKIT / STP-EVKIT ────────────────── ─────────────────────────────── GPIO5 (TX) ───────&gt; UART RX (GPIO6 on TMC9660) GPIO4 (RX) &lt;─────── UART TX (GPIO7 on TMC9660) . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#uart-communication-interface-alternative",
+    
+    "relUrl": "/examples/esp32/#uart-communication-interface-alternative"
+  },"267": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Power and Common",
+    "content": "| 1 2 3 4 . | ESP32-C6 DevKit-M-1 TMC9660-3PH-EVKIT / STP-EVKIT ────────────────── ─────────────────────────────── GND ───────&gt; GND (Common ground) 3.3V / 5V ───────&gt; VCC (if needed for level shifting) . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#power-and-common",
+    
+    "relUrl": "/examples/esp32/#power-and-common"
+  },"268": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🛠️ Hardware Setup",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#%EF%B8%8F-hardware-setup",
+    
+    "relUrl": "/examples/esp32/#️-hardware-setup"
+  },"269": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "BLDC Motor Board Setup (TMC9660-3PH-EVKIT)",
+    "content": "Connection Diagram . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 . | ┌─────────────────────┐ ┌─────────────────────┐ │ ESP32-C6 DevKit │ │ TMC9660-3PH-EVKIT │ │ │ │ │ │ GPIO7 (MOSI) ─────┼─────────┼─&gt; SPI MOSI │ │ GPIO2 (MISO) &lt;────┼─────────┼─&lt; SPI MISO │ │ GPIO6 (SCLK) ─────┼─────────┼─&gt; SPI SCLK │ │ GPIO18(CS) ─────┼─────────┼─&gt; SPI CS │ │ │ │ │ │ GPIO22(RST) ─────┼─────────┼─&gt; RST │ │ GPIO20(DRV_EN) ────┼─────────┼─&gt; DRV_EN │ │ GPIO19(FAULTN)&lt;────┼─────────┼─&lt; FAULTN │ │ GPIO21(WAKE) ─────┼─────────┼─&gt; WAKE │ │ │ │ │ │ GND ─────┼─────────┼─&gt; GND │ │ │ │ │ │ │ │ Motor Connections: │ │ │ │ • U, V, W (3-phase)│ │ │ │ • Hall (2,3,4) │ │ │ │ • Encoder1(8,13,14)│ │ │ │ • Encoder2 (15,16) │ └─────────────────────┘ └─────────────────────┘ . | . Setup Steps . | Power Off: Ensure both boards are powered off before making connections. | Connect SPI Interface: . | Connect ESP32 GPIO7 → TMC9660 SPI MOSI | Connect ESP32 GPIO2 → TMC9660 SPI MISO | Connect ESP32 GPIO6 → TMC9660 SPI SCLK | Connect ESP32 GPIO18 → TMC9660 SPI CS | . | Connect Control Pins: . | Connect ESP32 GPIO22 → TMC9660 RST | Connect ESP32 GPIO20 → TMC9660 DRV_EN | Connect ESP32 GPIO19 → TMC9660 FAULTN | Connect ESP32 GPIO21 → TMC9660 WAKE | . | Connect Ground: Connect GND between ESP32 and TMC9660 boards. | Connect Motor (if testing with actual motor): . | Connect 3-phase BLDC motor to U, V, W terminals | Connect Hall sensors to Hall connector (if using Hall feedback) | Connect ABN encoder to Encoder connector (if using encoder feedback) | . | Power On: . | Power ESP32 via USB-C | Power TMC9660 board via its power supply (typically 12V-48V) | . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#bldc-motor-board-setup-tmc9660-3ph-evkit",
+    
+    "relUrl": "/examples/esp32/#bldc-motor-board-setup-tmc9660-3ph-evkit"
+  },"270": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Stepper Motor Board Setup (TMC9660-STP-EVKIT)",
+    "content": "Connection Diagram . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 . | ┌─────────────────────┐ ┌─────────────────────┐ │ ESP32-C6 DevKit │ │ TMC9660-STP-EVKIT │ │ │ │ │ │ GPIO7 (MOSI) ─────┼─────────┼─&gt; SPI MOSI │ │ GPIO2 (MISO) &lt;────┼─────────┼─&lt; SPI MISO │ │ GPIO6 (SCLK) ─────┼─────────┼─&gt; SPI SCLK │ │ GPIO18(CS) ─────┼─────────┼─&gt; SPI CS │ │ │ │ │ │ GPIO22(RST) ─────┼─────────┼─&gt; RST │ │ GPIO20(DRV_EN) ────┼─────────┼─&gt; DRV_EN │ │ GPIO19(FAULTN)&lt;────┼─────────┼─&lt; FAULTN │ │ GPIO21(WAKE) ─────┼─────────┼─&gt; WAKE │ │ │ │ │ │ GND ─────┼─────────┼─&gt; GND │ │ │ │ │ │ │ │ Motor Connections: │ │ │ │ • Step/Dir │ │ │ │ • Ref Switches │ │ │ │ (Left,Right,Home)│ │ │ │ • Encoder1 (8,13,14)│ │ │ │ • Encoder2 (15,16) │ └─────────────────────┘ └─────────────────────┘ . | . Setup Steps . | Power Off: Ensure both boards are powered off before making connections. | Connect SPI Interface: (Same as BLDC board) . | Connect ESP32 GPIO7 → TMC9660 SPI MOSI | Connect ESP32 GPIO2 → TMC9660 SPI MISO | Connect ESP32 GPIO6 → TMC9660 SPI SCLK | Connect ESP32 GPIO18 → TMC9660 SPI CS | . | Connect Control Pins: (Same as BLDC board) . | Connect ESP32 GPIO22 → TMC9660 RST | Connect ESP32 GPIO20 → TMC9660 DRV_EN | Connect ESP32 GPIO19 → TMC9660 FAULTN | Connect ESP32 GPIO21 → TMC9660 WAKE | . | Connect Ground: Connect GND between ESP32 and TMC9660 boards. | Connect Motor (if testing with actual motor): . | Connect stepper motor to motor connector | Connect reference switches to REF SWITCHES connector (Left=GPIO2, Right=GPIO3, Home=GPIO4) | Connect ABN encoder to Encoder connector (if using encoder feedback) | . | Power On: . | Power ESP32 via USB-C | Power TMC9660 board via its power supply | . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#stepper-motor-board-setup-tmc9660-stp-evkit",
+    
+    "relUrl": "/examples/esp32/#stepper-motor-board-setup-tmc9660-stp-evkit"
+  },"271": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🏗️ Building the Tests",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#%EF%B8%8F-building-the-tests",
+    
+    "relUrl": "/examples/esp32/#️-building-the-tests"
+  },"272": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Prerequisites",
+    "content": ". | ESP-IDF: Version 5.5 (release/v5.5) or later | Python: Version 3.8 or later (for ESP-IDF tools) | CMake: Version 3.16 or later | Git: For cloning the repository | Bash: For running the build scripts (Linux/macOS/Git Bash on Windows) | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#prerequisites",
+    
+    "relUrl": "/examples/esp32/#prerequisites"
+  },"273": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Installation Steps",
+    "content": ". | Install ESP-IDF (if not already installed): . | 1 2 3 4 5 6 7 8 9 10 11 12 13 . | # Clone ESP-IDF git clone --recursive https://github.com/espressif/esp-idf.git cd esp-idf # Checkout release version 5.5 git checkout release/v5.5 git submodule update --init --recursive # Install ESP-IDF (Linux/macOS) ./install.sh esp32c6 # Set up environment (add to ~/.bashrc or ~/.zshrc for persistence) ./export.sh . | . | Clone the Repository: . | 1 2 . | git clone &lt;repository-url&gt; cd hf-tmc9660-driver . | . | Navigate to ESP32 Examples: . | 1 . | cd examples/esp32 . | . | Setup Repository (First time only): . | 1 2 3 . | # Make scripts executable and setup the build environment chmod +x scripts/*.sh ./scripts/setup_repo.sh . | . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#installation-steps",
+    
+    "relUrl": "/examples/esp32/#installation-steps"
+  },"274": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Available Test Applications",
+    "content": "The test suites use a centralized build system with scripts. Available applications: . | Application Name | Description | Board | . | bldc_comprehensive_test | Comprehensive BLDC motor testing with Hall sensors, ABN encoders, and velocity control | TMC9660-3PH-EVKIT | . | stepper_comprehensive_test | Comprehensive Stepper motor testing with FOC and step/dir control | TMC9660-STP-EVKIT | . | dc_comprehensive_test | Comprehensive DC motor testing with current and velocity control | TMC9660-3PH-EVKIT | . | telemetry_comprehensive_test | Comprehensive telemetry monitoring for temperature, current, voltage, and status | TMC9660-3PH-EVKIT | . | bootloader_comprehensive_test | Comprehensive bootloader testing for initialization and configuration | TMC9660-3PH-EVKIT | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#available-test-applications",
+    
+    "relUrl": "/examples/esp32/#available-test-applications"
+  },"275": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "List Available Applications",
+    "content": "| 1 2 . | # List all available applications ./scripts/build_app.sh list . | . Output: . | 1 2 3 4 5 6 . | Available Applications: • bldc_comprehensive_test - Comprehensive BLDC motor testing suite • stepper_comprehensive_test - Comprehensive Stepper motor testing suite • dc_comprehensive_test - Comprehensive DC motor testing suite • telemetry_comprehensive_test - Comprehensive telemetry monitoring test suite • bootloader_comprehensive_test - Comprehensive bootloader testing suite . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#list-available-applications",
+    
+    "relUrl": "/examples/esp32/#list-available-applications"
+  },"276": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Building Applications",
+    "content": "Build Syntax . | 1 . | ./scripts/build_app.sh &lt;app_type&gt; &lt;build_type&gt; . | . Parameters: . | &lt;app_type&gt;: Application name (e.g., bldc_comprehensive_test) | &lt;build_type&gt;: Build configuration - Debug or Release | . Build Examples . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 . | # Build BLDC comprehensive test (Release build) ./scripts/build_app.sh bldc_comprehensive_test Release # Build Stepper comprehensive test (Debug build) ./scripts/build_app.sh stepper_comprehensive_test Debug # Build DC motor comprehensive test (Release build) ./scripts/build_app.sh dc_comprehensive_test Release # Build Telemetry comprehensive test (Debug build) ./scripts/build_app.sh telemetry_comprehensive_test Debug # Build Bootloader comprehensive test (Release build) ./scripts/build_app.sh bootloader_comprehensive_test Release . | . Build Output . Build artifacts are located in: . | 1 . | build-app-&lt;app_type&gt;-type-&lt;build_type&gt;-target-esp32c6-idf-&lt;idf_version&gt;/ . | . Example: . | 1 . | build-app-bldc_comprehensive_test-type-Release-target-esp32c6-idf-release_v5.5/ . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#building-applications",
+    
+    "relUrl": "/examples/esp32/#building-applications"
+  },"277": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Build Types",
+    "content": "| Build Type | Optimization | Debug Info | Use Case | . | Debug | -O0 (no optimization) | Full (-g3) | Development, debugging | . | Release | -O2 (optimized) | Minimal (-g0) | Production, performance testing | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#build-types",
+    
+    "relUrl": "/examples/esp32/#build-types"
+  },"278": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🚀 Running the Tests",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-running-the-tests",
+    
+    "relUrl": "/examples/esp32/#-running-the-tests"
+  },"279": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Flashing and Monitoring",
+    "content": "The build scripts provide convenient commands for flashing and monitoring your ESP32-C6. Flash and Monitor (Auto-detect Port) . | 1 . | ./scripts/flash_app.sh &lt;app_type&gt; &lt;build_type&gt; . | . This command will: . | Auto-detect the ESP32 serial port | Flash the firmware | Start monitoring serial output | . Flash and Monitor (Specify Port) . | 1 2 3 . | ./scripts/flash_app.sh &lt;app_type&gt; &lt;build_type&gt; /dev/ttyUSB0 # Linux ./scripts/flash_app.sh &lt;app_type&gt; &lt;build_type&gt; /dev/cu.usbserial-* # macOS ./scripts/flash_app.sh &lt;app_type&gt; &lt;build_type&gt; COM3 # Windows . | . Flash Only (No Monitor) . | 1 . | ./scripts/flash_app.sh &lt;app_type&gt; &lt;build_type&gt; --no-monitor . | . Monitor Only (Reconnect) . | 1 2 . | ./scripts/monitor_app.sh ./scripts/monitor_app.sh /dev/ttyUSB0 # Linux (specify port) . | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#flashing-and-monitoring",
+    
+    "relUrl": "/examples/esp32/#flashing-and-monitoring"
+  },"280": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Complete Workflow Example",
+    "content": "| 1 2 3 4 5 6 7 8 9 10 11 . | # 1. Build the application ./scripts/build_app.sh bldc_comprehensive_test Release # 2. Flash and monitor ./scripts/flash_app.sh bldc_comprehensive_test Release # Output will show: # ✅ Building app: bldc_comprehensive_test # ✅ Build type: Release # ✅ Flashing firmware... # ✅ Starting monitor... | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#complete-workflow-example",
+    
+    "relUrl": "/examples/esp32/#complete-workflow-example"
+  },"281": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Expected Output",
+    "content": "After flashing and running, you should see output like: . | 1 2 3 4 5 6 7 8 9 10 11 12 13 . | ╔══════════════════════════════════════════════════════════════════════════════╗ ║ ESP32-C6 BLDC COMPREHENSIVE TEST SUITE ║ ║ HardFOC TMC9660 Driver Tests ║ ╚══════════════════════════════════════════════════════════════════════════════╝ Debug logging enabled for TMCL communication traces ╔══════════════════════════════════════════════════════════════════════════════╗ ║ BLDC TEST SECTION CONFIGURATION ║ ╚══════════════════════════════════════════════════════════════════════════════╝ I (1234) BLDC_Test: Running core BLDC functionality tests... I (5678) BLDC_Test: ✅ SPI bootloader initialization successful with EVKIT config ... | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#expected-output",
+    
+    "relUrl": "/examples/esp32/#expected-output"
+  },"282": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Test Progression Indicator",
+    "content": "The test suite uses GPIO14 as a visual test progression indicator: . | LOW → HIGH → LOW: Each transition indicates a completed test | Monitor GPIO14 with an oscilloscope or logic analyzer for visual feedback | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#test-progression-indicator",
+    
+    "relUrl": "/examples/esp32/#test-progression-indicator"
+  },"283": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Available Scripts",
+    "content": "| Script | Purpose | Usage | . | build_app.sh | Build specific application | ./scripts/build_app.sh &lt;app&gt; &lt;build_type&gt; | . | flash_app.sh | Flash and monitor application | ./scripts/flash_app.sh &lt;app&gt; &lt;build_type&gt; [port] | . | monitor_app.sh | Monitor serial output | ./scripts/monitor_app.sh [port] | . | setup_repo.sh | Initial repository setup | ./scripts/setup_repo.sh | . | clean_app.sh | Clean build artifacts | ./scripts/clean_app.sh &lt;app&gt; &lt;build_type&gt; | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#available-scripts",
+    
+    "relUrl": "/examples/esp32/#available-scripts"
+  },"284": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Advanced Build Options",
+    "content": "For advanced configuration, you can use ESP-IDF’s menuconfig: . | 1 2 . | # Configure build options ./scripts/config_app.sh &lt;app_type&gt; &lt;build_type&gt; . | . This opens the ESP-IDF menuconfig where you can customize: . | Component config → TMC9660 Driver: Driver configuration options | Serial flasher config: Serial port and flash settings | Compiler options: Optimization and debug settings | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#advanced-build-options",
+    
+    "relUrl": "/examples/esp32/#advanced-build-options"
+  },"285": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "📊 Test Suites",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-test-suites",
+    
+    "relUrl": "/examples/esp32/#-test-suites"
+  },"286": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "BLDC Comprehensive Test (BLDCComprehensiveTest.cpp)",
+    "content": "Tests for 3-phase BLDC motor control: . | ✅ Bootloader initialization and configuration | ✅ Motor type configuration (BLDC with various pole pairs) | ✅ Hall sensor configuration and testing | ✅ ABN encoder configuration and testing | ✅ FOC control loop configuration | ✅ Velocity and current control | ✅ Commutation modes (FOC_HALL, FOC_ABN, FOC_OPENLOOP) | ✅ Telemetry monitoring | ✅ Performance benchmarking | ✅ Error handling and edge cases | . Board: TMC9660-3PH-EVKIT . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#bldc-comprehensive-test-bldccomprehensivetestcpp",
+    
+    "relUrl": "/examples/esp32/#bldc-comprehensive-test-bldccomprehensivetestcpp"
+  },"287": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Stepper Comprehensive Test (StepperComprehensiveTest.cpp)",
+    "content": "Tests for stepper motor control: . | ✅ Bootloader initialization and configuration | ✅ Motor type configuration (Stepper) | ✅ Reference switch configuration (Left, Right, Home) | ✅ ABN encoder configuration | ✅ FOC position control | ✅ Step/Direction control | ✅ Microstepping configuration | ✅ Position and velocity control | ✅ Stall detection | ✅ Telemetry monitoring | . Board: TMC9660-STP-EVKIT . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#stepper-comprehensive-test-steppercomprehensivetestcpp",
+    
+    "relUrl": "/examples/esp32/#stepper-comprehensive-test-steppercomprehensivetestcpp"
+  },"288": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "DC Motor Comprehensive Test (DCComprehensiveTest.cpp)",
+    "content": "Tests for DC motor control: . | ✅ Bootloader initialization and configuration | ✅ Motor type configuration (DC motor) | ✅ Current control and torque limiting | ✅ Velocity control with encoder feedback | ✅ Open-loop current mode | ✅ H-bridge control | ✅ Protection features | ✅ Telemetry monitoring | . Board: TMC9660-3PH-EVKIT (same board as BLDC) . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#dc-motor-comprehensive-test-dccomprehensivetestcpp",
+    
+    "relUrl": "/examples/esp32/#dc-motor-comprehensive-test-dccomprehensivetestcpp"
+  },"289": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Telemetry Comprehensive Test (TelemetryComprehensiveTest.cpp)",
+    "content": "Tests for telemetry and monitoring: . | ✅ Temperature monitoring | ✅ Current monitoring | ✅ Voltage monitoring | ✅ Position and velocity feedback | ✅ System status reporting | ✅ Performance benchmarking | ✅ Multi-device monitoring | . Board: TMC9660-3PH-EVKIT . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#telemetry-comprehensive-test-telemetrycomprehensivetestcpp",
+    
+    "relUrl": "/examples/esp32/#telemetry-comprehensive-test-telemetrycomprehensivetestcpp"
+  },"290": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Bootloader Comprehensive Test (BootloaderComprehensiveTest.cpp)",
+    "content": "Tests for bootloader functionality: . | ✅ Bootloader initialization | ✅ Mode detection (bootloader vs parameter) | ✅ Configuration reading and writing | ✅ Flash memory operations | ✅ Reset and recovery procedures | . Board: TMC9660-3PH-EVKIT or TMC9660-STP-EVKIT . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#bootloader-comprehensive-test-bootloadercomprehensivetestcpp",
+    
+    "relUrl": "/examples/esp32/#bootloader-comprehensive-test-bootloadercomprehensivetestcpp"
+  },"291": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "⚙️ Test Configuration",
+    "content": "Each test suite supports enabling/disabling specific test categories via compile-time flags at the top of each test file: . | 1 2 3 4 5 . | // Enable/disable specific test categories static constexpr bool ENABLE_CORE_TESTS = true; static constexpr bool ENABLE_HALL_SENSOR_TESTS = true; static constexpr bool ENABLE_ABN_ENCODER_TESTS = true; // ... etc . | . Edit these flags to customize which tests run. ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#%EF%B8%8F-test-configuration",
+    
+    "relUrl": "/examples/esp32/#️-test-configuration"
+  },"292": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🔧 Troubleshooting",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-troubleshooting",
+    
+    "relUrl": "/examples/esp32/#-troubleshooting"
+  },"293": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Common Issues",
+    "content": "1. Communication Timeout . Symptoms: Tests fail with communication timeout errors . Solutions: . | Verify all SPI/UART connections are secure | Check that GPIO pins match the configuration | Ensure proper ground connection between boards | Check power supply voltage (TMC9660 may need 12V-48V) | . 2. Bootloader Not Detected . Symptoms: Tests fail at bootloader initialization . Solutions: . | Verify RST pin is properly connected (GPIO22) | Check that FAULTN pin is connected (GPIO19) | Try power cycling both boards | Verify SPI communication with a logic analyzer | . 3. Motor Not Starting . Symptoms: Motor configuration succeeds but motor doesn’t run . Solutions: . | Verify DRV_EN pin is set (GPIO20) | Check motor connections (U, V, W for BLDC) | Verify current limits are set appropriately | Check that PWM frequency is configured before setting current limits | Ensure motor feedback (Hall/encoder) is properly connected if using closed-loop control | . 4. FAULTN Asserted . Symptoms: FAULTN pin is low (fault condition) . Solutions: . | Check TMC9660 datasheet for fault conditions | Verify power supply voltage is within range | Check for overcurrent conditions | Verify motor connections are correct | Check temperature (overtemperature protection) | . 5. Build Errors . Symptoms: ./scripts/build_app.sh fails . Solutions: . | Verify ESP-IDF is properly installed and sourced: . $IDF_PATH/export.sh | Check that all submodules are initialized: git submodule update --init --recursive | Verify script is executable: chmod +x scripts/build_app.sh | Clean build: ./scripts/clean_app.sh &lt;app_type&gt; &lt;build_type&gt; then rebuild | Verify CMake and Python versions meet requirements | Check that app name is valid: ./scripts/build_app.sh list | . 6. Script Not Found . Symptoms: ./scripts/build_app.sh: No such file or directory . Solutions: . | Ensure you’re in the examples/esp32 directory | Verify scripts exist: ls scripts/ | Make scripts executable: chmod +x scripts/*.sh | Run setup script: ./scripts/setup_repo.sh | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#common-issues",
+    
+    "relUrl": "/examples/esp32/#common-issues"
+  },"294": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "Debugging Tips",
+    "content": ". | Enable Debug Logging: The test suites enable DEBUG logging by default. Monitor serial output for detailed communication traces. | Use GPIO14 Indicator: Monitor GPIO14 with an oscilloscope to see test progression visually. | Logic Analyzer: Use a logic analyzer to monitor SPI/UART communication for detailed protocol analysis. | Oscilloscope: Monitor control pins (RST, DRV_EN, FAULTN, WAKE) to verify timing and states. | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#debugging-tips",
+    
+    "relUrl": "/examples/esp32/#debugging-tips"
+  },"295": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "📸 Hardware Setup Photos",
+    "content": "Add photos of your actual hardware setup here: . | ESP32-C6 DevKit connected to TMC9660-3PH-EVKIT | ESP32-C6 DevKit connected to TMC9660-STP-EVKIT | Motor connections | Overall test setup | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-hardware-setup-photos",
+    
+    "relUrl": "/examples/esp32/#-hardware-setup-photos"
+  },"296": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "📚 Additional Resources",
+    "content": ". | TMC9660 Datasheet: TMC9660.pdf | TMC9660-3PH-EVKIT User Guide: tmc9660-3ph-eval-kit-ug.pdf | TMC9660 Configuration Guide: tmc9660-configuration-and-bootstrapping.pdf | TMCL Protocol Reference: TMCL_reference_2015.pdf | . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-additional-resources",
+    
+    "relUrl": "/examples/esp32/#-additional-resources"
+  },"297": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "📝 License",
+    "content": "Copyright (c) 2025 HardFOC. All rights reserved. ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-license",
+    
+    "relUrl": "/examples/esp32/#-license"
+  },"298": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "👥 Contributing",
+    "content": "Contributions are welcome! Please see the main repository’s CONTRIBUTING.md for guidelines. Happy Testing! 🚀 . ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/#-contributing",
+    
+    "relUrl": "/examples/esp32/#-contributing"
+  },"299": {
+    "doc": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "title": "🔧 ESP32-C6 TMC9660 Comprehensive Test Suite",
+    "content": " ",
+    "url": "/hf-tmc9660-driver/development/examples/esp32/",
+    
+    "relUrl": "/examples/esp32/"
+  },"300": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🔧 HardFOC TMC9660 Driver",
     "content": "Hardware-Agnostic Motor Controller Driver . ",
     "url": "/hf-tmc9660-driver/development/",
     
     "relUrl": "/"
-  },"259": {
+  },"301": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🎯 Universal Motor Controller Interface for Multi-MCU Development",
     "content": "A professional hardware-agnostic driver enabling seamless TMC9660 motor control across multiple MCU platforms - designed for the HardFOC board ecosystem . ",
     "url": "/hf-tmc9660-driver/development/#-universal-motor-controller-interface-for-multi-mcu-development",
     
     "relUrl": "/#-universal-motor-controller-interface-for-multi-mcu-development"
-  },"260": {
+  },"302": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "📚 Table of Contents",
     "content": ". | 🎯 Overview | 🏗️ Architecture | 🔌 Motor Types | 🚀 Quick Start | 📖 API Documentation | 🔧 Building | 📊 Examples | 🤝 Contributing | 📄 License | . ",
     "url": "/hf-tmc9660-driver/development/#-table-of-contents",
     
     "relUrl": "/#-table-of-contents"
-  },"261": {
+  },"303": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🎯 Overview",
     "content": "📖 📚🌐 Live Complete Documentation - Interactive guides, examples, and step-by-step tutorials . HF-TMC9660 is a portable C++20 driver for the TMC9660 motor controller from Trinamic. It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL scripting. The driver is transport agnostic – implement TMC9660CommInterface for SPI or UART and run it on any MCU or host. ",
     "url": "/hf-tmc9660-driver/development/#-overview",
     
     "relUrl": "/#-overview"
-  },"262": {
+  },"304": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🏆 Core Benefits",
     "content": ". | 🔄 Hardware Portability - Write once, run on any MCU with SPI or UART | 🎯 Unified API - Consistent interface across all communication transports | ⚡ FOC Control - Advanced Field-Oriented Control for BLDC, stepper, and DC motors | 🛡️ Safety Features - Comprehensive protection systems and fault monitoring | 📈 Telemetry - Real-time temperature, current, and voltage monitoring | 🔌 Complete Coverage - Access to all 300+ TMC9660 parameters | . ",
     "url": "/hf-tmc9660-driver/development/#-core-benefits",
     
     "relUrl": "/#-core-benefits"
-  },"263": {
+  },"305": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🎨 Design Philosophy",
     "content": "| 1 2 3 4 5 6 7 8 9 . | // Write hardware-agnostic motor control code TMC9660 driver(commInterface); // SPI or UART interface // Configure for Parameter Mode driver.bootloaderInit(&amp;config); // Control any motor type - same API driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7); driver.focControl.setTargetVelocity(1000); . | . ",
     "url": "/hf-tmc9660-driver/development/#-design-philosophy",
     
     "relUrl": "/#-design-philosophy"
-  },"264": {
+  },"306": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🏗️ Architecture",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#%EF%B8%8F-architecture",
     
     "relUrl": "/#️-architecture"
-  },"265": {
+  },"307": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Transport-Agnostic Design",
     "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 . | 📦 TMC9660 Driver Architecture ├── 🎯 Driver Layer (TMC9660 class) # High-level motor control API │ ├── Motor Configuration # Motor type, commutation, sensors │ ├── FOC Control # Torque, velocity, position loops │ ├── Telemetry # Temperature, current, voltage │ ├── Bootloader # Parameter mode initialization │ └── TMCL Scripting # Command execution │ ├── 🔌 Communication Interface # Abstract transport layer │ ├── TMC9660CommInterface # Base interface │ ├── SPITMC9660CommInterface # SPI implementation │ └── UARTTMC9660CommInterface # UART implementation │ └── 🔧 Hardware Layer # Platform-specific implementations ├── ESP32 SPI/UART # ESP32 family support ├── STM32 SPI/UART # STM32 support └── Any MCU with SPI/UART # Your implementation . | . ",
     "url": "/hf-tmc9660-driver/development/#transport-agnostic-design",
     
     "relUrl": "/#transport-agnostic-design"
-  },"266": {
+  },"308": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Abstraction Benefits",
     "content": "1. MCU Independence . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 . | // Application code remains the same across MCUs class MotorController { TMC9660* driver; public: void Initialize() { // Platform-specific interface, same driver code YourSPIInterface spi; // ESP32, STM32, or any MCU driver = new TMC9660(spi); // Same configuration regardless of MCU driver-&gt;bootloaderInit(&amp;config); driver-&gt;motorConfig.setType(MotorType::BLDC_MOTOR, 7); } }; . | . ",
     "url": "/hf-tmc9660-driver/development/#abstraction-benefits",
     
     "relUrl": "/#abstraction-benefits"
-  },"267": {
+  },"309": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🔌 Motor Types",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-motor-types",
     
     "relUrl": "/#-motor-types"
-  },"268": {
+  },"310": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Supported Motor Types",
     "content": "| Motor Type | Control Mode | Key Features | . | BLDC Motor | FOC with Hall sensors | High efficiency, smooth operation | . | BLDC Motor | FOC with encoder | Precise position and velocity control | . | Stepper Motor | FOC position control | High torque, microstepping | . | Stepper Motor | STEP/DIR interface | Traditional stepper control | . | DC Motor | Velocity control | Simple brushed motor control | . | DC Motor | Current control | Open-loop current drive | . ",
     "url": "/hf-tmc9660-driver/development/#supported-motor-types",
     
     "relUrl": "/#supported-motor-types"
-  },"269": {
+  },"311": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Communication Modes",
     "content": "| Mode | Transport | Use Case | . | Parameter Mode | SPI or UART | Full motor control, TMCL scripting | . | Register Mode | SPI only | Direct register access | . ",
     "url": "/hf-tmc9660-driver/development/#communication-modes",
     
     "relUrl": "/#communication-modes"
-  },"270": {
+  },"312": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🚀 Quick Start",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-quick-start",
     
     "relUrl": "/#-quick-start"
-  },"271": {
+  },"313": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "1. Clone Repository",
     "content": "| 1 2 . | git clone https://github.com/n3b3x/hf-tmc9660-driver.git cd hf-tmc9660-driver . | . ",
     "url": "/hf-tmc9660-driver/development/#1-clone-repository",
     
     "relUrl": "/#1-clone-repository"
-  },"272": {
+  },"314": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "2. Implement Communication Interface",
     "content": "| 1 2 3 4 5 6 7 8 9 10 . | #include \"inc/TMC9660CommInterface.hpp\" class YourSPIInterface : public SPITMC9660CommInterface { public: bool spiTransfer(std::array&lt;uint8_t,8&gt;&amp; tx, std::array&lt;uint8_t,8&gt;&amp; rx) noexcept override { // Your SPI transfer implementation return true; } }; . | . ",
     "url": "/hf-tmc9660-driver/development/#2-implement-communication-interface",
     
     "relUrl": "/#2-implement-communication-interface"
-  },"273": {
+  },"315": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "3. Basic Motor Control",
     "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 . | #include \"inc/TMC9660.hpp\" YourSPIInterface spi; TMC9660 driver(spi); // CRITICAL: Configure bootloader for Parameter Mode tmc9660::BootloaderConfig cfg{}; cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter; cfg.boot.start_motor_control = true; auto result = driver.bootloaderInit(&amp;cfg); if (result != TMC9660::BootloaderInitResult::Success) { return -1; } // Configure and start motor driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); driver.focControl.setTargetVelocity(1000); . | . ",
     "url": "/hf-tmc9660-driver/development/#3-basic-motor-control",
     
     "relUrl": "/#3-basic-motor-control"
-  },"274": {
+  },"316": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "4. Build Example",
     "content": "| 1 2 3 . | cd examples/esp32 ./scripts/setup_repo.sh ./scripts/build_app.sh bldc_test Release . | . ",
     "url": "/hf-tmc9660-driver/development/#4-build-example",
     
     "relUrl": "/#4-build-example"
-  },"275": {
+  },"317": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "📖 API Documentation",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-api-documentation",
     
     "relUrl": "/#-api-documentation"
-  },"276": {
+  },"318": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Generated Documentation",
     "content": ". | 📚 Complete Documentation - Interactive guides and tutorials | API Reference - Complete driver API documentation | Setup Guide - Installation and configuration | . ",
     "url": "/hf-tmc9660-driver/development/#generated-documentation",
     
     "relUrl": "/#generated-documentation"
-  },"277": {
+  },"319": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Key Concepts",
     "content": "Bootloader Initialization . | 1 2 3 4 5 6 7 . | // CRITICAL: Must configure for Parameter Mode first tmc9660::BootloaderConfig cfg{}; cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter; cfg.boot.start_motor_control = true; cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0; auto result = driver.bootloaderInit(&amp;cfg); . | . Motor Configuration . | 1 2 3 4 5 6 7 8 . | // Set motor type and pole pairs driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); // Configure current limits driver.motorConfig.setMaxTorqueCurrent(2000); // 2A limit // Setup feedback sensors driver.feedbackSense.configureHall(); . | . FOC Control . | 1 2 3 4 5 6 . | // Configure control gains driver.focControl.setCurrentLoopGains(50, 100); driver.focControl.setVelocityLoopGains(800, 1); // Set target velocity driver.focControl.setTargetVelocity(1000); . | . ",
     "url": "/hf-tmc9660-driver/development/#key-concepts",
     
     "relUrl": "/#key-concepts"
-  },"278": {
+  },"320": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🔧 Building",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-building",
     
     "relUrl": "/#-building"
-  },"279": {
+  },"321": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Build System Features",
     "content": ". | Multi-MCU Support - Works with any MCU providing SPI or UART | ESP32 Examples - Comprehensive test applications | Automated Testing - Hardware validation suites | CI/CD Integration - Automated builds and validation | . ",
     "url": "/hf-tmc9660-driver/development/#build-system-features",
     
     "relUrl": "/#build-system-features"
-  },"280": {
+  },"322": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Build Commands",
     "content": "| 1 2 3 4 5 6 7 8 9 . | ## For ESP32 development cd examples/esp32 ./scripts/setup_repo.sh ./scripts/build_app.sh &lt;app_name&gt; &lt;build_type&gt; ## Examples ./scripts/build_app.sh bldc_test Release ./scripts/build_app.sh stepper_test Debug ./scripts/build_app.sh telemetry_test Release . | . ",
     "url": "/hf-tmc9660-driver/development/#build-commands",
     
     "relUrl": "/#build-commands"
-  },"281": {
+  },"323": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "📊 Examples",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-examples",
     
     "relUrl": "/#-examples"
-  },"282": {
+  },"324": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Available Test Applications",
     "content": "| Application | Tests | Purpose | . | bldc_test | BLDC motor with Hall sensors | FOC commutation validation | . | stepper_test | Stepper motor control | Position and velocity control | . | dc_test | DC motor control | Simple velocity loop | . | telemetry_test | Temperature, current, voltage | Monitoring and diagnostics | . | bootloader_test | Bootloader configuration | Parameter mode setup | . ",
     "url": "/hf-tmc9660-driver/development/#available-test-applications",
     
     "relUrl": "/#available-test-applications"
-  },"283": {
+  },"325": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Usage Examples",
     "content": "| 1 2 3 4 5 6 7 8 9 . | // BLDC Motor with Hall Sensors driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7); driver.feedbackSense.configureHall(); driver.motorConfig.setCommutationMode(CommutationMode::FOC_HALL_SENSOR); driver.focControl.setTargetVelocity(1000); // Stepper Motor Position Control driver.motorConfig.setType(MotorType::STEPPER_MOTOR, 200); driver.focControl.setTargetPosition(10000); . | . ",
     "url": "/hf-tmc9660-driver/development/#usage-examples",
     
     "relUrl": "/#usage-examples"
-  },"284": {
+  },"326": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🤝 Contributing",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-contributing",
     
     "relUrl": "/#-contributing"
-  },"285": {
+  },"327": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Development Workflow",
     "content": ". | Fork the repository | Create feature branch (feature/new-feature) | Implement following coding standards | Test with existing applications | Document your changes | Submit pull request | . ",
     "url": "/hf-tmc9660-driver/development/#development-workflow",
     
     "relUrl": "/#development-workflow"
-  },"286": {
+  },"328": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Coding Standards",
     "content": ". | Functions: PascalCase (SetTargetVelocity, GetChipTemperature) | Types: snake_case (tmc9660::tmcl::MotorType) | Error Handling: Return status codes | Code Formatting: Use clang-format | . ",
     "url": "/hf-tmc9660-driver/development/#coding-standards",
     
     "relUrl": "/#coding-standards"
-  },"287": {
+  },"329": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "📄 License",
     "content": "This project is licensed under the GNU General Public License v3.0. See LICENSE for full details. ",
     "url": "/hf-tmc9660-driver/development/#-license",
     
     "relUrl": "/#-license"
-  },"288": {
+  },"330": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "🔗 Quick Links",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/#-quick-links",
     
     "relUrl": "/#-quick-links"
-  },"289": {
+  },"331": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Documentation",
     "content": ". | 📚 Complete Documentation - Interactive guides and tutorials | 📋 API Reference - Complete driver API documentation | 🔧 Setup Guide - Installation and build instructions | 🔌 Communication Interface Guide - Platform integration | ⚡ Hardware Examples - Practical usage scenarios | . ",
     "url": "/hf-tmc9660-driver/development/#documentation",
     
     "relUrl": "/#documentation"
-  },"290": {
+  },"332": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Development",
     "content": ". | 🚀 Examples - Test applications and usage examples | 🧪 Test Documentation - Comprehensive test documentation | 🔧 Scripts - Build, flash, and development tools | 📊 Configuration - Application and build settings | . ",
     "url": "/hf-tmc9660-driver/development/#development",
     
     "relUrl": "/#development"
-  },"291": {
+  },"333": {
     "doc": "🔧 HardFOC TMC9660 Driver",
     "title": "Community",
     "content": ". | 🤝 Contributing - Development guidelines | 🐛 Issue Tracker | 💬 Discussions | . Built for the HardFOC ecosystem - Enabling seamless motor control . Hardware-agnostic motor control that just works™ . ",
     "url": "/hf-tmc9660-driver/development/#community",
     
     "relUrl": "/#community"
-  },"292": {
+  },"334": {
     "doc": "📋 Setup Guide",
     "title": "📋 HF-TMC9660 Setup Guide",
     "content": "This comprehensive guide walks you through setting up the HF-TMC9660 driver library on your development machine. By the end of this guide, you’ll have a working build environment and understand the critical parameter mode configuration requirements. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-hf-tmc9660-setup-guide",
     
     "relUrl": "/docs/SetupGuide/#-hf-tmc9660-setup-guide"
-  },"293": {
+  },"335": {
     "doc": "📋 Setup Guide",
     "title": "🎯 What You’ll Accomplish",
     "content": ". | ✅ Clone and set up the HF-TMC9660 driver library | ✅ Install and verify C++20 toolchain compatibility | ✅ Build the library and example programs | ✅ Understand parameter mode initialization requirements | ✅ Test your setup with working examples | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-what-youll-accomplish",
     
     "relUrl": "/docs/SetupGuide/#-what-youll-accomplish"
-  },"294": {
+  },"336": {
     "doc": "📋 Setup Guide",
     "title": "📋 Prerequisites",
     "content": "Before starting, ensure you have: . | Git for cloning the repository | C++20 compatible compiler (GCC 10+, Clang 11+, or MSVC 2019+) | Command line access (Terminal, PowerShell, or Command Prompt) | Basic C++ knowledge for understanding examples | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-prerequisites",
     
     "relUrl": "/docs/SetupGuide/#-prerequisites"
-  },"295": {
+  },"337": {
     "doc": "📋 Setup Guide",
     "title": "🚀 Step 1: Clone the Repository",
     "content": "Choose one of these methods based on your project needs: . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-step-1-clone-the-repository",
     
     "relUrl": "/docs/SetupGuide/#-step-1-clone-the-repository"
-  },"296": {
+  },"338": {
     "doc": "📋 Setup Guide",
     "title": "Option A: Standalone Clone",
     "content": "| 1 2 . | git clone https://github.com/n3b3x/hf-tmc9660-driver.git cd hf-tmc9660-driver . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#option-a-standalone-clone",
     
     "relUrl": "/docs/SetupGuide/#option-a-standalone-clone"
-  },"297": {
+  },"339": {
     "doc": "📋 Setup Guide",
     "title": "Option B: Git Submodule (Recommended for existing projects)",
     "content": "| 1 2 3 4 . | # From your project root git submodule add https://github.com/n3b3x/hf-tmc9660-driver.git external/hf-tmc9660 cd external/hf-tmc9660 git submodule update --init --recursive . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#option-b-git-submodule-recommended-for-existing-projects",
     
     "relUrl": "/docs/SetupGuide/#option-b-git-submodule-recommended-for-existing-projects"
-  },"298": {
+  },"340": {
     "doc": "📋 Setup Guide",
     "title": "Option C: Download ZIP",
     "content": "If you prefer not to use Git, download the ZIP file from GitHub and extract it to your preferred location. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#option-c-download-zip",
     
     "relUrl": "/docs/SetupGuide/#option-c-download-zip"
-  },"299": {
+  },"341": {
     "doc": "📋 Setup Guide",
     "title": "🛠️ Step 2: Verify C++20 Toolchain",
     "content": "The HF-TMC9660 driver requires C++20 support. Verify your compiler meets the requirements: . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#%EF%B8%8F-step-2-verify-c20-toolchain",
     
     "relUrl": "/docs/SetupGuide/#️-step-2-verify-c20-toolchain"
-  },"300": {
+  },"342": {
     "doc": "📋 Setup Guide",
     "title": "Linux/macOS",
     "content": "| 1 2 3 4 5 6 7 8 . | # Check GCC version (needs 10+) g++ --version # Check Clang version (needs 11+) clang++ --version # Test C++20 support echo '#include &lt;span&gt;' | g++ -std=c++20 -x c++ -c - 2&gt;/dev/null &amp;&amp; echo \"✅ C++20 supported\" || echo \"❌ C++20 not supported\" . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#linuxmacos",
     
     "relUrl": "/docs/SetupGuide/#linuxmacos"
-  },"301": {
+  },"343": {
     "doc": "📋 Setup Guide",
     "title": "Windows",
     "content": "| 1 2 3 4 5 . | REM Visual Studio 2019+ with C++20 cl.exe REM Or MinGW/MSYS2 g++ --version . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#windows",
     
     "relUrl": "/docs/SetupGuide/#windows"
-  },"302": {
+  },"344": {
     "doc": "📋 Setup Guide",
     "title": "Installing/Updating Compilers",
     "content": "Ubuntu/Debian: . | 1 2 3 4 . | sudo apt update sudo apt install build-essential gcc-10 g++-10 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100 . | . Windows (MSYS2): . | 1 . | pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake . | . macOS: . | 1 2 3 4 5 . | # Install Xcode command line tools xcode-select --install # Or use Homebrew brew install gcc . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#installingupdating-compilers",
     
     "relUrl": "/docs/SetupGuide/#installingupdating-compilers"
-  },"303": {
+  },"345": {
     "doc": "📋 Setup Guide",
     "title": "🏗️ Step 3: Build the Library",
     "content": "The library uses a simple compilation model without complex build systems. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#%EF%B8%8F-step-3-build-the-library",
     
     "relUrl": "/docs/SetupGuide/#️-step-3-build-the-library"
-  },"304": {
+  },"346": {
     "doc": "📋 Setup Guide",
     "title": "Basic Library Compilation",
     "content": "| 1 2 3 4 5 6 7 8 . | # Compile the core library g++ -std=c++20 -Iinc -c src/TMC9660.cpp -o TMC9660.o # Compile bootloader support g++ -std=c++20 -Iinc -c src/TMC9660Bootloader.cpp -o TMC9660Bootloader.o # Verify object files were created ls -la *.o . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#basic-library-compilation",
     
     "relUrl": "/docs/SetupGuide/#basic-library-compilation"
-  },"305": {
+  },"347": {
     "doc": "📋 Setup Guide",
     "title": "Create Static Library (Optional)",
     "content": "| 1 2 3 4 5 . | # Create a reusable static library ar rcs libTMC9660.a TMC9660.o TMC9660Bootloader.o # Verify the library ar -t libTMC9660.a . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#create-static-library-optional",
     
     "relUrl": "/docs/SetupGuide/#create-static-library-optional"
-  },"306": {
+  },"348": {
     "doc": "📋 Setup Guide",
     "title": "🧪 Step 4: Build and Test Examples",
     "content": "Test your setup by building the provided examples: . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-step-4-build-and-test-examples",
     
     "relUrl": "/docs/SetupGuide/#-step-4-build-and-test-examples"
-  },"307": {
+  },"349": {
     "doc": "📋 Setup Guide",
     "title": "Bootloader Configuration Example",
     "content": "| 1 2 3 4 5 6 7 . | g++ -std=c++20 -Iinc \\ src/TMC9660.cpp src/TMC9660Bootloader.cpp \\ examples/bootloader_example.cpp \\ -o bootloader_test # Run the test ./bootloader_test . | . Expected Output: . | 1 2 3 4 5 6 . | ✓ Bootloader configured successfully for parameter mode - Boot mode: Parameter - Motor control: Enabled - Communication: SPI/UART configured - Clock: Internal 16MHz with PLL ✓ Parameter mode communication verified . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#bootloader-configuration-example",
     
     "relUrl": "/docs/SetupGuide/#bootloader-configuration-example"
-  },"308": {
+  },"350": {
     "doc": "📋 Setup Guide",
     "title": "BLDC Motor Control Example",
     "content": "| 1 2 3 4 5 6 7 . | g++ -std=c++20 -Iinc \\ src/TMC9660.cpp src/TMC9660Bootloader.cpp \\ examples/BLDC_with_HALL.cpp \\ -o bldc_hall_test # Run the test ./bldc_hall_test . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#bldc-motor-control-example",
     
     "relUrl": "/docs/SetupGuide/#bldc-motor-control-example"
-  },"309": {
+  },"351": {
     "doc": "📋 Setup Guide",
     "title": "Telemetry Monitoring Example",
     "content": "| 1 2 3 4 5 6 7 . | g++ -std=c++20 -Iinc \\ src/TMC9660.cpp src/TMC9660Bootloader.cpp \\ examples/Telemetry_monitor.cpp \\ -o telemetry_test # Run the test ./telemetry_test . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#telemetry-monitoring-example",
     
     "relUrl": "/docs/SetupGuide/#telemetry-monitoring-example"
-  },"310": {
+  },"352": {
     "doc": "📋 Setup Guide",
     "title": "⚠️ Step 5: Understanding Parameter Mode Requirements",
     "content": "CRITICAL: The TMC9660 must be initialized for Parameter Mode operation before any motor control functions will work. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#%EF%B8%8F-step-5-understanding-parameter-mode-requirements",
     
     "relUrl": "/docs/SetupGuide/#️-step-5-understanding-parameter-mode-requirements"
-  },"311": {
+  },"353": {
     "doc": "📋 Setup Guide",
     "title": "Why Parameter Mode?",
     "content": "The TMC9660 can operate in two modes: . | Register Mode: Low-level register access (not covered by this driver) | Parameter Mode: High-level TMCL command interface (required for this driver) | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#why-parameter-mode",
     
     "relUrl": "/docs/SetupGuide/#why-parameter-mode"
-  },"312": {
+  },"354": {
     "doc": "📋 Setup Guide",
     "title": "Essential Initialization Pattern",
     "content": "Every application using the HF-TMC9660 driver MUST follow this pattern: . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 . | #include \"TMC9660.hpp\" int main() { // 1. Create communication interface (your hardware-specific implementation) YourCommInterface bus; // Replace with your SPI/UART implementation TMC9660 driver(bus); // 2. CRITICAL: Configure bootloader for Parameter Mode tmc9660::BootloaderConfig cfg{}; cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter; // ESSENTIAL! cfg.boot.start_motor_control = true; // 3. Initialize bootloader auto result = driver.bootloaderInit(&amp;cfg); if (result != TMC9660::BootloaderInitResult::Success) { // Handle initialization failure return -1; } // 4. Now you can use motor control functions driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); driver.focControl.setTargetVelocity(1000); return 0; } . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#essential-initialization-pattern",
     
     "relUrl": "/docs/SetupGuide/#essential-initialization-pattern"
-  },"313": {
+  },"355": {
     "doc": "📋 Setup Guide",
     "title": "🔧 Step 6: Integration with Your Project",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-step-6-integration-with-your-project",
     
     "relUrl": "/docs/SetupGuide/#-step-6-integration-with-your-project"
-  },"314": {
+  },"356": {
     "doc": "📋 Setup Guide",
     "title": "Method 1: Direct File Integration",
     "content": "Copy the inc/ and src/ directories into your project and compile the sources along with your application: . | 1 2 3 4 5 6 7 8 9 10 11 12 . | # CMake example add_executable(my_motor_app src/main.cpp external/hf-tmc9660/src/TMC9660.cpp external/hf-tmc9660/src/TMC9660Bootloader.cpp ) target_include_directories(my_motor_app PRIVATE external/hf-tmc9660/inc ) target_compile_features(my_motor_app PRIVATE cxx_std_20) . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#method-1-direct-file-integration",
     
     "relUrl": "/docs/SetupGuide/#method-1-direct-file-integration"
-  },"315": {
+  },"357": {
     "doc": "📋 Setup Guide",
     "title": "Method 2: Static Library",
     "content": "Use the static library you created in Step 3: . | 1 2 3 4 5 6 . | # Makefile example CXXFLAGS = -std=c++20 -Iexternal/hf-tmc9660/inc LDLIBS = -Lexternal/hf-tmc9660 -lTMC9660 my_motor_app: src/main.cpp $(CXX) $(CXXFLAGS) $&lt; $(LDLIBS) -o $@ . | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#method-2-static-library",
     
     "relUrl": "/docs/SetupGuide/#method-2-static-library"
-  },"316": {
+  },"358": {
     "doc": "📋 Setup Guide",
     "title": "✅ Verification Checklist",
     "content": "Before proceeding to the next documentation sections, verify: . | Repository cloned successfully and all files present | C++20 compiler working and version requirements met | Library compiles cleanly without errors or warnings | Examples build and run with expected output | Parameter mode initialization understood and tested | Integration method chosen for your project | . ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-verification-checklist",
     
     "relUrl": "/docs/SetupGuide/#-verification-checklist"
-  },"317": {
+  },"359": {
     "doc": "📋 Setup Guide",
     "title": "🚨 Troubleshooting",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-troubleshooting",
     
     "relUrl": "/docs/SetupGuide/#-troubleshooting"
-  },"318": {
+  },"360": {
     "doc": "📋 Setup Guide",
     "title": "Compilation Errors",
     "content": "Problem: error: no matching function for call to 'span' . Solution: Your compiler doesn’t support C++20. Update to GCC 10+, Clang 11+, or MSVC 2019+. Problem: fatal error: TMC9660.hpp: No such file or directory . Solution: Add the include path with -Iinc or verify the file structure. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#compilation-errors",
     
     "relUrl": "/docs/SetupGuide/#compilation-errors"
-  },"319": {
+  },"361": {
     "doc": "📋 Setup Guide",
     "title": "Runtime Issues",
     "content": "Problem: All motor control functions return false . Solution: Ensure bootloader is configured for Parameter Mode (see Step 5). Problem: Communication timeouts or failures . Solution: Verify your communication interface implementation and hardware connections. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#runtime-issues",
     
     "relUrl": "/docs/SetupGuide/#runtime-issues"
-  },"320": {
+  },"362": {
     "doc": "📋 Setup Guide",
     "title": "🎯 Next Steps",
     "content": "Congratulations! Your HF-TMC9660 development environment is ready. Continue with: . 👉 Implementing Communication Interface - Create your hardware-specific communication layer . | ⬅️ Back to Index | Next ➡️ Communication Interface | . Need help? Check the troubleshooting sections or review the example implementations. ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/#-next-steps",
     
     "relUrl": "/docs/SetupGuide/#-next-steps"
-  },"321": {
+  },"363": {
     "doc": "📋 Setup Guide",
     "title": "📋 Setup Guide",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/SetupGuide/",
     
     "relUrl": "/docs/SetupGuide/"
-  },"322": {
+  },"364": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "TMC9660 TMCL Protocol Guide",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#tmc9660-tmcl-protocol-guide",
     
     "relUrl": "/docs/TMCLProtocolGuide/#tmc9660-tmcl-protocol-guide"
-  },"323": {
+  },"365": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Table of Contents",
     "content": ". | Overview | Communication Modes | Command Structure | Address Encoding | Checksum Calculation | SPI Protocol Details | UART Protocol Details | Special Cases | Common Pitfalls | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#table-of-contents",
     
     "relUrl": "/docs/TMCLProtocolGuide/#table-of-contents"
-  },"324": {
+  },"366": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Overview",
     "content": "The TMC9660 Parameter Mode uses the TMCL (Trinamic Motion Control Language) protocol for communication over both SPI and UART interfaces. This guide provides detailed information about the protocol implementation, including critical details learned through extensive debugging. ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#overview",
     
     "relUrl": "/docs/TMCLProtocolGuide/#overview"
-  },"325": {
+  },"367": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Key Characteristics",
     "content": ". | Strict Command/Reply Order: Never send a new command before receiving the reply to the previous command | Shared Structure: SPI and UART use the same command format with interface-specific framing | Checksum Protected: All datagrams include a checksum for data integrity | Special Reply Formats: Some commands (like GetVersion) return non-standard formats | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#key-characteristics",
     
     "relUrl": "/docs/TMCLProtocolGuide/#key-characteristics"
-  },"326": {
+  },"368": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Communication Modes",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#communication-modes",
     
     "relUrl": "/docs/TMCLProtocolGuide/#communication-modes"
-  },"327": {
+  },"369": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Mode",
     "content": ". | Interface: 4-wire synchronous (MOSI, MISO, SCK, CS) | Speed: Up to 4 MHz | Data Size: 8 bytes per transaction | Reply Delay: Reply to command N is received when sending command N+1 | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-mode",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-mode"
-  },"328": {
+  },"370": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "UART Mode",
     "content": ". | Interface: 2-wire asynchronous (TX, RD) | Speed: 9600 to 1000000 baud, or autobaud | Data Size: 9 bytes per transaction (includes sync bit and host address) | Reply Order: Immediate reply after command | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#uart-mode",
     
     "relUrl": "/docs/TMCLProtocolGuide/#uart-mode"
-  },"329": {
+  },"371": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Command Structure",
     "content": "Both SPI and UART share the same core TMCL command structure: . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#command-structure",
     
     "relUrl": "/docs/TMCLProtocolGuide/#command-structure"
-  },"330": {
+  },"372": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Core Fields (8 bytes for SPI, 9 bytes for UART)",
     "content": "| Field | Size | Description | Notes | . | Operation | 1 byte | TMCL operation code | e.g., 0x05 for SAP, 0x06 for GAP, 0x88 for GetVersion | . | Type | 12 bits | Parameter type or address | SPI: split across bytes 1-2, UART: 8 bits in byte 2 | . | Motor/Bank | 4 bits | Motor number or memory bank | SPI: in byte 2 upper nibble, UART: in byte 3 lower nibble | . | Value | 4 bytes | Data value (big-endian) | MSB first | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#core-fields-8-bytes-for-spi-9-bytes-for-uart",
     
     "relUrl": "/docs/TMCLProtocolGuide/#core-fields-8-bytes-for-spi-9-bytes-for-uart"
-  },"331": {
+  },"373": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Frame Format (8 bytes)",
     "content": "⚠️ CRITICAL: Type field is 12 bits, not 8 bits! Motor shares Byte 2 with Type! . | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 . | ┌──────┬──────┬─────────────┬──────────────────┬──────┐ │ Byte │ 0 │ 1-2 │ 3-6 │ 7 │ ├──────┼──────┼─────────────┼──────────────────┼──────┤ │ Desc │ OP │ TYPE+MOTOR │ DATA (32-bit) │ CSUM │ │ Bits │ 0-7 │ 8-19 + 20-23│ 24-55 │56-63 │ └──────┴──────┴─────────────┴──────────────────┴──────┘ Detailed Byte Layout: ┌──────┬──────┬──────────────────┬──────────────────┐ │ Byte │ 0 │ 1 │ 2 │ ├──────┼──────┼──────────────────┼──────────────────┤ │ Field│ OP │ Type bits 0-7 │ Type 8-11 | Motor│ │ Bits │ 0-7 │ 8-15 │ 16-19 | 20-23 │ │ │ │ (lower 8 bits) │(lower) |(upper)│ └──────┴──────┴──────────────────┴──────────────────┘ Note: Byte 2 lower nibble = Type bits 16-19 (frame bits), Byte 2 upper nibble = Motor bits 20-23 (frame bits) Frame Bit Positions (from datasheet Table 3): - Byte 1: Frame bits 8-15 = Type bits 8-15 (Type lower 8 bits of 12-bit field) - Byte 2 lower nibble: Frame bits 16-19 = Type bits 16-19 (Type upper 4 bits of 12-bit field) - Byte 2 upper nibble: Frame bits 20-23 = Motor/Bank (4 bits) - Bytes 3-6: Frame bits 24-55 = 32-bit Value (big-endian) . | . Encoding Example (Type=110=0x006E, Motor=0): . | Byte 0 (frame bits 0-7): Opcode = 0x05 (SAP) | Byte 1 (frame bits 8-15): type &amp; 0xFF = 0x006E &amp; 0xFF = 0x6E (Type lower 8 bits) | Byte 2 (frame bits 16-23): . | Lower nibble (bits 0-3, frame bits 16-19): (type &amp; 0xF00) &gt;&gt; 8 = (0x006E &amp; 0xF00) &gt;&gt; 8 = 0x00 | Upper nibble (bits 4-7, frame bits 20-23): (motor &amp; 0x0F) &lt;&lt; 4 = (0 &amp; 0x0F) &lt;&lt; 4 = 0x00 | Result: 0x00 | 0x00 = 0x00 | . | Bytes 3-6 (frame bits 24-55): Value (big-endian, 32-bit) | Byte 7 (frame bits 56-63): Checksum (sum of bytes 0-6) | . Decoding: . | Type = in[1] | ((in[2] &amp; 0x0F) &lt;&lt; 8) . | From Byte 1 (frame bits 8-15): Type lower 8 bits | From Byte 2 lower nibble (frame bits 16-19): Type upper 4 bits, shifted left by 8 | Example: 0x6E | (0x00 &lt;&lt; 8) = 0x006E = 110 | . | Motor = (in[2] &gt;&gt; 4) &amp; 0x0F . | From Byte 2 upper nibble (frame bits 20-23) | Example: (0x00 &gt;&gt; 4) &amp; 0x0F = 0x00 = 0 | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-frame-format-8-bytes",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-frame-format-8-bytes"
-  },"332": {
+  },"374": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "UART Frame Format (9 bytes)",
     "content": "| 1 2 3 4 5 6 . | Byte: 0 1 2 3 4-7 8 Field: [Sync+Addr ] [OpCode] [Type ] [Motor ] [Value (32-bit) ] [Checksum] └─ Bit 0: Sync (always 1) └─ Bits 1-7: Module Address Note: UART Type field is 8 bits (byte 2), Motor is 4 bits in byte 3 lower nibble . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#uart-frame-format-9-bytes",
     
     "relUrl": "/docs/TMCLProtocolGuide/#uart-frame-format-9-bytes"
-  },"333": {
+  },"375": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Address Encoding",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#address-encoding",
     
     "relUrl": "/docs/TMCLProtocolGuide/#address-encoding"
-  },"334": {
+  },"376": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "⚠️ CRITICAL: Module Address Encoding",
     "content": "The datasheet states: “The module address reuses the upper 7 bits of the bootloader device address” . This is NOT a shift operation! Here’s the correct implementation: . UART TX (Command) . | 1 2 3 4 5 . | // INCORRECT (common mistake): out[0] = (addr &lt;&lt; 1) | 0x01; // ❌ WRONG - shifts the address // CORRECT: out[0] = (addr &amp; 0xFE) | 0x01; // ✅ Keeps upper 7 bits, sets sync bit . | . UART RX (Reply) . | 1 2 3 4 5 . | // INCORRECT (common mistake): if ((in[1] &gt;&gt; 1) != (addr &amp; 0x7F)) // ❌ WRONG - shifts for comparison // CORRECT: if ((in[1] &amp; 0xFE) != (addr &amp; 0xFE)) // ✅ Compares upper 7 bits directly . | . Why This Matters . | Byte 0 Format: [Sync bit (bit 0)] [Module Address (bits 1-7)] | Address = 0x01 (binary: 00000001): . | Wrong method produces: 0x03 (binary: 00000011) - module address becomes 0x01 in bits 1-7 | Correct method produces: 0x01 (binary: 00000001) - module address is 0x00 in bits 1-7 | . | . The device address 0x01 means module address 0x00 (upper 7 bits = 0000000), NOT module address 0x01! . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#%EF%B8%8F-critical-module-address-encoding",
     
     "relUrl": "/docs/TMCLProtocolGuide/#️-critical-module-address-encoding"
-  },"335": {
+  },"377": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Example Address Mappings",
     "content": "| Device Address | Binary | Upper 7 Bits | Byte 0 (UART TX) | Module Address (bits 1-7) | . | 0x00 | 00000000 | 0000000 | 0x01 | 0x00 | . | 0x01 | 00000001 | 0000000 | 0x01 | 0x00 | . | 0x02 | 00000010 | 0000001 | 0x03 | 0x01 | . | 0xFE | 11111110 | 1111111 | 0xFF | 0x7F | . | 0xFF | 11111111 | 1111111 | 0xFF | 0x7F | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#example-address-mappings",
     
     "relUrl": "/docs/TMCLProtocolGuide/#example-address-mappings"
-  },"336": {
+  },"378": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Checksum Calculation",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#checksum-calculation",
     
     "relUrl": "/docs/TMCLProtocolGuide/#checksum-calculation"
-  },"337": {
+  },"379": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "TMCL Checksum (8-bit Addition)",
     "content": "The TMCL checksum is calculated by summing all bytes (excluding the checksum byte itself) using 8-bit arithmetic: . | 1 2 3 4 5 6 . | uint8_t tmclChecksum(const uint8_t *bytes, size_t n) { uint8_t sum = 0; for (size_t i = 0; i &lt; n; ++i) sum += bytes[i]; return sum; } . | . For UART . | Checksum covers: Bytes 0-7 (including sync+address byte) | Checksum stored: Byte 8 | . For SPI . | Checksum covers: Bytes 0-6 (operation through value) | Checksum stored: Byte 7 | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#tmcl-checksum-8-bit-addition",
     
     "relUrl": "/docs/TMCLProtocolGuide/#tmcl-checksum-8-bit-addition"
-  },"338": {
+  },"380": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Example Calculation",
     "content": "Command: SAP 4, 0, 1000 (Set Axis Parameter: Type=4, Motor=0, Value=1000) . | 1 2 3 4 5 6 7 8 . | Byte 0: 0x05 (SAP opcode = 0x05) Byte 1: 0x04 (Type lower 8 bits = 0x04) Byte 2: 0x00 ((Motor &lt;&lt; 4) | (Type upper 4 bits)) = (0 &lt;&lt; 4) | 0 = 0x00 Byte 3: 0x00 (Value MSB) Byte 4: 0x00 Byte 5: 0x03 (Value) Byte 6: 0xE8 (Value LSB = 1000 decimal) Checksum: 0x05 + 0x04 + 0x00 + 0x00 + 0x00 + 0x03 + 0xE8 = 0xF4 . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#example-calculation",
     
     "relUrl": "/docs/TMCLProtocolGuide/#example-calculation"
-  },"339": {
+  },"381": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Protocol Details",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-protocol-details",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-protocol-details"
-  },"340": {
+  },"382": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Transaction Flow",
     "content": "| 1 2 . | [Master] → Command N → [Slave] ← Reply to Command N-1 ← . | . The SPI interface has a one-transaction delay: . | First command: Send command, receive SESSION_START (0x13) or FIRST_CMD (0x0C) | Subsequent commands: Send command N, receive reply to command N-1 | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#transaction-flow",
     
     "relUrl": "/docs/TMCLProtocolGuide/#transaction-flow"
-  },"341": {
+  },"383": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Status Byte",
     "content": "The first byte of every SPI reply contains a status code: . | Status | Value | Meaning | . | SPI_STATUS_OK | 0xFF | Operation successful, valid data follows | . | SESSION_START | 0x13 | First communication after reset/power-on | . | FIRST_CMD | 0x0C | First command in session | . | SPI_STATUS_NOT_READY | 0xF0 | Device busy, resend command | . | CHECKSUM_ERROR | 0x00 | Checksum verification failed | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-status-byte",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-status-byte"
-  },"342": {
+  },"384": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Reply Format",
     "content": "| 1 2 3 4 5 . | Byte 0: SPI Status (0xFF, 0x13, 0x0C, 0xF0, or 0x00) Byte 1: TMCL Status (100 = REPLY_OK, errors vary) Byte 2: Operation (echoed from command) Byte 3-6: Value (big-endian, 32-bit) Byte 7: Checksum (sum of bytes 0-6) . | . ⚠️ Important: The SPI reply format does NOT include a separate host address byte. The first byte is always the SPI status code. ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-reply-format",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-reply-format"
-  },"343": {
+  },"385": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI_STATUS_NOT_READY Retry Logic",
     "content": "The driver includes automatic retry logic for SPI_STATUS_NOT_READY (0xF0) responses: . | 1 2 3 4 5 6 7 8 . | // Configurable retry settings (defaults): comm.setSpiRetryMaxCount(3); // Default: 3 retries comm.setSpiRetryInterval(100); // Default: 100 microseconds // When SPI_STATUS_NOT_READY is received: // 1. Command is automatically resent after delay // 2. Retries continue up to maxRetryCount // 3. If max retries exceeded, returns false with NOT_READY status . | . Retry Behavior: . | Retry interval is in microseconds (not milliseconds) for precise timing | Each retry sends the same command again | Logging shows retry attempts: ⚠️ SPI_STATUS_NOT_READY received, retrying (attempt 1/4) after 100 us | If all retries fail, the reply structure is manually populated and function returns false | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi_status_not_ready-retry-logic",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi_status_not_ready-retry-logic"
-  },"344": {
+  },"386": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Polling for SPI_STATUS_OK",
     "content": "After bootloader exits and motor control starts: . | 1 2 3 4 5 6 7 . | const int MAX_ATTEMPTS = 10; for (int i = 0; i &lt; MAX_ATTEMPTS; i++) { sendCommand(NO_OP, 0, 0); // Send dummy command if (reply.spiStatus == SPIStatus::OK) break; delayMs(10); } . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#polling-for-spi_status_ok",
     
     "relUrl": "/docs/TMCLProtocolGuide/#polling-for-spi_status_ok"
-  },"345": {
+  },"387": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "UART Protocol Details",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#uart-protocol-details",
     
     "relUrl": "/docs/TMCLProtocolGuide/#uart-protocol-details"
-  },"346": {
+  },"388": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Frame Format",
     "content": "Command (Host → TMC9660) . | 1 2 3 4 5 6 . | Byte 0: Sync bit (bit 0 = 1) + Module Address (bits 1-7) Byte 1: Operation Byte 2: Type Byte 3: Motor/Bank Byte 4-7: Value (big-endian) Byte 8: Checksum (sum of bytes 0-7) . | . Reply (TMC9660 → Host) . | 1 2 3 4 5 6 . | Byte 0: Host Address Byte 1: Sync bit (bit 0 = 1) + Module Address (bits 1-7) Byte 2: TMCL Status Byte 3: Operation (echoed) Byte 4-7: Value (big-endian) Byte 8: Checksum (sum of bytes 0-7) . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#frame-format",
     
     "relUrl": "/docs/TMCLProtocolGuide/#frame-format"
-  },"347": {
+  },"389": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Autobaud Detection",
     "content": "The sync bit (always 1 in byte 0) is used for automatic baud rate detection: . Autobaud Modes: . | Auto8x (value 6): 8x oversampling - less precise, faster detection | Auto16x (value 7): 16x oversampling - more precise, slower detection | . Autobaud Restart Conditions: . | After sending each reply | After receiving an invalid datagram (wrong sync, address, or checksum) | After 10ms timeout with incomplete data | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#autobaud-detection",
     
     "relUrl": "/docs/TMCLProtocolGuide/#autobaud-detection"
-  },"348": {
+  },"390": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "UART Timing Requirements",
     "content": ". | After Hardware Reset: Wait 100ms for UART stabilization | Command/Reply Order: Wait for complete reply before sending next command | Incomplete Data Timeout: 10ms - incomplete datagrams are dropped | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#uart-timing-requirements",
     
     "relUrl": "/docs/TMCLProtocolGuide/#uart-timing-requirements"
-  },"349": {
+  },"391": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Special Cases",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#special-cases",
     
     "relUrl": "/docs/TMCLProtocolGuide/#special-cases"
-  },"350": {
+  },"392": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "GetVersion Command (0x88)",
     "content": "The GetVersion command has TWO different reply formats depending on the Type field: . Type 0: String Format (8-character version) . | 1 2 3 4 . | SPI Format: [Host Addr] [8-character ASCII string] UART Format: [Host Addr] [Sync+Addr] [7-character ASCII string] Example: \"051V100\\0\" (firmware version 0.51, HW version 1.00) . | . ⚠️ CRITICAL: String format replies do NOT include a valid checksum! The checksum byte is part of the version string. Your parser must: . | Detect GetVersion Type=0 was sent | Skip checksum validation | Extract ASCII string from reply bytes | . | 1 2 3 4 5 6 . | // Correct implementation: if (sentOpcode == 136 &amp;&amp; sentType == 0) { // Skip checksum validation for string format extractVersionString(reply); return true; } . | . Type 1: Binary Format (standard TMCL) . | 1 2 . | Standard TMCL reply with 32-bit value and valid checksum Value contains version info encoded as integers . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#getversion-command-0x88",
     
     "relUrl": "/docs/TMCLProtocolGuide/#getversion-command-0x88"
-  },"351": {
+  },"393": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SESSION_START Reply (SPI Only)",
     "content": "When first communicating after reset: . | 1 2 . | [Master] → First Command → [Slave] ← SESSION_START (0x13) ← . | . The SESSION_START reply format: . | 1 2 3 4 . | Byte 0: 0x13 (SESSION_START) Byte 1: 0x00 Byte 2: Bootloader version (e.g., 0x01 for v1.0) Byte 3-7: Don't care . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#session_start-reply-spi-only",
     
     "relUrl": "/docs/TMCLProtocolGuide/#session_start-reply-spi-only"
-  },"352": {
+  },"394": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Common Pitfalls",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#common-pitfalls",
     
     "relUrl": "/docs/TMCLProtocolGuide/#common-pitfalls"
-  },"353": {
+  },"395": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "1. Address Encoding Error",
     "content": "Problem: Shifting the address left instead of keeping upper 7 bits . | 1 2 3 4 5 . | // WRONG: out[0] = (addr &lt;&lt; 1) | 0x01; // CORRECT: out[0] = (addr &amp; 0xFE) | 0x01; . | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#1-address-encoding-error",
     
     "relUrl": "/docs/TMCLProtocolGuide/#1-address-encoding-error"
-  },"354": {
+  },"396": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "2. GetVersion String Format Not Handled",
     "content": "Problem: Trying to validate checksum on string-format GetVersion reply Solution: Pass command context (sentOpcode, sentType) to reply parser . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#2-getversion-string-format-not-handled",
     
     "relUrl": "/docs/TMCLProtocolGuide/#2-getversion-string-format-not-handled"
-  },"355": {
+  },"397": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "3. Not Waiting for SPI_STATUS_OK",
     "content": "Problem: Sending commands immediately after bootloader exits Solution: Poll with NO_OP commands until SPI_STATUS_OK is received . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#3-not-waiting-for-spi_status_ok",
     
     "relUrl": "/docs/TMCLProtocolGuide/#3-not-waiting-for-spi_status_ok"
-  },"356": {
+  },"398": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "4. UART Address Mismatch",
     "content": "Problem: Module address in reply doesn’t match expected address Solution: Ensure device address in bootloader config matches driver address . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#4-uart-address-mismatch",
     
     "relUrl": "/docs/TMCLProtocolGuide/#4-uart-address-mismatch"
-  },"357": {
+  },"399": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "5. Checksum Includes Wrong Bytes",
     "content": "Problem: Calculating checksum over wrong byte range Solution: . | UART: Checksum covers bytes 0-7 (including sync+address) | SPI: Checksum covers bytes 0-6 (operation through value) | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#5-checksum-includes-wrong-bytes",
     
     "relUrl": "/docs/TMCLProtocolGuide/#5-checksum-includes-wrong-bytes"
-  },"358": {
+  },"400": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "6. SPI Reply Delay Not Handled",
     "content": "Problem: Expecting immediate reply to first SPI command Solution: Handle SESSION_START or FIRST_CMD status codes, understand one-transaction delay . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#6-spi-reply-delay-not-handled",
     
     "relUrl": "/docs/TMCLProtocolGuide/#6-spi-reply-delay-not-handled"
-  },"359": {
+  },"401": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "7. Incomplete UART Data Timeout",
     "content": "Problem: Waiting forever for incomplete UART datagram Solution: Implement 10ms timeout, drop incomplete data . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#7-incomplete-uart-data-timeout",
     
     "relUrl": "/docs/TMCLProtocolGuide/#7-incomplete-uart-data-timeout"
-  },"360": {
+  },"402": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "8. Incorrect SPI Type Field Encoding",
     "content": "Problem: Treating Type field as 8 bits instead of 12 bits, or incorrect byte packing Solution: . | BYTE 1: Type bits 0-7 (lower 8 bits) = type &amp; 0xFF | BYTE 2: Upper nibble = Motor, Lower nibble = Type bits 8-11 = ((motor &amp; 0x0F) &lt;&lt; 4) | ((type &amp; 0xF00) &gt;&gt; 8) | Always use TMCLFrame::toSpi() for encoding and TMCLReply::fromSpi() for decoding | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#8-incorrect-spi-type-field-encoding",
     
     "relUrl": "/docs/TMCLProtocolGuide/#8-incorrect-spi-type-field-encoding"
-  },"361": {
+  },"403": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "9. SPI_STATUS_NOT_READY Not Handled",
     "content": "Problem: Not retrying commands that return SPI_STATUS_NOT_READY Solution: Use the built-in retry logic with setSpiRetryMaxCount() and setSpiRetryInterval(), or implement manual retry in your application code . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#9-spi_status_not_ready-not-handled",
     
     "relUrl": "/docs/TMCLProtocolGuide/#9-spi_status_not_ready-not-handled"
-  },"362": {
+  },"404": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Implementation Checklist",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#implementation-checklist",
     
     "relUrl": "/docs/TMCLProtocolGuide/#implementation-checklist"
-  },"363": {
+  },"405": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "UART Communication",
     "content": ". | Address encoding uses upper 7 bits (not shifted) | Checksum covers all 8 bytes (including sync+address) | Module address validation compares upper 7 bits | 100ms delay after hardware reset | GetVersion string format handled (no checksum validation) | 10ms timeout for incomplete datagrams | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#uart-communication",
     
     "relUrl": "/docs/TMCLProtocolGuide/#uart-communication"
-  },"364": {
+  },"406": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "SPI Communication",
     "content": ". | Handle SESSION_START on first command | Handle one-transaction reply delay | Poll for SPI_STATUS_OK after bootloader exit | Configure retry logic for SPI_STATUS_NOT_READY (setSpiRetryMaxCount, setSpiRetryInterval) | Checksum covers bytes 0-6 only | Type field correctly encoded as 12 bits across bytes 1-2 | Motor field in BYTE2 upper nibble, Type upper 4 bits in BYTE2 lower nibble | GetVersion string format handled | Use TMCLReply::fromSpi() for parsing (includes context for special replies) | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#spi-communication",
     
     "relUrl": "/docs/TMCLProtocolGuide/#spi-communication"
-  },"365": {
+  },"407": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "Both Interfaces",
     "content": ". | Strict command/reply order enforced | Command context passed to reply parser | TMCL status codes checked | Checksum validated on standard replies | Special reply formats handled | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#both-interfaces",
     
     "relUrl": "/docs/TMCLProtocolGuide/#both-interfaces"
-  },"366": {
+  },"408": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "References",
     "content": ". | TMC9660 Parameter Mode Reference Manual | TMC9660 Datasheet (Bootloader section) | inc/TMC9660CommInterface.hpp - Protocol implementation | docs/BootloaderGuide.md - Bootloader configuration guide | . ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/#references",
     
     "relUrl": "/docs/TMCLProtocolGuide/#references"
-  },"367": {
+  },"409": {
     "doc": "📨 TMCL Protocol Guide",
     "title": "📨 TMCL Protocol Guide",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/",
     
     "relUrl": "/docs/TMCLProtocolGuide/"
-  },"368": {
+  },"410": {
     "doc": "📚 Documentation",
     "title": "🚀 HF-TMC9660 Driver Documentation",
     "content": "Welcome to the comprehensive documentation for the HardFOC TMC9660 driver library – a modern C++20 hardware-agnostic driver for the TMC9660 motor controller operating in Parameter Mode. ",
     "url": "/hf-tmc9660-driver/development/docs/#-hf-tmc9660-driver-documentation",
     
     "relUrl": "/docs/#-hf-tmc9660-driver-documentation"
-  },"369": {
+  },"411": {
     "doc": "📚 Documentation",
     "title": "📖 What You’ll Learn",
     "content": "This documentation will guide you through everything from initial setup to advanced motor control applications. Whether you’re new to TMC9660 or an experienced embedded developer, you’ll find practical examples and detailed explanations for every aspect of the driver. ",
     "url": "/hf-tmc9660-driver/development/docs/#-what-youll-learn",
     
     "relUrl": "/docs/#-what-youll-learn"
-  },"370": {
+  },"412": {
     "doc": "📚 Documentation",
     "title": "🎯 Quick Start Path",
     "content": "New to TMC9660? Follow this recommended learning path: . graph LR A[📋 Setup Guide] --&gt; B[🔌 Communication Interface] B --&gt; C[⚡ Hardware Examples] C --&gt; D[🛠️ Common Operations] D --&gt; E[🚀 Advanced Usage] . ",
     "url": "/hf-tmc9660-driver/development/docs/#-quick-start-path",
     
     "relUrl": "/docs/#-quick-start-path"
-  },"371": {
+  },"413": {
     "doc": "📚 Documentation",
     "title": "📚 Documentation Structure",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/#-documentation-structure",
     
     "relUrl": "/docs/#-documentation-structure"
-  },"372": {
+  },"414": {
     "doc": "📚 Documentation",
     "title": "Foundation &amp; Setup",
     "content": ". | 📋 Setup Guide - Get started with installation and compilation | 🔌 Implementing Communication Interface . | Create your hardware-specific communication layer | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/#foundation--setup",
     
     "relUrl": "/docs/#foundation--setup"
-  },"373": {
+  },"415": {
     "doc": "📚 Documentation",
     "title": "Bootloader &amp; Configuration",
     "content": ". | ⭐ Bootloader Initialization Guide - START HERE! Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering | 🔧 Bootloader Complete Guide - Comprehensive bootloader documentation with all 18 commands, protocols, OTP management, and external memory operations | ⚡ Bootloader Quick Reference - Quick lookup card for commands, codes, and common operations | 🛠️ Bootloader Troubleshooting - NEW! Complete troubleshooting guide with real-world debugging solutions | . ",
     "url": "/hf-tmc9660-driver/development/docs/#bootloader--configuration",
     
     "relUrl": "/docs/#bootloader--configuration"
-  },"374": {
+  },"416": {
     "doc": "📚 Documentation",
     "title": "Communication Protocols",
     "content": ". | 📡 Communication Protocol Guide - NEW! Detailed SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing | 📨 TMCL Protocol Guide - Parameter mode command reference and usage patterns | . ",
     "url": "/hf-tmc9660-driver/development/docs/#communication-protocols",
     
     "relUrl": "/docs/#communication-protocols"
-  },"375": {
+  },"417": {
     "doc": "📚 Documentation",
     "title": "Practical Application",
     "content": ". | ⚡ Hardware-Agnostic Examples - Complete motor control scenarios | 🛠️ Common Operations - Everyday driver usage patterns | 📖 API Reference - Complete C++ class documentation | . ",
     "url": "/hf-tmc9660-driver/development/docs/#practical-application",
     
     "relUrl": "/docs/#practical-application"
-  },"376": {
+  },"418": {
     "doc": "📚 Documentation",
     "title": "⚠️ Critical Requirements",
     "content": "PARAMETER MODE SETUP IS MANDATORY . The TMC9660 must be properly configured for Parameter Mode operation via bootloader initialization before any motor control functions will work. This is the #1 source of issues for new users. ",
     "url": "/hf-tmc9660-driver/development/docs/#%EF%B8%8F-critical-requirements",
     
     "relUrl": "/docs/#️-critical-requirements"
-  },"377": {
+  },"419": {
     "doc": "📚 Documentation",
     "title": "Essential Setup Sequence",
     "content": "| 1 2 3 4 5 6 7 8 9 10 11 . | // 1. CRITICAL: Configure for Parameter Mode tmc9660::BootloaderConfig cfg{}; cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter; // ESSENTIAL! cfg.boot.start_motor_control = true; // 2. Initialize bootloader auto result = driver.bootloaderInit(&amp;cfg); // 3. Configure motor and start control driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); driver.focControl.setTargetVelocity(1000); . | . ",
     "url": "/hf-tmc9660-driver/development/docs/#essential-setup-sequence",
     
     "relUrl": "/docs/#essential-setup-sequence"
-  },"378": {
+  },"420": {
     "doc": "📚 Documentation",
     "title": "🌟 Key Features",
     "content": "| Feature | Description | . | 🔧 Hardware Agnostic | Abstract communication interface for any SPI/UART implementation | . | ⚡ FOC Control | Advanced Field-Oriented Control for BLDC, stepper, and DC motors | . | 📊 Real-time Telemetry | Temperature, current, voltage monitoring with logging | . | 🛡️ Protection Systems | Comprehensive safety features and fault monitoring | . | 🎛️ Complete Configuration | Access to all 300+ TMC9660 parameters | . | 📱 Modern C++ | Clean C++20 API with type safety and RAII principles | . ",
     "url": "/hf-tmc9660-driver/development/docs/#-key-features",
     
     "relUrl": "/docs/#-key-features"
-  },"379": {
+  },"421": {
     "doc": "📚 Documentation",
     "title": "🚦 Getting Started",
     "content": "Ready to begin? Start with the Setup Guide to prepare your development environment: . ",
     "url": "/hf-tmc9660-driver/development/docs/#-getting-started",
     
     "relUrl": "/docs/#-getting-started"
-  },"380": {
+  },"422": {
     "doc": "📚 Documentation",
     "title": "First Time Users",
     "content": "👉 Start Here: Setup Guide . ",
     "url": "/hf-tmc9660-driver/development/docs/#first-time-users",
     
     "relUrl": "/docs/#first-time-users"
-  },"381": {
+  },"423": {
     "doc": "📚 Documentation",
     "title": "Experienced Developers",
     "content": "👉 Jump to Examples . ",
     "url": "/hf-tmc9660-driver/development/docs/#experienced-developers",
     
     "relUrl": "/docs/#experienced-developers"
-  },"382": {
+  },"424": {
     "doc": "📚 Documentation",
     "title": "API Reference",
     "content": "👉 Browse API Documentation . ",
     "url": "/hf-tmc9660-driver/development/docs/#api-reference",
     
     "relUrl": "/docs/#api-reference"
-  },"383": {
+  },"425": {
     "doc": "📚 Documentation",
     "title": "💡 Need Help?",
     "content": ". | 🐛 Found a bug? Check the troubleshooting sections in each guide | ❓ Have questions? Review the Common Operations guide | 📝 Want to contribute? See the implementation guides | . 🎯 Ready to control some motors? Get Started → . ",
     "url": "/hf-tmc9660-driver/development/docs/#-need-help",
     
     "relUrl": "/docs/#-need-help"
-  },"384": {
+  },"426": {
     "doc": "📚 Documentation",
     "title": "📚 Documentation",
     "content": " ",

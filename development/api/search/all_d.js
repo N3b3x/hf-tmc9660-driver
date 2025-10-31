@@ -31,7 +31,7 @@ var searchData=
   ['initialized_5f_28',['initialized_',['../classEsp32SPITMC9660CommInterface.html#a1786d41777c26d758ceb3aefdb7a81e2',1,'Esp32SPITMC9660CommInterface::initialized_'],['../classEsp32UARTTMC9660CommInterface.html#a1ec1aaa884cdc085f10f80096c58b59b',1,'Esp32UARTTMC9660CommInterface::initialized_']]],
   ['input_20to_20host_29',['Status Pins (Input to Host)',['../group__TMC9660__CommTypes.html#autotoc_md31',1,'']]],
   ['interface_30',['Interface',['../group__TMC9660__Bootloader.html',1,'Bootloader Interface'],['../classTMC9660.html#autotoc_md16',1,'Communication Interface'],['../group__TMC9660__GPIOControl.html',1,'GPIO Control Interface'],['../group__TMC9660__CommTypes.html#autotoc_md29',1,'GPIO Control Interface']]],
-  ['interface_31',['interface',['../structTestDriverHandle.html#a6ede781e4139746a439de5edbbeb76d5',1,'TestDriverHandle']]],
+  ['interface_31',['interface',['../structTestDriverHandle.html#acd7b1fb23eb5daf1f1f50ac8365595ee',1,'TestDriverHandle']]],
   ['interface_20for_20multi_20mcu_20development_32',['🎯 Universal Motor Controller Interface for Multi-MCU Development',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md35',1,'']]],
   ['interface_20strong_33',['&lt;strong&gt;2. Implement Communication Interface&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md54',1,'']]],
   ['interfaces_34',['Interfaces',['../group__TMC9660__CommInterface.html',1,'Communication Interfaces'],['../group__TMC9660__Subsystems.html',1,'Subsystem Interfaces']]],

@@ -1,7 +1,8 @@
 var StepperComprehensiveTest_8cpp =
 [
+    [ "TestDriverHandle", "structTestDriverHandle.html", "structTestDriverHandle" ],
     [ "app_main", "StepperComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70", null ],
-    [ "create_test_driver", "StepperComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e", null ],
+    [ "create_test_driver", "StepperComprehensiveTest_8cpp.html#a70effab5ba3fdfc70e3855b679378371", null ],
     [ "log_stepper_telemetry_data", "StepperComprehensiveTest_8cpp.html#a9a9b43ccbe90977acdb1f7677a208cf7", null ],
     [ "test_stepper_bootloader_initialization", "StepperComprehensiveTest_8cpp.html#aa92c65863db39b4e93167b6b806584d3", null ],
     [ "test_stepper_current_control", "StepperComprehensiveTest_8cpp.html#a2e76dc84bec5c2438695ae5fa8e2c23f", null ],

@@ -1,7 +1,8 @@
 var TelemetryComprehensiveTest_8cpp =
 [
+    [ "TestDriverHandle", "structTestDriverHandle.html", "structTestDriverHandle" ],
     [ "app_main", "TelemetryComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70", null ],
-    [ "create_test_driver", "TelemetryComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e", null ],
+    [ "create_test_driver", "TelemetryComprehensiveTest_8cpp.html#a70effab5ba3fdfc70e3855b679378371", null ],
     [ "log_telemetry_data", "TelemetryComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba", null ],
     [ "test_telemetry_basic_monitoring", "TelemetryComprehensiveTest_8cpp.html#a9b8cb70f34a61d75cd32055460642f5d", null ],
     [ "test_telemetry_current_monitoring", "TelemetryComprehensiveTest_8cpp.html#ac6f5e56a6e923d7c66aaa373f2578005", null ],
