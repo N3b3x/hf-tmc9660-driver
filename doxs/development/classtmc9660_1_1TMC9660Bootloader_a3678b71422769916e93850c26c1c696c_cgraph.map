@@ -1,0 +1,13 @@
+<map id="tmc9660::TMC9660Bootloader::sendCommandUART" name="tmc9660::TMC9660Bootloader::sendCommandUART">
+<area shape="rect" id="Node000001" title="Send a bootloader command via UART interface." alt="" coords="5,69,224,109"/>
+<area shape="rect" id="Node000002" href="$structtmc9660_1_1BootloaderReplyUART.html#a41f97be3ddbdf4b8271fb167c404d46d" title="Deserialize from 8&#45;byte UART buffer." alt="" coords="272,5,467,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,67,275,46,277,51,196,72"/>
+<area shape="rect" id="Node000003" href="$structtmc9660_1_1BootloaderReplyUART.html#af6daf9b09ed59438b866b36b9abdf5b6" title="Check if reply indicates success." alt="" coords="272,69,467,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,87,258,87,258,92,224,92"/>
+<area shape="rect" id="Node000004" href="$structtmc9660_1_1BootloaderReplyUART.html#aa79efb03d4cba868584c6b6e122e7dce" title="Verify CRC8 checksum." alt="" coords="272,133,467,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,107,277,127,275,133,194,112"/>
+<area shape="rect" id="Node000005" href="$namespacetmc9660.html#a295ced7b08314df2db8e4d01c1c59562" title="CRC&#45;8 calculation for UART protocol (TMC9660 datasheet method)." alt="" coords="515,141,700,166"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="467,151,501,151,501,156,467,156"/>
+<area shape="rect" id="Node000006" href="$namespacetmc9660.html#ab78e7fde92e67e58a4dd1f442833e0f9" title="Helper function for CRC&#45;8 calculation (UART only)." alt="" coords="748,141,915,166"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="701,151,734,151,734,156,701,156"/>
+</map>
