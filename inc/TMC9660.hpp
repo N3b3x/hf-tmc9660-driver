@@ -1169,6 +1169,64 @@ public:
                                 int16_t offset240 = -21846, int16_t offset300 = -10923,
                                 int16_t globalOffset = 0) noexcept;
 
+    /** @brief Set Hall sensor position offsets using degrees.
+     *
+     * Convenience function that converts degrees to the internal 16-bit format.
+     * The electrical angle is represented as: value = (degrees * 65536) / 360.
+     *
+     * @param offset0Deg Offset for 0° Hall position in degrees
+     * @param offset60Deg Offset for 60° Hall position in degrees
+     * @param offset120Deg Offset for 120° Hall position in degrees
+     * @param offset180Deg Offset for 180° Hall position in degrees
+     * @param offset240Deg Offset for 240° Hall position in degrees
+     * @param offset300Deg Offset for 300° Hall position in degrees
+     * @param globalOffsetDeg Additional global offset in degrees
+     * @return true if Hall position offsets were set successfully.
+     */
+    bool setHallPositionOffsetsDegrees(float offset0Deg = 0.0f, float offset60Deg = 60.0f,
+                                       float offset120Deg = 120.0f, float offset180Deg = 180.0f,
+                                       float offset240Deg = 240.0f, float offset300Deg = 300.0f,
+                                       float globalOffsetDeg = 0.0f) noexcept;
+
+    /** @brief Set Hall sensor position offsets using radians.
+     *
+     * Convenience function that converts radians to the internal 16-bit format.
+     * The electrical angle is represented as: value = (radians * 65536) / (2 * π).
+     *
+     * @param offset0Rad Offset for 0° Hall position in radians
+     * @param offset60Rad Offset for 60° Hall position in radians
+     * @param offset120Rad Offset for 120° Hall position in radians
+     * @param offset180Rad Offset for 180° Hall position in radians
+     * @param offset240Rad Offset for 240° Hall position in radians
+     * @param offset300Rad Offset for 300° Hall position in radians
+     * @param globalOffsetRad Additional global offset in radians
+     * @return true if Hall position offsets were set successfully.
+     */
+    bool setHallPositionOffsetsRadians(float offset0Rad = 0.0f, float offset60Rad = 1.04719755f,
+                                        float offset120Rad = 2.09439510f, float offset180Rad = 3.14159265f,
+                                        float offset240Rad = 4.18879020f, float offset300Rad = 5.23598775f,
+                                        float globalOffsetRad = 0.0f) noexcept;
+
+    /** @brief Convert electrical angle from degrees to 16-bit format.
+     *
+     * Converts degrees to the internal representation: value = (degrees * 65536) / 360.
+     * The result wraps around the 16-bit signed integer range.
+     *
+     * @param degrees Electrical angle in degrees
+     * @return 16-bit signed integer value (-32768 to 32767)
+     */
+    static int16_t degreesToHallOffset(float degrees) noexcept;
+
+    /** @brief Convert electrical angle from radians to 16-bit format.
+     *
+     * Converts radians to the internal representation: value = (radians * 65536) / (2 * π).
+     * The result wraps around the 16-bit signed integer range.
+     *
+     * @param radians Electrical angle in radians
+     * @return 16-bit signed integer value (-32768 to 32767)
+     */
+    static int16_t radiansToHallOffset(float radians) noexcept;
+
     /** @brief Read the electrical angle (phi_e) calculated from Hall feedback.
      * @param[out] phiE Electrical angle (-32768 to 32767).
      * @return true if the value was read successfully.

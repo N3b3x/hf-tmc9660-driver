@@ -1193,6 +1193,86 @@ bool TMC9660::FeedbackSense::setHallPositionOffsets(int16_t offset0, int16_t off
   return ok;
 }
 
+bool TMC9660::FeedbackSense::setHallPositionOffsetsDegrees(float offset0Deg, float offset60Deg,
+                                                           float offset120Deg, float offset180Deg,
+                                                           float offset240Deg, float offset300Deg,
+                                                           float globalOffsetDeg) noexcept {
+  return setHallPositionOffsets(
+      degreesToHallOffset(offset0Deg),
+      degreesToHallOffset(offset60Deg),
+      degreesToHallOffset(offset120Deg),
+      degreesToHallOffset(offset180Deg),
+      degreesToHallOffset(offset240Deg),
+      degreesToHallOffset(offset300Deg),
+      degreesToHallOffset(globalOffsetDeg));
+}
+
+bool TMC9660::FeedbackSense::setHallPositionOffsetsRadians(float offset0Rad, float offset60Rad,
+                                                            float offset120Rad, float offset180Rad,
+                                                            float offset240Rad, float offset300Rad,
+                                                            float globalOffsetRad) noexcept {
+  return setHallPositionOffsets(
+      radiansToHallOffset(offset0Rad),
+      radiansToHallOffset(offset60Rad),
+      radiansToHallOffset(offset120Rad),
+      radiansToHallOffset(offset180Rad),
+      radiansToHallOffset(offset240Rad),
+      radiansToHallOffset(offset300Rad),
+      radiansToHallOffset(globalOffsetRad));
+}
+
+int16_t TMC9660::FeedbackSense::degreesToHallOffset(float degrees) noexcept {
+  // Convert degrees to 16-bit signed integer representation
+  // Formula: value = (degrees * 65536) / 360
+  // This maps 360° to the full 16-bit range (-32768 to 32767)
+  constexpr float DEGREES_TO_UNITS = 65536.0f / 360.0f;
+  float value = degrees * DEGREES_TO_UNITS;
+  
+  // Round to nearest integer
+  int32_t intValue = static_cast<int32_t>(value + (value >= 0.0f ? 0.5f : -0.5f));
+  
+  // Wrap around to stay within 16-bit signed integer range [-32768, 32767]
+  // This handles angles > 360° or < -360° by normalizing using modulo arithmetic
+  constexpr int32_t RANGE = 65536;
+  intValue %= RANGE;
+  // Normalize negative modulo results to positive range [0, 65535]
+  if (intValue < 0) {
+    intValue += RANGE;
+  }
+  // Convert values in [32768, 65535] to negative range [-32768, -1]
+  if (intValue > 32767) {
+    intValue -= RANGE;
+  }
+  
+  return static_cast<int16_t>(intValue);
+}
+
+int16_t TMC9660::FeedbackSense::radiansToHallOffset(float radians) noexcept {
+  // Convert radians to 16-bit signed integer representation
+  // Formula: value = (radians * 65536) / (2 * π)
+  // This maps 2π radians to the full 16-bit range (-32768 to 32767)
+  constexpr float RADIANS_TO_UNITS = 65536.0f / (2.0f * 3.14159265358979323846f);
+  float value = radians * RADIANS_TO_UNITS;
+  
+  // Round to nearest integer
+  int32_t intValue = static_cast<int32_t>(value + (value >= 0.0f ? 0.5f : -0.5f));
+  
+  // Wrap around to stay within 16-bit signed integer range [-32768, 32767]
+  // This handles angles > 2π or < -2π by normalizing using modulo arithmetic
+  constexpr int32_t RANGE = 65536;
+  intValue %= RANGE;
+  // Normalize negative modulo results to positive range [0, 65535]
+  if (intValue < 0) {
+    intValue += RANGE;
+  }
+  // Convert values in [32768, 65535] to negative range [-32768, -1]
+  if (intValue > 32767) {
+    intValue -= RANGE;
+  }
+  
+  return static_cast<int16_t>(intValue);
+}
+
 bool TMC9660::FeedbackSense::getHallPhiE(int16_t &phiE) noexcept {
   uint32_t tmp;
   if (!driver.readParameter(tmc9660::tmcl::Parameters::HALL_PHI_E, tmp))

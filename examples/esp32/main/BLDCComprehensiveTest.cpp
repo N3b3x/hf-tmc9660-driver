@@ -1786,22 +1786,22 @@ bool configureHallSensorForBLDC(TMC9660& driver) noexcept {
     
     // 2. Set Hall sensor position offsets for improved accuracy
     // These offsets compensate for Hall sensor mounting tolerances
-    // Default values provide 60-degree spacing (10922 = 32768/3, 21845 = 32768*2/3)
-    // Only configure these if you need to fine-tune commutation timing
-    // The default offsets are:
-    //   0°: 0, 60°: 10922, 120°: 21845, 180°: -32768, 240°: -21846, 300°: -10923
-    if (!fs.setHallPositionOffsets(
-            0,        // offset0: 0° Hall position
-            10922,    // offset60: 60° Hall position (32768/3)
-            21845,    // offset120: 120° Hall position (32768*2/3)
-            -32768,   // offset180: 180° Hall position
-            -21846,   // offset240: 240° Hall position
-            -10923,   // offset300: 300° Hall position
-            0)) {     // globalOffset: Additional global offset (0 = no global offset)
+    // Default values provide ideal 60-degree spacing for a perfect 3-phase BLDC motor
+    // The function automatically converts degrees to the internal 16-bit format
+    // Formula: value = (degrees * 65536) / 360
+    // Only adjust these if you need to fine-tune commutation timing based on calibration
+    if (!fs.setHallPositionOffsetsDegrees(
+            0.0f,    // offset0Deg: 0° Hall position
+            60.0f,   // offset60Deg: 60° Hall position
+            120.0f,  // offset120Deg: 120° Hall position
+            180.0f,  // offset180Deg: 180° Hall position
+            240.0f,  // offset240Deg: 240° Hall position
+            300.0f,  // offset300Deg: 300° Hall position
+            0.0f)) { // globalOffsetDeg: Additional global offset in degrees (0 = no global offset)
         ESP_LOGE(TAG, "Failed to set Hall position offsets");
         return false;
     }
-    ESP_LOGI(TAG, "  ✓ Hall position offsets set (default 60-degree spacing)");
+    ESP_LOGI(TAG, "  ✓ Hall position offsets set for the ideal 60-degree spacing (0°, 60°, 120°, 180°, 240°, 300°)");
     
     ESP_LOGI(TAG, "✅ Hall sensor configuration complete");
     ESP_LOGI(TAG, "  Note: Hall sensors are configured at bootloader level (GPIO2/3/4)");
