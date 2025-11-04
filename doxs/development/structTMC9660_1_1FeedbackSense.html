@@ -94,6 +94,7 @@ $(function(){initNavTree('structTMC9660_1_1FeedbackSense.html',''); initResizabl
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -223,6 +224,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a62273c0a0b2a1098656d9e641a343275" id="r_a62273c0a0b2a1098656d9e641a343275"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62273c0a0b2a1098656d9e641a343275">setHallPositionOffsets</a> (int16_t offset0=0, int16_t offset60=10922, int16_t offset120=21845, int16_t offset180=-32768, int16_t offset240=-21846, int16_t offset300=-10923, int16_t globalOffset=0) noexcept</td></tr>
 <tr class="memdesc:a62273c0a0b2a1098656d9e641a343275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets for improved accuracy.  <br /></td></tr>
 <tr class="separator:a62273c0a0b2a1098656d9e641a343275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f57a6b8d05ee232e2e6c2a2ed0096b3" id="r_a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f57a6b8d05ee232e2e6c2a2ed0096b3">setHallPositionOffsetsDegrees</a> (float offset0Deg=0.0f, float offset60Deg=60.0f, float offset120Deg=120.0f, float offset180Deg=180.0f, float offset240Deg=240.0f, float offset300Deg=300.0f, float globalOffsetDeg=0.0f) noexcept</td></tr>
+<tr class="memdesc:a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using degrees.  <br /></td></tr>
+<tr class="separator:a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd513b5d93b65c4971f310c71b8739a7" id="r_afd513b5d93b65c4971f310c71b8739a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd513b5d93b65c4971f310c71b8739a7">setHallPositionOffsetsRadians</a> (float offset0Rad=0.0f, float offset60Rad=1.04719755f, float offset120Rad=2.09439510f, float offset180Rad=3.14159265f, float offset240Rad=4.18879020f, float offset300Rad=5.23598775f, float globalOffsetRad=0.0f) noexcept</td></tr>
+<tr class="memdesc:afd513b5d93b65c4971f310c71b8739a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using radians.  <br /></td></tr>
+<tr class="separator:afd513b5d93b65c4971f310c71b8739a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca37c53ecd4140e2dfb0c149bae98879" id="r_aca37c53ecd4140e2dfb0c149bae98879"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca37c53ecd4140e2dfb0c149bae98879">getHallPhiE</a> (int16_t &amp;phiE) noexcept</td></tr>
 <tr class="memdesc:aca37c53ecd4140e2dfb0c149bae98879"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the electrical angle (phi_e) calculated from Hall feedback.  <br /></td></tr>
 <tr class="separator:aca37c53ecd4140e2dfb0c149bae98879"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -319,6 +326,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae466d81676286866fdd2a3b7262d718" id="r_aae466d81676286866fdd2a3b7262d718"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae466d81676286866fdd2a3b7262d718">getSPIEncoderLUTShiftFactor</a> (int8_t &amp;shiftFactor) noexcept</td></tr>
 <tr class="memdesc:aae466d81676286866fdd2a3b7262d718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_COMMON_SHIFT_FACTOR.  <br /></td></tr>
 <tr class="separator:aae466d81676286866fdd2a3b7262d718"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a0492717ba661659d50ca72a8fe3526c2" id="r_a0492717ba661659d50ca72a8fe3526c2"><td class="memItemLeft" align="right" valign="top">static int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0492717ba661659d50ca72a8fe3526c2">degreesToHallOffset</a> (float degrees) noexcept</td></tr>
+<tr class="memdesc:a0492717ba661659d50ca72a8fe3526c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from degrees to 16-bit format.  <br /></td></tr>
+<tr class="separator:a0492717ba661659d50ca72a8fe3526c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af6d5c24ead5a95967dfd73514a1e03" id="r_a0af6d5c24ead5a95967dfd73514a1e03"><td class="memItemLeft" align="right" valign="top">static int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0af6d5c24ead5a95967dfd73514a1e03">radiansToHallOffset</a> (float radians) noexcept</td></tr>
+<tr class="memdesc:a0af6d5c24ead5a95967dfd73514a1e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from radians to 16-bit format.  <br /></td></tr>
+<tr class="separator:a0af6d5c24ead5a95967dfd73514a1e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -727,6 +743,41 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if initialization method was set successfully. </dd></dl>
+
+</div>
+</div>
+<a id="a0492717ba661659d50ca72a8fe3526c2" name="a0492717ba661659d50ca72a8fe3526c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0492717ba661659d50ca72a8fe3526c2">&#9670;&#160;</a></span>degreesToHallOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t TMC9660::FeedbackSense::degreesToHallOffset </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>degrees</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert electrical angle from degrees to 16-bit format. </p>
+<p>Converts degrees to the internal representation: value = (degrees * 65536) / 360. The result wraps around the 16-bit signed integer range.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">degrees</td><td>Electrical angle in degrees </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>16-bit signed integer value (-32768 to 32767) </dd></dl>
 
 </div>
 </div>
@@ -1357,6 +1408,41 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a0af6d5c24ead5a95967dfd73514a1e03" name="a0af6d5c24ead5a95967dfd73514a1e03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0af6d5c24ead5a95967dfd73514a1e03">&#9670;&#160;</a></span>radiansToHallOffset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t TMC9660::FeedbackSense::radiansToHallOffset </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>radians</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert electrical angle from radians to 16-bit format. </p>
+<p>Converts radians to the internal representation: value = (radians * 65536) / (2 * π). The result wraps around the 16-bit signed integer range.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">radians</td><td>Electrical angle in radians </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>16-bit signed integer value (-32768 to 32767) </dd></dl>
+
+</div>
+</div>
 <a id="a62273c0a0b2a1098656d9e641a343275" name="a62273c0a0b2a1098656d9e641a343275"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a62273c0a0b2a1098656d9e641a343275">&#9670;&#160;</a></span>setHallPositionOffsets()</h2>
 
@@ -1420,6 +1506,146 @@ Friends</h2></td></tr>
     <tr><td class="paramname">offset240</td><td>Offset for 240° Hall position (-32768 to 32767) </td></tr>
     <tr><td class="paramname">offset300</td><td>Offset for 300° Hall position (-32768 to 32767) </td></tr>
     <tr><td class="paramname">globalOffset</td><td>Additional global offset applied to all positions (-32768 to 32767) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if Hall position offsets were set successfully. </dd></dl>
+
+</div>
+</div>
+<a id="a9f57a6b8d05ee232e2e6c2a2ed0096b3" name="a9f57a6b8d05ee232e2e6c2a2ed0096b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f57a6b8d05ee232e2e6c2a2ed0096b3">&#9670;&#160;</a></span>setHallPositionOffsetsDegrees()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::setHallPositionOffsetsDegrees </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset0Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset60Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">60.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset120Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">120.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset180Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">180.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset240Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">240.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset300Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">300.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>globalOffsetDeg</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set Hall sensor position offsets using degrees. </p>
+<p>Convenience function that converts degrees to the internal 16-bit format. The electrical angle is represented as: value = (degrees * 65536) / 360.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset0Deg</td><td>Offset for 0° Hall position in degrees </td></tr>
+    <tr><td class="paramname">offset60Deg</td><td>Offset for 60° Hall position in degrees </td></tr>
+    <tr><td class="paramname">offset120Deg</td><td>Offset for 120° Hall position in degrees </td></tr>
+    <tr><td class="paramname">offset180Deg</td><td>Offset for 180° Hall position in degrees </td></tr>
+    <tr><td class="paramname">offset240Deg</td><td>Offset for 240° Hall position in degrees </td></tr>
+    <tr><td class="paramname">offset300Deg</td><td>Offset for 300° Hall position in degrees </td></tr>
+    <tr><td class="paramname">globalOffsetDeg</td><td>Additional global offset in degrees </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if Hall position offsets were set successfully. </dd></dl>
+
+</div>
+</div>
+<a id="afd513b5d93b65c4971f310c71b8739a7" name="afd513b5d93b65c4971f310c71b8739a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd513b5d93b65c4971f310c71b8739a7">&#9670;&#160;</a></span>setHallPositionOffsetsRadians()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::setHallPositionOffsetsRadians </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset0Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset60Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">1.04719755f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset120Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">2.09439510f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset180Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">3.14159265f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset240Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">4.18879020f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>offset300Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">5.23598775f</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>globalOffsetRad</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set Hall sensor position offsets using radians. </p>
+<p>Convenience function that converts radians to the internal 16-bit format. The electrical angle is represented as: value = (radians * 65536) / (2 * π).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset0Rad</td><td>Offset for 0° Hall position in radians </td></tr>
+    <tr><td class="paramname">offset60Rad</td><td>Offset for 60° Hall position in radians </td></tr>
+    <tr><td class="paramname">offset120Rad</td><td>Offset for 120° Hall position in radians </td></tr>
+    <tr><td class="paramname">offset180Rad</td><td>Offset for 180° Hall position in radians </td></tr>
+    <tr><td class="paramname">offset240Rad</td><td>Offset for 240° Hall position in radians </td></tr>
+    <tr><td class="paramname">offset300Rad</td><td>Offset for 300° Hall position in radians </td></tr>
+    <tr><td class="paramname">globalOffsetRad</td><td>Additional global offset in radians </td></tr>
   </table>
   </dd>
 </dl>
