@@ -72,12 +72,12 @@ var NAVTREEINDEX =
 "structEsp32TMC9660BusConfig.html#ae0390c0c226519158386c607683f7dcb",
 "structTMC9660_1_1CurrentSensing.html",
 "structTMC9660_1_1FOCControl.html#ad3ad82691089a3610f85784bff5933d3",
-"structTMC9660_1_1Globals.html#ade26616655ea3741384068ed060ecc0c",
-"structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a67d654ba6e54120f95f43f0230f25441",
-"structtmc9660_1_1BootloaderConfig.html#ae003e5c0266ef24b2c2643f04c8894bc",
-"structtmc9660_1_1UARTConfig.html#aef2e885154bc380094320312c4e87646",
+"structTMC9660_1_1Globals.html#ac80c8eef827bab0a4cc42293d041794c",
+"structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a1c4d9c937362ea577edd9465b748936b",
+"structtmc9660_1_1BootloaderConfig.html#abc64f678e1f7d54c917d974f01f85571",
+"structtmc9660_1_1UARTConfig.html#a5c1fa2c611b638ee1739ecd4c0b45f7e",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#acb84b55fdc365cfbe79c1970e12d70f9a756045a8d37de34ca27188466b2c0c8b"
+"tmc9660__param__mode__tmcl_8hpp.html#ac4df8c1518fd40f53996d62ab6737a0a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

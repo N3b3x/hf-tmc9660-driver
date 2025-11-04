@@ -537,11 +537,11 @@ Generati/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloa
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple(const uint32_t *vals, size_t count)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:208: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'R' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'H' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'mask' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'invertL' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'swapLR' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2573: warning: argument 'R' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2573: warning: argument 'H' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2573: warning: argument 'mask' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2573: warning: argument 'invertL' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2573: warning: argument 'swapLR' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
 ng caller graph for function tmc9660::TMC9660Bootloader::getGitInfo
 Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
 Generating caller graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
@@ -1116,6 +1116,6 @@ Patching output file 65/68
 Patching output file 66/68
 Patching output file 67/68
 Patching output file 68/68
-type lookup cache used 2899/65536 hits=10699 misses=3058
-symbol lookup cache used 3848/65536 hits=22131 misses=3848
+type lookup cache used 2906/65536 hits=10724 misses=3065
+symbol lookup cache used 3863/65536 hits=22260 misses=3863
 finished...
