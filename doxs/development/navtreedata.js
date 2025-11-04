@@ -64,20 +64,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "BLDCComprehensiveTest_8cpp.html",
-"TMC9660Bootloader_8hpp.html#a941a785fa3d0a467511111f27ddfdcb0a63bd429758b357e222510ed896c29be5",
-"classEsp32SPITMC9660CommInterface.html#a26066562f2e41c38c38255fc6c3c578d",
-"functions_v.html",
-"namespacetmc9660_1_1bootaddr.html#a79cdbef9a8be225ddb1f672074df2c59",
-"namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060a756045a8d37de34ca27188466b2c0c8b",
-"structTMC9660_1_1ADC_1_1CSA__SETUP.html#a0431c8d86770ce32258d089a5c56303d",
-"structTMC9660_1_1CurrentSensing.html#a403c4d4b7c0048b828f57bf1e05dbdf6",
-"structTMC9660_1_1FOCControl.html#adb4753ac27f560b7178ae318e7eea0ee",
-"structTMC9660_1_1Heartbeat.html#ae616df75e9a4d3ab5d960f6664ecc8bc",
-"structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#aa542e017aae1514726ed0ef8cc4bdc29",
-"structtmc9660_1_1BootloaderFeatures.html#abaeb490ba2c6547fbbe42492071d1f74",
-"tmc9660__param__mode__tmcl_8hpp.html#a061e17a2ae3b59c4947cbd8666ef5e4a",
+"TMC9660Bootloader_8hpp.html#a941a785fa3d0a467511111f27ddfdcb0a242047f0b587586b4113667f3acbac9b",
+"TestFramework_8h.html#ab72cc2ae0fb724218e81479185ab38c6",
+"functions_n.html",
+"namespacetmc9660_1_1bootaddr.html#a1458760730b1383d45ab11715fd11584",
+"namespacetmc9660_1_1tmcl.html#a2ba7bfc558dd6b1857bada82c50dbd6b",
+"structEsp32TMC9660BusConfig.html#ae0390c0c226519158386c607683f7dcb",
+"structTMC9660_1_1CurrentSensing.html",
+"structTMC9660_1_1FOCControl.html#ad3ad82691089a3610f85784bff5933d3",
+"structTMC9660_1_1Globals.html#ade26616655ea3741384068ed060ecc0c",
+"structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a67d654ba6e54120f95f43f0230f25441",
+"structtmc9660_1_1BootloaderConfig.html#ae003e5c0266ef24b2c2643f04c8894bc",
+"structtmc9660_1_1UARTConfig.html#aef2e885154bc380094320312c4e87646",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#ad2fad5904e2f621761e9c33dfa2f0169"
+"tmc9660__param__mode__tmcl_8hpp.html#acb84b55fdc365cfbe79c1970e12d70f9a756045a8d37de34ca27188466b2c0c8b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
