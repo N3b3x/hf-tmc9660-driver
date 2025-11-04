@@ -1,5 +1,14 @@
 var NAVTREEINDEX5 =
 {
+"namespacetmc9660_1_1tmcl.html#a2ba7bfc558dd6b1857bada82c50dbd6b":[1,0,0,2,118],
+"namespacetmc9660_1_1tmcl.html#a2bb01ac564c237e3029b8cad6234a9a8":[1,0,0,2,76],
+"namespacetmc9660_1_1tmcl.html#a2bb01ac564c237e3029b8cad6234a9a8a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,76,0],
+"namespacetmc9660_1_1tmcl.html#a2f81fd424bfb3401efcedca33f794491":[1,0,0,2,139],
+"namespacetmc9660_1_1tmcl.html#a305d707e9b05649271acae6c8c9cbae8":[1,0,0,2,6],
+"namespacetmc9660_1_1tmcl.html#a305d707e9b05649271acae6c8c9cbae8a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,6,0],
+"namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f":[1,0,0,2,51],
+"namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08fa756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,51,0],
+"namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060":[1,0,0,2,91],
 "namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,91,0],
 "namespacetmc9660_1_1tmcl.html#a326465f5c29db74b1dd020aade66b136":[1,0,0,2,149],
 "namespacetmc9660_1_1tmcl.html#a329836cf31995c9e160fafdede8c41a2":[1,0,0,2,137],
@@ -240,14 +249,5 @@ var NAVTREEINDEX5 =
 "structEsp32TMC9660BusConfig.html#aaac4498193cd3bb92c7c0ee5f848c99b":[2,0,3,7],
 "structEsp32TMC9660BusConfig.html#ada6460558f38581ad026d28d5bae5606":[2,0,3,18],
 "structEsp32TMC9660BusConfig.html#adcc4d24c3ac1b95134f4edd197c3f864":[2,0,3,3],
-"structEsp32TMC9660BusConfig.html#adcda7b6e9d043b4962505bca48a783a5":[2,0,3,12],
-"structEsp32TMC9660BusConfig.html#ae0390c0c226519158386c607683f7dcb":[2,0,3,15],
-"structEsp32TMC9660BusConfig.html#ae047e74d3063c33b12fa20868c0a7d67":[2,0,3,4],
-"structEsp32TMC9660BusConfig.html#ae43149620dc3ba63598c86e8791c3776":[2,0,3,11],
-"structEsp32TMC9660BusConfig.html#ae7558fb444cd393f168fea24b67441a2":[2,0,3,6],
-"structEsp32TMC9660BusConfig.html#af48f04ec74ea26ec3cd8bbd24ee11a56":[2,0,3,8],
-"structEsp32TMC9660BusConfig.html#af7abbb286d84f18c4b19a912d507899d":[2,0,3,17],
-"structEsp32TMC9660BusConfig.html#afaf3b11aec9457686770489299e89724":[2,0,3,1],
-"structTMC9660_1_1ADC_1_1CSA__SETUP.html":[2,0,1,0,0],
-"structTMC9660_1_1ADC_1_1CSA__SETUP.html":[1,0,1,0,0]
+"structEsp32TMC9660BusConfig.html#adcda7b6e9d043b4962505bca48a783a5":[2,0,3,12]
 };

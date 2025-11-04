@@ -235,6 +235,8 @@ Functions</h2></td></tr>
 <tr class="separator:add8f2bf8faa9c839b6519625e5bc351a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ca22fdda273207ad40974a5c60cd3fc" id="r_a5ca22fdda273207ad40974a5c60cd3fc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ca22fdda273207ad40974a5c60cd3fc">test_bldc_startup_shutdown_procedures</a> () noexcept</td></tr>
 <tr class="separator:a5ca22fdda273207ad40974a5c60cd3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ef29745e5282408e0a1de2a23f01b87" id="r_a3ef29745e5282408e0a1de2a23f01b87"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ef29745e5282408e0a1de2a23f01b87">test_bldc_motor_runtime_configuration</a> () noexcept</td></tr>
+<tr class="separator:a3ef29745e5282408e0a1de2a23f01b87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70effab5ba3fdfc70e3855b679378371" id="r_a70effab5ba3fdfc70e3855b679378371"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="structTestDriverHandle.html">TestDriverHandle</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70effab5ba3fdfc70e3855b679378371">create_test_driver</a> (bool use_uart=false, bool use_flash=false) noexcept</td></tr>
 <tr class="separator:a70effab5ba3fdfc70e3855b679378371"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae06c726004ca44a68ed24eb99c38c9fb" id="r_ae06c726004ca44a68ed24eb99c38c9fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae06c726004ca44a68ed24eb99c38c9fb">verify_motor_configuration</a> (const <a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
@@ -243,6 +245,22 @@ Functions</h2></td></tr>
 <tr class="separator:a6125e77761f1d1219d4ceed2686f6db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1747c1efdce438b256df6c7f22c9efba" id="r_a1747c1efdce438b256df6c7f22c9efba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1747c1efdce438b256df6c7f22c9efba">log_telemetry_data</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver, const char *context) noexcept</td></tr>
 <tr class="separator:a1747c1efdce438b256df6c7f22c9efba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecdf284d22d080dd3753a35cf58b194c" id="r_aecdf284d22d080dd3753a35cf58b194c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecdf284d22d080dd3753a35cf58b194c">configureGateDriverForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
+<tr class="separator:aecdf284d22d080dd3753a35cf58b194c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f096f9335c63088b35dbe32cfda477d" id="r_a0f096f9335c63088b35dbe32cfda477d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f096f9335c63088b35dbe32cfda477d">configureCurrentSensingForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
+<tr class="separator:a0f096f9335c63088b35dbe32cfda477d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2364a9e6c6f14d08eed5c419716da164" id="r_a2364a9e6c6f14d08eed5c419716da164"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2364a9e6c6f14d08eed5c419716da164">configureHallSensorForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
+<tr class="separator:a2364a9e6c6f14d08eed5c419716da164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c53118a1c8fc214ee2642c94957940b" id="r_a1c53118a1c8fc214ee2642c94957940b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c53118a1c8fc214ee2642c94957940b">configureABNEncoderForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver, uint32_t countsPerRev=1024) noexcept</td></tr>
+<tr class="separator:a1c53118a1c8fc214ee2642c94957940b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15952d660a687a8576101294cc739448" id="r_a15952d660a687a8576101294cc739448"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15952d660a687a8576101294cc739448">configureMotorParametersForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept</td></tr>
+<tr class="separator:a15952d660a687a8576101294cc739448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a027f857dabbd63bdc7d015c4448f982f" id="r_a027f857dabbd63bdc7d015c4448f982f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a027f857dabbd63bdc7d015c4448f982f">configureFOCControlForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
+<tr class="separator:a027f857dabbd63bdc7d015c4448f982f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f027de413792c34d771b44a6b9dce5" id="r_a88f027de413792c34d771b44a6b9dce5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88f027de413792c34d771b44a6b9dce5">configureProtectionForBLDC</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver) noexcept</td></tr>
+<tr class="separator:a88f027de413792c34d771b44a6b9dce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa6256cb75ad3e8ab36a7b9b6942e58a" id="r_aaa6256cb75ad3e8ab36a7b9b6942e58a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa6256cb75ad3e8ab36a7b9b6942e58a">configureCompleteBLDCMotor</a> (<a class="el" href="classTMC9660.html">TMC9660</a> &amp;driver, uint8_t polePairs=7, uint32_t pwmFrequency=20000) noexcept</td></tr>
+<tr class="separator:aaa6256cb75ad3e8ab36a7b9b6942e58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a630544a7f0a2cc40d8a7fefab7e2fe70" id="r_a630544a7f0a2cc40d8a7fefab7e2fe70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a> (void)</td></tr>
 <tr class="separator:a630544a7f0a2cc40d8a7fefab7e2fe70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -336,72 +354,410 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="BLDCComprehensiveTest_8cpp_a630544a7f0a2cc40d8a7fefab7e2fe70_cgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a630544a7f0a2cc40d8a7fefab7e2fe70_cgraph" alt=""/></div>
 <map name="aBLDCComprehensiveTest_8cpp_a630544a7f0a2cc40d8a7fefab7e2fe70_cgraph" id="aBLDCComprehensiveTest_8cpp_a630544a7f0a2cc40d8a7fefab7e2fe70_cgraph">
-<area shape="rect" title=" " alt="" coords="5,529,92,554"/>
+<area shape="rect" title=" " alt="" coords="5,518,92,543"/>
 <area shape="rect" href="TestFramework_8h.html#a7bb80345e5681c19686df292fa897daf" title="Flip the test progression indicator to show next test." alt="" coords="173,5,311,45"/>
-<area shape="poly" title=" " alt="" coords="48,528,54,435,70,294,82,220,97,151,115,95,138,56,159,39,162,44,142,59,120,97,102,153,87,221,75,295,60,436,53,528"/>
-<area shape="rect" href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="173,69,311,109"/>
-<area shape="poly" title=" " alt="" coords="48,528,57,446,74,324,100,202,118,153,138,120,159,104,162,108,142,123,123,155,105,203,79,325,62,447,54,529"/>
-<area shape="rect" href="TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="165,134,319,159"/>
-<area shape="poly" title=" " alt="" coords="49,528,58,455,76,347,102,240,119,197,138,169,151,159,154,163,142,172,124,200,107,241,81,348,63,456,54,529"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ad7ae15abc5e20db75ba442ab9f7a260d" title=" " alt="" coords="157,553,327,593"/>
-<area shape="poly" title=" " alt="" coords="93,546,143,554,143,560,92,551"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a4b5b349d3b17cecc8cc1ba9d88d9c784" title=" " alt="" coords="163,617,321,657"/>
-<area shape="poly" title=" " alt="" coords="67,552,100,578,141,603,157,610,154,615,139,608,97,582,63,556"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a0ac16e0564484242a36b478d182130f0" title=" " alt="" coords="155,681,329,721"/>
-<area shape="poly" title=" " alt="" coords="58,553,88,608,112,640,142,667,149,672,146,677,138,671,108,644,84,611,53,556"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#adc19f23b7dd14064625e6d8defd93ea2" title=" " alt="" coords="149,746,335,771"/>
-<area shape="poly" title=" " alt="" coords="55,554,63,590,79,638,105,688,122,711,142,731,150,737,147,742,138,735,118,715,100,691,74,640,58,591,50,555"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae1238898d0555ec18f2340a1580fa8b7" title=" " alt="" coords="153,795,331,821"/>
-<area shape="poly" title=" " alt="" coords="53,554,59,597,72,659,84,692,99,725,118,755,142,781,149,786,146,791,138,785,114,758,94,727,79,694,67,660,53,598,48,554"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aeb7bee44f9c06780ebb3f63bab1c1513" title=" " alt="" coords="160,845,324,870"/>
-<area shape="poly" title=" " alt="" coords="52,554,55,606,66,681,77,722,93,762,114,799,142,831,150,838,146,842,138,835,110,802,88,764,72,723,61,682,49,606,47,554"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae1eb89ea1deff1cfee6852cca928893e" title=" " alt="" coords="151,183,333,209"/>
-<area shape="poly" title=" " alt="" coords="47,528,48,472,58,389,69,343,85,298,108,256,138,219,145,214,148,218,142,223,112,259,90,301,74,345,63,390,53,472,52,528"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a9305f4e77dbdfc7c8788b2568e023447" title=" " alt="" coords="162,233,322,273"/>
-<area shape="poly" title=" " alt="" coords="48,528,53,483,67,417,78,381,94,346,113,313,138,283,149,275,152,279,142,287,118,316,98,348,83,383,72,418,58,483,53,529"/>
+<area shape="poly" title=" " alt="" coords="48,518,55,427,70,289,82,216,97,149,116,94,138,56,159,39,162,44,142,59,121,96,102,151,88,217,76,289,60,428,53,518"/>
+<area shape="rect" href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="173,120,311,160"/>
+<area shape="poly" title=" " alt="" coords="49,517,59,446,77,342,104,239,120,198,138,170,159,155,162,159,142,174,125,201,109,241,83,343,64,447,54,518"/>
+<area shape="rect" href="TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="165,70,319,95"/>
+<area shape="poly" title=" " alt="" coords="48,518,56,435,73,312,85,247,99,188,117,139,138,106,151,96,155,100,142,110,122,142,104,190,90,248,78,312,61,436,54,518"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ad7ae15abc5e20db75ba442ab9f7a260d" title=" " alt="" coords="157,703,327,743"/>
+<area shape="poly" title=" " alt="" coords="56,543,67,573,84,612,109,653,142,689,148,693,145,698,138,693,105,656,79,614,62,575,51,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a4b5b349d3b17cecc8cc1ba9d88d9c784" title=" " alt="" coords="163,767,321,807"/>
+<area shape="poly" title=" " alt="" coords="54,543,61,583,76,640,102,700,120,728,142,753,152,761,149,765,138,757,116,731,97,703,71,642,55,585,49,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a0ac16e0564484242a36b478d182130f0" title=" " alt="" coords="155,831,329,871"/>
+<area shape="poly" title=" " alt="" coords="53,544,56,594,68,667,79,707,95,747,115,784,142,817,146,820,142,824,138,820,111,787,90,749,74,709,63,669,51,595,47,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#adc19f23b7dd14064625e6d8defd93ea2" title=" " alt="" coords="149,185,335,210"/>
+<area shape="poly" title=" " alt="" coords="47,518,48,463,59,383,70,339,86,295,109,255,138,219,142,216,146,220,142,223,113,258,91,298,75,340,64,384,53,464,52,518"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae1238898d0555ec18f2340a1580fa8b7" title=" " alt="" coords="153,234,331,259"/>
+<area shape="poly" title=" " alt="" coords="48,517,52,470,65,403,76,367,92,331,112,298,138,269,143,265,147,269,142,273,117,301,97,333,81,369,70,404,57,471,53,518"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aeb7bee44f9c06780ebb3f63bab1c1513" title=" " alt="" coords="160,283,324,309"/>
+<area shape="poly" title=" " alt="" coords="49,517,56,478,71,424,98,367,116,341,138,318,146,312,149,317,142,322,120,344,102,370,76,426,61,480,54,518"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae1eb89ea1deff1cfee6852cca928893e" title=" " alt="" coords="151,333,333,358"/>
+<area shape="poly" title=" " alt="" coords="51,517,61,487,78,446,104,404,138,369,149,362,152,366,142,373,108,408,83,449,66,489,56,519"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a9305f4e77dbdfc7c8788b2568e023447" title=" " alt="" coords="162,383,322,423"/>
+<area shape="poly" title=" " alt="" coords="57,516,90,475,113,452,139,432,149,426,152,431,141,437,116,456,94,479,61,519"/>
 <area shape="rect" href="BLDCComprehensiveTest_8cpp.html#af2864f0cb579d93d0764e20fcee7706f" title=" " alt="" coords="161,895,323,935"/>
-<area shape="poly" title=" " alt="" coords="52,554,52,613,62,700,73,748,89,796,112,841,142,881,151,889,147,893,138,884,107,844,84,798,67,750,57,701,47,613,47,554"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ab49e708a05302710c349ba61532c9ed6" title=" " alt="" coords="161,959,323,999"/>
-<area shape="poly" title=" " alt="" coords="54,554,62,633,80,751,106,868,123,914,142,945,151,953,147,957,138,948,118,916,101,870,75,752,57,634,49,555"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#add8f2bf8faa9c839b6519625e5bc351a" title=" " alt="" coords="156,297,328,337"/>
-<area shape="poly" title=" " alt="" coords="50,528,58,492,75,444,101,392,118,368,138,347,144,343,147,347,142,351,122,372,105,395,80,446,63,494,55,529"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a724bb76dbdd727b59fe4420354cebc5f" title=" " alt="" coords="157,361,327,401"/>
-<area shape="poly" title=" " alt="" coords="53,527,84,471,108,439,138,411,146,406,149,410,142,415,112,443,88,474,58,530"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a5ca22fdda273207ad40974a5c60cd3fc" title=" " alt="" coords="140,425,344,465"/>
-<area shape="poly" title=" " alt="" coords="63,526,97,501,139,475,154,468,157,473,141,480,100,505,67,531"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ac61213b066c19dbf1e8299ffacf6707c" title=" " alt="" coords="166,1023,318,1063"/>
-<area shape="poly" title=" " alt="" coords="53,554,60,644,76,781,88,853,103,918,121,972,142,1009,156,1021,152,1025,138,1012,116,975,98,920,83,854,71,782,55,645,48,555"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3bf48ef75831b59043e850f8cf0b1e08" title=" " alt="" coords="172,489,312,529"/>
-<area shape="poly" title=" " alt="" coords="92,532,158,520,159,526,93,537"/>
-<area shape="rect" href="TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="397,106,585,131"/>
-<area shape="poly" title=" " alt="" coords="312,95,383,103,383,109,312,100"/>
-<area shape="rect" href="TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="639,99,777,139"/>
-<area shape="poly" title=" " alt="" coords="585,116,625,116,625,121,585,121"/>
-<area shape="poly" title=" " alt="" coords="319,135,383,128,384,133,319,141"/>
-<area shape="rect" href="BootloaderComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="421,625,561,650"/>
-<area shape="poly" title=" " alt="" coords="321,591,428,619,427,624,320,596"/>
-<area shape="rect" href="Esp32TMC9660Bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="637,625,779,650"/>
-<area shape="poly" title=" " alt="" coords="561,635,624,635,624,640,561,640"/>
-<area shape="poly" title=" " alt="" coords="322,635,407,635,407,640,322,640"/>
-<area shape="poly" title=" " alt="" coords="320,679,427,651,428,656,321,684"/>
-<area shape="poly" title=" " alt="" coords="307,743,343,731,408,695,461,657,465,661,411,699,345,736,309,748"/>
-<area shape="poly" title=" " alt="" coords="313,793,343,780,382,753,418,721,470,659,474,663,421,724,385,757,345,785,316,798"/>
-<area shape="poly" title=" " alt="" coords="320,842,343,831,388,792,426,746,455,699,476,661,480,664,460,702,430,749,392,796,345,836,323,847"/>
-<area shape="poly" title=" " alt="" coords="327,207,346,219,386,264,418,316,443,372,461,428,483,534,491,611,486,611,478,535,456,430,438,374,413,319,382,268,342,223,324,211"/>
-<area shape="poly" title=" " alt="" coords="324,269,346,283,380,321,409,364,433,410,451,457,476,545,489,611,483,612,471,546,446,459,428,413,404,367,376,325,342,287,321,273"/>
-<area shape="poly" title=" " alt="" coords="322,893,342,881,369,856,393,829,432,768,460,709,479,662,484,664,465,711,437,770,397,832,373,860,346,885,325,898"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a6125e77761f1d1219d4ceed2686f6db3" title=" " alt="" coords="427,902,555,927"/>
-<area shape="poly" title=" " alt="" coords="324,912,413,912,413,917,324,917"/>
-<area shape="poly" title=" " alt="" coords="322,958,342,945,360,924,379,893,418,814,478,662,483,664,423,816,384,896,364,927,346,949,325,962"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae06c726004ca44a68ed24eb99c38c9fb" title=" " alt="" coords="392,966,589,991"/>
-<area shape="poly" title=" " alt="" coords="324,976,378,976,378,981,324,981"/>
-<area shape="poly" title=" " alt="" coords="327,335,346,347,376,377,402,411,443,485,470,556,486,610,481,612,465,557,438,487,397,414,372,381,342,351,324,340"/>
-<area shape="poly" title=" " alt="" coords="326,399,346,411,371,433,394,459,433,514,463,568,482,611,477,613,458,570,429,517,390,462,367,437,342,415,323,404"/>
-<area shape="poly" title=" " alt="" coords="322,463,345,475,387,507,423,544,476,611,471,615,419,547,383,511,343,480,320,468"/>
-<area shape="poly" title=" " alt="" coords="317,1025,342,1009,477,662,482,664,346,1012,320,1029"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba" title=" " alt="" coords="416,1030,565,1055"/>
-<area shape="poly" title=" " alt="" coords="318,1040,402,1040,402,1045,318,1045"/>
-<area shape="poly" title=" " alt="" coords="313,526,345,539,410,576,464,614,461,618,408,581,343,544,311,531"/>
+<area shape="poly" title=" " alt="" coords="54,543,64,613,83,715,109,815,125,854,142,881,151,889,147,893,138,884,120,857,104,817,78,716,59,614,49,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="149,1023,335,1063"/>
+<area shape="poly" title=" " alt="" coords="53,543,60,635,75,775,87,849,102,916,120,972,142,1009,145,1012,141,1016,138,1012,115,974,97,917,82,850,70,776,55,636,48,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ab49e708a05302710c349ba61532c9ed6" title=" " alt="" coords="161,1087,323,1127"/>
+<area shape="poly" title=" " alt="" coords="53,544,58,646,72,806,83,889,99,966,118,1030,129,1054,142,1073,151,1081,147,1085,138,1076,125,1057,113,1032,93,968,78,890,66,806,53,647,48,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#add8f2bf8faa9c839b6519625e5bc351a" title=" " alt="" coords="156,447,328,487"/>
+<area shape="poly" title=" " alt="" coords="84,515,139,496,162,489,164,494,141,501,86,520"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a724bb76dbdd727b59fe4420354cebc5f" title=" " alt="" coords="157,511,327,551"/>
+<area shape="poly" title=" " alt="" coords="92,528,143,528,143,533,92,533"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a5ca22fdda273207ad40974a5c60cd3fc" title=" " alt="" coords="140,575,344,615"/>
+<area shape="poly" title=" " alt="" coords="86,541,141,560,164,568,162,573,139,565,84,546"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ac61213b066c19dbf1e8299ffacf6707c" title=" " alt="" coords="166,959,318,999"/>
+<area shape="poly" title=" " alt="" coords="54,543,62,624,79,745,106,866,123,913,142,945,155,956,152,960,138,948,118,915,101,867,74,746,57,625,48,544"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3bf48ef75831b59043e850f8cf0b1e08" title=" " alt="" coords="172,639,312,679"/>
+<area shape="poly" title=" " alt="" coords="61,542,94,583,116,605,141,624,161,635,158,639,139,629,113,609,90,586,57,546"/>
+<area shape="rect" href="TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="407,99,595,125"/>
+<area shape="poly" title=" " alt="" coords="311,130,393,121,394,126,312,135"/>
+<area shape="rect" href="TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="707,92,846,132"/>
+<area shape="poly" title=" " alt="" coords="595,109,694,109,694,115,595,115"/>
+<area shape="poly" title=" " alt="" coords="319,89,394,97,393,103,319,94"/>
+<area shape="rect" href="BootloaderComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="431,614,571,639"/>
+<area shape="poly" title=" " alt="" coords="308,700,343,688,457,642,459,647,345,693,310,705"/>
+<area shape="rect" href="Esp32TMC9660Bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="706,614,847,639"/>
+<area shape="poly" title=" " alt="" coords="571,624,692,624,692,629,571,629"/>
+<area shape="poly" title=" " alt="" coords="317,764,343,752,382,728,419,700,476,647,480,651,422,704,385,732,345,757,319,769"/>
+<area shape="poly" title=" " alt="" coords="321,828,342,816,389,777,429,732,461,687,484,650,489,653,466,690,433,735,393,781,346,821,324,833"/>
+<area shape="poly" title=" " alt="" coords="328,208,346,219,386,263,419,313,445,367,465,422,490,525,501,600,495,601,485,526,460,423,440,369,415,315,382,266,342,223,325,212"/>
+<area shape="poly" title=" " alt="" coords="328,257,346,269,383,306,413,349,439,395,459,443,486,533,499,600,494,601,481,534,454,445,434,398,409,352,379,309,342,273,325,262"/>
+<area shape="poly" title=" " alt="" coords="326,306,346,318,379,349,408,385,432,424,452,465,481,541,497,600,492,601,476,543,447,467,427,427,403,388,375,353,342,322,323,311"/>
+<area shape="poly" title=" " alt="" coords="322,356,346,368,375,394,401,423,444,487,475,550,494,600,489,602,470,552,440,490,397,426,371,398,342,373,320,361"/>
+<area shape="poly" title=" " alt="" coords="324,420,346,432,393,472,433,518,466,564,489,601,484,603,461,567,429,522,389,476,342,437,321,425"/>
+<area shape="poly" title=" " alt="" coords="322,893,342,881,371,855,396,826,438,762,469,700,489,651,494,653,474,702,443,764,400,829,374,859,346,885,325,897"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a6125e77761f1d1219d4ceed2686f6db3" title=" " alt="" coords="437,902,565,927"/>
+<area shape="poly" title=" " alt="" coords="323,912,423,912,423,917,323,917"/>
+<area shape="poly" title=" " alt="" coords="326,1020,342,1009,364,982,373,955,379,926,389,890,487,652,492,654,395,892,384,927,378,957,369,984,346,1013,329,1025"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="392,1030,611,1055"/>
+<area shape="poly" title=" " alt="" coords="335,1040,378,1040,378,1045,335,1045"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba" title=" " alt="" coords="427,973,576,998"/>
+<area shape="poly" title=" " alt="" coords="333,1020,429,998,430,1004,334,1025"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a0f096f9335c63088b35dbe32cfda477d" title=" " alt="" coords="659,981,895,1006"/>
+<area shape="poly" title=" " alt="" coords="572,1027,691,1006,692,1011,573,1033"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a027f857dabbd63bdc7d015c4448f982f" title=" " alt="" coords="671,1030,882,1055"/>
+<area shape="poly" title=" " alt="" coords="611,1040,658,1040,658,1045,611,1045"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aecdf284d22d080dd3753a35cf58b194c" title=" " alt="" coords="673,1079,881,1105"/>
+<area shape="poly" title=" " alt="" coords="573,1053,692,1074,691,1079,572,1058"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a15952d660a687a8576101294cc739448" title=" " alt="" coords="679,1129,874,1169"/>
+<area shape="poly" title=" " alt="" coords="546,1053,612,1080,636,1098,660,1115,677,1122,675,1127,657,1120,633,1103,609,1085,544,1058"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a88f027de413792c34d771b44a6b9dce5" title=" " alt="" coords="675,931,878,957"/>
+<area shape="poly" title=" " alt="" coords="561,1027,609,1008,623,998,633,988,642,977,657,967,678,958,680,963,660,972,646,981,636,991,627,1002,612,1013,563,1032"/>
+<area shape="poly" title=" " alt="" coords="322,1088,342,1073,359,1051,370,1030,377,989,379,944,382,919,389,890,441,754,486,651,491,653,446,756,395,891,387,920,384,945,382,990,375,1032,364,1054,346,1077,325,1092"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ae06c726004ca44a68ed24eb99c38c9fb" title=" " alt="" coords="403,1094,600,1119"/>
+<area shape="poly" title=" " alt="" coords="323,1104,389,1104,389,1109,323,1109"/>
+<area shape="poly" title=" " alt="" coords="319,484,345,496,385,521,422,550,480,602,476,606,419,554,382,526,343,501,317,489"/>
+<area shape="poly" title=" " alt="" coords="310,548,345,560,459,606,457,611,343,565,308,553"/>
+<area shape="poly" title=" " alt="" coords="344,605,418,614,417,619,344,610"/>
+<area shape="poly" title=" " alt="" coords="317,960,342,945,361,923,381,891,424,808,488,651,493,653,428,810,386,894,365,926,346,949,320,965"/>
+<area shape="poly" title=" " alt="" coords="318,978,413,980,413,986,318,983"/>
+<area shape="poly" title=" " alt="" coords="312,647,417,634,418,640,312,653"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a1c53118a1c8fc214ee2642c94957940b" name="a1c53118a1c8fc214ee2642c94957940b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c53118a1c8fc214ee2642c94957940b">&#9670;&#160;</a></span>configureABNEncoderForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureABNEncoderForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>countsPerRev</em><span class="paramdefsep"> = </span><span class="paramdefval">1024</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaa6256cb75ad3e8ab36a7b9b6942e58a" name="aaa6256cb75ad3e8ab36a7b9b6942e58a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa6256cb75ad3e8ab36a7b9b6942e58a">&#9670;&#160;</a></span>configureCompleteBLDCMotor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureCompleteBLDCMotor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>polePairs</em><span class="paramdefsep"> = </span><span class="paramdefval">7</span>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>pwmFrequency</em><span class="paramdefsep"> = </span><span class="paramdefval">20000</span></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_cgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_cgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_cgraph" id="aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_cgraph">
+<area shape="rect" title=" " alt="" coords="5,104,224,129"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a0f096f9335c63088b35dbe32cfda477d" title=" " alt="" coords="272,5,508,31"/>
+<area shape="poly" title=" " alt="" coords="137,101,197,70,271,39,299,31,301,36,273,45,199,75,140,106"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a027f857dabbd63bdc7d015c4448f982f" title=" " alt="" coords="285,55,495,80"/>
+<area shape="poly" title=" " alt="" coords="186,101,305,80,306,85,187,107"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aecdf284d22d080dd3753a35cf58b194c" title=" " alt="" coords="286,104,494,129"/>
+<area shape="poly" title=" " alt="" coords="224,114,273,114,273,119,224,119"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a15952d660a687a8576101294cc739448" title=" " alt="" coords="293,154,487,194"/>
+<area shape="poly" title=" " alt="" coords="177,127,281,149,280,154,176,132"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a88f027de413792c34d771b44a6b9dce5" title=" " alt="" coords="289,219,491,244"/>
+<area shape="poly" title=" " alt="" coords="136,127,195,165,273,204,301,213,300,218,271,208,193,170,133,132"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_icgraph" id="aBLDCComprehensiveTest_8cpp_aaa6256cb75ad3e8ab36a7b9b6942e58a_icgraph">
+<area shape="rect" title=" " alt="" coords="373,13,592,38"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0f096f9335c63088b35dbe32cfda477d" name="a0f096f9335c63088b35dbe32cfda477d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f096f9335c63088b35dbe32cfda477d">&#9670;&#160;</a></span>configureCurrentSensingForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureCurrentSensingForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a0f096f9335c63088b35dbe32cfda477d_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a0f096f9335c63088b35dbe32cfda477d_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a0f096f9335c63088b35dbe32cfda477d_icgraph" id="aBLDCComprehensiveTest_8cpp_a0f096f9335c63088b35dbe32cfda477d_icgraph">
+<area shape="rect" title=" " alt="" coords="640,13,876,38"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="373,13,592,38"/>
+<area shape="poly" title=" " alt="" coords="626,28,592,28,592,23,626,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a027f857dabbd63bdc7d015c4448f982f" name="a027f857dabbd63bdc7d015c4448f982f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a027f857dabbd63bdc7d015c4448f982f">&#9670;&#160;</a></span>configureFOCControlForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureFOCControlForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a027f857dabbd63bdc7d015c4448f982f_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a027f857dabbd63bdc7d015c4448f982f_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a027f857dabbd63bdc7d015c4448f982f_icgraph" id="aBLDCComprehensiveTest_8cpp_a027f857dabbd63bdc7d015c4448f982f_icgraph">
+<area shape="rect" title=" " alt="" coords="640,13,851,38"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="373,13,592,38"/>
+<area shape="poly" title=" " alt="" coords="626,28,592,28,592,23,626,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="aecdf284d22d080dd3753a35cf58b194c" name="aecdf284d22d080dd3753a35cf58b194c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecdf284d22d080dd3753a35cf58b194c">&#9670;&#160;</a></span>configureGateDriverForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureGateDriverForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_aecdf284d22d080dd3753a35cf58b194c_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_aecdf284d22d080dd3753a35cf58b194c_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_aecdf284d22d080dd3753a35cf58b194c_icgraph" id="aBLDCComprehensiveTest_8cpp_aecdf284d22d080dd3753a35cf58b194c_icgraph">
+<area shape="rect" title=" " alt="" coords="640,13,848,38"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="373,13,592,38"/>
+<area shape="poly" title=" " alt="" coords="626,28,592,28,592,23,626,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2364a9e6c6f14d08eed5c419716da164" name="a2364a9e6c6f14d08eed5c419716da164"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2364a9e6c6f14d08eed5c419716da164">&#9670;&#160;</a></span>configureHallSensorForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureHallSensorForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15952d660a687a8576101294cc739448" name="a15952d660a687a8576101294cc739448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15952d660a687a8576101294cc739448">&#9670;&#160;</a></span>configureMotorParametersForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureMotorParametersForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>polePairs</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>pwmFrequency</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a15952d660a687a8576101294cc739448_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a15952d660a687a8576101294cc739448_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a15952d660a687a8576101294cc739448_icgraph" id="aBLDCComprehensiveTest_8cpp_a15952d660a687a8576101294cc739448_icgraph">
+<area shape="rect" title=" " alt="" coords="640,5,835,45"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="373,13,592,38"/>
+<area shape="poly" title=" " alt="" coords="626,28,592,28,592,23,626,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a88f027de413792c34d771b44a6b9dce5" name="a88f027de413792c34d771b44a6b9dce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f027de413792c34d771b44a6b9dce5">&#9670;&#160;</a></span>configureProtectionForBLDC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool configureProtectionForBLDC </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classTMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>driver</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a88f027de413792c34d771b44a6b9dce5_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a88f027de413792c34d771b44a6b9dce5_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a88f027de413792c34d771b44a6b9dce5_icgraph" id="aBLDCComprehensiveTest_8cpp_a88f027de413792c34d771b44a6b9dce5_icgraph">
+<area shape="rect" title=" " alt="" coords="640,13,843,38"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="373,13,592,38"/>
+<area shape="poly" title=" " alt="" coords="627,28,592,28,592,23,627,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="360,28,326,28,326,23,360,23"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
 </map>
 </div>
 
@@ -479,11 +835,14 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="BLDCComprehensiveTest_8cpp_a1747c1efdce438b256df6c7f22c9efba_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a1747c1efdce438b256df6c7f22c9efba_icgraph" alt=""/></div>
 <map name="aBLDCComprehensiveTest_8cpp_a1747c1efdce438b256df6c7f22c9efba_icgraph" id="aBLDCComprehensiveTest_8cpp_a1747c1efdce438b256df6c7f22c9efba_icgraph">
-<area shape="rect" title=" " alt="" coords="340,13,489,38"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ac61213b066c19dbf1e8299ffacf6707c" title=" " alt="" coords="140,5,292,45"/>
-<area shape="poly" title=" " alt="" coords="326,28,293,28,293,23,326,23"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
-<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+<area shape="rect" title=" " alt="" coords="373,45,523,70"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a3ef29745e5282408e0a1de2a23f01b87" title=" " alt="" coords="140,5,325,45"/>
+<area shape="poly" title=" " alt="" coords="359,47,325,42,326,36,360,42"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#ac61213b066c19dbf1e8299ffacf6707c" title=" " alt="" coords="157,69,309,109"/>
+<area shape="poly" title=" " alt="" coords="360,73,309,81,308,75,359,68"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,45,92,70"/>
+<area shape="poly" title=" " alt="" coords="127,47,93,52,92,47,126,41"/>
+<area shape="poly" title=" " alt="" coords="143,76,92,67,93,62,144,71"/>
 </map>
 </div>
 
@@ -907,6 +1266,67 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="BLDCComprehensiveTest_8cpp_af2864f0cb579d93d0764e20fcee7706f_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_af2864f0cb579d93d0764e20fcee7706f_icgraph" alt=""/></div>
 <map name="aBLDCComprehensiveTest_8cpp_af2864f0cb579d93d0764e20fcee7706f_icgraph" id="aBLDCComprehensiveTest_8cpp_af2864f0cb579d93d0764e20fcee7706f_icgraph">
 <area shape="rect" title=" " alt="" coords="140,5,303,45"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
+<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a3ef29745e5282408e0a1de2a23f01b87" name="a3ef29745e5282408e0a1de2a23f01b87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ef29745e5282408e0a1de2a23f01b87">&#9670;&#160;</a></span>test_bldc_motor_runtime_configuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool test_bldc_motor_runtime_configuration </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_cgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_cgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_cgraph" id="aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_cgraph">
+<area shape="rect" title=" " alt="" coords="5,233,191,273"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" title=" " alt="" coords="239,133,457,159"/>
+<area shape="poly" title=" " alt="" coords="145,230,304,162,306,167,147,235"/>
+<area shape="rect" href="BootloaderComprehensiveTest_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="278,240,418,265"/>
+<area shape="poly" title=" " alt="" coords="191,250,264,250,264,255,191,255"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba" title=" " alt="" coords="273,289,423,315"/>
+<area shape="poly" title=" " alt="" coords="191,268,270,284,269,289,190,274"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a0f096f9335c63088b35dbe32cfda477d" title=" " alt="" coords="505,5,741,31"/>
+<area shape="poly" title=" " alt="" coords="363,131,422,86,462,61,504,40,526,32,527,37,506,44,464,65,425,90,366,135"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a027f857dabbd63bdc7d015c4448f982f" title=" " alt="" coords="518,55,729,80"/>
+<area shape="poly" title=" " alt="" coords="381,131,505,89,539,80,540,86,506,94,383,136"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#aecdf284d22d080dd3753a35cf58b194c" title=" " alt="" coords="519,104,727,129"/>
+<area shape="poly" title=" " alt="" coords="457,132,506,127,506,132,458,137"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a15952d660a687a8576101294cc739448" title=" " alt="" coords="526,154,721,194"/>
+<area shape="poly" title=" " alt="" coords="458,154,513,160,512,165,457,160"/>
+<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a88f027de413792c34d771b44a6b9dce5" title=" " alt="" coords="522,219,725,244"/>
+<area shape="poly" title=" " alt="" coords="380,156,438,180,506,203,542,213,541,218,505,209,436,185,378,161"/>
+<area shape="rect" href="Esp32TMC9660Bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="553,268,694,293"/>
+<area shape="poly" title=" " alt="" coords="418,257,539,269,539,275,418,262"/>
+</map>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="BLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_icgraph.png" border="0" usemap="#aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_icgraph" alt=""/></div>
+<map name="aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_icgraph" id="aBLDCComprehensiveTest_8cpp_a3ef29745e5282408e0a1de2a23f01b87_icgraph">
+<area shape="rect" title=" " alt="" coords="140,5,325,45"/>
 <area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
 <area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
 </map>

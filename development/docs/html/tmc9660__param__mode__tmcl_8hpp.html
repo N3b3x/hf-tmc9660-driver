@@ -3033,7 +3033,7 @@ Parameters to Set Up Commutation Mode:</h3>
 <div class="line">    X(FAULT_RETRIES_FAILED,         <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(23), ) \</div>
 <div class="line">    X(CHIP_TEMP_WARNING,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(24), ) \</div>
 <div class="line">    X(HEARTBEAT_STOPPED,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(26), )</div>
-<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4882</div></div>
+<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4891</div></div>
 </div><!-- fragment -->
 <p>Enumerates general error flags for GENERAL_ERROR_FLAGS. </p>
 <p>These flags indicate various error conditions in the system. Most of these flags are Read-Write-Clear (RWC), meaning they can be cleared by writing a 1 to the corresponding bit position.</p>
@@ -3896,59 +3896,68 @@ Parameters to Set Up Commutation Mode:</h3>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>(V_63_MILLIVOLT,    0, ) \</div>
-<div class="line">    X(V_125_MILLIVOLT,   1, ) \</div>
-<div class="line">    X(V_187_MILLIVOLT,   2, ) \</div>
-<div class="line">    X(V_248_MILLIVOLT,   3, ) \</div>
-<div class="line">    X(V_312_MILLIVOLT,   4, ) \</div>
-<div class="line">    X(V_374_MILLIVOLT,   5, ) \</div>
-<div class="line">    X(V_434_MILLIVOLT,   6, ) \</div>
-<div class="line">    X(V_504_MILLIVOLT,   7, ) \</div>
-<div class="line">    X(V_705_MILLIVOLT,   8, ) \</div>
-<div class="line">    X(V_940_MILLIVOLT,   9, ) \</div>
-<div class="line">    X(V_1180_MILLIVOLT, 10, ) \</div>
-<div class="line">    X(V_1410_MILLIVOLT, 11, ) \</div>
-<div class="line">    X(V_1650_MILLIVOLT, 12, ) \</div>
-<div class="line">    X(V_1880_MILLIVOLT, 13, ) \</div>
-<div class="line">    X(V_2110_MILLIVOLT, 14, ) \</div>
-<div class="line">    X(V_2350_MILLIVOLT, 15, )</div>
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>(V_80_OR_63_MILLIVOLT,    0, ) \</div>
+<div class="line">    X(V_165_OR_125_MILLIVOLT,   1, ) \</div>
+<div class="line">    X(V_250_OR_187_MILLIVOLT,   2, ) \</div>
+<div class="line">    X(V_330_OR_248_MILLIVOLT,   3, ) \</div>
+<div class="line">    X(V_415_OR_312_MILLIVOLT,   4, ) \</div>
+<div class="line">    X(V_500_OR_374_MILLIVOLT,   5, ) \</div>
+<div class="line">    X(V_582_OR_434_MILLIVOLT,   6, ) \</div>
+<div class="line">    X(V_660_OR_504_MILLIVOLT,   7, ) \</div>
+<div class="line">    X(V_125_OR_705_MILLIVOLT,   8, ) \</div>
+<div class="line">    X(V_250_OR_940_MILLIVOLT,   9, ) \</div>
+<div class="line">    X(V_375_OR_1180_MILLIVOLT, 10, ) \</div>
+<div class="line">    X(V_500_OR_1410_MILLIVOLT, 11, ) \</div>
+<div class="line">    X(V_625_OR_1650_MILLIVOLT, 12, ) \</div>
+<div class="line">    X(V_750_OR_1880_MILLIVOLT, 13, ) \</div>
+<div class="line">    X(V_875_OR_2110_MILLIVOLT, 14, ) \</div>
+<div class="line">    X(V_1000_OR_2350_MILLIVOLT, 15, )</div>
 </div><!-- fragment -->
 <p>Enumerates possible threshold values for overcurrent protection. </p>
-<p>Table — Overcurrent Protection Thresholds: </p><table class="markdownTable">
+<p><b>Important:</b> The hardware automatically selects the appropriate threshold based on the sensing method:</p><ul>
+<li><b>High-Side (HS)</b>: Always uses VDS sensing, thresholds are VDS values only</li>
+<li><b>Low-Side (LS)</b>: Threshold depends on UVW_LOW_SIDE_USE_VDS / Y2_LOW_SIDE_USE_VDS setting:<ul>
+<li>If VDS enabled: Uses VDS threshold values (63mV, 125mV, 187mV, etc.)</li>
+<li>If RSHUNT enabled: Uses RSHUNT threshold values (80mV, 165mV, 250mV, etc.)</li>
+</ul>
+</li>
+</ul>
+<p>The enum names reflect the dual nature for low-side thresholds (e.g., V_80_OR_63_MILLIVOLT means 80mV for RSHUNT or 63mV for VDS). For high-side, only the VDS value applies.</p>
+<p>Table — Overcurrent Protection Thresholds (per datasheet Table 11): </p><table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">NUMBER   </th><th class="markdownTableHeadNone">NAME   </th><th class="markdownTableHeadNone">DESCRIPTION    </th></tr>
+<th class="markdownTableHeadNone">NUMBER   </th><th class="markdownTableHeadNone">NAME   </th><th class="markdownTableHeadNone">HS_VDS   </th><th class="markdownTableHeadNone">LS_RSHUNT   </th><th class="markdownTableHeadNone">LS_VDS    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">V_63_MILLIVOLT   </td><td class="markdownTableBodyNone">63 mV    </td></tr>
+<td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">V_80_OR_63_MILLIVOLT   </td><td class="markdownTableBodyNone">63 mV   </td><td class="markdownTableBodyNone">80 mV   </td><td class="markdownTableBodyNone">63 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">V_125_MILLIVOLT   </td><td class="markdownTableBodyNone">125 mV    </td></tr>
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">V_165_OR_125_MILLIVOLT   </td><td class="markdownTableBodyNone">125 mV   </td><td class="markdownTableBodyNone">165 mV   </td><td class="markdownTableBodyNone">125 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">V_187_MILLIVOLT   </td><td class="markdownTableBodyNone">187 mV    </td></tr>
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">V_250_OR_187_MILLIVOLT   </td><td class="markdownTableBodyNone">187 mV   </td><td class="markdownTableBodyNone">250 mV   </td><td class="markdownTableBodyNone">187 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">V_248_MILLIVOLT   </td><td class="markdownTableBodyNone">248 mV    </td></tr>
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">V_330_OR_248_MILLIVOLT   </td><td class="markdownTableBodyNone">248 mV   </td><td class="markdownTableBodyNone">330 mV   </td><td class="markdownTableBodyNone">248 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">V_312_MILLIVOLT   </td><td class="markdownTableBodyNone">312 mV    </td></tr>
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">V_415_OR_312_MILLIVOLT   </td><td class="markdownTableBodyNone">312 mV   </td><td class="markdownTableBodyNone">415 mV   </td><td class="markdownTableBodyNone">312 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">V_374_MILLIVOLT   </td><td class="markdownTableBodyNone">374 mV    </td></tr>
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">V_500_OR_374_MILLIVOLT   </td><td class="markdownTableBodyNone">374 mV   </td><td class="markdownTableBodyNone">500 mV   </td><td class="markdownTableBodyNone">374 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">V_434_MILLIVOLT   </td><td class="markdownTableBodyNone">434 mV    </td></tr>
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">V_582_OR_434_MILLIVOLT   </td><td class="markdownTableBodyNone">434 mV   </td><td class="markdownTableBodyNone">582 mV   </td><td class="markdownTableBodyNone">434 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">V_504_MILLIVOLT   </td><td class="markdownTableBodyNone">504 mV    </td></tr>
+<td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">V_660_OR_504_MILLIVOLT   </td><td class="markdownTableBodyNone">504 mV   </td><td class="markdownTableBodyNone">660 mV   </td><td class="markdownTableBodyNone">504 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">8   </td><td class="markdownTableBodyNone">V_705_MILLIVOLT   </td><td class="markdownTableBodyNone">705 mV    </td></tr>
+<td class="markdownTableBodyNone">8   </td><td class="markdownTableBodyNone">V_125_OR_705_MILLIVOLT   </td><td class="markdownTableBodyNone">705 mV   </td><td class="markdownTableBodyNone">125 mV   </td><td class="markdownTableBodyNone">705 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">9   </td><td class="markdownTableBodyNone">V_940_MILLIVOLT   </td><td class="markdownTableBodyNone">940 mV    </td></tr>
+<td class="markdownTableBodyNone">9   </td><td class="markdownTableBodyNone">V_250_OR_940_MILLIVOLT   </td><td class="markdownTableBodyNone">940 mV   </td><td class="markdownTableBodyNone">250 mV   </td><td class="markdownTableBodyNone">940 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">V_1180_MILLIVOLT   </td><td class="markdownTableBodyNone">1180 mV    </td></tr>
+<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">V_375_OR_1180_MILLIVOLT   </td><td class="markdownTableBodyNone">1180 mV   </td><td class="markdownTableBodyNone">375 mV   </td><td class="markdownTableBodyNone">1180 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">V_1410_MILLIVOLT   </td><td class="markdownTableBodyNone">1410 mV    </td></tr>
+<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">V_500_OR_1410_MILLIVOLT   </td><td class="markdownTableBodyNone">1410 mV   </td><td class="markdownTableBodyNone">500 mV   </td><td class="markdownTableBodyNone">1410 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">12   </td><td class="markdownTableBodyNone">V_1650_MILLIVOLT   </td><td class="markdownTableBodyNone">1650 mV    </td></tr>
+<td class="markdownTableBodyNone">12   </td><td class="markdownTableBodyNone">V_625_OR_1650_MILLIVOLT   </td><td class="markdownTableBodyNone">1650 mV   </td><td class="markdownTableBodyNone">625 mV   </td><td class="markdownTableBodyNone">1650 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">13   </td><td class="markdownTableBodyNone">V_1880_MILLIVOLT   </td><td class="markdownTableBodyNone">1880 mV    </td></tr>
+<td class="markdownTableBodyNone">13   </td><td class="markdownTableBodyNone">V_750_OR_1880_MILLIVOLT   </td><td class="markdownTableBodyNone">1880 mV   </td><td class="markdownTableBodyNone">750 mV   </td><td class="markdownTableBodyNone">1880 mV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">V_2110_MILLIVOLT   </td><td class="markdownTableBodyNone">2110 mV    </td></tr>
+<td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">V_875_OR_2110_MILLIVOLT   </td><td class="markdownTableBodyNone">2110 mV   </td><td class="markdownTableBodyNone">875 mV   </td><td class="markdownTableBodyNone">2110 mV    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">V_2350_MILLIVOLT   </td><td class="markdownTableBodyNone">2350 mV   </td></tr>
+<td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">V_1000_OR_2350_MILLIVOLT   </td><td class="markdownTableBodyNone">2350 mV   </td><td class="markdownTableBodyNone">1000 mV   </td><td class="markdownTableBodyNone">2350 mV   </td></tr>
 </table>
 
 </div>

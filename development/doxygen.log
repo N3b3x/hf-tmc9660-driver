@@ -1,6 +1,6 @@
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1766: warning: unbalanced grouping commands
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4810: warning: unbalanced grouping commands
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:5198: warning: unbalanced grouping commands
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1775: warning: unbalanced grouping commands
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4819: warning: unbalanced grouping commands
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:5207: warning: unbalanced grouping commands
 Doxygen version used: 1.10.0 (ebc57c6dd303a980bd19dd74b8b61c8f3f5180ca)
 Searching for include files...
 Searching for example files...
@@ -138,18 +138,25 @@ Parsing code for file TMC9660Bootloader.cpp...
 Generating file documentation...
 Generating docs for file BLDCComprehensiveTest.cpp...
 Generating call graph for function app_main
+Generating call graph for function configureCompleteBLDCMotor
+Generating caller graph for function configureCompleteBLDCMotor
+Generating caller graph for function configureCurrentSensingForBLDC
+Generating caller graph for function configureFOCControlForBLDC
+Generating caller graph for function configureGateDriverForBLDC
+Generating caller graph for function configureMotorParametersForBLDC
+Generating caller graph for function configureProtectionForBLDC
 Generating call graph for function create_test_driver
 Generating caller graph for function log_telemetry_data
 Generating call graph for function test_bldc_abn_encoder_configuration
-Generating caller graph for function test_bldc_abn_encoder_configuration
+Generating caller graph for warning: Caller graph for 'create_test_driver' not generated, too many nodes (58), threshold is 50. Consider increasing DOT_GRAPH_MAX_NODES.
+function test_bldc_abn_encoder_configuration
 Generating call graph for function test_bldc_bootloader_initialization
 Generating caller graph for function test_bldc_bootloader_initialization
 Generating call graph for function test_bldc_commutation_modes
 Generating caller graph for function test_bldc_commutation_modes
 Generating call graph for function test_bldc_current_control
 Generating caller graph for function test_bldc_current_control
-Generating calwarning: Caller graph for 'create_test_driver' not generated, too many nodes (57), threshold is 50. Consider increasing DOT_GRAPH_MAX_NODES.
-l graph for function test_bldc_driver_enable
+Generating call graph for function test_bldc_driver_enable
 Generating caller graph for function test_bldc_driver_enable
 Generating call graph for function test_bldc_edge_cases
 Generating caller graph for function test_bldc_edge_cases
@@ -159,6 +166,8 @@ Generating call graph for function test_bldc_foc_control_configuration
 Generating caller graph for function test_bldc_foc_control_configuration
 Generating call graph for function test_bldc_hall_sensor_configuration
 Generating caller graph for function test_bldc_hall_sensor_configuration
+Generating call graph for function test_bldc_motor_runtime_configuration
+Generating caller graph for function test_bldc_motor_runtime_configuration
 Generating call graph for function test_bldc_motor_type_configuration
 Generating caller graph for function test_bldc_motor_type_configuration
 Generating call graph for function test_bldc_multi_device_operations
@@ -265,17 +274,7 @@ Generating call graph for function test_stepper_startup_shutdown_procedures
 Generating caller graph for function test_stepper_startup_shutdown_procedures
 Generating call graph for function test_stepper_step_dir_control
 Generating caller graph for function test_stepper_step_dir_control
-Generating call graph for function test_stepper_telemetry_monitoring
-Generating caller graph for function test_stepper_telemetry_monitoring
-Generating call graph for function test_stepper_velocity_control
-Generating caller graph for function test_stepper_velocity_control
-Generating caller graph for function verify_position_control
-Generating caller graph for function verify_stepper_configuration
-Generating docs for file TelemetryComprehensiveTest.cpp...
-Generating call graph for function app_main
-Generating call graph for function create_test_driver
-Generating caller graph for function log_telemetry_data
-Generating call graph for function test_telemet/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
+Generating call graph for function test_stepper_telemetr/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
   parameter 'tag'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:357: warning: The following parameter of print_test_section_header(const char *tag, const char *section_name, bool enabled=true) is not documented:
   parameter 'tag'
@@ -293,12 +292,17 @@ Generating call graph for function test_telemet/home/runner/work/hf-tmc9660-driv
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:240: warning: argument 'level' of command @param is not found in the argument list of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:240: warning: The following parameter of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
   parameter 'signal'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:704: warning: The following parameter of Esp32UARTTMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
-  parameter 'args'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: argument 'level' of command @param is not found in the argument list of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: The following parameter of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
-  parameter 'signal'
-ry_basic_monitoring
+y_monitoring
+Generating caller graph for function test_stepper_telemetry_monitoring
+Generating call graph for function test_stepper_velocity_control
+Generating caller graph for function test_stepper_velocity_control
+Generating caller graph for function verify_position_control
+Generating caller graph for function verify_stepper_configuration
+Generating docs for file TelemetryComprehensiveTest.cpp...
+Generating call graph for function app_main
+Generating call graph for function create_test_driver
+Generating caller graph for function log_telemetry_data
+Generating call graph for function test_telemetry_basic_monitoring
 Generating caller graph for function test_telemetry_basic_monitoring
 Generating call graph for function test_telemetry_current_monitoring
 Generating caller graph for function test_telemetry_current_monitoring
@@ -354,15 +358,12 @@ Generating call graph for function Esp32SPITMC9660CommInterface::gpioSet
 Generating call graph for function Esp32SPITMC9660CommInterface::initialize
 Generating docs for compound Esp32TMC9660BusConfig...
 Generating docs for compound Esp32UARTTMC9660CommInterface...
-Generating call graph for function Esp32UARTTMC9660CommInterface::~Esp32UARTTMC9660CommInterface
-Generating caller graph for function Esp32UARTTMC9660CommInterface::configureGpioPins
-Generating caller graph for function Esp32UARTTMC9660CommInterface::deinitialize
-Generating caller graph for function Esp32UARTTMC9660CommInterface::getGpioPin
-Generating call graph for function Esp32UARTTMC9660CommInterface::gpioRead
-Generating call graph for function Esp32UARTTMC9660CommInterface::gpioSet
-Generating call graph for function Esp32UARTTMC9660CommInterface::initialize
-Generating call graph for function Esp32UARTTMC9660CommInterface::transferTMCL
-Generating docs for compound SPITMC9660CommInter/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:9: warning: argument 'comm' from the argument list of TMC9660::TMC9660 has multiple @param documentation sections
+Generating call graph for function Esp32UARTTMC9660CommInterface::~Esp32UARTTMC9660CommInterf/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:704: warning: The following parameter of Esp32UARTTMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
+  parameter 'args'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: argument 'level' of command @param is not found in the argument list of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: The following parameter of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
+  parameter 'signal'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:9: warning: argument 'comm' from the argument list of TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:9: warning: argument 'address' from the argument list of TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'cfg' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'performReset' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
@@ -381,7 +382,15 @@ Generating docs for compound SPITMC9660CommInter/home/runner/work/hf-tmc9660-dri
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:361: warning: argument 'value' from the argument list of TMC9660::writeParameter has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:361: warning: argument 'motorIndex' from the argument list of TMC9660::writeParameter has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660Bootloader.hpp:1325: warning: explicit link request to 'BootloaderCommandUART' could not be resolved
-face...
+ace
+Generating caller graph for function Esp32UARTTMC9660CommInterface::configureGpioPins
+Generating caller graph for function Esp32UARTTMC9660CommInterface::deinitialize
+Generating caller graph for function Esp32UARTTMC9660CommInterface::getGpioPin
+Generating call graph for function Esp32UARTTMC9660CommInterface::gpioRead
+Generating call graph for function Esp32UARTTMC9660CommInterface::gpioSet
+Generating call graph for function Esp32UARTTMC9660CommInterface::initialize
+Generating call graph for function Esp32UARTTMC9660CommInterface::transferTMCL
+Generating docs for compound SPITMC9660CommInterface...
 Generating caller graph for function SPITMC9660CommInterface::spiTransferTMCL
 Generating call graph for function SPITMC9660CommInterface::transferTMCL
 Generating docs for compound TestDriverHandle...
@@ -441,7 +450,11 @@ Generating call graph for function tmc9660::crc8Bootloader
 Generating caller graph for function tmc9660::crc8Bootloader
 Generating caller graph for function tmc9660::reverseByte
 Generating docs for compound tmc9660::ABN1Config...
-Generating docs for compound tmc9660::ABN2Config...
+Generating docs f/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:704: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
+or compound tmc9660::ABN2Config...
 Generating docs for compound tmc9660::BootConfig...
 Generating docs for compound tmc9660::BootloaderCommandSPI...
 Generating docs for compound tmc9660::BootloaderCommandUART...
@@ -450,13 +463,7 @@ Generating docs for compound tmc9660::BootloaderConfig...
 Generating docs for compound tmc9660::BootloaderFeatures...
 Generating caller graph for function tmc9660::BootloaderFeatures::fromValue
 Generating docs for compound tmc9660::BootloaderReplySPI...
-Generating caller graph for function tmc9660::BootloaderReply/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: explicit link request to 'BootloaderConfig' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:704: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-SPI::fromBuffer
+Generating caller graph for function tmc9660::BootloaderReplySPI::fromBuffer
 Generating caller graph for function tmc9660::BootloaderReplySPI::isOK
 Generating docs for compound tmc9660::BootloaderReplyUART...
 Generating caller graph for function tmc9660::BootloaderReplyUART::fromBuffer
@@ -508,14 +515,9 @@ Generating caller graph for function tmc9660::TMC9660Bootloader::getConfigMemSta
 Generating call graph for function tmc9660::TMC9660Bootloader::getFeatures
 Generating caller graph for function tmc9660::TMC9660Bootloader::getFeatures
 Generating call graph for function tmc9660::TMC9660Bootloader::getGitInfo
-Generating caller graph for function tmc9660::TMC9660Bootloader::getGitInfo
-Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
-Generating caller graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
-Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
-Generating caller graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
-Generating caller graph for function tmc9660::TMC9660Bootloader::getInfo
-Generating call graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
-Generating caller graph for function tmc9660::TMC9660Bootload/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+Generati/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'pageAddr' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:374: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
@@ -535,12 +537,19 @@ Generating caller graph for function tmc9660::TMC9660Bootload/home/runner/work/h
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple(const uint32_t *vals, size_t count)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:208: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2422: warning: argument 'R' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2422: warning: argument 'H' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2422: warning: argument 'mask' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2422: warning: argument 'invertL' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2422: warning: argument 'swapLR' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-er::getOtpMemSize
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'R' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'H' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'mask' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'invertL' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:2515: warning: argument 'swapLR' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+ng caller graph for function tmc9660::TMC9660Bootloader::getGitInfo
+Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
+Generating caller graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
+Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
+Generating caller graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
+Generating caller graph for function tmc9660::TMC9660Bootloader::getInfo
+Generating call graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
+Generating caller graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
 Generating call graph for function tmc9660::TMC9660Bootloader::getPartitionVersion
 Generating caller graph for function tmc9660::TMC9660Bootloader::getPartitionVersion
 Generating call graph for function tmc9660::TMC9660Bootloader::getSpiMemPartitions
@@ -621,415 +630,424 @@ writing tag file...
 Running plantuml with JAVA...
 Running dot...
 Generating dot graphs using 5 parallel threads...
-Running dot for graph 1/409
-Running dot for graph 2/409
-Running dot for graph 3/409
-Running dot for graph 4/409
-Running dot for graph 5/409
-Running dot for graph 6/409
-Running dot for graph 7/409
-Running dot for graph 8/409
-Running dot for graph 9/409
-Running dot for graph 10/409
-Running dot for graph 11/409
-Running dot for graph 12/409
-Running dot for graph 13/409
-Running dot for graph 14/409
-Running dot for graph 15/409
-Running dot for graph 16/409
-Running dot for graph 17/409
-Running dot for graph 18/409
-Running dot for graph 19/409
-Running dot for graph 20/409
-Running dot for graph 21/409
-Running dot for graph 22/409
-Running dot for graph 23/409
-Running dot for graph 24/409
-Running dot for graph 25/409
-Running dot for graph 26/409
-Running dot for graph 27/409
-Running dot for graph 28/409
-Running dot for graph 29/409
-Running dot for graph 30/409
-Running dot for graph 31/409
-Running dot for graph 32/409
-Running dot for graph 33/409
-Running dot for graph 34/409
-Running dot for graph 35/409
-Running dot for graph 36/409
-Running dot for graph 37/409
-Running dot for graph 38/409
-Running dot for graph 39/409
-Running dot for graph 40/409
-Running dot for graph 41/409
-Running dot for graph 42/409
-Running dot for graph 43/409
-Running dot for graph 44/409
-Running dot for graph 45/409
-Running dot for graph 46/409
-Running dot for graph 47/409
-Running dot for graph 48/409
-Running dot for graph 49/409
-Running dot for graph 50/409
-Running dot for graph 51/409
-Running dot for graph 52/409
-Running dot for graph 53/409
-Running dot for graph 54/409
-Running dot for graph 55/409
-Running dot for graph 56/409
-Running dot for graph 57/409
-Running dot for graph 58/409
-Running dot for graph 59/409
-Running dot for graph 60/409
-Running dot for graph 61/409
-Running dot for graph 62/409
-Running dot for graph 63/409
-Running dot for graph 64/409
-Running dot for graph 65/409
-Running dot for graph 66/409
-Running dot for graph 67/409
-Running dot for graph 68/409
-Running dot for graph 69/409
-Running dot for graph 70/409
-Running dot for graph 71/409
-Running dot for graph 72/409
-Running dot for graph 73/409
-Running dot for graph 74/409
-Running dot for graph 75/409
-Running dot for graph 76/409
-Running dot for graph 77/409
-Running dot for graph 78/409
-Running dot for graph 79/409
-Running dot for graph 80/409
-Running dot for graph 81/409
-Running dot for graph 82/409
-Running dot for graph 83/409
-Running dot for graph 84/409
-Running dot for graph 85/409
-Running dot for graph 86/409
-Running dot for graph 87/409
-Running dot for graph 88/409
-Running dot for graph 89/409
-Running dot for graph 90/409
-Running dot for graph 91/409
-Running dot for graph 92/409
-Running dot for graph 93/409
-Running dot for graph 94/409
-Running dot for graph 95/409
-Running dot for graph 96/409
-Running dot for graph 97/409
-Running dot for graph 98/409
-Running dot for graph 99/409
-Running dot for graph 100/409
-Running dot for graph 101/409
-Running dot for graph 102/409
-Running dot for graph 103/409
-Running dot for graph 104/409
-Running dot for graph 105/409
-Running dot for graph 106/409
-Running dot for graph 107/409
-Running dot for graph 108/409
-Running dot for graph 109/409
-Running dot for graph 110/409
-Running dot for graph 111/409
-Running dot for graph 112/409
-Running dot for graph 113/409
-Running dot for graph 114/409
-Running dot for graph 115/409
-Running dot for graph 116/409
-Running dot for graph 117/409
-Running dot for graph 118/409
-Running dot for graph 119/409
-Running dot for graph 120/409
-Running dot for graph 121/409
-Running dot for graph 122/409
-Running dot for graph 123/409
-Running dot for graph 124/409
-Running dot for graph 125/409
-Running dot for graph 126/409
-Running dot for graph 127/409
-Running dot for graph 128/409
-Running dot for graph 129/409
-Running dot for graph 130/409
-Running dot for graph 131/409
-Running dot for graph 132/409
-Running dot for graph 133/409
-Running dot for graph 134/409
-Running dot for graph 135/409
-Running dot for graph 136/409
-Running dot for graph 137/409
-Running dot for graph 138/409
-Running dot for graph 139/409
-Running dot for graph 140/409
-Running dot for graph 141/409
-Running dot for graph 142/409
-Running dot for graph 143/409
-Running dot for graph 144/409
-Running dot for graph 145/409
-Running dot for graph 146/409
-Running dot for graph 147/409
-Running dot for graph 148/409
-Running dot for graph 149/409
-Running dot for graph 150/409
-Running dot for graph 151/409
-Running dot for graph 152/409
-Running dot for graph 153/409
-Running dot for graph 154/409
-Running dot for graph 155/409
-Running dot for graph 156/409
-Running dot for graph 157/409
-Running dot for graph 158/409
-Running dot for graph 159/409
-Running dot for graph 160/409
-Running dot for graph 161/409
-Running dot for graph 162/409
-Running dot for graph 163/409
-Running dot for graph 164/409
-Running dot for graph 165/409
-Running dot for graph 166/409
-Running dot for graph 167/409
-Running dot for graph 168/409
-Running dot for graph 169/409
-Running dot for graph 170/409
-Running dot for graph 171/409
-Running dot for graph 172/409
-Running dot for graph 173/409
-Running dot for graph 174/409
-Running dot for graph 175/409
-Running dot for graph 176/409
-Running dot for graph 177/409
-Running dot for graph 178/409
-Running dot for graph 179/409
-Running dot for graph 180/409
-Running dot for graph 181/409
-Running dot for graph 182/409
-Running dot for graph 183/409
-Running dot for graph 184/409
-Running dot for graph 185/409
-Running dot for graph 186/409
-Running dot for graph 187/409
-Running dot for graph 188/409
-Running dot for graph 189/409
-Running dot for graph 190/409
-Running dot for graph 191/409
-Running dot for graph 192/409
-Running dot for graph 193/409
-Running dot for graph 194/409
-Running dot for graph 195/409
-Running dot for graph 196/409
-Running dot for graph 197/409
-Running dot for graph 198/409
-Running dot for graph 199/409
-Running dot for graph 200/409
-Running dot for graph 201/409
-Running dot for graph 202/409
-Running dot for graph 203/409
-Running dot for graph 204/409
-Running dot for graph 205/409
-Running dot for graph 206/409
-Running dot for graph 207/409
-Running dot for graph 208/409
-Running dot for graph 209/409
-Running dot for graph 210/409
-Running dot for graph 211/409
-Running dot for graph 212/409
-Running dot for graph 213/409
-Running dot for graph 214/409
-Running dot for graph 215/409
-Running dot for graph 216/409
-Running dot for graph 217/409
-Running dot for graph 218/409
-Running dot for graph 219/409
-Running dot for graph 220/409
-Running dot for graph 221/409
-Running dot for graph 222/409
-Running dot for graph 223/409
-Running dot for graph 224/409
-Running dot for graph 225/409
-Running dot for graph 226/409
-Running dot for graph 227/409
-Running dot for graph 228/409
-Running dot for graph 229/409
-Running dot for graph 230/409
-Running dot for graph 231/409
-Running dot for graph 232/409
-Running dot for graph 233/409
-Running dot for graph 234/409
-Running dot for graph 235/409
-Running dot for graph 236/409
-Running dot for graph 237/409
-Running dot for graph 238/409
-Running dot for graph 239/409
-Running dot for graph 240/409
-Running dot for graph 241/409
-Running dot for graph 242/409
-Running dot for graph 243/409
-Running dot for graph 244/409
-Running dot for graph 245/409
-Running dot for graph 246/409
-Running dot for graph 247/409
-Running dot for graph 248/409
-Running dot for graph 249/409
-Running dot for graph 250/409
-Running dot for graph 251/409
-Running dot for graph 252/409
-Running dot for graph 253/409
-Running dot for graph 254/409
-Running dot for graph 255/409
-Running dot for graph 256/409
-Running dot for graph 257/409
-Running dot for graph 258/409
-Running dot for graph 259/409
-Running dot for graph 260/409
-Running dot for graph 261/409
-Running dot for graph 262/409
-Running dot for graph 263/409
-Running dot for graph 264/409
-Running dot for graph 265/409
-Running dot for graph 266/409
-Running dot for graph 267/409
-Running dot for graph 268/409
-Running dot for graph 269/409
-Running dot for graph 270/409
-Running dot for graph 271/409
-Running dot for graph 272/409
-Running dot for graph 273/409
-Running dot for graph 274/409
-Running dot for graph 275/409
-Running dot for graph 276/409
-Running dot for graph 277/409
-Running dot for graph 278/409
-Running dot for graph 279/409
-Running dot for graph 280/409
-Running dot for graph 281/409
-Running dot for graph 282/409
-Running dot for graph 283/409
-Running dot for graph 284/409
-Running dot for graph 285/409
-Running dot for graph 286/409
-Running dot for graph 287/409
-Running dot for graph 288/409
-Running dot for graph 289/409
-Running dot for graph 290/409
-Running dot for graph 291/409
-Running dot for graph 292/409
-Running dot for graph 293/409
-Running dot for graph 294/409
-Running dot for graph 295/409
-Running dot for graph 296/409
-Running dot for graph 297/409
-Running dot for graph 298/409
-Running dot for graph 299/409
-Running dot for graph 300/409
-Running dot for graph 301/409
-Running dot for graph 302/409
-Running dot for graph 303/409
-Running dot for graph 304/409
-Running dot for graph 305/409
-Running dot for graph 306/409
-Running dot for graph 307/409
-Running dot for graph 308/409
-Running dot for graph 309/409
-Running dot for graph 310/409
-Running dot for graph 311/409
-Running dot for graph 312/409
-Running dot for graph 313/409
-Running dot for graph 314/409
-Running dot for graph 315/409
-Running dot for graph 316/409
-Running dot for graph 317/409
-Running dot for graph 318/409
-Running dot for graph 319/409
-Running dot for graph 320/409
-Running dot for graph 321/409
-Running dot for graph 322/409
-Running dot for graph 323/409
-Running dot for graph 324/409
-Running dot for graph 325/409
-Running dot for graph 326/409
-Running dot for graph 327/409
-Running dot for graph 328/409
-Running dot for graph 329/409
-Running dot for graph 330/409
-Running dot for graph 331/409
-Running dot for graph 332/409
-Running dot for graph 333/409
-Running dot for graph 334/409
-Running dot for graph 335/409
-Running dot for graph 336/409
-Running dot for graph 337/409
-Running dot for graph 338/409
-Running dot for graph 339/409
-Running dot for graph 340/409
-Running dot for graph 341/409
-Running dot for graph 342/409
-Running dot for graph 343/409
-Running dot for graph 344/409
-Running dot for graph 345/409
-Running dot for graph 346/409
-Running dot for graph 347/409
-Running dot for graph 348/409
-Running dot for graph 349/409
-Running dot for graph 350/409
-Running dot for graph 351/409
-Running dot for graph 352/409
-Running dot for graph 353/409
-Running dot for graph 354/409
-Running dot for graph 355/409
-Running dot for graph 356/409
-Running dot for graph 357/409
-Running dot for graph 358/409
-Running dot for graph 359/409
-Running dot for graph 360/409
-Running dot for graph 361/409
-Running dot for graph 362/409
-Running dot for graph 363/409
-Running dot for graph 364/409
-Running dot for graph 365/409
-Running dot for graph 366/409
-Running dot for graph 367/409
-Running dot for graph 368/409
-Running dot for graph 369/409
-Running dot for graph 370/409
-Running dot for graph 371/409
-Running dot for graph 372/409
-Running dot for graph 373/409
-Running dot for graph 374/409
-Running dot for graph 375/409
-Running dot for graph 376/409
-Running dot for graph 377/409
-Running dot for graph 378/409
-Running dot for graph 379/409
-Running dot for graph 380/409
-Running dot for graph 381/409
-Running dot for graph 382/409
-Running dot for graph 383/409
-Running dot for graph 384/409
-Running dot for graph 385/409
-Running dot for graph 386/409
-Running dot for graph 387/409
-Running dot for graph 388/409
-Running dot for graph 389/409
-Running dot for graph 390/409
-Running dot for graph 391/409
-Running dot for graph 392/409
-Running dot for graph 393/409
-Running dot for graph 394/409
-Running dot for graph 395/409
-Running dot for graph 396/409
-Running dot for graph 397/409
-Running dot for graph 398/409
-Running dot for graph 399/409
-Running dot for graph 400/409
-Running dot for graph 401/409
-Running dot for graph 402/409
-Running dot for graph 403/409
-Running dot for graph 404/409
-Running dot for graph 405/409
-Running dot for graph 406/409
-Running dot for graph 407/409
-Running dot for graph 408/409
-Running dot for graph 409/409
+Running dot for graph 1/418
+Running dot for graph 2/418
+Running dot for graph 3/418
+Running dot for graph 4/418
+Running dot for graph 5/418
+Running dot for graph 6/418
+Running dot for graph 7/418
+Running dot for graph 8/418
+Running dot for graph 9/418
+Running dot for graph 10/418
+Running dot for graph 11/418
+Running dot for graph 12/418
+Running dot for graph 13/418
+Running dot for graph 14/418
+Running dot for graph 15/418
+Running dot for graph 16/418
+Running dot for graph 17/418
+Running dot for graph 18/418
+Running dot for graph 19/418
+Running dot for graph 20/418
+Running dot for graph 21/418
+Running dot for graph 22/418
+Running dot for graph 23/418
+Running dot for graph 24/418
+Running dot for graph 25/418
+Running dot for graph 26/418
+Running dot for graph 27/418
+Running dot for graph 28/418
+Running dot for graph 29/418
+Running dot for graph 30/418
+Running dot for graph 31/418
+Running dot for graph 32/418
+Running dot for graph 33/418
+Running dot for graph 34/418
+Running dot for graph 35/418
+Running dot for graph 36/418
+Running dot for graph 37/418
+Running dot for graph 38/418
+Running dot for graph 39/418
+Running dot for graph 40/418
+Running dot for graph 41/418
+Running dot for graph 42/418
+Running dot for graph 43/418
+Running dot for graph 44/418
+Running dot for graph 45/418
+Running dot for graph 46/418
+Running dot for graph 47/418
+Running dot for graph 48/418
+Running dot for graph 49/418
+Running dot for graph 50/418
+Running dot for graph 51/418
+Running dot for graph 52/418
+Running dot for graph 53/418
+Running dot for graph 54/418
+Running dot for graph 55/418
+Running dot for graph 56/418
+Running dot for graph 57/418
+Running dot for graph 58/418
+Running dot for graph 59/418
+Running dot for graph 60/418
+Running dot for graph 61/418
+Running dot for graph 62/418
+Running dot for graph 63/418
+Running dot for graph 64/418
+Running dot for graph 65/418
+Running dot for graph 66/418
+Running dot for graph 67/418
+Running dot for graph 68/418
+Running dot for graph 69/418
+Running dot for graph 70/418
+Running dot for graph 71/418
+Running dot for graph 72/418
+Running dot for graph 73/418
+Running dot for graph 74/418
+Running dot for graph 75/418
+Running dot for graph 76/418
+Running dot for graph 77/418
+Running dot for graph 78/418
+Running dot for graph 79/418
+Running dot for graph 80/418
+Running dot for graph 81/418
+Running dot for graph 82/418
+Running dot for graph 83/418
+Running dot for graph 84/418
+Running dot for graph 85/418
+Running dot for graph 86/418
+Running dot for graph 87/418
+Running dot for graph 88/418
+Running dot for graph 89/418
+Running dot for graph 90/418
+Running dot for graph 91/418
+Running dot for graph 92/418
+Running dot for graph 93/418
+Running dot for graph 94/418
+Running dot for graph 95/418
+Running dot for graph 96/418
+Running dot for graph 97/418
+Running dot for graph 98/418
+Running dot for graph 99/418
+Running dot for graph 100/418
+Running dot for graph 101/418
+Running dot for graph 102/418
+Running dot for graph 103/418
+Running dot for graph 104/418
+Running dot for graph 105/418
+Running dot for graph 106/418
+Running dot for graph 107/418
+Running dot for graph 108/418
+Running dot for graph 109/418
+Running dot for graph 110/418
+Running dot for graph 111/418
+Running dot for graph 112/418
+Running dot for graph 113/418
+Running dot for graph 114/418
+Running dot for graph 115/418
+Running dot for graph 116/418
+Running dot for graph 117/418
+Running dot for graph 118/418
+Running dot for graph 119/418
+Running dot for graph 120/418
+Running dot for graph 121/418
+Running dot for graph 122/418
+Running dot for graph 123/418
+Running dot for graph 124/418
+Running dot for graph 125/418
+Running dot for graph 126/418
+Running dot for graph 127/418
+Running dot for graph 128/418
+Running dot for graph 129/418
+Running dot for graph 130/418
+Running dot for graph 131/418
+Running dot for graph 132/418
+Running dot for graph 133/418
+Running dot for graph 134/418
+Running dot for graph 135/418
+Running dot for graph 136/418
+Running dot for graph 137/418
+Running dot for graph 138/418
+Running dot for graph 139/418
+Running dot for graph 140/418
+Running dot for graph 141/418
+Running dot for graph 142/418
+Running dot for graph 143/418
+Running dot for graph 144/418
+Running dot for graph 145/418
+Running dot for graph 146/418
+Running dot for graph 147/418
+Running dot for graph 148/418
+Running dot for graph 149/418
+Running dot for graph 150/418
+Running dot for graph 151/418
+Running dot for graph 152/418
+Running dot for graph 153/418
+Running dot for graph 154/418
+Running dot for graph 155/418
+Running dot for graph 156/418
+Running dot for graph 157/418
+Running dot for graph 158/418
+Running dot for graph 159/418
+Running dot for graph 160/418
+Running dot for graph 161/418
+Running dot for graph 162/418
+Running dot for graph 163/418
+Running dot for graph 164/418
+Running dot for graph 165/418
+Running dot for graph 166/418
+Running dot for graph 167/418
+Running dot for graph 168/418
+Running dot for graph 169/418
+Running dot for graph 170/418
+Running dot for graph 171/418
+Running dot for graph 172/418
+Running dot for graph 173/418
+Running dot for graph 174/418
+Running dot for graph 175/418
+Running dot for graph 176/418
+Running dot for graph 177/418
+Running dot for graph 178/418
+Running dot for graph 179/418
+Running dot for graph 180/418
+Running dot for graph 181/418
+Running dot for graph 182/418
+Running dot for graph 183/418
+Running dot for graph 184/418
+Running dot for graph 185/418
+Running dot for graph 186/418
+Running dot for graph 187/418
+Running dot for graph 188/418
+Running dot for graph 189/418
+Running dot for graph 190/418
+Running dot for graph 191/418
+Running dot for graph 192/418
+Running dot for graph 193/418
+Running dot for graph 194/418
+Running dot for graph 195/418
+Running dot for graph 196/418
+Running dot for graph 197/418
+Running dot for graph 198/418
+Running dot for graph 199/418
+Running dot for graph 200/418
+Running dot for graph 201/418
+Running dot for graph 202/418
+Running dot for graph 203/418
+Running dot for graph 204/418
+Running dot for graph 205/418
+Running dot for graph 206/418
+Running dot for graph 207/418
+Running dot for graph 208/418
+Running dot for graph 209/418
+Running dot for graph 210/418
+Running dot for graph 211/418
+Running dot for graph 212/418
+Running dot for graph 213/418
+Running dot for graph 214/418
+Running dot for graph 215/418
+Running dot for graph 216/418
+Running dot for graph 217/418
+Running dot for graph 218/418
+Running dot for graph 219/418
+Running dot for graph 220/418
+Running dot for graph 221/418
+Running dot for graph 222/418
+Running dot for graph 223/418
+Running dot for graph 224/418
+Running dot for graph 225/418
+Running dot for graph 226/418
+Running dot for graph 227/418
+Running dot for graph 228/418
+Running dot for graph 229/418
+Running dot for graph 230/418
+Running dot for graph 231/418
+Running dot for graph 232/418
+Running dot for graph 233/418
+Running dot for graph 234/418
+Running dot for graph 235/418
+Running dot for graph 236/418
+Running dot for graph 237/418
+Running dot for graph 238/418
+Running dot for graph 239/418
+Running dot for graph 240/418
+Running dot for graph 241/418
+Running dot for graph 242/418
+Running dot for graph 243/418
+Running dot for graph 244/418
+Running dot for graph 245/418
+Running dot for graph 246/418
+Running dot for graph 247/418
+Running dot for graph 248/418
+Running dot for graph 249/418
+Running dot for graph 250/418
+Running dot for graph 251/418
+Running dot for graph 252/418
+Running dot for graph 253/418
+Running dot for graph 254/418
+Running dot for graph 255/418
+Running dot for graph 256/418
+Running dot for graph 257/418
+Running dot for graph 258/418
+Running dot for graph 259/418
+Running dot for graph 260/418
+Running dot for graph 261/418
+Running dot for graph 262/418
+Running dot for graph 263/418
+Running dot for graph 264/418
+Running dot for graph 265/418
+Running dot for graph 266/418
+Running dot for graph 267/418
+Running dot for graph 268/418
+Running dot for graph 269/418
+Running dot for graph 270/418
+Running dot for graph 271/418
+Running dot for graph 272/418
+Running dot for graph 273/418
+Running dot for graph 274/418
+Running dot for graph 275/418
+Running dot for graph 276/418
+Running dot for graph 277/418
+Running dot for graph 278/418
+Running dot for graph 279/418
+Running dot for graph 280/418
+Running dot for graph 281/418
+Running dot for graph 282/418
+Running dot for graph 283/418
+Running dot for graph 284/418
+Running dot for graph 285/418
+Running dot for graph 286/418
+Running dot for graph 287/418
+Running dot for graph 288/418
+Running dot for graph 289/418
+Running dot for graph 290/418
+Running dot for graph 291/418
+Running dot for graph 292/418
+Running dot for graph 293/418
+Running dot for graph 294/418
+Running dot for graph 295/418
+Running dot for graph 296/418
+Running dot for graph 297/418
+Running dot for graph 298/418
+Running dot for graph 299/418
+Running dot for graph 300/418
+Running dot for graph 301/418
+Running dot for graph 302/418
+Running dot for graph 303/418
+Running dot for graph 304/418
+Running dot for graph 305/418
+Running dot for graph 306/418
+Running dot for graph 307/418
+Running dot for graph 308/418
+Running dot for graph 309/418
+Running dot for graph 310/418
+Running dot for graph 311/418
+Running dot for graph 312/418
+Running dot for graph 313/418
+Running dot for graph 314/418
+Running dot for graph 315/418
+Running dot for graph 316/418
+Running dot for graph 317/418
+Running dot for graph 318/418
+Running dot for graph 319/418
+Running dot for graph 320/418
+Running dot for graph 321/418
+Running dot for graph 322/418
+Running dot for graph 323/418
+Running dot for graph 324/418
+Running dot for graph 325/418
+Running dot for graph 326/418
+Running dot for graph 327/418
+Running dot for graph 328/418
+Running dot for graph 329/418
+Running dot for graph 330/418
+Running dot for graph 331/418
+Running dot for graph 332/418
+Running dot for graph 333/418
+Running dot for graph 334/418
+Running dot for graph 335/418
+Running dot for graph 336/418
+Running dot for graph 337/418
+Running dot for graph 338/418
+Running dot for graph 339/418
+Running dot for graph 340/418
+Running dot for graph 341/418
+Running dot for graph 342/418
+Running dot for graph 343/418
+Running dot for graph 344/418
+Running dot for graph 345/418
+Running dot for graph 346/418
+Running dot for graph 347/418
+Running dot for graph 348/418
+Running dot for graph 349/418
+Running dot for graph 350/418
+Running dot for graph 351/418
+Running dot for graph 352/418
+Running dot for graph 353/418
+Running dot for graph 354/418
+Running dot for graph 355/418
+Running dot for graph 356/418
+Running dot for graph 357/418
+Running dot for graph 358/418
+Running dot for graph 359/418
+Running dot for graph 360/418
+Running dot for graph 361/418
+Running dot for graph 362/418
+Running dot for graph 363/418
+Running dot for graph 364/418
+Running dot for graph 365/418
+Running dot for graph 366/418
+Running dot for graph 367/418
+Running dot for graph 368/418
+Running dot for graph 369/418
+Running dot for graph 370/418
+Running dot for graph 371/418
+Running dot for graph 372/418
+Running dot for graph 373/418
+Running dot for graph 374/418
+Running dot for graph 375/418
+Running dot for graph 376/418
+Running dot for graph 377/418
+Running dot for graph 378/418
+Running dot for graph 379/418
+Running dot for graph 380/418
+Running dot for graph 381/418
+Running dot for graph 382/418
+Running dot for graph 383/418
+Running dot for graph 384/418
+Running dot for graph 385/418
+Running dot for graph 386/418
+Running dot for graph 387/418
+Running dot for graph 388/418
+Running dot for graph 389/418
+Running dot for graph 390/418
+Running dot for graph 391/418
+Running dot for graph 392/418
+Running dot for graph 393/418
+Running dot for graph 394/418
+Running dot for graph 395/418
+Running dot for graph 396/418
+Running dot for graph 397/418
+Running dot for graph 398/418
+Running dot for graph 399/418
+Running dot for graph 400/418
+Running dot for graph 401/418
+Running dot for graph 402/418
+Running dot for graph 403/418
+Running dot for graph 404/418
+Running dot for graph 405/418
+Running dot for graph 406/418
+Running dot for graph 407/418
+Running dot for graph 408/418
+Running dot for graph 409/418
+Running dot for graph 410/418
+Running dot for graph 411/418
+Running dot for graph 412/418
+Running dot for graph 413/418
+Running dot for graph 414/418
+Running dot for graph 415/418
+Running dot for graph 416/418
+Running dot for graph 417/418
+Running dot for graph 418/418
 Patching output file 1/68
 Patching output file 2/68
 Patching output file 3/68
@@ -1098,6 +1116,6 @@ Patching output file 65/68
 Patching output file 66/68
 Patching output file 67/68
 Patching output file 68/68
-type lookup cache used 2885/65536 hits=10406 misses=3044
-symbol lookup cache used 3822/65536 hits=21839 misses=3822
+type lookup cache used 2899/65536 hits=10699 misses=3058
+symbol lookup cache used 3848/65536 hits=22131 misses=3848
 finished...

@@ -221,14 +221,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa8afb7493b8cea09a2876d3322e82776"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gate driver output polarity.  <br /></td></tr>
 <tr class="separator:aa8afb7493b8cea09a2876d3322e82776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e5ba341b938a9eea7457ad6238e4bfc" id="r_a6e5ba341b938a9eea7457ad6238e4bfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e5ba341b938a9eea7457ad6238e4bfc">configureBreakBeforeMakeTiming</a> (uint8_t lowSideUVW, uint8_t highSideUVW, uint8_t lowSideY2, uint8_t highSideY2) noexcept</td></tr>
-<tr class="memdesc:a6e5ba341b938a9eea7457ad6238e4bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the break-before-make timing for the gate driver.  <br /></td></tr>
+<tr class="memdesc:a6e5ba341b938a9eea7457ad6238e4bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the break-before-make timing for the gate driver (advanced API).  <br /></td></tr>
 <tr class="separator:a6e5ba341b938a9eea7457ad6238e4bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55da3602d8cc17ff659d3102238ba1c2" id="r_a55da3602d8cc17ff659d3102238ba1c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55da3602d8cc17ff659d3102238ba1c2">configureBreakBeforeMakeTiming_ns</a> (double lowSideUVW_ns, double highSideUVW_ns, double lowSideY2_ns, double highSideY2_ns) noexcept</td></tr>
+<tr class="memdesc:a55da3602d8cc17ff659d3102238ba1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure break-before-make timing using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a55da3602d8cc17ff659d3102238ba1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e55f605b80dc613bde22f155d58afb" id="r_a97e55f605b80dc613bde22f155d58afb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97e55f605b80dc613bde22f155d58afb">enableAdaptiveDriveTime</a> (bool enableUVW, bool enableY2) noexcept</td></tr>
 <tr class="memdesc:a97e55f605b80dc613bde22f155d58afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable adaptive drive time for UVW and Y2 phases.  <br /></td></tr>
 <tr class="separator:a97e55f605b80dc613bde22f155d58afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991aaa09051f0d1d5c8668f7995a58a4" id="r_a991aaa09051f0d1d5c8668f7995a58a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a991aaa09051f0d1d5c8668f7995a58a4">configureDriveTimes</a> (uint8_t sinkTimeUVW, uint8_t sourceTimeUVW, uint8_t sinkTimeY2, uint8_t sourceTimeY2) noexcept</td></tr>
-<tr class="memdesc:a991aaa09051f0d1d5c8668f7995a58a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times for UVW and Y2 phases.  <br /></td></tr>
+<tr class="memdesc:a991aaa09051f0d1d5c8668f7995a58a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times for UVW and Y2 phases (advanced API).  <br /></td></tr>
 <tr class="separator:a991aaa09051f0d1d5c8668f7995a58a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f6397c4ecc643e1832aad82de118a15" id="r_a4f6397c4ecc643e1832aad82de118a15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f6397c4ecc643e1832aad82de118a15">configureDriveTimes_ns</a> (double sinkTimeUVW_ns, double sourceTimeUVW_ns, double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept</td></tr>
+<tr class="memdesc:a4f6397c4ecc643e1832aad82de118a15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a4f6397c4ecc643e1832aad82de118a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a585076f4f01672f2010687308f60da2b" id="r_a585076f4f01672f2010687308f60da2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a585076f4f01672f2010687308f60da2b">configureCurrentLimits</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> sinkCurrentUVW, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> sourceCurrentUVW, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> sinkCurrentY2, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> sourceCurrentY2) noexcept</td></tr>
 <tr class="memdesc:a585076f4f01672f2010687308f60da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate driver current limits for UVW and Y2 phases.  <br /></td></tr>
 <tr class="separator:a585076f4f01672f2010687308f60da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -390,13 +396,70 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Configure the break-before-make timing for the gate driver. </p>
-<p>Sets the timing for switching between high and low sides of the gate driver. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Configure the break-before-make timing for the gate driver (advanced API). </p>
+<p>Sets the timing for switching between high and low sides of the gate driver using register values.</p>
+<p>The break-before-make time is applied according to the following equation: time_ns = value * 8.33</p>
+<p>Or, conversely, for configuring a time in nanoseconds (ns): value = time_ns / 8.33</p>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a55da3602d8cc17ff659d3102238ba1c2" title="Configure break-before-make timing using nanoseconds (recommended API).">configureBreakBeforeMakeTiming_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lowSideUVW</td><td>Break-before-make time for UVW low side (0-255, 8.33ns units). </td></tr>
-    <tr><td class="paramname">highSideUVW</td><td>Break-before-make time for UVW high side (0-255, 8.33ns units). </td></tr>
-    <tr><td class="paramname">lowSideY2</td><td>Break-before-make time for Y2 low side (0-255, 8.33ns units). </td></tr>
-    <tr><td class="paramname">highSideY2</td><td>Break-before-make time for Y2 high side (0-255, 8.33ns units). </td></tr>
+    <tr><td class="paramname">lowSideUVW</td><td>Break-before-make time for UVW low side (register value: 0-255). Actual time: t = lowSideUVW * 8.33 ns </td></tr>
+    <tr><td class="paramname">highSideUVW</td><td>Break-before-make time for UVW high side (register value: 0-255). Actual time: t = highSideUVW * 8.33 ns </td></tr>
+    <tr><td class="paramname">lowSideY2</td><td>Break-before-make time for Y2 low side (register value: 0-255). Actual time: t = lowSideY2 * 8.33 ns </td></tr>
+    <tr><td class="paramname">highSideY2</td><td>Break-before-make time for Y2 high side (register value: 0-255). Actual time: t = highSideY2 * 8.33 ns </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successfully configured. </dd></dl>
+
+</div>
+</div>
+<a id="a55da3602d8cc17ff659d3102238ba1c2" name="a55da3602d8cc17ff659d3102238ba1c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55da3602d8cc17ff659d3102238ba1c2">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming_ns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>lowSideUVW_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>highSideUVW_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>lowSideY2_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>highSideY2_ns</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure break-before-make timing using nanoseconds (recommended API). </p>
+<p>Internally computes the register value from the requested ns value. Values outside the valid 0...255 range will be clamped.</p>
+<p>This is the recommended API for most users as it accepts time values in intuitive units (nanoseconds) rather than register values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lowSideUVW_ns</td><td>Break-before-make time for UVW low side, in nanoseconds. </td></tr>
+    <tr><td class="paramname">highSideUVW_ns</td><td>Break-before-make time for UVW high side, in nanoseconds. </td></tr>
+    <tr><td class="paramname">lowSideY2_ns</td><td>Break-before-make time for Y2 low side, in nanoseconds. </td></tr>
+    <tr><td class="paramname">highSideY2_ns</td><td>Break-before-make time for Y2 high side, in nanoseconds. </td></tr>
   </table>
   </dd>
 </dl>
@@ -492,13 +555,71 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Configure drive times for UVW and Y2 phases. </p>
-<p>Sets the discharge and charge times for the gate driver. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Configure drive times for UVW and Y2 phases (advanced API). </p>
+<p>Sets the discharge and charge times for the gate driver using register values.</p>
+<p>The drive time is applied according to the following equation: time_seconds = (1 / 120,000,000) * (2 * value + 3) For example, input a value between 0...255 (register units).</p>
+<p>Example conversion to nanoseconds: time_ns = ((2 * value + 3) * (1e9 / 120'000'000)) = (2*value + 3) * 8.33 ns</p>
+<p>Or, conversely, for configuring a drive time in nanoseconds (ns): value = ((desired_time_ns / 8.33) - 3) / 2</p>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a4f6397c4ecc643e1832aad82de118a15" title="Configure drive times using nanoseconds (recommended API).">configureDriveTimes_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sinkTimeUVW</td><td>Discharge time for UVW phases (0 ... 255). Default: 255. </td></tr>
-    <tr><td class="paramname">sourceTimeUVW</td><td>Charge time for UVW phases (0 ... 255). Default: 255. </td></tr>
-    <tr><td class="paramname">sinkTimeY2</td><td>Discharge time for Y2 phase (0 ... 255). Default: 255. </td></tr>
-    <tr><td class="paramname">sourceTimeY2</td><td>Charge time for Y2 phase (0 ... 255). Default: 255. </td></tr>
+    <tr><td class="paramname">sinkTimeUVW</td><td>Discharge time for UVW phases (register value: 0 ... 255, default: 255). Actual time: t = (2*sinkTimeUVW + 3) * 8.33 ns </td></tr>
+    <tr><td class="paramname">sourceTimeUVW</td><td>Charge time for UVW phases (register value: 0 ... 255, default: 255). Actual time: t = (2*sourceTimeUVW + 3) * 8.33 ns </td></tr>
+    <tr><td class="paramname">sinkTimeY2</td><td>Discharge time for Y2 phase (register value: 0 ... 255, default: 255). Actual time: t = (2*sinkTimeY2 + 3) * 8.33 ns </td></tr>
+    <tr><td class="paramname">sourceTimeY2</td><td>Charge time for Y2 phase (register value: 0 ... 255, default: 255). Actual time: t = (2*sourceTimeY2 + 3) * 8.33 ns </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successfully configured. </dd></dl>
+
+</div>
+</div>
+<a id="a4f6397c4ecc643e1832aad82de118a15" name="a4f6397c4ecc643e1832aad82de118a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f6397c4ecc643e1832aad82de118a15">&#9670;&#160;</a></span>configureDriveTimes_ns()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::GateDriver::configureDriveTimes_ns </td>
+          <td>(</td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sinkTimeUVW_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sourceTimeUVW_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sinkTimeY2_ns</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sourceTimeY2_ns</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure drive times using nanoseconds (recommended API). </p>
+<p>Internally computes the register value from the requested ns value. Values outside the valid 0...255 range will be clamped.</p>
+<p>This is the recommended API for most users as it accepts time values in intuitive units (nanoseconds) rather than register values.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sinkTimeUVW_ns</td><td>Discharge time for UVW phases, in nanoseconds. </td></tr>
+    <tr><td class="paramname">sourceTimeUVW_ns</td><td>Charge time for UVW phases, in nanoseconds. </td></tr>
+    <tr><td class="paramname">sinkTimeY2_ns</td><td>Discharge time for Y2 phase, in nanoseconds. </td></tr>
+    <tr><td class="paramname">sourceTimeY2_ns</td><td>Charge time for Y2 phase, in nanoseconds. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1035,16 +1156,26 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configure overcurrent protection thresholds for UVW and Y2 phases. </p>
+<p><b>Threshold Selection:</b></p><ul>
+<li><b>High-Side (HS)</b>: Always uses VDS sensing thresholds (63mV, 125mV, 187mV, etc.)</li>
+<li><b>Low-Side (LS)</b>: Hardware automatically selects threshold based on UVW_LOW_SIDE_USE_VDS / Y2_LOW_SIDE_USE_VDS setting:<ul>
+<li>If VDS enabled: Uses VDS threshold (e.g., V_250_OR_187_MILLIVOLT → 187mV)</li>
+<li>If RSHUNT enabled: Uses RSHUNT threshold (e.g., V_250_OR_187_MILLIVOLT → 250mV)</li>
+</ul>
+</li>
+</ul>
+<p>The enum values encode both thresholds (e.g., V_250_OR_187_MILLIVOLT means 250mV for RSHUNT or 187mV for VDS). The hardware automatically applies the correct value based on the sensing method configured via <a class="el" href="#ae63140d07f706f3dbda90f81b37fa176" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">uvwLowSideThreshold</td><td>Threshold for UVW low side (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
-    <tr><td class="paramname">uvwHighSideThreshold</td><td>Threshold for UVW high side (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
-    <tr><td class="paramname">y2LowSideThreshold</td><td>Threshold for Y2 low side (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
-    <tr><td class="paramname">y2HighSideThreshold</td><td>Threshold for Y2 high side (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
+    <tr><td class="paramname">uvwLowSideThreshold</td><td>Threshold for UVW low side (auto-selected based on VDS/RSHUNT config) (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
+    <tr><td class="paramname">uvwHighSideThreshold</td><td>Threshold for UVW high side (always VDS value) (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
+    <tr><td class="paramname">y2LowSideThreshold</td><td>Threshold for Y2 low side (auto-selected based on VDS/RSHUNT config) (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
+    <tr><td class="paramname">y2HighSideThreshold</td><td>Threshold for Y2 high side (always VDS value) (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if successfully configured. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if successfully configured.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Configure the sensing method (VDS vs RSHUNT) via <a class="el" href="#ae63140d07f706f3dbda90f81b37fa176" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a> before calling this function to ensure the correct threshold is applied. </dd></dl>
 
 </div>
 </div>

@@ -269,7 +269,7 @@ Friends</h2></td></tr>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL);</div>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.setMaxTorqueCurrent(2000);  <span class="comment">// 2A torque current limit</span></div>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.enable();  <span class="comment">// Start motor control</span></div>
-<div class="ttc" id="astructTMC9660_1_1MotorConfig_html_ade19604a2c0568b6135aebdbc308cffd"><div class="ttname"><a href="#ade19604a2c0568b6135aebdbc308cffd">TMC9660::MotorConfig::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:553</div></div>
+<div class="ttc" id="astructTMC9660_1_1MotorConfig_html_ade19604a2c0568b6135aebdbc308cffd"><div class="ttname"><a href="#ade19604a2c0568b6135aebdbc308cffd">TMC9660::MotorConfig::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:570</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a85f915b296bdba8fac09ebff0de3729d" name="a85f915b296bdba8fac09ebff0de3729d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85f915b296bdba8fac09ebff0de3729d">&#9670;&#160;</a></span>MotorConfig()</h2>
@@ -432,17 +432,33 @@ Friends</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">----------&mdash;   </td><td class="markdownTableBodyNone">--------------------------&mdash;   </td><td class="markdownTableBodyNone">-------------&mdash;   </td><td class="markdownTableBodyNone">-------------------------------&mdash;    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>BLDC</b>   </td><td class="markdownTableBodyNone">Coast or passive braking   </td><td class="markdownTableBodyNone">PWM <b>off</b>   </td><td class="markdownTableBodyNone">• With PWM off (high-Z), stator    </td></tr>
+<td class="markdownTableBodyNone"><b>BLDC</b>   </td><td class="markdownTableBodyNone">Coast freely (no braking)   </td><td class="markdownTableBodyNone">PWM <b>off</b>   </td><td class="markdownTableBodyNone">• With PWM off (high-Z), stator    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">(3-phase)   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">(high-Z)   </td><td class="markdownTableBodyNone">is electrically disconnected    </td></tr>
+<td class="markdownTableBodyNone">(3-phase)   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">(high-Z)   </td><td class="markdownTableBodyNone">phases are floating—not    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• No current is drawn from the    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">connected to power or ground    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">battery, reducing heating    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• No current flows from battery,    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Ideal when you want the rotor    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">eliminating idle power &amp; heat    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">to freely coast or gently stop    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Rotor coasts with only    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">mechanical friction    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• No braking torque (this is    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">pure coasting, not braking)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• For passive braking (eddy-    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">current braking), use    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">SYSTEM_OFF_LOW_SIDE_FETS_ON    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">or SYSTEM_OFF_HIGH_SIDE_FETS_ON    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">instead (phases shorted)    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• If holding torque is needed    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -454,23 +470,41 @@ Friends</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">----------&mdash;   </td><td class="markdownTableBodyNone">--------------------------&mdash;   </td><td class="markdownTableBodyNone">-------------&mdash;   </td><td class="markdownTableBodyNone">-------------------------------&mdash;    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Brushed</b>   </td><td class="markdownTableBodyNone">Let shaft coast freely   </td><td class="markdownTableBodyNone">PWM <b>off</b>   </td><td class="markdownTableBodyNone">• No static holding torque    </td></tr>
+<td class="markdownTableBodyNone"><b>Brushed</b>   </td><td class="markdownTableBodyNone">Coast freely (no braking)   </td><td class="markdownTableBodyNone">PWM <b>off</b>   </td><td class="markdownTableBodyNone">• With PWM off (high-Z), H-bridge    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">DC Motor   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">(high-Z)   </td><td class="markdownTableBodyNone">• Disconnecting H-bridge removes    </td></tr>
+<td class="markdownTableBodyNone">DC Motor   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">(high-Z)   </td><td class="markdownTableBodyNone">terminals float—not connected    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">quiescent current    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• No current flows from battery,    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• PWM on = dynamic braking →    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">eliminating idle power &amp; heat    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">shaft stops quickly    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Rotor coasts with only    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Wastes power and generates    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">mechanical friction    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">heat    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• No braking torque (this is    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Can induce regenerative    </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">pure coasting, not braking)    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">currents—use with caution   </td></tr>
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• PWM on = short-circuit braking    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">(both terminals at same    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">voltage) → motor generates    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">back-EMF, creating braking    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">torque and regenerative    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">currents flowing back    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">• Regenerative currents can    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">charge battery or damage    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">system if not handled—use with    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">caution   </td></tr>
 </table>
 <p>There is no universal best setting—choose based on your <b>application needs</b>:</p>
 <p>• <code>PWM_OFF_WHEN_MOTOR_IDLE</code>: All phases set to high-Z. Motor is electrically disconnected. • <code>PWM_ON_WHEN_MOTOR_IDLE</code>: All bridge outputs actively driven to same potential.</p>
