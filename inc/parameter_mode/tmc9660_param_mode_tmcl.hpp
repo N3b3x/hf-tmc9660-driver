@@ -1036,43 +1036,52 @@ inline const char* to_string(OvercurrentEnable e) {
 /**
  * @brief Enumerates possible threshold values for overcurrent protection.
  *
- * Table — Overcurrent Protection Thresholds:
- *  NUMBER | NAME             | DESCRIPTION
- *  ------ | ---------------- | -----------------------------------------------------------------
- *     0   | V_63_MILLIVOLT   | 63 mV
- *     1   | V_125_MILLIVOLT  | 125 mV
- *     2   | V_187_MILLIVOLT  | 187 mV
- *     3   | V_248_MILLIVOLT  | 248 mV
- *     4   | V_312_MILLIVOLT  | 312 mV
- *     5   | V_374_MILLIVOLT  | 374 mV
- *     6   | V_434_MILLIVOLT  | 434 mV
- *     7   | V_504_MILLIVOLT  | 504 mV
- *     8   | V_705_MILLIVOLT  | 705 mV
- *     9   | V_940_MILLIVOLT  | 940 mV
- *    10   | V_1180_MILLIVOLT | 1180 mV
- *    11   | V_1410_MILLIVOLT | 1410 mV
- *    12   | V_1650_MILLIVOLT | 1650 mV
- *    13   | V_1880_MILLIVOLT | 1880 mV
- *    14   | V_2110_MILLIVOLT | 2110 mV
- *    15   | V_2350_MILLIVOLT | 2350 mV
+ * **Important:** The hardware automatically selects the appropriate threshold based on the sensing method:
+ * - **High-Side (HS)**: Always uses VDS sensing, thresholds are VDS values only
+ * - **Low-Side (LS)**: Threshold depends on UVW_LOW_SIDE_USE_VDS / Y2_LOW_SIDE_USE_VDS setting:
+ *   - If VDS enabled: Uses VDS threshold values (63mV, 125mV, 187mV, etc.)
+ *   - If RSHUNT enabled: Uses RSHUNT threshold values (80mV, 165mV, 250mV, etc.)
+ *
+ * The enum names reflect the dual nature for low-side thresholds (e.g., V_80_OR_63_MILLIVOLT means
+ * 80mV for RSHUNT or 63mV for VDS). For high-side, only the VDS value applies.
+ *
+ * Table — Overcurrent Protection Thresholds (per datasheet Table 11):
+ *  NUMBER | NAME                    | HS_VDS | LS_RSHUNT | LS_VDS
+ *  ------ | ----------------------- | ------ | --------- | ------
+ *     0   | V_80_OR_63_MILLIVOLT    | 63 mV  | 80 mV     | 63 mV
+ *     1   | V_165_OR_125_MILLIVOLT  | 125 mV | 165 mV    | 125 mV
+ *     2   | V_250_OR_187_MILLIVOLT  | 187 mV | 250 mV    | 187 mV
+ *     3   | V_330_OR_248_MILLIVOLT  | 248 mV | 330 mV    | 248 mV
+ *     4   | V_415_OR_312_MILLIVOLT | 312 mV | 415 mV    | 312 mV
+ *     5   | V_500_OR_374_MILLIVOLT | 374 mV | 500 mV    | 374 mV
+ *     6   | V_582_OR_434_MILLIVOLT | 434 mV | 582 mV    | 434 mV
+ *     7   | V_660_OR_504_MILLIVOLT | 504 mV | 660 mV    | 504 mV
+ *     8   | V_125_OR_705_MILLIVOLT | 705 mV | 125 mV    | 705 mV
+ *     9   | V_250_OR_940_MILLIVOLT | 940 mV | 250 mV    | 940 mV
+ *    10   | V_375_OR_1180_MILLIVOLT| 1180 mV| 375 mV    | 1180 mV
+ *    11   | V_500_OR_1410_MILLIVOLT| 1410 mV| 500 mV    | 1410 mV
+ *    12   | V_625_OR_1650_MILLIVOLT| 1650 mV| 625 mV    | 1650 mV
+ *    13   | V_750_OR_1880_MILLIVOLT| 1880 mV| 750 mV    | 1880 mV
+ *    14   | V_875_OR_2110_MILLIVOLT| 2110 mV| 875 mV    | 2110 mV
+ *    15   | V_1000_OR_2350_MILLIVOLT| 2350 mV| 1000 mV   | 2350 mV
  */
 #define OVERCURRENT_THRESHOLD_LIST(X) \
-    X(V_63_MILLIVOLT,    0, /*!< 63 mV */) \
-    X(V_125_MILLIVOLT,   1, /*!< 125 mV */) \
-    X(V_187_MILLIVOLT,   2, /*!< 187 mV */) \
-    X(V_248_MILLIVOLT,   3, /*!< 248 mV */) \
-    X(V_312_MILLIVOLT,   4, /*!< 312 mV */) \
-    X(V_374_MILLIVOLT,   5, /*!< 374 mV */) \
-    X(V_434_MILLIVOLT,   6, /*!< 434 mV */) \
-    X(V_504_MILLIVOLT,   7, /*!< 504 mV */) \
-    X(V_705_MILLIVOLT,   8, /*!< 705 mV */) \
-    X(V_940_MILLIVOLT,   9, /*!< 940 mV */) \
-    X(V_1180_MILLIVOLT, 10, /*!< 1180 mV */) \
-    X(V_1410_MILLIVOLT, 11, /*!< 1410 mV */) \
-    X(V_1650_MILLIVOLT, 12, /*!< 1650 mV */) \
-    X(V_1880_MILLIVOLT, 13, /*!< 1880 mV */) \
-    X(V_2110_MILLIVOLT, 14, /*!< 2110 mV */) \
-    X(V_2350_MILLIVOLT, 15, /*!< 2350 mV */)
+    X(V_80_OR_63_MILLIVOLT,    0, /*!< HS: 63mV, LS_RSHUNT: 80mV, LS_VDS: 63mV */) \
+    X(V_165_OR_125_MILLIVOLT,   1, /*!< HS: 125mV, LS_RSHUNT: 165mV, LS_VDS: 125mV */) \
+    X(V_250_OR_187_MILLIVOLT,   2, /*!< HS: 187mV, LS_RSHUNT: 250mV, LS_VDS: 187mV */) \
+    X(V_330_OR_248_MILLIVOLT,   3, /*!< HS: 248mV, LS_RSHUNT: 330mV, LS_VDS: 248mV */) \
+    X(V_415_OR_312_MILLIVOLT,   4, /*!< HS: 312mV, LS_RSHUNT: 415mV, LS_VDS: 312mV */) \
+    X(V_500_OR_374_MILLIVOLT,   5, /*!< HS: 374mV, LS_RSHUNT: 500mV, LS_VDS: 374mV */) \
+    X(V_582_OR_434_MILLIVOLT,   6, /*!< HS: 434mV, LS_RSHUNT: 582mV, LS_VDS: 434mV */) \
+    X(V_660_OR_504_MILLIVOLT,   7, /*!< HS: 504mV, LS_RSHUNT: 660mV, LS_VDS: 504mV */) \
+    X(V_125_OR_705_MILLIVOLT,   8, /*!< HS: 705mV, LS_RSHUNT: 125mV, LS_VDS: 705mV */) \
+    X(V_250_OR_940_MILLIVOLT,   9, /*!< HS: 940mV, LS_RSHUNT: 250mV, LS_VDS: 940mV */) \
+    X(V_375_OR_1180_MILLIVOLT, 10, /*!< HS: 1180mV, LS_RSHUNT: 375mV, LS_VDS: 1180mV */) \
+    X(V_500_OR_1410_MILLIVOLT, 11, /*!< HS: 1410mV, LS_RSHUNT: 500mV, LS_VDS: 1410mV */) \
+    X(V_625_OR_1650_MILLIVOLT, 12, /*!< HS: 1650mV, LS_RSHUNT: 625mV, LS_VDS: 1650mV */) \
+    X(V_750_OR_1880_MILLIVOLT, 13, /*!< HS: 1880mV, LS_RSHUNT: 750mV, LS_VDS: 1880mV */) \
+    X(V_875_OR_2110_MILLIVOLT, 14, /*!< HS: 2110mV, LS_RSHUNT: 875mV, LS_VDS: 2110mV */) \
+    X(V_1000_OR_2350_MILLIVOLT, 15, /*!< HS: 2350mV, LS_RSHUNT: 1000mV, LS_VDS: 2350mV */)
 
 enum class OvercurrentThreshold : std::uint8_t {
     #define X(NAME, VALUE, DOC) NAME = VALUE DOC,

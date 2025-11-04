@@ -889,6 +889,34 @@ bool TMC9660::GateDriver::configureBreakBeforeMakeTiming(uint8_t lowSideUVW, uin
   return ok;
 }
 
+bool TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns(double lowSideUVW_ns,
+                                                            double highSideUVW_ns,
+                                                            double lowSideY2_ns,
+                                                            double highSideY2_ns) noexcept {
+  // Conversion formula: value = time_ns / 8.33
+  // Clamp to valid range [0, 255]
+  constexpr double ns_per_step = 8.33;
+
+  auto convertToRegister = [](double time_ns) -> uint8_t {
+    double value = time_ns / ns_per_step;
+    // Clamp to valid range
+    if (value < 0.0) {
+      return 0;
+    }
+    if (value > 255.0) {
+      return 255;
+    }
+    return static_cast<uint8_t>(value + 0.5); // Round to nearest integer
+  };
+
+  uint8_t lowUVW = convertToRegister(lowSideUVW_ns);
+  uint8_t highUVW = convertToRegister(highSideUVW_ns);
+  uint8_t lowY2 = convertToRegister(lowSideY2_ns);
+  uint8_t highY2 = convertToRegister(highSideY2_ns);
+
+  return configureBreakBeforeMakeTiming(lowUVW, highUVW, lowY2, highY2);
+}
+
 bool TMC9660::GateDriver::enableAdaptiveDriveTime(bool enableUVW, bool enableY2) noexcept {
   bool ok = true;
   ok &= driver.writeParameter(tmc9660::tmcl::Parameters::USE_ADAPTIVE_DRIVE_TIME_UVW,
@@ -906,6 +934,32 @@ bool TMC9660::GateDriver::configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourc
   ok &= driver.writeParameter(tmc9660::tmcl::Parameters::DRIVE_TIME_SINK_Y2, sinkTimeY2);
   ok &= driver.writeParameter(tmc9660::tmcl::Parameters::DRIVE_TIME_SOURCE_Y2, sourceTimeY2);
   return ok;
+}
+
+bool TMC9660::GateDriver::configureDriveTimes_ns(double sinkTimeUVW_ns, double sourceTimeUVW_ns,
+                                                  double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept {
+  // Conversion formula: value = ((desired_time_ns / 8.33) - 3) / 2
+  // Clamp to valid range [0, 255]
+  constexpr double ns_per_step = 8.33;
+  
+  auto convertToRegister = [](double time_ns) -> uint8_t {
+    double value = ((time_ns / ns_per_step) - 3.0) / 2.0;
+    // Clamp to valid range
+    if (value < 0.0) {
+      return 0;
+    }
+    if (value > 255.0) {
+      return 255;
+    }
+    return static_cast<uint8_t>(value + 0.5); // Round to nearest integer
+  };
+  
+  uint8_t sinkUVW = convertToRegister(sinkTimeUVW_ns);
+  uint8_t sourceUVW = convertToRegister(sourceTimeUVW_ns);
+  uint8_t sinkY2 = convertToRegister(sinkTimeY2_ns);
+  uint8_t sourceY2 = convertToRegister(sourceTimeY2_ns);
+  
+  return configureDriveTimes(sinkUVW, sourceUVW, sinkY2, sourceY2);
 }
 
 bool TMC9660::GateDriver::configureCurrentLimits(

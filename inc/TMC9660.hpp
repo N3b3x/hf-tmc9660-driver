@@ -495,26 +495,43 @@ public:
      * |             |                             |                |   disable if holding isn't needed|
      * |             |                             |                |                                  |
      * |-------------|-----------------------------|----------------|----------------------------------|
-     * | **BLDC**    | Coast or passive braking    | PWM **off**    | • With PWM off (high-Z), stator |
-     * | (3-phase)   |                             | (high-Z)       |   is electrically disconnected  |
-     * |             |                             |                | • No current is drawn from the  |
-     * |             |                             |                |   battery, reducing heating     |
-     * |             |                             |                | • Ideal when you want the rotor |
-     * |             |                             |                |   to freely coast or gently stop|
+     * | **BLDC**    | Coast freely (no braking)   | PWM **off**    | • With PWM off (high-Z), stator |
+     * | (3-phase)   |                             | (high-Z)       |   phases are floating—not       |
+     * |             |                             |                |   connected to power or ground  |
+     * |             |                             |                | • No current flows from battery,|
+     * |             |                             |                |   eliminating idle power & heat |
+     * |             |                             |                | • Rotor coasts with only        |
+     * |             |                             |                |   mechanical friction           |
+     * |             |                             |                | • No braking torque (this is    |
+     * |             |                             |                |   pure coasting, not braking)   |
+     * |             |                             |                | • For passive braking (eddy-    |
+     * |             |                             |                |   current braking), use         |
+     * |             |                             |                |   SYSTEM_OFF_LOW_SIDE_FETS_ON   |
+     * |             |                             |                |   or SYSTEM_OFF_HIGH_SIDE_FETS_ON|
+     * |             |                             |                |   instead (phases shorted)      |
      * |             |                             |                | • If holding torque is needed   |
      * |             |                             |                |   (rare for sensorless BLDC),   |
      * |             |                             |                |   enable PWM or use active brake|
      * |             |                             |                |                                  |
      * |-------------|-----------------------------|----------------|----------------------------------|
-     * | **Brushed** | Let shaft coast freely      | PWM **off**    | • No static holding torque      |
-     * | DC Motor    |                             | (high-Z)       | • Disconnecting H-bridge removes|
-     * |             |                             |                |   quiescent current             |
-     * |             |                             |                | • PWM on = dynamic braking →    |
-     * |             |                             |                |   shaft stops quickly           |
-     * |             |                             |                | • Wastes power and generates    |
-     * |             |                             |                |   heat                          |
-     * |             |                             |                | • Can induce regenerative       |
-     * |             |                             |                |   currents—use with caution     |
+     * | **Brushed** | Coast freely (no braking)   | PWM **off**    | • With PWM off (high-Z), H-bridge|
+     * | DC Motor    |                             | (high-Z)       |   terminals float—not connected |
+     * |             |                             |                | • No current flows from battery, |
+     * |             |                             |                |   eliminating idle power & heat  |
+     * |             |                             |                | • Rotor coasts with only        |
+     * |             |                             |                |   mechanical friction           |
+     * |             |                             |                | • No braking torque (this is    |
+     * |             |                             |                |   pure coasting, not braking)   |
+     * |             |                             |                | • PWM on = short-circuit braking |
+     * |             |                             |                |   (both terminals at same       |
+     * |             |                             |                |   voltage) → motor generates     |
+     * |             |                             |                |   back-EMF, creating braking     |
+     * |             |                             |                |   torque and regenerative       |
+     * |             |                             |                |   currents flowing back         |
+     * |             |                             |                | • Regenerative currents can      |
+     * |             |                             |                |   charge battery or damage      |
+     * |             |                             |                |   system if not handled—use with|
+     * |             |                             |                |   caution                       |
      *
      * There is no universal best setting—choose based on your **application needs**:
      *
@@ -770,22 +787,50 @@ public:
     bool setOutputPolarity(tmc9660::tmcl::PwmOutputPolarity lowSide,
                            tmc9660::tmcl::PwmOutputPolarity highSide) noexcept;
 
-    /** @brief Configure the break-before-make timing for the gate driver.
+    /** @brief Configure the break-before-make timing for the gate driver (advanced API).
      *
      * Sets the timing for switching between high and low sides of the gate
-     * driver.
-     * @param lowSideUVW Break-before-make time for UVW low side (0-255, 8.33ns
-     * units).
-     * @param highSideUVW Break-before-make time for UVW high side
-     * (0-255, 8.33ns units).
-     * @param lowSideY2 Break-before-make time for Y2 low side (0-255, 8.33ns
-     * units).
-     * @param highSideY2 Break-before-make time for Y2 high side (0-255, 8.33ns
-     * units).
+     * driver using register values.
+     *
+     * The break-before-make time is applied according to the following equation:
+     *    time_ns = value * 8.33
+     *
+     * Or, conversely, for configuring a time in nanoseconds (ns):
+     *    value = time_ns / 8.33
+     *
+     * @note For most use cases, prefer configureBreakBeforeMakeTiming_ns() which accepts
+     *       time values in nanoseconds for a more intuitive API.
+     *
+     * @param lowSideUVW Break-before-make time for UVW low side (register value: 0-255).
+     *        Actual time: t = lowSideUVW * 8.33 ns
+     * @param highSideUVW Break-before-make time for UVW high side (register value: 0-255).
+     *        Actual time: t = highSideUVW * 8.33 ns
+     * @param lowSideY2 Break-before-make time for Y2 low side (register value: 0-255).
+     *        Actual time: t = lowSideY2 * 8.33 ns
+     * @param highSideY2 Break-before-make time for Y2 high side (register value: 0-255).
+     *        Actual time: t = highSideY2 * 8.33 ns
      * @return true if successfully configured.
      */
     bool configureBreakBeforeMakeTiming(uint8_t lowSideUVW, uint8_t highSideUVW, uint8_t lowSideY2,
                                         uint8_t highSideY2) noexcept;
+
+    /**
+     * @brief Configure break-before-make timing using nanoseconds (recommended API).
+     *
+     * Internally computes the register value from the requested ns value.
+     * Values outside the valid 0...255 range will be clamped.
+     *
+     * This is the recommended API for most users as it accepts time values
+     * in intuitive units (nanoseconds) rather than register values.
+     *
+     * @param lowSideUVW_ns Break-before-make time for UVW low side, in nanoseconds.
+     * @param highSideUVW_ns Break-before-make time for UVW high side, in nanoseconds.
+     * @param lowSideY2_ns Break-before-make time for Y2 low side, in nanoseconds.
+     * @param highSideY2_ns Break-before-make time for Y2 high side, in nanoseconds.
+     * @return true if successfully configured.
+     */
+    bool configureBreakBeforeMakeTiming_ns(double lowSideUVW_ns, double highSideUVW_ns,
+                                          double lowSideY2_ns, double highSideY2_ns) noexcept;
 
     /** @brief Enable or disable adaptive drive time for UVW and Y2 phases.
      *
@@ -797,19 +842,53 @@ public:
      */
     bool enableAdaptiveDriveTime(bool enableUVW, bool enableY2) noexcept;
 
-    /** @brief Configure drive times for UVW and Y2 phases.
+    /** @brief Configure drive times for UVW and Y2 phases (advanced API).
      *
-     * Sets the discharge and charge times for the gate driver.
-     * @param sinkTimeUVW Discharge time for UVW phases (0 ... 255). Default:
-     * 255.
-     * @param sourceTimeUVW Charge time for UVW phases (0 ... 255). Default:
-     * 255.
-     * @param sinkTimeY2 Discharge time for Y2 phase (0 ... 255). Default: 255.
-     * @param sourceTimeY2 Charge time for Y2 phase (0 ... 255). Default: 255.
+     * Sets the discharge and charge times for the gate driver using register values.
+     *
+     * The drive time is applied according to the following equation:
+     *    time_seconds = (1 / 120,000,000) * (2 * value + 3)
+     * For example, input a value between 0...255 (register units).
+     *
+     * Example conversion to nanoseconds:
+     *    time_ns = ((2 * value + 3) * (1e9 / 120'000'000)) = (2*value + 3) * 8.33 ns
+     *
+     * Or, conversely, for configuring a drive time in nanoseconds (ns):
+     *    value = ((desired_time_ns / 8.33) - 3) / 2
+     *
+     * @note For most use cases, prefer configureDriveTimes_ns() which accepts
+     *       time values in nanoseconds for a more intuitive API.
+     *
+     * @param sinkTimeUVW Discharge time for UVW phases (register value: 0 ... 255, default: 255).
+     *        Actual time: t = (2*sinkTimeUVW + 3) * 8.33 ns
+     * @param sourceTimeUVW Charge time for UVW phases (register value: 0 ... 255, default: 255).
+     *        Actual time: t = (2*sourceTimeUVW + 3) * 8.33 ns
+     * @param sinkTimeY2 Discharge time for Y2 phase (register value: 0 ... 255, default: 255).
+     *        Actual time: t = (2*sinkTimeY2 + 3) * 8.33 ns
+     * @param sourceTimeY2 Charge time for Y2 phase (register value: 0 ... 255, default: 255).
+     *        Actual time: t = (2*sourceTimeY2 + 3) * 8.33 ns
      * @return true if successfully configured.
      */
     bool configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourceTimeUVW, uint8_t sinkTimeY2,
                              uint8_t sourceTimeY2) noexcept;
+
+    /**
+     * @brief Configure drive times using nanoseconds (recommended API).
+     *
+     * Internally computes the register value from the requested ns value.
+     * Values outside the valid 0...255 range will be clamped.
+     *
+     * This is the recommended API for most users as it accepts time values
+     * in intuitive units (nanoseconds) rather than register values.
+     *
+     * @param sinkTimeUVW_ns Discharge time for UVW phases, in nanoseconds.
+     * @param sourceTimeUVW_ns Charge time for UVW phases, in nanoseconds.
+     * @param sinkTimeY2_ns Discharge time for Y2 phase, in nanoseconds.
+     * @param sourceTimeY2_ns Charge time for Y2 phase, in nanoseconds.
+     * @return true if successfully configured.
+     */
+    bool configureDriveTimes_ns(double sinkTimeUVW_ns, double sourceTimeUVW_ns,
+                                double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept;
 
     /** @brief Configure gate driver current limits for UVW and Y2 phases.
      *
@@ -871,15 +950,29 @@ public:
 
     /** @brief Configure overcurrent protection thresholds for UVW and Y2 phases.
      *
-     * @param uvwLowSideThreshold Threshold for UVW low side
+     * **Threshold Selection:**
+     * - **High-Side (HS)**: Always uses VDS sensing thresholds (63mV, 125mV, 187mV, etc.)
+     * - **Low-Side (LS)**: Hardware automatically selects threshold based on UVW_LOW_SIDE_USE_VDS / 
+     *   Y2_LOW_SIDE_USE_VDS setting:
+     *   - If VDS enabled: Uses VDS threshold (e.g., V_250_OR_187_MILLIVOLT → 187mV)
+     *   - If RSHUNT enabled: Uses RSHUNT threshold (e.g., V_250_OR_187_MILLIVOLT → 250mV)
+     *
+     * The enum values encode both thresholds (e.g., V_250_OR_187_MILLIVOLT means 250mV for RSHUNT
+     * or 187mV for VDS). The hardware automatically applies the correct value based on the sensing
+     * method configured via enableVdsMonitoringLow().
+     *
+     * @param uvwLowSideThreshold Threshold for UVW low side (auto-selected based on VDS/RSHUNT config)
      * (tmc9660::tmcl::OvercurrentThreshold enum).
-     * @param uvwHighSideThreshold Threshold for UVW high side
+     * @param uvwHighSideThreshold Threshold for UVW high side (always VDS value)
      * (tmc9660::tmcl::OvercurrentThreshold enum).
-     * @param y2LowSideThreshold Threshold for Y2 low side
+     * @param y2LowSideThreshold Threshold for Y2 low side (auto-selected based on VDS/RSHUNT config)
      * (tmc9660::tmcl::OvercurrentThreshold enum).
-     * @param y2HighSideThreshold Threshold for Y2 high side
+     * @param y2HighSideThreshold Threshold for Y2 high side (always VDS value)
      * (tmc9660::tmcl::OvercurrentThreshold enum).
      * @return true if successfully configured.
+     *
+     * @note Configure the sensing method (VDS vs RSHUNT) via enableVdsMonitoringLow() before
+     *       calling this function to ensure the correct threshold is applied.
      */
     bool setOvercurrentThresholds(tmc9660::tmcl::OvercurrentThreshold uvwLowSideThreshold,
                                   tmc9660::tmcl::OvercurrentThreshold uvwHighSideThreshold,
