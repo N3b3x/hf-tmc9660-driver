@@ -24,12 +24,15 @@ var searchData=
   ['length_5f2_21',['LENGTH_2',['../structTMC9660_1_1ADC_1_1CSA__SETUP.html#a26210c6496d0299bfebd7b50bf45d9e8ad44ac5765ac7e4450fe8557a48c9617a',1,'TMC9660::ADC::CSA_SETUP']]],
   ['length_5f4_22',['LENGTH_4',['../structTMC9660_1_1ADC_1_1CSA__SETUP.html#a26210c6496d0299bfebd7b50bf45d9e8a62b91b53942ceb4132af8d4374e41caa',1,'TMC9660::ADC::CSA_SETUP']]],
   ['length_5f8_23',['LENGTH_8',['../structTMC9660_1_1ADC_1_1CSA__SETUP.html#a26210c6496d0299bfebd7b50bf45d9e8adaf5dd003c0ab688eee40885cf4ccc07',1,'TMC9660::ADC::CSA_SETUP']]],
-  ['license_20strong_24',['📄 &lt;strong&gt;License&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md77',1,'']]],
-  ['links_20strong_25',['🔗 &lt;strong&gt;Quick Links&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md79',1,'']]],
-  ['log_5fbootloader_5fresult_26',['log_bootloader_result',['../BootloaderComprehensiveTest_8cpp.html#a87407b5c5f243b5a39c96515c804a06d',1,'BootloaderComprehensiveTest.cpp']]],
-  ['log_5fdc_5ftelemetry_5fdata_27',['log_dc_telemetry_data',['../DCComprehensiveTest_8cpp.html#adb1bb39051eeb493bb040456a36956fa',1,'DCComprehensiveTest.cpp']]],
-  ['log_5fstepper_5ftelemetry_5fdata_28',['log_stepper_telemetry_data',['../StepperComprehensiveTest_8cpp.html#a9a9b43ccbe90977acdb1f7677a208cf7',1,'StepperComprehensiveTest.cpp']]],
-  ['log_5ftelemetry_5fdata_29',['log_telemetry_data',['../BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;BLDCComprehensiveTest.cpp'],['../TelemetryComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;TelemetryComprehensiveTest.cpp']]],
-  ['logdebug_30',['logDebug',['../classTMC9660CommInterface.html#a4cb4a058e754cd799c7bb0f521083eff',1,'TMC9660CommInterface']]],
-  ['low_20side_20fets_20on_31',['System Off, Low-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]]
+  ['level_20scaling_20system_24',['Two-Level Scaling System',['../structTMC9660_1_1CurrentSensing.html#autotoc_md22',1,'']]],
+  ['license_20strong_25',['📄 &lt;strong&gt;License&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md79',1,'']]],
+  ['links_20strong_26',['🔗 &lt;strong&gt;Quick Links&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md81',1,'']]],
+  ['log_5fbootloader_5fresult_27',['log_bootloader_result',['../BootloaderComprehensiveTest_8cpp.html#a87407b5c5f243b5a39c96515c804a06d',1,'BootloaderComprehensiveTest.cpp']]],
+  ['log_5fdc_5ftelemetry_5fdata_28',['log_dc_telemetry_data',['../DCComprehensiveTest_8cpp.html#adb1bb39051eeb493bb040456a36956fa',1,'DCComprehensiveTest.cpp']]],
+  ['log_5fstepper_5ftelemetry_5fdata_29',['log_stepper_telemetry_data',['../StepperComprehensiveTest_8cpp.html#a9a9b43ccbe90977acdb1f7677a208cf7',1,'StepperComprehensiveTest.cpp']]],
+  ['log_5ftelemetry_5fdata_30',['log_telemetry_data',['../BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;BLDCComprehensiveTest.cpp'],['../TelemetryComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;TelemetryComprehensiveTest.cpp']]],
+  ['logdebug_31',['logDebug',['../classTMC9660CommInterface.html#a4cb4a058e754cd799c7bb0f521083eff',1,'TMC9660CommInterface']]],
+  ['low_20side_20fets_20on_32',['System Off, Low-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]],
+  ['lutcorrection_33',['lutCorrection',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a632bd773181a2c386533cf4c93960815',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
+  ['lutshiftfactor_34',['lutShiftFactor',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a6438107ee554887dc13bd7750a346e70',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]]
 ];

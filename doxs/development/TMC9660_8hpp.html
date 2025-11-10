@@ -101,9 +101,12 @@ $(function(){initNavTree('TMC9660_8hpp.html',''); initResizable(); });
 <p>Main <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> motor driver interface and subsystem classes.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;span&gt;</code><br />
 <code>#include &lt;variant&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -115,31 +118,37 @@ Include dependency graph for TMC9660.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="TMC9660_8hpp__incl.png" border="0" usemap="#aTMC9660_8hpp" alt=""/></div>
 <map name="aTMC9660_8hpp" id="aTMC9660_8hpp">
-<area shape="rect" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="597,5,708,31"/>
+<area shape="rect" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="684,5,795,31"/>
 <area shape="rect" title=" " alt="" coords="225,240,281,265"/>
-<area shape="poly" title=" " alt="" coords="598,26,452,45,383,61,356,70,337,81,306,114,284,153,269,193,260,227,255,226,264,192,279,151,302,111,334,77,354,65,381,56,451,40,597,21"/>
+<area shape="poly" title=" " alt="" coords="684,24,598,30,499,40,407,57,372,68,346,81,313,113,289,153,272,193,261,227,256,226,267,191,284,150,309,110,343,76,370,63,406,52,498,35,598,25,684,19"/>
+<area shape="rect" title=" " alt="" coords="777,79,840,104"/>
+<area shape="poly" title=" " alt="" coords="753,29,790,67,786,71,749,33"/>
 <area shape="rect" title=" " alt="" coords="114,240,181,265"/>
-<area shape="poly" title=" " alt="" coords="597,24,455,34,276,55,189,72,112,94,52,121,30,137,15,153,8,172,15,191,32,210,54,224,101,242,100,247,51,229,29,214,10,193,3,172,10,151,27,133,49,116,110,89,188,67,275,50,454,28,597,19"/>
+<area shape="poly" title=" " alt="" coords="684,22,523,29,422,36,318,48,217,64,128,87,90,101,58,117,33,134,15,153,8,172,15,191,32,210,54,224,101,242,100,247,51,229,29,214,10,193,3,172,10,151,29,130,55,112,88,96,126,82,216,59,317,42,422,31,523,23,683,17"/>
 <area shape="rect" title=" " alt="" coords="660,240,725,265"/>
-<area shape="poly" title=" " alt="" coords="657,31,691,226,686,227,652,32"/>
-<area shape="rect" title=" " alt="" coords="777,79,854,104"/>
-<area shape="poly" title=" " alt="" coords="680,28,777,71,775,75,678,33"/>
+<area shape="poly" title=" " alt="" coords="740,32,700,227,695,226,734,31"/>
+<area shape="rect" title=" " alt="" coords="865,79,923,104"/>
+<area shape="poly" title=" " alt="" coords="765,28,857,70,855,75,763,33"/>
+<area shape="rect" title=" " alt="" coords="947,79,1025,104"/>
+<area shape="poly" title=" " alt="" coords="780,28,935,73,934,78,778,33"/>
+<area shape="rect" title=" " alt="" coords="1049,79,1123,104"/>
+<area shape="poly" title=" " alt="" coords="795,27,1035,76,1034,81,794,33"/>
 <area shape="rect" title=" " alt="" coords="750,240,803,265"/>
-<area shape="poly" title=" " alt="" coords="661,30,766,227,762,229,657,32"/>
-<area shape="rect" title=" " alt="" coords="879,79,947,104"/>
-<area shape="poly" title=" " alt="" coords="695,28,866,75,865,80,694,33"/>
-<area shape="rect" title=" " alt="" coords="971,79,1033,104"/>
-<area shape="poly" title=" " alt="" coords="709,26,958,76,957,81,708,32"/>
-<area shape="rect" href="TMC9660Bootloader_8hpp.html" title="TMC9660 bootloader interface and configuration structures." alt="" coords="347,79,529,104"/>
-<area shape="poly" title=" " alt="" coords="619,33,487,77,485,72,617,28"/>
+<area shape="poly" title=" " alt="" coords="744,31,775,226,770,227,739,32"/>
+<area shape="rect" title=" " alt="" coords="1148,79,1216,104"/>
+<area shape="poly" title=" " alt="" coords="795,23,944,44,1135,76,1134,81,944,49,794,29"/>
+<area shape="rect" title=" " alt="" coords="1240,79,1303,104"/>
+<area shape="poly" title=" " alt="" coords="795,21,983,40,1103,55,1227,76,1226,81,1102,61,982,45,795,26"/>
+<area shape="rect" href="TMC9660Bootloader_8hpp.html" title="TMC9660 bootloader interface and configuration structures." alt="" coords="357,79,538,104"/>
+<area shape="poly" title=" " alt="" coords="693,33,508,78,507,73,692,28"/>
 <area shape="rect" href="TMC9660CommInterface_8hpp.html" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="440,159,652,185"/>
-<area shape="poly" title=" " alt="" coords="647,32,564,150,560,146,643,29"/>
+<area shape="poly" title=" " alt="" coords="726,33,573,153,570,148,723,29"/>
 <area shape="rect" href="tmc9660__param__mode__tmcl_8hpp.html" title=" " alt="" coords="25,152,219,192"/>
-<area shape="poly" title=" " alt="" coords="597,21,524,23,433,32,334,50,286,64,239,81,191,110,151,144,147,140,187,106,237,76,284,59,333,45,432,26,523,18,597,16"/>
-<area shape="poly" title=" " alt="" coords="418,106,182,236,179,231,416,102"/>
-<area shape="poly" title=" " alt="" coords="456,102,520,149,517,153,452,106"/>
+<area shape="poly" title=" " alt="" coords="684,25,449,43,326,59,276,70,239,81,190,110,151,144,147,140,187,106,237,76,275,64,325,54,448,38,684,19"/>
+<area shape="poly" title=" " alt="" coords="426,107,334,154,182,236,179,231,331,150,424,102"/>
+<area shape="poly" title=" " alt="" coords="464,102,522,149,519,153,460,106"/>
 <area shape="rect" title=" " alt="" coords="345,159,416,185"/>
-<area shape="poly" title=" " alt="" coords="432,106,399,150,395,147,427,103"/>
+<area shape="poly" title=" " alt="" coords="440,106,401,151,397,147,436,102"/>
 <area shape="poly" title=" " alt="" coords="502,187,295,242,293,237,501,182"/>
 <area shape="poly" title=" " alt="" coords="489,187,195,245,194,240,488,182"/>
 <area shape="poly" title=" " alt="" coords="569,182,660,231,658,236,566,187"/>
@@ -186,14 +195,35 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1MotorConfig.html">TMC9660::MotorConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor configuration and control subsystem.  <a href="structTMC9660_1_1MotorConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html">TMC9660::MotorConfig::MotorProfile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring motor parameters.  <a href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1CurrentSensing.html">TMC9660::CurrentSensing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for configuring ADC-based current measurement.  <a href="structTMC9660_1_1CurrentSensing.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">TMC9660::CurrentSensing::AutoConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring current sensing.  <a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1GateDriver.html">TMC9660::GateDriver</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for configuring the MOSFET gate driver.  <a href="structTMC9660_1_1GateDriver.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html">TMC9660::GateDriver::PowerStageProfile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring power stage protection.  <a href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense.html">TMC9660::FeedbackSense</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for feedback sensor configuration.  <a href="structTMC9660_1_1FeedbackSense.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html">TMC9660::FeedbackSense::HallConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for Hall sensor auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html">TMC9660::FeedbackSense::AbnConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for ABN encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html">TMC9660::FeedbackSense::Abn2Config</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for ABN2 (secondary) encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">TMC9660::FeedbackSense::SpiEncoderConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for SPI encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FOCControl.html">TMC9660::FOCControl</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for FOC control: torque/flux, velocity, position loops, open‐loop support, and reference switch / stop-event parameters.  <a href="structTMC9660_1_1FOCControl.html#details">More...</a><br /></td></tr>

@@ -93,6 +93,7 @@ $(function(){initNavTree('structTMC9660_1_1MotorConfig.html',''); initResizable(
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -215,6 +216,12 @@ Collaboration diagram for TMC9660::MotorConfig:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring motor parameters.  <a href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abdaa36f29c5748f8a693894ca6d6c4ba" id="r_abdaa36f29c5748f8a693894ca6d6c4ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdaa36f29c5748f8a693894ca6d6c4ba">setType</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aca79bacc506c0e580e82d767c6be4ad5">tmc9660::tmcl::MotorType</a> type, uint8_t polePairs=1) noexcept</td></tr>
@@ -244,6 +251,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a592f2e050708ef280b21a7337f20c6d2" id="r_a592f2e050708ef280b21a7337f20c6d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a592f2e050708ef280b21a7337f20c6d2">setIdleMotorPWMBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#af7e1fd1feddc59bbe6bef614cc311af3">tmc9660::tmcl::IdleMotorPwmBehavior</a> pwmOffWhenIdle=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept</td></tr>
 <tr class="memdesc:a592f2e050708ef280b21a7337f20c6d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure PWM behavior when the motor is idle (System Off mode).  <br /></td></tr>
 <tr class="separator:a592f2e050708ef280b21a7337f20c6d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dcb76e556e601113e0b442f5d3aebdd" id="r_a5dcb76e556e601113e0b442f5d3aebdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dcb76e556e601113e0b442f5d3aebdd">configureAuto</a> (const <a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a> &amp;profile) noexcept</td></tr>
+<tr class="memdesc:a5dcb76e556e601113e0b442f5d3aebdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure motor parameters based on high-level motor characteristics.  <br /></td></tr>
+<tr class="separator:a5dcb76e556e601113e0b442f5d3aebdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -269,7 +279,7 @@ Friends</h2></td></tr>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL);</div>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.setMaxTorqueCurrent(2000);  <span class="comment">// 2A torque current limit</span></div>
 <div class="line"><a class="code hl_variable" href="#ade19604a2c0568b6135aebdbc308cffd">driver</a>.motor.enable();  <span class="comment">// Start motor control</span></div>
-<div class="ttc" id="astructTMC9660_1_1MotorConfig_html_ade19604a2c0568b6135aebdbc308cffd"><div class="ttname"><a href="#ade19604a2c0568b6135aebdbc308cffd">TMC9660::MotorConfig::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:570</div></div>
+<div class="ttc" id="astructTMC9660_1_1MotorConfig_html_ade19604a2c0568b6135aebdbc308cffd"><div class="ttname"><a href="#ade19604a2c0568b6135aebdbc308cffd">TMC9660::MotorConfig::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:617</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a85f915b296bdba8fac09ebff0de3729d" name="a85f915b296bdba8fac09ebff0de3729d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85f915b296bdba8fac09ebff0de3729d">&#9670;&#160;</a></span>MotorConfig()</h2>
@@ -297,6 +307,52 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5dcb76e556e601113e0b442f5d3aebdd" name="a5dcb76e556e601113e0b442f5d3aebdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dcb76e556e601113e0b442f5d3aebdd">&#9670;&#160;</a></span>configureAuto()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::MotorConfig::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure motor parameters based on high-level motor characteristics. </p>
+<p>This method automatically configures motor-specific parameters including:</p><ul>
+<li>Motor type and pole pairs</li>
+<li>Motor direction</li>
+<li>PWM frequency and switching scheme</li>
+<li>Maximum torque and flux current limits</li>
+<li>Idle motor PWM behavior</li>
+<li>Output voltage limit</li>
+<li>Commutation mode (if specified, applied last after all configuration is complete)</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>Current sensing configuration (CSA gain, current scaling factor) should be configured separately using <a class="el" href="structTMC9660_1_1CurrentSensing.html#a4218cb9e3c0924c273c902e998c29691" title="Auto-configure current sensing based on shunt resistance and expected current.">CurrentSensing::configureAuto()</a>.</dd>
+<dd>
+The function sets commutation mode to SYSTEM_OFF first (required for motor type changes), then configures all parameters, and finally applies the requested commutation mode if specified in the profile.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">profile</td><td>Motor configuration profile (see <a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html" title="Configuration structure for auto-configuring motor parameters.">MotorProfile</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all configurations succeeded, false otherwise </dd></dl>
+
+</div>
+</div>
 <a id="af2eeb399684813ffd646a6bb508a6432" name="af2eeb399684813ffd646a6bb508a6432"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af2eeb399684813ffd646a6bb508a6432">&#9670;&#160;</a></span>setCommutationMode()</h2>
 

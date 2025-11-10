@@ -1,8 +1,15 @@
 var TMC9660_8hpp =
 [
+    [ "TMC9660::MotorConfig::MotorProfile", "structTMC9660_1_1MotorConfig_1_1MotorProfile.html", "structTMC9660_1_1MotorConfig_1_1MotorProfile" ],
     [ "TMC9660::CurrentSensing", "structTMC9660_1_1CurrentSensing.html", "structTMC9660_1_1CurrentSensing" ],
+    [ "TMC9660::CurrentSensing::AutoConfig", "structTMC9660_1_1CurrentSensing_1_1AutoConfig.html", "structTMC9660_1_1CurrentSensing_1_1AutoConfig" ],
     [ "TMC9660::GateDriver", "structTMC9660_1_1GateDriver.html", "structTMC9660_1_1GateDriver" ],
+    [ "TMC9660::GateDriver::PowerStageProfile", "structTMC9660_1_1GateDriver_1_1PowerStageProfile.html", "structTMC9660_1_1GateDriver_1_1PowerStageProfile" ],
     [ "TMC9660::FeedbackSense", "structTMC9660_1_1FeedbackSense.html", "structTMC9660_1_1FeedbackSense" ],
+    [ "TMC9660::FeedbackSense::HallConfig", "structTMC9660_1_1FeedbackSense_1_1HallConfig.html", "structTMC9660_1_1FeedbackSense_1_1HallConfig" ],
+    [ "TMC9660::FeedbackSense::AbnConfig", "structTMC9660_1_1FeedbackSense_1_1AbnConfig.html", "structTMC9660_1_1FeedbackSense_1_1AbnConfig" ],
+    [ "TMC9660::FeedbackSense::Abn2Config", "structTMC9660_1_1FeedbackSense_1_1Abn2Config.html", "structTMC9660_1_1FeedbackSense_1_1Abn2Config" ],
+    [ "TMC9660::FeedbackSense::SpiEncoderConfig", "structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html", "structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig" ],
     [ "TMC9660::FOCControl", "structTMC9660_1_1FOCControl.html", "structTMC9660_1_1FOCControl" ],
     [ "TMC9660::Ramp", "structTMC9660_1_1Ramp.html", "structTMC9660_1_1Ramp" ],
     [ "TMC9660::StepDir", "structTMC9660_1_1StepDir.html", "structTMC9660_1_1StepDir" ],

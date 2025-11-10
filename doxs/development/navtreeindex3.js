@@ -1,7 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"functions_n.html":[2,3,0,12],
-"functions_o.html":[2,3,0,13],
 "functions_p.html":[2,3,0,14],
 "functions_r.html":[2,3,0,15],
 "functions_rela.html":[2,3,5],
@@ -36,8 +34,8 @@ var NAVTREEINDEX3 =
 "functions_w.html":[2,3,0,20],
 "functions_x.html":[2,3,0,21],
 "functions_~.html":[2,3,0,22],
-"globals.html":[3,1,0,0],
 "globals.html":[3,1,0],
+"globals.html":[3,1,0,0],
 "globals_b.html":[3,1,0,1],
 "globals_c.html":[3,1,0,2],
 "globals_d.html":[3,1,0,3],
@@ -249,5 +247,7 @@ var NAVTREEINDEX3 =
 "namespacetmc9660_1_1bootaddr.html":[1,0,0,0],
 "namespacetmc9660_1_1bootaddr.html#a07f11193d2501a9cb919d512f20f8d71":[1,0,0,0,16],
 "namespacetmc9660_1_1bootaddr.html#a0f9b021a3b041a4bd0f21c0b3dfc04b3":[1,0,0,0,2],
-"namespacetmc9660_1_1bootaddr.html#a10b844eab6e374329abc34f810189357":[1,0,0,0,22]
+"namespacetmc9660_1_1bootaddr.html#a10b844eab6e374329abc34f810189357":[1,0,0,0,22],
+"namespacetmc9660_1_1bootaddr.html#a1458760730b1383d45ab11715fd11584":[1,0,0,0,15],
+"namespacetmc9660_1_1bootaddr.html#a27715940b1c80b165d162b76b1c8aa40":[1,0,0,0,7]
 };

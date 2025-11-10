@@ -93,6 +93,7 @@ $(function(){initNavTree('structTMC9660_1_1FeedbackSense.html',''); initResizabl
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
@@ -216,6 +217,21 @@ Collaboration diagram for TMC9660::FeedbackSense:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for ABN2 (secondary) encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for ABN encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for Hall sensor auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for SPI encoder auto-configuration.  <a href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab14d2ff0a88825c927c41121d8856f70" id="r_ab14d2ff0a88825c927c41121d8856f70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab14d2ff0a88825c927c41121d8856f70">configureHall</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad2fad5904e2f621761e9c33dfa2f0169">tmc9660::tmcl::HallSectorOffset</a> sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> inverted=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0) noexcept</td></tr>
@@ -326,6 +342,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae466d81676286866fdd2a3b7262d718" id="r_aae466d81676286866fdd2a3b7262d718"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae466d81676286866fdd2a3b7262d718">getSPIEncoderLUTShiftFactor</a> (int8_t &amp;shiftFactor) noexcept</td></tr>
 <tr class="memdesc:aae466d81676286866fdd2a3b7262d718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_COMMON_SHIFT_FACTOR.  <br /></td></tr>
 <tr class="separator:aae466d81676286866fdd2a3b7262d718"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1fc81f5c0643263e4dde2f1d03a8709" id="r_ad1fc81f5c0643263e4dde2f1d03a8709"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1fc81f5c0643263e4dde2f1d03a8709">configureAuto</a> (const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a> &amp;config) noexcept</td></tr>
+<tr class="memdesc:ad1fc81f5c0643263e4dde2f1d03a8709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure Hall sensor feedback.  <br /></td></tr>
+<tr class="separator:ad1fc81f5c0643263e4dde2f1d03a8709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79850cd6b9cb7fe686940e4ca0e00679" id="r_a79850cd6b9cb7fe686940e4ca0e00679"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79850cd6b9cb7fe686940e4ca0e00679">configureAuto</a> (const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a> &amp;config) noexcept</td></tr>
+<tr class="memdesc:a79850cd6b9cb7fe686940e4ca0e00679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN encoder feedback.  <br /></td></tr>
+<tr class="separator:a79850cd6b9cb7fe686940e4ca0e00679"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a98b150855960f6e890d5d06068419" id="r_af9a98b150855960f6e890d5d06068419"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9a98b150855960f6e890d5d06068419">configureAuto</a> (const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a> &amp;config) noexcept</td></tr>
+<tr class="memdesc:af9a98b150855960f6e890d5d06068419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN2 (secondary) encoder feedback.  <br /></td></tr>
+<tr class="separator:af9a98b150855960f6e890d5d06068419"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd2f2e12904ac4251406a350bf49dbbf" id="r_acd2f2e12904ac4251406a350bf49dbbf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd2f2e12904ac4251406a350bf49dbbf">configureAuto</a> (const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a> &amp;config) noexcept</td></tr>
+<tr class="memdesc:acd2f2e12904ac4251406a350bf49dbbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure SPI encoder feedback.  <br /></td></tr>
+<tr class="separator:acd2f2e12904ac4251406a350bf49dbbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -514,6 +542,146 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if N-channel settings were applied successfully. </dd></dl>
+
+</div>
+</div>
+<a id="af9a98b150855960f6e890d5d06068419" name="af9a98b150855960f6e890d5d06068419"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9a98b150855960f6e890d5d06068419">&#9670;&#160;</a></span>configureAuto() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure ABN2 (secondary) encoder feedback. </p>
+<p>Configures the secondary ABN encoder for position/velocity feedback (cannot be used for commutation).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>ABN2 encoder configuration (see <a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html" title="Configuration structure for ABN2 (secondary) encoder auto-configuration.">Abn2Config</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all configurations succeeded, false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="a79850cd6b9cb7fe686940e4ca0e00679" name="a79850cd6b9cb7fe686940e4ca0e00679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79850cd6b9cb7fe686940e4ca0e00679">&#9670;&#160;</a></span>configureAuto() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure ABN encoder feedback. </p>
+<p>Configures ABN encoder including initialization method, N-channel settings, and filtering.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>ABN encoder configuration (see <a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html" title="Configuration structure for ABN encoder auto-configuration.">AbnConfig</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all configurations succeeded, false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="ad1fc81f5c0643263e4dde2f1d03a8709" name="ad1fc81f5c0643263e4dde2f1d03a8709"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1fc81f5c0643263e4dde2f1d03a8709">&#9670;&#160;</a></span>configureAuto() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure Hall sensor feedback. </p>
+<p>Configures all Hall sensor parameters including offsets, filtering, and extrapolation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>Hall sensor configuration (see <a class="el" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html" title="Configuration structure for Hall sensor auto-configuration.">HallConfig</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all configurations succeeded, false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="acd2f2e12904ac4251406a350bf49dbbf" name="acd2f2e12904ac4251406a350bf49dbbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2f2e12904ac4251406a350bf49dbbf">&#9670;&#160;</a></span>configureAuto() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::FeedbackSense::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure SPI encoder feedback. </p>
+<p>Configures SPI encoder including timing, data format, initialization, and optional LUT correction.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>SPI encoder configuration (see <a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html" title="Configuration structure for SPI encoder auto-configuration.">SpiEncoderConfig</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if all configurations succeeded, false otherwise </dd></dl>
 
 </div>
 </div>

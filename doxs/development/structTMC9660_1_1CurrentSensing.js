@@ -1,7 +1,9 @@
 var structTMC9660_1_1CurrentSensing =
 [
+    [ "AutoConfig", "structTMC9660_1_1CurrentSensing_1_1AutoConfig.html", "structTMC9660_1_1CurrentSensing_1_1AutoConfig" ],
     [ "CurrentSensing", "structTMC9660_1_1CurrentSensing.html#a8c5a7c842aec5a65a7a1e69d792a156f", null ],
     [ "calibrateOffsets", "structTMC9660_1_1CurrentSensing.html#ae079087dc0f47e7102be75dc8f770b36", null ],
+    [ "configureAuto", "structTMC9660_1_1CurrentSensing.html#a4218cb9e3c0924c273c902e998c29691", null ],
     [ "getCalibrationStatus", "structTMC9660_1_1CurrentSensing.html#ae2bdfe04d9f2fed3563e681a661caadd", null ],
     [ "getCSAFilter", "structTMC9660_1_1CurrentSensing.html#a697f8bc2e29618947611ea7b36b9d1bb", null ],
     [ "getCSAGain", "structTMC9660_1_1CurrentSensing.html#ac1ed93b225b2e3b1173930ff5e8495bc", null ],
