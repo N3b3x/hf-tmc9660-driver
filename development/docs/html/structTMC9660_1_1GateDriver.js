@@ -1,12 +1,14 @@
 var structTMC9660_1_1GateDriver =
 [
+    [ "PowerStageProfile", "structTMC9660_1_1GateDriver_1_1PowerStageProfile.html", "structTMC9660_1_1GateDriver_1_1PowerStageProfile" ],
     [ "GateDriver", "structTMC9660_1_1GateDriver.html#abbf70e60eabc3d3bea3929258765ee1c", null ],
     [ "configureBootstrapCurrentLimit", "structTMC9660_1_1GateDriver.html#a3fc2ccb753961325931a01cad557d350", null ],
     [ "configureBreakBeforeMakeTiming", "structTMC9660_1_1GateDriver.html#a6e5ba341b938a9eea7457ad6238e4bfc", null ],
-    [ "configureBreakBeforeMakeTiming_ns", "structTMC9660_1_1GateDriver.html#a55da3602d8cc17ff659d3102238ba1c2", null ],
+    [ "configureBreakBeforeMakeTiming_ns", "structTMC9660_1_1GateDriver.html#a30e06196b5aa6561a8f782e7a24dccb6", null ],
     [ "configureCurrentLimits", "structTMC9660_1_1GateDriver.html#a585076f4f01672f2010687308f60da2b", null ],
     [ "configureDriveTimes", "structTMC9660_1_1GateDriver.html#a991aaa09051f0d1d5c8668f7995a58a4", null ],
-    [ "configureDriveTimes_ns", "structTMC9660_1_1GateDriver.html#a4f6397c4ecc643e1832aad82de118a15", null ],
+    [ "configureDriveTimes_ns", "structTMC9660_1_1GateDriver.html#a60883f6fee0530e257744f40f6717640", null ],
+    [ "configurePowerStageProtection", "structTMC9660_1_1GateDriver.html#ac6f8ddc1dc83b220c21ccd4c2da178b6", null ],
     [ "configureUndervoltageProtection", "structTMC9660_1_1GateDriver.html#a6f67e38c5b87cb16c813d959ba920ed9", null ],
     [ "configureVgsShortProtectionUVW", "structTMC9660_1_1GateDriver.html#a15eb9c6226d0b8618b64e38dc5adbc68", null ],
     [ "configureVgsShortProtectionY2", "structTMC9660_1_1GateDriver.html#a40b782a881029a36744688af90816743", null ],

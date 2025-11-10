@@ -1,8 +1,8 @@
 var searchData=
 [
   ['gatedriver_0',['GateDriver',['../structTMC9660_1_1GateDriver.html#abbf70e60eabc3d3bea3929258765ee1c',1,'TMC9660::GateDriver']]],
-  ['get_5fsuccess_5fpercentage_1',['get_success_percentage',['../structTestResults.html#abd312f39dea9e43056ca161f315c7569',1,'TestResults']]],
-  ['get_5ftotal_5ftime_5fms_2',['get_total_time_ms',['../structTestResults.html#a7466f28f6ee19443a8c8510588c7844e',1,'TestResults']]],
+  ['get_5fsuccess_5fpercentage_1',['get_success_percentage',['../structTestResults.html#ab98f9ad5f994aa31bd7c0cd8ae551fb8',1,'TestResults']]],
+  ['get_5ftotal_5ftime_5fms_2',['get_total_time_ms',['../structTestResults.html#a6d2e718d81a8b4a4dcca515ee858de57',1,'TestResults']]],
   ['getabninitializationstate_3',['getABNInitializationState',['../structTMC9660_1_1FeedbackSense.html#a0af2ee0796fb0be0566bddad5b2ad2b4',1,'TMC9660::FeedbackSense']]],
   ['getabnphie_4',['getABNPhiE',['../structTMC9660_1_1FeedbackSense.html#aadd1948c595efca7840c160e1e712c86',1,'TMC9660::FeedbackSense']]],
   ['getabnrawvalue_5',['getABNRawValue',['../structTMC9660_1_1FeedbackSense.html#a8f8c29c78e0535d68d3259ce40255029',1,'TMC9660::FeedbackSense']]],

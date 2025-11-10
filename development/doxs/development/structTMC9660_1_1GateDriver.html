@@ -93,6 +93,7 @@ $(function(){initNavTree('structTMC9660_1_1GateDriver.html',''); initResizable()
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -215,6 +216,12 @@ Collaboration diagram for TMC9660::GateDriver:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring power stage protection.  <a href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8afb7493b8cea09a2876d3322e82776" id="r_aa8afb7493b8cea09a2876d3322e82776"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8afb7493b8cea09a2876d3322e82776">setOutputPolarity</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> lowSide, <a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> highSide) noexcept</td></tr>
@@ -223,18 +230,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6e5ba341b938a9eea7457ad6238e4bfc" id="r_a6e5ba341b938a9eea7457ad6238e4bfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e5ba341b938a9eea7457ad6238e4bfc">configureBreakBeforeMakeTiming</a> (uint8_t lowSideUVW, uint8_t highSideUVW, uint8_t lowSideY2, uint8_t highSideY2) noexcept</td></tr>
 <tr class="memdesc:a6e5ba341b938a9eea7457ad6238e4bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the break-before-make timing for the gate driver (advanced API).  <br /></td></tr>
 <tr class="separator:a6e5ba341b938a9eea7457ad6238e4bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55da3602d8cc17ff659d3102238ba1c2" id="r_a55da3602d8cc17ff659d3102238ba1c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55da3602d8cc17ff659d3102238ba1c2">configureBreakBeforeMakeTiming_ns</a> (double lowSideUVW_ns, double highSideUVW_ns, double lowSideY2_ns, double highSideY2_ns) noexcept</td></tr>
-<tr class="memdesc:a55da3602d8cc17ff659d3102238ba1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure break-before-make timing using nanoseconds (recommended API).  <br /></td></tr>
-<tr class="separator:a55da3602d8cc17ff659d3102238ba1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30e06196b5aa6561a8f782e7a24dccb6" id="r_a30e06196b5aa6561a8f782e7a24dccb6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30e06196b5aa6561a8f782e7a24dccb6">configureBreakBeforeMakeTiming_ns</a> (float lowSideUVW_ns, float highSideUVW_ns, float lowSideY2_ns, float highSideY2_ns) noexcept</td></tr>
+<tr class="memdesc:a30e06196b5aa6561a8f782e7a24dccb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure break-before-make timing using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a30e06196b5aa6561a8f782e7a24dccb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97e55f605b80dc613bde22f155d58afb" id="r_a97e55f605b80dc613bde22f155d58afb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97e55f605b80dc613bde22f155d58afb">enableAdaptiveDriveTime</a> (bool enableUVW, bool enableY2) noexcept</td></tr>
 <tr class="memdesc:a97e55f605b80dc613bde22f155d58afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable adaptive drive time for UVW and Y2 phases.  <br /></td></tr>
 <tr class="separator:a97e55f605b80dc613bde22f155d58afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991aaa09051f0d1d5c8668f7995a58a4" id="r_a991aaa09051f0d1d5c8668f7995a58a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a991aaa09051f0d1d5c8668f7995a58a4">configureDriveTimes</a> (uint8_t sinkTimeUVW, uint8_t sourceTimeUVW, uint8_t sinkTimeY2, uint8_t sourceTimeY2) noexcept</td></tr>
 <tr class="memdesc:a991aaa09051f0d1d5c8668f7995a58a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times for UVW and Y2 phases (advanced API).  <br /></td></tr>
 <tr class="separator:a991aaa09051f0d1d5c8668f7995a58a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f6397c4ecc643e1832aad82de118a15" id="r_a4f6397c4ecc643e1832aad82de118a15"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f6397c4ecc643e1832aad82de118a15">configureDriveTimes_ns</a> (double sinkTimeUVW_ns, double sourceTimeUVW_ns, double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept</td></tr>
-<tr class="memdesc:a4f6397c4ecc643e1832aad82de118a15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times using nanoseconds (recommended API).  <br /></td></tr>
-<tr class="separator:a4f6397c4ecc643e1832aad82de118a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60883f6fee0530e257744f40f6717640" id="r_a60883f6fee0530e257744f40f6717640"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60883f6fee0530e257744f40f6717640">configureDriveTimes_ns</a> (float sinkTimeUVW_ns, float sourceTimeUVW_ns, float sinkTimeY2_ns, float sourceTimeY2_ns) noexcept</td></tr>
+<tr class="memdesc:a60883f6fee0530e257744f40f6717640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a60883f6fee0530e257744f40f6717640"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a585076f4f01672f2010687308f60da2b" id="r_a585076f4f01672f2010687308f60da2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a585076f4f01672f2010687308f60da2b">configureCurrentLimits</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> sinkCurrentUVW, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> sourceCurrentUVW, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> sinkCurrentY2, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> sourceCurrentY2) noexcept</td></tr>
 <tr class="memdesc:a585076f4f01672f2010687308f60da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate driver current limits for UVW and Y2 phases.  <br /></td></tr>
 <tr class="separator:a585076f4f01672f2010687308f60da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -280,6 +287,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a27b2e7d9d2e21bcc094c4c5983bfeab9" id="r_a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27b2e7d9d2e21bcc094c4c5983bfeab9">setFaultHandlerRetries</a> (uint8_t retries) noexcept</td></tr>
 <tr class="memdesc:a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum number of retries for fault handling.  <br /></td></tr>
 <tr class="separator:a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f8ddc1dc83b220c21ccd4c2da178b6" id="r_ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6f8ddc1dc83b220c21ccd4c2da178b6">configurePowerStageProtection</a> (const <a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a> &amp;profile) noexcept</td></tr>
+<tr class="memdesc:ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure complete power stage based on physical properties.  <br /></td></tr>
+<tr class="separator:ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -400,7 +410,7 @@ Friends</h2></td></tr>
 <p>Sets the timing for switching between high and low sides of the gate driver using register values.</p>
 <p>The break-before-make time is applied according to the following equation: time_ns = value * 8.33</p>
 <p>Or, conversely, for configuring a time in nanoseconds (ns): value = time_ns / 8.33</p>
-<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a55da3602d8cc17ff659d3102238ba1c2" title="Configure break-before-make timing using nanoseconds (recommended API).">configureBreakBeforeMakeTiming_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a30e06196b5aa6561a8f782e7a24dccb6" title="Configure break-before-make timing using nanoseconds (recommended API).">configureBreakBeforeMakeTiming_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">lowSideUVW</td><td>Break-before-make time for UVW low side (register value: 0-255). Actual time: t = lowSideUVW * 8.33 ns </td></tr>
@@ -414,8 +424,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a55da3602d8cc17ff659d3102238ba1c2" name="a55da3602d8cc17ff659d3102238ba1c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55da3602d8cc17ff659d3102238ba1c2">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming_ns()</h2>
+<a id="a30e06196b5aa6561a8f782e7a24dccb6" name="a30e06196b5aa6561a8f782e7a24dccb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30e06196b5aa6561a8f782e7a24dccb6">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming_ns()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -426,22 +436,22 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">bool TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns </td>
           <td>(</td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>lowSideUVW_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>lowSideUVW_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>highSideUVW_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>highSideUVW_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>lowSideY2_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>lowSideY2_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>highSideY2_ns</em></span>&#160;)</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>highSideY2_ns</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -560,7 +570,7 @@ Friends</h2></td></tr>
 <p>The drive time is applied according to the following equation: time_seconds = (1 / 120,000,000) * (2 * value + 3) For example, input a value between 0...255 (register units).</p>
 <p>Example conversion to nanoseconds: time_ns = ((2 * value + 3) * (1e9 / 120'000'000)) = (2*value + 3) * 8.33 ns</p>
 <p>Or, conversely, for configuring a drive time in nanoseconds (ns): value = ((desired_time_ns / 8.33) - 3) / 2</p>
-<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a4f6397c4ecc643e1832aad82de118a15" title="Configure drive times using nanoseconds (recommended API).">configureDriveTimes_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a60883f6fee0530e257744f40f6717640" title="Configure drive times using nanoseconds (recommended API).">configureDriveTimes_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sinkTimeUVW</td><td>Discharge time for UVW phases (register value: 0 ... 255, default: 255). Actual time: t = (2*sinkTimeUVW + 3) * 8.33 ns </td></tr>
@@ -574,8 +584,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a4f6397c4ecc643e1832aad82de118a15" name="a4f6397c4ecc643e1832aad82de118a15"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f6397c4ecc643e1832aad82de118a15">&#9670;&#160;</a></span>configureDriveTimes_ns()</h2>
+<a id="a60883f6fee0530e257744f40f6717640" name="a60883f6fee0530e257744f40f6717640"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60883f6fee0530e257744f40f6717640">&#9670;&#160;</a></span>configureDriveTimes_ns()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -586,22 +596,22 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">bool TMC9660::GateDriver::configureDriveTimes_ns </td>
           <td>(</td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sinkTimeUVW_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>sinkTimeUVW_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sourceTimeUVW_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>sourceTimeUVW_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sinkTimeY2_ns</em>, </span></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>sinkTimeY2_ns</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>sourceTimeY2_ns</em></span>&#160;)</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>sourceTimeY2_ns</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -624,6 +634,170 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successfully configured. </dd></dl>
+
+</div>
+</div>
+<a id="ac6f8ddc1dc83b220c21ccd4c2da178b6" name="ac6f8ddc1dc83b220c21ccd4c2da178b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f8ddc1dc83b220c21ccd4c2da178b6">&#9670;&#160;</a></span>configurePowerStageProtection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::GateDriver::configurePowerStageProtection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure complete power stage based on physical properties. </p>
+<p>This method automatically configures the entire power stage including:</p><ul>
+<li>Gate driver interface (PWM polarity)</li>
+<li>Gate driver timing (drive times, gate currents, dead time, bootstrap)</li>
+<li><a class="el" href="structTMC9660_1_1Protection.html" title="Subsystem for motor protection features.">Protection</a> parameters (overcurrent thresholds, blanking, deglitch, VGS protection, bootstrap UVP)</li>
+<li>Fault handling (retry behavior, fault behavior, retry count)</li>
+</ul>
+<p>All parameters are derived from high-level physical properties, eliminating the need to manually configure dozens of low-level registers.</p>
+<dl class="section note"><dt>Note</dt><dd>This function does NOT enable the gate driver. After calling this function, you must:<ul>
+<li>Assert the DRV_EN hardware pin (if used)</li>
+<li>Set COMMUTATION_MODE to a value other than SYSTEM_OFF (e.g., via setCommutationMode())</li>
+</ul>
+</dd>
+<dd>
+Phase selection (3-phase vs 4-phase) is determined by boot configuration and MOTOR_TYPE. This function configures all phases that are enabled by the system.</dd></dl>
+<p><b>Automatic Derivation Logic:</b></p>
+<p><b>PART 0: Gate Driver Interface Configuration</b></p>
+<p>0. <b>PWM Output Polarity</b>: Configurable via profile (default: ACTIVE_HIGH/ACTIVE_HIGH)</p><ul>
+<li>Critical for hardware compatibility - must match PCB layout and external gate driver stages</li>
+<li>Wrong polarity will prevent gate driver from working correctly</li>
+</ul>
+<p><b>PART 1: Gate Driver Timing Configuration</b></p>
+<ol type="1">
+<li><b>Gate Current Limits</b>: Calculated from gate charge (Qg) and target switching times<ul>
+<li>Source current: I = Qg / target_turn_on_time (default: ~200ns, can be overridden)</li>
+<li>Sink current: I = Qg / target_turn_off_time (default: ~135ns, can be overridden)</li>
+<li>Automatically selects closest available enum values</li>
+<li>Use <code>targetTurnOnTime_ns</code> and <code>targetTurnOffTime_ns</code> in profile to override defaults</li>
+</ul>
+</li>
+<li><b>Drive Times</b>: Set to target switching times (default: 200ns turn-on, 135ns turn-off)<ul>
+<li>With adaptive drive time enabled, these are maximum times</li>
+<li>Driver automatically optimizes down based on actual gate voltage monitoring</li>
+<li>Can be customized via optional <code>targetTurnOnTime_ns</code> and <code>targetTurnOffTime_ns</code> profile members</li>
+</ul>
+</li>
+<li><b>Adaptive Drive Time</b>: Automatically enabled for efficiency<ul>
+<li>Monitors gate voltage and shortens drive times automatically</li>
+<li>DRIVE_TIME_SINK acts as upper bound when adaptive mode is enabled</li>
+</ul>
+</li>
+<li><b>Break-Before-Make (Dead Time)</b>: Set to 0 per documentation recommendation<ul>
+<li>Driver uses internal optimized timing</li>
+<li>Can be overridden in future via <a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html" title="Configuration structure for auto-configuring power stage protection.">PowerStageProfile</a> if needed for special cases</li>
+</ul>
+</li>
+<li><b>Bootstrap Current Limit</b>: Physics-based calculation from PWM frequency and gate charge<ul>
+<li>I_avg = (Qg × 3_phases × f_PWM) / duty_cycle × safety_margin</li>
+<li>Accounts for 3 high-side FETs, 50% average duty cycle, 2.5× safety margin</li>
+<li>Automatically selects closest available enum value</li>
+</ul>
+</li>
+<li><b>Undervoltage <a class="el" href="structTMC9660_1_1Protection.html" title="Subsystem for motor protection features.">Protection</a></b>: Configured from profile<ul>
+<li>Supply level: From profile.supplyLevel (0=disabled, 1-16 map to HW levels 0-15)</li>
+<li>VDRV protection: Enabled by default for safety</li>
+<li>Bootstrap UVP: Enabled by default for safety (prevents gate drive failure)</li>
+<li>Enabled for both UVW and Y2 phases</li>
+</ul>
+</li>
+</ol>
+<p><b>PART 2: <a class="el" href="structTMC9660_1_1Protection.html" title="Subsystem for motor protection features.">Protection</a> Parameter Configuration</b></p>
+<ol type="1">
+<li><b>Overcurrent Threshold</b>: Computed from Rds_on and expected peak current<ul>
+<li>Threshold = expectedPeakCurrent_A * overcurrentMargin * Rds_on_mOhm (VDS)</li>
+<li>Threshold = expectedPeakCurrent_A * overcurrentMargin * R_shunt_mOhm (RSHUNT)</li>
+<li>Automatically selects appropriate register values for both sensing methods</li>
+</ul>
+</li>
+<li><b>Blanking Time</b>: Derived from di/dt estimation<ul>
+<li>di/dt ≈ busVoltage_V / motorInductance_uH (or 20µH conservative estimate if unknown)</li>
+<li>Blanking time selected based on di/dt range:<ul>
+<li>&lt; 5 A/µs → 0.25 µs</li>
+<li>5-15 A/µs → 0.5 µs</li>
+<li>15-30 A/µs → 1.0 µs</li>
+<li>30-60 A/µs → 2.0 µs</li>
+<li>&gt; 60 A/µs → 4-8 µs (capped at 10-15% of PWM period, minimum 5% or 0.25µs)</li>
+</ul>
+</li>
+<li>Applied blankingMargin safety factor</li>
+</ul>
+</li>
+<li><b>Deglitch Time</b>: Based on gate charge (Qg) and switching speed<ul>
+<li>Low Qg (&lt; 15 nC): Fast switching → longer deglitch (1-4 µs)</li>
+<li>Medium Qg (15-40 nC): Normal → moderate deglitch (0.5-1 µs)</li>
+<li>High Qg (&gt; 40 nC): Slow switching → shorter deglitch (0.25-0.5 µs)</li>
+<li>Applied blankingMargin safety factor</li>
+</ul>
+</li>
+<li><b>VGS Short <a class="el" href="structTMC9660_1_1Protection.html" title="Subsystem for motor protection features.">Protection</a></b>: Based on gate charge<ul>
+<li>Fast FETs (low Qg): Longer blanking/deglitch</li>
+<li>Slow FETs (high Qg): Shorter blanking/deglitch</li>
+<li>Automatically enabled for all transitions</li>
+</ul>
+</li>
+<li><b>VDS Monitoring</b>: Automatically enabled if Rds_on &lt; 10 mΩ for reliable sensing<ul>
+<li>Otherwise uses RSHUNT-based sensing (more accurate, recommended)</li>
+</ul>
+</li>
+</ol>
+<p><b>PART 3: Fault Handling Configuration</b></p>
+<ol type="1">
+<li><b>Retry Behavior</b>: Configurable behavior after gate driver fault<ul>
+<li>OPEN_CIRCUIT (default): Motor spins freely</li>
+<li>ELECTRICAL_BRAKING: Enable braking if possible</li>
+</ul>
+</li>
+<li><b>Drive Fault Behavior</b>: Configurable behavior after all retries fail<ul>
+<li>OPEN_CIRCUIT (default): Motor spins freely</li>
+<li>ELECTRICAL_BRAKING: Enable braking if possible</li>
+<li>MECHANICAL_BRAKING_AND_OPEN_CIRCUIT: Engage mechanical brake if configured</li>
+<li>MECHANICAL_AND_ELECTRICAL_BRAKING: Both electrical and mechanical braking</li>
+</ul>
+</li>
+<li><b>Fault Handler Retries</b>: Maximum number of retries per detected fault<ul>
+<li>Default: 5 retries (range: 0-255)</li>
+</ul>
+</li>
+</ol>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">profile</td><td><a class="el" href="structTMC9660_1_1Power.html" title="Subsystem for entering low-power hibernation mode and configuring wake.">Power</a> stage physical properties (see <a class="el" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html" title="Configuration structure for auto-configuring power stage protection.">PowerStageProfile</a>) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if configuration was successful</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>All protection features are enabled by default. The method configures timing parameters only - protection enables are set to safe defaults.</dd>
+<dd>
+If motor inductance is not provided (NaN), conservative di/dt estimates are used based on typical motor sizes. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="structTMC9660_1_1GateDriver_ac6f8ddc1dc83b220c21ccd4c2da178b6_cgraph.png" border="0" usemap="#astructTMC9660_1_1GateDriver_ac6f8ddc1dc83b220c21ccd4c2da178b6_cgraph" alt=""/></div>
+<map name="astructTMC9660_1_1GateDriver_ac6f8ddc1dc83b220c21ccd4c2da178b6_cgraph" id="astructTMC9660_1_1GateDriver_ac6f8ddc1dc83b220c21ccd4c2da178b6_cgraph">
+<area shape="rect" title="Auto&#45;configure complete power stage based on physical properties." alt="" coords="5,5,239,45"/>
+<area shape="rect" href="TMC9660_8cpp.html#a38b2cde925e83d0cd01a78f7c818231e" title=" " alt="" coords="287,13,508,38"/>
+<area shape="poly" title=" " alt="" coords="239,23,273,23,273,28,239,28"/>
+</map>
+</div>
 
 </div>
 </div>

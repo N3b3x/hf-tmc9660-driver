@@ -1,9 +1,17 @@
 var structTMC9660_1_1FeedbackSense =
 [
+    [ "Abn2Config", "structTMC9660_1_1FeedbackSense_1_1Abn2Config.html", "structTMC9660_1_1FeedbackSense_1_1Abn2Config" ],
+    [ "AbnConfig", "structTMC9660_1_1FeedbackSense_1_1AbnConfig.html", "structTMC9660_1_1FeedbackSense_1_1AbnConfig" ],
+    [ "HallConfig", "structTMC9660_1_1FeedbackSense_1_1HallConfig.html", "structTMC9660_1_1FeedbackSense_1_1HallConfig" ],
+    [ "SpiEncoderConfig", "structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html", "structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig" ],
     [ "FeedbackSense", "structTMC9660_1_1FeedbackSense.html#adeea85641ac492957469a53339912f06", null ],
     [ "configureABNEncoder", "structTMC9660_1_1FeedbackSense.html#ac1880c469dc9477d47b50955dd2a64b8", null ],
     [ "configureABNInitialization", "structTMC9660_1_1FeedbackSense.html#a1a0ceedb91bcb42b4b16c8b1fad4972d", null ],
     [ "configureABNNChannel", "structTMC9660_1_1FeedbackSense.html#afadbb01591b683a4b4c33f364be45d8a", null ],
+    [ "configureAuto", "structTMC9660_1_1FeedbackSense.html#af9a98b150855960f6e890d5d06068419", null ],
+    [ "configureAuto", "structTMC9660_1_1FeedbackSense.html#a79850cd6b9cb7fe686940e4ca0e00679", null ],
+    [ "configureAuto", "structTMC9660_1_1FeedbackSense.html#ad1fc81f5c0643263e4dde2f1d03a8709", null ],
+    [ "configureAuto", "structTMC9660_1_1FeedbackSense.html#acd2f2e12904ac4251406a350bf49dbbf", null ],
     [ "configureHall", "structTMC9660_1_1FeedbackSense.html#ab14d2ff0a88825c927c41121d8856f70", null ],
     [ "configureSecondaryABNEncoder", "structTMC9660_1_1FeedbackSense.html#afbebd331484e120e0ff151bf3500d758", null ],
     [ "configureSPIEncoder", "structTMC9660_1_1FeedbackSense.html#a40d983b21f789336f64588a10727637b", null ],

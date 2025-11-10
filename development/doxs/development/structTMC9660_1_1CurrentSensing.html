@@ -93,6 +93,7 @@ $(function(){initNavTree('structTMC9660_1_1CurrentSensing.html',''); initResizab
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -215,8 +216,17 @@ Collaboration diagram for TMC9660::CurrentSensing:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">AutoConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration structure for auto-configuring current sensing.  <a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a4218cb9e3c0924c273c902e998c29691" id="r_a4218cb9e3c0924c273c902e998c29691"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4218cb9e3c0924c273c902e998c29691">configureAuto</a> (const <a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">AutoConfig</a> &amp;config) noexcept</td></tr>
+<tr class="memdesc:a4218cb9e3c0924c273c902e998c29691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure current sensing based on shunt resistance and expected current.  <br /></td></tr>
+<tr class="separator:a4218cb9e3c0924c273c902e998c29691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a67c1d35cfd43a665f8895262cb3635" id="r_a7a67c1d35cfd43a665f8895262cb3635"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a67c1d35cfd43a665f8895262cb3635">setShuntType</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a7b10db10451330aa408e7ab86c47e0ef">tmc9660::tmcl::AdcShuntType</a> shuntType) noexcept</td></tr>
 <tr class="memdesc:a7a67c1d35cfd43a665f8895262cb3635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the <a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> shunt type (Parameter 12: ADC_SHUNT_TYPE).  <br /></td></tr>
 <tr class="separator:a7a67c1d35cfd43a665f8895262cb3635"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -363,6 +373,110 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if calibration was started (and completed if waitForCompletion is true) </dd></dl>
 
+</div>
+</div>
+<a id="a4218cb9e3c0924c273c902e998c29691" name="a4218cb9e3c0924c273c902e998c29691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4218cb9e3c0924c273c902e998c29691">&#9670;&#160;</a></span>configureAuto()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool TMC9660::CurrentSensing::configureAuto </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">AutoConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Auto-configure current sensing based on shunt resistance and expected current. </p>
+<p>This method automatically selects the optimal CSA gain and calculates the current scaling factor to enable direct mA units for torque/flux commands.</p>
+<p>The function:</p><ul>
+<li>Selects the smallest CSA gain that provides ≥1.5x headroom above expected peak current</li>
+<li>Calculates CURRENT_SCALING_FACTOR using the formula from the datasheet:<ul>
+<li>Peak: Factor = 39.06 / (G_CSA * R_shunt_Ohm)</li>
+<li>RMS: Factor = 27.62 / (G_CSA * R_shunt_Ohm)</li>
+</ul>
+</li>
+<li>Configures shunt type, CSA gain, filter, scaling factor, and <a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> inversion</li>
+<li>Optionally calculates per-ADC scaling factors if actual shunt resistances are provided</li>
+</ul>
+<p>After calling this, torque/flux commands (MAX_TORQUE, TARGET_TORQUE, etc.) can be specified directly in mA. For example, MAX_TORQUE = 3000 means 3.0 A.</p>
+<h2><a class="anchor" id="autotoc_md22"></a>
+Two-Level Scaling System</h2>
+<p>The <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> uses a two-level scaling system:</p>
+<ol type="1">
+<li><b>ADC_Ix_SCALE (per-phase trim)</b>: Compensates for physical mismatch in shunt resistors and CSA amplifier tolerances. Default: 1024 (1.000×). If actual shunt resistances are provided, this is automatically calculated to equalize all phases.</li>
+<li><b>CURRENT_SCALING_FACTOR (global unit conversion)</b>: Converts normalized <a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> currents to mA units for the torque/flux control system. This is automatically calculated based on nominal shunt resistance and CSA gain.</li>
+</ol>
+<p>Signal flow: </p><div class="fragment"><div class="line">ADC_Ix_RAW → (offset removal) → ADC_Ix → (ADC_Ix_SCALE correction) →</div>
+<div class="line">normalized phase current → (CURRENT_SCALING_FACTOR) → <span class="keyword">final</span> torque/flux in mA</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md23"></a>
+Per-ADC Shunt Resistance Compensation</h2>
+<p>If you have measured the actual shunt resistance for each <a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> channel, you can provide them to automatically calculate ADC_Ix_SCALE. The formula used is: </p><div class="fragment"><div class="line">ADC_Ix_SCALE = 1024 * (R_nominal / R_actual)</div>
+</div><!-- fragment --><p>This ensures all phases report the same current for the same real current, compensating for shunt resistor tolerances.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>Configuration structure containing all current sensing parameters. See <a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html" title="Configuration structure for auto-configuring current sensing.">AutoConfig</a> for details on all available options. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if configuration was successful (and calibration succeeded if autoCalibrate=true)</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> inversion defaults are set according to Table 24 for the specified motor type, but can be overridden via config.adc0_inverted, etc. Verify in open-loop voltage mode and adjust if phases are 180° out of phase.</dd>
+<dd>
+<a class="el" href="namespaceTMC9660_1_1ADC.html" title="ADC and analog measurement namespace for TMC9660.">ADC</a> offset calibration is required before using current sensing. If config.autoCalibrate is false, you must call <a class="el" href="#ae079087dc0f47e7102be75dc8f770b36" title="Calibrate the ADC offsets for current measurement.">calibrateOffsets()</a> manually. The motor must be stationary and commutation must be off (SYSTEM_OFF) during calibration.</dd></dl>
+<div class="fragment"><div class="line"><span class="comment">// Example 1: Basic configuration (minimal setup)</span></div>
+<div class="line"><a class="code hl_struct" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">TMC9660::CurrentSensing::AutoConfig</a> config;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#afeaeb036766fefe71bb75323e4d43dbf">shuntResistance_mOhm</a> = 3.0;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a39f65872687635d7f6be49dcc0abe4d3">expectedPeakCurrent_A</a> = 3.0;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a1b34a623a8088ef9c982535239efdab6">motorType</a> = tmc9660::tmcl::MotorType::BLDC_MOTOR;</div>
+<div class="line"><a class="code hl_variable" href="#a24570ebfd1f1b475ad5433b0e35903fd">driver</a>.currentSensing.configureAuto(config);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Example 2: With measured shunt resistances for automatic ADC_Ix_SCALE compensation</span></div>
+<div class="line"><span class="comment">// Measured: U=2.97 mΩ, V=3.01 mΩ, W=3.02 mΩ (nominal = 3.00 mΩ)</span></div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a0e62e692d86f6fc80964361105a8ce48">actualShuntR_adc0_mOhm</a> = 2.97;  <span class="comment">// ADC_I0 (Phase U)</span></div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ab39b03ed604157a75f4b53e19515e1bf">actualShuntR_adc1_mOhm</a> = 3.01;  <span class="comment">// ADC_I1 (Phase V)</span></div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a66b788f8694967fd822c68b0fb516d6a">actualShuntR_adc2_mOhm</a> = 3.02; <span class="comment">// ADC_I2 (Phase W)</span></div>
+<div class="line"><a class="code hl_variable" href="#a24570ebfd1f1b475ad5433b0e35903fd">driver</a>.currentSensing.configureAuto(config);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Example 3: With custom ADC mapping and inversion</span></div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#af1affa86c5759c838e5a455ccb315e2a">phaseU_adcMapping</a> = tmc9660::tmcl::AdcMapping::ADC_I0;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a328419fdbcc5df26ed01c63dc6cdeed6">phaseV_adcMapping</a> = tmc9660::tmcl::AdcMapping::ADC_I1;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a4a89b035ca2be80162802b00570f4c7a">phaseW_adcMapping</a> = tmc9660::tmcl::AdcMapping::ADC_I2;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ad89a0d395da81f8cf1f6ddeabe155bcb">adc0_inverted</a> = tmc9660::tmcl::AdcInversion::INVERTED;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ad2f58589bf7602a3d42e82b3762fcc97">adc1_inverted</a> = tmc9660::tmcl::AdcInversion::INVERTED;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a6c1fff6a66265fbfff31b8e85ce5a64e">adc2_inverted</a> = tmc9660::tmcl::AdcInversion::INVERTED;</div>
+<div class="line">config.<a class="code hl_variable" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a17ebc4a8d4781142e0e9f74a5a0177f8">autoCalibrate</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a class="code hl_variable" href="#a24570ebfd1f1b475ad5433b0e35903fd">driver</a>.currentSensing.configureAuto(config);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Now use mA directly:</span></div>
+<div class="line"><a class="code hl_variable" href="#a24570ebfd1f1b475ad5433b0e35903fd">driver</a>.motorConfig.setMaxTorqueCurrent(3000);  <span class="comment">// 3.0 A</span></div>
+<div class="line"><a class="code hl_variable" href="#a24570ebfd1f1b475ad5433b0e35903fd">driver</a>.focControl.setTargetTorque(2500);      <span class="comment">// 2.5 A</span></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html">TMC9660::CurrentSensing::AutoConfig</a></div><div class="ttdoc">Configuration structure for auto-configuring current sensing.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:653</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a0e62e692d86f6fc80964361105a8ce48"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a0e62e692d86f6fc80964361105a8ce48">TMC9660::CurrentSensing::AutoConfig::actualShuntR_adc0_mOhm</a></div><div class="ttdeci">float actualShuntR_adc0_mOhm</div><div class="ttdoc">Actual shunt resistance for ADC_I0 in mΩ</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:666</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a17ebc4a8d4781142e0e9f74a5a0177f8"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a17ebc4a8d4781142e0e9f74a5a0177f8">TMC9660::CurrentSensing::AutoConfig::autoCalibrate</a></div><div class="ttdeci">bool autoCalibrate</div><div class="ttdoc">If true, automatically calibrate ADC offsets after configuration.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:689</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a1b34a623a8088ef9c982535239efdab6"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a1b34a623a8088ef9c982535239efdab6">TMC9660::CurrentSensing::AutoConfig::motorType</a></div><div class="ttdeci">tmc9660::tmcl::MotorType motorType</div><div class="ttdoc">Motor type (used for default ADC inversion settings)</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:657</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a328419fdbcc5df26ed01c63dc6cdeed6"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a328419fdbcc5df26ed01c63dc6cdeed6">TMC9660::CurrentSensing::AutoConfig::phaseV_adcMapping</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcMapping &gt; phaseV_adcMapping</div><div class="ttdoc">ADC mapping for phase V (VX2). Default: ADC_I1.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:674</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a39f65872687635d7f6be49dcc0abe4d3"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a39f65872687635d7f6be49dcc0abe4d3">TMC9660::CurrentSensing::AutoConfig::expectedPeakCurrent_A</a></div><div class="ttdeci">float expectedPeakCurrent_A</div><div class="ttdoc">Expected peak phase current in amperes (e.g., 3.0 for 3A)</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:656</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a4a89b035ca2be80162802b00570f4c7a"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a4a89b035ca2be80162802b00570f4c7a">TMC9660::CurrentSensing::AutoConfig::phaseW_adcMapping</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcMapping &gt; phaseW_adcMapping</div><div class="ttdoc">ADC mapping for phase W (WY1). Default: ADC_I2.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:675</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a66b788f8694967fd822c68b0fb516d6a"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a66b788f8694967fd822c68b0fb516d6a">TMC9660::CurrentSensing::AutoConfig::actualShuntR_adc2_mOhm</a></div><div class="ttdeci">float actualShuntR_adc2_mOhm</div><div class="ttdoc">Actual shunt resistance for ADC_I2 in mΩ</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:668</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_a6c1fff6a66265fbfff31b8e85ce5a64e"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#a6c1fff6a66265fbfff31b8e85ce5a64e">TMC9660::CurrentSensing::AutoConfig::adc2_inverted</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcInversion &gt; adc2_inverted</div><div class="ttdoc">Inversion for ADC_I2. Default: based on motor type.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:685</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_ab39b03ed604157a75f4b53e19515e1bf"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ab39b03ed604157a75f4b53e19515e1bf">TMC9660::CurrentSensing::AutoConfig::actualShuntR_adc1_mOhm</a></div><div class="ttdeci">float actualShuntR_adc1_mOhm</div><div class="ttdoc">Actual shunt resistance for ADC_I1 in mΩ</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:667</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_ad2f58589bf7602a3d42e82b3762fcc97"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ad2f58589bf7602a3d42e82b3762fcc97">TMC9660::CurrentSensing::AutoConfig::adc1_inverted</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcInversion &gt; adc1_inverted</div><div class="ttdoc">Inversion for ADC_I1. Default: based on motor type.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:684</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_ad89a0d395da81f8cf1f6ddeabe155bcb"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#ad89a0d395da81f8cf1f6ddeabe155bcb">TMC9660::CurrentSensing::AutoConfig::adc0_inverted</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcInversion &gt; adc0_inverted</div><div class="ttdoc">Inversion for ADC_I0. Default: based on motor type.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:683</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_af1affa86c5759c838e5a455ccb315e2a"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#af1affa86c5759c838e5a455ccb315e2a">TMC9660::CurrentSensing::AutoConfig::phaseU_adcMapping</a></div><div class="ttdeci">std::optional&lt; tmc9660::tmcl::AdcMapping &gt; phaseU_adcMapping</div><div class="ttdoc">ADC mapping for phase U (UX1). Default: ADC_I0.</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:673</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_1_1AutoConfig_html_afeaeb036766fefe71bb75323e4d43dbf"><div class="ttname"><a href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#afeaeb036766fefe71bb75323e4d43dbf">TMC9660::CurrentSensing::AutoConfig::shuntResistance_mOhm</a></div><div class="ttdeci">float shuntResistance_mOhm</div><div class="ttdoc">Nominal shunt resistor value in milliohms (e.g., 3.0 for 3 mΩ)</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:655</div></div>
+<div class="ttc" id="astructTMC9660_1_1CurrentSensing_html_a24570ebfd1f1b475ad5433b0e35903fd"><div class="ttname"><a href="#a24570ebfd1f1b475ad5433b0e35903fd">TMC9660::CurrentSensing::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> TMC9660.hpp:970</div></div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a id="ae2bdfe04d9f2fed3563e681a661caadd" name="ae2bdfe04d9f2fed3563e681a661caadd"></a>

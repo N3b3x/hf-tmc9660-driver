@@ -1,7 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"namespacetmc9660_1_1bootaddr.html#a1458760730b1383d45ab11715fd11584":[1,0,0,0,15],
-"namespacetmc9660_1_1bootaddr.html#a27715940b1c80b165d162b76b1c8aa40":[1,0,0,0,7],
 "namespacetmc9660_1_1bootaddr.html#a3419c9d0f8db687b9ed5bb60fab092a5":[1,0,0,0,4],
 "namespacetmc9660_1_1bootaddr.html#a38ff74bb38e3894d0decd431e1402a1d":[1,0,0,0,21],
 "namespacetmc9660_1_1bootaddr.html#a48a95971850dad2836b6beae2223f8cc":[1,0,0,0,20],
@@ -249,5 +247,7 @@ var NAVTREEINDEX4 =
 "namespacetmc9660_1_1tmcl.html#a26b05e4bf0a611aaf1c867f65393afa5a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,66,0],
 "namespacetmc9660_1_1tmcl.html#a29d98b75fb99bf1457b9b9d515189f8f":[1,0,0,2,64],
 "namespacetmc9660_1_1tmcl.html#a29d98b75fb99bf1457b9b9d515189f8fa756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,64,0],
-"namespacetmc9660_1_1tmcl.html#a2a2dcd4f7bb9d7494ba32dd13047e985":[1,0,0,2,158]
+"namespacetmc9660_1_1tmcl.html#a2a2dcd4f7bb9d7494ba32dd13047e985":[1,0,0,2,158],
+"namespacetmc9660_1_1tmcl.html#a2ba7bfc558dd6b1857bada82c50dbd6b":[1,0,0,2,118],
+"namespacetmc9660_1_1tmcl.html#a2bb01ac564c237e3029b8cad6234a9a8":[1,0,0,2,76]
 };

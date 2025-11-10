@@ -100,7 +100,7 @@ $(function(){initNavTree('group__TMC9660__CommTypes.html',''); initResizable(); 
 </p>
 <p>Enums and type definitions for communication interfaces. </p>
 <p>For parameter read/write access, either UART or SPI may be used. Both interfaces share the same TMCL command structure and follow a strict command/reply order.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 SPI Command Format</h2>
 <p>Table 3: Command format for parameter read/write access through SPI </p><table class="markdownTable">
 <tr class="markdownTableHead">
@@ -110,7 +110,7 @@ SPI Command Format</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Desc   </td><td class="markdownTableBodyNone">Operation   </td><td class="markdownTableBodyNone">Type   </td><td class="markdownTableBodyNone">Motor/Bank   </td><td class="markdownTableBodyNone">Data   </td><td class="markdownTableBodyNone">Checksum   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 SPI Reply Format</h2>
 <p>Table 4: Reply format for parameter read/write access through SPI </p><table class="markdownTable">
 <tr class="markdownTableHead">
@@ -120,7 +120,7 @@ SPI Reply Format</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Desc   </td><td class="markdownTableBodyNone">SPI Status   </td><td class="markdownTableBodyNone">TMCL Status   </td><td class="markdownTableBodyNone">Operation   </td><td class="markdownTableBodyNone">Data   </td><td class="markdownTableBodyNone">Checksum   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 UART Command Format</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -128,7 +128,7 @@ UART Command Format</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Desc   </td><td class="markdownTableBodyNone">Sync+Address   </td><td class="markdownTableBodyNone">Command   </td><td class="markdownTableBodyNone">Type   </td><td class="markdownTableBodyNone">Motor/Bank   </td><td class="markdownTableBodyNone">Data   </td><td class="markdownTableBodyNone">Checksum   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 UART Reply Format</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -136,10 +136,10 @@ UART Reply Format</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Desc   </td><td class="markdownTableBodyNone">Host Address   </td><td class="markdownTableBodyNone">Sync+Address   </td><td class="markdownTableBodyNone">TMCL Status   </td><td class="markdownTableBodyNone">Operation   </td><td class="markdownTableBodyNone">Data   </td><td class="markdownTableBodyNone">Checksum   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md29"></a>
+<h2><a class="anchor" id="autotoc_md31"></a>
 GPIO Control Interface</h2>
 <p>The <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> provides several GPIO pins for system control and status monitoring. The interface uses board-agnostic naming and signal levels to accommodate different board implementations (direct connection, inverters, etc.).</p>
-<h3><a class="anchor" id="autotoc_md30"></a>
+<h3><a class="anchor" id="autotoc_md32"></a>
 Control Pins (Output from Host)</h3>
 <ul>
 <li><b>RST (Pin 22)</b>: External System Reset Input<ul>
@@ -161,7 +161,7 @@ Control Pins (Output from Host)</h3>
 </ul>
 </li>
 </ul>
-<h3><a class="anchor" id="autotoc_md31"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 Status Pins (Input to Host)</h3>
 <ul>
 <li><b>FAULTN (Pin 20)</b>: FAULT Output Signal (open drain)<ul>
