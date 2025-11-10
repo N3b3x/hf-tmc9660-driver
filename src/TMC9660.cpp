@@ -585,6 +585,73 @@ bool TMC9660::MotorConfig::setIdleMotorPWMBehavior(
                                static_cast<uint32_t>(behavior));
 }
 
+bool TMC9660::MotorConfig::configureAuto(const MotorProfile &profile) noexcept {
+  bool ok = true;
+
+  // --- Safety Check: Ensure critical parameters are valid ---
+  if (profile.maxPhaseCurrent_A <= 0.0f ||
+      profile.pwmFrequency_Hz < 10000 || profile.pwmFrequency_Hz > 100000 ||
+      (profile.motorType == tmc9660::tmcl::MotorType::BLDC_MOTOR && profile.polePairs == 0) ||
+      (profile.motorType == tmc9660::tmcl::MotorType::STEPPER_MOTOR && profile.polePairs == 0)) {
+    return false;
+  }
+
+  // Step 1: Set commutation mode to SYSTEM_OFF (required before changing motor type)
+  ok &= setCommutationMode(tmc9660::tmcl::CommutationMode::SYSTEM_OFF);
+
+  // Step 2: Set motor type and pole pairs
+  ok &= setType(profile.motorType, profile.polePairs);
+
+  // Step 3: Set motor direction
+  ok &= setDirection(profile.direction);
+
+  // Step 4: Set PWM frequency
+  ok &= setPWMFrequency(profile.pwmFrequency_Hz);
+
+  // Step 5: Set PWM switching scheme (with smart defaults based on motor type)
+  tmc9660::tmcl::PwmSwitchingScheme pwmScheme = profile.pwmSwitchingScheme;
+  // Auto-select default based on motor type if SVPWM is set for non-BLDC motors
+  if (profile.motorType != tmc9660::tmcl::MotorType::BLDC_MOTOR &&
+      pwmScheme == tmc9660::tmcl::PwmSwitchingScheme::SVPWM) {
+    // SVPWM is only valid for BLDC motors, use STANDARD for DC/Stepper
+    pwmScheme = tmc9660::tmcl::PwmSwitchingScheme::STANDARD;
+  }
+  ok &= setPWMSwitchingScheme(pwmScheme);
+
+  // Step 6: Set idle motor PWM behavior
+  ok &= setIdleMotorPWMBehavior(profile.idlePwmBehavior);
+
+  // Step 7: Calculate and set MAX_TORQUE from maxPhaseCurrent_A
+  uint16_t maxTorque_mA = static_cast<uint16_t>(profile.maxPhaseCurrent_A * 1000.0f + 0.5f);
+  ok &= setMaxTorqueCurrent(maxTorque_mA);
+
+  // Step 8: Calculate and set MAX_FLUX
+  // For DC motors, flux is not used (but we still set it to avoid issues)
+  // For BLDC/Stepper, default to 20% of max phase current if not specified
+  float maxFlux_A = profile.maxFluxCurrent_A;
+  if (std::isnan(maxFlux_A) || maxFlux_A <= 0.0f) {
+    if (profile.motorType == tmc9660::tmcl::MotorType::DC_MOTOR) {
+      maxFlux_A = 0.0f;  // DC motors don't use flux
+    } else {
+      maxFlux_A = profile.maxPhaseCurrent_A * 0.2f;  // 20% default for BLDC/Stepper
+    }
+  }
+  uint16_t maxFlux_mA = static_cast<uint16_t>(maxFlux_A * 1000.0f + 0.5f);
+  ok &= setMaxFluxCurrent(maxFlux_mA);
+
+  // Step 9: Set output voltage limit
+  ok &= setOutputVoltageLimit(profile.outputVoltageLimit);
+
+  // Step 10: Apply commutation mode if specified (applied last, after all configuration)
+  // This allows users to set the desired commutation mode (e.g., FOC_HALL, FOC_ENCODER)
+  // which will be applied after all motor parameters are configured
+  if (profile.commutationMode.has_value()) {
+    ok &= setCommutationMode(profile.commutationMode.value());
+  }
+
+  return ok;
+}
+
 //***************************************************************************
 //**                  SUBSYSTEM: Current Measurement                      **//
 //***************************************************************************
@@ -861,6 +928,173 @@ bool TMC9660::CurrentSensing::getCalibrationStatus(bool &isCalibrated) noexcept 
   return true;
 }
 
+bool TMC9660::CurrentSensing::configureAuto(const AutoConfig &config) noexcept {
+  // Convert mΩ to Ω
+  const float R_shunt_Ohm = config.shuntResistance_mOhm / 1000.0f;
+
+  // Available CSA gains and their numeric values
+  struct CsaGainOption {
+    tmc9660::tmcl::CsaGain gain;
+    float numericGain;
+  };
+
+  const CsaGainOption availableGains[] = {
+      {tmc9660::tmcl::CsaGain::GAIN_5X, 5.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_10X, 10.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_20X, 20.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_40X, 40.0f},
+  };
+
+  // Calculate full-scale current for each gain: I_FS = 2.5V / (G_CSA * R_shunt)
+  // We want I_FS to be at least 1.5x the expected peak current for headroom
+  const float minHeadroom = 1.5f;
+  const float targetIFS = config.expectedPeakCurrent_A * minHeadroom;
+
+  // Find the best CSA gain (smallest gain that provides sufficient headroom)
+  tmc9660::tmcl::CsaGain selectedGain = tmc9660::tmcl::CsaGain::GAIN_40X;
+  float selectedGainValue = 40.0f;
+  bool foundSuitableGain = false;
+
+  for (const auto &option : availableGains) {
+    const float I_FS = 2.5f / (option.numericGain * R_shunt_Ohm);
+    if (I_FS >= targetIFS && !foundSuitableGain) {
+      selectedGain = option.gain;
+      selectedGainValue = option.numericGain;
+      foundSuitableGain = true;
+    }
+  }
+
+  // Calculate CURRENT_SCALING_FACTOR
+  // Formula: Factor = 39.06 / (G_CSA * R_shunt_Ohm) for PEAK
+  //          Factor = 27.62 / (G_CSA * R_shunt_Ohm) for RMS
+  const float scalingFactor = config.usePeakScaling
+                                   ? (39.06f / (selectedGainValue * R_shunt_Ohm))
+                                   : (27.62f / (selectedGainValue * R_shunt_Ohm));
+
+  // Clamp to valid range [1, 65535]
+  uint16_t scalingFactorInt;
+  if (scalingFactor < 1.0f) {
+    scalingFactorInt = 1;
+  } else if (scalingFactor > 65535.0f) {
+    scalingFactorInt = 65535;
+  } else {
+    scalingFactorInt = static_cast<uint16_t>(scalingFactor + 0.5f); // Round to nearest
+  }
+
+  // Configure all parameters
+  bool ok = true;
+
+  // 1. Set shunt type
+  ok &= setShuntType(config.shuntType);
+
+  // 2. Set CSA gain
+  ok &= setCSAGain(selectedGain, selectedGain);
+
+  // 3. Set CSA filter
+  ok &= setCSAFilter(config.csaFilter, config.csaFilter);
+
+  // 4. Set current scaling factor (this is the key parameter!)
+  ok &= setScalingFactor(scalingFactorInt);
+
+  // 5. Set phase ADC mapping (use defaults if not specified: U->I0, V->I1, W->I2, Y2->I3)
+  tmc9660::tmcl::AdcMapping mapU = config.phaseU_adcMapping.value_or(tmc9660::tmcl::AdcMapping::ADC_I0);
+  tmc9660::tmcl::AdcMapping mapV = config.phaseV_adcMapping.value_or(tmc9660::tmcl::AdcMapping::ADC_I1);
+  tmc9660::tmcl::AdcMapping mapW = config.phaseW_adcMapping.value_or(tmc9660::tmcl::AdcMapping::ADC_I2);
+  tmc9660::tmcl::AdcMapping mapY2 = config.phaseY2_adcMapping.value_or(tmc9660::tmcl::AdcMapping::ADC_I3);
+  ok &= setPhaseAdcMapping(mapU, mapV, mapW, mapY2);
+
+  // 6. Calculate and set individual ADC scaling factors based on actual shunt resistances
+  // ADC_Ix_SCALE compensates for physical mismatch in shunt resistors and CSA amplifier tolerances.
+  // Formula: ADC_Ix_SCALE = 1024 * (R_nominal / R_actual)
+  // If actual resistance is not provided (NaN or <= 0), use nominal value (no compensation).
+  constexpr float defaultScale = 1024.0f;
+  constexpr float minScale = 1.0f;
+  constexpr float maxScale = 32767.0f;
+  
+  auto calculateScale = [&config, defaultScale, minScale, maxScale](float actualR_mOhm) -> uint16_t {
+    // Normalize: use nominal if not provided or invalid
+    if (std::isnan(actualR_mOhm) || actualR_mOhm <= 0.0f) {
+      actualR_mOhm = config.shuntResistance_mOhm;
+    }
+    
+    // Calculate and clamp in one step
+    float scale = defaultScale * (config.shuntResistance_mOhm / actualR_mOhm);
+    if (scale < minScale) scale = minScale;
+    else if (scale > maxScale) scale = maxScale;
+    
+    return static_cast<uint16_t>(scale + 0.5f);
+  };
+  
+  uint16_t scale0 = calculateScale(config.actualShuntR_adc0_mOhm); // ADC_I0
+  uint16_t scale1 = calculateScale(config.actualShuntR_adc1_mOhm); // ADC_I1
+  uint16_t scale2 = calculateScale(config.actualShuntR_adc2_mOhm); // ADC_I2
+  uint16_t scale3 = calculateScale(config.actualShuntR_adc3_mOhm); // ADC_I3
+  
+  ok &= setScalingFactors(scale0, scale1, scale2, scale3);
+
+  // 7. Set ADC inversion (use Table 24 defaults if not specified, allow override)
+  // Table 24: Standard ADC inversion table for usage with internal CSA
+  // DC:      ADC_I0=Inverted, ADC_I1=Not inverted
+  // BLDC:    ADC_I0=Inverted, ADC_I1=Inverted, ADC_I2=Inverted
+  // Stepper: ADC_I0=Inverted, ADC_I1=Not inverted, ADC_I2=Inverted, ADC_I3=Not inverted
+  tmc9660::tmcl::AdcInversion inv0_default, inv1_default, inv2_default, inv3_default;
+  switch (config.motorType) {
+  case tmc9660::tmcl::MotorType::DC_MOTOR:
+    inv0_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I0 (UX1)
+    inv1_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I1 (VX2)
+    inv2_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I2 (not used for DC)
+    inv3_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I3 (not used for DC)
+    break;
+  case tmc9660::tmcl::MotorType::BLDC_MOTOR:
+    inv0_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I0 (UX1)
+    inv1_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I1 (VX2)
+    inv2_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I2 (WY1)
+    inv3_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I3 (Y2, not used for BLDC)
+    break;
+  case tmc9660::tmcl::MotorType::STEPPER_MOTOR:
+    inv0_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I0 (UX1)
+    inv1_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I1 (VX2)
+    inv2_default = tmc9660::tmcl::AdcInversion::INVERTED;     // ADC_I2 (WY1)
+    inv3_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED; // ADC_I3 (Y2)
+    break;
+  default:
+    // NO_MOTOR or unknown: use BLDC defaults as safe fallback
+    inv0_default = tmc9660::tmcl::AdcInversion::INVERTED;
+    inv1_default = tmc9660::tmcl::AdcInversion::INVERTED;
+    inv2_default = tmc9660::tmcl::AdcInversion::INVERTED;
+    inv3_default = tmc9660::tmcl::AdcInversion::NOT_INVERTED;
+    break;
+  }
+  
+  // Use user-specified inversion if provided, otherwise use defaults
+  tmc9660::tmcl::AdcInversion inv0 = config.adc0_inverted.value_or(inv0_default);
+  tmc9660::tmcl::AdcInversion inv1 = config.adc1_inverted.value_or(inv1_default);
+  tmc9660::tmcl::AdcInversion inv2 = config.adc2_inverted.value_or(inv2_default);
+  tmc9660::tmcl::AdcInversion inv3 = config.adc3_inverted.value_or(inv3_default);
+  ok &= setInversion(inv0, inv1, inv2, inv3);
+
+  // 8. Optionally calibrate ADC offsets
+  // Note: Offsets are not set manually - they are calibrated by the TMC9660 hardware.
+  // The calibration requires the motor to be stationary and commutation to be off (SYSTEM_OFF).
+  if (config.autoCalibrate) {
+    // Trigger calibration and wait for completion
+    if (!calibrateOffsets(true, config.calibrationTimeoutMs)) {
+      return false; // Calibration failed or timed out
+    }
+    
+    // Verify calibration was successful by checking the ADC_OFFSET_CALIBRATED flag
+    bool isCalibrated = false;
+    if (!getCalibrationStatus(isCalibrated)) {
+      return false; // Failed to read calibration status
+    }
+    if (!isCalibrated) {
+      return false; // Calibration did not complete successfully
+    }
+  }
+
+  return ok;
+}
+
 //***************************************************************************
 //**                  SUBSYSTEM: Gate Driver                              **//
 //***************************************************************************
@@ -889,24 +1123,24 @@ bool TMC9660::GateDriver::configureBreakBeforeMakeTiming(uint8_t lowSideUVW, uin
   return ok;
 }
 
-bool TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns(double lowSideUVW_ns,
-                                                            double highSideUVW_ns,
-                                                            double lowSideY2_ns,
-                                                            double highSideY2_ns) noexcept {
+bool TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns(float lowSideUVW_ns,
+                                                            float highSideUVW_ns,
+                                                            float lowSideY2_ns,
+                                                            float highSideY2_ns) noexcept {
   // Conversion formula: value = time_ns / 8.33
   // Clamp to valid range [0, 255]
-  constexpr double ns_per_step = 8.33;
+  constexpr float ns_per_step = 8.33f;
 
-  auto convertToRegister = [](double time_ns) -> uint8_t {
-    double value = time_ns / ns_per_step;
+  auto convertToRegister = [](float time_ns) -> uint8_t {
+    float value = time_ns / ns_per_step;
     // Clamp to valid range
-    if (value < 0.0) {
+    if (value < 0.0f) {
       return 0;
     }
-    if (value > 255.0) {
+    if (value > 255.0f) {
       return 255;
     }
-    return static_cast<uint8_t>(value + 0.5); // Round to nearest integer
+    return static_cast<uint8_t>(value + 0.5f); // Round to nearest integer
   };
 
   uint8_t lowUVW = convertToRegister(lowSideUVW_ns);
@@ -936,22 +1170,30 @@ bool TMC9660::GateDriver::configureDriveTimes(uint8_t sinkTimeUVW, uint8_t sourc
   return ok;
 }
 
-bool TMC9660::GateDriver::configureDriveTimes_ns(double sinkTimeUVW_ns, double sourceTimeUVW_ns,
-                                                  double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept {
-  // Conversion formula: value = ((desired_time_ns / 8.33) - 3) / 2
+bool TMC9660::GateDriver::configureDriveTimes_ns(float sinkTimeUVW_ns, float sourceTimeUVW_ns,
+                                                  float sinkTimeY2_ns, float sourceTimeY2_ns) noexcept {
+  // Conversion formula per TMC9660 documentation:
+  // t = (1s / 120MHz) × (2 × DRIVE_TIME_xxx + 3)
+  // Solving for register value: DRIVE_TIME = ((t × 120MHz) - 3) / 2
+  // Where: 1s / 120MHz = 8.33ns per step
+  // Formula: value = ((desired_time_ns / 8.33) - 3) / 2
   // Clamp to valid range [0, 255]
-  constexpr double ns_per_step = 8.33;
+  constexpr float ns_per_step = 8.33f;  // 1s / 120MHz
   
-  auto convertToRegister = [](double time_ns) -> uint8_t {
-    double value = ((time_ns / ns_per_step) - 3.0) / 2.0;
-    // Clamp to valid range
-    if (value < 0.0) {
+  auto convertToRegister = [](float time_ns) -> uint8_t {
+    // Convert nanoseconds to register value using TMC9660 formula:
+    // t = 8.33ns × (2 × REG + 3)  →  REG = ((t / 8.33) - 3) / 2
+    float value = ((time_ns / ns_per_step) - 3.0f) / 2.0f;
+    // Clamp to valid range [0, 255]
+    if (value < 0.0f) {
       return 0;
     }
-    if (value > 255.0) {
+    if (value > 255.0f) {
       return 255;
     }
-    return static_cast<uint8_t>(value + 0.5); // Round to nearest integer
+    // Round to nearest integer (e.g., 10.5 → 11, 10.4 → 10)
+    // This selects the register value that produces the closest actual time
+    return static_cast<uint8_t>(value + 0.5f);
   };
   
   uint8_t sinkUVW = convertToRegister(sinkTimeUVW_ns);
@@ -1144,6 +1386,455 @@ bool TMC9660::GateDriver::setDriveFaultBehavior(
 
 bool TMC9660::GateDriver::setFaultHandlerRetries(uint8_t retries) noexcept {
   return driver.writeParameter(tmc9660::tmcl::Parameters::FAULT_HANDLER_NUMBER_OF_RETRIES, retries);
+}
+
+// Helper function to calculate required bootstrap current based on gate charge and PWM frequency
+// Physics-based calculation: I_avg = (Qg × N_phases × f_PWM) / duty_cycle × safety_margin
+static float calculateBootstrapCurrent_mA(float gateCharge_nC, float pwmFreq_Hz) noexcept {
+  constexpr float N_HIGH_SIDE_PHASES = 3.0f;  // UVW phases (3 high-side FETs)
+  constexpr float AVG_DUTY_CYCLE = 0.5f;     // Average duty cycle assumption
+  constexpr float SAFETY_MARGIN = 2.5f;      // 2.5x margin for duty peaks and losses
+  
+  // Average current needed: I = (Qg × N_phases × f_PWM) / duty_cycle
+  // Convert nC to C, Hz to 1/s: (nC × 1e-9) × N × f_PWM / duty = A
+  // Then convert to mA and apply safety margin
+  float chargePerCycle_C = gateCharge_nC * 1e-9f;  // Convert nC to C
+  float avgCurrent_A = (chargePerCycle_C * N_HIGH_SIDE_PHASES * pwmFreq_Hz) / AVG_DUTY_CYCLE;
+  return avgCurrent_A * 1000.0f * SAFETY_MARGIN;  // Convert to mA and apply margin
+}
+
+bool TMC9660::GateDriver::configurePowerStageProtection(const PowerStageProfile &profile) noexcept {
+  bool ok = true;
+  
+  // --- Safety Check: Ensure critical parameters are valid ---
+  if (profile.busVoltage_V <= 0.0f || profile.pwmFrequency_Hz <= 0.0f ||
+      profile.expectedPeakCurrent_A <= 0.0f || profile.mosfet_RdsOn_mOhm <= 0.0f ||
+      profile.shuntResistance_mOhm <= 0.0f || profile.mosfet_gateCharge_nC <= 0.0f) {
+    // Log/Report error: Invalid critical input parameters
+    return false; 
+  }
+
+  // ============================================================================
+  // PART 0: GATE DRIVER INTERFACE CONFIGURATION
+  // ============================================================================
+  // Configure basic hardware interface settings (must be set before timing/protection)
+  
+  // Step 0.1: Configure PWM output polarity (critical for hardware compatibility)
+  // Wrong polarity = gate driver won't work correctly with external MOSFET stages
+  ok &= setOutputPolarity(profile.pwmLowPolarity, profile.pwmHighPolarity);
+
+  // ============================================================================
+  // PART 1: GATE DRIVER TIMING CONFIGURATION
+  // ============================================================================
+  // Configure MOSFET switching characteristics based on gate charge (Qg)
+  // These directly affect switching speed and must be set before protection timing
+  
+  // Step 1.1: Calculate gate drive times from gate charge
+  // Target: ~200ns turn-on (source), ~135ns turn-off (sink) for efficiency/safety balance
+  // With adaptive drive time enabled, these are maximum times; driver optimizes down
+  // Allow user override via optional profile members for custom switching speed requirements
+  constexpr float DEFAULT_TARGET_TURN_ON_NS = 200.0f;   // Default source (turn-on) time target
+  constexpr float DEFAULT_TARGET_TURN_OFF_NS = 135.0f;  // Default sink (turn-off) time target
+  
+  float targetTurnOn_ns = profile.targetTurnOnTime_ns.value_or(DEFAULT_TARGET_TURN_ON_NS);
+  float targetTurnOff_ns = profile.targetTurnOffTime_ns.value_or(DEFAULT_TARGET_TURN_OFF_NS);
+  
+  // Validate override values are positive
+  if (targetTurnOn_ns <= 0.0f || targetTurnOff_ns <= 0.0f) {
+    return false;  // Invalid override values
+  }
+  
+  // Calculate required gate currents: I = Qg / t
+  // These are theoretical; we'll select closest available enum values
+  float requiredSourceCurrent_mA = (profile.mosfet_gateCharge_nC / targetTurnOn_ns) * 1000.0f;
+  float requiredSinkCurrent_mA = (profile.mosfet_gateCharge_nC / targetTurnOff_ns) * 1000.0f;
+  
+  // Select closest available gate current enum values
+  // Note: Selecting next-higher current results in faster switching (shorter actual rise/fall times)
+  // This is generally safer (reduces shoot-through risk) but may increase switching losses slightly
+  auto selectSourceCurrent = [](float current_mA) -> tmc9660::tmcl::GateCurrentSource {
+    if (current_mA <= 37.5f) return tmc9660::tmcl::GateCurrentSource::CUR_25_MA;
+    else if (current_mA <= 65.0f) return tmc9660::tmcl::GateCurrentSource::CUR_50_MA;
+    else if (current_mA <= 92.5f) return tmc9660::tmcl::GateCurrentSource::CUR_80_MA;
+    else if (current_mA <= 120.0f) return tmc9660::tmcl::GateCurrentSource::CUR_105_MA;
+    else if (current_mA <= 147.5f) return tmc9660::tmcl::GateCurrentSource::CUR_135_MA;
+    else if (current_mA <= 175.0f) return tmc9660::tmcl::GateCurrentSource::CUR_160_MA;
+    else if (current_mA <= 202.5f) return tmc9660::tmcl::GateCurrentSource::CUR_190_MA;
+    else if (current_mA <= 252.5f) return tmc9660::tmcl::GateCurrentSource::CUR_215_MA;
+    else if (current_mA <= 325.0f) return tmc9660::tmcl::GateCurrentSource::CUR_290_MA;
+    else if (current_mA <= 395.0f) return tmc9660::tmcl::GateCurrentSource::CUR_360_MA;
+    else if (current_mA <= 465.0f) return tmc9660::tmcl::GateCurrentSource::CUR_430_MA;
+    else if (current_mA <= 562.5f) return tmc9660::tmcl::GateCurrentSource::CUR_500_MA;
+    else if (current_mA <= 690.0f) return tmc9660::tmcl::GateCurrentSource::CUR_625_MA;
+    else if (current_mA <= 805.0f) return tmc9660::tmcl::GateCurrentSource::CUR_755_MA;
+    else return tmc9660::tmcl::GateCurrentSource::CUR_855_MA;
+  };
+  
+  auto selectSinkCurrent = [](float current_mA) -> tmc9660::tmcl::GateCurrentSink {
+    if (current_mA <= 75.0f) return tmc9660::tmcl::GateCurrentSink::CUR_50_MA;
+    else if (current_mA <= 130.0f) return tmc9660::tmcl::GateCurrentSink::CUR_100_MA;
+    else if (current_mA <= 185.0f) return tmc9660::tmcl::GateCurrentSink::CUR_160_MA;
+    else if (current_mA <= 240.0f) return tmc9660::tmcl::GateCurrentSink::CUR_210_MA;
+    else if (current_mA <= 295.0f) return tmc9660::tmcl::GateCurrentSink::CUR_270_MA;
+    else if (current_mA <= 350.0f) return tmc9660::tmcl::GateCurrentSink::CUR_320_MA;
+    else if (current_mA <= 405.0f) return tmc9660::tmcl::GateCurrentSink::CUR_380_MA;
+    else if (current_mA <= 505.0f) return tmc9660::tmcl::GateCurrentSink::CUR_430_MA;
+    else if (current_mA <= 650.0f) return tmc9660::tmcl::GateCurrentSink::CUR_580_MA;
+    else if (current_mA <= 790.0f) return tmc9660::tmcl::GateCurrentSink::CUR_720_MA;
+    else if (current_mA <= 930.0f) return tmc9660::tmcl::GateCurrentSink::CUR_860_MA;
+    else if (current_mA <= 1125.0f) return tmc9660::tmcl::GateCurrentSink::CUR_1000_MA;
+    else if (current_mA <= 1380.0f) return tmc9660::tmcl::GateCurrentSink::CUR_1250_MA;
+    else if (current_mA <= 1640.0f) return tmc9660::tmcl::GateCurrentSink::CUR_1510_MA;
+    else if (current_mA <= 1890.0f) return tmc9660::tmcl::GateCurrentSink::CUR_1770_MA;
+    else return tmc9660::tmcl::GateCurrentSink::CUR_2000_MA;
+  };
+  
+  tmc9660::tmcl::GateCurrentSource sourceCurrent = selectSourceCurrent(requiredSourceCurrent_mA);
+  tmc9660::tmcl::GateCurrentSink sinkCurrent = selectSinkCurrent(requiredSinkCurrent_mA);
+  
+  // Configure gate current limits
+  ok &= configureCurrentLimits(sinkCurrent, sourceCurrent, sinkCurrent, sourceCurrent);
+  
+  // Step 1.2: Configure drive times (maximum times with adaptive mode)
+  // Adaptive drive time will shorten these based on actual gate voltage monitoring
+  ok &= configureDriveTimes_ns(targetTurnOff_ns, targetTurnOn_ns, 
+                                targetTurnOff_ns, targetTurnOn_ns);
+  
+  // Step 1.3: Enable adaptive drive time for efficiency
+  // Adaptive mode monitors gate voltage and shortens drive times automatically
+  ok &= enableAdaptiveDriveTime(true, true);  // Enable for UVW and Y2
+  
+  // Step 1.4: Configure break-before-make timing (dead time)
+  // Documentation recommends 0 to let driver use internal optimized timing
+  // For special cases (high voltage, slow body diodes), dead time can be explicitly set
+  // Default to 0 per documentation recommendation for optimal performance
+  // Note: If overrideDeadTime_ns is added to PowerStageProfile in future, use:
+  //   float dead_time_ns = profile.overrideDeadTime_ns.value_or(0.0f);
+  constexpr float dead_time_ns = 0.0f;
+  ok &= configureBreakBeforeMakeTiming_ns(dead_time_ns, dead_time_ns, dead_time_ns, dead_time_ns);
+  
+  // Step 1.5: Configure bootstrap current limit
+  // Bootstrap must supply gate charge for high-side FETs at PWM switching rate
+  // Uses physics-based calculation (see calculateBootstrapCurrent_mA helper function)
+  tmc9660::tmcl::BootstrapCurrentLimit bootstrapCurrent;
+  float bootstrapCurrent_mA = calculateBootstrapCurrent_mA(profile.mosfet_gateCharge_nC, profile.pwmFrequency_Hz);
+  
+  if (bootstrapCurrent_mA <= 68.0f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_45_MA;
+  } else if (bootstrapCurrent_mA <= 116.0f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_91_MA;
+  } else if (bootstrapCurrent_mA <= 166.0f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_141_MA;
+  } else if (bootstrapCurrent_mA <= 229.0f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_191_MA;
+  } else if (bootstrapCurrent_mA <= 279.5f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_267_MA;
+  } else if (bootstrapCurrent_mA <= 316.5f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_292_MA;
+  } else if (bootstrapCurrent_mA <= 366.0f) {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_341_MA;
+  } else {
+    bootstrapCurrent = tmc9660::tmcl::BootstrapCurrentLimit::CUR_391_MA;
+  }
+  
+  ok &= configureBootstrapCurrentLimit(bootstrapCurrent);
+  
+  // Step 1.6: Configure undervoltage protection (supply, VDRV, and bootstrap)
+  // Supply level: Configured from profile (0=disabled, 1-16 map to HW levels 0-15)
+  // VDRV protection: Enabled by default for safety
+  // Bootstrap UVP: Enabled by default for safety (prevents gate drive failure from insufficient bootstrap voltage)
+  ok &= configureUndervoltageProtection(
+      profile.supplyLevel,  // Supply level from profile
+      tmc9660::tmcl::UndervoltageEnable::ENABLED,  // VDRV protection (keep enabled)
+      tmc9660::tmcl::UndervoltageEnable::ENABLED,  // Bootstrap UVW (keep enabled for safety)
+      tmc9660::tmcl::UndervoltageEnable::ENABLED); // Bootstrap Y2 (keep enabled for safety)
+  
+  // ============================================================================
+  // PART 2: PROTECTION PARAMETER CONFIGURATION
+  // ============================================================================
+  
+  // Step 2.1: Estimate di/dt (current rise rate during switching)
+  // di/dt ≈ V_bus / L_motor
+  // Use worst-case low inductance for safety (higher di/dt → longer blanking needed)
+  float di_dt_A_per_us;
+  if (std::isnan(profile.motorInductance_uH) || profile.motorInductance_uH <= 0.0f) {
+    // Conservative worst-case: assume low inductance (20 µH) for noisy motors
+    // Note: Gear motors typically have higher inductance (50-100+ µH), but using
+    // lower value ensures safer (longer) blanking time for worst-case scenarios
+    constexpr float L_WORST_CASE_uH = 20.0f;  // Fixed: was 50.0f, now matches comment
+    di_dt_A_per_us = profile.busVoltage_V / L_WORST_CASE_uH;
+  } else {
+    di_dt_A_per_us = profile.busVoltage_V / profile.motorInductance_uH;
+  }
+
+  // Step 2.2: Select overcurrent blanking time based on di/dt
+  // Higher di/dt → longer blanking needed to ignore switching spikes
+  // Apply blankingMargin safety factor to the base time
+  float baseBlankingTime_us;
+  if (di_dt_A_per_us < 5.0f) {
+    baseBlankingTime_us = 0.25f;
+  } else if (di_dt_A_per_us < 15.0f) {
+    baseBlankingTime_us = 0.5f;
+  } else if (di_dt_A_per_us < 30.0f) {
+    baseBlankingTime_us = 1.0f;
+  } else if (di_dt_A_per_us < 60.0f) {
+    baseBlankingTime_us = 2.0f;
+  } else {
+    // Very high di/dt - use longer blanking, but cap at PWM period limit
+    float pwmPeriod_us = 1000000.0f / profile.pwmFrequency_Hz;
+    // Cap blanking at 15% of PWM period for normal frequencies
+    // For very high frequencies (>100kHz), use more conservative 10% cap
+    float maxBlankingRatio = (profile.pwmFrequency_Hz > 100000.0f) ? 0.10f : 0.15f;
+    baseBlankingTime_us = pwmPeriod_us * maxBlankingRatio;
+    // Ensure minimum blanking time scales with PWM period but has absolute floor
+    // At very high frequencies, use 5% of period or 0.25µs minimum (whichever is larger)
+    float minBlanking_us = std::max(0.25f, pwmPeriod_us * 0.05f);
+    if (baseBlankingTime_us < minBlanking_us) {
+      baseBlankingTime_us = minBlanking_us;
+    }
+  }
+  
+  // Apply safety margin
+  float targetBlankingTime_us = baseBlankingTime_us * profile.blankingMargin;
+  
+  // Map to discrete register values (select next higher value for safety)
+  tmc9660::tmcl::OvercurrentTiming ocBlanking;
+  if (targetBlankingTime_us <= 0.25f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_0_25_MICROSEC;
+  } else if (targetBlankingTime_us <= 0.5f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_0_5_MICROSEC;
+  } else if (targetBlankingTime_us <= 1.0f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_1_MICROSEC;
+  } else if (targetBlankingTime_us <= 2.0f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_2_MICROSEC;
+  } else if (targetBlankingTime_us <= 4.0f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_4_MICROSEC;
+  } else if (targetBlankingTime_us <= 6.0f) {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_6_MICROSEC;
+  } else {
+    ocBlanking = tmc9660::tmcl::OvercurrentTiming::T_8_MICROSEC;
+  }
+
+  // Step 2.3: Select deglitch time based on gate charge (Qg)
+  // Low Qg = fast switching = more noise = longer deglitch needed
+  // High Qg = slow switching = less noise = shorter deglitch OK
+  // Apply blankingMargin safety factor
+  float baseDeglitchTime_us;
+  if (profile.mosfet_gateCharge_nC < 15.0f) {
+    // Fast FETs (GaN, low Qg) - need longer deglitch for noise filtering
+    baseDeglitchTime_us = 2.0f;
+  } else if (profile.mosfet_gateCharge_nC < 40.0f) {
+    // Normal FETs - moderate deglitch
+    baseDeglitchTime_us = 1.0f;
+  } else {
+    // Slow FETs (high Qg) - shorter deglitch sufficient
+    baseDeglitchTime_us = 0.5f;
+  }
+  
+  // Apply safety margin
+  float targetDeglitchTime_us = baseDeglitchTime_us * profile.blankingMargin;
+  
+  // Map to discrete register values (select next higher value for safety)
+  tmc9660::tmcl::OvercurrentTiming ocDeglitch;
+  if (targetDeglitchTime_us <= 0.25f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_0_25_MICROSEC;
+  } else if (targetDeglitchTime_us <= 0.5f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_0_5_MICROSEC;
+  } else if (targetDeglitchTime_us <= 1.0f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_1_MICROSEC;
+  } else if (targetDeglitchTime_us <= 2.0f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_2_MICROSEC;
+  } else if (targetDeglitchTime_us <= 4.0f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_4_MICROSEC;
+  } else if (targetDeglitchTime_us <= 6.0f) {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_6_MICROSEC;
+  } else {
+    ocDeglitch = tmc9660::tmcl::OvercurrentTiming::T_8_MICROSEC;
+  }
+
+  // Step 2.4: Select VGS short protection blanking/deglitch based on gate charge
+  tmc9660::tmcl::VgsBlankingTime vgsBlanking;
+  tmc9660::tmcl::VgsDeglitchTime vgsDeglitch;
+  if (profile.mosfet_gateCharge_nC < 15.0f) {
+    // Fast FETs - longer blanking/deglitch
+    vgsBlanking = tmc9660::tmcl::VgsBlankingTime::T_0_5_MICROSEC;
+    vgsDeglitch = tmc9660::tmcl::VgsDeglitchTime::T_2_MICROSEC;
+  } else if (profile.mosfet_gateCharge_nC < 40.0f) {
+    // Normal FETs
+    vgsBlanking = tmc9660::tmcl::VgsBlankingTime::T_0_5_MICROSEC;
+    vgsDeglitch = tmc9660::tmcl::VgsDeglitchTime::T_1_MICROSEC;
+  } else {
+    // Slow FETs - shorter times
+    vgsBlanking = tmc9660::tmcl::VgsBlankingTime::T_0_25_MICROSEC;
+    vgsDeglitch = tmc9660::tmcl::VgsDeglitchTime::T_0_5_MICROSEC;
+  }
+
+  // Step 2.5: Calculate overcurrent thresholds
+  // TMC9660 uses dual sensing: RSHUNT for low-side (primary), VDS for high-side (always)
+  // Low-side can optionally use VDS if Rds_on is low enough
+  // Calculate separate thresholds for each sensing method
+  
+  // RSHUNT threshold (for low-side when VDS disabled)
+  // Threshold voltage = I_peak * margin * R_shunt
+  float rshuntThreshold_mV = profile.expectedPeakCurrent_A * profile.overcurrentMargin * profile.shuntResistance_mOhm;
+  
+  // VDS threshold (for high-side always, and low-side if VDS enabled)
+  // Threshold voltage = I_peak * margin * Rds_on
+  float vdsThreshold_mV = profile.expectedPeakCurrent_A * profile.overcurrentMargin * profile.mosfet_RdsOn_mOhm;
+  
+  // Helper function to select threshold register value
+  auto selectThreshold = [](float voltage_mV, bool isVds) -> tmc9660::tmcl::OvercurrentThreshold {
+    // For VDS: use VDS values (lower); For RSHUNT: use RSHUNT values (higher)
+    // Select smallest threshold >= calculated value for safety
+    if (isVds) {
+      // VDS threshold values
+      if (voltage_mV <= 63.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_80_OR_63_MILLIVOLT;  // 63mV VDS
+      } else if (voltage_mV <= 125.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_165_OR_125_MILLIVOLT;  // 125mV VDS
+      } else if (voltage_mV <= 187.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_250_OR_187_MILLIVOLT;  // 187mV VDS
+      } else if (voltage_mV <= 248.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_330_OR_248_MILLIVOLT;  // 248mV VDS
+      } else if (voltage_mV <= 312.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_415_OR_312_MILLIVOLT;  // 312mV VDS
+      } else if (voltage_mV <= 374.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_500_OR_374_MILLIVOLT;  // 374mV VDS
+      } else if (voltage_mV <= 434.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_582_OR_434_MILLIVOLT;  // 434mV VDS
+      } else if (voltage_mV <= 504.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_660_OR_504_MILLIVOLT;  // 504mV VDS
+      } else if (voltage_mV <= 705.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_125_OR_705_MILLIVOLT;  // 705mV VDS
+      } else if (voltage_mV <= 940.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_250_OR_940_MILLIVOLT;  // 940mV VDS
+      } else if (voltage_mV <= 1180.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_375_OR_1180_MILLIVOLT;  // 1180mV VDS
+      } else if (voltage_mV <= 1410.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_500_OR_1410_MILLIVOLT;  // 1410mV VDS
+      } else if (voltage_mV <= 1650.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_625_OR_1650_MILLIVOLT;  // 1650mV VDS
+      } else if (voltage_mV <= 1880.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_750_OR_1880_MILLIVOLT;  // 1880mV VDS
+      } else if (voltage_mV <= 2110.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_875_OR_2110_MILLIVOLT;  // 2110mV VDS
+      } else {
+        return tmc9660::tmcl::OvercurrentThreshold::V_1000_OR_2350_MILLIVOLT;  // 2350mV VDS (max)
+      }
+    } else {
+      // RSHUNT threshold values (higher than VDS for same current)
+      // Hardware automatically selects RSHUNT value when VDS is disabled for low-side
+      if (voltage_mV <= 80.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_80_OR_63_MILLIVOLT;  // 80mV RSHUNT
+      } else if (voltage_mV <= 125.0f) {
+        // Special case: V_125_OR_705 provides 125mV RSHUNT (maps to 705mV VDS for high-side)
+        return tmc9660::tmcl::OvercurrentThreshold::V_125_OR_705_MILLIVOLT;
+      } else if (voltage_mV <= 165.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_165_OR_125_MILLIVOLT;  // 165mV RSHUNT
+      } else if (voltage_mV <= 250.0f) {
+        // V_250_OR_187 provides 250mV RSHUNT (normal case)
+        return tmc9660::tmcl::OvercurrentThreshold::V_250_OR_187_MILLIVOLT;
+      } else if (voltage_mV <= 330.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_330_OR_248_MILLIVOLT;  // 330mV RSHUNT
+      } else if (voltage_mV <= 375.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_375_OR_1180_MILLIVOLT;  // 375mV RSHUNT
+      } else if (voltage_mV <= 415.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_415_OR_312_MILLIVOLT;  // 415mV RSHUNT
+      } else if (voltage_mV <= 500.0f) {
+        // V_500_OR_374 provides 500mV RSHUNT (normal case)
+        return tmc9660::tmcl::OvercurrentThreshold::V_500_OR_374_MILLIVOLT;
+      } else if (voltage_mV <= 582.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_582_OR_434_MILLIVOLT;  // 582mV RSHUNT
+      } else if (voltage_mV <= 625.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_625_OR_1650_MILLIVOLT;  // 625mV RSHUNT
+      } else if (voltage_mV <= 660.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_660_OR_504_MILLIVOLT;  // 660mV RSHUNT
+      } else if (voltage_mV <= 750.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_750_OR_1880_MILLIVOLT;  // 750mV RSHUNT
+      } else if (voltage_mV <= 875.0f) {
+        return tmc9660::tmcl::OvercurrentThreshold::V_875_OR_2110_MILLIVOLT;  // 875mV RSHUNT
+      } else {
+        return tmc9660::tmcl::OvercurrentThreshold::V_1000_OR_2350_MILLIVOLT;  // 1000mV RSHUNT (max)
+      }
+    }
+  };
+  
+  // Step 2.6: Determine if VDS should be used for low-side
+  // VDS sensing is reliable when Rds_on is very low (< 10 mΩ) and for low bus voltages
+  // For high-performance drives, RSHUNT is typically preferred for low-side
+  bool useVdsLowSide = (profile.mosfet_RdsOn_mOhm < 10.0f);
+  
+  // Select appropriate thresholds
+  tmc9660::tmcl::OvercurrentThreshold ocThresholdLowSide = useVdsLowSide 
+      ? selectThreshold(vdsThreshold_mV, true)   // Use VDS threshold
+      : selectThreshold(rshuntThreshold_mV, false);  // Use RSHUNT threshold
+  tmc9660::tmcl::OvercurrentThreshold ocThresholdHighSide = selectThreshold(vdsThreshold_mV, true);  // Always VDS
+
+  // Step 2.7: Configure all protection parameters
+  // 2.7.1: Enable overcurrent protection (all phases, both sides)
+  ok &= enableOvercurrentProtection(
+      tmc9660::tmcl::OvercurrentEnable::ENABLED,   // UVW low side
+      tmc9660::tmcl::OvercurrentEnable::ENABLED,    // UVW high side
+      tmc9660::tmcl::OvercurrentEnable::ENABLED,   // Y2 low side
+      tmc9660::tmcl::OvercurrentEnable::ENABLED);  // Y2 high side
+
+  // 2.7.2: Set overcurrent thresholds (separate for low-side and high-side)
+  ok &= setOvercurrentThresholds(
+      ocThresholdLowSide,   // UVW low side (RSHUNT or VDS based on useVdsLowSide)
+      ocThresholdHighSide,  // UVW high side (always VDS)
+      ocThresholdLowSide,   // Y2 low side (RSHUNT or VDS based on useVdsLowSide)
+      ocThresholdHighSide); // Y2 high side (always VDS)
+
+  // 2.7.3: Set overcurrent blanking times
+  ok &= setOvercurrentBlanking(
+      ocBlanking,  // UVW low side
+      ocBlanking,  // UVW high side
+      ocBlanking,  // Y2 low side
+      ocBlanking); // Y2 high side
+
+  // 2.7.4: Set overcurrent deglitch times
+  ok &= setOvercurrentDeglitch(
+      ocDeglitch,  // UVW low side
+      ocDeglitch,  // UVW high side
+      ocDeglitch,  // Y2 low side
+      ocDeglitch); // Y2 high side
+
+  // 2.7.5: Enable/disable VDS monitoring for low-side
+  ok &= enableVdsMonitoringLow(
+      useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED,  // UVW
+      useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED); // Y2
+
+  // 2.7.6: Enable VGS short protection (all transitions)
+  ok &= configureVgsShortProtectionUVW(
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side ON
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side OFF
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // High side ON
+      tmc9660::tmcl::VgsShortEnable::ENABLED); // High side OFF
+
+  ok &= configureVgsShortProtectionY2(
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side ON
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side OFF
+      tmc9660::tmcl::VgsShortEnable::ENABLED,  // High side ON
+      tmc9660::tmcl::VgsShortEnable::ENABLED); // High side OFF
+
+  // 2.7.7: Set VGS short blanking and deglitch times
+  ok &= setVgsShortBlankingTime(vgsBlanking, vgsBlanking);  // UVW, Y2
+  ok &= setVgsShortDeglitchTime(vgsDeglitch, vgsDeglitch);  // UVW, Y2
+
+  // ============================================================================
+  // PART 3: FAULT HANDLING CONFIGURATION
+  // ============================================================================
+  
+  // Step 3.1: Configure retry behavior after gate driver fault
+  ok &= setRetryBehavior(profile.retryBehaviour);
+  
+  // Step 3.2: Configure drive fault behavior after all retries fail
+  ok &= setDriveFaultBehavior(profile.faultBehaviour);
+  
+  // Step 3.3: Set maximum number of fault handler retries
+  ok &= setFaultHandlerRetries(profile.faultHandlerRetries);
+
+  return ok;
 }
 
 //***************************************************************************
@@ -1571,6 +2262,92 @@ bool TMC9660::FeedbackSense::getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) no
     return false;
   shiftFactor = static_cast<int8_t>(v);
   return true;
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+//  Auto-Configuration Functions
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+bool TMC9660::FeedbackSense::configureAuto(const HallConfig &config) noexcept {
+  bool ok = true;
+
+  // Step 1: Configure basic Hall sensor settings
+  ok &= configureHall(config.sectorOffset, config.direction, config.extrapolation, config.filterLength);
+
+  // Step 2: Set position offsets if provided
+  if (config.offset0Deg.has_value() || config.offset60Deg.has_value() ||
+      config.offset120Deg.has_value() || config.offset180Deg.has_value() ||
+      config.offset240Deg.has_value() || config.offset300Deg.has_value() ||
+      config.globalOffsetDeg.has_value()) {
+    // Use provided values or defaults
+    float offset0 = config.offset0Deg.value_or(0.0f);
+    float offset60 = config.offset60Deg.value_or(60.0f);
+    float offset120 = config.offset120Deg.value_or(120.0f);
+    float offset180 = config.offset180Deg.value_or(180.0f);
+    float offset240 = config.offset240Deg.value_or(240.0f);
+    float offset300 = config.offset300Deg.value_or(300.0f);
+    float globalOffset = config.globalOffsetDeg.value_or(0.0f);
+    
+    ok &= setHallPositionOffsetsDegrees(offset0, offset60, offset120, offset180, offset240, offset300, globalOffset);
+  }
+
+  return ok;
+}
+
+bool TMC9660::FeedbackSense::configureAuto(const AbnConfig &config) noexcept {
+  bool ok = true;
+
+  // Step 1: Configure ABN encoder basic settings
+  ok &= configureABNEncoder(config.countsPerRev, config.direction, config.nChannelInverted);
+
+  // Step 2: Configure ABN initialization method
+  ok &= configureABNInitialization(config.initMethod, config.initDelay, config.initVelocity, config.nChannelOffset);
+
+  // Step 3: Configure N-channel filtering
+  ok &= configureABNNChannel(config.nChannelFiltering, config.clearOnNextNull);
+
+  return ok;
+}
+
+bool TMC9660::FeedbackSense::configureAuto(const Abn2Config &config) noexcept {
+  bool ok = true;
+
+  // Configure secondary ABN encoder
+  ok &= configureSecondaryABNEncoder(config.countsPerRev, config.direction, config.gearRatio);
+
+  // Enable or disable the encoder
+  ok &= setSecondaryABNEncoderEnabled(config.enable);
+
+  return ok;
+}
+
+bool TMC9660::FeedbackSense::configureAuto(const SpiEncoderConfig &config) noexcept {
+  bool ok = true;
+
+  // Step 1: Configure SPI encoder timing and frame size
+  ok &= configureSPIEncoder(config.cmdSize, config.csSettleTimeNs, config.csIdleTimeUs);
+
+  // Step 2: Configure SPI encoder data format
+  ok &= configureSPIEncoderDataFormat(config.positionMask, config.positionShift, config.direction);
+
+  // Step 3: Set request data for continuous transfer mode if provided
+  if (config.requestData.has_value()) {
+    ok &= setSPIEncoderRequestData(config.requestData->data(), config.cmdSize);
+    
+    // Enable continuous transfer mode
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SPI_ENCODER_TRANSFER,
+                                static_cast<uint32_t>(tmc9660::tmcl::SpiEncoderTransfer::CONTINUOUS_POSITION_COUNTER_READ));
+  }
+
+  // Step 4: Configure SPI encoder initialization
+  ok &= configureSPIEncoderInitialization(config.initMethod, config.offset);
+
+  // Step 5: Configure LUT correction if enabled
+  if (config.lutCorrection == tmc9660::tmcl::EnableDisable::ENABLED) {
+    ok &= setSPIEncoderLUTCorrection(config.lutCorrection, config.lutShiftFactor);
+  }
+
+  return ok;
 }
 
 //***************************************************************************

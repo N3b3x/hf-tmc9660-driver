@@ -180,16 +180,16 @@ struct TestResults {
    * @brief Calculate success percentage
    * @return Success percentage (0.0 to 100.0)
    */
-  double get_success_percentage() const noexcept {
-    return total_tests > 0 ? (static_cast<double>(passed_tests) / total_tests * 100.0) : 0.0;
+  float get_success_percentage() const noexcept {
+    return total_tests > 0 ? (static_cast<float>(passed_tests) / total_tests * 100.0f) : 0.0f;
   }
 
   /**
    * @brief Get total execution time in milliseconds
    * @return Total execution time in milliseconds
    */
-  double get_total_time_ms() const noexcept {
-    return total_execution_time_us / 1000.0;
+  float get_total_time_ms() const noexcept {
+    return total_execution_time_us / 1000.0f;
   }
 };
 

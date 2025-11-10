@@ -22,9 +22,12 @@
 #pragma once
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <limits>
 #include <memory>
+#include <optional>
 #include <span>
 #include <variant>
 #include <vector>
@@ -564,6 +567,50 @@ public:
         tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle =
             tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
 
+    /** @brief Configuration structure for auto-configuring motor parameters.
+     *
+     * This structure captures high-level motor characteristics and automatically
+     * derives all necessary low-level configuration parameters.
+     */
+    struct MotorProfile {
+      // Required parameters
+      tmc9660::tmcl::MotorType motorType;        //!< Motor type (DC, BLDC, STEPPER)
+      uint8_t polePairs;                         //!< Number of pole pairs (for BLDC/Stepper, typically 1-21)
+      uint32_t pwmFrequency_Hz;                  //!< PWM frequency in Hz (10000-100000, recommended: 20-25kHz for BLDC, 20kHz for stepper)
+      float maxPhaseCurrent_A;                   //!< Maximum phase current in amperes (used to set MAX_TORQUE and MAX_FLUX)
+
+      // Optional parameters with defaults
+      tmc9660::tmcl::MotorDirection direction = tmc9660::tmcl::MotorDirection::FORWARD;  //!< Motor direction (default: FORWARD)
+      tmc9660::tmcl::PwmSwitchingScheme pwmSwitchingScheme = tmc9660::tmcl::PwmSwitchingScheme::SVPWM;  //!< PWM switching scheme (default: SVPWM for BLDC, STANDARD for others)
+      float maxFluxCurrent_A = std::numeric_limits<float>::quiet_NaN();  //!< Maximum flux current in amperes (optional, defaults to maxPhaseCurrent_A * 0.2 for BLDC/Stepper)
+      uint16_t outputVoltageLimit = 8000;  //!< Output voltage limit for FOC controller (default: 8000)
+      tmc9660::tmcl::IdleMotorPwmBehavior idlePwmBehavior = tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE;  //!< Idle motor PWM behavior (default: PWM_OFF)
+      std::optional<tmc9660::tmcl::CommutationMode> commutationMode;  //!< Commutation mode to apply after configuration (optional, default: remains SYSTEM_OFF). Applied last, after all motor parameters are set.
+    };
+
+    /** @brief Auto-configure motor parameters based on high-level motor characteristics.
+     *
+     * This method automatically configures motor-specific parameters including:
+     * - Motor type and pole pairs
+     * - Motor direction
+     * - PWM frequency and switching scheme
+     * - Maximum torque and flux current limits
+     * - Idle motor PWM behavior
+     * - Output voltage limit
+     * - Commutation mode (if specified, applied last after all configuration is complete)
+     *
+     * @note Current sensing configuration (CSA gain, current scaling factor) should be
+     *       configured separately using CurrentSensing::configureAuto().
+     *
+     * @note The function sets commutation mode to SYSTEM_OFF first (required for motor
+     *       type changes), then configures all parameters, and finally applies the
+     *       requested commutation mode if specified in the profile.
+     *
+     * @param profile Motor configuration profile (see MotorProfile)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const MotorProfile &profile) noexcept;
+
   private:
     friend class TMC9660;
     explicit MotorConfig(TMC9660 &parent) noexcept : driver(parent) {}
@@ -577,6 +624,161 @@ public:
   /** @brief Subsystem for configuring ADC-based current measurement
    */
   struct CurrentSensing {
+    /** @brief Configuration structure for auto-configuring current sensing.
+     *
+     * This struct contains all parameters needed to configure the TMC9660 current sensing system.
+     * Most fields have sensible defaults based on the motor type and datasheet recommendations.
+     *
+     * @code
+     * // Example: Basic BLDC configuration
+     * TMC9660::CurrentSensing::AutoConfig config;
+     * config.shuntResistance_mOhm = 3.0;
+     * config.expectedPeakCurrent_A = 3.0;
+     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example: With custom ADC mapping and inversion
+     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
+     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
+     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
+     * config.phaseY2_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I3;
+     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc3_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.autoCalibrate = true;
+     * driver.currentSensing.configureAuto(config);
+     * @endcode
+     */
+    struct AutoConfig {
+      // Required parameters
+      float shuntResistance_mOhm;           //!< Nominal shunt resistor value in milliohms (e.g., 3.0 for 3 mΩ)
+      float expectedPeakCurrent_A;          //!< Expected peak phase current in amperes (e.g., 3.0 for 3A)
+      tmc9660::tmcl::MotorType motorType;    //!< Motor type (used for default ADC inversion settings)
+
+      // Optional parameters with defaults
+      bool usePeakScaling = true;            //!< If true, use peak scaling (recommended for FOC/BLDC). If false, use RMS.
+      tmc9660::tmcl::AdcShuntType shuntType = tmc9660::tmcl::AdcShuntType::BOTTOM_SHUNTS;  //!< Shunt type configuration
+      tmc9660::tmcl::CsaFilter csaFilter = tmc9660::tmcl::CsaFilter::T_1_0_MICROSEC;      //!< CSA filter time constant
+
+      // Per-ADC actual shunt resistances (for automatic ADC_Ix_SCALE compensation)
+      // If NaN or <= 0, uses nominal value (no compensation)
+      float actualShuntR_adc0_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I0 in mΩ
+      float actualShuntR_adc1_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I1 in mΩ
+      float actualShuntR_adc2_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I2 in mΩ
+      float actualShuntR_adc3_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I3 in mΩ
+
+      // Per-phase ADC mapping (which ADC channel maps to which motor phase)
+      // If not set (std::nullopt), uses defaults: U->I0, V->I1, W->I2, Y2->I3
+      std::optional<tmc9660::tmcl::AdcMapping> phaseU_adcMapping;   //!< ADC mapping for phase U (UX1). Default: ADC_I0
+      std::optional<tmc9660::tmcl::AdcMapping> phaseV_adcMapping;   //!< ADC mapping for phase V (VX2). Default: ADC_I1
+      std::optional<tmc9660::tmcl::AdcMapping> phaseW_adcMapping;   //!< ADC mapping for phase W (WY1). Default: ADC_I2
+      std::optional<tmc9660::tmcl::AdcMapping> phaseY2_adcMapping; //!< ADC mapping for phase Y2. Default: ADC_I3
+
+      // Per-ADC inversion settings
+      // If not set (std::nullopt), uses Table 24 defaults based on motor type:
+      //   DC:      ADC_I0=INVERTED, ADC_I1=NOT_INVERTED
+      //   BLDC:    ADC_I0=INVERTED, ADC_I1=INVERTED, ADC_I2=INVERTED
+      //   Stepper: ADC_I0=INVERTED, ADC_I1=NOT_INVERTED, ADC_I2=INVERTED, ADC_I3=NOT_INVERTED
+      std::optional<tmc9660::tmcl::AdcInversion> adc0_inverted;  //!< Inversion for ADC_I0. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc1_inverted; //!< Inversion for ADC_I1. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc2_inverted; //!< Inversion for ADC_I2. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc3_inverted; //!< Inversion for ADC_I3. Default: based on motor type
+
+      // Auto-calibration settings
+      bool autoCalibrate = false;           //!< If true, automatically calibrate ADC offsets after configuration
+      uint32_t calibrationTimeoutMs = 2000; //!< Timeout in milliseconds for auto-calibration verification
+    };
+
+    /** @brief Auto-configure current sensing based on shunt resistance and expected current.
+     *
+     * This method automatically selects the optimal CSA gain and calculates the current
+     * scaling factor to enable direct mA units for torque/flux commands.
+     *
+     * The function:
+     * - Selects the smallest CSA gain that provides ≥1.5x headroom above expected peak current
+     * - Calculates CURRENT_SCALING_FACTOR using the formula from the datasheet:
+     *   - Peak: Factor = 39.06 / (G_CSA * R_shunt_Ohm)
+     *   - RMS:  Factor = 27.62 / (G_CSA * R_shunt_Ohm)
+     * - Configures shunt type, CSA gain, filter, scaling factor, and ADC inversion
+     * - Optionally calculates per-ADC scaling factors if actual shunt resistances are provided
+     *
+     * After calling this, torque/flux commands (MAX_TORQUE, TARGET_TORQUE, etc.) can be
+     * specified directly in mA. For example, MAX_TORQUE = 3000 means 3.0 A.
+     *
+     * ## Two-Level Scaling System
+     *
+     * The TMC9660 uses a two-level scaling system:
+     *
+     * 1. **ADC_Ix_SCALE (per-phase trim)**: Compensates for physical mismatch in shunt resistors
+     *    and CSA amplifier tolerances. Default: 1024 (1.000×). If actual shunt resistances are
+     *    provided, this is automatically calculated to equalize all phases.
+     *
+     * 2. **CURRENT_SCALING_FACTOR (global unit conversion)**: Converts normalized ADC currents
+     *    to mA units for the torque/flux control system. This is automatically calculated based
+     *    on nominal shunt resistance and CSA gain.
+     *
+     * Signal flow:
+     * ```
+     * ADC_Ix_RAW → (offset removal) → ADC_Ix → (ADC_Ix_SCALE correction) →
+     * normalized phase current → (CURRENT_SCALING_FACTOR) → final torque/flux in mA
+     * ```
+     *
+     * ## Per-ADC Shunt Resistance Compensation
+     *
+     * If you have measured the actual shunt resistance for each ADC channel, you can provide
+     * them to automatically calculate ADC_Ix_SCALE. The formula used is:
+     * ```
+     * ADC_Ix_SCALE = 1024 * (R_nominal / R_actual)
+     * ```
+     *
+     * This ensures all phases report the same current for the same real current, compensating
+     * for shunt resistor tolerances.
+     *
+     * @param config Configuration structure containing all current sensing parameters.
+     *               See AutoConfig for details on all available options.
+     * @return true if configuration was successful (and calibration succeeded if autoCalibrate=true)
+     *
+     * @note ADC inversion defaults are set according to Table 24 for the specified motor type,
+     *       but can be overridden via config.adc0_inverted, etc. Verify in open-loop voltage
+     *       mode and adjust if phases are 180° out of phase.
+     *
+     * @note ADC offset calibration is required before using current sensing. If config.autoCalibrate
+     *       is false, you must call calibrateOffsets() manually. The motor must be stationary and
+     *       commutation must be off (SYSTEM_OFF) during calibration.
+     *
+     * @code
+     * // Example 1: Basic configuration (minimal setup)
+     * TMC9660::CurrentSensing::AutoConfig config;
+     * config.shuntResistance_mOhm = 3.0;
+     * config.expectedPeakCurrent_A = 3.0;
+     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example 2: With measured shunt resistances for automatic ADC_Ix_SCALE compensation
+     * // Measured: U=2.97 mΩ, V=3.01 mΩ, W=3.02 mΩ (nominal = 3.00 mΩ)
+     * config.actualShuntR_adc0_mOhm = 2.97;  // ADC_I0 (Phase U)
+     * config.actualShuntR_adc1_mOhm = 3.01;  // ADC_I1 (Phase V)
+     * config.actualShuntR_adc2_mOhm = 3.02; // ADC_I2 (Phase W)
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example 3: With custom ADC mapping and inversion
+     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
+     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
+     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
+     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.autoCalibrate = true;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Now use mA directly:
+     * driver.motorConfig.setMaxTorqueCurrent(3000);  // 3.0 A
+     * driver.focControl.setTargetTorque(2500);      // 2.5 A
+     * @endcode
+     */
+    bool configureAuto(const AutoConfig &config) noexcept;
+
     /** @brief Set the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
      * @param shuntType AdcShuntType enum value
      * @return true if successful
@@ -829,8 +1031,8 @@ public:
      * @param highSideY2_ns Break-before-make time for Y2 high side, in nanoseconds.
      * @return true if successfully configured.
      */
-    bool configureBreakBeforeMakeTiming_ns(double lowSideUVW_ns, double highSideUVW_ns,
-                                          double lowSideY2_ns, double highSideY2_ns) noexcept;
+    bool configureBreakBeforeMakeTiming_ns(float lowSideUVW_ns, float highSideUVW_ns,
+                                          float lowSideY2_ns, float highSideY2_ns) noexcept;
 
     /** @brief Enable or disable adaptive drive time for UVW and Y2 phases.
      *
@@ -887,8 +1089,8 @@ public:
      * @param sourceTimeY2_ns Charge time for Y2 phase, in nanoseconds.
      * @return true if successfully configured.
      */
-    bool configureDriveTimes_ns(double sinkTimeUVW_ns, double sourceTimeUVW_ns,
-                                double sinkTimeY2_ns, double sourceTimeY2_ns) noexcept;
+    bool configureDriveTimes_ns(float sinkTimeUVW_ns, float sourceTimeUVW_ns,
+                                float sinkTimeY2_ns, float sourceTimeY2_ns) noexcept;
 
     /** @brief Configure gate driver current limits for UVW and Y2 phases.
      *
@@ -1109,6 +1311,188 @@ public:
      * @return true if successfully configured.
      */
     bool setFaultHandlerRetries(uint8_t retries) noexcept;
+
+    /** @brief Configuration structure for auto-configuring power stage protection.
+     *
+     * This struct contains high-level physical properties of the power stage that
+     * are used to automatically derive all low-level protection timing parameters.
+     *
+     * Instead of manually configuring dozens of blanking/deglitch registers, users
+     * specify only the essential physical properties:
+     * - MOSFET Rds_on: Used to compute overcurrent trip thresholds
+     * - Gate charge (Qg): Determines switching speed → blanking/deglitch times
+     * - Bus voltage: Used to estimate di/dt during switching
+     * - PWM frequency: Limits maximum blanking time (must be < 10-20% of PWM period)
+     * - Expected peak current: Validates trip thresholds are above normal operation
+     * - Motor inductance (optional): For more accurate di/dt estimation
+     *
+     * @code
+     * // Example: Basic configuration
+     * TMC9660::GateDriver::PowerStageProfile profile;
+     * profile.mosfet_RdsOn_mOhm = 3.8f;      // 3.8 mΩ at operating temperature
+     * profile.mosfet_gateCharge_nC = 14.0f;  // 14 nC gate charge
+     * profile.shuntResistance_mOhm = 3.0f;   // 3 mΩ shunt resistors (for low-side sensing)
+     * profile.busVoltage_V = 24.0f;          // 24V bus
+     * profile.pwmFrequency_Hz = 32000.0f;    // 32 kHz PWM
+     * profile.expectedPeakCurrent_A = 5.0f;   // 5A peak phase current
+     * profile.motorInductance_uH = 50.0f;     // 50 µH phase inductance (optional, for gear motors)
+     * driver.gateDriver.configurePowerStageProtection(profile);
+     * 
+     * // Example: Custom switching speed (faster turn-on for lower EMI, slower turn-off for safety)
+     * TMC9660::GateDriver::PowerStageProfile fastProfile;
+     * // ... set required parameters ...
+     * fastProfile.targetTurnOnTime_ns = 150.0f;   // Faster turn-on: 150ns (default: 200ns)
+     * fastProfile.targetTurnOffTime_ns = 180.0f;  // Slower turn-off: 180ns (default: 135ns)
+     * driver.gateDriver.configurePowerStageProtection(fastProfile);
+     * @endcode
+     */
+    struct PowerStageProfile {
+      // Required parameters
+      float mosfet_RdsOn_mOhm;        //!< MOSFET on-resistance in milliohms (at operating junction temp)
+      float mosfet_gateCharge_nC;     //!< MOSFET gate charge in nanocoulombs (Qg from datasheet)
+      float shuntResistance_mOhm;     //!< Low-side shunt resistor value in milliohms (R_SHUNT, used for primary current sensing)
+      float busVoltage_V;              //!< DC bus voltage in volts
+      float pwmFrequency_Hz;           //!< PWM switching frequency in Hz
+      float expectedPeakCurrent_A;     //!< Expected peak phase current in amperes
+
+      // Optional parameters with defaults
+      float motorInductance_uH = std::numeric_limits<float>::quiet_NaN();  //!< Motor phase inductance in microhenries (optional, for accurate di/dt)
+      
+      // Safety margin multipliers (optional, with conservative defaults)
+      float overcurrentMargin = 1.5f;  //!< Overcurrent threshold margin above expected peak (default: 1.5x)
+      float blankingMargin = 1.2f;     //!< Blanking time safety margin multiplier (default: 1.2x)
+      
+      // Fault handling behavior (optional, with safe defaults)
+      tmc9660::tmcl::GdrvRetryBehaviour retryBehaviour = tmc9660::tmcl::GdrvRetryBehaviour::OPEN_CIRCUIT;  //!< Behavior after gate driver fault (default: OPEN_CIRCUIT)
+      tmc9660::tmcl::DriveFaultBehaviour faultBehaviour = tmc9660::tmcl::DriveFaultBehaviour::OPEN_CIRCUIT;  //!< Behavior after all retries fail (default: OPEN_CIRCUIT)
+      uint8_t faultHandlerRetries = 5;  //!< Maximum number of retries per detected fault [0-255] (default: 5)
+      
+      // Gate driver timing overrides (optional, for advanced tuning)
+      std::optional<float> targetTurnOnTime_ns;   //!< Override target turn-on time in nanoseconds (default: 200ns). Use for custom switching speed requirements.
+      std::optional<float> targetTurnOffTime_ns;  //!< Override target turn-off time in nanoseconds (default: 135ns). Use for custom switching speed requirements.
+      
+      // Gate driver interface configuration (optional, with safe defaults)
+      tmc9660::tmcl::PwmOutputPolarity pwmLowPolarity = tmc9660::tmcl::PwmOutputPolarity::ACTIVE_HIGH;   //!< PWM_L output polarity (default: ACTIVE_HIGH). Critical for hardware compatibility.
+      tmc9660::tmcl::PwmOutputPolarity pwmHighPolarity = tmc9660::tmcl::PwmOutputPolarity::ACTIVE_HIGH;  //!< PWM_H output polarity (default: ACTIVE_HIGH). Critical for hardware compatibility.
+      
+      // Undervoltage protection configuration (optional, with safe defaults)
+      tmc9660::tmcl::UndervoltageLevel supplyLevel = tmc9660::tmcl::UndervoltageLevel::DISABLED;  //!< Supply voltage (VS) undervoltage protection level (default: DISABLED). 0=disabled, 1-16 map to HW levels 0-15.
+    };
+
+    /** @brief Auto-configure complete power stage based on physical properties.
+     *
+     * This method automatically configures the entire power stage including:
+     * - Gate driver interface (PWM polarity)
+     * - Gate driver timing (drive times, gate currents, dead time, bootstrap)
+     * - Protection parameters (overcurrent thresholds, blanking, deglitch, VGS protection, bootstrap UVP)
+     * - Fault handling (retry behavior, fault behavior, retry count)
+     *
+     * All parameters are derived from high-level physical properties, eliminating
+     * the need to manually configure dozens of low-level registers.
+     *
+     * @note This function does NOT enable the gate driver. After calling this function, you must:
+     *   - Assert the DRV_EN hardware pin (if used)
+     *   - Set COMMUTATION_MODE to a value other than SYSTEM_OFF (e.g., via setCommutationMode())
+     *
+     * @note Phase selection (3-phase vs 4-phase) is determined by boot configuration and MOTOR_TYPE.
+     *   This function configures all phases that are enabled by the system.
+     *
+     * **Automatic Derivation Logic:**
+     *
+     * **PART 0: Gate Driver Interface Configuration**
+     *
+     * 0. **PWM Output Polarity**: Configurable via profile (default: ACTIVE_HIGH/ACTIVE_HIGH)
+     *    - Critical for hardware compatibility - must match PCB layout and external gate driver stages
+     *    - Wrong polarity will prevent gate driver from working correctly
+     *
+     * **PART 1: Gate Driver Timing Configuration**
+     *
+     * 2. **Gate Current Limits**: Calculated from gate charge (Qg) and target switching times
+     *    - Source current: I = Qg / target_turn_on_time (default: ~200ns, can be overridden)
+     *    - Sink current: I = Qg / target_turn_off_time (default: ~135ns, can be overridden)
+     *    - Automatically selects closest available enum values
+     *    - Use `targetTurnOnTime_ns` and `targetTurnOffTime_ns` in profile to override defaults
+     *
+     * 3. **Drive Times**: Set to target switching times (default: 200ns turn-on, 135ns turn-off)
+     *    - With adaptive drive time enabled, these are maximum times
+     *    - Driver automatically optimizes down based on actual gate voltage monitoring
+     *    - Can be customized via optional `targetTurnOnTime_ns` and `targetTurnOffTime_ns` profile members
+     *
+     * 4. **Adaptive Drive Time**: Automatically enabled for efficiency
+     *    - Monitors gate voltage and shortens drive times automatically
+     *    - DRIVE_TIME_SINK acts as upper bound when adaptive mode is enabled
+     *
+     * 5. **Break-Before-Make (Dead Time)**: Set to 0 per documentation recommendation
+     *    - Driver uses internal optimized timing
+     *    - Can be overridden in future via PowerStageProfile if needed for special cases
+     *
+     * 6. **Bootstrap Current Limit**: Physics-based calculation from PWM frequency and gate charge
+     *    - I_avg = (Qg × 3_phases × f_PWM) / duty_cycle × safety_margin
+     *    - Accounts for 3 high-side FETs, 50% average duty cycle, 2.5× safety margin
+     *    - Automatically selects closest available enum value
+     *
+     * 7. **Undervoltage Protection**: Configured from profile
+     *    - Supply level: From profile.supplyLevel (0=disabled, 1-16 map to HW levels 0-15)
+     *    - VDRV protection: Enabled by default for safety
+     *    - Bootstrap UVP: Enabled by default for safety (prevents gate drive failure)
+     *    - Enabled for both UVW and Y2 phases
+     *
+     * **PART 2: Protection Parameter Configuration**
+     *
+     * 8. **Overcurrent Threshold**: Computed from Rds_on and expected peak current
+     *    - Threshold = expectedPeakCurrent_A * overcurrentMargin * Rds_on_mOhm (VDS)
+     *    - Threshold = expectedPeakCurrent_A * overcurrentMargin * R_shunt_mOhm (RSHUNT)
+     *    - Automatically selects appropriate register values for both sensing methods
+     *
+     * 9. **Blanking Time**: Derived from di/dt estimation
+     *    - di/dt ≈ busVoltage_V / motorInductance_uH (or 20µH conservative estimate if unknown)
+     *    - Blanking time selected based on di/dt range:
+     *      - < 5 A/µs → 0.25 µs
+     *      - 5-15 A/µs → 0.5 µs
+     *      - 15-30 A/µs → 1.0 µs
+     *      - 30-60 A/µs → 2.0 µs
+     *      - > 60 A/µs → 4-8 µs (capped at 10-15% of PWM period, minimum 5% or 0.25µs)
+     *    - Applied blankingMargin safety factor
+     *
+     * 10. **Deglitch Time**: Based on gate charge (Qg) and switching speed
+     *    - Low Qg (< 15 nC): Fast switching → longer deglitch (1-4 µs)
+     *    - Medium Qg (15-40 nC): Normal → moderate deglitch (0.5-1 µs)
+     *    - High Qg (> 40 nC): Slow switching → shorter deglitch (0.25-0.5 µs)
+     *    - Applied blankingMargin safety factor
+     *
+     * 11. **VGS Short Protection**: Based on gate charge
+     *    - Fast FETs (low Qg): Longer blanking/deglitch
+     *    - Slow FETs (high Qg): Shorter blanking/deglitch
+     *    - Automatically enabled for all transitions
+     *
+     * 12. **VDS Monitoring**: Automatically enabled if Rds_on < 10 mΩ for reliable sensing
+     *    - Otherwise uses RSHUNT-based sensing (more accurate, recommended)
+     *
+     * **PART 3: Fault Handling Configuration**
+     *
+     * 13. **Retry Behavior**: Configurable behavior after gate driver fault
+     *    - OPEN_CIRCUIT (default): Motor spins freely
+     *    - ELECTRICAL_BRAKING: Enable braking if possible
+     *
+     * 14. **Drive Fault Behavior**: Configurable behavior after all retries fail
+     *    - OPEN_CIRCUIT (default): Motor spins freely
+     *    - ELECTRICAL_BRAKING: Enable braking if possible
+     *    - MECHANICAL_BRAKING_AND_OPEN_CIRCUIT: Engage mechanical brake if configured
+     *    - MECHANICAL_AND_ELECTRICAL_BRAKING: Both electrical and mechanical braking
+     *
+     * 15. **Fault Handler Retries**: Maximum number of retries per detected fault
+     *    - Default: 5 retries (range: 0-255)
+     *
+     * @param profile Power stage physical properties (see PowerStageProfile)
+     * @return true if configuration was successful
+     *
+     * @note All protection features are enabled by default. The method configures
+     *       timing parameters only - protection enables are set to safe defaults.
+     *
+     * @note If motor inductance is not provided (NaN), conservative di/dt estimates
+     *       are used based on typical motor sizes.
+     */
+    bool configurePowerStageProtection(const PowerStageProfile &profile) noexcept;
 
   private:
     friend class TMC9660;
@@ -1499,6 +1883,125 @@ public:
     /** @brief Read SPI_LUT_COMMON_SHIFT_FACTOR.
      */
     bool getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) noexcept;
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //  Auto-Configuration Structures
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /** @brief Configuration structure for Hall sensor auto-configuration.
+     */
+    struct HallConfig {
+      // Required parameters
+      tmc9660::tmcl::HallSectorOffset sectorOffset = tmc9660::tmcl::HallSectorOffset::DEG_0;  //!< Hall sensor 60-degree/sector offset (default: DEG_0)
+      
+      // Optional parameters with defaults
+      tmc9660::tmcl::Direction direction = tmc9660::tmcl::Direction::NOT_INVERTED;  //!< Hall sensor direction (default: NOT_INVERTED)
+      tmc9660::tmcl::EnableDisable extrapolation = tmc9660::tmcl::EnableDisable::DISABLED;  //!< Enable Hall extrapolation for higher resolution (default: DISABLED)
+      uint8_t filterLength = 0;  //!< Digital filter length for Hall inputs [0-255] (default: 0, no filtering)
+      
+      // Position offsets (optional, use NaN to skip)
+      std::optional<float> offset0Deg;    //!< Offset for 0° Hall position in degrees (optional, default: 0°)
+      std::optional<float> offset60Deg;   //!< Offset for 60° Hall position in degrees (optional, default: 60°)
+      std::optional<float> offset120Deg;  //!< Offset for 120° Hall position in degrees (optional, default: 120°)
+      std::optional<float> offset180Deg;  //!< Offset for 180° Hall position in degrees (optional, default: 180°)
+      std::optional<float> offset240Deg;  //!< Offset for 240° Hall position in degrees (optional, default: 240°)
+      std::optional<float> offset300Deg;  //!< Offset for 300° Hall position in degrees (optional, default: 300°)
+      std::optional<float> globalOffsetDeg;  //!< Global offset in degrees (optional, default: 0°)
+    };
+
+    /** @brief Configuration structure for ABN encoder auto-configuration.
+     */
+    struct AbnConfig {
+      // Required parameters
+      uint32_t countsPerRev;  //!< Encoder resolution in counts per revolution (CPR) [0-16777215]
+      
+      // Optional parameters with defaults
+      tmc9660::tmcl::Direction direction = tmc9660::tmcl::Direction::NOT_INVERTED;  //!< Encoder direction (default: NOT_INVERTED)
+      tmc9660::tmcl::EnableDisable nChannelInverted = tmc9660::tmcl::EnableDisable::DISABLED;  //!< N-channel (index) inversion (default: DISABLED, active high)
+      
+      // Initialization parameters (optional)
+      tmc9660::tmcl::AbnInitMethod initMethod = tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING;  //!< Initialization method (default: FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING)
+      uint16_t initDelay = 1000;  //!< Initialization delay in ms [1000-10000] (default: 1000ms)
+      int32_t initVelocity = 5;  //!< Initialization velocity [-200000 to 200000] (default: 5)
+      int16_t nChannelOffset = 0;  //!< N-channel offset [-32768 to 32767] (default: 0)
+      
+      // N-channel filtering (optional)
+      tmc9660::tmcl::AbnNChannelFiltering nChannelFiltering = tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF;  //!< N-channel filtering mode (default: FILTERING_OFF)
+      tmc9660::tmcl::EnableDisable clearOnNextNull = tmc9660::tmcl::EnableDisable::DISABLED;  //!< Clear position on next N-channel event (default: DISABLED)
+    };
+
+    /** @brief Configuration structure for ABN2 (secondary) encoder auto-configuration.
+     */
+    struct Abn2Config {
+      // Required parameters
+      uint32_t countsPerRev;  //!< Encoder resolution in counts per revolution (CPR) [0-16777215]
+      
+      // Optional parameters with defaults
+      tmc9660::tmcl::Direction direction = tmc9660::tmcl::Direction::NOT_INVERTED;  //!< Encoder direction (default: NOT_INVERTED)
+      uint8_t gearRatio = 1;  //!< Gear ratio between encoder and motor shaft [1-255] (default: 1, directly coupled)
+      bool enable = true;  //!< Enable the ABN2 encoder (default: true)
+    };
+
+    /** @brief Configuration structure for SPI encoder auto-configuration.
+     */
+    struct SpiEncoderConfig {
+      // Required parameters
+      uint8_t cmdSize;  //!< Size of SPI transfer frame [1-16 bytes]
+      uint32_t positionMask;  //!< Bit mask to extract position from SPI response [0-4294967295]
+      
+      // Optional parameters with defaults
+      uint16_t csSettleTimeNs = 0;  //!< CS settle delay time [0-6375 ns] (default: 0)
+      uint8_t csIdleTimeUs = 0;  //!< CS idle time between frames [0-102 µs] (default: 0)
+      uint8_t positionShift = 0;  //!< Right shift for position counter [0-127] (default: 0)
+      tmc9660::tmcl::Direction direction = tmc9660::tmcl::Direction::NOT_INVERTED;  //!< SPI encoder direction (default: NOT_INVERTED)
+      
+      // Initialization parameters (optional)
+      tmc9660::tmcl::SpiInitMethod initMethod = tmc9660::tmcl::SpiInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING;  //!< Initialization method (default: FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING)
+      int16_t offset = 0;  //!< Manual offset for USE_OFFSET initialization method (default: 0)
+      
+      // Request data for continuous transfer (optional)
+      std::optional<std::array<uint8_t, 16>> requestData;  //!< Request data bytes to send to encoder (optional, for continuous transfer mode)
+      
+      // LUT correction (optional)
+      tmc9660::tmcl::EnableDisable lutCorrection = tmc9660::tmcl::EnableDisable::DISABLED;  //!< Enable lookup table correction (default: DISABLED)
+      int8_t lutShiftFactor = 0;  //!< LUT common shift factor [0-4] (default: 0)
+    };
+
+    /** @brief Auto-configure Hall sensor feedback.
+     *
+     * Configures all Hall sensor parameters including offsets, filtering, and extrapolation.
+     *
+     * @param config Hall sensor configuration (see HallConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const HallConfig &config) noexcept;
+
+    /** @brief Auto-configure ABN encoder feedback.
+     *
+     * Configures ABN encoder including initialization method, N-channel settings, and filtering.
+     *
+     * @param config ABN encoder configuration (see AbnConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const AbnConfig &config) noexcept;
+
+    /** @brief Auto-configure ABN2 (secondary) encoder feedback.
+     *
+     * Configures the secondary ABN encoder for position/velocity feedback (cannot be used for commutation).
+     *
+     * @param config ABN2 encoder configuration (see Abn2Config)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const Abn2Config &config) noexcept;
+
+    /** @brief Auto-configure SPI encoder feedback.
+     *
+     * Configures SPI encoder including timing, data format, initialization, and optional LUT correction.
+     *
+     * @param config SPI encoder configuration (see SpiEncoderConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const SpiEncoderConfig &config) noexcept;
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
