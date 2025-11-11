@@ -429,6 +429,13 @@ public:
      * @return true if the parameter was set successfully.
      */
     bool setOutputVoltageLimit(uint16_t limit) noexcept;
+    
+    /** @brief Read the output voltage limit for the FOC controller.
+     *
+     * @param[out] limit Current output voltage limit value.
+     * @return true if the parameter was read successfully.
+     */
+    bool getOutputVoltageLimit(uint16_t &limit) noexcept;
 
     /** @brief Set the maximum allowed motor current (torque limit).
      *
@@ -567,6 +574,10 @@ public:
         tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle =
             tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) noexcept;
 
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
     /** @brief Configuration structure for auto-configuring motor parameters.
      *
      * This structure captures high-level motor characteristics and automatically
@@ -624,160 +635,6 @@ public:
   /** @brief Subsystem for configuring ADC-based current measurement
    */
   struct CurrentSensing {
-    /** @brief Configuration structure for auto-configuring current sensing.
-     *
-     * This struct contains all parameters needed to configure the TMC9660 current sensing system.
-     * Most fields have sensible defaults based on the motor type and datasheet recommendations.
-     *
-     * @code
-     * // Example: Basic BLDC configuration
-     * TMC9660::CurrentSensing::AutoConfig config;
-     * config.shuntResistance_mOhm = 3.0;
-     * config.expectedPeakCurrent_A = 3.0;
-     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
-     * driver.currentSensing.configureAuto(config);
-     *
-     * // Example: With custom ADC mapping and inversion
-     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
-     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
-     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
-     * config.phaseY2_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I3;
-     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.adc3_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.autoCalibrate = true;
-     * driver.currentSensing.configureAuto(config);
-     * @endcode
-     */
-    struct AutoConfig {
-      // Required parameters
-      float shuntResistance_mOhm;           //!< Nominal shunt resistor value in milliohms (e.g., 3.0 for 3 mΩ)
-      float expectedPeakCurrent_A;          //!< Expected peak phase current in amperes (e.g., 3.0 for 3A)
-      tmc9660::tmcl::MotorType motorType;    //!< Motor type (used for default ADC inversion settings)
-
-      // Optional parameters with defaults
-      bool usePeakScaling = true;            //!< If true, use peak scaling (recommended for FOC/BLDC). If false, use RMS.
-      tmc9660::tmcl::AdcShuntType shuntType = tmc9660::tmcl::AdcShuntType::BOTTOM_SHUNTS;  //!< Shunt type configuration
-      tmc9660::tmcl::CsaFilter csaFilter = tmc9660::tmcl::CsaFilter::T_1_0_MICROSEC;      //!< CSA filter time constant
-
-      // Per-ADC actual shunt resistances (for automatic ADC_Ix_SCALE compensation)
-      // If NaN or <= 0, uses nominal value (no compensation)
-      float actualShuntR_adc0_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I0 in mΩ
-      float actualShuntR_adc1_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I1 in mΩ
-      float actualShuntR_adc2_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I2 in mΩ
-      float actualShuntR_adc3_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I3 in mΩ
-
-      // Per-phase ADC mapping (which ADC channel maps to which motor phase)
-      // If not set (std::nullopt), uses defaults: U->I0, V->I1, W->I2, Y2->I3
-      std::optional<tmc9660::tmcl::AdcMapping> phaseU_adcMapping;   //!< ADC mapping for phase U (UX1). Default: ADC_I0
-      std::optional<tmc9660::tmcl::AdcMapping> phaseV_adcMapping;   //!< ADC mapping for phase V (VX2). Default: ADC_I1
-      std::optional<tmc9660::tmcl::AdcMapping> phaseW_adcMapping;   //!< ADC mapping for phase W (WY1). Default: ADC_I2
-      std::optional<tmc9660::tmcl::AdcMapping> phaseY2_adcMapping; //!< ADC mapping for phase Y2. Default: ADC_I3
-
-      // Per-ADC inversion settings
-      // If not set (std::nullopt), uses Table 24 defaults based on motor type:
-      //   DC:      ADC_I0=INVERTED, ADC_I1=NOT_INVERTED
-      //   BLDC:    ADC_I0=INVERTED, ADC_I1=INVERTED, ADC_I2=INVERTED
-      //   Stepper: ADC_I0=INVERTED, ADC_I1=NOT_INVERTED, ADC_I2=INVERTED, ADC_I3=NOT_INVERTED
-      std::optional<tmc9660::tmcl::AdcInversion> adc0_inverted;  //!< Inversion for ADC_I0. Default: based on motor type
-      std::optional<tmc9660::tmcl::AdcInversion> adc1_inverted; //!< Inversion for ADC_I1. Default: based on motor type
-      std::optional<tmc9660::tmcl::AdcInversion> adc2_inverted; //!< Inversion for ADC_I2. Default: based on motor type
-      std::optional<tmc9660::tmcl::AdcInversion> adc3_inverted; //!< Inversion for ADC_I3. Default: based on motor type
-
-      // Auto-calibration settings
-      bool autoCalibrate = false;           //!< If true, automatically calibrate ADC offsets after configuration
-      uint32_t calibrationTimeoutMs = 2000; //!< Timeout in milliseconds for auto-calibration verification
-    };
-
-    /** @brief Auto-configure current sensing based on shunt resistance and expected current.
-     *
-     * This method automatically selects the optimal CSA gain and calculates the current
-     * scaling factor to enable direct mA units for torque/flux commands.
-     *
-     * The function:
-     * - Selects the smallest CSA gain that provides ≥1.5x headroom above expected peak current
-     * - Calculates CURRENT_SCALING_FACTOR using the formula from the datasheet:
-     *   - Peak: Factor = 39.06 / (G_CSA * R_shunt_Ohm)
-     *   - RMS:  Factor = 27.62 / (G_CSA * R_shunt_Ohm)
-     * - Configures shunt type, CSA gain, filter, scaling factor, and ADC inversion
-     * - Optionally calculates per-ADC scaling factors if actual shunt resistances are provided
-     *
-     * After calling this, torque/flux commands (MAX_TORQUE, TARGET_TORQUE, etc.) can be
-     * specified directly in mA. For example, MAX_TORQUE = 3000 means 3.0 A.
-     *
-     * ## Two-Level Scaling System
-     *
-     * The TMC9660 uses a two-level scaling system:
-     *
-     * 1. **ADC_Ix_SCALE (per-phase trim)**: Compensates for physical mismatch in shunt resistors
-     *    and CSA amplifier tolerances. Default: 1024 (1.000×). If actual shunt resistances are
-     *    provided, this is automatically calculated to equalize all phases.
-     *
-     * 2. **CURRENT_SCALING_FACTOR (global unit conversion)**: Converts normalized ADC currents
-     *    to mA units for the torque/flux control system. This is automatically calculated based
-     *    on nominal shunt resistance and CSA gain.
-     *
-     * Signal flow:
-     * ```
-     * ADC_Ix_RAW → (offset removal) → ADC_Ix → (ADC_Ix_SCALE correction) →
-     * normalized phase current → (CURRENT_SCALING_FACTOR) → final torque/flux in mA
-     * ```
-     *
-     * ## Per-ADC Shunt Resistance Compensation
-     *
-     * If you have measured the actual shunt resistance for each ADC channel, you can provide
-     * them to automatically calculate ADC_Ix_SCALE. The formula used is:
-     * ```
-     * ADC_Ix_SCALE = 1024 * (R_nominal / R_actual)
-     * ```
-     *
-     * This ensures all phases report the same current for the same real current, compensating
-     * for shunt resistor tolerances.
-     *
-     * @param config Configuration structure containing all current sensing parameters.
-     *               See AutoConfig for details on all available options.
-     * @return true if configuration was successful (and calibration succeeded if autoCalibrate=true)
-     *
-     * @note ADC inversion defaults are set according to Table 24 for the specified motor type,
-     *       but can be overridden via config.adc0_inverted, etc. Verify in open-loop voltage
-     *       mode and adjust if phases are 180° out of phase.
-     *
-     * @note ADC offset calibration is required before using current sensing. If config.autoCalibrate
-     *       is false, you must call calibrateOffsets() manually. The motor must be stationary and
-     *       commutation must be off (SYSTEM_OFF) during calibration.
-     *
-     * @code
-     * // Example 1: Basic configuration (minimal setup)
-     * TMC9660::CurrentSensing::AutoConfig config;
-     * config.shuntResistance_mOhm = 3.0;
-     * config.expectedPeakCurrent_A = 3.0;
-     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
-     * driver.currentSensing.configureAuto(config);
-     *
-     * // Example 2: With measured shunt resistances for automatic ADC_Ix_SCALE compensation
-     * // Measured: U=2.97 mΩ, V=3.01 mΩ, W=3.02 mΩ (nominal = 3.00 mΩ)
-     * config.actualShuntR_adc0_mOhm = 2.97;  // ADC_I0 (Phase U)
-     * config.actualShuntR_adc1_mOhm = 3.01;  // ADC_I1 (Phase V)
-     * config.actualShuntR_adc2_mOhm = 3.02; // ADC_I2 (Phase W)
-     * driver.currentSensing.configureAuto(config);
-     *
-     * // Example 3: With custom ADC mapping and inversion
-     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
-     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
-     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
-     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
-     * config.autoCalibrate = true;
-     * driver.currentSensing.configureAuto(config);
-     *
-     * // Now use mA directly:
-     * driver.motorConfig.setMaxTorqueCurrent(3000);  // 3.0 A
-     * driver.focControl.setTargetTorque(2500);      // 2.5 A
-     * @endcode
-     */
-    bool configureAuto(const AutoConfig &config) noexcept;
 
     /** @brief Set the ADC shunt type (Parameter 12: ADC_SHUNT_TYPE).
      * @param shuntType AdcShuntType enum value
@@ -963,6 +820,164 @@ public:
      * @return true if the status was read successfully
      */
     bool getCalibrationStatus(bool &isCalibrated) noexcept;
+    
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+    /** @brief Configuration structure for auto-configuring current sensing.
+     *
+     * This struct contains all parameters needed to configure the TMC9660 current sensing system.
+     * Most fields have sensible defaults based on the motor type and datasheet recommendations.
+     *
+     * @code
+     * // Example: Basic BLDC configuration
+     * TMC9660::CurrentSensing::AutoConfig config;
+     * config.shuntResistance_mOhm = 3.0;
+     * config.expectedPeakCurrent_A = 3.0;
+     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example: With custom ADC mapping and inversion
+     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
+     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
+     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
+     * config.phaseY2_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I3;
+     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc3_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.autoCalibrate = true;
+     * driver.currentSensing.configureAuto(config);
+     * @endcode
+     */
+    struct AutoConfig {
+      // Required parameters
+      float shuntResistance_mOhm;           //!< Nominal shunt resistor value in milliohms (e.g., 3.0 for 3 mΩ)
+      float expectedPeakCurrent_A;          //!< Expected peak phase current in amperes (e.g., 3.0 for 3A)
+      tmc9660::tmcl::MotorType motorType;    //!< Motor type (used for default ADC inversion settings)
+
+      // Optional parameters with defaults
+      bool usePeakScaling = true;            //!< If true, use peak scaling (recommended for FOC/BLDC). If false, use RMS.
+      tmc9660::tmcl::AdcShuntType shuntType = tmc9660::tmcl::AdcShuntType::BOTTOM_SHUNTS;  //!< Shunt type configuration
+      tmc9660::tmcl::CsaFilter csaFilter = tmc9660::tmcl::CsaFilter::T_1_0_MICROSEC;      //!< CSA filter time constant
+
+      // Per-ADC actual shunt resistances (for automatic ADC_Ix_SCALE compensation)
+      // If NaN or <= 0, uses nominal value (no compensation)
+      float actualShuntR_adc0_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I0 in mΩ
+      float actualShuntR_adc1_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I1 in mΩ
+      float actualShuntR_adc2_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I2 in mΩ
+      float actualShuntR_adc3_mOhm = std::numeric_limits<float>::quiet_NaN();  //!< Actual shunt resistance for ADC_I3 in mΩ
+
+      // Per-phase ADC mapping (which ADC channel maps to which motor phase)
+      // If not set (std::nullopt), uses defaults: U->I0, V->I1, W->I2, Y2->I3
+      std::optional<tmc9660::tmcl::AdcMapping> phaseU_adcMapping;   //!< ADC mapping for phase U (UX1). Default: ADC_I0
+      std::optional<tmc9660::tmcl::AdcMapping> phaseV_adcMapping;   //!< ADC mapping for phase V (VX2). Default: ADC_I1
+      std::optional<tmc9660::tmcl::AdcMapping> phaseW_adcMapping;   //!< ADC mapping for phase W (WY1). Default: ADC_I2
+      std::optional<tmc9660::tmcl::AdcMapping> phaseY2_adcMapping; //!< ADC mapping for phase Y2. Default: ADC_I3
+
+      // Per-ADC inversion settings
+      // If not set (std::nullopt), uses Table 24 defaults based on motor type:
+      //   DC:      ADC_I0=INVERTED, ADC_I1=NOT_INVERTED
+      //   BLDC:    ADC_I0=INVERTED, ADC_I1=INVERTED, ADC_I2=INVERTED
+      //   Stepper: ADC_I0=INVERTED, ADC_I1=NOT_INVERTED, ADC_I2=INVERTED, ADC_I3=NOT_INVERTED
+      std::optional<tmc9660::tmcl::AdcInversion> adc0_inverted;  //!< Inversion for ADC_I0. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc1_inverted; //!< Inversion for ADC_I1. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc2_inverted; //!< Inversion for ADC_I2. Default: based on motor type
+      std::optional<tmc9660::tmcl::AdcInversion> adc3_inverted; //!< Inversion for ADC_I3. Default: based on motor type
+
+      // Auto-calibration settings
+      bool autoCalibrate = false;           //!< If true, automatically calibrate ADC offsets after configuration
+      uint32_t calibrationTimeoutMs = 2000; //!< Timeout in milliseconds for auto-calibration verification
+    };
+
+    /** @brief Auto-configure current sensing based on shunt resistance and expected current.
+     *
+     * This method automatically selects the optimal CSA gain and calculates the current
+     * scaling factor to enable direct mA units for torque/flux commands.
+     *
+     * The function:
+     * - Selects the smallest CSA gain that provides ≥1.5x headroom above expected peak current
+     * - Calculates CURRENT_SCALING_FACTOR using the formula from the datasheet:
+     *   - Peak: Factor = 39.06 / (G_CSA * R_shunt_Ohm)
+     *   - RMS:  Factor = 27.62 / (G_CSA * R_shunt_Ohm)
+     * - Configures shunt type, CSA gain, filter, scaling factor, and ADC inversion
+     * - Optionally calculates per-ADC scaling factors if actual shunt resistances are provided
+     *
+     * After calling this, torque/flux commands (MAX_TORQUE, TARGET_TORQUE, etc.) can be
+     * specified directly in mA. For example, MAX_TORQUE = 3000 means 3.0 A.
+     *
+     * ## Two-Level Scaling System
+     *
+     * The TMC9660 uses a two-level scaling system:
+     *
+     * 1. **ADC_Ix_SCALE (per-phase trim)**: Compensates for physical mismatch in shunt resistors
+     *    and CSA amplifier tolerances. Default: 1024 (1.000×). If actual shunt resistances are
+     *    provided, this is automatically calculated to equalize all phases.
+     *
+     * 2. **CURRENT_SCALING_FACTOR (global unit conversion)**: Converts normalized ADC currents
+     *    to mA units for the torque/flux control system. This is automatically calculated based
+     *    on nominal shunt resistance and CSA gain.
+     *
+     * Signal flow:
+     * ```
+     * ADC_Ix_RAW → (offset removal) → ADC_Ix → (ADC_Ix_SCALE correction) →
+     * normalized phase current → (CURRENT_SCALING_FACTOR) → final torque/flux in mA
+     * ```
+     *
+     * ## Per-ADC Shunt Resistance Compensation
+     *
+     * If you have measured the actual shunt resistance for each ADC channel, you can provide
+     * them to automatically calculate ADC_Ix_SCALE. The formula used is:
+     * ```
+     * ADC_Ix_SCALE = 1024 * (R_nominal / R_actual)
+     * ```
+     *
+     * This ensures all phases report the same current for the same real current, compensating
+     * for shunt resistor tolerances.
+     *
+     * @param config Configuration structure containing all current sensing parameters.
+     *               See AutoConfig for details on all available options.
+     * @return true if configuration was successful (and calibration succeeded if autoCalibrate=true)
+     *
+     * @note ADC inversion defaults are set according to Table 24 for the specified motor type,
+     *       but can be overridden via config.adc0_inverted, etc. Verify in open-loop voltage
+     *       mode and adjust if phases are 180° out of phase.
+     *
+     * @note ADC offset calibration is required before using current sensing. If config.autoCalibrate
+     *       is false, you must call calibrateOffsets() manually. The motor must be stationary and
+     *       commutation must be off (SYSTEM_OFF) during calibration.
+     *
+     * @code
+     * // Example 1: Basic configuration (minimal setup)
+     * TMC9660::CurrentSensing::AutoConfig config;
+     * config.shuntResistance_mOhm = 3.0;
+     * config.expectedPeakCurrent_A = 3.0;
+     * config.motorType = tmc9660::tmcl::MotorType::BLDC_MOTOR;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example 2: With measured shunt resistances for automatic ADC_Ix_SCALE compensation
+     * // Measured: U=2.97 mΩ, V=3.01 mΩ, W=3.02 mΩ (nominal = 3.00 mΩ)
+     * config.actualShuntR_adc0_mOhm = 2.97;  // ADC_I0 (Phase U)
+     * config.actualShuntR_adc1_mOhm = 3.01;  // ADC_I1 (Phase V)
+     * config.actualShuntR_adc2_mOhm = 3.02; // ADC_I2 (Phase W)
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Example 3: With custom ADC mapping and inversion
+     * config.phaseU_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I0;
+     * config.phaseV_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I1;
+     * config.phaseW_adcMapping = tmc9660::tmcl::AdcMapping::ADC_I2;
+     * config.adc0_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc1_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.adc2_inverted = tmc9660::tmcl::AdcInversion::INVERTED;
+     * config.autoCalibrate = true;
+     * driver.currentSensing.configureAuto(config);
+     *
+     * // Now use mA directly:
+     * driver.motorConfig.setMaxTorqueCurrent(3000);  // 3.0 A
+     * driver.focControl.setTargetTorque(2500);      // 2.5 A
+     * @endcode
+     */
+    bool configureAuto(const AutoConfig &config) noexcept;
 
   private:
     friend class TMC9660;
@@ -1311,6 +1326,10 @@ public:
      * @return true if successfully configured.
      */
     bool setFaultHandlerRetries(uint8_t retries) noexcept;
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
 
     /** @brief Configuration structure for auto-configuring power stage protection.
      *
@@ -1884,9 +1903,9 @@ public:
      */
     bool getSPIEncoderLUTShiftFactor(int8_t &shiftFactor) noexcept;
 
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    //  Auto-Configuration Structures
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
 
     /** @brief Configuration structure for Hall sensor auto-configuration.
      */
@@ -2012,20 +2031,19 @@ public:
   } feedbackSense{*this};
 
   //***************************************************************************
-  //**                  SUBSYSTEM: FOC Control                              **//
+  //**                  SUBSYSTEM: Torque/Flux Control (FOC)                **//
   //***************************************************************************
 
-  /** @brief Subsystem for FOC control: torque/flux, velocity, position loops,
-   *        open‐loop support, and reference switch / stop-event parameters.
+  /** @brief Subsystem for torque and flux current control (FOC inner loop).
    *
-   * Covers TMCL parameters:
-   *  - Torque/Flux PI   (104–120)
-   *  - Velocity PI      (123–139)
-   *  - Position PI      (142–157)
-   *  - Open‐loop        (45–47)
-   *  - Ref switch & stop (161–170)
+   * Controls the motor currents (torque and flux) using hardware PI controllers.
+   * Covers TMCL parameters 104–120, 308, 310.
+   *
+   * This is the innermost control loop, operating at PWM frequency.
+   * Torque control is used for direct current control, while flux control enables
+   * field weakening for high-speed operation.
    */
-  struct FOCControl {
+  struct TorqueFluxControl {
     //-------------------------------------------------------------------------
     // Torque / Flux control (104–120)
     //-------------------------------------------------------------------------
@@ -2125,8 +2143,298 @@ public:
     bool getFluxPiIntegrator(int32_t &integrator) noexcept;
 
     //-------------------------------------------------------------------------
+    // Open‐loop support (45–47)
+    //-------------------------------------------------------------------------
+    /** @brief Read open-loop angle.
+     * @param[out] angle Electrical angle.
+     * @return true if read.
+     */
+    bool getOpenloopAngle(int16_t &angle) noexcept;
+
+    /** @brief Set open-loop current.
+     * @param milliamps Current in mA.
+     * @return true if written.
+     */
+    bool setOpenloopCurrent(uint16_t milliamps) noexcept;
+    /** @brief Read open-loop current.
+     * @param[out] milliamps Current in mA.
+     * @return true if read.
+     */
+    bool getOpenloopCurrent(uint16_t &milliamps) noexcept;
+
+    /** @brief Set open-loop voltage.
+     * @param voltage Voltage unit (0…32767).
+     * @return true if written.
+     */
+    bool setOpenloopVoltage(uint16_t voltage) noexcept;
+    /** @brief Read open-loop voltage.
+     * @param[out] voltage Voltage unit.
+     * @return true if read.
+     */
+    bool getOpenloopVoltage(uint16_t &voltage) noexcept;
+
+    //-------------------------------------------------------------------------
+    // Field-weakening (308, 310)
+    //-------------------------------------------------------------------------
+    /// @name Field-weakening (read/write)
+    ///@{
+    bool setFieldWeakeningI(uint16_t milliamps) noexcept;
+    bool getFieldWeakeningI(uint16_t &milliamps) noexcept;
+    
+    bool setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept;
+    bool getFieldWeakeningVoltageThreshold(uint16_t &voltage) noexcept;
+    ///@}
+
+    /// @name Target Torque Biquad Filter (read/write)
+    ///@{
+    bool setTargetTorqueBiquadFilterEnable(bool enable) noexcept;
+    bool getTargetTorqueBiquadFilterEnable(bool &enable) noexcept;
+
+    bool setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterACoeff1(int32_t &coeff) noexcept;
+
+    bool setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterACoeff2(int32_t &coeff) noexcept;
+
+    bool setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff0(int32_t &coeff) noexcept;
+
+    bool setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff1(int32_t &coeff) noexcept;
+
+    bool setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept;
+    bool getTargetTorqueBiquadFilterBCoeff2(int32_t &coeff) noexcept;
+    ///@}
+
+    /// @name Intermediate FOC Voltages (read-only)
+    ///@{
+    bool getFocVoltageUx(int16_t &voltage) noexcept;
+    bool getFocVoltageWy(int16_t &voltage) noexcept;
+    bool getFocVoltageV(int16_t &voltage) noexcept;
+    bool getFocVoltageUq(int16_t &voltage) noexcept;
+    ///@}
+
+    /// @name Intermediate FOC Currents (read-only)
+    ///@{
+    bool getFocCurrentUx(int16_t &milliamps) noexcept;
+    bool getFocCurrentV(int16_t &milliamps) noexcept;
+    bool getFocCurrentWy(int16_t &milliamps) noexcept;
+    bool getFocCurrentIq(int16_t &milliamps) noexcept;
+    ///@}
+
+    /// @name Combined & integrated raw measurements (read-only)
+    ///@{
+    bool getTorqueFluxCombinedTargetValues(uint32_t &value) noexcept;
+    bool getTorqueFluxCombinedActualValues(uint32_t &value) noexcept;
+    bool getVoltageDqCombinedActualValues(uint32_t &value) noexcept;
+    bool getIntegratedActualTorqueValue(uint32_t &value) noexcept;
+    ///@}
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for torque/flux control auto-configuration.
+     *
+     * This structure provides high-level, user-friendly parameters for configuring
+     * the torque and flux current control loops. Complex low-level parameters are
+     * automatically derived from these intuitive settings.
+     */
+    struct TorqueFluxConfig {
+      // ========================================================================
+      // PI Controller Configuration
+      // ========================================================================
+      
+      /** @brief Direct PI gain configuration (optional).
+       *
+       * If provided, these values are used directly. If not provided, default
+       * values are used (P=50, I=100). Use this for fine-tuning or when you know
+       * the exact gains you need.
+       *
+       * Typical values:
+       * - P: 30-100 (higher = faster response)
+       * - I: 50-200 (higher = better steady-state accuracy)
+       */
+      std::optional<uint16_t> torqueP;  //!< Torque P gain [0-32767] (optional, defaults to 50 if not provided)
+      std::optional<uint16_t> torqueI;  //!< Torque I gain [0-32767] (optional, defaults to 100 if not provided)
+      
+      /** @brief Use separate PI parameters for torque and flux loops.
+       *
+       * When false (default): Torque and flux share the same PI gains.
+       * When true: Torque and flux have independent PI gains (fluxP, fluxI).
+       *
+       * Separate loops are useful when torque and flux have different response
+       * requirements, but most applications work fine with combined loops.
+       */
+      bool separateTorqueFluxLoops = false;  //!< Use separate PI parameters for torque and flux (default: false, combined)
+      
+      /** @brief Flux PI gains (only used if separateTorqueFluxLoops = true).
+       *
+       * If separateTorqueFluxLoops is true and these are not provided, they
+       * default to the same values as torqueP/torqueI.
+       */
+      std::optional<uint16_t> fluxP;  //!< Flux P gain [0-32767] (optional, only used if separateTorqueFluxLoops = true)
+      std::optional<uint16_t> fluxI;  //!< Flux I gain [0-32767] (optional, only used if separateTorqueFluxLoops = true)
+      
+      /** @brief PI normalization format (optional).
+       *
+       * These control how the PI gains are normalized internally. If not provided,
+       * defaults are used (SHIFT_8_BIT for P, SHIFT_16_BIT for I) which match the
+       * datasheet defaults and work well for most applications.
+       *
+       * - SHIFT_8_BIT: Standard normalization, good balance
+       * - SHIFT_16_BIT: Higher precision, better for fine control
+       *
+       * Typically, P uses 8-bit (faster, standard) and I uses 16-bit (better precision).
+       * Only override if you have specific requirements.
+       */
+      std::optional<tmc9660::tmcl::CurrentPiNormalization> pNormalization;  //!< P-term normalization format (optional, defaults to SHIFT_8_BIT)
+      std::optional<tmc9660::tmcl::CurrentPiNormalization> iNormalization; //!< I-term normalization format (optional, defaults to SHIFT_16_BIT)
+      
+      // ========================================================================
+      // Field Weakening Configuration
+      // ========================================================================
+      
+      /** @brief Enable field weakening for high-speed operation.
+       *
+       * Field weakening allows the motor to operate beyond its base speed by
+       * reducing the back-EMF through negative flux current. This is essential
+       * for high-speed BLDC/stepper motors.
+       *
+       * When enabled, field weakening activates automatically when the motor
+       * voltage exceeds fieldWeakeningVoltageThresholdPercent.
+       */
+      bool enableFieldWeakening = false;  //!< Enable field weakening (default: false)
+      
+      /** @brief Field weakening voltage threshold as percentage of OUTPUT_VOLTAGE_LIMIT.
+       *
+       * Field weakening activates when motor voltage exceeds this threshold.
+       * Expressed as a fraction (0.0 to 1.0) of the OUTPUT_VOLTAGE_LIMIT.
+       *
+       * Typical values:
+       * - 0.80-0.90: Standard field weakening (activates at 80-90% of voltage limit)
+       * - 0.85: Recommended starting point
+       *
+       * Example: If OUTPUT_VOLTAGE_LIMIT = 8000 and threshold = 0.85,
+       * field weakening activates at 6800 (85% of 8000).
+       */
+      float fieldWeakeningVoltageThresholdPercent = 0.85f;  //!< Voltage threshold for field weakening [0.0-1.0] as fraction of OUTPUT_VOLTAGE_LIMIT (default: 0.85 = 85%)
+      
+      /** @brief Field weakening I-controller gain.
+       *
+       * Higher values = more aggressive field weakening (faster response to
+       * voltage limit, but may cause instability).
+       * Lower values = gentler field weakening (slower response, more stable).
+       *
+       * Typical values:
+       * - 50-200: Standard field weakening
+       * - 100: Recommended starting point
+       * - >200: Aggressive (may cause oscillations)
+       */
+      uint16_t fieldWeakeningI = 100;  //!< Field weakening I gain [0-32767] (default: 100, only used if enableFieldWeakening = true)
+      
+      // ========================================================================
+      // Advanced Configuration (Optional)
+      // ========================================================================
+      
+      /** @brief Current offset compensation.
+       *
+       * These offsets are added to the torque/flux commands to compensate for
+       * measurement errors or motor asymmetries. Usually set to 0 unless
+       * calibration reveals systematic offsets.
+       */
+      int16_t torqueOffset_mA = 0;  //!< Torque offset in mA [-4700 to 4700] (default: 0)
+      int16_t fluxOffset_mA = 0;  //!< Flux offset in mA [-4700 to 4700] (default: 0)
+      
+      /** @brief Enable biquad filter on target torque command.
+       *
+       * The biquad filter can be used to smooth the torque command, reducing
+       * high-frequency noise or oscillations. This is particularly useful when
+       * using velocity or position control, where the velocity/position controller
+       * output is used as the target torque.
+       *
+       * When enabled, you can optionally provide filter coefficients below.
+       * If coefficients are not provided, the filter is enabled but uses default
+       * coefficient values (BCOEFF_0 = 1048576, others = 0).
+       *
+       * Default: Disabled (filter is off by default).
+       * Most users should leave this disabled unless experiencing torque
+       * command oscillations or need to smooth controller outputs.
+       */
+      bool enableTorqueBiquadFilter = false;  //!< Enable biquad filter on target torque (default: false)
+      
+      /** @brief Biquad filter coefficients (optional, only used if enableTorqueBiquadFilter = true).
+       *
+       * These coefficients define the biquad filter difference equation:
+       * Y(n) = X(n)*b0 + X(n-1)*b1 + X(n-2)*b2 - Y(n-1)*a1 - Y(n-2)*a2
+       *
+       * Or in z-domain transfer function form:
+       * H(z) = (B0 + B1*z^-1 + B2*z^-2) / (1 + A1*z^-1 + A2*z^-2)
+       *
+       * **Coefficient Format:**
+       * All coefficients are 24-bit values in Q4.20 fixed-point format:
+       * - 4 integer bits (range: -8 to +7)
+       * - 20 fractional bits (resolution: 1/1048576)
+       * - To convert a floating-point value to Q4.20: `coeff = (float_value * 1048576.0f)`
+       * - Example: 1.0 → 1048576, 0.5 → 524288, -0.25 → -262144
+       *
+       * **Default Values:**
+       * If not provided, the filter uses default coefficients:
+       * - BCOEFF_0 = 1048576 (1.0 in Q4.20, unity gain)
+       * - All other coefficients = 0 (no filtering, passes signal through)
+       *
+       * **Typical Use Cases:**
+       * - Low-pass filter: Smooth high-frequency noise from velocity/position controllers
+       * - Notch filter: Remove specific oscillation frequencies
+       * - Custom filtering: Based on motor/system characteristics
+       *
+       * **Note:** For most applications, leave these unset unless you have specific
+       * filtering requirements. The default values provide a simple pass-through filter.
+       */
+      std::optional<int32_t> biquadACoeff1;  //!< Biquad A coefficient 1 (a1) in Q4.20 format [-2147483648 to 2147483647] (optional, default: 0)
+      std::optional<int32_t> biquadACoeff2;  //!< Biquad A coefficient 2 (a2) in Q4.20 format [-2147483648 to 2147483647] (optional, default: 0)
+      std::optional<int32_t> biquadBCoeff0;  //!< Biquad B coefficient 0 (b0) in Q4.20 format [-2147483648 to 2147483647] (optional, default: 1048576 = 1.0)
+      std::optional<int32_t> biquadBCoeff1;  //!< Biquad B coefficient 1 (b1) in Q4.20 format [-2147483648 to 2147483647] (optional, default: 0)
+      std::optional<int32_t> biquadBCoeff2;  //!< Biquad B coefficient 2 (b2) in Q4.20 format [-2147483648 to 2147483647] (optional, default: 0)
+    };
+
+    /** @brief Auto-configure torque/flux control parameters.
+     *
+     * Configures PI gains, normalization, field weakening, and offsets based on
+     * high-level control characteristics.
+     *
+     * @param config Torque/flux control configuration (see TorqueFluxConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const TorqueFluxConfig &config) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit TorqueFluxControl(TMC9660 &parent) noexcept : driver(parent) {}
+    TMC9660 &driver;
+  } torqueFluxControl{*this};
+
+  //***************************************************************************
+  //**                  SUBSYSTEM: Velocity Control                           **//
+  //***************************************************************************
+
+  /** @brief Subsystem for velocity control (FOC middle loop).
+   *
+   * Controls motor velocity using a PI controller that outputs torque commands.
+   * Covers TMCL parameters 123–139.
+   *
+   * This control loop operates at a downsampled frequency relative to PWM.
+   * Velocity feedback can come from various sensors (ABN, Hall, SPI encoder).
+   */
+  struct VelocityControl {
+    //-------------------------------------------------------------------------
     // Velocity control (123–139)
     //-------------------------------------------------------------------------
+    /** @brief Stop velocity control (SYSTEM_OFF).
+     * @return true on success.
+     */
+    bool stop() noexcept;
+
     /** @brief Select velocity feedback sensor.
      * @param sel Sensor selection.
      * @return true if written.
@@ -2220,16 +2528,9 @@ public:
      */
     bool getVelocityLoopDownsampling(uint8_t &divider) noexcept;
 
-    /** @brief Set velocity reached threshold.
-     * @param threshold Threshold value.
-     * @return true if written.
-     */
-    bool setVelocityReachedThreshold(uint32_t threshold) noexcept;
-    /** @brief Read velocity reached threshold.
-     * @param[out] threshold Threshold.
-     * @return true if read.
-     */
-    bool getVelocityReachedThreshold(uint32_t &threshold) noexcept;
+    // Note: VELOCITY_REACHED_THRESHOLD is not a configurable parameter in TMC9660.
+    // The VELOCITY_REACHED flag is set when both actual and target velocity are below
+    // an internal threshold. Parameter 134 is STOP_ON_VELOCITY_DEVIATION, not VELOCITY_REACHED_THRESHOLD.
 
     /** @brief Set velocity meter switch threshold.
      * @param threshold Threshold value.
@@ -2259,9 +2560,236 @@ public:
      */
     bool getVelocityMeterMode(tmc9660::tmcl::VelocityMeterMode &mode) noexcept;
 
+    /// @name Actual Velocity Biquad Filter (read/write)
+    ///@{
+    bool setActualVelocityBiquadFilterEnable(bool enable) noexcept;
+    bool getActualVelocityBiquadFilterEnable(bool &enable) noexcept;
+    bool setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterACoeff1(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterACoeff2(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff0(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff1(int32_t &coeff) noexcept;
+    bool setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept;
+    bool getActualVelocityBiquadFilterBCoeff2(int32_t &coeff) noexcept;
+    ///@}
+
+    /// @name Combined & integrated raw measurements (read-only)
+    ///@{
+    bool getIntegratedActualVelocityValue(uint32_t &value) noexcept;
+    ///@}
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for velocity control auto-configuration.
+     */
+    struct VelocityConfig {
+      // Required parameters
+      tmc9660::tmcl::VelocitySensorSelection sensorSelection;  //!< Velocity feedback sensor selection (required)
+      
+      // Optional parameters with defaults
+      /** @brief Velocity P gain [0-32767] (optional, default: 800).
+       *
+       * Direct P gain for the velocity PI controller. Higher values = faster response
+       * but potentially less stable. Typical range: 400-1600 for most applications.
+       */
+      std::optional<uint16_t> velocityP;  //!< Velocity P gain [0-32767] (optional, default: 800)
+      
+      /** @brief Velocity I gain [0-32767] (optional, default: 1).
+       *
+       * Direct I gain for the velocity PI controller. Higher values = better
+       * steady-state accuracy but potentially more overshoot. Typical range: 1-10.
+       */
+      std::optional<uint16_t> velocityI;  //!< Velocity I gain [0-32767] (optional, default: 1)
+      
+      tmc9660::tmcl::VelocityPiNorm pNormalization = tmc9660::tmcl::VelocityPiNorm::SHIFT_16_BIT;  //!< P-term normalization (default: SHIFT_16_BIT)
+      tmc9660::tmcl::VelocityPiNorm iNormalization = tmc9660::tmcl::VelocityPiNorm::SHIFT_16_BIT;  //!< I-term normalization (default: SHIFT_16_BIT)
+      
+      // Velocity scaling (optional, can be auto-calculated from encoder CPR and motor parameters)
+      /** @brief Velocity scaling factor [1-2047] (optional).
+       *
+       * This factor converts internal velocity units to real-world RPM.
+       * Formula: v_RPM = v_internal / k_RPM, where k_RPM = VELOCITY_SCALING_FACTOR
+       *
+       * **Auto-calculation:**
+       * If not provided, the scaling factor is automatically calculated from:
+       * - `encoderCountsPerRev` (or derived from sensor type and `motorPolePairs`)
+       * - `motorPolePairs` (for SAME_AS_COMMUTATION or DIGITAL_HALL sensors)
+       * - Formula: k_RPM = (CPR × 2^24) / (40MHz × 60)
+       *
+       * **CPR calculation by sensor type:**
+       * - SAME_AS_COMMUTATION: CPR = 2^16 × motorPolePairs
+       * - DIGITAL_HALL: CPR = 6 × motorPolePairs
+       * - ABN1_ENCODER, ABN2_ENCODER, SPI_ENCODER: CPR = encoderCountsPerRev (from datasheet)
+       *
+       * **Note:** It's recommended to leave this at default (1) and handle scaling
+       * externally for better resolution. Internal scaling reduces resolution.
+       */
+      std::optional<uint16_t> velocityScalingFactor;  //!< Velocity scaling factor [1-2047] (optional, auto-calculated if not provided)
+      
+      /** @brief Encoder counts per mechanical revolution (CPR) for auto-calculating velocity scaling.
+       *
+       * Required for ABN1_ENCODER, ABN2_ENCODER, or SPI_ENCODER sensor types.
+       * For SAME_AS_COMMUTATION or DIGITAL_HALL, this is calculated from motorPolePairs.
+       *
+       * If not provided and sensor type requires it, scaling factor defaults to 1.
+       */
+      std::optional<uint32_t> encoderCountsPerRev;  //!< Encoder CPR (optional, required for encoder-based sensors if velocityScalingFactor not provided)
+      
+      /** @brief Motor pole pairs (optional, used for auto-calculating velocity scaling).
+       *
+       * Required for SAME_AS_COMMUTATION or DIGITAL_HALL sensor types.
+       * If not provided, the value is read from MotorConfig (MOTOR_POLE_PAIRS parameter).
+       * For encoder-based sensors, this is not used.
+       */
+      std::optional<uint8_t> motorPolePairs;  //!< Motor pole pairs (optional, read from MotorConfig if not provided)
+      
+      /** @brief PWM frequency in Hz (optional, used for velocity meter threshold calculation).
+       *
+       * If not provided, the value is read from MotorConfig (MOTOR_PWM_FREQUENCY parameter).
+       * Used to calculate velocity loop frequency for meter switch threshold.
+       */
+      std::optional<uint32_t> pwmFrequency_Hz;  //!< PWM frequency in Hz (optional, read from MotorConfig if not provided)
+      
+      // Velocity loop downsampling (optional)
+      /** @brief Velocity loop downsampling factor [0-127] (default: 5).
+       *
+       * **Clock Distribution:**
+       * The velocity control loop frequency is derived from the PWM frequency:
+       * - Velocity loop frequency = PWM frequency / (loopDownsampling + 1)
+       * - Example: 25kHz PWM, downsampling=5 → velocity loop runs at 25kHz/6 = 4.17kHz
+       *
+       * **Effect on PI Gains:**
+       * Lower loop frequencies (higher downsampling) require proportionally higher
+       * PI gains to maintain the same response. The integrator speed depends on
+       * both the PWM frequency and this downsampling factor.
+       *
+       * **Typical Values:**
+       * - 0-2: Fast response (high-frequency velocity control)
+       * - 3-5: Standard (good balance, default: 5)
+       * - 6-10: Slower response (for heavy loads or stability)
+       * - >10: Very slow (rarely needed)
+       */
+      uint8_t loopDownsampling = 5;  //!< Velocity loop downsampling factor [0-127] (default: 5)
+      
+      // Velocity reached threshold (optional)
+      uint32_t velocityReachedThreshold = 1000;  //!< Velocity reached threshold (default: 1000)
+      
+      // Stop on deviation (optional)
+      std::optional<uint32_t> stopOnDeviationMaxError;  //!< Max allowed velocity deviation for stop condition (optional, disabled if not provided)
+      bool stopOnDeviationSoftStop = true;  //!< Use soft stop (ramp down) for deviation stop (default: true)
+      
+      // Velocity meter (optional, can be auto-calculated for optimal performance)
+      /** @brief Velocity meter switch threshold (optional, auto-calculated if not provided).
+       *
+       * Threshold for switching from period-based to frequency-based velocity measurement.
+       * The optimal switchover point is calculated to minimize measurement noise.
+       *
+       * **Auto-calculation:**
+       * If not provided, the threshold is calculated using:
+       * - `encoderCountsPerRev` (or derived from sensor type and `motorPolePairs`)
+       * - `pwmFrequency_Hz` and `loopDownsampling` (to calculate velocity loop frequency)
+       * - Formulas:
+       *   - v_PerLim_RPM = 0.9 × (40MHz) / (CPR × 60 × 53)
+       *   - v_COP_RPM = 60 × (f_Velo + sqrt(f_Velo² + f_Velo × 40MHz × 8)) / (4 × CPR)
+       *   - v_THR_RPM = min(v_COP_RPM, v_PerLim_RPM)
+       *   - threshold = v_THR_RPM × k_RPM (where k_RPM is the velocity scaling factor)
+       *
+       * **Note:** If auto-calculation is not possible (missing parameters), default value (2000) is used.
+       */
+      std::optional<uint32_t> meterSwitchThreshold;  //!< Velocity meter switch threshold (optional, auto-calculated if not provided)
+      uint16_t meterHysteresis = 500;  //!< Velocity meter hysteresis (default: 500)
+      
+      // Velocity offset (optional)
+      int32_t velocityOffset = 0;  //!< Velocity offset [-200000 to 200000] (default: 0)
+      
+      // Biquad filter (optional)
+      /** @brief Enable/disable biquad filter on actual velocity feedback.
+       *
+       * The velocity biquad filter filters the measured velocity before it's used
+       * as input to the velocity controller. This filter is **enabled by default**
+       * in hardware because measured velocity is usually quite noisy.
+       *
+       * When enabled, you can optionally provide filter coefficients below.
+       * If coefficients are not provided, the filter uses default coefficient
+       * values optimized for typical velocity measurement noise reduction.
+       *
+       * Default: Enabled (filter is on by default for noise reduction).
+       * Most users should leave this enabled unless they have specific requirements.
+       */
+      std::optional<bool> enableVelocityBiquadFilter;  //!< Enable/disable biquad filter on actual velocity (optional, default: enabled in hardware)
+      
+      /** @brief Velocity biquad filter coefficients (optional, only used if enableVelocityBiquadFilter is explicitly set).
+       *
+       * These coefficients define the biquad filter difference equation:
+       * Y(n) = X(n)*b0 + X(n-1)*b1 + X(n-2)*b2 - Y(n-1)*a1 - Y(n-2)*a2
+       *
+       * **Coefficient Format:**
+       * All coefficients are 24-bit values in Q4.20 fixed-point format:
+       * - 4 integer bits (range: -8 to +7)
+       * - 20 fractional bits (resolution: 1/1048576)
+       * - To convert a floating-point value to Q4.20: `coeff = (float_value * 1048576.0f)`
+       * - Example: 1.0 → 1048576, 0.5 → 524288, -0.25 → -262144
+       *
+       * **Default Values (if not provided):**
+       * The hardware uses optimized default coefficients for velocity noise reduction:
+       * - ACOEFF_1 = 1849195
+       * - ACOEFF_2 = 15961938
+       * - BCOEFF_0 = 3665
+       * - BCOEFF_1 = 7329
+       * - BCOEFF_2 = 3665
+       *
+       * **Note:** For most applications, leave these unset to use the optimized
+       * hardware defaults. Only override if you have specific filtering requirements.
+       */
+      std::optional<int32_t> velocityBiquadACoeff1;  //!< Velocity biquad A coefficient 1 (a1) in Q4.20 format (optional, default: 1849195)
+      std::optional<int32_t> velocityBiquadACoeff2;  //!< Velocity biquad A coefficient 2 (a2) in Q4.20 format (optional, default: 15961938)
+      std::optional<int32_t> velocityBiquadBCoeff0;  //!< Velocity biquad B coefficient 0 (b0) in Q4.20 format (optional, default: 3665)
+      std::optional<int32_t> velocityBiquadBCoeff1;  //!< Velocity biquad B coefficient 1 (b1) in Q4.20 format (optional, default: 7329)
+      std::optional<int32_t> velocityBiquadBCoeff2;  //!< Velocity biquad B coefficient 2 (b2) in Q4.20 format (optional, default: 3665)
+    };
+
+    /** @brief Auto-configure velocity control parameters.
+     *
+     * Configures velocity sensor selection, PI gains, scaling, and other velocity
+     * control parameters based on high-level characteristics.
+     *
+     * @param config Velocity control configuration (see VelocityConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const VelocityConfig &config) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit VelocityControl(TMC9660 &parent) noexcept : driver(parent) {}
+    TMC9660 &driver;
+  } velocityControl{*this};
+
+  //***************************************************************************
+  //**                  SUBSYSTEM: Position Control                          **//
+  //***************************************************************************
+
+  /** @brief Subsystem for position control (FOC outer loop).
+   *
+   * Controls motor position using a PI controller that outputs velocity commands.
+   * Covers TMCL parameters 142–157, 161–170.
+   *
+   * This control loop operates at a downsampled frequency relative to velocity loop.
+   * Position feedback can come from various sensors (ABN, SPI encoder).
+   */
+  struct PositionControl {
     //-------------------------------------------------------------------------
     // Position control (142–157)
     //-------------------------------------------------------------------------
+    /** @brief Stop position control (SYSTEM_OFF).
+     * @return true on success.
+     */
+    bool stop() noexcept;
+
     /** @brief Select position feedback sensor.
      * @param sel Sensor selection.
      * @return true if written.
@@ -2378,37 +2906,6 @@ public:
     bool getPositionReachedThreshold(uint32_t &threshold) noexcept;
 
     //-------------------------------------------------------------------------
-    // Open‐loop support (45–47)
-    //-------------------------------------------------------------------------
-    /** @brief Read open-loop angle.
-     * @param[out] angle Electrical angle.
-     * @return true if read.
-     */
-    bool getOpenloopAngle(int16_t &angle) noexcept;
-
-    /** @brief Set open-loop current.
-     * @param milliamps Current in mA.
-     * @return true if written.
-     */
-    bool setOpenloopCurrent(uint16_t milliamps) noexcept;
-    /** @brief Read open-loop current.
-     * @param[out] milliamps Current in mA.
-     * @return true if read.
-     */
-    bool getOpenloopCurrent(uint16_t &milliamps) noexcept;
-
-    /** @brief Set open-loop voltage.
-     * @param voltage Voltage unit (0…32767).
-     * @return true if written.
-     */
-    bool setOpenloopVoltage(uint16_t voltage) noexcept;
-    /** @brief Read open-loop voltage.
-     * @param[out] voltage Voltage unit.
-     * @return true if read.
-     */
-    bool getOpenloopVoltage(uint16_t &voltage) noexcept;
-
-    //-------------------------------------------------------------------------
     // Ref switch & stop-event (161–170)
     //-------------------------------------------------------------------------
     /** @brief Enable/disable reference switch stops.
@@ -2509,10 +3006,6 @@ public:
      */
     bool getLastReferencePosition(int32_t &position) noexcept;
 
-    //-------------------------------------------------------------------------
-    // Additional FOC telemetry and tuning parameters (305–334)
-    //-------------------------------------------------------------------------
-
     /// @name Raw Inputs (read-only)
     ///@{
     // Raw inputs for ABN, hall, reference switches, driver enabled,
@@ -2520,76 +3013,92 @@ public:
     bool getMccInputsRaw(uint16_t &inputs) noexcept;
     ///@}
 
-    /// @name Intermediate FOC Voltages (read-only)
-    ///@{
-    bool getFocVoltageUx(int16_t &voltage) noexcept;
-    bool getFocVoltageWy(int16_t &voltage) noexcept;
-    bool getFocVoltageV(int16_t &voltage) noexcept;
-    bool getFocVoltageUq(int16_t &voltage) noexcept;
-    ///@}
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
 
-    /// @name Field-weakening (read/write)
-    ///@{
-    bool setFieldWeakeningI(uint16_t milliamps) noexcept;
-    bool getFieldWeakeningI(uint16_t &milliamps) noexcept;
-    bool setFieldWeakeningVoltageThreshold(uint16_t voltage) noexcept;
-    bool getFieldWeakeningVoltageThreshold(uint16_t &voltage) noexcept;
-    ///@}
+    /** @brief Configuration structure for position control auto-configuration.
+     */
+    struct PositionConfig {
+      // Required parameters
+      tmc9660::tmcl::PositionSensorSelection sensorSelection;  //!< Position feedback sensor selection (required)
+      
+      // Optional parameters with defaults
+      /** @brief Position P gain [0-32767] (optional, default: 2000).
+       *
+       * Direct P gain for the position PI controller. Higher values = faster response
+       * but potentially less stable. Typical range: 1000-4000 for most applications.
+       */
+      std::optional<uint16_t> positionP;  //!< Position P gain [0-32767] (optional, default: 2000)
+      
+      /** @brief Position I gain [0-32767] (optional, default: 100).
+       *
+       * Direct I gain for the position PI controller. Higher values = better
+       * steady-state accuracy but potentially more overshoot. Typical range: 50-200.
+       */
+      std::optional<uint16_t> positionI;  //!< Position I gain [0-32767] (optional, default: 100)
+      
+      tmc9660::tmcl::VelocityPiNorm pNormalization = tmc9660::tmcl::VelocityPiNorm::SHIFT_16_BIT;  //!< P-term normalization (default: SHIFT_16_BIT)
+      tmc9660::tmcl::VelocityPiNorm iNormalization = tmc9660::tmcl::VelocityPiNorm::SHIFT_16_BIT;  //!< I-term normalization (default: SHIFT_16_BIT)
+      
+      // Position scaling (optional, can be auto-calculated from encoder CPR)
+      std::optional<uint16_t> positionScalingFactor;  //!< Position scaling factor [1-2047] (optional, auto-calculated from encoder CPR if not provided)
+      std::optional<uint32_t> encoderCountsPerRev;  //!< Encoder CPR for auto-calculating position scaling (optional, required if positionScalingFactor not provided)
+      
+      // Position loop downsampling (optional)
+      /** @brief Position loop downsampling factor [0-127] (default: 1).
+       *
+       * **Clock Distribution (Cascading):**
+       * The position control loop frequency is derived from the **velocity loop frequency**:
+       * - Velocity loop frequency = PWM frequency / (VELOCITY_LOOP_DOWNSAMPLING + 1)
+       * - Position loop frequency = Velocity loop frequency / (loopDownsampling + 1)
+       * - Example: 25kHz PWM, velocity downsampling=5, position downsampling=1
+       *   → velocity loop = 25kHz/6 = 4.17kHz
+       *   → position loop = 4.17kHz/2 = 2.08kHz
+       *
+       * **Effect on PI Gains:**
+       * Lower loop frequencies (higher downsampling) require proportionally higher
+       * PI gains to maintain the same response. The integrator speed depends on
+       * the PWM frequency, velocity loop downsampling, and this position loop
+       * downsampling factor.
+       *
+       * **Typical Values:**
+       * - 0-1: Fast response (high-frequency position control, default: 1)
+       * - 2-3: Standard (good balance for most applications)
+       * - 4-6: Slower response (for heavy loads or stability)
+       * - >6: Very slow (rarely needed)
+       *
+       * **Note:** Position loop must be slower than velocity loop (typically 5-10× slower).
+       */
+      uint8_t loopDownsampling = 1;  //!< Position loop downsampling factor [0-127] (default: 1)
+      
+      // Position limits (optional)
+      std::optional<int32_t> positionLimitLow;  //!< Low position limit (optional, disabled if not provided)
+      std::optional<int32_t> positionLimitHigh;  //!< High position limit (optional, disabled if not provided)
+      
+      // Position reached threshold (optional)
+      uint32_t positionReachedThreshold = 100;  //!< Position reached threshold (default: 100)
+      
+      // Stop on deviation (optional)
+      std::optional<uint32_t> stopOnDeviationMaxError;  //!< Max allowed position deviation for stop condition (optional, disabled if not provided)
+      bool stopOnDeviationSoftStop = true;  //!< Use soft stop (ramp down) for deviation stop (default: true)
+    };
 
-    /// @name Intermediate FOC Currents (read-only)
-    ///@{
-    bool getFocCurrentUx(int16_t &milliamps) noexcept;
-    bool getFocCurrentV(int16_t &milliamps) noexcept;
-    bool getFocCurrentWy(int16_t &milliamps) noexcept;
-    bool getFocCurrentIq(int16_t &milliamps) noexcept;
-    ///@}
-
-    /// @name Target Torque Biquad Filter (read/write)
-    ///@{
-    bool setTargetTorqueBiquadFilterEnable(bool enable) noexcept;
-    bool getTargetTorqueBiquadFilterEnable(bool &enable) noexcept;
-    bool setTargetTorqueBiquadFilterACoeff1(int32_t coeff) noexcept;
-    bool getTargetTorqueBiquadFilterACoeff1(int32_t &coeff) noexcept;
-    bool setTargetTorqueBiquadFilterACoeff2(int32_t coeff) noexcept;
-    bool getTargetTorqueBiquadFilterACoeff2(int32_t &coeff) noexcept;
-    bool setTargetTorqueBiquadFilterBCoeff0(int32_t coeff) noexcept;
-    bool getTargetTorqueBiquadFilterBCoeff0(int32_t &coeff) noexcept;
-    bool setTargetTorqueBiquadFilterBCoeff1(int32_t coeff) noexcept;
-    bool getTargetTorqueBiquadFilterBCoeff1(int32_t &coeff) noexcept;
-    bool setTargetTorqueBiquadFilterBCoeff2(int32_t coeff) noexcept;
-    bool getTargetTorqueBiquadFilterBCoeff2(int32_t &coeff) noexcept;
-    ///@}
-
-    /// @name Actual Velocity Biquad Filter (read/write)
-    ///@{
-    bool setActualVelocityBiquadFilterEnable(bool enable) noexcept;
-    bool getActualVelocityBiquadFilterEnable(bool &enable) noexcept;
-    bool setActualVelocityBiquadFilterACoeff1(int32_t coeff) noexcept;
-    bool getActualVelocityBiquadFilterACoeff1(int32_t &coeff) noexcept;
-    bool setActualVelocityBiquadFilterACoeff2(int32_t coeff) noexcept;
-    bool getActualVelocityBiquadFilterACoeff2(int32_t &coeff) noexcept;
-    bool setActualVelocityBiquadFilterBCoeff0(int32_t coeff) noexcept;
-    bool getActualVelocityBiquadFilterBCoeff0(int32_t &coeff) noexcept;
-    bool setActualVelocityBiquadFilterBCoeff1(int32_t coeff) noexcept;
-    bool getActualVelocityBiquadFilterBCoeff1(int32_t &coeff) noexcept;
-    bool setActualVelocityBiquadFilterBCoeff2(int32_t coeff) noexcept;
-    bool getActualVelocityBiquadFilterBCoeff2(int32_t &coeff) noexcept;
-    ///@}
-
-    /// @name Combined & integrated raw measurements (read-only)
-    ///@{
-    bool getTorqueFluxCombinedTargetValues(uint32_t &value) noexcept;
-    bool getTorqueFluxCombinedActualValues(uint32_t &value) noexcept;
-    bool getVoltageDqCombinedActualValues(uint32_t &value) noexcept;
-    bool getIntegratedActualTorqueValue(uint32_t &value) noexcept;
-    bool getIntegratedActualVelocityValue(uint32_t &value) noexcept;
-    ///@}
+    /** @brief Auto-configure position control parameters.
+     *
+     * Configures position sensor selection, PI gains, scaling, limits, and other
+     * position control parameters based on high-level characteristics.
+     *
+     * @param config Position control configuration (see PositionConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const PositionConfig &config) noexcept;
 
   private:
     friend class TMC9660;
-    explicit FOCControl(TMC9660 &parent) noexcept : driver(parent) {}
+    explicit PositionControl(TMC9660 &parent) noexcept : driver(parent) {}
     TMC9660 &driver;
-  } focControl{*this};
+  } positionControl{*this};
 
   //***************************************************************************
   //**                  SUBSYSTEM: Motion Ramp                             **//
@@ -2680,6 +3189,150 @@ public:
      * @return true if the value was read successfully.
      */
     bool getRampPosition(int32_t &position) noexcept;
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for ramp auto-configuration.
+     */
+    struct RampConfig {
+      // Required parameters
+      /** @brief Maximum velocity in internal units (required).
+       *
+       * Maximum velocity that the ramp generator can command.
+       * Range: 0-134217727 (default: 134217727 = unlimited)
+       */
+      uint32_t maxVelocity = 134217727;  //!< Maximum velocity [0-134217727] (default: unlimited)
+      
+      // Optional parameters with defaults
+      /** @brief Maximum acceleration in µ units/s² (optional, default: 1000).
+       *
+       * Top acceleration value (RAMP_AMAX). Higher values = faster acceleration.
+       * Typical range: 500-5000 for most applications.
+       */
+      std::optional<uint32_t> maxAcceleration;  //!< Maximum acceleration [µ units/s²] (optional, default: 1000)
+      
+      /** @brief First acceleration segment in µ units/s² (optional, default: 8000).
+       *
+       * Acceleration at low velocities (RAMP_A1). Typically higher than A2/AMAX
+       * for smooth startup.
+       */
+      std::optional<uint32_t> acceleration1;  //!< First acceleration segment [µ units/s²] (optional, default: 8000)
+      
+      /** @brief Second acceleration segment in µ units/s² (optional, default: 4000).
+       *
+       * Acceleration at medium velocities (RAMP_A2). Intermediate value between
+       * A1 and AMAX.
+       */
+      std::optional<uint32_t> acceleration2;  //!< Second acceleration segment [µ units/s²] (optional, default: 4000)
+      
+      /** @brief Maximum deceleration in µ units/s² (optional, default: 1000).
+       *
+       * Top deceleration value (RAMP_DMAX). Can be different from acceleration
+       * for asymmetric profiles.
+       */
+      std::optional<uint32_t> maxDeceleration;  //!< Maximum deceleration [µ units/s²] (optional, default: 1000)
+      
+      /** @brief First deceleration segment in µ units/s² (optional, default: 8000).
+       *
+       * Deceleration at medium velocities (RAMP_D1).
+       */
+      std::optional<uint32_t> deceleration1;  //!< First deceleration segment [µ units/s²] (optional, default: 8000)
+      
+      /** @brief Second deceleration segment in µ units/s² (optional, default: 8000).
+       *
+       * Deceleration at low velocities (RAMP_D2). Typically higher for smooth stopping.
+       */
+      std::optional<uint32_t> deceleration2;  //!< Second deceleration segment [µ units/s²] (optional, default: 8000)
+      
+      /** @brief Velocity threshold 1 in internal units (optional, default: 0).
+       *
+       * Velocity threshold for switching from A1/D1 to A2/D2 (RAMP_V1).
+       */
+      std::optional<uint32_t> velocityThreshold1;  //!< Velocity threshold 1 [internal units] (optional, default: 0)
+      
+      /** @brief Velocity threshold 2 in internal units (optional, default: 0).
+       *
+       * Velocity threshold for switching from A2/D2 to AMAX/DMAX (RAMP_V2).
+       */
+      std::optional<uint32_t> velocityThreshold2;  //!< Velocity threshold 2 [internal units] (optional, default: 0)
+      
+      /** @brief Start velocity in internal units (optional, default: 0).
+       *
+       * Initial velocity when ramp starts (RAMP_VSTART).
+       */
+      std::optional<uint32_t> startVelocity;  //!< Start velocity [internal units] (optional, default: 0)
+      
+      /** @brief Stop velocity in internal units (optional, default: 1).
+       *
+       * Velocity at which ramp considers motion stopped (RAMP_VSTOP).
+       */
+      std::optional<uint32_t> stopVelocity;  //!< Stop velocity [internal units] (optional, default: 1)
+      
+      /** @brief Minimum time at VMAX before deceleration (optional, default: 0).
+       *
+       * Minimum time to maintain maximum velocity before starting deceleration (RAMP_TVMAX).
+       * Units: velocity loop cycles.
+       */
+      std::optional<uint16_t> timeAtVmax;  //!< Minimum time at VMAX [cycles] (optional, default: 0)
+      
+      /** @brief Wait time at end of ramp (optional, default: 0).
+       *
+       * Time to wait after ramp completes before next move (RAMP_TZEROWAIT).
+       * Units: velocity loop cycles.
+       */
+      std::optional<uint16_t> timeZeroWait;  //!< Wait time at end [cycles] (optional, default: 0)
+      
+      /** @brief Enable ramp generator (optional, default: false).
+       *
+       * When enabled, the ramp generator controls acceleration/deceleration.
+       * When disabled, direct velocity commands are used.
+       */
+      std::optional<bool> enableRamp;  //!< Enable ramp generator (optional, default: false)
+      
+      /** @brief Enable direct velocity mode (optional, default: true).
+       *
+       * When enabled, ramp directly controls velocity without PI loop.
+       * When disabled, ramp output feeds into velocity PI controller.
+       */
+      std::optional<bool> enableDirectVelocityMode;  //!< Enable direct velocity mode (optional, default: true)
+      
+      /** @brief Enable velocity feedforward (optional, default: false).
+       *
+       * When enabled, velocity feedforward term is added to improve tracking.
+       */
+      std::optional<bool> enableVelocityFeedForward;  //!< Enable velocity feedforward (optional, default: false)
+      
+      /** @brief Enable acceleration feedforward (optional, default: false).
+       *
+       * When enabled, acceleration feedforward term is added to improve tracking.
+       */
+      std::optional<bool> enableAccelerationFeedForward;  //!< Enable acceleration feedforward (optional, default: false)
+      
+      /** @brief Acceleration feedforward gain (optional, default: 8).
+       *
+       * Gain for acceleration feedforward term (ACCELERATION_FF_GAIN).
+       * Range: 0-65535.
+       */
+      std::optional<uint16_t> accelerationFeedForwardGain;  //!< Acceleration FF gain [0-65535] (optional, default: 8)
+      
+      /** @brief Acceleration feedforward shift (optional, default: SHIFT_4).
+       *
+       * Shift for acceleration feedforward term (ACCELERATION_FF_SHIFT).
+       */
+      std::optional<tmc9660::tmcl::AccelerationFFShift> accelerationFeedForwardShift;  //!< Acceleration FF shift (optional, default: SHIFT_4_BIT)
+    };
+
+    /** @brief Auto-configure ramp parameters.
+     *
+     * Configures acceleration, deceleration, velocity thresholds, and feedforward
+     * parameters based on high-level motion profile requirements.
+     *
+     * @param config Ramp configuration (see RampConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const RampConfig &config) noexcept;
 
   private:
     friend class TMC9660;
@@ -2846,6 +3499,77 @@ public:
      * @return True if the parameter was written successfully.
      */
     bool invertOutput(bool invert) noexcept;
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for brake auto-configuration.
+     */
+    struct BrakeConfig {
+      // Brake chopper configuration (optional)
+      /** @brief Enable brake chopper (optional, default: false).
+       *
+       * When enabled, the brake chopper activates when bus voltage exceeds
+       * the threshold, dumping excess energy into a resistor.
+       */
+      std::optional<bool> enableChopper;  //!< Enable brake chopper (optional, default: false)
+      
+      /** @brief Brake chopper voltage threshold in volts (optional, default: 30.0V for 24V systems).
+       *
+       * Voltage at which brake chopper activates to dump excess energy.
+       * Typical values:
+       * - 24V systems: 28-32V (default: 30.0V)
+       * - 48V systems: 56-60V
+       * - 12V systems: 14-16V
+       */
+      std::optional<float> chopperVoltageThreshold_V;  //!< Brake chopper voltage threshold [V] (optional, default: 30.0V)
+      
+      /** @brief Brake chopper hysteresis in volts (optional, default: 2.0V).
+       *
+       * Hysteresis for brake chopper threshold to prevent oscillation.
+       * Typical values: 1.0-5.0V (default: 2.0V)
+       */
+      std::optional<float> chopperHysteresis_V;  //!< Brake chopper hysteresis [V] (optional, default: 2.0V)
+      
+      // Mechanical brake configuration (optional)
+      /** @brief PWM duty cycle for brake release in percent (optional, default: 50%).
+       *
+       * Duty cycle used during initial brake release phase.
+       * Range: 0-99% (default: 50%)
+       */
+      std::optional<uint8_t> releasingDutyCycle;  //!< Brake release duty cycle [0-99%] (optional, default: 50%)
+      
+      /** @brief PWM duty cycle for brake holding in percent (optional, default: 30%).
+       *
+       * Duty cycle used to hold brake in released state.
+       * Range: 0-99% (default: 30%)
+       */
+      std::optional<uint8_t> holdingDutyCycle;  //!< Brake holding duty cycle [0-99%] (optional, default: 30%)
+      
+      /** @brief Brake release duration in milliseconds (optional, default: 100ms).
+       *
+       * Duration of initial high-duty-cycle phase for brake release.
+       * Range: 0-65535ms (default: 100ms)
+       */
+      std::optional<uint16_t> releasingDuration_ms;  //!< Brake release duration [ms] (optional, default: 100ms)
+      
+      /** @brief Invert brake output polarity (optional, default: false).
+       *
+       * When true, inverts the brake output signal polarity.
+       */
+      std::optional<bool> invertOutput;  //!< Invert brake output (optional, default: false)
+    };
+
+    /** @brief Auto-configure brake parameters.
+     *
+     * Configures brake chopper and mechanical brake parameters based on
+     * high-level requirements.
+     *
+     * @param config Brake configuration (see BrakeConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const BrakeConfig &config) noexcept;
 
   private:
     friend class TMC9660;
@@ -3086,6 +3810,74 @@ public:
     bool getAndClearLatchedPosition(int32_t &pos) noexcept; ///< LATCH_POSITION / RAMPER_LATCHED
                                                             ///< @see Datasheet LATCH_POSITION
 
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for stop events auto-configuration.
+     */
+    struct StopEventsConfig {
+      // Deviation stop (optional)
+      /** @brief Maximum allowed velocity deviation for stop condition (optional, disabled if not provided).
+       *
+       * When actual velocity deviates from target velocity by more than this value,
+       * a stop event is triggered.
+       * Range: 0-200000 (default: disabled if not provided)
+       */
+      std::optional<uint32_t> maxVelocityDeviation;  //!< Max velocity deviation [0-200000] (optional, disabled if not provided)
+      
+      /** @brief Maximum allowed position deviation for stop condition (optional, disabled if not provided).
+       *
+       * When actual position deviates from target position by more than this value,
+       * a stop event is triggered.
+       * Range: 0-2147483647 (default: disabled if not provided)
+       */
+      std::optional<uint32_t> maxPositionDeviation;  //!< Max position deviation [0-2147483647] (optional, disabled if not provided)
+      
+      /** @brief Use soft stop (ramp down) for deviation stop (optional, default: true).
+       *
+       * When true, uses soft stop (ramp down) instead of immediate hard stop.
+       */
+      std::optional<bool> deviationSoftStop;  //!< Use soft stop for deviation (optional, default: true)
+      
+      // Reference switches (optional)
+      /** @brief Reference switch enable mask (optional, default: 0 = all disabled).
+       *
+       * Bit mask of switches to enable:
+       * - Bit 0: Left switch
+       * - Bit 1: Right switch
+       * - Bit 2: Home switch
+       * Range: 0-7 (default: 0 = all disabled)
+       */
+      std::optional<uint8_t> referenceSwitchMask;  //!< Reference switch enable mask [0-7] (optional, default: 0)
+      
+      /** @brief Invert left switch polarity (optional, default: false).
+       */
+      std::optional<bool> invertLeftSwitch;  //!< Invert left switch (optional, default: false)
+      
+      /** @brief Invert right switch polarity (optional, default: false).
+       */
+      std::optional<bool> invertRightSwitch;  //!< Invert right switch (optional, default: false)
+      
+      /** @brief Invert home switch polarity (optional, default: false).
+       */
+      std::optional<bool> invertHomeSwitch;  //!< Invert home switch (optional, default: false)
+      
+      /** @brief Swap left and right switch wiring (optional, default: false).
+       */
+      std::optional<bool> swapLeftRight;  //!< Swap left/right wiring (optional, default: false)
+    };
+
+    /** @brief Auto-configure stop events parameters.
+     *
+     * Configures deviation stop thresholds and reference switch settings based on
+     * high-level requirements.
+     *
+     * @param config Stop events configuration (see StopEventsConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const StopEventsConfig &config) noexcept;
+
   private:
     friend class TMC9660;
     explicit StopEvents(TMC9660 &parent) noexcept : driver(parent) {}
@@ -3145,6 +3937,101 @@ public:
      * @return true if reset was successful.
      */
     bool resetI2tState() noexcept;
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for protection auto-configuration.
+     */
+    struct ProtectionConfig {
+      // Voltage protection (optional, with defaults)
+      /** @brief Overvoltage threshold in volts (optional, default: 28.0V for 24V systems).
+       *
+       * Threshold at which overvoltage warning is triggered.
+       * Typical values:
+       * - 24V systems: 28-30V (default: 28.0V)
+       * - 48V systems: 56-60V
+       * - 12V systems: 14-15V
+       */
+      std::optional<float> overvoltageThreshold_V;  //!< Overvoltage threshold in volts (optional, default: 28.0V)
+      
+      /** @brief Undervoltage threshold in volts (optional, default: 20.0V for 24V systems).
+       *
+       * Threshold at which undervoltage warning is triggered.
+       * Typical values:
+       * - 24V systems: 18-20V (default: 20.0V)
+       * - 48V systems: 40-44V
+       * - 12V systems: 10-11V
+       */
+      std::optional<float> undervoltageThreshold_V;  //!< Undervoltage threshold in volts (optional, default: 20.0V)
+      
+      // Temperature protection (optional, with defaults)
+      /** @brief Temperature warning threshold in °C (optional, default: 80.0°C).
+       *
+       * Temperature at which warning is triggered.
+       * Typical values:
+       * - Standard: 80-85°C (default: 80.0°C)
+       * - High-temp: 90-95°C
+       */
+      std::optional<float> temperatureWarning_C;  //!< Temperature warning threshold in °C (optional, default: 80.0°C)
+      
+      /** @brief Temperature shutdown threshold in °C (optional, default: 100.0°C).
+       *
+       * Temperature at which motor is shut down for protection.
+       * Typical values:
+       * - Standard: 100-105°C (default: 100.0°C)
+       * - High-temp: 110-115°C
+       */
+      std::optional<float> temperatureShutdown_C;  //!< Temperature shutdown threshold in °C (optional, default: 100.0°C)
+      
+      // Overcurrent protection (optional, with default)
+      /** @brief Enable overcurrent protection (optional, default: true).
+       *
+       * When enabled, the gate driver overcurrent detection will shut down
+       * drivers on overcurrent conditions.
+       */
+      std::optional<bool> enableOvercurrent;  //!< Enable overcurrent protection (optional, default: true)
+      
+      // I²t thermal protection (optional, with defaults)
+      /** @brief I²t window 1 time constant in milliseconds (optional, default: 100ms).
+       *
+       * Time constant for the first I²t monitoring window.
+       * Typical values: 50-200ms (default: 100ms)
+       */
+      std::optional<uint16_t> i2tTimeConstant1_ms;  //!< I²t window 1 time constant [ms] (optional, default: 100ms)
+      
+      /** @brief I²t window 1 continuous current limit in Amps (optional, default: 1.5A).
+       *
+       * Continuous current limit for the first I²t monitoring window.
+       * Should be set based on motor continuous current rating.
+       */
+      std::optional<float> i2tContinuousCurrent1_A;  //!< I²t window 1 continuous current limit [A] (optional, default: 1.5A)
+      
+      /** @brief I²t window 2 time constant in milliseconds (optional, default: 1000ms).
+       *
+       * Time constant for the second I²t monitoring window (longer-term protection).
+       * Typical values: 500-2000ms (default: 1000ms)
+       */
+      std::optional<uint16_t> i2tTimeConstant2_ms;  //!< I²t window 2 time constant [ms] (optional, default: 1000ms)
+      
+      /** @brief I²t window 2 continuous current limit in Amps (optional, default: 1.25A).
+       *
+       * Continuous current limit for the second I²t monitoring window.
+       * Typically set slightly lower than window 1 for longer-term protection.
+       */
+      std::optional<float> i2tContinuousCurrent2_A;  //!< I²t window 2 continuous current limit [A] (optional, default: 1.25A)
+    };
+
+    /** @brief Auto-configure protection parameters.
+     *
+     * Configures voltage, temperature, overcurrent, and I²t protection based on
+     * high-level protection requirements.
+     *
+     * @param config Protection configuration (see ProtectionConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const ProtectionConfig &config) noexcept;
 
   private:
     friend class TMC9660;
@@ -3351,6 +4238,37 @@ public:
      */
     bool configure(tmc9660::tmcl::HeartbeatMonitoringConfig mode, uint32_t timeout_ms) noexcept;
 
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for heartbeat auto-configuration.
+     */
+    struct HeartbeatConfig {
+      /** @brief Enable heartbeat monitoring (optional, default: false).
+       *
+       * When enabled, the TMC9660 monitors communication timeout and faults
+       * if no commands are received within the timeout period.
+       */
+      std::optional<bool> enable;  //!< Enable heartbeat monitoring (optional, default: false)
+      
+      /** @brief Heartbeat timeout in milliseconds (optional, default: 1000ms).
+       *
+       * Timeout period after which the chip faults if no communication occurs.
+       * Typical values: 500-5000ms (default: 1000ms)
+       */
+      std::optional<uint32_t> timeout_ms;  //!< Heartbeat timeout [ms] (optional, default: 1000ms)
+    };
+
+    /** @brief Auto-configure heartbeat parameters.
+     *
+     * Configures heartbeat monitoring based on high-level requirements.
+     *
+     * @param config Heartbeat configuration (see HeartbeatConfig)
+     * @return true if configuration succeeded, false otherwise
+     */
+    bool configureAuto(const HeartbeatConfig &config) noexcept;
+
   private:
     friend class TMC9660;
     explicit Heartbeat(TMC9660 &parent) noexcept : driver(parent) {}
@@ -3543,6 +4461,37 @@ public:
      * - Parameter: `GO_TO_TIMEOUT_POWER_DOWN_STATE`
      */
     bool enterPowerDown(tmc9660::tmcl::PowerDownTimeout period) noexcept;
+
+    //-------------------------------------------------------------------------
+    // Auto-Configuration
+    //-------------------------------------------------------------------------
+
+    /** @brief Configuration structure for power management auto-configuration.
+     */
+    struct PowerConfig {
+      /** @brief Enable external wake-up pin (optional, default: false).
+       *
+       * When enabled, the external wake-up pin can be used to wake the chip
+       * from power-down mode.
+       */
+      std::optional<bool> enableWakePin;  //!< Enable wake-up pin (optional, default: false)
+      
+      /** @brief Power-down timeout period (optional, default: disabled).
+       *
+       * Duration after which the chip enters power-down mode if no activity.
+       * If not provided, power-down is disabled.
+       */
+      std::optional<tmc9660::tmcl::PowerDownTimeout> powerDownTimeout;  //!< Power-down timeout (optional, disabled if not provided)
+    };
+
+    /** @brief Auto-configure power management parameters.
+     *
+     * Configures wake-up pin and power-down timeout based on high-level requirements.
+     *
+     * @param config Power configuration (see PowerConfig)
+     * @return true if all configurations succeeded, false otherwise
+     */
+    bool configureAuto(const PowerConfig &config) noexcept;
 
   private:
     friend class TMC9660;
