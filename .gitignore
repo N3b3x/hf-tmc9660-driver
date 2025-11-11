@@ -30,12 +30,21 @@
 *.exe
 *.out
 *.app
-tests/build/
-
+# Build directories (ESP-IDF and general)
 **/build/
 **/build_*/
 **/build*/
+/build/
+build/
+tests/build/
+examples/esp32/build*/
+examples/esp32/**/build*/
 **/dependencies.lock
+
+# ESP-IDF specific
+# sdkconfig and sdkconfig.defaults should be tracked (contain important ESP32 configuration)
+# Only ignore backup files
+**/sdkconfig.old
 
 # Don't exclude .vscode folder
 # .vscode/

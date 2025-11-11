@@ -8,7 +8,8 @@
  * Contains definitions for system-level registers such as Chip ID and fault status.
  */
 
-namespace TMC9660 {
+namespace tmc9660 {
+namespace register_mode {
 namespace SYS_CTRL {
 
 /**
@@ -166,4 +167,5 @@ struct FAULT_INT_ENABLE {
 };
 
 } // namespace SYS_CTRL
-} // namespace TMC9660
+} // namespace register_mode
+} // namespace tmc9660

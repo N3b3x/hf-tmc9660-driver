@@ -32,9 +32,11 @@
 #include <variant>
 #include <vector>
 
-#include "TMC9660Bootloader.hpp"
+#include "bootloader/TMC9660Bootloader.hpp"
 #include "TMC9660CommInterface.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
+
+namespace tmc9660 {
 
 /**
  * @brief Main class representing a TMC9660 motor driver in Parameter Mode.
@@ -4535,3 +4537,5 @@ private:
   };
 #endif
 };
+
+} // namespace tmc9660

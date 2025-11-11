@@ -57,7 +57,7 @@ int main() {
 Compile with:
 
 ```cpp
-g++ -std=c++20 -Iinc src/TMC9660.cpp src/TMC9660Bootloader.cpp \
+g++ -std=c++20 -Iinc src/TMC9660.cpp src/bootloader/TMC9660Bootloader.cpp \
     docs/bootloader_example.cpp -o bootloader_demo
 ```
 

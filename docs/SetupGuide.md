@@ -131,7 +131,7 @@ The library uses a simple compilation model without complex build systems.
 g++ -std=c++20 -Iinc -c src/TMC9660.cpp -o TMC9660.o
 
 # Compile bootloader support
-g++ -std=c++20 -Iinc -c src/TMC9660Bootloader.cpp -o TMC9660Bootloader.o
+g++ -std=c++20 -Iinc -c src/bootloader/TMC9660Bootloader.cpp -o TMC9660Bootloader.o
 
 # Verify object files were created
 ls -la *.o
@@ -157,7 +157,7 @@ Test your setup by building the provided examples:
 
 ```bash
 g++ -std=c++20 -Iinc \
-    src/TMC9660.cpp src/TMC9660Bootloader.cpp \
+    src/TMC9660.cpp src/bootloader/TMC9660Bootloader.cpp \
     examples/bootloader_example.cpp \
     -o bootloader_test
 
@@ -180,7 +180,7 @@ g++ -std=c++20 -Iinc \
 
 ```bash
 g++ -std=c++20 -Iinc \
-    src/TMC9660.cpp src/TMC9660Bootloader.cpp \
+    src/TMC9660.cpp src/bootloader/TMC9660Bootloader.cpp \
     examples/BLDC_with_HALL.cpp \
     -o bldc_hall_test
 
@@ -192,7 +192,7 @@ g++ -std=c++20 -Iinc \
 
 ```bash
 g++ -std=c++20 -Iinc \
-    src/TMC9660.cpp src/TMC9660Bootloader.cpp \
+    src/TMC9660.cpp src/bootloader/TMC9660Bootloader.cpp \
     examples/Telemetry_monitor.cpp \
     -o telemetry_test
 
@@ -260,7 +260,7 @@ along with your application:
 add_executable(my_motor_app
     src/main.cpp
     external/hf-tmc9660/src/TMC9660.cpp
-    external/hf-tmc9660/src/TMC9660Bootloader.cpp
+    external/hf-tmc9660/src/bootloader/TMC9660Bootloader.cpp
 )
 
 target_include_directories(my_motor_app PRIVATE 

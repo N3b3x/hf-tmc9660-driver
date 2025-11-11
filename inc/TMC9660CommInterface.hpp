@@ -108,6 +108,8 @@
 #include <span>
 #include <string>
 
+namespace tmc9660 {
+
 /**
  * @brief Compile-time debug logging control for TMC9660 library
  * 
@@ -1047,3 +1049,5 @@ public:
     return TMCLReply::fromUart(frame, address, reply, tx.opcode, tx.type);
   }
 };
+
+} // namespace tmc9660

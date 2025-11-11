@@ -27,7 +27,8 @@
  * configuration registers.
  */
 
-namespace TMC9660 {
+namespace tmc9660 {
+namespace register_mode {
 /**
  * @brief ADC and analog measurement namespace for TMC9660.
  * @ingroup TMC9660_ADC
@@ -325,4 +326,5 @@ struct CSA_SETUP {
 };
 
 } // namespace ADC
-} // namespace TMC9660
+} // namespace register_mode
+} // namespace tmc9660

@@ -1,6 +1,12 @@
 ---
 layout: default
 ---
+<!-- =============================================================================
+     Workflow Layout for HardFOC Driver Documentation
+     =============================================================================
+     This layout is designed for workflow documentation pages with badges and
+     quick action links. Useful for CI/CD workflow documentation.
+     ============================================================================= -->
 
 <div class="main-content">
   <div class="workflow-header">
@@ -23,10 +29,10 @@ layout: default
   <div class="workflow-footer">
     <h3>Quick Links</h3>
     <div class="workflow-links">
-      <a href="https://github.com/n3b3x/hf-tmc9660-driver" class="btn btn-primary">
+      <a href="https://github.com/n3b3x/{{ site.baseurl | remove_first: '/' }}" class="btn btn-primary">
         📚 View on GitHub
       </a>
-      <a href="https://github.com/n3b3x/hf-tmc9660-driver/issues" class="btn btn-secondary">
+      <a href="https://github.com/n3b3x/{{ site.baseurl | remove_first: '/' }}/issues" class="btn btn-secondary">
         🐛 Report Issues
       </a>
     </div>

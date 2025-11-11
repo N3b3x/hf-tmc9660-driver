@@ -2,6 +2,11 @@
 layout: default
 nav_enabled: false
 ---
+<!-- =============================================================================
+     Print Layout for HardFOC Driver Documentation
+     =============================================================================
+     This layout is optimized for printing with proper page breaks and styling.
+     ============================================================================= -->
 
 <div class="main-content">
   <div class="page-header">
@@ -14,12 +19,13 @@ nav_enabled: false
   {{ content }}
   
   <div class="page-footer">
-    <p><small>Generated from hf-tmc9660-driver documentation - {{ site.time | date: "%B %d, %Y" }}</small></p>
+    <p><small>Generated from {{ site.title }} documentation - {{ site.time | date: "%B %d, %Y" }}</small></p>
   </div>
 </div>
 
 <style>
   @media print {
+    /* Hide navigation and non-essential elements */
     .side-bar,
     .page-header,
     .search,
@@ -28,11 +34,13 @@ nav_enabled: false
       display: none !important;
     }
     
+    /* Full-width content for printing */
     .main-content {
       max-width: none !important;
       margin: 0 !important;
     }
     
+    /* Styled table of contents for print */
     .toc {
       border: 1px solid #ccc;
       padding: 1rem;
@@ -40,16 +48,27 @@ nav_enabled: false
       background: #f9f9f9;
     }
     
+    /* Code blocks with borders for print */
     pre, code {
       background: #f5f5f5 !important;
       color: #000 !important;
       border: 1px solid #ccc;
     }
     
+    /* Footer styling */
     .page-footer {
       margin-top: 2rem;
       padding-top: 1rem;
       border-top: 1px solid #ccc;
+    }
+    
+    /* Page breaks */
+    h1, h2 {
+      page-break-after: avoid;
+    }
+    
+    pre, code {
+      page-break-inside: avoid;
     }
   }
 </style>

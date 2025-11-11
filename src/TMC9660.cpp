@@ -3,6 +3,8 @@
 #include <cmath>
 #include <thread>
 
+using namespace tmc9660;
+
 /**
  * @brief Construct a TMC9660 driver instance.
  * 
@@ -15,11 +17,11 @@
  * @param bootCfg Optional bootloader configuration (can be set later)
  */
 TMC9660::TMC9660(TMC9660CommInterface &comm, uint8_t address,
-                 const tmc9660::BootloaderConfig *bootCfg) noexcept
+                 const BootloaderConfig *bootCfg) noexcept
     : comm_(comm), address_(address & 0x7F), bootCfg_(bootCfg) {
   // Initialize bootloader for SPI and UART interfaces
   if (comm.mode() == CommMode::SPI || comm.mode() == CommMode::UART) {
-    bootloader_ = std::make_unique<tmc9660::TMC9660Bootloader>(comm);
+    bootloader_ = std::make_unique<TMC9660Bootloader>(comm);
   }
 }
 
@@ -56,9 +58,9 @@ TMC9660::~TMC9660() noexcept {
  * @return BootloaderInitResult indicating success or failure reason
  */
 TMC9660::BootloaderInitResult
-TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg, bool performReset, 
+TMC9660::bootloaderInit(const BootloaderConfig *cfg, bool performReset, 
                         bool retrieveBootloaderInfo, bool failOnVerifyError) noexcept {
-  const tmc9660::BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
+  const BootloaderConfig *useCfg = cfg ? cfg : bootCfg_;
   if (!useCfg)
     return BootloaderInitResult::NoConfig;
   if (!bootloader_) {

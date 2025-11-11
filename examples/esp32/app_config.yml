@@ -9,7 +9,7 @@
 
 version: "1.0"
 metadata:
-  project: "ESP32 HardFOC TMC9660 Driver Tests"
+  project: "ESP32 TMC9660 Driver Examples"
   default_app: "bldc_comprehensive_test"
   target: "esp32c6"
   idf_versions: ["release/v5.5", "release/v5.4"]

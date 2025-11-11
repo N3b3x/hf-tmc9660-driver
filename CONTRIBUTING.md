@@ -14,15 +14,32 @@ provides guidelines and information for contributors.
 
 ## 📋 **Code Standards**
 
-### 🎯 **Coding Style and Best Practices for HardFOC Development**
+### 🎯 **Coding Style and Best Practices**
+
+**All contributors must follow the official HardFOC Coding Standards:**
+
+📚 **[HardFOC Embedded Systems Coding Standards](https://github.com/hardfoc/org-discussions)**
+
+The coding standards document provides comprehensive guidelines for:
+- **Naming Conventions**: Functions, variables, constants, classes, and more
+- **Code Organization**: File structure, include order, class organization
+- **Error Handling**: Patterns for embedded systems
+- **Memory Management**: Best practices for resource-constrained systems
+- **Thread Safety**: Guidelines for multi-threaded code
+- **Documentation Standards**: Doxygen and inline comments
+- **Embedded Systems Best Practices**: Fixed-width types, volatile usage, and more
+
+### 🎯 **Quick Reference for TMC9660 Driver**
 
 - **C++17 Standard Compliance** - All code must be compatible with C++17
 - **Consistent Naming** - Follow the established naming conventions:
   - Classes: `PascalCase` (e.g., `TMC9660`, `TMC9660Bootloader`)
-  - Functions: `PascalCase` (e.g., `Initialize`, `SetMotorCurrent`)
-  - Variables: `snake_case` with trailing underscore for members (e.g., `motor_enable_`, `current_sensor_`)
+  - Public Functions: `PascalCase` (e.g., `Initialize`, `SetMotorCurrent`)
+  - Private Functions: `camelCase` (e.g., `checkInitialized`, `transferFrame`)
+  - Member Variables: `snake_case` with trailing underscore (e.g., `motor_enable_`, `current_sensor_`)
   - Constants: `UPPER_SNAKE_CASE` (e.g., `TMC9660_MAX_CURRENT`)
-  - Types: Platform-agnostic types where applicable
+  - Local Variables: `snake_case` (e.g., `current_value`, `motor_status`)
+  - Parameters: `snake_case` (e.g., `channel`, `current_ma`)
 
 ### 🏗️ **Architecture Guidelines**
 
@@ -84,18 +101,25 @@ When proposing new features:
 4. **Document Your Changes with HardFOC Examples**
 5. **Submit a Pull Request**
 
-## 📋 **Code Quality Standards for HardFOC**
+## 📋 **Code Quality Standards**
 
 - **C++17 Compliance** - Code compiles without warnings
 - **HardFOC Compatibility** - Tested on HardFOC boards
 - **Error Handling** - All error conditions handled appropriately
-- **Documentation** - All public APIs documented
+- **Documentation** - All public APIs documented with Doxygen
 - **Tests** - Adequate test coverage provided
 - **Performance** - Real-time requirements met
+- **Coding Standards** - Follows [HardFOC Coding Standards](https://github.com/hardfoc/org-discussions)
+
+## 🔗 **Resources**
+
+- **[HardFOC Coding Standards](https://github.com/hardfoc/org-discussions)** - Complete coding standards document
+- **[TMC9660 Datasheet](../datasheet/)** - Hardware datasheet
+- **[Documentation](../docs/)** - Driver documentation
+- **[Examples](../examples/)** - Example code and usage patterns
 
 ---
 
 ## 🚀 Thank You for Contributing to HardFOC
 
-Your contributions help make HardFOC motor controller boards more accessible and powerful
-for everyone.
+Your contributions help make HardFOC motor controller boards more accessible and powerful for everyone.

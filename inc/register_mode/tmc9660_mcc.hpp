@@ -18,7 +18,8 @@
  * @note All registers are 32-bit wide and use little-endian byte ordering
  */
 
-namespace TMC9660 {
+namespace tmc9660 {
+namespace register_mode {
 namespace MCC {
 
 /**
@@ -4418,4 +4419,5 @@ struct MOTION_CONFIG {
   };
 
 } // namespace MCC
-} // namespace TMC9660
+} // namespace register_mode
+} // namespace tmc9660

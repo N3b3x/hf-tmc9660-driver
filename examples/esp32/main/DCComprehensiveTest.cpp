@@ -31,6 +31,8 @@
 #include <vector>
 #include <algorithm>
 #include "freertos/FreeRTOS.h"
+
+using namespace tmc9660;
 #include "freertos/task.h"
 
 static const char* TAG = "DC_Test";
@@ -119,7 +121,7 @@ bool test_dc_motor_type_configuration() noexcept {
     auto* driver = handle->driver.get();
 
     // Test 1: Configure DC motor
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set DC motor type");
         return false;
     }
@@ -163,7 +165,7 @@ bool test_dc_current_control() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for current control
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for current control test");
         return false;
     }
@@ -217,7 +219,7 @@ bool test_dc_velocity_control() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for velocity control
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for velocity control test");
         return false;
     }
@@ -227,7 +229,7 @@ bool test_dc_velocity_control() noexcept {
         return false;
     }
 
-    if (!driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
         ESP_LOGE(TAG, "Failed to set commutation mode for velocity control test");
         return false;
     }
@@ -280,7 +282,7 @@ bool test_dc_openloop_current_mode() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for open-loop current mode
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for open-loop test");
         return false;
     }
@@ -291,7 +293,7 @@ bool test_dc_openloop_current_mode() noexcept {
     }
 
     // Test 1: Set open-loop current mode
-    if (!driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
         ESP_LOGE(TAG, "Failed to set open-loop current mode");
         return false;
     }
@@ -337,7 +339,7 @@ bool test_dc_hbridge_control() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for H-bridge control
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for H-bridge test");
         return false;
     }
@@ -386,7 +388,7 @@ bool test_dc_protection_features() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for protection testing
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for protection test");
         return false;
     }
@@ -446,7 +448,7 @@ bool test_dc_telemetry_monitoring() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for telemetry testing
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for telemetry test");
         return false;
     }
@@ -494,7 +496,7 @@ bool test_dc_performance_benchmarks() noexcept {
     auto* driver = handle->driver.get();
 
     // Configure DC motor for performance testing
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Failed to set motor type for performance test");
         return false;
     }
@@ -504,7 +506,7 @@ bool test_dc_performance_benchmarks() noexcept {
         return false;
     }
 
-    if (!driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
         ESP_LOGE(TAG, "Failed to set commutation mode for performance test");
         return false;
     }
@@ -575,7 +577,7 @@ bool test_dc_error_handling() noexcept {
     auto* driver = handle->driver.get();
 
     // Test 1: Invalid motor type configuration
-    if (driver->motorConfig.setType(static_cast<tmc9660::tmcl::MotorType>(0xFF), 0)) {
+    if (driver->motorConfig.setType(static_cast<tmcl::MotorType>(0xFF), 0)) {
         ESP_LOGW(TAG, "Unexpected success with invalid motor type");
     } else {
         ESP_LOGI(TAG, "Correctly rejected invalid motor type");
@@ -603,7 +605,7 @@ bool test_dc_error_handling() noexcept {
     }
 
     // Test 5: Invalid commutation mode for DC motor
-    if (driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_HALL_SENSOR)) {
+    if (driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_HALL_SENSOR)) {
         ESP_LOGW(TAG, "Unexpected success with Hall sensor mode for DC motor");
     } else {
         ESP_LOGI(TAG, "Correctly rejected Hall sensor mode for DC motor");
@@ -696,7 +698,7 @@ bool test_dc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing startup sequence...");
     
     // Step 1: Configure motor type
-    if (!driver->motorConfig.setType(tmc9660::tmcl::MotorType::DC_MOTOR)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::DC_MOTOR)) {
         ESP_LOGE(TAG, "Startup step 1 failed: motor type configuration");
         return false;
     }
@@ -714,7 +716,7 @@ bool test_dc_startup_shutdown_procedures() noexcept {
     }
 
     // Step 4: Set commutation mode
-    if (!driver->motorConfig.setCommutationMode(tmc9660::tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
         ESP_LOGE(TAG, "Startup step 4 failed: commutation mode");
         return false;
     }
@@ -788,12 +790,12 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // This configuration matches the TMC9660-3PH-EVKIT hardware setup.
     // Adjust these values based on your specific hardware configuration.
     // ============================================================================
-    tmc9660::BootloaderConfig cfg{};
+    BootloaderConfig cfg{};
     
     // ============================================================================
     // 1. BOOT MODE CONFIGURATION
     // ============================================================================
-    cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
+    cfg.boot.boot_mode = bootcfg::BootMode::Parameter;
     cfg.boot.start_motor_control = true;
     cfg.boot.bl_ready_fault = false;
     cfg.boot.bl_exit_fault = true;
@@ -803,10 +805,10 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // ============================================================================
     // 2. LDO CONFIGURATION (Internal Voltage Regulators)
     // ============================================================================
-    cfg.ldo.vext1 = tmc9660::bootcfg::LDOVoltage::V5_0;
-    cfg.ldo.vext2 = tmc9660::bootcfg::LDOVoltage::V3_3;
-    cfg.ldo.slope_vext1 = tmc9660::bootcfg::LDOSlope::Slope3ms;
-    cfg.ldo.slope_vext2 = tmc9660::bootcfg::LDOSlope::Slope3ms;
+    cfg.ldo.vext1 = bootcfg::LDOVoltage::V5_0;
+    cfg.ldo.vext2 = bootcfg::LDOVoltage::V3_3;
+    cfg.ldo.slope_vext1 = bootcfg::LDOSlope::Slope3ms;
+    cfg.ldo.slope_vext2 = bootcfg::LDOSlope::Slope3ms;
     cfg.ldo.ldo_short_fault = false;
     
     // ============================================================================
@@ -814,9 +816,9 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // ============================================================================
     cfg.uart.device_address = 1;
     cfg.uart.host_address = 255;
-    cfg.uart.baud_rate = tmc9660::bootcfg::BaudRate::BR115200;
-    cfg.uart.rx_pin = tmc9660::bootcfg::UartRxPin::GPIO7;
-    cfg.uart.tx_pin = tmc9660::bootcfg::UartTxPin::GPIO6;
+    cfg.uart.baud_rate = bootcfg::BaudRate::BR115200;
+    cfg.uart.rx_pin = bootcfg::UartRxPin::GPIO7;
+    cfg.uart.tx_pin = bootcfg::UartTxPin::GPIO6;
     
     // ============================================================================
     // 4. RS485 CONFIGURATION
@@ -824,32 +826,32 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     cfg.rs485.enable_rs485 = false;
     cfg.rs485.txen_pre_delay = 0;
     cfg.rs485.txen_post_delay = 0;
-    cfg.rs485.txen_pin = tmc9660::bootcfg::RS485TxEnPin::None;
+    cfg.rs485.txen_pin = bootcfg::RS485TxEnPin::None;
     
     // ============================================================================
     // 5. SPI BOOT COMMUNICATION CONFIGURATION
     // ============================================================================
-    cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
+    cfg.spiComm.boot_spi_iface = bootcfg::SPIInterface::SPI0;
     cfg.spiComm.disable_spi = use_flash;  // Disable SPI communication when using flash (both use SPI0)
-    cfg.spiComm.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    cfg.spiComm.spi0_sck_pin = bootcfg::SPI0SckPin::GPIO11;
     
     // ============================================================================
     // 6. SPI FLASH CONFIGURATION
     // ============================================================================
     cfg.spiFlash.enable_flash = use_flash;
-    cfg.spiFlash.flash_spi_iface = tmc9660::bootcfg::SPIInterface::SPI0;
-    cfg.spiFlash.spi0_sck_pin = tmc9660::bootcfg::SPI0SckPin::GPIO11;
+    cfg.spiFlash.flash_spi_iface = bootcfg::SPIInterface::SPI0;
+    cfg.spiFlash.spi0_sck_pin = bootcfg::SPI0SckPin::GPIO11;
     cfg.spiFlash.cs_pin = 12;
-    cfg.spiFlash.freq_div = tmc9660::bootcfg::SPIFlashFreq::Div4;
+    cfg.spiFlash.freq_div = bootcfg::SPIFlashFreq::Div4;
     
     // ============================================================================
     // 7. I2C EEPROM CONFIGURATION
     // ============================================================================
     cfg.i2c.enable_eeprom = false;
-    cfg.i2c.sda_pin = tmc9660::bootcfg::I2CSdaPin::GPIO5;
-    cfg.i2c.scl_pin = tmc9660::bootcfg::I2CSclPin::GPIO4;
+    cfg.i2c.sda_pin = bootcfg::I2CSdaPin::GPIO5;
+    cfg.i2c.scl_pin = bootcfg::I2CSclPin::GPIO4;
     cfg.i2c.address_bits = 0;
-    cfg.i2c.freq_code = tmc9660::bootcfg::I2CFreq::Freq100k;
+    cfg.i2c.freq_code = bootcfg::I2CFreq::Freq100k;
     
     // ============================================================================
     // 8. GPIO CONFIGURATION
@@ -872,54 +874,54 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // ============================================================================
     // 9. CLOCK CONFIGURATION ⚠️ CRITICAL FOR MOTOR CONTROL
     // ============================================================================
-    cfg.clock.use_external = tmc9660::bootcfg::ClockSource::External;
-    cfg.clock.ext_source_type = tmc9660::bootcfg::ExtSourceType::Oscillator;
-    cfg.clock.xtal_drive = tmc9660::bootcfg::XtalDrive::Freq16MHz;
+    cfg.clock.use_external = bootcfg::ClockSource::External;
+    cfg.clock.ext_source_type = bootcfg::ExtSourceType::Oscillator;
+    cfg.clock.xtal_drive = bootcfg::XtalDrive::Freq16MHz;
     cfg.clock.xtal_boost = false;
-    cfg.clock.pll_selection = tmc9660::bootcfg::SysClkSource::PLL;
+    cfg.clock.pll_selection = bootcfg::SysClkSource::PLL;
     cfg.clock.rdiv = 15;
-    cfg.clock.sysclk_div = tmc9660::bootcfg::SysClkDiv::Div1;
+    cfg.clock.sysclk_div = bootcfg::SysClkDiv::Div1;
     
     // ============================================================================
     // 10. HALL ENCODER CONFIGURATION (EVKIT: Enabled)
     // ============================================================================
     cfg.hall.enable = true;
-    cfg.hall.u_pin = tmc9660::bootcfg::HallUPin::GPIO2;
-    cfg.hall.v_pin = tmc9660::bootcfg::HallVPin::GPIO3;
-    cfg.hall.w_pin = tmc9660::bootcfg::HallWPin::GPIO4;
+    cfg.hall.u_pin = bootcfg::HallUPin::GPIO2;
+    cfg.hall.v_pin = bootcfg::HallVPin::GPIO3;
+    cfg.hall.w_pin = bootcfg::HallWPin::GPIO4;
     
     // ============================================================================
     // 11. ABN ENCODER 1 CONFIGURATION (EVKIT: Enabled)
     // ============================================================================
     cfg.abn1.enable = true;
-    cfg.abn1.a_pin = tmc9660::bootcfg::ABN1APin::GPIO8;
-    cfg.abn1.b_pin = tmc9660::bootcfg::ABN1BPin::GPIO13;
-    cfg.abn1.n_pin = tmc9660::bootcfg::ABN1NPin::GPIO14;
+    cfg.abn1.a_pin = bootcfg::ABN1APin::GPIO8;
+    cfg.abn1.b_pin = bootcfg::ABN1BPin::GPIO13;
+    cfg.abn1.n_pin = bootcfg::ABN1NPin::GPIO14;
     
     // ============================================================================
     // 12. ABN ENCODER 2 CONFIGURATION (EVKIT: Enabled)
     // ============================================================================
     cfg.abn2.enable = true;
-    cfg.abn2.a_pin = tmc9660::bootcfg::ABN2APin::GPIO15;
-    cfg.abn2.b_pin = tmc9660::bootcfg::ABN2BPin::GPIO16;
+    cfg.abn2.a_pin = bootcfg::ABN2APin::GPIO15;
+    cfg.abn2.b_pin = bootcfg::ABN2BPin::GPIO16;
     
     // ============================================================================
     // 13. BRAKE CHOPPER CONFIGURATION (EVKIT: Enabled)
     // ============================================================================
     cfg.brakeChopper.enable = true;
-    cfg.brakeChopper.output_pin = tmc9660::bootcfg::BrakeChopperOutput::Y2_HS;
+    cfg.brakeChopper.output_pin = bootcfg::BrakeChopperOutput::Y2_HS;
     
     // ============================================================================
     // 14. MECHANICAL BRAKE CONFIGURATION (EVKIT: Enabled)
     // ============================================================================
     cfg.mechBrake.enable = true;
-    cfg.mechBrake.output_pin = tmc9660::bootcfg::MechBrakeOutput::Y2_LS;
+    cfg.mechBrake.output_pin = bootcfg::MechBrakeOutput::Y2_LS;
     
     // ============================================================================
     // 15. EXTERNAL MEMORY STORAGE CONFIGURATION (EVKIT: SPI Flash)
     // ============================================================================
-    cfg.memStorage.tmcl_script = use_flash ? tmc9660::bootcfg::MemStorage::SPIFlash : tmc9660::bootcfg::MemStorage::Disabled;
-    cfg.memStorage.parameters = use_flash ? tmc9660::bootcfg::MemStorage::SPIFlash : tmc9660::bootcfg::MemStorage::Disabled;
+    cfg.memStorage.tmcl_script = use_flash ? bootcfg::MemStorage::SPIFlash : bootcfg::MemStorage::Disabled;
+    cfg.memStorage.parameters = use_flash ? bootcfg::MemStorage::SPIFlash : bootcfg::MemStorage::Disabled;
     
     // ✅ Complete initialization: bootloaderInit() now handles EVERYTHING:
     // 1. Hardware reset (RST pin toggle + FAULTN monitoring)

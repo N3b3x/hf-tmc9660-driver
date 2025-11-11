@@ -30,7 +30,8 @@
  * are within block number 31 for SPI (command 142 for UART).
  */
 
-namespace TMC9660 {
+namespace tmc9660 {
+namespace register_mode {
 /**
  * @brief RAMDebug system namespace for TMC9660.
  * @ingroup TMC9660_RAMDebug
@@ -156,6 +157,7 @@ static inline uint16_t ramDebugOffset(RamDebugSub sub, uint8_t index = 0) {
 }
 
 } // namespace RAMDebug
-} // namespace TMC9660
+} // namespace register_mode
+} // namespace tmc9660
 
 #endif // TMC9660_RAMDEBUG_HPP

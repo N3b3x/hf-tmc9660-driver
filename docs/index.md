@@ -71,7 +71,8 @@ graph LR
    motor control scenarios
 2. **[🛠️ Common Operations](CommonOperations.md)** - Everyday driver usage
    patterns
-3. **[📖 API Reference](annotated.md)** - Complete C++ class documentation
+3. **[📦 Namespace Structure](NamespaceStructure.md)** - Complete guide to library namespace organization and usage patterns
+4. **[📖 API Reference](annotated.md)** - Complete C++ class documentation
 
 ---
 
