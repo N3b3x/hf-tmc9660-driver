@@ -47,7 +47,6 @@ var annotated_dup =
       [ "Brake", "structTMC9660_1_1Brake.html", "structTMC9660_1_1Brake" ],
       [ "CurrentSensing", "structTMC9660_1_1CurrentSensing.html", "structTMC9660_1_1CurrentSensing" ],
       [ "FeedbackSense", "structTMC9660_1_1FeedbackSense.html", "structTMC9660_1_1FeedbackSense" ],
-      [ "FOCControl", "structTMC9660_1_1FOCControl.html", "structTMC9660_1_1FOCControl" ],
       [ "GateDriver", "structTMC9660_1_1GateDriver.html", "structTMC9660_1_1GateDriver" ],
       [ "Globals", "structTMC9660_1_1Globals.html", "structTMC9660_1_1Globals" ],
       [ "GPIO", "structTMC9660_1_1GPIO.html", "structTMC9660_1_1GPIO" ],
@@ -55,6 +54,7 @@ var annotated_dup =
       [ "IIT", "structTMC9660_1_1IIT.html", "structTMC9660_1_1IIT" ],
       [ "MotorConfig", "structTMC9660_1_1MotorConfig.html", "structTMC9660_1_1MotorConfig" ],
       [ "NvmStorage", "structTMC9660_1_1NvmStorage.html", "structTMC9660_1_1NvmStorage" ],
+      [ "PositionControl", "structTMC9660_1_1PositionControl.html", "structTMC9660_1_1PositionControl" ],
       [ "Power", "structTMC9660_1_1Power.html", "structTMC9660_1_1Power" ],
       [ "Protection", "structTMC9660_1_1Protection.html", "structTMC9660_1_1Protection" ],
       [ "RamDebug", "structTMC9660_1_1RamDebug.html", "structTMC9660_1_1RamDebug" ],
@@ -63,7 +63,9 @@ var annotated_dup =
       [ "Script", "structTMC9660_1_1Script.html", "structTMC9660_1_1Script" ],
       [ "StepDir", "structTMC9660_1_1StepDir.html", "structTMC9660_1_1StepDir" ],
       [ "StopEvents", "structTMC9660_1_1StopEvents.html", "structTMC9660_1_1StopEvents" ],
-      [ "Telemetry", "structTMC9660_1_1Telemetry.html", "structTMC9660_1_1Telemetry" ]
+      [ "Telemetry", "structTMC9660_1_1Telemetry.html", "structTMC9660_1_1Telemetry" ],
+      [ "TorqueFluxControl", "structTMC9660_1_1TorqueFluxControl.html", "structTMC9660_1_1TorqueFluxControl" ],
+      [ "VelocityControl", "structTMC9660_1_1VelocityControl.html", "structTMC9660_1_1VelocityControl" ]
     ] ],
     [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", "classEsp32SPITMC9660CommInterface" ],
     [ "Esp32TMC9660BusConfig", "structEsp32TMC9660BusConfig.html", "structEsp32TMC9660BusConfig" ],

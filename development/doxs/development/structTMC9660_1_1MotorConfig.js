@@ -3,6 +3,7 @@ var structTMC9660_1_1MotorConfig =
     [ "MotorProfile", "structTMC9660_1_1MotorConfig_1_1MotorProfile.html", "structTMC9660_1_1MotorConfig_1_1MotorProfile" ],
     [ "MotorConfig", "structTMC9660_1_1MotorConfig.html#a85f915b296bdba8fac09ebff0de3729d", null ],
     [ "configureAuto", "structTMC9660_1_1MotorConfig.html#a5dcb76e556e601113e0b442f5d3aebdd", null ],
+    [ "getOutputVoltageLimit", "structTMC9660_1_1MotorConfig.html#a9c7b059c12892b2e9cf1c395a72bc1b5", null ],
     [ "setCommutationMode", "structTMC9660_1_1MotorConfig.html#af2eeb399684813ffd646a6bb508a6432", null ],
     [ "setDirection", "structTMC9660_1_1MotorConfig.html#ae603113643bb8a7f110ee7982d1c048c", null ],
     [ "setIdleMotorPWMBehavior", "structTMC9660_1_1MotorConfig.html#a592f2e050708ef280b21a7337f20c6d2", null ],

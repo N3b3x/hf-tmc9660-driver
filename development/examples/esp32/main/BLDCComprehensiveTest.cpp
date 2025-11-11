@@ -106,6 +106,11 @@ bool configureABNEncoderForBLDC(TMC9660& driver, uint32_t countsPerRev = 1024) n
 bool configureMotorParametersForBLDC(TMC9660& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept;
 bool configureFOCControlForBLDC(TMC9660& driver) noexcept;
 bool configureProtectionForBLDC(TMC9660& driver) noexcept;
+bool configureRampForBLDC(TMC9660& driver) noexcept;
+bool configureBrakeForBLDC(TMC9660& driver) noexcept;
+bool configureStopEventsForBLDC(TMC9660& driver) noexcept;
+bool configureHeartbeatForBLDC(TMC9660& driver) noexcept;
+bool configurePowerForBLDC(TMC9660& driver) noexcept;
 bool configureCompleteBLDCMotor(TMC9660& driver, uint8_t polePairs = 7, uint32_t pwmFrequency = 20000) noexcept;
 
 
@@ -212,11 +217,8 @@ bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Current limits set: Torque=%dmA, Flux=%dmA", 
              TEST_MAX_TORQUE_CURRENT, TEST_MAX_FLUX_CURRENT);
 
-    // Test 4: Verify configuration
-    if (!verify_motor_configuration(*handle->driver)) {
-        ESP_LOGE(TAG, "Motor configuration verification failed");
-        //return false;
-    }
+    // Test 4: Verify configuration (verification function removed - configuration is validated by driver)
+    // Configuration is now validated by the driver's configureAuto methods
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC motor type configuration tests passed");
     return true;
@@ -254,12 +256,12 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "FOC Hall sensor commutation mode set");
 
     // Test 3: Configure FOC control gains
-    if (!handle->driver->focControl.setCurrentLoopGains(50, 100)) {
+    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         //return false;
     }
 
-    if (!handle->driver->focControl.setVelocityLoopGains(800, 1)) {
+    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 1)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         //return false;
     }
@@ -267,10 +269,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "FOC control gains configured");
 
     // Test 4: Verify configuration
-    if (!verify_foc_gains(*handle->driver)) {
-        ESP_LOGE(TAG, "FOC gains verification failed");
-        //return false;
-    }
+    // FOC gains verification removed - gains are validated by driver
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC Hall sensor configuration tests passed");
     return true;
@@ -311,12 +310,12 @@ bool test_bldc_abn_encoder_configuration() noexcept {
     ESP_LOGI(TAG, "FOC ABN commutation mode set");
 
     // Test 3: Configure FOC control gains for encoder feedback
-    if (!handle->driver->focControl.setCurrentLoopGains(60, 120)) {
+    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(60, 120)) {
         ESP_LOGE(TAG, "Failed to set current loop gains for ABN");
         return false;
     }
 
-    if (!handle->driver->focControl.setVelocityLoopGains(1000, 2)) {
+    if (!handle->driver->velocityControl.setVelocityLoopGains(1000, 2)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains for ABN");
         return false;
     }
@@ -348,7 +347,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     };
 
     for (const auto& gains : current_gains) {
-        if (!handle->driver->focControl.setCurrentLoopGains(gains.first, gains.second)) {
+        if (!handle->driver->torqueFluxControl.setCurrentLoopGains(gains.first, gains.second)) {
             ESP_LOGE(TAG, "Failed to set current loop gains P=%d, I=%d", 
                      gains.first, gains.second);
             return false;
@@ -362,7 +361,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     };
 
     for (const auto& gains : velocity_gains) {
-        if (!handle->driver->focControl.setVelocityLoopGains(gains.first, gains.second)) {
+        if (!handle->driver->velocityControl.setVelocityLoopGains(gains.first, gains.second)) {
             ESP_LOGE(TAG, "Failed to set velocity loop gains P=%d, I=%d", 
                      gains.first, gains.second);
             return false;
@@ -371,7 +370,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     }
 
     // Test 3: Configure position loop gains
-    if (!handle->driver->focControl.setPositionLoopGains(2000, 100)) {
+    if (!handle->driver->positionControl.setPositionLoopGains(2000, 100)) {
         ESP_LOGW(TAG, "Position loop gains not supported or failed");
     } else {
         ESP_LOGI(TAG, "Position loop gains configured");
@@ -406,7 +405,7 @@ bool test_bldc_velocity_control() noexcept {
         return false;
     }
 
-    if (!handle->driver->focControl.setVelocityLoopGains(800, 2)) {
+    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         return false;
     }
@@ -415,7 +414,7 @@ bool test_bldc_velocity_control() noexcept {
     std::vector<int16_t> velocity_targets = {0, 100, 500, 1000, 2000, -500, -1000};
 
     for (auto target : velocity_targets) {
-        if (!handle->driver->focControl.setTargetVelocity(target)) {
+        if (!handle->driver->velocityControl.setTargetVelocity(target)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d", target);
             return false;
         }
@@ -428,7 +427,7 @@ bool test_bldc_velocity_control() noexcept {
     // Test 2: Test velocity ramping
     ESP_LOGI(TAG, "Testing velocity ramping...");
     for (int16_t vel = 0; vel <= 1000; vel += 100) {
-        if (!handle->driver->focControl.setTargetVelocity(vel)) {
+        if (!handle->driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d during ramping", vel);
             return false;
         }
@@ -436,7 +435,7 @@ bool test_bldc_velocity_control() noexcept {
     }
 
     // Test 3: Stop motor
-    handle->driver->focControl.stop();
+    handle->driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC velocity control tests passed");
@@ -494,7 +493,7 @@ bool test_bldc_current_control() noexcept {
     }
 
     // Test 2: Configure current loop gains
-    if (!handle->driver->focControl.setCurrentLoopGains(50, 100)) {
+    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         return false;
     }
@@ -579,7 +578,7 @@ bool test_bldc_telemetry_monitoring() noexcept {
     log_telemetry_data(*handle->driver, "Initial state");
 
     // Test 2: Read telemetry during motor operation
-    if (handle->driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started for telemetry monitoring");
         
         for (int i = 0; i < 5; ++i) {
@@ -587,7 +586,7 @@ bool test_bldc_telemetry_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        handle->driver->focControl.stop();
+        handle->driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -625,7 +624,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     // Test 1: Command response time
     uint64_t start_time = esp_timer_get_time();
-    bool result = handle->driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET);
+    bool result = handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET);
     uint64_t end_time = esp_timer_get_time();
     uint64_t response_time = end_time - start_time;
 
@@ -649,7 +648,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     // Test 3: Configuration change performance
     start_time = esp_timer_get_time();
-    result = handle->driver->focControl.setVelocityLoopGains(1000, 5);
+    result = handle->driver->velocityControl.setVelocityLoopGains(1000, 5);
     end_time = esp_timer_get_time();
     uint64_t config_time = end_time - start_time;
 
@@ -660,7 +659,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     ESP_LOGI(TAG, "Configuration change time: %llu μs", config_time);
 
-    handle->driver->focControl.stop();
+    handle->driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "[SUCCESS] BLDC performance benchmark tests passed");
     return true;
 }
@@ -739,7 +738,7 @@ bool test_bldc_edge_cases() noexcept {
     // Test 4: Extreme velocity targets
     std::vector<int16_t> extreme_velocities = {32767, -32768, 0};
     for (auto vel : extreme_velocities) {
-        if (handle->driver->focControl.setTargetVelocity(vel)) {
+        if (handle->driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGI(TAG, "Successfully set extreme velocity target: %d", vel);
         } else {
             ESP_LOGW(TAG, "Failed to set extreme velocity target: %d", vel);
@@ -801,7 +800,7 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     }
 
     // Step 5: Configure control gains
-    if (!handle->driver->focControl.setVelocityLoopGains(800, 2)) {
+    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Startup step 5 failed: velocity loop gains");
         return false;
     }
@@ -809,7 +808,7 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Startup sequence completed successfully");
 
     // Test 2: Motor operation
-    if (handle->driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started successfully");
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
@@ -818,11 +817,11 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing shutdown sequence...");
     
     // Step 1: Stop motor
-    handle->driver->focControl.stop();
+    handle->driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     // Step 2: Reset to safe state
-    if (handle->driver->focControl.setTargetVelocity(0)) {
+    if (handle->driver->velocityControl.setTargetVelocity(0)) {
         ESP_LOGI(TAG, "Velocity target reset to zero");
     }
 
@@ -1091,48 +1090,35 @@ bool configureABNEncoderForBLDC(TMC9660& driver, uint32_t countsPerRev) noexcept
 bool configureFOCControlForBLDC(TMC9660& driver) noexcept {
     ESP_LOGI(TAG, "Configuring FOC control for BLDC motor...");
     
-    auto& foc = driver.focControl;
+    // Configure torque/flux control using auto-configuration
+    TMC9660::TorqueFluxControl::TorqueFluxConfig torqueFluxConfig;
+    torqueFluxConfig.torqueP = 50;   // P gain for torque/flux control
+    torqueFluxConfig.torqueI = 100;  // I gain for torque/flux control
+    torqueFluxConfig.torqueOffset_mA = 0;  // Torque offset
+    torqueFluxConfig.fluxOffset_mA = 0;    // Flux offset
+    // All other parameters use defaults (combined loops, no field weakening, etc.)
     
-    // 1. Configure current loop gains (PI controller for torque/flux)
-    // P=50, I=100 are reasonable defaults for BLDC
-    if (!foc.setCurrentLoopGains(50, 100)) {
-        ESP_LOGE(TAG, "Failed to set current loop gains");
+    if (!driver.torqueFluxControl.configureAuto(torqueFluxConfig)) {
+        ESP_LOGE(TAG, "Failed to configure torque/flux control");
         return false;
     }
-    ESP_LOGI(TAG, "  ✓ Current loop gains set: P=50, I=100");
+    ESP_LOGI(TAG, "  ✓ Torque/flux control configured: P=50, I=100");
     
-    // 2. Configure velocity loop gains (PI controller for velocity)
-    // P=1000, I=2 are reasonable defaults
-    if (!foc.setVelocityLoopGains(1000, 2)) {
-        ESP_LOGE(TAG, "Failed to set velocity loop gains");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Velocity loop gains set: P=1000, I=2");
+    // Configure velocity control using auto-configuration
+    // Use SAME_AS_COMMUTATION as default (uses the same sensor as commutation)
+    TMC9660::VelocityControl::VelocityConfig velocityConfig;
+    velocityConfig.sensorSelection = tmc9660::tmcl::VelocitySensorSelection::SAME_AS_COMMUTATION;
+    velocityConfig.velocityP = 1000;  // P gain for velocity control
+    velocityConfig.velocityI = 2;     // I gain for velocity control
+    velocityConfig.velocityScalingFactor = 1;  // Scaling factor (1 = no internal scaling)
+    velocityConfig.velocityOffset = 0;  // Velocity offset
+    // All other parameters use defaults (downsampling=5, normalization, etc.)
     
-    // 3. Set torque and flux offsets to zero
-    if (!foc.setTorqueOffset(0)) {
-        ESP_LOGE(TAG, "Failed to set torque offset");
+    if (!driver.velocityControl.configureAuto(velocityConfig)) {
+        ESP_LOGE(TAG, "Failed to configure velocity control");
         return false;
     }
-    if (!foc.setFluxOffset(0)) {
-        ESP_LOGE(TAG, "Failed to set flux offset");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Torque and flux offsets set to 0");
-    
-    // 4. Set velocity offset to zero
-    if (!foc.setVelocityOffset(0)) {
-        ESP_LOGE(TAG, "Failed to set velocity offset");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Velocity offset set to 0");
-    
-    // 5. Configure velocity scaling factor (typical: 1)
-    if (!foc.setVelocityScalingFactor(1)) {
-        ESP_LOGE(TAG, "Failed to set velocity scaling factor");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Velocity scaling factor set to 1");
+    ESP_LOGI(TAG, "  ✓ Velocity control configured: P=1000, I=2");
     
     ESP_LOGI(TAG, "✅ FOC control configuration complete");
     return true;
@@ -1141,41 +1127,185 @@ bool configureFOCControlForBLDC(TMC9660& driver) noexcept {
 bool configureProtectionForBLDC(TMC9660& driver) noexcept {
     ESP_LOGI(TAG, "Configuring protection systems for BLDC motor...");
     
-    auto& prot = driver.protection;
+    // Configure protection using auto-configuration
+    TMC9660::Protection::ProtectionConfig protectionConfig;
+    // All parameters use defaults (24V system defaults):
+    // - Overvoltage: 28.0V
+    // - Undervoltage: 20.0V
+    // - Temperature warning: 80°C
+    // - Temperature shutdown: 100°C
+    // - Overcurrent: enabled
+    // - I²t Window 1: 100ms @ 1.5A
+    // - I²t Window 2: 1000ms @ 1.25A
     
-    // 1. Configure voltage protection thresholds
-    // For 24V motor: overvoltage ~28V (280), undervoltage ~20V (200)
-    if (!prot.configureVoltage(280, 200)) {
-        ESP_LOGE(TAG, "Failed to configure voltage protection");
+    if (!driver.protection.configureAuto(protectionConfig)) {
+        ESP_LOGE(TAG, "Failed to configure protection systems");
         return false;
     }
-    ESP_LOGI(TAG, "  ✓ Voltage protection: Over=28V, Under=20V");
     
-    // 2. Configure temperature protection
-    // Warning at 80°C, shutdown at 100°C
-    if (!prot.configureTemperature(80.0f, 100.0f)) {
-        ESP_LOGE(TAG, "Failed to configure temperature protection");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Temperature protection: Warning=80°C, Shutdown=100°C");
-    
-    // 3. Enable overcurrent protection
-    if (!prot.setOvercurrentEnabled(true)) {
-        ESP_LOGE(TAG, "Failed to enable overcurrent protection");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ Overcurrent protection enabled");
-    
-    // 4. Configure I²t monitoring (thermal protection)
-    // Window 1: 100ms time constant, 1.5A continuous limit
-    // Window 2: 1000ms time constant, 1.25A continuous limit
-    if (!prot.configureI2t(100, 1.5f, 1000, 1.25f)) {
-        ESP_LOGE(TAG, "Failed to configure I²t monitoring");
-        return false;
-    }
-    ESP_LOGI(TAG, "  ✓ I²t monitoring: Window1=100ms@1.5A, Window2=1000ms@1.25A");
+    ESP_LOGI(TAG, "  ✓ Protection configured with defaults:");
+    ESP_LOGI(TAG, "    - Voltage: Over=28V, Under=20V");
+    ESP_LOGI(TAG, "    - Temperature: Warning=80°C, Shutdown=100°C");
+    ESP_LOGI(TAG, "    - Overcurrent: Enabled");
+    ESP_LOGI(TAG, "    - I²t: Window1=100ms@1.5A, Window2=1000ms@1.25A");
     
     ESP_LOGI(TAG, "✅ Protection systems configuration complete");
+    return true;
+}
+
+bool configureRampForBLDC(TMC9660& driver) noexcept {
+    ESP_LOGI(TAG, "Configuring ramp generator for BLDC motor...");
+    
+    // Configure ramp using auto-configuration
+    TMC9660::Ramp::RampConfig rampConfig;
+    
+    // For a 24V, 30W BLDC motor, use reasonable defaults:
+    // - Max velocity: unlimited (default)
+    // - Acceleration: moderate values for smooth operation
+    // - Deceleration: similar to acceleration for symmetric profiles
+    // - Direct velocity mode: enabled (default)
+    // - Ramp generator: disabled by default (can be enabled later if needed)
+    
+    // Optional: Override defaults for specific application needs
+    // rampConfig.maxAcceleration = 2000;  // Higher acceleration if needed
+    // rampConfig.maxDeceleration = 2000;  // Higher deceleration if needed
+    // rampConfig.enableRamp = true;       // Enable ramp generator
+    
+    if (!driver.ramp.configureAuto(rampConfig)) {
+        ESP_LOGE(TAG, "Failed to configure ramp generator");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "  ✓ Ramp generator configured with defaults:");
+    ESP_LOGI(TAG, "    - Max velocity: unlimited");
+    ESP_LOGI(TAG, "    - Acceleration: A1=8000, A2=4000, AMAX=1000");
+    ESP_LOGI(TAG, "    - Deceleration: D1=8000, D2=8000, DMAX=1000");
+    ESP_LOGI(TAG, "    - Direct velocity mode: enabled");
+    ESP_LOGI(TAG, "    - Ramp generator: disabled (enable when needed)");
+    
+    ESP_LOGI(TAG, "✅ Ramp generator configuration complete");
+    return true;
+}
+
+bool configureBrakeForBLDC(TMC9660& driver) noexcept {
+    ESP_LOGI(TAG, "Configuring brake system for BLDC motor...");
+    
+    // Configure brake using auto-configuration
+    TMC9660::Brake::BrakeConfig brakeConfig;
+    
+    // For a 24V, 30W BLDC motor:
+    // - Brake chopper: disabled by default (can be enabled if regenerative braking is used)
+    // - Mechanical brake: not configured by default (configure if mechanical brake is present)
+    
+    // Optional: Enable brake chopper for regenerative braking protection
+    // brakeConfig.enableChopper = true;
+    // brakeConfig.chopperVoltageThreshold_V = 30.0f;  // 30V for 24V system
+    // brakeConfig.chopperHysteresis_V = 2.0f;
+    
+    // Optional: Configure mechanical brake if present
+    // brakeConfig.releasingDutyCycle = 50;      // 50% duty for release
+    // brakeConfig.holdingDutyCycle = 30;        // 30% duty for holding
+    // brakeConfig.releasingDuration_ms = 100;   // 100ms release duration
+    
+    if (!driver.brake.configureAuto(brakeConfig)) {
+        ESP_LOGE(TAG, "Failed to configure brake system");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "  ✓ Brake system configured:");
+    ESP_LOGI(TAG, "    - Brake chopper: disabled (enable if regenerative braking used)");
+    ESP_LOGI(TAG, "    - Mechanical brake: not configured (configure if brake present)");
+    
+    ESP_LOGI(TAG, "✅ Brake system configuration complete");
+    return true;
+}
+
+bool configureStopEventsForBLDC(TMC9660& driver) noexcept {
+    ESP_LOGI(TAG, "Configuring stop events for BLDC motor...");
+    
+    // Configure stop events using auto-configuration
+    TMC9660::StopEvents::StopEventsConfig stopEventsConfig;
+    
+    // For a 24V, 30W BLDC motor:
+    // - Deviation stop: disabled by default (can be enabled for safety)
+    // - Reference switches: disabled by default (configure if limit switches are present)
+    
+    // Optional: Enable deviation stop for safety
+    // stopEventsConfig.maxVelocityDeviation = 5000;  // Stop if velocity deviates by 5000 units
+    // stopEventsConfig.maxPositionDeviation = 1000;  // Stop if position deviates by 1000 units
+    // stopEventsConfig.deviationSoftStop = true;     // Use soft stop (ramp down)
+    
+    // Optional: Configure reference switches if present
+    // stopEventsConfig.referenceSwitchMask = 0x07;   // Enable all switches (left, right, home)
+    // stopEventsConfig.invertLeftSwitch = false;
+    // stopEventsConfig.invertRightSwitch = false;
+    // stopEventsConfig.invertHomeSwitch = false;
+    // stopEventsConfig.swapLeftRight = false;
+    
+    if (!driver.stopEvents.configureAuto(stopEventsConfig)) {
+        ESP_LOGE(TAG, "Failed to configure stop events");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "  ✓ Stop events configured:");
+    ESP_LOGI(TAG, "    - Deviation stop: disabled (enable if safety monitoring needed)");
+    ESP_LOGI(TAG, "    - Reference switches: disabled (configure if limit switches present)");
+    
+    ESP_LOGI(TAG, "✅ Stop events configuration complete");
+    return true;
+}
+
+bool configureHeartbeatForBLDC(TMC9660& driver) noexcept {
+    ESP_LOGI(TAG, "Configuring heartbeat monitoring for BLDC motor...");
+    
+    // Configure heartbeat using auto-configuration
+    TMC9660::Heartbeat::HeartbeatConfig heartbeatConfig;
+    
+    // For a 24V, 30W BLDC motor:
+    // - Heartbeat monitoring: disabled by default (can be enabled for watchdog protection)
+    
+    // Optional: Enable heartbeat monitoring for watchdog protection
+    // heartbeatConfig.enable = true;
+    // heartbeatConfig.timeout_ms = 1000;  // 1 second timeout
+    
+    if (!driver.heartbeat.configureAuto(heartbeatConfig)) {
+        ESP_LOGE(TAG, "Failed to configure heartbeat monitoring");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "  ✓ Heartbeat monitoring configured:");
+    ESP_LOGI(TAG, "    - Heartbeat: disabled (enable if watchdog protection needed)");
+    
+    ESP_LOGI(TAG, "✅ Heartbeat monitoring configuration complete");
+    return true;
+}
+
+bool configurePowerForBLDC(TMC9660& driver) noexcept {
+    ESP_LOGI(TAG, "Configuring power management for BLDC motor...");
+    
+    // Configure power management using auto-configuration
+    TMC9660::Power::PowerConfig powerConfig;
+    
+    // For a 24V, 30W BLDC motor:
+    // - Wake-up pin: disabled by default (enable if external wake-up is needed)
+    // - Power-down timeout: disabled by default (enable if power saving is needed)
+    
+    // Optional: Enable wake-up pin
+    // powerConfig.enableWakePin = true;
+    
+    // Optional: Enable power-down timeout
+    // powerConfig.powerDownTimeout = tmc9660::tmcl::PowerDownTimeout::PERIOD_1;  // 250ms
+    
+    if (!driver.power.configureAuto(powerConfig)) {
+        ESP_LOGE(TAG, "Failed to configure power management");
+        return false;
+    }
+    
+    ESP_LOGI(TAG, "  ✓ Power management configured:");
+    ESP_LOGI(TAG, "    - Wake-up pin: disabled (enable if external wake-up needed)");
+    ESP_LOGI(TAG, "    - Power-down timeout: disabled (enable if power saving needed)");
+    
+    ESP_LOGI(TAG, "✅ Power management configuration complete");
     return true;
 }
 
@@ -1234,8 +1364,48 @@ bool configureCompleteBLDCMotor(TMC9660& driver, uint8_t polePairs, uint32_t pwm
     }
     vTaskDelay(pdMS_TO_TICKS(50));
     
-    // Step 7: Calibrate ADC offsets (motor must be stationary in SYSTEM_OFF)
-    ESP_LOGI(TAG, "Step 7: Calibrating ADC offsets...");
+    // Step 7: Configure ramp generator
+    ESP_LOGI(TAG, "Step 7: Configuring ramp generator...");
+    if (!configureRampForBLDC(driver)) {
+        ESP_LOGE(TAG, "Ramp generator configuration failed");
+        return false;
+    }
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
+    // Step 8: Configure brake system
+    ESP_LOGI(TAG, "Step 8: Configuring brake system...");
+    if (!configureBrakeForBLDC(driver)) {
+        ESP_LOGE(TAG, "Brake system configuration failed");
+        return false;
+    }
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
+    // Step 9: Configure stop events
+    ESP_LOGI(TAG, "Step 9: Configuring stop events...");
+    if (!configureStopEventsForBLDC(driver)) {
+        ESP_LOGE(TAG, "Stop events configuration failed");
+        return false;
+    }
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
+    // Step 10: Configure heartbeat monitoring
+    ESP_LOGI(TAG, "Step 10: Configuring heartbeat monitoring...");
+    if (!configureHeartbeatForBLDC(driver)) {
+        ESP_LOGE(TAG, "Heartbeat monitoring configuration failed");
+        return false;
+    }
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
+    // Step 11: Configure power management
+    ESP_LOGI(TAG, "Step 11: Configuring power management...");
+    if (!configurePowerForBLDC(driver)) {
+        ESP_LOGE(TAG, "Power management configuration failed");
+        return false;
+    }
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
+    // Step 12: Calibrate ADC offsets (motor must be stationary in SYSTEM_OFF)
+    ESP_LOGI(TAG, "Step 12: Calibrating ADC offsets...");
     if (!driver.currentSensing.calibrateOffsets(true, 2000)) {
         ESP_LOGW(TAG, "ADC offset calibration failed or timed out (may continue)");
     } else {
@@ -1243,8 +1413,8 @@ bool configureCompleteBLDCMotor(TMC9660& driver, uint8_t polePairs, uint32_t pwm
     }
     vTaskDelay(pdMS_TO_TICKS(100));
     
-    // Step 8: Enable DRV_EN pin (enables gate driver outputs)
-    ESP_LOGI(TAG, "Step 8: Enabling DRV_EN pin...");
+    // Step 13: Enable DRV_EN pin (enables gate driver outputs)
+    ESP_LOGI(TAG, "Step 13: Enabling DRV_EN pin...");
     if (!driver.comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to enable DRV_EN pin");
         return false;

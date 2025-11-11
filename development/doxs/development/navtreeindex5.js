@@ -1,5 +1,12 @@
 var NAVTREEINDEX5 =
 {
+"namespacetmc9660_1_1tmcl.html#a26b05e4bf0a611aaf1c867f65393afa5":[1,0,0,2,66],
+"namespacetmc9660_1_1tmcl.html#a26b05e4bf0a611aaf1c867f65393afa5a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,66,0],
+"namespacetmc9660_1_1tmcl.html#a29d98b75fb99bf1457b9b9d515189f8f":[1,0,0,2,64],
+"namespacetmc9660_1_1tmcl.html#a29d98b75fb99bf1457b9b9d515189f8fa756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,64,0],
+"namespacetmc9660_1_1tmcl.html#a2a2dcd4f7bb9d7494ba32dd13047e985":[1,0,0,2,158],
+"namespacetmc9660_1_1tmcl.html#a2ba7bfc558dd6b1857bada82c50dbd6b":[1,0,0,2,118],
+"namespacetmc9660_1_1tmcl.html#a2bb01ac564c237e3029b8cad6234a9a8":[1,0,0,2,76],
 "namespacetmc9660_1_1tmcl.html#a2bb01ac564c237e3029b8cad6234a9a8a756045a8d37de34ca27188466b2c0c8b":[1,0,0,2,76,0],
 "namespacetmc9660_1_1tmcl.html#a2f81fd424bfb3401efcedca33f794491":[1,0,0,2,139],
 "namespacetmc9660_1_1tmcl.html#a305d707e9b05649271acae6c8c9cbae8":[1,0,0,2,6],
@@ -242,12 +249,5 @@ var NAVTREEINDEX5 =
 "structEsp32TMC9660BusConfig.html#a5d845b7945d724014af256c9d6fea4c2":[2,0,3,2],
 "structEsp32TMC9660BusConfig.html#a70e5def4b132c14e9d07823e82705e3e":[2,0,3,9],
 "structEsp32TMC9660BusConfig.html#a895630ed14541fc44bd4e2faaf443f93":[2,0,3,10],
-"structEsp32TMC9660BusConfig.html#a95eaedf0a5b0cb7061c6e9ab3a89e825":[2,0,3,16],
-"structEsp32TMC9660BusConfig.html#a9818780dbc4869274c4e4f495c18cfa5":[2,0,3,5],
-"structEsp32TMC9660BusConfig.html#aaac4498193cd3bb92c7c0ee5f848c99b":[2,0,3,7],
-"structEsp32TMC9660BusConfig.html#ada6460558f38581ad026d28d5bae5606":[2,0,3,18],
-"structEsp32TMC9660BusConfig.html#adcc4d24c3ac1b95134f4edd197c3f864":[2,0,3,3],
-"structEsp32TMC9660BusConfig.html#adcda7b6e9d043b4962505bca48a783a5":[2,0,3,12],
-"structEsp32TMC9660BusConfig.html#ae0390c0c226519158386c607683f7dcb":[2,0,3,15],
-"structEsp32TMC9660BusConfig.html#ae047e74d3063c33b12fa20868c0a7d67":[2,0,3,4]
+"structEsp32TMC9660BusConfig.html#a95eaedf0a5b0cb7061c6e9ab3a89e825":[2,0,3,16]
 };

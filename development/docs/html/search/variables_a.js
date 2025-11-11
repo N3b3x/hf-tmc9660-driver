@@ -18,6 +18,7 @@ var searchData=
   ['ldoext_5ftsd_15',['LDOEXT_TSD',['../structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS.html#afae93b0584ed524ecb6e020a2b2c9080',1,'TMC9660::SYS_CTRL::FAULT_STATUS']]],
   ['ldoext_5ftsd_5fena_5ff_16',['LDOEXT_TSD_ENA_F',['../structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#ad57f23cefde8fea4ee2b1d312fa050b6',1,'TMC9660::SYS_CTRL::FAULT_INT_ENABLE']]],
   ['ldoext_5ftsd_5fltc_17',['LDOEXT_TSD_LTC',['../structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#aee165c1388ae4ef374632191e0a8a2a1',1,'TMC9660::SYS_CTRL::FAULT_STATUS_LATCHED']]],
-  ['lutcorrection_18',['lutCorrection',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a632bd773181a2c386533cf4c93960815',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
-  ['lutshiftfactor_19',['lutShiftFactor',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a6438107ee554887dc13bd7750a346e70',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]]
+  ['loopdownsampling_18',['loopDownsampling',['../structTMC9660_1_1VelocityControl_1_1VelocityConfig.html#a9bf39b42189fc3aa67d47d2ec38dc395',1,'TMC9660::VelocityControl::VelocityConfig::loopDownsampling'],['../structTMC9660_1_1PositionControl_1_1PositionConfig.html#a9d970e483a22511ce13889ec4e810971',1,'TMC9660::PositionControl::PositionConfig::loopDownsampling']]],
+  ['lutcorrection_19',['lutCorrection',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a632bd773181a2c386533cf4c93960815',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
+  ['lutshiftfactor_20',['lutShiftFactor',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a6438107ee554887dc13bd7750a346e70',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]]
 ];

@@ -32,7 +32,8 @@ var searchData=
   ['log_5fstepper_5ftelemetry_5fdata_29',['log_stepper_telemetry_data',['../StepperComprehensiveTest_8cpp.html#a9a9b43ccbe90977acdb1f7677a208cf7',1,'StepperComprehensiveTest.cpp']]],
   ['log_5ftelemetry_5fdata_30',['log_telemetry_data',['../BLDCComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;BLDCComprehensiveTest.cpp'],['../TelemetryComprehensiveTest_8cpp.html#a1747c1efdce438b256df6c7f22c9efba',1,'log_telemetry_data(TMC9660 &amp;driver, const char *context) noexcept:&#160;TelemetryComprehensiveTest.cpp']]],
   ['logdebug_31',['logDebug',['../classTMC9660CommInterface.html#a4cb4a058e754cd799c7bb0f521083eff',1,'TMC9660CommInterface']]],
-  ['low_20side_20fets_20on_32',['System Off, Low-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]],
-  ['lutcorrection_33',['lutCorrection',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a632bd773181a2c386533cf4c93960815',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
-  ['lutshiftfactor_34',['lutShiftFactor',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a6438107ee554887dc13bd7750a346e70',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]]
+  ['loopdownsampling_32',['loopDownsampling',['../structTMC9660_1_1VelocityControl_1_1VelocityConfig.html#a9bf39b42189fc3aa67d47d2ec38dc395',1,'TMC9660::VelocityControl::VelocityConfig::loopDownsampling'],['../structTMC9660_1_1PositionControl_1_1PositionConfig.html#a9d970e483a22511ce13889ec4e810971',1,'TMC9660::PositionControl::PositionConfig::loopDownsampling']]],
+  ['low_20side_20fets_20on_33',['System Off, Low-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]],
+  ['lutcorrection_34',['lutCorrection',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a632bd773181a2c386533cf4c93960815',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
+  ['lutshiftfactor_35',['lutShiftFactor',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a6438107ee554887dc13bd7750a346e70',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]]
 ];

@@ -1,7 +1,7 @@
 var indexSectionsWithContent =
 {
   0: "1234_abcdefghijklmnopqrstuvwxy~🎨🎯🏆🏗📄📊📖📚🔌🔗🔧🚀🤝",
-  1: "abcefghilmnoprstu",
+  1: "abcefghilmnoprstuv",
   2: "t",
   3: "bderst",
   4: "abcdefghilmnoprstuvw~",
