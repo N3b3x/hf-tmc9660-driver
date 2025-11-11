@@ -49,5 +49,6 @@ var searchData=
   ['overcurrentprotection_46',['OvercurrentProtection',['../namespacetmc9660_1_1tmcl.html#ad807cf4c41df266e1fe28390a3b9e3e1',1,'tmc9660::tmcl']]],
   ['overcurrentthreshold_47',['OvercurrentThreshold',['../namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f',1,'tmc9660::tmcl']]],
   ['overcurrenttiming_48',['OvercurrentTiming',['../namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3',1,'tmc9660::tmcl']]],
-  ['overview_20strong_49',['🎯 &lt;strong&gt;Overview&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md41',1,'']]]
+  ['overview_20strong_49',['🎯 &lt;strong&gt;Overview&lt;/strong&gt;',['..//home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md#autotoc_md41',1,'']]],
+  ['overvoltagethreshold_5fv_50',['overvoltageThreshold_V',['../structTMC9660_1_1Protection_1_1ProtectionConfig.html#a78d16b0cbb919b8d9b219f6db11ef471',1,'TMC9660::Protection::ProtectionConfig']]]
 ];

@@ -11,5 +11,6 @@ var searchData=
   ['status_5fflags_8',['STATUS_FLAGS',['../structTMC9660_1_1ADC_1_1STATUS__FLAGS.html',1,'TMC9660::ADC']]],
   ['stepdir_9',['StepDir',['../structTMC9660_1_1StepDir.html',1,'TMC9660']]],
   ['stepdirconfig_10',['StepDirConfig',['../structtmc9660_1_1StepDirConfig.html',1,'tmc9660']]],
-  ['stopevents_11',['StopEvents',['../structTMC9660_1_1StopEvents.html',1,'TMC9660']]]
+  ['stopevents_11',['StopEvents',['../structTMC9660_1_1StopEvents.html',1,'TMC9660']]],
+  ['stopeventsconfig_12',['StopEventsConfig',['../structTMC9660_1_1StopEvents_1_1StopEventsConfig.html',1,'TMC9660::StopEvents']]]
 ];

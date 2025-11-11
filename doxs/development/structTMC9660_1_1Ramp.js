@@ -1,6 +1,8 @@
 var structTMC9660_1_1Ramp =
 [
+    [ "RampConfig", "structTMC9660_1_1Ramp_1_1RampConfig.html", "structTMC9660_1_1Ramp_1_1RampConfig" ],
     [ "Ramp", "structTMC9660_1_1Ramp.html#aca86c0e362c93e1f8e1a3229eae8488c", null ],
+    [ "configureAuto", "structTMC9660_1_1Ramp.html#a7e17ba8a62761e982bf407faf5c4c880", null ],
     [ "enable", "structTMC9660_1_1Ramp.html#a41c4f83f507355b1e4ffe5db9f07dfd2", null ],
     [ "enableFeedForward", "structTMC9660_1_1Ramp.html#a772f808cea7867a2532147acf11389df", null ],
     [ "getRampPosition", "structTMC9660_1_1Ramp.html#af3b3ba222192997e6c590575a71912f8", null ],

@@ -13,5 +13,6 @@ var searchData=
   ['outputmask_5f0_5f15_10',['outputMask_0_15',['../structtmc9660_1_1GPIOConfig.html#a858fb5941b7c49e26dfe7287cfea4e02',1,'tmc9660::GPIOConfig']]],
   ['outputmask_5f16_5f18_11',['outputMask_16_18',['../structtmc9660_1_1GPIOConfig.html#afe211ea9f3069e1c900812ebcd0b4fe2',1,'tmc9660::GPIOConfig']]],
   ['outputvoltagelimit_12',['outputVoltageLimit',['../structTMC9660_1_1MotorConfig_1_1MotorProfile.html#ae9a00c6ce53f8ef4c2dd90ea32172479',1,'TMC9660::MotorConfig::MotorProfile']]],
-  ['overcurrentmargin_13',['overcurrentMargin',['../structTMC9660_1_1GateDriver_1_1PowerStageProfile.html#ab4348d8d7fdba2b26553284789824135',1,'TMC9660::GateDriver::PowerStageProfile']]]
+  ['overcurrentmargin_13',['overcurrentMargin',['../structTMC9660_1_1GateDriver_1_1PowerStageProfile.html#ab4348d8d7fdba2b26553284789824135',1,'TMC9660::GateDriver::PowerStageProfile']]],
+  ['overvoltagethreshold_5fv_14',['overvoltageThreshold_V',['../structTMC9660_1_1Protection_1_1ProtectionConfig.html#a78d16b0cbb919b8d9b219f6db11ef471',1,'TMC9660::Protection::ProtectionConfig']]]
 ];

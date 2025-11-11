@@ -1,6 +1,8 @@
 var structTMC9660_1_1Brake =
 [
+    [ "BrakeConfig", "structTMC9660_1_1Brake_1_1BrakeConfig.html", "structTMC9660_1_1Brake_1_1BrakeConfig" ],
     [ "Brake", "structTMC9660_1_1Brake.html#ad28b4ca55061e9ec9ea34b400e41fb8a", null ],
+    [ "configureAuto", "structTMC9660_1_1Brake.html#a93eaa67cf02e74e2c43547c5a7a71cdb", null ],
     [ "enableChopper", "structTMC9660_1_1Brake.html#af2f0c7a00b33cbd32a311066d578a91d", null ],
     [ "engage", "structTMC9660_1_1Brake.html#ac61ca662ef6a539feec3e1d71d257f29", null ],
     [ "invertOutput", "structTMC9660_1_1Brake.html#af8cfae139f1196b12b277b4c1f469e60", null ],
