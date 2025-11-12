@@ -1,18 +1,18 @@
 var searchData=
 [
-  ['offset_0',['offset',['../structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a9c37789a59b4d86edf48b7e681aa16c9',1,'TMC9660::FeedbackSense::SpiEncoderConfig']]],
-  ['offset0deg_1',['offset0Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a01d2e6b7b7622ab43019bf1d5ec63353',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['offset120deg_2',['offset120Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a9ad3cc143feac9ec72f7f8b0e171f249',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['offset180deg_3',['offset180Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a4507cff4a7486044275f0e411d3d3900',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['offset240deg_4',['offset240Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#abd22bb683ce0bbda583404926d76bc6f',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['offset300deg_5',['offset300Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a5b29cc0e0d97e5a585609f0870586dbb',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['offset60deg_6',['offset60Deg',['../structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a0be6953a9f10012d563ba3f8d623199a',1,'TMC9660::FeedbackSense::HallConfig']]],
-  ['opcode_7',['opcode',['../structTMCLReply.html#a4bfaf2e1333ba8c7947dc7c636fce7d4',1,'TMCLReply::opcode'],['../structTMCLFrame.html#a6f18ebb3306529cb9ca534581fdc2645',1,'TMCLFrame::opcode']]],
+  ['offset_0',['offset',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a9c85a219210307e8fd22291de427fead',1,'tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig']]],
+  ['offset0deg_1',['offset0Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#ab25232254cf03f156f10232c19a09232',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['offset120deg_2',['offset120Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a0c18af5afc0d8c4b6f83bbfecbb1a138',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['offset180deg_3',['offset180Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a44a239fe30aa6e431eb428eca240ec9e',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['offset240deg_4',['offset240Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a64fa0bb7163988c5f350986e1cb7cb91',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['offset300deg_5',['offset300Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a7b46b98ac14fbf99d287c9d3965572db',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['offset60deg_6',['offset60Deg',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a87e83c30677a61c082a5575c3ca60d00',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
+  ['opcode_7',['opcode',['../structtmc9660_1_1TMCLReply.html#ab75ecd2517f1ce8252bb4f8596cdab52',1,'tmc9660::TMCLReply::opcode'],['../structtmc9660_1_1TMCLFrame.html#ab0d05fe06919f7ff63c616d535a676e6',1,'tmc9660::TMCLFrame::opcode']]],
   ['otp_8',['otp',['../structtmc9660_1_1BootloaderFeatures.html#a5a1095341daebae1eaa4cbb8c1475ac4',1,'tmc9660::BootloaderFeatures']]],
   ['output_5fpin_9',['output_pin',['../structtmc9660_1_1MechBrakeConfig.html#a2b53a5740ee120e96f0d7d5aa01374a4',1,'tmc9660::MechBrakeConfig::output_pin'],['../structtmc9660_1_1BrakeChopperConfig.html#a28ca833381e3e1059a391c7a8facf52f',1,'tmc9660::BrakeChopperConfig::output_pin']]],
   ['outputmask_5f0_5f15_10',['outputMask_0_15',['../structtmc9660_1_1GPIOConfig.html#a858fb5941b7c49e26dfe7287cfea4e02',1,'tmc9660::GPIOConfig']]],
   ['outputmask_5f16_5f18_11',['outputMask_16_18',['../structtmc9660_1_1GPIOConfig.html#afe211ea9f3069e1c900812ebcd0b4fe2',1,'tmc9660::GPIOConfig']]],
-  ['outputvoltagelimit_12',['outputVoltageLimit',['../structTMC9660_1_1MotorConfig_1_1MotorProfile.html#ae9a00c6ce53f8ef4c2dd90ea32172479',1,'TMC9660::MotorConfig::MotorProfile']]],
-  ['overcurrentmargin_13',['overcurrentMargin',['../structTMC9660_1_1GateDriver_1_1PowerStageProfile.html#ab4348d8d7fdba2b26553284789824135',1,'TMC9660::GateDriver::PowerStageProfile']]],
-  ['overvoltagethreshold_5fv_14',['overvoltageThreshold_V',['../structTMC9660_1_1Protection_1_1ProtectionConfig.html#a78d16b0cbb919b8d9b219f6db11ef471',1,'TMC9660::Protection::ProtectionConfig']]]
+  ['outputvoltagelimit_12',['outputVoltageLimit',['../structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html#a69e1b515ae7b455791209cdc64ec7b7c',1,'tmc9660::TMC9660::MotorConfig::MotorProfile']]],
+  ['overcurrentmargin_13',['overcurrentMargin',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a51de3348f015a1b3f8c993a93721311e',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
+  ['overvoltagethreshold_5fv_14',['overvoltageThreshold_V',['../structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html#af715c17d728a919578216bb4b8129781',1,'tmc9660::TMC9660::Protection::ProtectionConfig']]]
 ];

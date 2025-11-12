@@ -1,5 +1,5 @@
 <map id="TMC9660Bootloader.hpp" name="TMC9660Bootloader.hpp">
-<area shape="rect" id="Node000001" title="TMC9660 bootloader interface and configuration structures." alt="" coords="722,5,903,31"/>
+<area shape="rect" id="Node000001" title="Main TMC9660 bootloader interface class." alt="" coords="722,5,903,31"/>
 <area shape="rect" id="Node000002" href="$TMC9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="673,79,784,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="790,42,744,80,741,76,787,38"/>
 <area shape="rect" id="Node000009" href="$TMC9660Bootloader_8cpp.html" title=" " alt="" coords="808,79,988,104"/>

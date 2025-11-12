@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['sense_20amplifiers_0',['Current Sense Amplifiers',['../group__TMC9660__CSA.html',1,'']]],
-  ['status_20and_20monitoring_1',['ADC Status and Monitoring',['../group__TMC9660__ADCStatus.html',1,'']]],
-  ['structures_2',['Structures',['../group__TMC9660__BootloaderConfig.html',1,'Configuration Structures'],['../group__TMC9660__TMCLProtocol.html',1,'TMCL Protocol Structures']]],
-  ['subsystem_20interfaces_3',['Subsystem Interfaces',['../group__TMC9660__Subsystems.html',1,'']]],
-  ['system_4',['RAMDebug System',['../group__TMC9660__RAMDebug.html',1,'']]]
+  ['tmc9660_20driver_0',['Core TMC9660 Driver',['../group__TMC9660__Core.html',1,'']]],
+  ['tmcl_20protocol_20structures_1',['TMCL Protocol Structures',['../group__TMC9660__TMCLProtocol.html',1,'']]],
+  ['type_20definitions_2',['Type Definitions',['../group__TMC9660__RAMDebugTypes.html',1,'RAMDebug Type Definitions'],['../group__TMC9660__Types.html',1,'Type Definitions'],['../group__TMC9660__CommTypes.html',1,'Type Definitions']]]
 ];

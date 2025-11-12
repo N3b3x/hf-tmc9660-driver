@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['failure_0',['Failure',['../classTMC9660.html#a2ce1bb2e8fff1bca76ea3b165906dd2eae139a585510a502bbf1841cf589f5086',1,'TMC9660']]],
-  ['fallingedges_1',['FallingEdgeS',['../namespaceTMC9660_1_1RAMDebug.html#ab3f1945af117ccb9a6b8b58b9d2cb01ea9eeab9f191e6ac49958276598871aa6a',1,'TMC9660::RAMDebug']]],
-  ['fallingedgeu_2',['FallingEdgeU',['../namespaceTMC9660_1_1RAMDebug.html#ab3f1945af117ccb9a6b8b58b9d2cb01ea4f5dd7e12c9461a2ed27ba0de039404c',1,'TMC9660::RAMDebug']]],
-  ['faultn_3',['FAULTN',['../TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92a8a08cd30efd24033555d0244cfce27a7',1,'TMC9660CommInterface.hpp']]],
-  ['features_4',['FEATURES',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2ab1fa6b4767532c2e890022101221bd08',1,'tmc9660']]],
-  ['first_5',['FIRST',['../structTMC9660_1_1ADC_1_1SRC__CONFIG.html#ab6cf4a19dead7068deda020a3a12e90ca2c2624a5059934a947d6e25fe8332ade',1,'TMC9660::ADC::SRC_CONFIG']]],
-  ['first_5fcmd_6',['FIRST_CMD',['../TMC9660CommInterface_8hpp.html#a840303fcd4d20be81413f45c22f0d4c7a366a3af7cd830af533a6df009603a239',1,'TMC9660CommInterface.hpp']]],
-  ['flash_5ferase_5fsector_7',['FLASH_ERASE_SECTOR',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0aa86c3905134ee9fe40942d2da7664a49',1,'tmc9660']]],
-  ['flash_5fsend_5fcmd_8',['FLASH_SEND_CMD',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a52c0478386ff2c235bf03c5882b95159',1,'tmc9660']]],
+  ['failure_0',['Failure',['../classtmc9660_1_1TMC9660.html#a08f6d00384458a6833df71c1f856f48cae139a585510a502bbf1841cf589f5086',1,'tmc9660::TMC9660']]],
+  ['fallingedges_1',['FallingEdgeS',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a51ee3d23180e00bf54bb48c31ceadd11a9eeab9f191e6ac49958276598871aa6a',1,'tmc9660::register_mode::RAMDebug']]],
+  ['fallingedgeu_2',['FallingEdgeU',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a51ee3d23180e00bf54bb48c31ceadd11a4f5dd7e12c9461a2ed27ba0de039404c',1,'tmc9660::register_mode::RAMDebug']]],
+  ['faultn_3',['FAULTN',['../namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7a8a08cd30efd24033555d0244cfce27a7',1,'tmc9660']]],
+  ['features_4',['FEATURES',['../group__TMC9660__BootloaderProtocol.html#ggaf4e8a4c74acf7f0c687427b7fc2698f2ab1fa6b4767532c2e890022101221bd08',1,'tmc9660']]],
+  ['first_5',['FIRST',['../structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a778c9f7b3e6db16e43408534cc820552a2c2624a5059934a947d6e25fe8332ade',1,'tmc9660::register_mode::ADC::SRC_CONFIG']]],
+  ['first_5fcmd_6',['FIRST_CMD',['../namespacetmc9660.html#aa6ed72b377a8d74c2505b89b77b8a505a366a3af7cd830af533a6df009603a239',1,'tmc9660']]],
+  ['flash_5ferase_5fsector_7',['FLASH_ERASE_SECTOR',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0aa86c3905134ee9fe40942d2da7664a49',1,'tmc9660']]],
+  ['flash_5fsend_5fcmd_8',['FLASH_SEND_CMD',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0a52c0478386ff2c235bf03c5882b95159',1,'tmc9660']]],
   ['freq100k_9',['Freq100k',['../namespacetmc9660_1_1bootcfg.html#a21f05428f8cb9c28a1abf4a2d891d6f4a28b8e09041bc69548beb89e6e2bf6e4e',1,'tmc9660::bootcfg']]],
   ['freq16mhz_10',['Freq16MHz',['../namespacetmc9660_1_1bootcfg.html#ac8e0bc08ac8c1dedd2dc23d41ed255f5ab0288567b4d864a6e2be1f75a04e82c0',1,'tmc9660::bootcfg']]],
   ['freq200k_11',['Freq200k',['../namespacetmc9660_1_1bootcfg.html#a21f05428f8cb9c28a1abf4a2d891d6f4ac9402b0e8096317886aac1d0d8485907',1,'tmc9660::bootcfg']]],
@@ -17,5 +17,5 @@ var searchData=
   ['freq400k_14',['Freq400k',['../namespacetmc9660_1_1bootcfg.html#a21f05428f8cb9c28a1abf4a2d891d6f4a5303e2045bfbcfd4d0e89bcdb5f028e8',1,'tmc9660::bootcfg']]],
   ['freq800k_15',['Freq800k',['../namespacetmc9660_1_1bootcfg.html#a21f05428f8cb9c28a1abf4a2d891d6f4a1e9569afac2d5ccab26128c6962221f6',1,'tmc9660::bootcfg']]],
   ['freq8mhz_16',['Freq8MHz',['../namespacetmc9660_1_1bootcfg.html#ac8e0bc08ac8c1dedd2dc23d41ed255f5a313778dcdffaec37dd30f100b70e412c',1,'tmc9660::bootcfg']]],
-  ['frequencyhz_17',['FrequencyHz',['../namespaceTMC9660_1_1RAMDebug.html#a1ab6cd948208612b40f4d73acb52e931a52028c031b735dde849f74f224ec2918',1,'TMC9660::RAMDebug']]]
+  ['frequencyhz_17',['FrequencyHz',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#afc2969c3caadb72653c934ae754f3fb5a52028c031b735dde849f74f224ec2918',1,'tmc9660::register_mode::RAMDebug']]]
 ];

@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -103,7 +105,7 @@ $(function(){initNavTree('structtmc9660_1_1BootloaderVersion.html',''); initResi
 <p>Bootloader version information structure.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="bootloader__protocol_8hpp_source.html">bootloader_protocol.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -122,7 +124,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Bootloader version information structure. </p>
-<p>Contains the bootloader version in major.minor format. The version is retrieved from the bootloader using GET_INFO query type <a class="el" href="namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2ab0b4029d33e32fe34019e6faec4a5daa" title="Get bootloader version (major in upper 16 bits, minor in lower 16 bits)">InfoQuery::BL_VERSION</a>.</p>
+<p>Contains the bootloader version in major.minor format. The version is retrieved from the bootloader using GET_INFO query type <a class="el" href="group__TMC9660__BootloaderProtocol.html#ggaf4e8a4c74acf7f0c687427b7fc2698f2ab0b4029d33e32fe34019e6faec4a5daa" title="Get bootloader version (major in upper 16 bits, minor in lower 16 bits)">InfoQuery::BL_VERSION</a>.</p>
 <p>Parses the 32-bit version value where the upper 16 bits contain the major version and the lower 16 bits contain the minor version. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ac814daf933906fe94877a110e4c3ff46" name="ac814daf933906fe94877a110e4c3ff46"></a>
@@ -152,14 +154,7 @@ Public Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="structtmc9660_1_1BootloaderVersion_ac814daf933906fe94877a110e4c3ff46_icgraph.png" border="0" usemap="#astructtmc9660_1_1BootloaderVersion_ac814daf933906fe94877a110e4c3ff46_icgraph" alt=""/></div>
-<map name="astructtmc9660_1_1BootloaderVersion_ac814daf933906fe94877a110e4c3ff46_icgraph" id="astructtmc9660_1_1BootloaderVersion_ac814daf933906fe94877a110e4c3ff46_icgraph">
-<area shape="rect" title="Parse from 32&#45;bit value (major in upper 16 bits, minor in lower 16 bits)" alt="" coords="539,5,745,45"/>
-<area shape="rect" href="classtmc9660_1_1TMC9660Bootloader.html#af1b2e4a33076a78fa2165f3e3c6ca788" title="Get bootloader version information." alt="" coords="272,5,491,45"/>
-<area shape="poly" title=" " alt="" coords="525,28,491,28,491,23,525,23"/>
-<area shape="rect" href="classtmc9660_1_1TMC9660Bootloader.html#aeeaf831da776368f30cf03cfae9f3298" title=" " alt="" coords="5,5,224,45"/>
-<area shape="poly" title=" " alt="" coords="258,28,224,28,224,23,258,23"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1BootloaderVersion_ac814daf933906fe94877a110e4c3ff46_icgraph.svg" width="751" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -198,7 +193,7 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a></li>
+<li><a class="el" href="bootloader__protocol_8hpp_source.html">bootloader_protocol.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

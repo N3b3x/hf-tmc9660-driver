@@ -1,6 +1,19 @@
 var annotated_dup =
 [
     [ "tmc9660", "namespacetmc9660.html", [
+      [ "register_mode", "namespacetmc9660_1_1register__mode.html", [
+        [ "ADC", "namespacetmc9660_1_1register__mode_1_1ADC.html", [
+          [ "CSA_SETUP", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP" ],
+          [ "SETUP", "structtmc9660_1_1register__mode_1_1ADC_1_1SETUP.html", "structtmc9660_1_1register__mode_1_1ADC_1_1SETUP" ],
+          [ "SRC_CONFIG", "structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html", "structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG" ],
+          [ "STATUS_FLAGS", "structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html", "structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS" ]
+        ] ],
+        [ "SYS_CTRL", "namespacetmc9660_1_1register__mode_1_1SYS__CTRL.html", [
+          [ "FAULT_INT_ENABLE", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE" ],
+          [ "FAULT_STATUS", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS" ],
+          [ "FAULT_STATUS_LATCHED", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED" ]
+        ] ]
+      ] ],
       [ "ABN1Config", "structtmc9660_1_1ABN1Config.html", "structtmc9660_1_1ABN1Config" ],
       [ "ABN2Config", "structtmc9660_1_1ABN2Config.html", "structtmc9660_1_1ABN2Config" ],
       [ "BootConfig", "structtmc9660_1_1BootConfig.html", "structtmc9660_1_1BootConfig" ],
@@ -28,55 +41,20 @@ var annotated_dup =
       [ "SPIBootConfig", "structtmc9660_1_1SPIBootConfig.html", "structtmc9660_1_1SPIBootConfig" ],
       [ "SPIEncConfig", "structtmc9660_1_1SPIEncConfig.html", "structtmc9660_1_1SPIEncConfig" ],
       [ "SPIFlashConfig", "structtmc9660_1_1SPIFlashConfig.html", "structtmc9660_1_1SPIFlashConfig" ],
+      [ "SPITMC9660CommInterface", "classtmc9660_1_1SPITMC9660CommInterface.html", "classtmc9660_1_1SPITMC9660CommInterface" ],
       [ "StepDirConfig", "structtmc9660_1_1StepDirConfig.html", "structtmc9660_1_1StepDirConfig" ],
+      [ "TMC9660", "classtmc9660_1_1TMC9660.html", "classtmc9660_1_1TMC9660" ],
       [ "TMC9660Bootloader", "classtmc9660_1_1TMC9660Bootloader.html", "classtmc9660_1_1TMC9660Bootloader" ],
-      [ "UARTConfig", "structtmc9660_1_1UARTConfig.html", "structtmc9660_1_1UARTConfig" ]
-    ] ],
-    [ "TMC9660", "namespaceTMC9660.html", [
-      [ "ADC", "namespaceTMC9660_1_1ADC.html", [
-        [ "CSA_SETUP", "structTMC9660_1_1ADC_1_1CSA__SETUP.html", "structTMC9660_1_1ADC_1_1CSA__SETUP" ],
-        [ "SETUP", "structTMC9660_1_1ADC_1_1SETUP.html", "structTMC9660_1_1ADC_1_1SETUP" ],
-        [ "SRC_CONFIG", "structTMC9660_1_1ADC_1_1SRC__CONFIG.html", "structTMC9660_1_1ADC_1_1SRC__CONFIG" ],
-        [ "STATUS_FLAGS", "structTMC9660_1_1ADC_1_1STATUS__FLAGS.html", "structTMC9660_1_1ADC_1_1STATUS__FLAGS" ]
-      ] ],
-      [ "SYS_CTRL", "namespaceTMC9660_1_1SYS__CTRL.html", [
-        [ "FAULT_INT_ENABLE", "structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html", "structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE" ],
-        [ "FAULT_STATUS", "structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS.html", "structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS" ],
-        [ "FAULT_STATUS_LATCHED", "structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html", "structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED" ]
-      ] ],
-      [ "Brake", "structTMC9660_1_1Brake.html", "structTMC9660_1_1Brake" ],
-      [ "CurrentSensing", "structTMC9660_1_1CurrentSensing.html", "structTMC9660_1_1CurrentSensing" ],
-      [ "FeedbackSense", "structTMC9660_1_1FeedbackSense.html", "structTMC9660_1_1FeedbackSense" ],
-      [ "GateDriver", "structTMC9660_1_1GateDriver.html", "structTMC9660_1_1GateDriver" ],
-      [ "Globals", "structTMC9660_1_1Globals.html", "structTMC9660_1_1Globals" ],
-      [ "GPIO", "structTMC9660_1_1GPIO.html", "structTMC9660_1_1GPIO" ],
-      [ "Heartbeat", "structTMC9660_1_1Heartbeat.html", "structTMC9660_1_1Heartbeat" ],
-      [ "IIT", "structTMC9660_1_1IIT.html", "structTMC9660_1_1IIT" ],
-      [ "MotorConfig", "structTMC9660_1_1MotorConfig.html", "structTMC9660_1_1MotorConfig" ],
-      [ "NvmStorage", "structTMC9660_1_1NvmStorage.html", "structTMC9660_1_1NvmStorage" ],
-      [ "PositionControl", "structTMC9660_1_1PositionControl.html", "structTMC9660_1_1PositionControl" ],
-      [ "Power", "structTMC9660_1_1Power.html", "structTMC9660_1_1Power" ],
-      [ "Protection", "structTMC9660_1_1Protection.html", "structTMC9660_1_1Protection" ],
-      [ "RamDebug", "structTMC9660_1_1RamDebug.html", "structTMC9660_1_1RamDebug" ],
-      [ "Ramp", "structTMC9660_1_1Ramp.html", "structTMC9660_1_1Ramp" ],
-      [ "ReferenceSearch", "structTMC9660_1_1ReferenceSearch.html", "structTMC9660_1_1ReferenceSearch" ],
-      [ "Script", "structTMC9660_1_1Script.html", "structTMC9660_1_1Script" ],
-      [ "StepDir", "structTMC9660_1_1StepDir.html", "structTMC9660_1_1StepDir" ],
-      [ "StopEvents", "structTMC9660_1_1StopEvents.html", "structTMC9660_1_1StopEvents" ],
-      [ "Telemetry", "structTMC9660_1_1Telemetry.html", "structTMC9660_1_1Telemetry" ],
-      [ "TorqueFluxControl", "structTMC9660_1_1TorqueFluxControl.html", "structTMC9660_1_1TorqueFluxControl" ],
-      [ "VelocityControl", "structTMC9660_1_1VelocityControl.html", "structTMC9660_1_1VelocityControl" ]
+      [ "TMC9660CommInterface", "classtmc9660_1_1TMC9660CommInterface.html", "classtmc9660_1_1TMC9660CommInterface" ],
+      [ "TMCLFrame", "structtmc9660_1_1TMCLFrame.html", "structtmc9660_1_1TMCLFrame" ],
+      [ "TMCLReply", "structtmc9660_1_1TMCLReply.html", "structtmc9660_1_1TMCLReply" ],
+      [ "UARTConfig", "structtmc9660_1_1UARTConfig.html", "structtmc9660_1_1UARTConfig" ],
+      [ "UARTTMC9660CommInterface", "classtmc9660_1_1UARTTMC9660CommInterface.html", "classtmc9660_1_1UARTTMC9660CommInterface" ]
     ] ],
     [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", "classEsp32SPITMC9660CommInterface" ],
     [ "Esp32TMC9660BusConfig", "structEsp32TMC9660BusConfig.html", "structEsp32TMC9660BusConfig" ],
     [ "Esp32UARTTMC9660CommInterface", "classEsp32UARTTMC9660CommInterface.html", "classEsp32UARTTMC9660CommInterface" ],
-    [ "SPITMC9660CommInterface", "classSPITMC9660CommInterface.html", "classSPITMC9660CommInterface" ],
     [ "TestDriverHandle", "structTestDriverHandle.html", "structTestDriverHandle" ],
     [ "TestResults", "structTestResults.html", "structTestResults" ],
-    [ "TestTaskContext", "structTestTaskContext.html", "structTestTaskContext" ],
-    [ "TMC9660", "classTMC9660.html", "classTMC9660" ],
-    [ "TMC9660CommInterface", "classTMC9660CommInterface.html", "classTMC9660CommInterface" ],
-    [ "TMCLFrame", "structTMCLFrame.html", "structTMCLFrame" ],
-    [ "TMCLReply", "structTMCLReply.html", "structTMCLReply" ],
-    [ "UARTTMC9660CommInterface", "classUARTTMC9660CommInterface.html", "classUARTTMC9660CommInterface" ]
+    [ "TestTaskContext", "structTestTaskContext.html", "structTestTaskContext" ]
 ];

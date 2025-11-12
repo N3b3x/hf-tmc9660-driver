@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -102,14 +104,14 @@ $(function(){initNavTree('structtmc9660_1_1RS485Config.html',''); initResizable(
 <p>RS485 transceiver configuration structure.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="bootloader__config_8hpp_source.html">bootloader_config.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aebce8c54710dd911ba64f00064137eae" id="r_aebce8c54710dd911ba64f00064137eae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebce8c54710dd911ba64f00064137eae">enable_rs485</a> {false}</td></tr>
 <tr class="memdesc:aebce8c54710dd911ba64f00064137eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable RS485 half-duplex mode.  <br /></td></tr>
 <tr class="separator:aebce8c54710dd911ba64f00064137eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae99535eb0453ad6e5feb250fd4edda3" id="r_aae99535eb0453ad6e5feb250fd4edda3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ad">bootcfg::RS485TxEnPin</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae99535eb0453ad6e5feb250fd4edda3">txen_pin</a> {<a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754">bootcfg::RS485TxEnPin::None</a>}</td></tr>
+<tr class="memitem:aae99535eb0453ad6e5feb250fd4edda3" id="r_aae99535eb0453ad6e5feb250fd4edda3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ad">bootcfg::RS485TxEnPin</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae99535eb0453ad6e5feb250fd4edda3">txen_pin</a></td></tr>
 <tr class="memdesc:aae99535eb0453ad6e5feb250fd4edda3"><td class="mdescLeft">&#160;</td><td class="mdescRight">RS485 transmit enable pin selection.  <br /></td></tr>
 <tr class="separator:aae99535eb0453ad6e5feb250fd4edda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ac7d9311c508c5f2d791ecc21512c63" id="r_a3ac7d9311c508c5f2d791ecc21512c63"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac7d9311c508c5f2d791ecc21512c63">txen_pre_delay</a> {0}</td></tr>
@@ -146,11 +148,14 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ad">bootcfg::RS485TxEnPin</a> tmc9660::RS485Config::txen_pin {<a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754">bootcfg::RS485TxEnPin::None</a>}</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ad">bootcfg::RS485TxEnPin</a> tmc9660::RS485Config::txen_pin</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">      <a class="code hl_enumvalue" href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754">bootcfg::RS485TxEnPin::None</a>}</div>
+<div class="ttc" id="anamespacetmc9660_1_1bootcfg_html_ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754"><div class="ttname"><a href="namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754">tmc9660::bootcfg::RS485TxEnPin::None</a></div><div class="ttdeci">@ None</div><div class="ttdoc">No RS485 TX enable pin (RS485 disabled)</div></div>
+</div><!-- fragment -->
 <p>RS485 transmit enable pin selection. </p>
 
 </div>
@@ -188,7 +193,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a></li>
+<li><a class="el" href="bootloader__config_8hpp_source.html">bootloader_config.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

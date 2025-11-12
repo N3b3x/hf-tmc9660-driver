@@ -1,4 +1,4 @@
 var group__TMC9660__RAMDebug =
 [
-    [ "TMC9660::RAMDebug", "namespaceTMC9660_1_1RAMDebug.html", null ]
+    [ "tmc9660::register_mode::RAMDebug", "namespacetmc9660_1_1register__mode_1_1RAMDebug.html", null ]
 ];

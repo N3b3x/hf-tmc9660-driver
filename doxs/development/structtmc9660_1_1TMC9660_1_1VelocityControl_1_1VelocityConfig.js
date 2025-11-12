@@ -1,0 +1,25 @@
+var structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig =
+[
+    [ "enableVelocityBiquadFilter", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#adbdf529a4b85b679ae4d420b4eb2a749", null ],
+    [ "encoderCountsPerRev", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a8973916325aac57cae745c876054e7a5", null ],
+    [ "iNormalization", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ab71df617a8eac31014cddbd053ec6310", null ],
+    [ "loopDownsampling", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ab9f6336d8d7020fa0f0c0d77565604f7", null ],
+    [ "meterHysteresis", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a933c872a85d785babc8637a4ae030eba", null ],
+    [ "meterSwitchThreshold", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#abf0f9845fe72b1328f4b9feed8a6072c", null ],
+    [ "motorPolePairs", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a3f6105adfd44983058981c9d21dec1a4", null ],
+    [ "pNormalization", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a4d5a74d1552ae0b01d7d19f7acf2204c", null ],
+    [ "pwmFrequency_Hz", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a108b24400a2e11b23955a694f24afab8", null ],
+    [ "sensorSelection", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a96b098d197b4d4852c61bc543d7a8c51", null ],
+    [ "stopOnDeviationMaxError", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a9c7953517deefa1fe54ec855a548d2fb", null ],
+    [ "stopOnDeviationSoftStop", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ab2073bb93e8ce0312b6a2c1041713756", null ],
+    [ "velocityBiquadACoeff1", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#adf7e743b8b8648f976b6a135c8031f32", null ],
+    [ "velocityBiquadACoeff2", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a9a384eccd59bd24609c3eb3c83ed666f", null ],
+    [ "velocityBiquadBCoeff0", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a7d1af059043e1c1682a6e3f196630bae", null ],
+    [ "velocityBiquadBCoeff1", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a65883a3e175b12d4380df4841e0439f3", null ],
+    [ "velocityBiquadBCoeff2", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#aef5bd351ce307efaffb32cfed2b046cd", null ],
+    [ "velocityI", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#aa5acdc75211b3c7a336dade8b950ccb4", null ],
+    [ "velocityOffset", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#aae1c3854a8f407f72e932ddc2cc12e3c", null ],
+    [ "velocityP", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ad101941e9cdded8c410c0901b93c0118", null ],
+    [ "velocityReachedThreshold", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a70ef76e9fba52d6502f35409f0609a16", null ],
+    [ "velocityScalingFactor", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a7a95382fed7252d47d03a97984dfc259", null ]
+];
