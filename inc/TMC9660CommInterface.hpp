@@ -1,48 +1,49 @@
 /**
  * @file TMC9660CommInterface.hpp
- * @brief Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.
- * 
+ * @brief Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI
+ * and UART.
+ *
  * This file provides comprehensive communication interfaces for the TMC9660 motor driver,
  * supporting both SPI and UART protocols with TMCL command/reply structures. It includes
  * GPIO control interfaces and board-agnostic pin management for different hardware implementations.
- * 
+ *
  * ## Compile-Time Configuration
- * 
+ *
  * **TMC9660_DISABLE_DEBUG_LOGGING**: Define this macro to completely disable all debug
  * logging throughout the TMC9660 library (including TX/RX hex dumps, bootloader logs,
  * and initialization messages). This removes all logging code from the binary at compile
  * time, saving code size and improving performance. When disabled, all TMC9660_LOG_DEBUG
  * macro calls are optimized out completely, including argument evaluation.
- * 
+ *
  * Example usage:
  * ```cpp
  * // In your build system or before including this header:
  * #define TMC9660_DISABLE_DEBUG_LOGGING
  * #include "TMC9660CommInterface.hpp"
  * ```
- * 
+ *
  * Or via compiler flags:
  * ```bash
  * -DTMC9660_DISABLE_DEBUG_LOGGING
  * ```
- * 
+ *
  * Or in CMake:
  * ```cmake
  * target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_DEBUG_LOGGING)
  * ```
- * 
+ *
  * @defgroup TMC9660_CommInterface Communication Interfaces
  * @brief Core communication interface classes and protocols
- * 
+ *
  * @defgroup TMC9660_TMCLProtocol TMCL Protocol Structures
  * @brief TMCL command and reply structures for SPI/UART communication
- * 
+ *
  * @defgroup TMC9660_GPIOControl GPIO Control Interface
  * @brief GPIO pin control and signal management
- * 
+ *
  * @defgroup TMC9660_CommTypes Type Definitions
  * @brief Enums and type definitions for communication interfaces
- * 
+ *
  * For parameter read/write access, either UART or SPI may be used. Both interfaces share the same
  * TMCL command structure and follow a strict command/reply order.
  *
@@ -112,90 +113,90 @@ namespace tmc9660 {
 
 /**
  * @brief Compile-time debug logging control for TMC9660 library
- * 
+ *
  * Define TMC9660_DISABLE_DEBUG_LOGGING before including this header to completely
  * disable all debug logging. When disabled, all logDebug() calls are optimized out
  * at compile time, including argument evaluation (via macro replacement).
- * 
+ *
  * Example usage:
  *   #define TMC9660_DISABLE_DEBUG_LOGGING
  *   #include "TMC9660CommInterface.hpp"
- * 
+ *
  * Or via compiler flags:
  *   -DTMC9660_DISABLE_DEBUG_LOGGING
  */
 #ifndef TMC9660_DISABLE_DEBUG_LOGGING
-  // Debug logging enabled - use actual function call
-  #define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) \
-    (comm_obj).logDebug(level, tag, __VA_ARGS__)
+// Debug logging enabled - use actual function call
+#define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) (comm_obj).logDebug(level, tag, __VA_ARGS__)
 #else
-  // Debug logging disabled - optimize out completely (arguments not evaluated)
-  #define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) ((void)0)
+// Debug logging disabled - optimize out completely (arguments not evaluated)
+#define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) ((void)0)
 #endif
 
 /**
  * @brief Supported physical communication modes for TMC9660.
- * 
+ *
  * Defines the available communication interfaces that can be used
  * to communicate with the TMC9660 motor driver.
  */
-enum class CommMode { 
-  SPI,   ///< SPI (Serial Peripheral Interface) mode - 4-wire synchronous communication
-  UART   ///< UART (Universal Asynchronous Receiver-Transmitter) mode - 2-wire asynchronous communication
+enum class CommMode {
+  SPI, ///< SPI (Serial Peripheral Interface) mode - 4-wire synchronous communication
+  UART ///< UART (Universal Asynchronous Receiver-Transmitter) mode - 2-wire asynchronous
+       ///< communication
 };
 
 /**
  * @brief TMC9660 control pin identifiers with board-agnostic naming.
- * 
+ *
  * These pin identifiers abstract the physical pin assignments to provide
  * a consistent interface regardless of board implementation (direct connection,
  * inverters, level shifters, etc.).
  */
 enum class TMC9660CtrlPin {
-  RST,     ///< External System Reset Input (pin 22) - Active high reset signal
-  DRV_EN,  ///< Driver enable input (pin 21) - Enables motor driver outputs
-  FAULTN,  ///< FAULT output signal (pin 20) - Open drain fault indication
-  WAKE     ///< Wake input (pin 19) - Wake from hibernation mode
+  RST,    ///< External System Reset Input (pin 22) - Active high reset signal
+  DRV_EN, ///< Driver enable input (pin 21) - Enables motor driver outputs
+  FAULTN, ///< FAULT output signal (pin 20) - Open drain fault indication
+  WAKE    ///< Wake input (pin 19) - Wake from hibernation mode
 };
 
 /**
  * @brief GPIO signal states with board-agnostic naming.
- * 
+ *
  * These signal states abstract the physical voltage levels to provide
  * a consistent interface regardless of board implementation (active-high
  * or active-low signals, inverters, etc.).
  */
 enum class GpioSignal {
-  INACTIVE = 0,  ///< Inactive signal state (logical low)
-  ACTIVE = 1     ///< Active signal state (logical high)
+  INACTIVE = 0, ///< Inactive signal state (logical low)
+  ACTIVE = 1    ///< Active signal state (logical high)
 };
 
 /**
  * @brief SPI status codes as per TMC9660 Parameter Mode specification.
- * 
+ *
  * These status codes are returned in the first byte of SPI replies
  * to indicate the communication status and any errors that occurred.
  */
 enum class SPIStatus : uint8_t {
-  OK = 0xFF,            ///< Operation successful
+  OK = 0xFF,             ///< Operation successful
   CHECKSUM_ERROR = 0x00, ///< Checksum verification failed
-  FIRST_CMD = 0x0C,     ///< First command after initialization
-  NOT_READY = 0xF0,     ///< System busy, resend datagram
+  FIRST_CMD = 0x0C,      ///< First command after initialization
+  NOT_READY = 0xF0,      ///< System busy, resend datagram
 };
 
 /**
  * @brief Calculate 8-bit checksum using sum of bytes method.
- * 
+ *
  * This function implements the TMCL checksum algorithm which is simply
  * the sum of all bytes in the datagram. The checksum is used to verify
  * data integrity during communication.
- * 
+ *
  * @param bytes Pointer to the data bytes to checksum
  * @param n Number of bytes to include in the checksum calculation
  * @param start Starting byte offset for checksum calculation (default: 0)
  * @return 8-bit checksum value
  */
-static constexpr uint8_t tmclChecksum(const uint8_t *bytes, size_t n, uint8_t start = 0) noexcept {
+static constexpr uint8_t tmclChecksum(const uint8_t* bytes, size_t n, uint8_t start = 0) noexcept {
   uint8_t sum = 0;
   for (size_t i = start; i < n; ++i)
     sum += bytes[i];
@@ -208,7 +209,7 @@ static constexpr uint8_t tmclChecksum(const uint8_t *bytes, size_t n, uint8_t st
 
 /**
  * @brief Reply structure returned by TMCL command operations.
- * 
+ *
  * This structure contains the decoded reply from a TMCL command, including
  * SPI status, TMCL status, operation code, and the returned value. The structure
  * also stores raw bytes for advanced parsing and provides helper methods for
@@ -219,19 +220,20 @@ struct TMCLReply {
   uint8_t status = 0;                  ///< TMCL status code (100=OK, 101=LOADED)
   uint8_t opcode = 0;                  ///< Echoed operation code
   uint32_t value = 0;                  ///< Optional returned value
-  
+
   // ✅ NEW: Raw bytes for advanced parsing (handle protocol mismatches)
-  std::array<uint8_t, 8> rawBytes = {}; ///< Raw SPI bytes (8-byte) or UART bytes mapped to 8-byte format
+  std::array<uint8_t, 8> rawBytes =
+      {}; ///< Raw SPI bytes (8-byte) or UART bytes mapped to 8-byte format
 
   [[nodiscard]] bool isOK() const noexcept {
     return spiStatus == SPIStatus::OK && (status == 100 || status == 101);
   }
-  
+
   /**
    * @brief Extract 32-bit value from raw bytes at specified offset (MSB-first)
    * @param offset Starting byte offset (0-4 for 32-bit value)
    * @return 32-bit value extracted from rawBytes[offset..offset+3]
-   * 
+   *
    * Useful for extracting misaligned data when protocol mismatch occurs
    * (e.g., bootloader 5-byte SESSION_START parsed as 8-byte TMCL).
    */
@@ -243,24 +245,25 @@ struct TMCLReply {
            (static_cast<uint32_t>(rawBytes[offset + 2]) << 8) |
            static_cast<uint32_t>(rawBytes[offset + 3]);
   }
-  
+
   /**
    * @brief Extract version string from GetVersion reply (Command 136, Type 0)
    * @return Version string (up to 8 characters) or empty string if not a version reply
-   * 
+   *
    * GetVersion with Type=0 returns: [Host Address][Version String 8 chars]
    * This method extracts the version string portion
    */
   [[nodiscard]] std::string getVersionString() const noexcept {
-    if (opcode != 136) return "";  // Not a GetVersion reply
-    
+    if (opcode != 136)
+      return ""; // Not a GetVersion reply
+
     std::string version;
     // Extract version string from bytes 1-8 (skip host address at byte 0)
     for (size_t i = 1; i < 8; ++i) {
-      if (rawBytes[i] >= 0x20 && rawBytes[i] <= 0x7E) {  // Printable ASCII
+      if (rawBytes[i] >= 0x20 && rawBytes[i] <= 0x7E) { // Printable ASCII
         version += static_cast<char>(rawBytes[i]);
       } else {
-        break;  // Stop at first non-printable character
+        break; // Stop at first non-printable character
       }
     }
     return version;
@@ -268,25 +271,25 @@ struct TMCLReply {
 
   /**
    * @brief Decode and validate reply from SPI TMCL datagram.
-   * 
+   *
    * Parses an 8-byte SPI reply, validates checksum, and handles special reply
    * formats such as SESSION_START and GetVersion string replies. Raw bytes are
    * always stored for advanced parsing even if initial parsing fails.
-   * 
+   *
    * @param in Input buffer containing 8 bytes from SPI
    * @param r Output parameter to receive decoded reply
    * @param sentOpcode Optional opcode of command that was sent (for handling special replies)
    * @param sentType Optional type field of command that was sent (for handling special replies)
    * @return true if reply was successfully decoded and validated
-   * 
+   *
    * @note Handles special cases: SESSION_START (0x13), GetVersion string format
    * @note Raw bytes are always stored for debugging protocol mismatches
    */
-  static bool fromSpi(std::span<const uint8_t, 8> in, TMCLReply &r, 
-                      uint8_t sentOpcode = 0, uint16_t sentType = 0) noexcept {
+  static bool fromSpi(std::span<const uint8_t, 8> in, TMCLReply& r, uint8_t sentOpcode = 0,
+                      uint16_t sentType = 0) noexcept {
     // Store raw bytes for advanced parsing (ALWAYS, even if parsing fails)
     std::copy(in.begin(), in.end(), r.rawBytes.begin());
-    
+
     // Check for SESSION_START status codes (bootloader or parameter mode)
     uint8_t rawStatus = in[0];
     if (rawStatus == 0x13) {
@@ -298,21 +301,21 @@ struct TMCLReply {
       r.opcode = in[2];
       r.value = (static_cast<uint32_t>(in[3]) << 24) | (static_cast<uint32_t>(in[4]) << 16) |
                 (static_cast<uint32_t>(in[5]) << 8) | static_cast<uint32_t>(in[6]);
-      return true;  // Allow SESSION_START even if checksum fails
+      return true; // Allow SESSION_START even if checksum fails
     }
-    
+
     // Check for GetVersion string format (Command 136, Type 0)
     // GetVersion with Type=0 returns a special string format without checksum
     // Format: [Host Address][Version String 8 chars]
     if (sentOpcode == 136 && sentType == 0) {
       // We sent GetVersion Type=0, expect string format reply (no checksum validation)
-      r.spiStatus = SPIStatus::OK;  // Assume OK for version string
-      r.status = 100;  // REPLY_OK for successful version retrieval
-      r.opcode = 136;  // GetVersion command
-      r.value = 0;     // No value field for string format
-      return true;     // Success - skip checksum validation for string format
+      r.spiStatus = SPIStatus::OK; // Assume OK for version string
+      r.status = 100;              // REPLY_OK for successful version retrieval
+      r.opcode = 136;              // GetVersion command
+      r.value = 0;                 // No value field for string format
+      return true;                 // Success - skip checksum validation for string format
     }
-    
+
     // Standard TMCL reply validation
     if (tmclChecksum(in.data(), 7) != in[7])
       return false;
@@ -328,26 +331,26 @@ struct TMCLReply {
 
   /**
    * @brief Decode and validate reply from UART TMCL datagram.
-   * 
+   *
    * Parses a 9-byte UART reply, validates module address and checksum, and handles
    * special reply formats. UART replies include host address and sync bits not present
    * in SPI format.
-   * 
+   *
    * @param in Input buffer containing 9 bytes from UART
    * @param addr Expected 7-bit module address for address validation
    * @param r Output parameter to receive decoded reply
    * @param sentOpcode Optional opcode of command that was sent (for handling special replies)
    * @param sentType Optional type field of command that was sent (for handling special replies)
    * @return true if reply was successfully decoded and validated
-   * 
+   *
    * @note UART format: [HOST_ADDR] [SYNC+ADDR] [STATUS] [OPCODE] [VALUE(32)] [CRC8]
    * @note Validates module address and checksum before returning success
    */
-  static bool fromUart(std::span<const uint8_t, 9> in, uint8_t addr, TMCLReply &r,
+  static bool fromUart(std::span<const uint8_t, 9> in, uint8_t addr, TMCLReply& r,
                        uint8_t sentOpcode = 0, uint16_t sentType = 0) noexcept {
     // Store raw bytes (map 9-byte UART to 8-byte format, skip first byte)
     std::copy(in.begin() + 1, in.end(), r.rawBytes.begin());
-    
+
     // UART Reply Format (per datasheet):
     // byte0: Host Address (8 bits)
     // byte1: Sync bit (bit 0) + Module Address (bits 1-7)
@@ -355,29 +358,29 @@ struct TMCLReply {
     // byte3: Operation
     // byte4-7: Data (big-endian)
     // byte8: Checksum
-    
+
     // Check for GetVersion string format (Command 136, Type 0)
     // GetVersion with Type=0 returns a special string format without valid checksum
     // Format: [Host Address][Sync+Address][Version String 7 chars]
     if (sentOpcode == 136 && sentType == 0) {
       // We sent GetVersion Type=0, expect string format reply (no checksum validation)
-      r.spiStatus = SPIStatus::OK;  // Assume OK for version string
-      r.status = 100;  // REPLY_OK for successful version retrieval
-      r.opcode = 136;  // GetVersion command
-      r.value = 0;     // No value field for string format
-      return true;     // Success - skip checksum validation for string format
+      r.spiStatus = SPIStatus::OK; // Assume OK for version string
+      r.status = 100;              // REPLY_OK for successful version retrieval
+      r.opcode = 136;              // GetVersion command
+      r.value = 0;                 // No value field for string format
+      return true;                 // Success - skip checksum validation for string format
     }
-    
+
     // Verify module address in byte 1 (bits 1-7)
     // "The module address reuses the upper 7 bits of the bootloader device address"
     // Compare the upper 7 bits of byte 1 with the upper 7 bits of the address
     if ((in[1] & 0xFE) != (addr & 0xFE))
       return false;
-    
+
     // Verify checksum over first 8 bytes
     if (tmclChecksum(in.data(), 8) != in[8])
       return false;
-    
+
     r.spiStatus = SPIStatus::OK; // UART has no SPI status field
     r.status = in[2];            // TMCL Status at byte 2
     r.opcode = in[3];            // Operation at byte 3
@@ -404,7 +407,7 @@ struct TMCLFrame {
    */
   void toSpi(std::span<uint8_t, 8> out) const noexcept {
     out[0] = opcode;
-    out[1] = static_cast<uint8_t>(type & 0xFF);  // Type lower 8 bits (bits 0-7)
+    out[1] = static_cast<uint8_t>(type & 0xFF); // Type lower 8 bits (bits 0-7)
     // BYTE2: bits 20-23 (high nibble) = Motor/Bank, bits 16-19 (upper nibble) = Type upper 4 bits
     out[2] = static_cast<uint8_t>(((motor & 0x0F) << 4) | ((type & 0xF00) >> 8));
     out[3] = static_cast<uint8_t>(value >> 24);
@@ -458,7 +461,7 @@ struct TMCLFrame {
    * @param outFrame Reference to store the valid frame.
    * @return false if NOT_READY or CHECKSUM_ERROR or invalid status; true otherwise.
    */
-  static bool fromSpiChecked(std::span<const uint8_t, 8> in, TMCLFrame &outFrame) noexcept {
+  static bool fromSpiChecked(std::span<const uint8_t, 8> in, TMCLFrame& outFrame) noexcept {
     TMCLReply reply{};
     if (!TMCLReply::fromSpi(in, reply))
       return false;
@@ -475,7 +478,7 @@ struct TMCLFrame {
    * @return true if address and checksum match.
    */
   static bool fromUart(std::span<const uint8_t, 9> in, uint8_t expectedAddr,
-                       TMCLFrame &outFrame) noexcept {
+                       TMCLFrame& outFrame) noexcept {
     TMCLReply rep{};
     if (!TMCLReply::fromUart(in, expectedAddr, rep))
       return false;
@@ -490,7 +493,7 @@ struct TMCLFrame {
    * @param n Number of bytes to include in sum.
    * @return 8-bit checksum value.
    */
-  static constexpr uint8_t calculateChecksum(const uint8_t *bytes, size_t n) noexcept {
+  static constexpr uint8_t calculateChecksum(const uint8_t* bytes, size_t n) noexcept {
     uint8_t sum = 0;
     for (size_t i = 0; i < n; ++i)
       sum += bytes[i];
@@ -523,19 +526,19 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  TMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
-                       bool wakeActiveLevel, bool faultnActiveLevel) noexcept
-    : pinActiveLevels_{rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel} {}
+  TMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+                       bool faultnActiveLevel) noexcept
+      : pinActiveLevels_{rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel} {}
 
   virtual ~TMC9660CommInterface() noexcept = default;
 
   /**
    * @brief Get the underlying communication mode used by this interface.
-   * 
+   *
    * Returns whether this interface uses SPI or UART for communication.
    * This information is useful for protocol-specific optimizations or
    * debugging purposes.
-   * 
+   *
    * @return Communication mode (::CommMode::SPI or ::CommMode::UART)
    */
   virtual CommMode mode() const noexcept = 0;
@@ -545,7 +548,7 @@ public:
    *
    * For SPI: Performs two transactions - sends command, receives first reply,
    * then sends second command (or NO_OP if not provided), receives second reply.
-   * 
+   *
    * For UART: Single transaction - sends command, receives reply.
    *
    * @param tx TMCL command frame to transmit
@@ -556,18 +559,17 @@ public:
    * @return true if transfer succeeded
    * @note This is for TMCL parameter mode communication (8-byte SPI, 9-byte UART)
    */
-  virtual bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
-                           TMCLReply *firstReply = nullptr,
-                           const TMCLFrame *secondCommand = nullptr) noexcept = 0;
-
+  virtual bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t address,
+                            TMCLReply* firstReply = nullptr,
+                            const TMCLFrame* secondCommand = nullptr) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state (output control).
-   * 
+   *
    * Used for controlling TMC9660 control pins like RST, DRV_EN, and WAKE.
    * The implementation must handle the specific hardware GPIO configuration and
    * map ACTIVE/INACTIVE to the appropriate physical levels based on board design.
-   * 
+   *
    * @param pin The TMC9660 control pin to control
    * @param signal The desired signal state (ACTIVE or INACTIVE)
    * @return true if the GPIO was set successfully, false otherwise
@@ -576,16 +578,16 @@ public:
 
   /**
    * @brief Read GPIO pin signal state (input state).
-   * 
+   *
    * Used for reading TMC9660 status pins like FAULTN.
    * The implementation must handle the specific hardware GPIO configuration and
    * map physical levels to ACTIVE/INACTIVE based on board design.
-   * 
+   *
    * @param pin The TMC9660 control pin to read
    * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully, false otherwise
    */
-  virtual bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept = 0;
+  virtual bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept = 0;
 
   /**
    * @brief Convert signal state to physical GPIO level
@@ -611,7 +613,7 @@ public:
 
   /**
    * @brief Set GPIO pin to active state (convenience method).
-   * 
+   *
    * @param pin The TMC9660 control pin to set active
    * @return true if the GPIO was set successfully, false otherwise
    */
@@ -621,7 +623,7 @@ public:
 
   /**
    * @brief Set GPIO pin to inactive state (convenience method).
-   * 
+   *
    * @param pin The TMC9660 control pin to set inactive
    * @return true if the GPIO was set successfully, false otherwise
    */
@@ -631,11 +633,11 @@ public:
 
   /**
    * @brief Configure the active level for a specific pin.
-   * 
+   *
    * This method allows the user to configure which physical GPIO level (HIGH or LOW)
    * corresponds to the ACTIVE state for each pin. This accommodates different board
    * implementations (direct connection, inverters, etc.).
-   * 
+   *
    * @param pin The TMC9660 control pin to configure
    * @param activeLevel The physical GPIO level that represents ACTIVE state
    * @return true if the configuration was successful, false otherwise
@@ -647,10 +649,10 @@ public:
 
   /**
    * @brief Set maximum number of retries for SPI_STATUS_NOT_READY responses.
-   * 
+   *
    * When a command receives SPI_STATUS_NOT_READY (0xF0), the system will
    * automatically retry the command up to the specified number of times.
-   * 
+   *
    * @param maxRetries Maximum number of retry attempts (0 = no retries, only original attempt)
    * @note Setting to 0 disables retry logic entirely
    */
@@ -668,10 +670,10 @@ public:
 
   /**
    * @brief Set delay interval between retry attempts for SPI_STATUS_NOT_READY.
-   * 
+   *
    * When retrying a command due to SPI_STATUS_NOT_READY, wait this many
    * microseconds before retrying.
-   * 
+   *
    * @param intervalUs Delay in microseconds between retry attempts
    * @note Typical values: 10-1000 microseconds for SPI communication
    */
@@ -690,13 +692,13 @@ public:
 protected:
   /**
    * @brief Pin active level configuration storage.
-   * 
+   *
    * Stores the physical GPIO level (HIGH or LOW) that corresponds to the
    * ACTIVE state for each TMC9660 control pin. This configuration enables
    * board-agnostic pin control by abstracting physical voltage levels.
-   * 
+   *
    * Array indices: [RST, DRV_EN, WAKE, FAULTN]
-   * 
+   *
    * @see ::setPinActiveLevel() for configuration
    * @see ::signalToGpioLevel() for usage
    */
@@ -704,7 +706,7 @@ protected:
 
   /**
    * @brief Maximum number of retries for SPI_STATUS_NOT_READY responses.
-   * 
+   *
    * When a command receives SPI_STATUS_NOT_READY (0xF0), the system will
    * automatically retry the command up to this many times.
    * Default: 3 retries
@@ -713,7 +715,7 @@ protected:
 
   /**
    * @brief Delay interval in microseconds between retry attempts.
-   * 
+   *
    * When retrying a command due to SPI_STATUS_NOT_READY, wait this many
    * microseconds before retrying.
    * Default: 100us (0.1ms) - fine-grained for fast SPI communication
@@ -722,18 +724,18 @@ protected:
 
   /**
    * @brief Debug logging function for detailed debugging information.
-   * 
+   *
    * This function allows the TMC9660 driver to output debug information
    * through the communication interface, which can be routed to platform-specific
    * logging systems (e.g., ESP-IDF logging for ESP32).
-   * 
+   *
    * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
    * @param tag Log tag for categorization
    * @param format printf-style format string
    * @param args Variable arguments list
    */
   virtual void debugLog(int level, const char* tag, const char* format, va_list args) noexcept = 0;
-  
+
 public:
   /**
    * @brief Delay execution for specified milliseconds
@@ -753,21 +755,22 @@ public:
    */
   virtual void delayUs(uint32_t us) noexcept {
     // Default implementation: convert to milliseconds (rounds up to avoid zero delay)
-    if (us == 0) return;
-    uint32_t ms = (us + 999) / 1000;  // Round up to nearest millisecond
+    if (us == 0)
+      return;
+    uint32_t ms = (us + 999) / 1000; // Round up to nearest millisecond
     delayMs(ms);
   }
   /**
    * @brief Public debug logging wrapper for external classes.
-   * 
+   *
    * This function allows external classes like TMC9660Bootloader to output debug information
    * through the communication interface. Automatically ensures newlines are present.
-   * 
+   *
    * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
    * @param tag Log tag for categorization
    * @param format printf-style format string
    * @param ... Variable arguments for format string
-   * 
+   *
    * @note When TMC9660_DISABLE_DEBUG_LOGGING is defined, this function becomes a no-op
    *       and all logging code is optimized out at compile time.
    */
@@ -775,12 +778,12 @@ public:
   void logDebug(int level, const char* tag, const char* format, ...) noexcept {
     va_list args;
     va_start(args, format);
-    
+
     // Check if format string already ends with newline
     size_t format_len = strlen(format);
     const char* final_format = format;
     char* modified_format = nullptr;
-    
+
     if (format_len == 0 || format[format_len - 1] != '\n') {
       // Allocate buffer for format + "\n"
       modified_format = new char[format_len + 2];
@@ -788,13 +791,13 @@ public:
       strcat(modified_format, "\n");
       final_format = modified_format;
     }
-    
+
     debugLog(level, tag, final_format, args);
-    
+
     if (modified_format) {
       delete[] modified_format;
     }
-    
+
     va_end(args);
   }
 #else
@@ -821,9 +824,10 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  SPITMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
-                          bool wakeActiveLevel, bool faultnActiveLevel) noexcept
-    : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {}
+  SPITMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+                          bool faultnActiveLevel) noexcept
+      : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
+  }
 
   CommMode mode() const noexcept override {
     return CommMode::SPI;
@@ -835,21 +839,22 @@ public:
    * @return true if the SPI transfer completed successfully.
    * @note This is for TMCL parameter mode (8-byte frames)
    */
-  virtual bool spiTransferTMCL(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
+  virtual bool spiTransferTMCL(std::array<uint8_t, 8>& tx, std::array<uint8_t, 8>& rx) noexcept = 0;
 
   /**
    * @brief Low-level SPI transfer for bootloader communication.
-   * 
+   *
    * The bootloader uses a 40-bit (5-byte) protocol:
    * - TX: [COMMAND(8)] [VALUE(32)]
    * - RX: [STATUS(8)] [VALUE(32)]
-   * 
+   *
    * @param tx Buffer containing 5 bytes to transmit (bootloader format).
    * @param rx Buffer to receive 5 bytes from device (bootloader format).
    * @return true if the SPI transfer completed successfully.
    * @note This is for bootloader mode (5-byte frames)
    */
-  virtual bool spiTransferBootloader(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept = 0;
+  virtual bool spiTransferBootloader(std::array<uint8_t, 5>& tx,
+                                     std::array<uint8_t, 5>& rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for SPI interface.
@@ -865,71 +870,76 @@ public:
    * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully
    */
-  bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
+  bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept override = 0;
 
-
-  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t,
-                   TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
+  bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t, TMCLReply* firstReply,
+                    const TMCLFrame* secondCommand) noexcept override {
     std::array<uint8_t, 8> txBuf, rxBuf;
     tx.toSpi(txBuf);
-    
+
     // Log raw SPI bytes being transmitted
     TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
-             txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
-    
+                      txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4], txBuf[5], txBuf[6],
+                      txBuf[7]);
+
     // Transaction 1: Send command, receive first reply
     if (!spiTransferTMCL(txBuf, rxBuf))
       return false;
-    
+
     TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-             rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-             rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
-    
+                      rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], rxBuf[4], rxBuf[5], rxBuf[6],
+                      rxBuf[7]);
+
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (firstReply) {
       bool firstParseOk = TMCLReply::fromSpi(rxBuf, *firstReply);
-      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
-               static_cast<uint8_t>(firstReply->spiStatus), firstReply->status, firstReply->value,
-               firstParseOk ? "OK" : "failed");
+      TMC9660_LOG_DEBUG(
+          *this, 2, "SPI_TMCL",
+          "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
+          static_cast<uint8_t>(firstReply->spiStatus), firstReply->status, firstReply->value,
+          firstParseOk ? "OK" : "failed");
       // Note: We don't return false here because SESSION_START may have non-standard format
       // The caller can check rawBytes[0] for SESSION_START status codes
     }
-    
+
     // Transaction 2: Send second command (or NO_OP), receive final reply
     // This transaction is wrapped in retry logic for SPI_STATUS_NOT_READY
     TMCLFrame cmd2 = secondCommand ? *secondCommand : TMCLFrame{}; // NO_OP if not provided
     cmd2.toSpi(txBuf);
-    
+
     // Retry loop for SPI_STATUS_NOT_READY responses
     uint8_t retryCount = 0;
     while (true) {
-      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X%s",
-               txBuf[0], txBuf[1], txBuf[2], txBuf[3], 
-               txBuf[4], txBuf[5], txBuf[6], txBuf[7],
-               retryCount > 0 ? " (retry)" : "");
-      
+      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL",
+                        "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X%s", txBuf[0],
+                        txBuf[1], txBuf[2], txBuf[3], txBuf[4], txBuf[5], txBuf[6], txBuf[7],
+                        retryCount > 0 ? " (retry)" : "");
+
       if (!spiTransferTMCL(txBuf, rxBuf))
         return false;
-      
-      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
-               rxBuf[0], rxBuf[1], rxBuf[2], rxBuf[3], 
-               rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
-      
+
+      TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL",
+                        "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X", rxBuf[0], rxBuf[1],
+                        rxBuf[2], rxBuf[3], rxBuf[4], rxBuf[5], rxBuf[6], rxBuf[7]);
+
       // Check SPI status byte (first byte) for NOT_READY
       SPIStatus spiStatus = static_cast<SPIStatus>(rxBuf[0]);
-      
+
       if (spiStatus == SPIStatus::NOT_READY) {
         // System not ready - retry if we haven't exceeded max retries
         if (retryCount < spiRetryMaxCount_) {
           retryCount++;
-          TMC9660_LOG_DEBUG(*this, 2, "SPI_TMCL", "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us",
-                   retryCount, spiRetryMaxCount_ + 1, spiRetryIntervalUs_);
+          TMC9660_LOG_DEBUG(
+              *this, 2, "SPI_TMCL",
+              "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us", retryCount,
+              spiRetryMaxCount_ + 1, spiRetryIntervalUs_);
           delayUs(spiRetryIntervalUs_);
           continue; // Retry the transaction
         } else {
           // Max retries exceeded - parse reply manually since fromSpi returns false for NOT_READY
-          TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL", "❌ SPI_STATUS_NOT_READY: Max retries (%u) exceeded", spiRetryMaxCount_);
+          TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL",
+                            "❌ SPI_STATUS_NOT_READY: Max retries (%u) exceeded",
+                            spiRetryMaxCount_);
           // Validate checksum before parsing
           if (tmclChecksum(rxBuf.data(), 7) != rxBuf[7]) {
             TMC9660_LOG_DEBUG(*this, 1, "SPI_TMCL", "⚠️  Checksum error in NOT_READY response");
@@ -938,20 +948,19 @@ public:
           // Manually populate reply structure for NOT_READY response
           std::copy(rxBuf.begin(), rxBuf.end(), reply.rawBytes.begin());
           reply.spiStatus = SPIStatus::NOT_READY;
-          reply.status = rxBuf[1];  // TMCL status
-          reply.opcode = rxBuf[2];  // Operation code
+          reply.status = rxBuf[1]; // TMCL status
+          reply.opcode = rxBuf[2]; // Operation code
           reply.value = (static_cast<uint32_t>(rxBuf[3]) << 24) |
-                       (static_cast<uint32_t>(rxBuf[4]) << 16) |
-                       (static_cast<uint32_t>(rxBuf[5]) << 8) |
-                       static_cast<uint32_t>(rxBuf[6]);
+                        (static_cast<uint32_t>(rxBuf[4]) << 16) |
+                        (static_cast<uint32_t>(rxBuf[5]) << 8) | static_cast<uint32_t>(rxBuf[6]);
           return false; // Return false to indicate failure
         }
       }
-      
+
       // Not NOT_READY - parse and return normally
       break;
     }
-    
+
     // Parse reply with command context (for handling special reply formats like GetVersion string)
     bool parseOk = TMCLReply::fromSpi(rxBuf, reply, tx.opcode, tx.type);
     if (!parseOk && static_cast<SPIStatus>(rxBuf[0]) == SPIStatus::NOT_READY) {
@@ -960,7 +969,6 @@ public:
     }
     return parseOk;
   }
-
 };
 
 /**
@@ -979,9 +987,10 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  UARTTMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, 
-                          bool wakeActiveLevel, bool faultnActiveLevel) noexcept
-    : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {}
+  UARTTMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+                           bool faultnActiveLevel) noexcept
+      : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
+  }
 
   CommMode mode() const noexcept override {
     return CommMode::UART;
@@ -992,7 +1001,7 @@ public:
    * @return true if transmission succeeded.
    * @note This is for TMCL parameter mode (9-byte frames)
    */
-  virtual bool uartSendTMCL(const std::array<uint8_t, 9> &data) noexcept = 0;
+  virtual bool uartSendTMCL(const std::array<uint8_t, 9>& data) noexcept = 0;
 
   /**
    * @brief Receive raw 9-byte UART TMCL datagram for parameter mode communication.
@@ -1000,21 +1009,22 @@ public:
    * @return true if reception succeeded.
    * @note This is for TMCL parameter mode (9-byte frames)
    */
-  virtual bool uartReceiveTMCL(std::array<uint8_t, 9> &data) noexcept = 0;
+  virtual bool uartReceiveTMCL(std::array<uint8_t, 9>& data) noexcept = 0;
 
   /**
    * @brief Transfer 8-byte UART bootloader datagram (send and receive).
-   * 
+   *
    * The bootloader uses a different 8-byte protocol:
    * - TX: [SYNC(0x55)] [DEVICE_ADDR] [COMMAND] [VALUE(32)] [CRC8]
    * - RX: [SYNC(0x55)] [HOST_ADDR] [STATUS] [VALUE(32)] [CRC8]
-   * 
+   *
    * @param tx Buffer containing 8 bytes to transmit (bootloader format).
    * @param rx Buffer to receive 8 bytes from device (bootloader format).
    * @return true if transfer succeeded.
    * @note This is for bootloader mode (8-byte frames)
    */
-  virtual bool uartTransferBootloader(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept = 0;
+  virtual bool uartTransferBootloader(const std::array<uint8_t, 8>& tx,
+                                      std::array<uint8_t, 8>& rx) noexcept = 0;
 
   /**
    * @brief Set GPIO pin signal state for UART interface.
@@ -1030,15 +1040,14 @@ public:
    * @param signal Reference to store the current signal state
    * @return true if the GPIO was read successfully
    */
-  bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override = 0;
+  bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept override = 0;
 
-
-  bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
-                   TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
+  bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t address, TMCLReply* firstReply,
+                    const TMCLFrame* secondCommand) noexcept override {
     // UART doesn't use the two-transaction pattern, so firstReply and secondCommand are ignored
-    (void)firstReply;      // Suppress unused parameter warning
-    (void)secondCommand;   // Suppress unused parameter warning
-    
+    (void)firstReply;    // Suppress unused parameter warning
+    (void)secondCommand; // Suppress unused parameter warning
+
     std::array<uint8_t, 9> frame;
     tx.toUart(address, frame);
     if (!uartSendTMCL(frame))

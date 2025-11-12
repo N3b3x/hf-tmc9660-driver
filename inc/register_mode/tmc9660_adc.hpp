@@ -1,17 +1,17 @@
 /**
  * @file tmc9660_adc.hpp
  * @brief TMC9660 ADC and analog measurement registers (Register Mode).
- * 
+ *
  * Contains definitions for ADC readings (phase currents, voltages, temperature) and ADC/CSA
  * configuration registers. This module provides comprehensive analog measurement capabilities
  * for motor control feedback and system monitoring.
- * 
+ *
  * @defgroup TMC9660_ADC ADC and Analog Measurement
  * @brief ADC configuration and analog measurement registers
- * 
+ *
  * @defgroup TMC9660_CSA Current Sense Amplifiers
  * @brief Current sense amplifier configuration and control
- * 
+ *
  * @defgroup TMC9660_ADCStatus ADC Status and Monitoring
  * @brief ADC status flags and system health monitoring
  */
@@ -32,7 +32,7 @@ namespace register_mode {
 /**
  * @brief ADC and analog measurement namespace for TMC9660.
  * @ingroup TMC9660_ADC
- * 
+ *
  * This namespace contains all ADC-related register definitions, configuration
  * structures, and measurement capabilities for the TMC9660 motor driver.
  * It provides comprehensive analog measurement support for motor control
@@ -42,12 +42,12 @@ namespace ADC {
 
 /**
  * @brief ADC Sources Configuration Register for input routing and multiplexer control.
- * 
+ *
  * This register configures how internal measurement points are routed to the four
  * ADC multiplexers (ADC0-ADC3). Each ADC can sample up to 4 different inputs in
  * a configurable sequence, with options to skip measurements or repeat specific
  * inputs for improved accuracy.
- * 
+ *
  * The register controls measurement timing, input selection, and special modes
  * like detour operations that allow repeating critical measurements for noise
  * reduction or calibration purposes.
@@ -131,11 +131,11 @@ struct SRC_CONFIG {
 
 /**
  * @brief ADC Setup Register for timing and operational configuration.
- * 
+ *
  * Configures fundamental ADC timing parameters including sample time adjustments
  * and operational modes. The sample time shift allows fine-tuning of measurement
  * timing to optimize for different signal characteristics and noise environments.
- * 
+ *
  * Proper timing configuration is critical for accurate measurements, especially
  * when dealing with high-frequency switching noise from PWM operations or
  * when measuring rapidly changing signals like motor currents.
@@ -186,12 +186,12 @@ struct SETUP {
 
 /**
  * @brief ADC Status Flags Register for monitoring ADC health and readiness.
- * 
+ *
  * Provides real-time status information about each ADC channel including
  * readiness flags, watchdog failures, and sequence configuration errors.
  * These flags are essential for monitoring ADC calibration status and
  * detecting measurement failures that could affect motor control accuracy.
- * 
+ *
  * Watchdog failures indicate ADC measurement timeouts, while sequence
  * configuration errors suggest improper multiplexer setup that could
  * lead to incorrect measurements or system instability.
@@ -244,12 +244,12 @@ struct STATUS_FLAGS {
 
 /**
  * @brief Current Sense Amplifier (CSA) Setup Register for current measurement configuration.
- * 
+ *
  * Configures the on-chip current sense amplifiers that provide high-precision
  * current measurements for motor control. Each CSA can be independently configured
  * with different gain settings, bandwidth filters, and bypass modes to optimize
  * performance for specific measurement requirements.
- * 
+ *
  * The CSA configuration directly affects current measurement accuracy and
  * bandwidth, which are critical parameters for motor control performance.
  * Proper gain selection ensures optimal signal-to-noise ratio while
