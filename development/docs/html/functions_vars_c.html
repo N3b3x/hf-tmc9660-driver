@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -95,43 +97,43 @@ $(function(){initNavTree('functions_vars_c.html',''); initResizable(); });
 <div class="textblock">Here is a list of all variables with links to the classes they belong to:</div>
 
 <h3><a id="index_c" name="index_c"></a>- c -</h3><ul>
-<li>calibrationTimeoutMs&#160;:&#160;<a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#af7b629685e14a7c7386177be1dd08297">TMC9660::CurrentSensing::AutoConfig</a></li>
-<li>CHGP_OK&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS.html#ae89ea0f0b132a6a3012fb962c7f5d297">TMC9660::SYS_CTRL::FAULT_STATUS</a></li>
-<li>CHGP_OK_ENA_F&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#a84b796575ca6dc4ee3254af12cccb3f5">TMC9660::SYS_CTRL::FAULT_INT_ENABLE</a></li>
-<li>CHGP_OK_LTC&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#aaa92a8c2762544c66c1e4be83707b861">TMC9660::SYS_CTRL::FAULT_STATUS_LATCHED</a></li>
-<li>CHGP_SHORT&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS.html#a58a65a7cf7d52b84880867653c87e451">TMC9660::SYS_CTRL::FAULT_STATUS</a></li>
-<li>CHGP_SHORT_ENA_F&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#a85e0adb8ab32caf22f20076807f048f4">TMC9660::SYS_CTRL::FAULT_INT_ENABLE</a></li>
-<li>CHGP_SHORT_LTC&#160;:&#160;<a class="el" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a1c4d9c937362ea577edd9465b748936b">TMC9660::SYS_CTRL::FAULT_STATUS_LATCHED</a></li>
-<li>chopperHysteresis_V&#160;:&#160;<a class="el" href="structTMC9660_1_1Brake_1_1BrakeConfig.html#a9c8ca6a7be6371502981cc189bb6fb76">TMC9660::Brake::BrakeConfig</a></li>
-<li>chopperVoltageThreshold_V&#160;:&#160;<a class="el" href="structTMC9660_1_1Brake_1_1BrakeConfig.html#af1704b82073457d796f72c1b5daf72ee">TMC9660::Brake::BrakeConfig</a></li>
-<li>clearOnNextNull&#160;:&#160;<a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html#a18a8d00559c9744032631bc262edb1c8">TMC9660::FeedbackSense::AbnConfig</a></li>
+<li>calibrationTimeoutMs&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#ac1340d517d69171e78041e5bbf7940ff">tmc9660::TMC9660::CurrentSensing::AutoConfig</a></li>
+<li>CHGP_OK&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html#a109a780112580f2540a78b1056abdda4">tmc9660::register_mode::SYS_CTRL::FAULT_STATUS</a></li>
+<li>CHGP_OK_ENA_F&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#a58e15548d1a6d9fded66ad62057077b8">tmc9660::register_mode::SYS_CTRL::FAULT_INT_ENABLE</a></li>
+<li>CHGP_OK_LTC&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a36b5d90b87c27f3477ac68bf65b7057e">tmc9660::register_mode::SYS_CTRL::FAULT_STATUS_LATCHED</a></li>
+<li>CHGP_SHORT&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html#ae4dafeae07c2bb078ed310037fb060a3">tmc9660::register_mode::SYS_CTRL::FAULT_STATUS</a></li>
+<li>CHGP_SHORT_ENA_F&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#a28031ece093dc650cbc379dac9fad097">tmc9660::register_mode::SYS_CTRL::FAULT_INT_ENABLE</a></li>
+<li>CHGP_SHORT_LTC&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#aa304061fefd8f67d45daaaa9bcff16c8">tmc9660::register_mode::SYS_CTRL::FAULT_STATUS_LATCHED</a></li>
+<li>chopperHysteresis_V&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html#a338bd423fe48fb6e94e74301fd57c460">tmc9660::TMC9660::Brake::BrakeConfig</a></li>
+<li>chopperVoltageThreshold_V&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html#af77c23219765e9bd75ddef9869f39430">tmc9660::TMC9660::Brake::BrakeConfig</a></li>
+<li>clearOnNextNull&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a6650ff9a887eb01d493a218de291b3d4">tmc9660::TMC9660::FeedbackSense::AbnConfig</a></li>
 <li>clock&#160;:&#160;<a class="el" href="structtmc9660_1_1BootloaderConfig.html#a01a3906a1042c581c0c7a9f228005822">tmc9660::BootloaderConfig</a></li>
 <li>clock_speed_hz&#160;:&#160;<a class="el" href="structEsp32TMC9660BusConfig.html#a5d845b7945d724014af256c9d6fea4c2">Esp32TMC9660BusConfig</a></li>
 <li>clock_speed_hz_&#160;:&#160;<a class="el" href="classEsp32SPITMC9660CommInterface.html#aadede6d4702a8c85b2195ca43d918fb3">Esp32SPITMC9660CommInterface</a></li>
-<li>cmdSize&#160;:&#160;<a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a44f03dac47270e1b177bdaf4a9a70eec">TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
-<li>comm_&#160;:&#160;<a class="el" href="classTMC9660.html#a69cf0112aff299950fd76f8a6792e863">TMC9660</a>, <a class="el" href="classtmc9660_1_1TMC9660Bootloader.html#a28e60d44aa027886e8866abf68c9164c">tmc9660::TMC9660Bootloader</a></li>
+<li>cmdSize&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a1fed942c18bfd8319e9092fb10a67555">tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
+<li>comm_&#160;:&#160;<a class="el" href="classtmc9660_1_1TMC9660.html#ac3cf12d9947e8556fefb33fd29fcbf98">tmc9660::TMC9660</a>, <a class="el" href="classtmc9660_1_1TMC9660Bootloader.html#a28e60d44aa027886e8866abf68c9164c">tmc9660::TMC9660Bootloader</a></li>
 <li>command&#160;:&#160;<a class="el" href="structtmc9660_1_1BootloaderCommandSPI.html#a2a5cdf0d558dcdf1fa335c1686915fb8">tmc9660::BootloaderCommandSPI</a>, <a class="el" href="structtmc9660_1_1BootloaderCommandUART.html#a46a2b5e5fe591105fe0307f1308d90c8">tmc9660::BootloaderCommandUART</a></li>
 <li>commit_hash&#160;:&#160;<a class="el" href="structtmc9660_1_1GitInfo.html#a22ccc75894a1eca74945388ccc0e36d3">tmc9660::GitInfo</a></li>
-<li>commutationMode&#160;:&#160;<a class="el" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html#ab917aaec786ea9676eeb97a55909465c">TMC9660::MotorConfig::MotorProfile</a></li>
+<li>commutationMode&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html#a2de593f2434545f9d9867955d29db423">tmc9660::TMC9660::MotorConfig::MotorProfile</a></li>
 <li>completion_semaphore&#160;:&#160;<a class="el" href="structTestTaskContext.html#ab82bee11b198be2f2b4d6c908573ddb6">TestTaskContext</a></li>
-<li>countsPerRev&#160;:&#160;<a class="el" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html#a82385710f6ffcaa21440006f2813f1c2">TMC9660::FeedbackSense::Abn2Config</a>, <a class="el" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html#a98cf8218a0d7a9b0efa9d52ce0e4a47f">TMC9660::FeedbackSense::AbnConfig</a></li>
+<li>countsPerRev&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#a8925bb5a1d18455ae39866d716faf2b9">tmc9660::TMC9660::FeedbackSense::Abn2Config</a>, <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a667b6c79613881d2393f80406bbca5a8">tmc9660::TMC9660::FeedbackSense::AbnConfig</a></li>
 <li>cs_pin&#160;:&#160;<a class="el" href="structEsp32TMC9660BusConfig.html#adcc4d24c3ac1b95134f4edd197c3f864">Esp32TMC9660BusConfig</a>, <a class="el" href="structtmc9660_1_1SPIEncConfig.html#a602213e068339451e16929a920ec7802">tmc9660::SPIEncConfig</a>, <a class="el" href="structtmc9660_1_1SPIFlashConfig.html#a0dbbab636198e2465b5cdeab954ecdaf">tmc9660::SPIFlashConfig</a></li>
 <li>cs_pin_&#160;:&#160;<a class="el" href="classEsp32SPITMC9660CommInterface.html#ab823ecf8bddee7e5754b408624e6b26a">Esp32SPITMC9660CommInterface</a></li>
 <li>cs_polarity&#160;:&#160;<a class="el" href="structtmc9660_1_1SPIEncConfig.html#ac264a03e9e274d694825a1819e750941">tmc9660::SPIEncConfig</a></li>
-<li>CSA012_BYPASS&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#ab45b4d582cd089b23781486c26177354">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA012_FILT&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a2e135d9b191967ab3e51ebd69c0cc3f5">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA012_GAIN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#ab3337d9d0d3ec8b0b025359aac68d07f">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA0_EN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a89a702572ed94a55ae65bd6de9e1222c">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA1_EN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a31de23ba7d2a9a5603661806b2870925">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA2_EN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#ad6ae8c791ce5f1788f4ff1d20d7bff74">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA3_BYPASS&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a0a99829f25d9ca29177e5df1aa5d9fab">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA3_EN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#acc9c84eb652860967d7ace4b05e4f714">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA3_FILT&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a054c90bdba2eb7dd0d44c921b08395a1">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA3_GAIN&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a631abf93051e9419cdf288076f9575de">TMC9660::ADC::CSA_SETUP</a></li>
-<li>CSA_AZ_FLTLNGTH_EXP&#160;:&#160;<a class="el" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html#a0431c8d86770ce32258d089a5c56303d">TMC9660::ADC::CSA_SETUP</a></li>
-<li>csaFilter&#160;:&#160;<a class="el" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html#aa955b6ab7677f3400d09c3daf5277ef6">TMC9660::CurrentSensing::AutoConfig</a></li>
-<li>csIdleTimeUs&#160;:&#160;<a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a97b54a318a89989a7c1a6efacf42a979">TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
-<li>csSettleTimeNs&#160;:&#160;<a class="el" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a66373629576f4ba4ef9a7dbe8d9644a5">TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
+<li>CSA012_BYPASS&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#aae19a349a277363f76d78dc226ed319e">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA012_FILT&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a9a32e5879855678d5ee6a747b6956128">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA012_GAIN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#afc8981211351e3a1aa68cc5e694fd782">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA0_EN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a644b7c5db8f1d2ec41b5664f7b8accdb">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA1_EN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#aa04567bfd4d2ac787baa9b79aa4f3331">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA2_EN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#ad550cdea1f504fc925ca233bd51f8020">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA3_BYPASS&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#aafb5e4f05b713248fb23a7cfc8868abf">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA3_EN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#ae8fb7f85fd449db61e9736d6fbb116c9">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA3_FILT&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#adf7dd19101bbcd681068208fe31e57be">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA3_GAIN&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a4eb42a0f371a914280f5312c2c4b2062">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>CSA_AZ_FLTLNGTH_EXP&#160;:&#160;<a class="el" href="structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a489e6df01c4aae1525a9da0909ece7ea">tmc9660::register_mode::ADC::CSA_SETUP</a></li>
+<li>csaFilter&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#aee0401af543cdb5131eb3f8cb48b849b">tmc9660::TMC9660::CurrentSensing::AutoConfig</a></li>
+<li>csIdleTimeUs&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a422ec8e5c66a36444dd8954607710cc8">tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
+<li>csSettleTimeNs&#160;:&#160;<a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a46903dc83fdd7f48c2e40a400125c4ba">tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

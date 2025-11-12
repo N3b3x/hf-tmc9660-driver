@@ -15,6 +15,8 @@
 
 #include "../../../inc/TMC9660CommInterface.hpp"
 #include "esp_log.h"
+
+using namespace tmc9660;
 #include "driver/spi_master.h"
 #include "driver/uart.h"
 #include "driver/gpio.h"

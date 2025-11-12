@@ -74,326 +74,18 @@
 <!-- End Jekyll SEO tag -->
 
 
-  <!-- Custom head content for hf-tmc9660-driver documentation -->
+  <!-- =============================================================================
+     Custom Head Content for HardFOC Driver Documentation
+     =============================================================================
+     This file is included in the <head> section of every page.
+     It loads custom CSS and JavaScript for enhanced functionality.
+     ============================================================================= -->
+
+<!-- Custom CSS for enhanced styling and fixes -->
 <link rel="stylesheet" href="/hf-tmc9660-driver/development/assets/css/custom.css">
+
+<!-- Custom JavaScript for interactive features -->
 <script src="/hf-tmc9660-driver/development/assets/js/custom.js" defer></script>
-
-<!-- Version selector for multi-version documentation -->
-<!-- Version Selector Component for Multi-Version Documentation -->
-<div class="version-selector">
-  <div class="version-dropdown">
-    <label for="version-select" class="version-label">
-      <span class="version-icon">📚</span>
-      Version:
-    </label>
-    <select id="version-select" class="version-select" onchange="switchVersion(this.value)">
-      <option value="latest" data-url="/hf-tmc9660-driver/">Development (main)</option>
-      <option value="v1.0.0" data-url="/hf-tmc9660-driver/v1.0.0/">v1.0.0 (Latest Stable)</option>
-    </select>
-  </div>
-  
-  <div class="version-info">
-    <span class="current-version" id="current-version">Latest (main)</span>
-    <span class="version-badge" id="version-badge">dev</span>
-  </div>
-</div>
-
-<script>
-// Version switching logic
-function switchVersion(version) {
-  const select = document.getElementById('version-select');
-  const selectedOption = select.options[select.selectedIndex];
-  const targetUrl = selectedOption.getAttribute('data-url');
-  
-  if (targetUrl) {
-    // Update current page URL to new version
-    const currentPath = window.location.pathname;
-    const baseUrl = window.location.origin;
-    
-    // Extract the path after the version prefix
-    let newPath = currentPath;
-    if (currentPath.includes('/hf-tmc9660-driver/')) {
-      const pathParts = currentPath.split('/hf-tmc9660-driver/');
-      if (pathParts.length > 1) {
-        newPath = pathParts[1];
-      }
-    }
-    
-    // Construct new URL
-    const newUrl = baseUrl + targetUrl + newPath;
-    window.location.href = newUrl;
-  }
-}
-
-// Set current version based on URL
-document.addEventListener('DOMContentLoaded', function() {
-  const currentPath = window.location.pathname;
-  const versionSelect = document.getElementById('version-select');
-  const currentVersionSpan = document.getElementById('current-version');
-  const versionBadge = document.getElementById('version-badge');
-  
-  // Determine current version from URL
-  let currentVersion = 'latest';
-  let versionType = 'dev';
-  
-  if (currentPath.includes('/stable/')) {
-    currentVersion = 'stable';
-    versionType = 'stable';
-  } else if (currentPath.includes('/v1.0.0/')) {
-    currentVersion = 'v1.0.0';
-    versionType = 'release';
-  }
-  
-  // Update UI
-  versionSelect.value = currentVersion;
-  currentVersionSpan.textContent = currentVersion === 'latest' ? 'Latest (main)' : 
-                                  currentVersion === 'stable' ? 'Stable (latest release)' : 
-                                  currentVersion;
-  
-  // Update badge
-  versionBadge.textContent = versionType;
-  versionBadge.className = 'version-badge ' + versionType;
-});
-</script>
-
-<style>
-.version-selector {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
-  background: var(--nav-child-link-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  margin: 1rem 0;
-  font-size: 0.9rem;
-}
-
-.version-dropdown {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.version-label {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-weight: 500;
-  color: var(--body-text-color);
-}
-
-.version-icon {
-  font-size: 1rem;
-}
-
-.version-select {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background: var(--body-bg);
-  color: var(--body-text-color);
-  font-size: 0.9rem;
-  min-width: 150px;
-}
-
-.version-select:focus {
-  outline: 2px solid var(--link-color);
-  outline-offset: 2px;
-}
-
-.version-info {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.current-version {
-  font-weight: 500;
-  color: var(--body-text-color);
-}
-
-.version-badge {
-  padding: 0.125rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-.version-badge.dev {
-  background: #e3f2fd;
-  color: #1976d2;
-  border: 1px solid #bbdefb;
-}
-
-.version-badge.stable {
-  background: #e8f5e8;
-  color: #2e7d32;
-  border: 1px solid #c8e6c9;
-}
-
-.version-badge.release {
-  background: #fff3e0;
-  color: #f57c00;
-  border: 1px solid #ffcc02;
-}
-
-@media (max-width: 768px) {
-  .version-selector {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-  
-  .version-info {
-    margin-left: 0;
-    justify-content: center;
-  }
-}
-</style>
-
-
-
-<!-- Version information display -->
-<!-- Version Information Display Component -->
-<div class="version-info-display">
-  <div class="version-details">
-    <span class="version-label">Version:</span>
-    <span class="version-value">1.0.0-dev</span>
-    <span class="version-badge version-development">development</span>
-  </div>
-  
-  <div class="version-meta">
-    <span class="branch-info">
-      <span class="branch-icon">🌿</span>
-      <span class="branch-name">main</span>
-    </span>
-    
-    <span class="build-info">
-      <span class="build-icon">🔨</span>
-      <span class="build-date">2025-11-11</span>
-    </span>
-  </div>
-</div>
-
-<style>
-.version-info-display {
-  background: var(--nav-child-link-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 1rem 0;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.version-details {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.version-label {
-  font-weight: 500;
-  color: var(--body-text-color);
-}
-
-.version-value {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-weight: 600;
-  color: var(--link-color);
-  background: var(--code-bg);
-  padding: 0.125rem 0.5rem;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
-}
-
-.version-badge {
-  padding: 0.125rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.version-badge.development {
-  background: #e3f2fd;
-  color: #1976d2;
-  border: 1px solid #bbdefb;
-}
-
-.version-badge.stable {
-  background: #e8f5e8;
-  color: #2e7d32;
-  border: 1px solid #c8e6c9;
-}
-
-.version-badge.release {
-  background: #fff3e0;
-  color: #f57c00;
-  border: 1px solid #ffcc02;
-}
-
-.version-meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.branch-info,
-.build-info {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  color: var(--body-text-color);
-  font-size: 0.85rem;
-}
-
-.branch-icon,
-.build-icon {
-  font-size: 0.9rem;
-}
-
-.branch-name {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-weight: 500;
-}
-
-.build-date {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .version-info-display {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-  
-  .version-details,
-  .version-meta {
-    justify-content: center;
-  }
-  
-  .version-meta {
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--border-color);
-  }
-}
-</style>
-
-
 
 
 
@@ -484,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
       </button><a href="/hf-tmc9660-driver/development/" class="nav-list-link">🔧 HardFOC TMC9660 Driver</a><ul class="nav-list"><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in 📚 Documentation category" aria-pressed="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/SetupGuide/" class="nav-list-link">📋 Setup Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderInitializationGuide/" class="nav-list-link">⭐ Bootloader Initialization Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderGuide/" class="nav-list-link">🔧 Bootloader Complete Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderQuickReference/" class="nav-list-link">⚡ Bootloader Quick Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderTroubleshooting/" class="nav-list-link">🛠️ Bootloader Troubleshooting</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommunicationProtocolGuide/" class="nav-list-link">📡 Communication Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/" class="nav-list-link">📨 TMCL Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/ImplementingCommInterface/" class="nav-list-link">🔌 Implementing Communication Interface</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/" class="nav-list-link">⚡ Hardware-Agnostic Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommonOperations/" class="nav-list-link">🛠️ Common Operations</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/GetVersionCommandReference/" class="nav-list-link">📖 GetVersion Command Reference</a></li></ul></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/CONTRIBUTING/" class="nav-list-link">🤝 Contributing</a></li></ul></li></ul>
+      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/SetupGuide/" class="nav-list-link">📋 Setup Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderInitializationGuide/" class="nav-list-link">⭐ Bootloader Initialization Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderGuide/" class="nav-list-link">🔧 Bootloader Complete Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderQuickReference/" class="nav-list-link">⚡ Bootloader Quick Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderTroubleshooting/" class="nav-list-link">🛠️ Bootloader Troubleshooting</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommunicationProtocolGuide/" class="nav-list-link">📡 Communication Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/" class="nav-list-link">📨 TMCL Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/ImplementingCommInterface/" class="nav-list-link">🔌 Implementing Communication Interface</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/" class="nav-list-link">⚡ Hardware-Agnostic Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommonOperations/" class="nav-list-link">🛠️ Common Operations</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/NamespaceStructure/" class="nav-list-link">📦 Namespace Structure</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/GetVersionCommandReference/" class="nav-list-link">📖 GetVersion Command Reference</a></li></ul></li></ul></li></ul>
   
 </nav>
 
@@ -493,24 +185,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   
   
-    <footer class="site-nav-footer">
-  <div class="nav-footer-links">
-    <a href="https://github.com/n3b3x/hf-tmc9660-driver" class="nav-footer-link" aria-label="GitHub Repository">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-      </svg>
-      GitHub
-    </a>
-    <a href="https://github.com/n3b3x/hf-tmc9660-driver/issues" class="nav-footer-link" aria-label="Report Issues">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-      </svg>
-      Issues
-    </a>
-  </div>
-</footer>
-
-
+    <footer class="site-footer">
+      This site uses <a href="https://github.com/just-the-docs/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
+    </footer>
   
 </div>
 
@@ -522,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="search" role="search">
   <div class="search-input-wrap">
-    <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search TMC9660 driver docs, examples, and guides..." aria-label="Search TMC9660 driver docs, examples, and guides..." autocomplete="off">
+    <input type="text" id="search-input" class="search-input" tabindex="0" placeholder="Search HardFOC TMC9660 Driver - development" aria-label="Search HardFOC TMC9660 Driver - development" autocomplete="off">
     <label for="search-input" class="search-label"><svg viewBox="0 0 24 24" class="search-icon"><use xlink:href="#svg-search"></use></svg></label>
   </div>
   <div id="search-results" class="search-results"></div>
@@ -1184,10 +861,19 @@ document.addEventListener('DOMContentLoaded', function() {
   <footer>
     
 
-    <footer class="site-footer">
+    <!-- =============================================================================
+     Custom Footer Content for HardFOC Driver Documentation
+     =============================================================================
+     This footer is displayed at the bottom of every page.
+     ============================================================================= -->
+
+<footer class="site-footer">
   <div class="site-footer-credits">
     <p>Built with ❤️ using <a href="https://just-the-docs.github.io/just-the-docs/">Just the Docs</a></p>
-    <p><a href="https://github.com/n3b3x/hf-tmc9660-driver/blob/main/LICENSE">GPL v3 License</a> • <a href="https://github.com/n3b3x/hf-tmc9660-driver">View on GitHub</a></p>
+    <p>
+      <a href="https://github.com/n3b3x/hf-tmc9660-driver/development/blob/main/LICENSE">GPL v3 License</a> • 
+      <a href="https://github.com/n3b3x/hf-tmc9660-driver/development">View on GitHub</a>
+    </p>
   </div>
 </footer>
 

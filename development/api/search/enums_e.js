@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['ramdebugstate_0',['RamDebugState',['../namespacetmc9660_1_1tmcl.html#a2474e45458f71eeed1aca70b1172be1e',1,'tmc9660::tmcl::RamDebugState'],['../namespaceTMC9660_1_1RAMDebug.html#a86c257468b423a0d0ee2c454955e2c0f',1,'TMC9660::RAMDebug::RamDebugState']]],
-  ['ramdebugsub_1',['RamDebugSub',['../namespaceTMC9660_1_1RAMDebug.html#a4405ac1abe1d4ae920ac46c311acb7e6',1,'TMC9660::RAMDebug']]],
+  ['ramdebugstate_0',['RamDebugState',['../namespacetmc9660_1_1tmcl.html#a2474e45458f71eeed1aca70b1172be1e',1,'tmc9660::tmcl::RamDebugState'],['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#aa66fbc01a39f2b424a65fc4fd7dea260',1,'tmc9660::register_mode::RAMDebug::RamDebugState']]],
+  ['ramdebugsub_1',['RamDebugSub',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314',1,'tmc9660::register_mode::RAMDebug']]],
   ['ramdebugtype_2',['RamDebugType',['../namespacetmc9660_1_1tmcl.html#a879af027e0e592d603adee357202d557',1,'tmc9660::tmcl']]],
   ['ramperstopconfig_3',['RamperStopConfig',['../namespacetmc9660_1_1tmcl.html#a576b1e64f4bcd6574e308688aa1913eb',1,'tmc9660::tmcl']]],
   ['referencesearch_4',['ReferenceSearch',['../namespacetmc9660_1_1tmcl.html#a29d98b75fb99bf1457b9b9d515189f8f',1,'tmc9660::tmcl']]],

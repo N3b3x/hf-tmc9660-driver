@@ -195,7 +195,6 @@ var menudata={children:[
 {text:"e",url:"globals_vars.html#index_e"},
 {text:"g",url:"globals_vars.html#index_g"},
 {text:"t",url:"globals_vars.html#index_t"}]},
-{text:"Enumerations",url:"globals_enum.html"},
 {text:"Macros",url:"globals_defs.html",children:[
 {text:"a",url:"globals_defs.html#index_a"},
 {text:"b",url:"globals_defs_b.html#index_b"},

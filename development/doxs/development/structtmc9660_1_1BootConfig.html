@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -102,11 +104,11 @@ $(function(){initNavTree('structtmc9660_1_1BootConfig.html',''); initResizable()
 <p>Bootloader behavior configuration structure.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="bootloader__config_8hpp_source.html">bootloader_config.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a20d8ce7b4f5b4b3828425c231704754c" id="r_a20d8ce7b4f5b4b3828425c231704754c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134">bootcfg::BootMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20d8ce7b4f5b4b3828425c231704754c">boot_mode</a> {<a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">bootcfg::BootMode::Parameter</a>}</td></tr>
+<tr class="memitem:a20d8ce7b4f5b4b3828425c231704754c" id="r_a20d8ce7b4f5b4b3828425c231704754c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134">bootcfg::BootMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20d8ce7b4f5b4b3828425c231704754c">boot_mode</a></td></tr>
 <tr class="memdesc:a20d8ce7b4f5b4b3828425c231704754c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Target boot mode (Register or Parameter)  <br /></td></tr>
 <tr class="separator:a20d8ce7b4f5b4b3828425c231704754c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e37ec9c6583db344cd6801c349c33dc" id="r_a5e37ec9c6583db344cd6801c349c33dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e37ec9c6583db344cd6801c349c33dc">bl_ready_fault</a> {false}</td></tr>
@@ -184,11 +186,14 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134">bootcfg::BootMode</a> tmc9660::BootConfig::boot_mode {<a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">bootcfg::BootMode::Parameter</a>}</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134">bootcfg::BootMode</a> tmc9660::BootConfig::boot_mode</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">      <a class="code hl_enumvalue" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">bootcfg::BootMode::Parameter</a>}</div>
+<div class="ttc" id="anamespacetmc9660_1_1bootcfg_html_aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396"><div class="ttname"><a href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">tmc9660::bootcfg::BootMode::Parameter</a></div><div class="ttdeci">@ Parameter</div><div class="ttdoc">Parameter mode - TMCL command-based motor control (recommended)</div></div>
+</div><!-- fragment -->
 <p>Target boot mode (Register or Parameter) </p>
 
 </div>
@@ -226,7 +231,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li><a class="el" href="TMC9660Bootloader_8hpp_source.html">TMC9660Bootloader.hpp</a></li>
+<li><a class="el" href="bootloader__config_8hpp_source.html">bootloader_config.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

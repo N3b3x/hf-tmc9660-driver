@@ -10,5 +10,5 @@ var searchData=
   ['globalparambank0_7',['GlobalParamBank0',['../namespacetmc9660_1_1tmcl.html#aa2ec9e126f5220bb4f43740d9db18052',1,'tmc9660::tmcl']]],
   ['globalparambank2_8',['GlobalParamBank2',['../namespacetmc9660_1_1tmcl.html#aedbe16bb9f3a44665534abf03fd5e65b',1,'tmc9660::tmcl']]],
   ['globalparambank3_9',['GlobalParamBank3',['../namespacetmc9660_1_1tmcl.html#a9e6cd6c6f87c8446516e25c86ef077f3',1,'tmc9660::tmcl']]],
-  ['gpiosignal_10',['GpioSignal',['../TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182',1,'TMC9660CommInterface.hpp']]]
+  ['gpiosignal_10',['GpioSignal',['../namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9',1,'tmc9660']]]
 ];

@@ -1,4 +1,4 @@
 var group__TMC9660__ADC =
 [
-    [ "TMC9660::ADC", "namespaceTMC9660_1_1ADC.html", null ]
+    [ "tmc9660::register_mode::ADC", "namespacetmc9660_1_1register__mode_1_1ADC.html", null ]
 ];

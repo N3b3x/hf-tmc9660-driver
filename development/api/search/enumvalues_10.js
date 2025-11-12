@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uart_0',['UART',['../TMC9660CommInterface_8hpp.html#a5ce2fbb6d6783b713d7ed4f43f84efb9acec5769b01fb096efaf0d6186823c78f',1,'TMC9660CommInterface.hpp']]]
+  ['uart_0',['UART',['../namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14acec5769b01fb096efaf0d6186823c78f',1,'tmc9660']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['detour_0',['DETOUR',['../structTMC9660_1_1ADC_1_1SRC__CONFIG.html#a645986c2ee92916574e83d6503d6e376a23645f51be61be6cd83a753a53de6d18',1,'TMC9660::ADC::SRC_CONFIG']]],
+  ['detour_0',['DETOUR',['../structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a6ea5caafc76be589b864a601773dc9e3a23645f51be61be6cd83a753a53de6d18',1,'tmc9660::register_mode::ADC::SRC_CONFIG']]],
   ['disabled_1',['Disabled',['../group__TMC9660__BootloaderConfig.html#gga6ffcd57a7508cb78984f0167caff7496ab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled'],['../namespacetmc9660_1_1bootcfg.html#af7c3a20ed3a8f5483c3751a61ba65d86ab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled'],['../namespacetmc9660_1_1bootcfg.html#a3af6b766582c8f5e26cc4633dc2713c7ab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled'],['../namespacetmc9660_1_1bootcfg.html#adae30f2d71b2e485715c2521485b997fab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled'],['../namespacetmc9660_1_1bootcfg.html#ab6f00c204097da200942f85a9c8f5492ab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled'],['../namespacetmc9660_1_1bootcfg.html#af33448052f9be0f1a91cdf623057f19fab9f5c797ebbf55adccdd8539a65a0241',1,'tmc9660::bootcfg::Disabled']]],
   ['div1_2',['Div1',['../namespacetmc9660_1_1bootcfg.html#a12c336e8c7823ae380a9e897650fdbaba0265654857f7b6ac0b716d3b07999e32',1,'tmc9660::bootcfg::Div1'],['../namespacetmc9660_1_1bootcfg.html#ac57d9ce8f38fa8103d48d18667ff3810a0265654857f7b6ac0b716d3b07999e32',1,'tmc9660::bootcfg::Div1']]],
   ['div10_3',['Div10',['../namespacetmc9660_1_1bootcfg.html#abce705b77539a5a475a922ed0d7e2851aa4bab3e07fb1b68285e25eee1352c83a',1,'tmc9660::bootcfg']]],
@@ -21,5 +21,5 @@ var searchData=
   ['div7_18',['Div7',['../namespacetmc9660_1_1bootcfg.html#abce705b77539a5a475a922ed0d7e2851abbe4021e41b71c5986d950c1946a7fda',1,'tmc9660::bootcfg']]],
   ['div8_19',['Div8',['../namespacetmc9660_1_1bootcfg.html#abce705b77539a5a475a922ed0d7e2851a6c2d2d32a5b43e70c8a188e98fa48517',1,'tmc9660::bootcfg']]],
   ['div9_20',['Div9',['../namespacetmc9660_1_1bootcfg.html#abce705b77539a5a475a922ed0d7e2851aacac10e84ce51c29c0924022b0232b8f',1,'tmc9660::bootcfg']]],
-  ['drv_5fen_21',['DRV_EN',['../TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92a3a03027851b53b1d32cfb07305d7b77f',1,'TMC9660CommInterface.hpp']]]
+  ['drv_5fen_21',['DRV_EN',['../namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7a3a03027851b53b1d32cfb07305d7b77f',1,'tmc9660']]]
 ];

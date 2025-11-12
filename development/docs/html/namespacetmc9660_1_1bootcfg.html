@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -392,7 +394,7 @@ Enumerations</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Bootloader configuration namespace containing all configuration structures and enums. </p>
-<p>This namespace contains all the configuration structures, enumerations, and constants needed to configure the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> bootloader. These structures define hardware pin assignments, communication parameters, power supply settings, and system behavior options. </p>
+<p>This namespace contains all the configuration structures, enumerations, and constants needed to configure the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> bootloader. These structures define hardware pin assignments, communication parameters, power supply settings, and system behavior options. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a635ee5f9b8496c91a2bef52aaca3e681" name="a635ee5f9b8496c91a2bef52aaca3e681"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a635ee5f9b8496c91a2bef52aaca3e681">&#9670;&#160;</a></span>ABN1APin</h2>
@@ -621,7 +623,7 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Boot mode selection for motor control system startup. </p>
-<p>Determines which motor control mode the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> will enter after bootloader configuration is complete and START_MOTOR_CTRL is set. </p>
+<p>Determines which motor control mode the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> will enter after bootloader configuration is complete and START_MOTOR_CTRL is set. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa0dcb8bfb71ebc85f5c97a0bd9f53134a0ba7583639a274c434bbe6ef797115a4" name="aa0dcb8bfb71ebc85f5c97a0bd9f53134a0ba7583639a274c434bbe6ef797115a4"></a>Register&#160;</td><td class="fielddoc"><p>Register mode - direct register access for motor control. </p>
 </td></tr>
@@ -719,7 +721,7 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>System clock source selection. </p>
-<p>Determines whether the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> uses its internal oscillator or an external clock source for system timing. </p>
+<p>Determines whether the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> uses its internal oscillator or an external clock source for system timing. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a28e9360ed643f136c14abdc71c49a5e6aafbf0897a5a83fdd873dfb032ec695d3" name="a28e9360ed643f136c14abdc71c49a5e6aafbf0897a5a83fdd873dfb032ec695d3"></a>Internal&#160;</td><td class="fielddoc"><p>Use internal oscillator (default, no external components needed) </p>
 </td></tr>
@@ -1508,7 +1510,7 @@ Enumerations</h2></td></tr>
 </div><div class="memdoc">
 
 <p>SPI interface selection for bootloader and flash communication. </p>
-<p>The <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> has two physical SPI interfaces: SPI0 and SPI1.</p>
+<p>The <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> has two physical SPI interfaces: SPI0 and SPI1.</p>
 <p><b>CRITICAL: BL_SPI_SELECT (bit 2 of COMM_CONFIG) has OPPOSITE meanings:</b></p><ul>
 <li>For <b>Bootloader</b>: BL_SPI_SELECT=0 means SPI0, BL_SPI_SELECT=1 means SPI1</li>
 <li>For <b>Flash</b>: BL_SPI_SELECT=0 means SPI1, BL_SPI_SELECT=1 means SPI0 (inverted!)</li>

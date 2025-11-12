@@ -1,0 +1,7 @@
+<map id="tmc9660::TMCLReply::fromSpi" name="tmc9660::TMCLReply::fromSpi">
+<area shape="rect" id="Node000001" title="Decode and validate reply from SPI TMCL datagram." alt="" coords="323,37,483,77"/>
+<area shape="rect" id="Node000002" href="$structtmc9660_1_1TMCLFrame.html#a7ad02088dabbdedfe22402895091ff9e" title="Deserialize an SPI buffer with status and checksum validation." alt="" coords="58,5,222,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="309,49,222,38,222,33,310,43"/>
+<area shape="rect" id="Node000003" href="$classtmc9660_1_1SPITMC9660CommInterface.html#a8dd137b6286ca6c3ab0534f79bd2d51a" title="Perform a full duplex TMCL transfer for parameter mode communication." alt="" coords="5,69,275,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="310,71,275,76,275,70,309,66"/>
+</map>

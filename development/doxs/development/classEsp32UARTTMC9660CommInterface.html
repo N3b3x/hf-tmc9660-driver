@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -101,33 +103,19 @@ $(function(){initNavTree('classEsp32UARTTMC9660CommInterface.html',''); initResi
 </div><!--header-->
 <div class="contents">
 
-<p>ESP32 UART implementation of <a class="el" href="classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode.">TMC9660CommInterface</a>.  
+<p>ESP32 UART implementation of TMC9660CommInterface.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Esp32TMC9660Bus_8hpp_source.html">Esp32TMC9660Bus.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Esp32UARTTMC9660CommInterface:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface__inherit__graph.png" border="0" usemap="#aEsp32UARTTMC9660CommInterface_inherit__map" alt="Inheritance graph"/></div>
-<map name="aEsp32UARTTMC9660CommInterface_inherit__map" id="aEsp32UARTTMC9660CommInterface_inherit__map">
-<area shape="rect" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="5,152,264,177"/>
-<area shape="rect" href="classUARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="25,79,244,104"/>
-<area shape="poly" title=" " alt="" coords="137,118,137,152,132,152,132,118"/>
-<area shape="rect" href="classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="43,5,227,31"/>
-<area shape="poly" title=" " alt="" coords="137,44,137,79,132,79,132,44"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface__inherit__graph.svg" width="270" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for Esp32UARTTMC9660CommInterface:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface__coll__graph.png" border="0" usemap="#aEsp32UARTTMC9660CommInterface_coll__map" alt="Collaboration graph"/></div>
-<map name="aEsp32UARTTMC9660CommInterface_coll__map" id="aEsp32UARTTMC9660CommInterface_coll__map">
-<area shape="rect" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="5,152,264,177"/>
-<area shape="rect" href="classUARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="25,79,244,104"/>
-<area shape="poly" title=" " alt="" coords="137,118,137,152,132,152,132,118"/>
-<area shape="rect" href="classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="43,5,227,31"/>
-<area shape="poly" title=" " alt="" coords="137,44,137,79,132,79,132,44"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface__coll__graph.svg" width="270" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -150,20 +138,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a843e75e4c2b0ce54389b8fb7be6cdcd9" id="r_a843e75e4c2b0ce54389b8fb7be6cdcd9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a843e75e4c2b0ce54389b8fb7be6cdcd9">uartReceiveTMCL</a> (std::array&lt; uint8_t, 9 &gt; &amp;data) noexcept override</td></tr>
 <tr class="memdesc:a843e75e4c2b0ce54389b8fb7be6cdcd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receive raw 9-byte UART TMCL datagram for parameter mode communication.  <br /></td></tr>
 <tr class="separator:a843e75e4c2b0ce54389b8fb7be6cdcd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a576246048cac498b368621b30ab0dbdd" id="r_a576246048cac498b368621b30ab0dbdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a576246048cac498b368621b30ab0dbdd">transferTMCL</a> (const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> &amp;tx, <a class="el" href="structTMCLReply.html">TMCLReply</a> &amp;reply, uint8_t address, <a class="el" href="structTMCLReply.html">TMCLReply</a> *firstReply, const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> *secondCommand) noexcept override</td></tr>
+<tr class="memitem:a576246048cac498b368621b30ab0dbdd" id="r_a576246048cac498b368621b30ab0dbdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a576246048cac498b368621b30ab0dbdd">transferTMCL</a> (const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> &amp;tx, <a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> &amp;reply, uint8_t address, <a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> *firstReply, const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> *secondCommand) noexcept override</td></tr>
 <tr class="memdesc:a576246048cac498b368621b30ab0dbdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfer TMCL frame over UART for parameter mode communication.  <br /></td></tr>
 <tr class="separator:a576246048cac498b368621b30ab0dbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a109a01f34d99de6a7a31491fb96db8a6" id="r_a109a01f34d99de6a7a31491fb96db8a6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a109a01f34d99de6a7a31491fb96db8a6">uartTransferBootloader</a> (const std::array&lt; uint8_t, 8 &gt; &amp;tx, std::array&lt; uint8_t, 8 &gt; &amp;rx) noexcept override</td></tr>
 <tr class="memdesc:a109a01f34d99de6a7a31491fb96db8a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transfer 8-byte UART bootloader datagram (send and receive)  <br /></td></tr>
 <tr class="separator:a109a01f34d99de6a7a31491fb96db8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff364551e832fec08033c1a35757ab81" id="r_aff364551e832fec08033c1a35757ab81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TMC9660CommInterface_8hpp.html#a5ce2fbb6d6783b713d7ed4f43f84efb9">CommMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff364551e832fec08033c1a35757ab81">mode</a> () const noexcept override</td></tr>
+<tr class="memitem:aff364551e832fec08033c1a35757ab81" id="r_aff364551e832fec08033c1a35757ab81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14">CommMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff364551e832fec08033c1a35757ab81">mode</a> () const noexcept override</td></tr>
 <tr class="memdesc:aff364551e832fec08033c1a35757ab81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get communication mode.  <br /></td></tr>
 <tr class="separator:aff364551e832fec08033c1a35757ab81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb5f9538bd39ab862ee05d57774a9b38" id="r_afb5f9538bd39ab862ee05d57774a9b38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb5f9538bd39ab862ee05d57774a9b38">gpioSet</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin, <a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a> signal) noexcept override</td></tr>
-<tr class="memdesc:afb5f9538bd39ab862ee05d57774a9b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin signal state for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pins.  <br /></td></tr>
+<tr class="memitem:afb5f9538bd39ab862ee05d57774a9b38" id="r_afb5f9538bd39ab862ee05d57774a9b38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb5f9538bd39ab862ee05d57774a9b38">gpioSet</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin, <a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> signal) noexcept override</td></tr>
+<tr class="memdesc:afb5f9538bd39ab862ee05d57774a9b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin signal state for TMC9660 control pins.  <br /></td></tr>
 <tr class="separator:afb5f9538bd39ab862ee05d57774a9b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27947e26727e95168856878ecefd2bfe" id="r_a27947e26727e95168856878ecefd2bfe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27947e26727e95168856878ecefd2bfe">gpioRead</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin, <a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a> &amp;signal) noexcept override</td></tr>
-<tr class="memdesc:a27947e26727e95168856878ecefd2bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read GPIO pin level for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> status pins.  <br /></td></tr>
+<tr class="memitem:a27947e26727e95168856878ecefd2bfe" id="r_a27947e26727e95168856878ecefd2bfe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27947e26727e95168856878ecefd2bfe">gpioRead</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin, <a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> &amp;signal) noexcept override</td></tr>
+<tr class="memdesc:a27947e26727e95168856878ecefd2bfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read GPIO pin level for TMC9660 status pins.  <br /></td></tr>
 <tr class="separator:a27947e26727e95168856878ecefd2bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af397cf2a22f1d0ae2fc84352a78ef52a" id="r_af397cf2a22f1d0ae2fc84352a78ef52a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af397cf2a22f1d0ae2fc84352a78ef52a">debugLog</a> (int level, const char *tag, const char *format, va_list args) noexcept override</td></tr>
 <tr class="memdesc:af397cf2a22f1d0ae2fc84352a78ef52a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debug logging function that routes logs through ESP-IDF logging system.  <br /></td></tr>
@@ -174,60 +162,60 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:addba2d82e8923fff995f9b5982edbe17" id="r_addba2d82e8923fff995f9b5982edbe17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addba2d82e8923fff995f9b5982edbe17">delayUs</a> (uint32_t us) noexcept override</td></tr>
 <tr class="memdesc:addba2d82e8923fff995f9b5982edbe17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delay execution for specified microseconds.  <br /></td></tr>
 <tr class="separator:addba2d82e8923fff995f9b5982edbe17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classUARTTMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classUARTTMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classUARTTMC9660CommInterface.html">UARTTMC9660CommInterface</a></td></tr>
-<tr class="memitem:a8eb6ef1fe392937d2940662fcb10e772 inherit pub_methods_classUARTTMC9660CommInterface" id="r_a8eb6ef1fe392937d2940662fcb10e772"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUARTTMC9660CommInterface.html#a8eb6ef1fe392937d2940662fcb10e772">UARTTMC9660CommInterface</a> (bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel, bool faultnActiveLevel) noexcept</td></tr>
-<tr class="memdesc:a8eb6ef1fe392937d2940662fcb10e772 inherit pub_methods_classUARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct UART communication interface with pin active level configuration.  <br /></td></tr>
-<tr class="separator:a8eb6ef1fe392937d2940662fcb10e772 inherit pub_methods_classUARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc9d38b7c3f2747644f626ce02532e6c inherit pub_methods_classUARTTMC9660CommInterface" id="r_acc9d38b7c3f2747644f626ce02532e6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TMC9660CommInterface_8hpp.html#a5ce2fbb6d6783b713d7ed4f43f84efb9">CommMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUARTTMC9660CommInterface.html#acc9d38b7c3f2747644f626ce02532e6c">mode</a> () const noexcept override</td></tr>
-<tr class="memdesc:acc9d38b7c3f2747644f626ce02532e6c inherit pub_methods_classUARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the underlying communication mode used by this interface.  <br /></td></tr>
-<tr class="separator:acc9d38b7c3f2747644f626ce02532e6c inherit pub_methods_classUARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe101342cba1bc6af49f15a13a30db84 inherit pub_methods_classUARTTMC9660CommInterface" id="r_abe101342cba1bc6af49f15a13a30db84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUARTTMC9660CommInterface.html#abe101342cba1bc6af49f15a13a30db84">transferTMCL</a> (const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> &amp;tx, <a class="el" href="structTMCLReply.html">TMCLReply</a> &amp;reply, uint8_t address, <a class="el" href="structTMCLReply.html">TMCLReply</a> *firstReply, const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> *secondCommand) noexcept override</td></tr>
-<tr class="memdesc:abe101342cba1bc6af49f15a13a30db84 inherit pub_methods_classUARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a full duplex TMCL transfer for parameter mode communication.  <br /></td></tr>
-<tr class="separator:abe101342cba1bc6af49f15a13a30db84 inherit pub_methods_classUARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classTMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classTMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classTMC9660CommInterface.html">TMC9660CommInterface</a></td></tr>
-<tr class="memitem:aa1f0869545b41f1833b32eea680a744c inherit pub_methods_classTMC9660CommInterface" id="r_aa1f0869545b41f1833b32eea680a744c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#aa1f0869545b41f1833b32eea680a744c">TMC9660CommInterface</a> (bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel, bool faultnActiveLevel) noexcept</td></tr>
-<tr class="memdesc:aa1f0869545b41f1833b32eea680a744c inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct communication interface with pin active level configuration.  <br /></td></tr>
-<tr class="separator:aa1f0869545b41f1833b32eea680a744c inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68583525f306a5ee835cf01c47b758bc inherit pub_methods_classTMC9660CommInterface" id="r_a68583525f306a5ee835cf01c47b758bc"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a68583525f306a5ee835cf01c47b758bc">~TMC9660CommInterface</a> () noexcept=default</td></tr>
-<tr class="separator:a68583525f306a5ee835cf01c47b758bc inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03a943c67002937f9e64ed314d8b4a8d inherit pub_methods_classTMC9660CommInterface" id="r_a03a943c67002937f9e64ed314d8b4a8d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a03a943c67002937f9e64ed314d8b4a8d">signalToGpioLevel</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin, <a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a> signal) const noexcept</td></tr>
-<tr class="memdesc:a03a943c67002937f9e64ed314d8b4a8d inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert signal state to physical GPIO level.  <br /></td></tr>
-<tr class="separator:a03a943c67002937f9e64ed314d8b4a8d inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa78ede0bb037b376523de858fd1842f9 inherit pub_methods_classTMC9660CommInterface" id="r_aa78ede0bb037b376523de858fd1842f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#aa78ede0bb037b376523de858fd1842f9">gpioLevelToSignal</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin, bool gpioLevel) const noexcept</td></tr>
-<tr class="memdesc:aa78ede0bb037b376523de858fd1842f9 inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert physical GPIO level to signal state.  <br /></td></tr>
-<tr class="separator:aa78ede0bb037b376523de858fd1842f9 inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ff3d13f24804790e53cfc8bf27e3afd inherit pub_methods_classTMC9660CommInterface" id="r_a1ff3d13f24804790e53cfc8bf27e3afd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a1ff3d13f24804790e53cfc8bf27e3afd">gpioSetActive</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin) noexcept</td></tr>
-<tr class="memdesc:a1ff3d13f24804790e53cfc8bf27e3afd inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin to active state (convenience method).  <br /></td></tr>
-<tr class="separator:a1ff3d13f24804790e53cfc8bf27e3afd inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8c3eb9a2938e90e8f8a0e4d387494c5 inherit pub_methods_classTMC9660CommInterface" id="r_af8c3eb9a2938e90e8f8a0e4d387494c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#af8c3eb9a2938e90e8f8a0e4d387494c5">gpioSetInactive</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin) noexcept</td></tr>
-<tr class="memdesc:af8c3eb9a2938e90e8f8a0e4d387494c5 inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin to inactive state (convenience method).  <br /></td></tr>
-<tr class="separator:af8c3eb9a2938e90e8f8a0e4d387494c5 inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8120cfd25ac41d9e483c5a3a79967a4 inherit pub_methods_classTMC9660CommInterface" id="r_ab8120cfd25ac41d9e483c5a3a79967a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#ab8120cfd25ac41d9e483c5a3a79967a4">setPinActiveLevel</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin, bool activeLevel) noexcept</td></tr>
-<tr class="memdesc:ab8120cfd25ac41d9e483c5a3a79967a4 inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the active level for a specific pin.  <br /></td></tr>
-<tr class="separator:ab8120cfd25ac41d9e483c5a3a79967a4 inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a492c815f6f39f3df6ba586e72c66fd8f inherit pub_methods_classTMC9660CommInterface" id="r_a492c815f6f39f3df6ba586e72c66fd8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a492c815f6f39f3df6ba586e72c66fd8f">setSpiRetryMaxCount</a> (uint8_t maxRetries) noexcept</td></tr>
-<tr class="memdesc:a492c815f6f39f3df6ba586e72c66fd8f inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum number of retries for SPI_STATUS_NOT_READY responses.  <br /></td></tr>
-<tr class="separator:a492c815f6f39f3df6ba586e72c66fd8f inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ee4704ab89c2ce8488b8fb7d382dc30 inherit pub_methods_classTMC9660CommInterface" id="r_a6ee4704ab89c2ce8488b8fb7d382dc30"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a6ee4704ab89c2ce8488b8fb7d382dc30">getSpiRetryMaxCount</a> () const noexcept</td></tr>
-<tr class="memdesc:a6ee4704ab89c2ce8488b8fb7d382dc30 inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current maximum retry count for SPI_STATUS_NOT_READY.  <br /></td></tr>
-<tr class="separator:a6ee4704ab89c2ce8488b8fb7d382dc30 inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87f823711737578932ad56aad2bc38df inherit pub_methods_classTMC9660CommInterface" id="r_a87f823711737578932ad56aad2bc38df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a87f823711737578932ad56aad2bc38df">setSpiRetryInterval</a> (uint32_t intervalUs) noexcept</td></tr>
-<tr class="memdesc:a87f823711737578932ad56aad2bc38df inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set delay interval between retry attempts for SPI_STATUS_NOT_READY.  <br /></td></tr>
-<tr class="separator:a87f823711737578932ad56aad2bc38df inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a608b09c86060ccf4685f10dcc1c9e691 inherit pub_methods_classTMC9660CommInterface" id="r_a608b09c86060ccf4685f10dcc1c9e691"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a608b09c86060ccf4685f10dcc1c9e691">getSpiRetryInterval</a> () const noexcept</td></tr>
-<tr class="memdesc:a608b09c86060ccf4685f10dcc1c9e691 inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current retry interval for SPI_STATUS_NOT_READY.  <br /></td></tr>
-<tr class="separator:a608b09c86060ccf4685f10dcc1c9e691 inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cb4a058e754cd799c7bb0f521083eff inherit pub_methods_classTMC9660CommInterface" id="r_a4cb4a058e754cd799c7bb0f521083eff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a4cb4a058e754cd799c7bb0f521083eff">logDebug</a> (int level, const char *tag, const char *format,...) noexcept</td></tr>
-<tr class="memdesc:a4cb4a058e754cd799c7bb0f521083eff inherit pub_methods_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public debug logging wrapper for external classes.  <br /></td></tr>
-<tr class="separator:a4cb4a058e754cd799c7bb0f521083eff inherit pub_methods_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classtmc9660_1_1UARTTMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html">tmc9660::UARTTMC9660CommInterface</a></td></tr>
+<tr class="memitem:a5bdcde969a8150f2077c751a46c516a3 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface" id="r_a5bdcde969a8150f2077c751a46c516a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#a5bdcde969a8150f2077c751a46c516a3">UARTTMC9660CommInterface</a> (bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel, bool faultnActiveLevel) noexcept</td></tr>
+<tr class="memdesc:a5bdcde969a8150f2077c751a46c516a3 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct UART communication interface with pin active level configuration.  <br /></td></tr>
+<tr class="separator:a5bdcde969a8150f2077c751a46c516a3 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35fa790a0bae65dcdff55f7ca7e47598 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface" id="r_a35fa790a0bae65dcdff55f7ca7e47598"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14">CommMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#a35fa790a0bae65dcdff55f7ca7e47598">mode</a> () const noexcept override</td></tr>
+<tr class="memdesc:a35fa790a0bae65dcdff55f7ca7e47598 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the underlying communication mode used by this interface.  <br /></td></tr>
+<tr class="separator:a35fa790a0bae65dcdff55f7ca7e47598 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adead1dc66c704f9c0cb1f7817e8a9703 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface" id="r_adead1dc66c704f9c0cb1f7817e8a9703"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#adead1dc66c704f9c0cb1f7817e8a9703">transferTMCL</a> (const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> &amp;tx, <a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> &amp;reply, uint8_t address, <a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> *firstReply, const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> *secondCommand) noexcept override</td></tr>
+<tr class="memdesc:adead1dc66c704f9c0cb1f7817e8a9703 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a full duplex TMCL transfer for parameter mode communication.  <br /></td></tr>
+<tr class="separator:adead1dc66c704f9c0cb1f7817e8a9703 inherit pub_methods_classtmc9660_1_1UARTTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classtmc9660_1_1TMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classtmc9660_1_1TMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html">tmc9660::TMC9660CommInterface</a></td></tr>
+<tr class="memitem:a1f22337ee76fc56480369f76e85b725b inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a1f22337ee76fc56480369f76e85b725b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a1f22337ee76fc56480369f76e85b725b">TMC9660CommInterface</a> (bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel, bool faultnActiveLevel) noexcept</td></tr>
+<tr class="memdesc:a1f22337ee76fc56480369f76e85b725b inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct communication interface with pin active level configuration.  <br /></td></tr>
+<tr class="separator:a1f22337ee76fc56480369f76e85b725b inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a307a83d63ad23dc09338ce41ac731 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a68a307a83d63ad23dc09338ce41ac731"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a68a307a83d63ad23dc09338ce41ac731">~TMC9660CommInterface</a> () noexcept=default</td></tr>
+<tr class="separator:a68a307a83d63ad23dc09338ce41ac731 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a225178f7a26d083cf8daaa421ef70e3a inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a225178f7a26d083cf8daaa421ef70e3a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a225178f7a26d083cf8daaa421ef70e3a">signalToGpioLevel</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin, <a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> signal) const noexcept</td></tr>
+<tr class="memdesc:a225178f7a26d083cf8daaa421ef70e3a inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert signal state to physical GPIO level.  <br /></td></tr>
+<tr class="separator:a225178f7a26d083cf8daaa421ef70e3a inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00c640ead894eb9fb38cf2e5ee037e6e inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a00c640ead894eb9fb38cf2e5ee037e6e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a00c640ead894eb9fb38cf2e5ee037e6e">gpioLevelToSignal</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin, bool gpioLevel) const noexcept</td></tr>
+<tr class="memdesc:a00c640ead894eb9fb38cf2e5ee037e6e inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert physical GPIO level to signal state.  <br /></td></tr>
+<tr class="separator:a00c640ead894eb9fb38cf2e5ee037e6e inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac25b23707a4e3d6b3aa304af5b04c616 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_ac25b23707a4e3d6b3aa304af5b04c616"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#ac25b23707a4e3d6b3aa304af5b04c616">gpioSetActive</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin) noexcept</td></tr>
+<tr class="memdesc:ac25b23707a4e3d6b3aa304af5b04c616 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin to active state (convenience method).  <br /></td></tr>
+<tr class="separator:ac25b23707a4e3d6b3aa304af5b04c616 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad63ec0ea7c888e6b5479fac755eb365f inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_ad63ec0ea7c888e6b5479fac755eb365f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#ad63ec0ea7c888e6b5479fac755eb365f">gpioSetInactive</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin) noexcept</td></tr>
+<tr class="memdesc:ad63ec0ea7c888e6b5479fac755eb365f inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set GPIO pin to inactive state (convenience method).  <br /></td></tr>
+<tr class="separator:ad63ec0ea7c888e6b5479fac755eb365f inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e7192ca5fc77cb62c2e2f1c47e82f5 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a83e7192ca5fc77cb62c2e2f1c47e82f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a83e7192ca5fc77cb62c2e2f1c47e82f5">setPinActiveLevel</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin, bool activeLevel) noexcept</td></tr>
+<tr class="memdesc:a83e7192ca5fc77cb62c2e2f1c47e82f5 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the active level for a specific pin.  <br /></td></tr>
+<tr class="separator:a83e7192ca5fc77cb62c2e2f1c47e82f5 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adce38095a33fbb4277e991eb78c43b79 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_adce38095a33fbb4277e991eb78c43b79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#adce38095a33fbb4277e991eb78c43b79">setSpiRetryMaxCount</a> (uint8_t maxRetries) noexcept</td></tr>
+<tr class="memdesc:adce38095a33fbb4277e991eb78c43b79 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum number of retries for SPI_STATUS_NOT_READY responses.  <br /></td></tr>
+<tr class="separator:adce38095a33fbb4277e991eb78c43b79 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a457584e8d2e7e4f170fdac4c7de254db inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a457584e8d2e7e4f170fdac4c7de254db"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a457584e8d2e7e4f170fdac4c7de254db">getSpiRetryMaxCount</a> () const noexcept</td></tr>
+<tr class="memdesc:a457584e8d2e7e4f170fdac4c7de254db inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current maximum retry count for SPI_STATUS_NOT_READY.  <br /></td></tr>
+<tr class="separator:a457584e8d2e7e4f170fdac4c7de254db inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a78f9def0e7c4044f4e0fb7f3d504d3 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_a4a78f9def0e7c4044f4e0fb7f3d504d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a4a78f9def0e7c4044f4e0fb7f3d504d3">setSpiRetryInterval</a> (uint32_t intervalUs) noexcept</td></tr>
+<tr class="memdesc:a4a78f9def0e7c4044f4e0fb7f3d504d3 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set delay interval between retry attempts for SPI_STATUS_NOT_READY.  <br /></td></tr>
+<tr class="separator:a4a78f9def0e7c4044f4e0fb7f3d504d3 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad221cf8af6d1e93a1a404dce2b93fe4c inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_ad221cf8af6d1e93a1a404dce2b93fe4c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#ad221cf8af6d1e93a1a404dce2b93fe4c">getSpiRetryInterval</a> () const noexcept</td></tr>
+<tr class="memdesc:ad221cf8af6d1e93a1a404dce2b93fe4c inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current retry interval for SPI_STATUS_NOT_READY.  <br /></td></tr>
+<tr class="separator:ad221cf8af6d1e93a1a404dce2b93fe4c inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af42ab6b1364127c233d3e85973bd3e29 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface" id="r_af42ab6b1364127c233d3e85973bd3e29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#af42ab6b1364127c233d3e85973bd3e29">logDebug</a> (int level, const char *tag, const char *format,...) noexcept</td></tr>
+<tr class="memdesc:af42ab6b1364127c233d3e85973bd3e29 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Public debug logging wrapper for external classes.  <br /></td></tr>
+<tr class="separator:af42ab6b1364127c233d3e85973bd3e29 inherit pub_methods_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a1743122417cd034987509116af20b06a" id="r_a1743122417cd034987509116af20b06a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1743122417cd034987509116af20b06a">configureGpioPins</a> () noexcept</td></tr>
-<tr class="memdesc:a1743122417cd034987509116af20b06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure GPIO pins for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control and status.  <br /></td></tr>
+<tr class="memdesc:a1743122417cd034987509116af20b06a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure GPIO pins for TMC9660 control and status.  <br /></td></tr>
 <tr class="separator:a1743122417cd034987509116af20b06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc720ec18536078267a5dafdbe63ae72" id="r_adc720ec18536078267a5dafdbe63ae72"><td class="memItemLeft" align="right" valign="top">gpio_num_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc720ec18536078267a5dafdbe63ae72">getGpioPin</a> (<a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a> pin) const noexcept</td></tr>
-<tr class="memdesc:adc720ec18536078267a5dafdbe63ae72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pins to ESP32 GPIO pins.  <br /></td></tr>
+<tr class="memitem:adc720ec18536078267a5dafdbe63ae72" id="r_adc720ec18536078267a5dafdbe63ae72"><td class="memItemLeft" align="right" valign="top">gpio_num_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc720ec18536078267a5dafdbe63ae72">getGpioPin</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> pin) const noexcept</td></tr>
+<tr class="memdesc:adc720ec18536078267a5dafdbe63ae72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map TMC9660 control pins to ESP32 GPIO pins.  <br /></td></tr>
 <tr class="separator:adc720ec18536078267a5dafdbe63ae72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -255,20 +243,20 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_classTMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classTMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classTMC9660CommInterface.html">TMC9660CommInterface</a></td></tr>
-<tr class="memitem:aa10334f5448f11cfc732b403c573f229 inherit pro_attribs_classTMC9660CommInterface" id="r_aa10334f5448f11cfc732b403c573f229"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#aa10334f5448f11cfc732b403c573f229">pinActiveLevels_</a> [4]</td></tr>
-<tr class="memdesc:aa10334f5448f11cfc732b403c573f229 inherit pro_attribs_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin active level configuration storage.  <br /></td></tr>
-<tr class="separator:aa10334f5448f11cfc732b403c573f229 inherit pro_attribs_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5dedee022a6b039c1c19385c71114366 inherit pro_attribs_classTMC9660CommInterface" id="r_a5dedee022a6b039c1c19385c71114366"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a5dedee022a6b039c1c19385c71114366">spiRetryMaxCount_</a> = 3</td></tr>
-<tr class="memdesc:a5dedee022a6b039c1c19385c71114366 inherit pro_attribs_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of retries for SPI_STATUS_NOT_READY responses.  <br /></td></tr>
-<tr class="separator:a5dedee022a6b039c1c19385c71114366 inherit pro_attribs_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a508b43435354d3a00eb6a845e5a59b47 inherit pro_attribs_classTMC9660CommInterface" id="r_a508b43435354d3a00eb6a845e5a59b47"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTMC9660CommInterface.html#a508b43435354d3a00eb6a845e5a59b47">spiRetryIntervalUs_</a> = 100</td></tr>
-<tr class="memdesc:a508b43435354d3a00eb6a845e5a59b47 inherit pro_attribs_classTMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delay interval in microseconds between retry attempts.  <br /></td></tr>
-<tr class="separator:a508b43435354d3a00eb6a845e5a59b47 inherit pro_attribs_classTMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pro_attribs_classtmc9660_1_1TMC9660CommInterface')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html">tmc9660::TMC9660CommInterface</a></td></tr>
+<tr class="memitem:a463151b5404d4f8f167403c45786cf2b inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface" id="r_a463151b5404d4f8f167403c45786cf2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a463151b5404d4f8f167403c45786cf2b">pinActiveLevels_</a> [4]</td></tr>
+<tr class="memdesc:a463151b5404d4f8f167403c45786cf2b inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pin active level configuration storage.  <br /></td></tr>
+<tr class="separator:a463151b5404d4f8f167403c45786cf2b inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4317eccc34ba8523e10b7d8c817fa50c inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface" id="r_a4317eccc34ba8523e10b7d8c817fa50c"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a4317eccc34ba8523e10b7d8c817fa50c">spiRetryMaxCount_</a> = 3</td></tr>
+<tr class="memdesc:a4317eccc34ba8523e10b7d8c817fa50c inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of retries for SPI_STATUS_NOT_READY responses.  <br /></td></tr>
+<tr class="separator:a4317eccc34ba8523e10b7d8c817fa50c inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26a618ed5b04c657f6d095c6ab29543d inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface" id="r_a26a618ed5b04c657f6d095c6ab29543d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a26a618ed5b04c657f6d095c6ab29543d">spiRetryIntervalUs_</a> = 100</td></tr>
+<tr class="memdesc:a26a618ed5b04c657f6d095c6ab29543d inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delay interval in microseconds between retry attempts.  <br /></td></tr>
+<tr class="separator:a26a618ed5b04c657f6d095c6ab29543d inherit pro_attribs_classtmc9660_1_1TMC9660CommInterface"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>ESP32 UART implementation of <a class="el" href="classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode.">TMC9660CommInterface</a>. </p>
-<p>This class provides UART communication for the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> using ESP-IDF UART driver. It handles the TMCL protocol over UART as specified in the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> documentation. </p>
+<div class="textblock"><p>ESP32 UART implementation of TMC9660CommInterface. </p>
+<p>This class provides UART communication for the TMC9660 using ESP-IDF UART driver. It handles the TMCL protocol over UART as specified in the TMC9660 documentation. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7bdb4475e878df6de5db15d0bda4251f" name="a7bdb4475e878df6de5db15d0bda4251f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7bdb4475e878df6de5db15d0bda4251f">&#9670;&#160;</a></span>Esp32UARTTMC9660CommInterface()</h2>
@@ -343,7 +331,7 @@ Additional Inherited Members</h2></td></tr>
     <tr><td class="paramname">faultn_pin</td><td>FAULTN status pin </td></tr>
     <tr><td class="paramname">wake_pin</td><td>WAKE control pin </td></tr>
     <tr><td class="paramname">baud_rate</td><td>UART baud rate </td></tr>
-    <tr><td class="paramname">address</td><td><a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> module address </td></tr>
+    <tr><td class="paramname">address</td><td>TMC9660 module address </td></tr>
   </table>
   </dd>
 </dl>
@@ -377,12 +365,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_acc662d4da26efc87c1ca76bcf54fcc74_cgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_acc662d4da26efc87c1ca76bcf54fcc74_cgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_acc662d4da26efc87c1ca76bcf54fcc74_cgraph" id="aclassEsp32UARTTMC9660CommInterface_acc662d4da26efc87c1ca76bcf54fcc74_cgraph">
-<area shape="rect" title="Destructor &#45; cleans up UART resources." alt="" coords="5,5,283,45"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#ae9dfb70b339c9d059516c63bba8becc7" title="Deinitialize the UART interface." alt="" coords="331,5,589,45"/>
-<area shape="poly" title=" " alt="" coords="283,23,317,23,317,28,283,28"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_acc662d4da26efc87c1ca76bcf54fcc74_cgraph.svg" width="595" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -411,17 +394,12 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Configure GPIO pins for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control and status. </p>
+<p>Configure GPIO pins for TMC9660 control and status. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if successful, false otherwise </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_a1743122417cd034987509116af20b06a_icgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_a1743122417cd034987509116af20b06a_icgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_a1743122417cd034987509116af20b06a_icgraph" id="aclassEsp32UARTTMC9660CommInterface_a1743122417cd034987509116af20b06a_icgraph">
-<area shape="rect" title="Configure GPIO pins for TMC9660 control and status." alt="" coords="312,5,571,45"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#a61a9ca35aa617be3c0ecb99e8c541fb2" title="Initialize the UART interface." alt="" coords="5,5,264,45"/>
-<area shape="poly" title=" " alt="" coords="299,28,264,28,264,23,299,23"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_a1743122417cd034987509116af20b06a_icgraph.svg" width="576" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -474,7 +452,7 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="classTMC9660CommInterface.html#adacafc87cb2be98b1ad8bf9770b29642">TMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#acc6d6789049e3f5c48bdf6d2c0004468">tmc9660::TMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -506,12 +484,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_ae9dfb70b339c9d059516c63bba8becc7_icgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_ae9dfb70b339c9d059516c63bba8becc7_icgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_ae9dfb70b339c9d059516c63bba8becc7_icgraph" id="aclassEsp32UARTTMC9660CommInterface_ae9dfb70b339c9d059516c63bba8becc7_icgraph">
-<area shape="rect" title="Deinitialize the UART interface." alt="" coords="331,5,589,45"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#acc662d4da26efc87c1ca76bcf54fcc74" title="Destructor &#45; cleans up UART resources." alt="" coords="5,5,283,45"/>
-<area shape="poly" title=" " alt="" coords="317,28,283,28,283,23,317,23"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_ae9dfb70b339c9d059516c63bba8becc7_icgraph.svg" width="595" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -550,7 +523,7 @@ Here is the caller graph for this function:</div>
 <dd>
 Used by bootloader operations that require timing (e.g., VDRV voltage drop wait) </dd></dl>
 
-<p>Implements <a class="el" href="classTMC9660CommInterface.html#a68fe7e7be37ce5d25bd649bb26d514bd">TMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a90d5edfce05f1c44082697f85fc98a76">tmc9660::TMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -592,7 +565,7 @@ Default implementation converts to milliseconds (may lose precision for &lt; 1ms
 <dd>
 Platform implementations should provide accurate microsecond delays when possible </dd></dl>
 
-<p>Reimplemented from <a class="el" href="classTMC9660CommInterface.html#a0e554870dfd818d4f491b4633c42ee7e">TMC9660CommInterface</a>.</p>
+<p>Reimplemented from <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a4970321d0a8d22b56f341762cc786372">tmc9660::TMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -608,7 +581,7 @@ Platform implementations should provide accurate microsecond delays when possibl
         <tr>
           <td class="memname">gpio_num_t Esp32UARTTMC9660CommInterface::getGpioPin </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -619,10 +592,10 @@ Platform implementations should provide accurate microsecond delays when possibl
 </table>
 </div><div class="memdoc">
 
-<p>Map <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pins to ESP32 GPIO pins. </p>
+<p>Map TMC9660 control pins to ESP32 GPIO pins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pin</td><td><a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pin </td></tr>
+    <tr><td class="paramname">pin</td><td>TMC9660 control pin </td></tr>
   </table>
   </dd>
 </dl>
@@ -630,14 +603,7 @@ Platform implementations should provide accurate microsecond delays when possibl
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_adc720ec18536078267a5dafdbe63ae72_icgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_adc720ec18536078267a5dafdbe63ae72_icgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_adc720ec18536078267a5dafdbe63ae72_icgraph" id="aclassEsp32UARTTMC9660CommInterface_adc720ec18536078267a5dafdbe63ae72_icgraph">
-<area shape="rect" title="Map TMC9660 control pins to ESP32 GPIO pins." alt="" coords="312,37,571,77"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#a27947e26727e95168856878ecefd2bfe" title="Read GPIO pin level for TMC9660 status pins." alt="" coords="5,5,264,45"/>
-<area shape="poly" title=" " alt="" coords="298,45,264,41,265,36,299,40"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#afb5f9538bd39ab862ee05d57774a9b38" title="Set GPIO pin signal state for TMC9660 control pins." alt="" coords="5,69,264,109"/>
-<area shape="poly" title=" " alt="" coords="299,75,265,78,264,73,298,70"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_adc720ec18536078267a5dafdbe63ae72_icgraph.svg" width="576" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -654,12 +620,12 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">bool Esp32UARTTMC9660CommInterface::gpioRead </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em>, </span></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>signal</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>signal</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -669,28 +635,21 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Read GPIO pin level for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> status pins. </p>
+<p>Read GPIO pin level for TMC9660 status pins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pin</td><td>The <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pin to read </td></tr>
+    <tr><td class="paramname">pin</td><td>The TMC9660 control pin to read </td></tr>
     <tr><td class="paramname">level</td><td>Reference to store the current GPIO level </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was read successfully </dd></dl>
 
-<p>Implements <a class="el" href="classUARTTMC9660CommInterface.html#ac5d3e59d9e1d83b469becd9589578262">UARTTMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#ae4c190d294cd6c298731095b68c99eb1">tmc9660::UARTTMC9660CommInterface</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_a27947e26727e95168856878ecefd2bfe_cgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_a27947e26727e95168856878ecefd2bfe_cgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_a27947e26727e95168856878ecefd2bfe_cgraph" id="aclassEsp32UARTTMC9660CommInterface_a27947e26727e95168856878ecefd2bfe_cgraph">
-<area shape="rect" title="Read GPIO pin level for TMC9660 status pins." alt="" coords="5,37,264,77"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#adc720ec18536078267a5dafdbe63ae72" title="Map TMC9660 control pins to ESP32 GPIO pins." alt="" coords="312,5,571,45"/>
-<area shape="poly" title=" " alt="" coords="264,41,298,38,299,43,264,47"/>
-<area shape="rect" href="classTMC9660CommInterface.html#aa78ede0bb037b376523de858fd1842f9" title="Convert physical GPIO level to signal state." alt="" coords="349,69,533,109"/>
-<area shape="poly" title=" " alt="" coords="264,68,336,76,335,81,264,73"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_a27947e26727e95168856878ecefd2bfe_cgraph.svg" width="576" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -707,12 +666,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">bool Esp32UARTTMC9660CommInterface::gpioSet </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="TMC9660CommInterface_8hpp.html#acff246d6d91de29d3187d13a76bdbb92">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em>, </span></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a></td>          <td class="paramname"><span class="paramname"><em>pin</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="TMC9660CommInterface_8hpp.html#ababe8d3a3784211ba6119c7f297d9182">GpioSignal</a></td>          <td class="paramname"><span class="paramname"><em>signal</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a></td>          <td class="paramname"><span class="paramname"><em>signal</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -722,28 +681,21 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Set GPIO pin signal state for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pins. </p>
+<p>Set GPIO pin signal state for TMC9660 control pins. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pin</td><td>The <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> control pin to control </td></tr>
+    <tr><td class="paramname">pin</td><td>The TMC9660 control pin to control </td></tr>
     <tr><td class="paramname">signal</td><td>The desired signal state </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was set successfully </dd></dl>
 
-<p>Implements <a class="el" href="classUARTTMC9660CommInterface.html#a577b3042dc2b3e8503d848b7ca29f0a3">UARTTMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#afbef7104833b1444af58553117c2a1e9">tmc9660::UARTTMC9660CommInterface</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_afb5f9538bd39ab862ee05d57774a9b38_cgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_afb5f9538bd39ab862ee05d57774a9b38_cgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_afb5f9538bd39ab862ee05d57774a9b38_cgraph" id="aclassEsp32UARTTMC9660CommInterface_afb5f9538bd39ab862ee05d57774a9b38_cgraph">
-<area shape="rect" title="Set GPIO pin signal state for TMC9660 control pins." alt="" coords="5,37,264,77"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#adc720ec18536078267a5dafdbe63ae72" title="Map TMC9660 control pins to ESP32 GPIO pins." alt="" coords="312,5,571,45"/>
-<area shape="poly" title=" " alt="" coords="264,41,298,38,299,43,264,47"/>
-<area shape="rect" href="classTMC9660CommInterface.html#a03a943c67002937f9e64ed314d8b4a8d" title="Convert signal state to physical GPIO level." alt="" coords="349,69,533,109"/>
-<area shape="poly" title=" " alt="" coords="264,68,336,76,335,81,264,73"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_afb5f9538bd39ab862ee05d57774a9b38_cgraph.svg" width="576" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -776,12 +728,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_a61a9ca35aa617be3c0ecb99e8c541fb2_cgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_a61a9ca35aa617be3c0ecb99e8c541fb2_cgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_a61a9ca35aa617be3c0ecb99e8c541fb2_cgraph" id="aclassEsp32UARTTMC9660CommInterface_a61a9ca35aa617be3c0ecb99e8c541fb2_cgraph">
-<area shape="rect" title="Initialize the UART interface." alt="" coords="5,5,264,45"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html#a1743122417cd034987509116af20b06a" title="Configure GPIO pins for TMC9660 control and status." alt="" coords="312,5,571,45"/>
-<area shape="poly" title=" " alt="" coords="264,23,298,23,298,28,264,28"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_a61a9ca35aa617be3c0ecb99e8c541fb2_cgraph.svg" width="576" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -796,7 +743,7 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="TMC9660CommInterface_8hpp.html#a5ce2fbb6d6783b713d7ed4f43f84efb9">CommMode</a> Esp32UARTTMC9660CommInterface::mode </td>
+          <td class="memname"><a class="el" href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14">CommMode</a> Esp32UARTTMC9660CommInterface::mode </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td> const</td>
@@ -810,9 +757,9 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Get communication mode. </p>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="TMC9660CommInterface_8hpp.html#a5ce2fbb6d6783b713d7ed4f43f84efb9acec5769b01fb096efaf0d6186823c78f" title="UART (Universal Asynchronous Receiver-Transmitter) mode - 2-wire asynchronous communication.">CommMode::UART</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>CommMode::UART </dd></dl>
 
-<p>Implements <a class="el" href="classTMC9660CommInterface.html#a4b16867db92cdea700f64ca0c89ea501">TMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#adfd956d74a0ba053334de4de984e35b9">tmc9660::TMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -828,12 +775,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">bool Esp32UARTTMC9660CommInterface::transferTMCL </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tx</em>, </span></td>
+          <td class="paramtype">const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tx</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structTMCLReply.html">TMCLReply</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>reply</em>, </span></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>reply</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -843,12 +790,12 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structTMCLReply.html">TMCLReply</a> *</td>          <td class="paramname"><span class="paramname"><em>firstReply</em>, </span></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1TMCLReply.html">TMCLReply</a> *</td>          <td class="paramname"><span class="paramname"><em>firstReply</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structTMCLFrame.html">TMCLFrame</a> *</td>          <td class="paramname"><span class="paramname"><em>secondCommand</em></span>&#160;)</td>
+          <td class="paramtype">const <a class="el" href="structtmc9660_1_1TMCLFrame.html">TMCLFrame</a> *</td>          <td class="paramname"><span class="paramname"><em>secondCommand</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -863,7 +810,7 @@ Here is the call graph for this function:</div>
   <table class="params">
     <tr><td class="paramname">tx</td><td>TMCL command frame to transmit </td></tr>
     <tr><td class="paramname">reply</td><td>TMCL reply frame to receive </td></tr>
-    <tr><td class="paramname">address</td><td><a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> module address </td></tr>
+    <tr><td class="paramname">address</td><td>TMC9660 module address </td></tr>
     <tr><td class="paramname">firstReply</td><td>Optional pointer to capture first reply (ignored for UART) </td></tr>
     <tr><td class="paramname">secondCommand</td><td>Optional second command (ignored for UART) </td></tr>
   </table>
@@ -871,22 +818,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if transfer succeeded </dd></dl>
 
-<p>Implements <a class="el" href="classTMC9660CommInterface.html#a75fd92f3b0c89ef48608933cc4e6e3bc">TMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1TMC9660CommInterface.html#a148c11313beebefef24450689d2d56cc">tmc9660::TMC9660CommInterface</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classEsp32UARTTMC9660CommInterface_a576246048cac498b368621b30ab0dbdd_cgraph.png" border="0" usemap="#aclassEsp32UARTTMC9660CommInterface_a576246048cac498b368621b30ab0dbdd_cgraph" alt=""/></div>
-<map name="aclassEsp32UARTTMC9660CommInterface_a576246048cac498b368621b30ab0dbdd_cgraph" id="aclassEsp32UARTTMC9660CommInterface_a576246048cac498b368621b30ab0dbdd_cgraph">
-<area shape="rect" title="Transfer TMCL frame over UART for parameter mode communication." alt="" coords="5,27,264,67"/>
-<area shape="rect" href="structTMCLReply.html#a45b99aee319f854fc3ef8e02165413a5" title="Decode and validate reply from UART TMCL datagram." alt="" coords="323,5,485,31"/>
-<area shape="poly" title=" " alt="" coords="264,31,310,26,310,31,265,36"/>
-<area shape="rect" href="classTMC9660CommInterface.html#a4cb4a058e754cd799c7bb0f521083eff" title="Public debug logging wrapper for external classes." alt="" coords="312,55,496,95"/>
-<area shape="poly" title=" " alt="" coords="265,58,298,62,298,67,264,63"/>
-<area shape="rect" href="TMC9660CommInterface_8hpp.html#aac0e84a72fe3c933f881e4083d280329" title="Calculate 8&#45;bit checksum using sum of bytes method." alt="" coords="577,5,695,31"/>
-<area shape="poly" title=" " alt="" coords="485,15,563,15,563,21,485,21"/>
-<area shape="rect" href="classTMC9660CommInterface.html#adacafc87cb2be98b1ad8bf9770b29642" title="Debug logging function for detailed debugging information." alt="" coords="544,55,728,95"/>
-<area shape="poly" title=" " alt="" coords="497,73,530,73,530,78,497,78"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEsp32UARTTMC9660CommInterface_a576246048cac498b368621b30ab0dbdd_cgraph.svg" width="864" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -923,7 +859,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if reception succeeded </dd></dl>
 
-<p>Implements <a class="el" href="classUARTTMC9660CommInterface.html#a44de15a54e3809ae8f396795c079d8e4">UARTTMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#a45a563fae8e135616007757da5433a24">tmc9660::UARTTMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -959,7 +895,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if transmission succeeded </dd></dl>
 
-<p>Implements <a class="el" href="classUARTTMC9660CommInterface.html#a0d051df9793108019d91d535be9efabd">UARTTMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#ab4c94b06ae2d4658425ef9bf74dcdf1c">tmc9660::UARTTMC9660CommInterface</a>.</p>
 
 </div>
 </div>
@@ -1000,7 +936,7 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if transfer succeeded </dd></dl>
 
-<p>Implements <a class="el" href="classUARTTMC9660CommInterface.html#a17c1d264c02151221b6de8f5ab3771cb">UARTTMC9660CommInterface</a>.</p>
+<p>Implements <a class="el" href="classtmc9660_1_1UARTTMC9660CommInterface.html#a3b58c00fc68997af86f9c755498fd2ca">tmc9660::UARTTMC9660CommInterface</a>.</p>
 
 </div>
 </div>

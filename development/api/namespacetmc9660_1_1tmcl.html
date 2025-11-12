@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -99,7 +101,7 @@ $(function(){initNavTree('namespacetmc9660_1_1tmcl.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 
-<p>TMCL command interface namespace for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>.  
+<p>TMCL command interface namespace for <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -614,9 +616,9 @@ Functions</h2></td></tr>
 <tr class="separator:aa9aa236f2724b7c8c9cc665210a2dd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">System Supply Parameters</h2></td></tr>
-<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md8"></a>
+<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md10"></a>
 @{</h2>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 System Supply Parameters</h2>
 </td></tr>
 <tr class="memitem:a2bb01ac564c237e3029b8cad6234a9a8" id="r_a2bb01ac564c237e3029b8cad6234a9a8"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bb01ac564c237e3029b8cad6234a9a8">SystemStatusSupply</a> : uint16_t { <a class="el" href="#a2bb01ac564c237e3029b8cad6234a9a8a756045a8d37de34ca27188466b2c0c8b">X</a>
@@ -626,9 +628,9 @@ System Supply Parameters</h2>
 <tr class="separator:a5684791775ae88b3a8d42147e8432459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">Internal Measurement Parameters</h2></td></tr>
-<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md10"></a>
+<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md12"></a>
 @{</h2>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 Internal Measurement Parameters</h2>
 </td></tr>
 <tr class="memitem:a739f20f7cb02b0daa29e585a5d9a48e5" id="r_a739f20f7cb02b0daa29e585a5d9a48e5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a739f20f7cb02b0daa29e585a5d9a48e5">InternalMeasurement</a> : uint16_t { <a class="el" href="#a739f20f7cb02b0daa29e585a5d9a48e5a756045a8d37de34ca27188466b2c0c8b">X</a>
@@ -638,9 +640,9 @@ Internal Measurement Parameters</h2>
 <tr class="separator:a6aea3f257a178f94e478d39258dd8db2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">Combined Diagnostic Values</h2></td></tr>
-<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md12"></a>
+<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md14"></a>
 @{</h2>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Combined Diagnostic Values</h2>
 </td></tr>
 <tr class="memitem:a08c1994a79de4fcec7a22ea53ae516c7" id="r_a08c1994a79de4fcec7a22ea53ae516c7"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08c1994a79de4fcec7a22ea53ae516c7">CombinedDiagnosticValues</a> : uint16_t { <a class="el" href="#a08c1994a79de4fcec7a22ea53ae516c7a756045a8d37de34ca27188466b2c0c8b">X</a>
@@ -678,7 +680,7 @@ Combined Diagnostic Values</h2>
 <tr class="separator:aa88ea476b9a5e616e6057db7351d4e6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">ADC Status Flags</h2></td></tr>
-<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md14"></a>
+<tr><td class="ititle" colspan="2"><h2><a class="anchor" id="autotoc_md16"></a>
 @{</h2>
 </td></tr>
 <tr class="memitem:a522fa2332ef2d2d9eb028fb80ee7b4cb" id="r_a522fa2332ef2d2d9eb028fb80ee7b4cb"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a522fa2332ef2d2d9eb028fb80ee7b4cb">AdcStatusFlags</a> : uint32_t { <a class="el" href="#a522fa2332ef2d2d9eb028fb80ee7b4cba756045a8d37de34ca27188466b2c0c8b">X</a>
@@ -688,8 +690,8 @@ Combined Diagnostic Values</h2>
 <tr class="separator:ab7349b6572359c258a1e2949eb8e6d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>TMCL command interface namespace for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>. </p>
-<p>This namespace contains all TMCL (Trinamic Motion Control Language) related definitions for the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> motor driver. It provides comprehensive command structures, parameter definitions, and reply handling for parameter mode operation of the <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>. </p>
+<div class="textblock"><p>TMCL command interface namespace for <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>. </p>
+<p>This namespace contains all TMCL (Trinamic Motion Control Language) related definitions for the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> motor driver. It provides comprehensive command structures, parameter definitions, and reply handling for parameter mode operation of the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>. </p>
 </div><h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="add6e015f26fa726f4b8d63afb20df81e" name="add6e015f26fa726f4b8d63afb20df81e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add6e015f26fa726f4b8d63afb20df81e">&#9670;&#160;</a></span>AbnInitMethod</h2>
@@ -4267,17 +4269,7 @@ Combined Diagnostic Values</h2>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacetmc9660_1_1tmcl_a358f3f7053b6b3249f91cbf69dcf5900_icgraph.png" border="0" usemap="#anamespacetmc9660_1_1tmcl_a358f3f7053b6b3249f91cbf69dcf5900_icgraph" alt=""/></div>
-<map name="anamespacetmc9660_1_1tmcl_a358f3f7053b6b3249f91cbf69dcf5900_icgraph" id="anamespacetmc9660_1_1tmcl_a358f3f7053b6b3249f91cbf69dcf5900_icgraph">
-<area shape="rect" title=" " alt="" coords="523,35,704,60"/>
-<area shape="rect" href="classTMC9660.html#a3bffdf8a19eb7e0a1bac933c85df7d94" title="Send a TMCL command. Optionally return the 32&#45;bit reply value." alt="" coords="285,35,475,60"/>
-<area shape="poly" title=" " alt="" coords="509,50,475,50,475,45,509,45"/>
-<area shape="poly" title=" " alt="" coords="422,26,411,17,380,13,355,15,342,20,339,26,346,33,342,36,334,26,338,16,354,10,380,8,413,12,425,21"/>
-<area shape="rect" href="classTMC9660.html#a8723d78a8385ab042a7ad7bc75b2ddbc" title="Exit parameter mode and return to bootloader mode." alt="" coords="5,5,237,31"/>
-<area shape="poly" title=" " alt="" coords="271,38,233,33,234,28,272,32"/>
-<area shape="rect" href="structTMC9660_1_1TorqueFluxControl.html#affcc3c9ec8f633a7c255bdd43b029dba" title="Stop torque/flux control (SYSTEM_OFF)." alt="" coords="17,55,226,95"/>
-<area shape="poly" title=" " alt="" coords="272,62,227,67,226,61,271,56"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="namespacetmc9660_1_1tmcl_a358f3f7053b6b3249f91cbf69dcf5900_icgraph.svg" width="840" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

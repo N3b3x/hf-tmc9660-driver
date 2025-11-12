@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -98,429 +100,89 @@ $(function(){initNavTree('hierarchy.html',''); initResizable(); });
 <div class="textblock">
 <p><a href="hierarchy.html">Go to the textual class hierarchy</a></p>
 </div><table border="0" cellspacing="10" cellpadding="0">
-<tr><td><img src="inherit_graph_0.png" border="0" usemap="#aEsp32TMC9660BusConfig" alt=""/>
-<map name="aEsp32TMC9660BusConfig" id="aEsp32TMC9660BusConfig">
-<area shape="rect" href="structEsp32TMC9660BusConfig.html" title="Common bus configuration for ESP32 TMC9660 tests." alt="" coords="5,5,192,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_1.png" border="0" usemap="#aTestDriverHandle" alt=""/>
-<map name="aTestDriverHandle" id="aTestDriverHandle">
-<area shape="rect" href="structTestDriverHandle.html" title=" " alt="" coords="5,5,140,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" usemap="#aTestResults" alt=""/>
-<map name="aTestResults" id="aTestResults">
-<area shape="rect" href="structTestResults.html" title="Test execution tracking and results accumulation." alt="" coords="5,5,101,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" usemap="#aTestTaskContext" alt=""/>
-<map name="aTestTaskContext" id="aTestTaskContext">
-<area shape="rect" href="structTestTaskContext.html" title="Context passed to test task trampoline." alt="" coords="5,5,133,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" usemap="#aTMC9660" alt=""/>
-<map name="aTMC9660" id="aTMC9660">
-<area shape="rect" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode." alt="" coords="5,5,88,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" usemap="#atmc9660_1_1ABN1Config" alt=""/>
-<map name="atmc9660_1_1ABN1Config" id="atmc9660_1_1ABN1Config">
-<area shape="rect" href="structtmc9660_1_1ABN1Config.html" title="ABN encoder 1 configuration for incremental encoder feedback." alt="" coords="5,5,169,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" usemap="#atmc9660_1_1ABN2Config" alt=""/>
-<map name="atmc9660_1_1ABN2Config" id="atmc9660_1_1ABN2Config">
-<area shape="rect" href="structtmc9660_1_1ABN2Config.html" title="ABN encoder 2 configuration for second incremental encoder." alt="" coords="5,5,169,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" usemap="#aTMC9660_1_1ADC_1_1CSA__SETUP" alt=""/>
-<map name="aTMC9660_1_1ADC_1_1CSA__SETUP" id="aTMC9660_1_1ADC_1_1CSA__SETUP">
-<area shape="rect" href="structTMC9660_1_1ADC_1_1CSA__SETUP.html" title="Current Sense Amplifier (CSA) Setup Register for current measurement configuration." alt="" coords="5,5,208,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" usemap="#aTMC9660_1_1ADC_1_1SETUP" alt=""/>
-<map name="aTMC9660_1_1ADC_1_1SETUP" id="aTMC9660_1_1ADC_1_1SETUP">
-<area shape="rect" href="structTMC9660_1_1ADC_1_1SETUP.html" title="ADC Setup Register for timing and operational configuration." alt="" coords="5,5,175,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" usemap="#aTMC9660_1_1ADC_1_1SRC__CONFIG" alt=""/>
-<map name="aTMC9660_1_1ADC_1_1SRC__CONFIG" id="aTMC9660_1_1ADC_1_1SRC__CONFIG">
-<area shape="rect" href="structTMC9660_1_1ADC_1_1SRC__CONFIG.html" title="ADC Sources Configuration Register for input routing and multiplexer control." alt="" coords="5,5,216,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_10.png" border="0" usemap="#aTMC9660_1_1ADC_1_1STATUS__FLAGS" alt=""/>
-<map name="aTMC9660_1_1ADC_1_1STATUS__FLAGS" id="aTMC9660_1_1ADC_1_1STATUS__FLAGS">
-<area shape="rect" href="structTMC9660_1_1ADC_1_1STATUS__FLAGS.html" title="ADC Status Flags Register for monitoring ADC health and readiness." alt="" coords="5,5,181,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_11.png" border="0" usemap="#atmc9660_1_1BootConfig" alt=""/>
-<map name="atmc9660_1_1BootConfig" id="atmc9660_1_1BootConfig">
-<area shape="rect" href="structtmc9660_1_1BootConfig.html" title="Bootloader behavior configuration structure." alt="" coords="5,5,164,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" usemap="#atmc9660_1_1BootloaderCommandSPI" alt=""/>
-<map name="atmc9660_1_1BootloaderCommandSPI" id="atmc9660_1_1BootloaderCommandSPI">
-<area shape="rect" href="structtmc9660_1_1BootloaderCommandSPI.html" title="Bootloader command structure for SPI (40&#45;bit / 5&#45;byte protocol)." alt="" coords="5,5,251,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" usemap="#atmc9660_1_1BootloaderCommandUART" alt=""/>
-<map name="atmc9660_1_1BootloaderCommandUART" id="atmc9660_1_1BootloaderCommandUART">
-<area shape="rect" href="structtmc9660_1_1BootloaderCommandUART.html" title="Bootloader command structure for UART (64&#45;bit / 8&#45;byte protocol)." alt="" coords="5,5,265,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_14.png" border="0" usemap="#atmc9660_1_1BootloaderConfig" alt=""/>
-<map name="atmc9660_1_1BootloaderConfig" id="atmc9660_1_1BootloaderConfig">
-<area shape="rect" href="structtmc9660_1_1BootloaderConfig.html" title="Complete bootloader configuration structure." alt="" coords="5,5,204,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" usemap="#atmc9660_1_1BootloaderFeatures" alt=""/>
-<map name="atmc9660_1_1BootloaderFeatures" id="atmc9660_1_1BootloaderFeatures">
-<area shape="rect" href="structtmc9660_1_1BootloaderFeatures.html" title="Feature flags indicating available bootloader capabilities." alt="" coords="5,5,220,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" usemap="#atmc9660_1_1BootloaderReplySPI" alt=""/>
-<map name="atmc9660_1_1BootloaderReplySPI" id="atmc9660_1_1BootloaderReplySPI">
-<area shape="rect" href="structtmc9660_1_1BootloaderReplySPI.html" title="Bootloader reply structure for SPI (40&#45;bit / 5&#45;byte protocol)." alt="" coords="5,5,220,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" usemap="#atmc9660_1_1BootloaderReplyUART" alt=""/>
-<map name="atmc9660_1_1BootloaderReplyUART" id="atmc9660_1_1BootloaderReplyUART">
-<area shape="rect" href="structtmc9660_1_1BootloaderReplyUART.html" title="Bootloader reply structure for UART (64&#45;bit / 8&#45;byte protocol)." alt="" coords="5,5,236,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" usemap="#atmc9660_1_1BootloaderVersion" alt=""/>
-<map name="atmc9660_1_1BootloaderVersion" id="atmc9660_1_1BootloaderVersion">
-<area shape="rect" href="structtmc9660_1_1BootloaderVersion.html" title="Bootloader version information structure." alt="" coords="5,5,212,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" usemap="#aTMC9660_1_1Brake" alt=""/>
-<map name="aTMC9660_1_1Brake" id="aTMC9660_1_1Brake">
-<area shape="rect" href="structTMC9660_1_1Brake.html" title="Subsystem controlling the brake chopper and mechanical brake features." alt="" coords="5,5,133,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" usemap="#aTMC9660_1_1Brake_1_1BrakeConfig" alt=""/>
-<map name="aTMC9660_1_1Brake_1_1BrakeConfig" id="aTMC9660_1_1Brake_1_1BrakeConfig">
-<area shape="rect" href="structTMC9660_1_1Brake_1_1BrakeConfig.html" title="Configuration structure for brake auto&#45;configuration." alt="" coords="5,5,220,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_21.png" border="0" usemap="#atmc9660_1_1BrakeChopperConfig" alt=""/>
-<map name="atmc9660_1_1BrakeChopperConfig" id="atmc9660_1_1BrakeChopperConfig">
-<area shape="rect" href="structtmc9660_1_1BrakeChopperConfig.html" title="Brake chopper configuration for dynamic braking." alt="" coords="5,5,224,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_22.png" border="0" usemap="#atmc9660_1_1ClockConfig" alt=""/>
-<map name="atmc9660_1_1ClockConfig" id="atmc9660_1_1ClockConfig">
-<area shape="rect" href="structtmc9660_1_1ClockConfig.html" title="System clock configuration structure." alt="" coords="5,5,169,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_23.png" border="0" usemap="#aTMC9660_1_1CurrentSensing" alt=""/>
-<map name="aTMC9660_1_1CurrentSensing" id="aTMC9660_1_1CurrentSensing">
-<area shape="rect" href="structTMC9660_1_1CurrentSensing.html" title="Subsystem for configuring ADC&#45;based current measurement." alt="" coords="5,5,196,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_24.png" border="0" usemap="#aTMC9660_1_1CurrentSensing_1_1AutoConfig" alt=""/>
-<map name="aTMC9660_1_1CurrentSensing_1_1AutoConfig" id="aTMC9660_1_1CurrentSensing_1_1AutoConfig">
-<area shape="rect" href="structTMC9660_1_1CurrentSensing_1_1AutoConfig.html" title="Configuration structure for auto&#45;configuring current sensing." alt="" coords="5,5,196,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_25.png" border="0" usemap="#aTMC9660_1_1FeedbackSense" alt=""/>
-<map name="aTMC9660_1_1FeedbackSense" id="aTMC9660_1_1FeedbackSense">
-<area shape="rect" href="structTMC9660_1_1FeedbackSense.html" title="Subsystem for feedback sensor configuration." alt="" coords="5,5,197,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_26.png" border="0" usemap="#aTMC9660_1_1FeedbackSense_1_1Abn2Config" alt=""/>
-<map name="aTMC9660_1_1FeedbackSense_1_1Abn2Config" id="aTMC9660_1_1FeedbackSense_1_1Abn2Config">
-<area shape="rect" href="structTMC9660_1_1FeedbackSense_1_1Abn2Config.html" title="Configuration structure for ABN2 (secondary) encoder auto&#45;configuration." alt="" coords="5,5,197,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_27.png" border="0" usemap="#aTMC9660_1_1FeedbackSense_1_1AbnConfig" alt=""/>
-<map name="aTMC9660_1_1FeedbackSense_1_1AbnConfig" id="aTMC9660_1_1FeedbackSense_1_1AbnConfig">
-<area shape="rect" href="structTMC9660_1_1FeedbackSense_1_1AbnConfig.html" title="Configuration structure for ABN encoder auto&#45;configuration." alt="" coords="5,5,197,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_28.png" border="0" usemap="#aTMC9660_1_1FeedbackSense_1_1HallConfig" alt=""/>
-<map name="aTMC9660_1_1FeedbackSense_1_1HallConfig" id="aTMC9660_1_1FeedbackSense_1_1HallConfig">
-<area shape="rect" href="structTMC9660_1_1FeedbackSense_1_1HallConfig.html" title="Configuration structure for Hall sensor auto&#45;configuration." alt="" coords="5,5,197,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_29.png" border="0" usemap="#aTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig" alt=""/>
-<map name="aTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig" id="aTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig">
-<area shape="rect" href="structTMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html" title="Configuration structure for SPI encoder auto&#45;configuration." alt="" coords="5,5,197,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_30.png" border="0" usemap="#aTMC9660_1_1GateDriver" alt=""/>
-<map name="aTMC9660_1_1GateDriver" id="aTMC9660_1_1GateDriver">
-<area shape="rect" href="structTMC9660_1_1GateDriver.html" title="Subsystem for configuring the MOSFET gate driver." alt="" coords="5,5,168,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_31.png" border="0" usemap="#aTMC9660_1_1GateDriver_1_1PowerStageProfile" alt=""/>
-<map name="aTMC9660_1_1GateDriver_1_1PowerStageProfile" id="aTMC9660_1_1GateDriver_1_1PowerStageProfile">
-<area shape="rect" href="structTMC9660_1_1GateDriver_1_1PowerStageProfile.html" title="Configuration structure for auto&#45;configuring power stage protection." alt="" coords="5,5,168,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_32.png" border="0" usemap="#atmc9660_1_1GitInfo" alt=""/>
-<map name="atmc9660_1_1GitInfo" id="atmc9660_1_1GitInfo">
-<area shape="rect" href="structtmc9660_1_1GitInfo.html" title="Git version control information from bootloader firmware." alt="" coords="5,5,136,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_33.png" border="0" usemap="#aTMC9660_1_1Globals" alt=""/>
-<map name="aTMC9660_1_1Globals" id="aTMC9660_1_1Globals">
-<area shape="rect" href="structTMC9660_1_1Globals.html" title="Convenience helpers for reading and writing global parameters." alt="" coords="5,5,145,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_34.png" border="0" usemap="#aTMC9660_1_1GPIO" alt=""/>
-<map name="aTMC9660_1_1GPIO" id="aTMC9660_1_1GPIO">
-<area shape="rect" href="structTMC9660_1_1GPIO.html" title="Subsystem for configuring general&#45;purpose IOs (GPIOs)." alt="" coords="5,5,128,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_35.png" border="0" usemap="#atmc9660_1_1GPIOConfig" alt=""/>
-<map name="atmc9660_1_1GPIOConfig" id="atmc9660_1_1GPIOConfig">
-<area shape="rect" href="structtmc9660_1_1GPIOConfig.html" title="GPIO configuration structure for bootloader operation." alt="" coords="5,5,165,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_36.png" border="0" usemap="#atmc9660_1_1HallConfig" alt=""/>
-<map name="atmc9660_1_1HallConfig" id="atmc9660_1_1HallConfig">
-<area shape="rect" href="structtmc9660_1_1HallConfig.html" title="Hall encoder configuration for BLDC motor feedback." alt="" coords="5,5,160,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_37.png" border="0" usemap="#aTMC9660_1_1Heartbeat" alt=""/>
-<map name="aTMC9660_1_1Heartbeat" id="aTMC9660_1_1Heartbeat">
-<area shape="rect" href="structTMC9660_1_1Heartbeat.html" title="Subsystem for configuring the communication watchdog (heartbeat)." alt="" coords="5,5,161,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_38.png" border="0" usemap="#aTMC9660_1_1Heartbeat_1_1HeartbeatConfig" alt=""/>
-<map name="aTMC9660_1_1Heartbeat_1_1HeartbeatConfig" id="aTMC9660_1_1Heartbeat_1_1HeartbeatConfig">
-<area shape="rect" href="structTMC9660_1_1Heartbeat_1_1HeartbeatConfig.html" title="Configuration structure for heartbeat auto&#45;configuration." alt="" coords="5,5,161,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_39.png" border="0" usemap="#atmc9660_1_1I2CConfig" alt=""/>
-<map name="atmc9660_1_1I2CConfig" id="atmc9660_1_1I2CConfig">
-<area shape="rect" href="structtmc9660_1_1I2CConfig.html" title="External I2C EEPROM configuration structure." alt="" coords="5,5,155,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_40.png" border="0" usemap="#aTMC9660_1_1IIT" alt=""/>
-<map name="aTMC9660_1_1IIT" id="aTMC9660_1_1IIT">
-<area shape="rect" href="structTMC9660_1_1IIT.html" title="Subsystem for motor thermal overload protection via I²t integration." alt="" coords="5,5,112,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_41.png" border="0" usemap="#atmc9660_1_1LDOConfig" alt=""/>
-<map name="atmc9660_1_1LDOConfig" id="atmc9660_1_1LDOConfig">
-<area shape="rect" href="structtmc9660_1_1LDOConfig.html" title="Configuration structure for on&#45;chip LDO regulators." alt="" coords="5,5,160,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_42.png" border="0" usemap="#atmc9660_1_1MechBrakeConfig" alt=""/>
-<map name="atmc9660_1_1MechBrakeConfig" id="atmc9660_1_1MechBrakeConfig">
-<area shape="rect" href="structtmc9660_1_1MechBrakeConfig.html" title="Mechanical brake configuration for holding motor position." alt="" coords="5,5,205,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_43.png" border="0" usemap="#atmc9660_1_1MemStorageConfig" alt=""/>
-<map name="atmc9660_1_1MemStorageConfig" id="atmc9660_1_1MemStorageConfig">
-<area shape="rect" href="structtmc9660_1_1MemStorageConfig.html" title="External memory storage configuration for TMCL scripts and parameters." alt="" coords="5,5,216,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_44.png" border="0" usemap="#aTMC9660_1_1MotorConfig" alt=""/>
-<map name="aTMC9660_1_1MotorConfig" id="aTMC9660_1_1MotorConfig">
-<area shape="rect" href="structTMC9660_1_1MotorConfig.html" title="Motor configuration and control subsystem." alt="" coords="5,5,176,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_45.png" border="0" usemap="#aTMC9660_1_1MotorConfig_1_1MotorProfile" alt=""/>
-<map name="aTMC9660_1_1MotorConfig_1_1MotorProfile" id="aTMC9660_1_1MotorConfig_1_1MotorProfile">
-<area shape="rect" href="structTMC9660_1_1MotorConfig_1_1MotorProfile.html" title="Configuration structure for auto&#45;configuring motor parameters." alt="" coords="5,5,176,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_46.png" border="0" usemap="#aTMC9660_1_1NvmStorage" alt=""/>
-<map name="aTMC9660_1_1NvmStorage" id="aTMC9660_1_1NvmStorage">
-<area shape="rect" href="structTMC9660_1_1NvmStorage.html" title="Subsystem for storing and recalling parameters from nonvolatile flash." alt="" coords="5,5,177,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_47.png" border="0" usemap="#atmc9660_1_1OtpBurnResult" alt=""/>
-<map name="atmc9660_1_1OtpBurnResult" id="atmc9660_1_1OtpBurnResult">
-<area shape="rect" href="structtmc9660_1_1OtpBurnResult.html" title="OTP burn operation result information." alt="" coords="5,5,187,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_48.png" border="0" usemap="#atmc9660_1_1OtpLoadResult" alt=""/>
-<map name="atmc9660_1_1OtpLoadResult" id="atmc9660_1_1OtpLoadResult">
-<area shape="rect" href="structtmc9660_1_1OtpLoadResult.html" title="OTP load operation result information." alt="" coords="5,5,188,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_49.png" border="0" usemap="#atmc9660_1_1PartitionVersion" alt=""/>
-<map name="atmc9660_1_1PartitionVersion" id="atmc9660_1_1PartitionVersion">
-<area shape="rect" href="structtmc9660_1_1PartitionVersion.html" title="External memory partition version information." alt="" coords="5,5,195,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_50.png" border="0" usemap="#aTMC9660_1_1PositionControl" alt=""/>
-<map name="aTMC9660_1_1PositionControl" id="aTMC9660_1_1PositionControl">
-<area shape="rect" href="structTMC9660_1_1PositionControl.html" title="Subsystem for position control (FOC outer loop)." alt="" coords="5,5,196,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_51.png" border="0" usemap="#aTMC9660_1_1PositionControl_1_1PositionConfig" alt=""/>
-<map name="aTMC9660_1_1PositionControl_1_1PositionConfig" id="aTMC9660_1_1PositionControl_1_1PositionConfig">
-<area shape="rect" href="structTMC9660_1_1PositionControl_1_1PositionConfig.html" title="Configuration structure for position control auto&#45;configuration." alt="" coords="5,5,196,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_52.png" border="0" usemap="#aTMC9660_1_1Power" alt=""/>
-<map name="aTMC9660_1_1Power" id="aTMC9660_1_1Power">
-<area shape="rect" href="structTMC9660_1_1Power.html" title="Subsystem for entering low&#45;power hibernation mode and configuring wake." alt="" coords="5,5,136,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_53.png" border="0" usemap="#aTMC9660_1_1Power_1_1PowerConfig" alt=""/>
-<map name="aTMC9660_1_1Power_1_1PowerConfig" id="aTMC9660_1_1Power_1_1PowerConfig">
-<area shape="rect" href="structTMC9660_1_1Power_1_1PowerConfig.html" title="Configuration structure for power management auto&#45;configuration." alt="" coords="5,5,225,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_54.png" border="0" usemap="#aTMC9660_1_1Protection" alt=""/>
-<map name="aTMC9660_1_1Protection" id="aTMC9660_1_1Protection">
-<area shape="rect" href="structTMC9660_1_1Protection.html" title="Subsystem for motor protection features." alt="" coords="5,5,163,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_55.png" border="0" usemap="#aTMC9660_1_1Protection_1_1ProtectionConfig" alt=""/>
-<map name="aTMC9660_1_1Protection_1_1ProtectionConfig" id="aTMC9660_1_1Protection_1_1ProtectionConfig">
-<area shape="rect" href="structTMC9660_1_1Protection_1_1ProtectionConfig.html" title="Configuration structure for protection auto&#45;configuration." alt="" coords="5,5,163,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_56.png" border="0" usemap="#aTMC9660_1_1RamDebug" alt=""/>
-<map name="aTMC9660_1_1RamDebug" id="aTMC9660_1_1RamDebug">
-<area shape="rect" href="structTMC9660_1_1RamDebug.html" title="Subsystem for debug and data logging features." alt="" coords="5,5,168,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_57.png" border="0" usemap="#aTMC9660_1_1Ramp" alt=""/>
-<map name="aTMC9660_1_1Ramp" id="aTMC9660_1_1Ramp">
-<area shape="rect" href="structTMC9660_1_1Ramp.html" title="Hardware 8&#45;segment acceleration/dec&#45;acc profile controller." alt="" coords="5,5,135,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_58.png" border="0" usemap="#aTMC9660_1_1Ramp_1_1RampConfig" alt=""/>
-<map name="aTMC9660_1_1Ramp_1_1RampConfig" id="aTMC9660_1_1Ramp_1_1RampConfig">
-<area shape="rect" href="structTMC9660_1_1Ramp_1_1RampConfig.html" title="Configuration structure for ramp auto&#45;configuration." alt="" coords="5,5,221,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_59.png" border="0" usemap="#atmc9660_1_1RefConfig" alt=""/>
-<map name="atmc9660_1_1RefConfig" id="atmc9660_1_1RefConfig">
-<area shape="rect" href="structtmc9660_1_1RefConfig.html" title="Reference switches configuration for limit detection and homing." alt="" coords="5,5,156,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_60.png" border="0" usemap="#aTMC9660_1_1ReferenceSearch" alt=""/>
-<map name="aTMC9660_1_1ReferenceSearch" id="aTMC9660_1_1ReferenceSearch">
-<area shape="rect" href="structTMC9660_1_1ReferenceSearch.html" title="Subsystem for executing a reference search (homing) routine." alt="" coords="5,5,207,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_61.png" border="0" usemap="#atmc9660_1_1RS485Config" alt=""/>
-<map name="atmc9660_1_1RS485Config" id="atmc9660_1_1RS485Config">
-<area shape="rect" href="structtmc9660_1_1RS485Config.html" title="RS485 transceiver configuration structure." alt="" coords="5,5,175,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_62.png" border="0" usemap="#aTMC9660_1_1Script" alt=""/>
-<map name="aTMC9660_1_1Script" id="aTMC9660_1_1Script">
-<area shape="rect" href="structTMC9660_1_1Script.html" title="Subsystem for TMCL script execution control." alt="" coords="5,5,133,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_63.png" border="0" usemap="#atmc9660_1_1SPIBootConfig" alt=""/>
-<map name="atmc9660_1_1SPIBootConfig" id="atmc9660_1_1SPIBootConfig">
-<area shape="rect" href="structtmc9660_1_1SPIBootConfig.html" title="SPI interface configuration for bootloader commands." alt="" coords="5,5,184,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_64.png" border="0" usemap="#atmc9660_1_1SPIEncConfig" alt=""/>
-<map name="atmc9660_1_1SPIEncConfig" id="atmc9660_1_1SPIEncConfig">
-<area shape="rect" href="structtmc9660_1_1SPIEncConfig.html" title="SPI encoder configuration for SPI&#45;based position sensors." alt="" coords="5,5,176,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_65.png" border="0" usemap="#atmc9660_1_1SPIFlashConfig" alt=""/>
-<map name="atmc9660_1_1SPIFlashConfig" id="atmc9660_1_1SPIFlashConfig">
-<area shape="rect" href="structtmc9660_1_1SPIFlashConfig.html" title="External SPI flash memory configuration structure." alt="" coords="5,5,188,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_66.png" border="0" usemap="#aTMC9660_1_1StepDir" alt=""/>
-<map name="aTMC9660_1_1StepDir" id="aTMC9660_1_1StepDir">
-<area shape="rect" href="structTMC9660_1_1StepDir.html" title="Subsystem for controlling the STEP/DIR pulse input interface." alt="" coords="5,5,144,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_67.png" border="0" usemap="#atmc9660_1_1StepDirConfig" alt=""/>
-<map name="atmc9660_1_1StepDirConfig" id="atmc9660_1_1StepDirConfig">
-<area shape="rect" href="structtmc9660_1_1StepDirConfig.html" title="Step/Direction interface configuration for stepper motor control." alt="" coords="5,5,181,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_68.png" border="0" usemap="#aTMC9660_1_1StopEvents" alt=""/>
-<map name="aTMC9660_1_1StopEvents" id="aTMC9660_1_1StopEvents">
-<area shape="rect" href="structTMC9660_1_1StopEvents.html" title="Configure automatic stop/latch behaviour for deviation, switches." alt="" coords="5,5,169,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_69.png" border="0" usemap="#aTMC9660_1_1StopEvents_1_1StopEventsConfig" alt=""/>
-<map name="aTMC9660_1_1StopEvents_1_1StopEventsConfig" id="aTMC9660_1_1StopEvents_1_1StopEventsConfig">
-<area shape="rect" href="structTMC9660_1_1StopEvents_1_1StopEventsConfig.html" title="Configuration structure for stop events auto&#45;configuration." alt="" coords="5,5,169,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_70.png" border="0" usemap="#aTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE" alt=""/>
-<map name="aTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE" id="aTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE">
-<area shape="rect" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html" title="Fault Interrupt Enable Mask Register (FAULT_R_ENA_F)" alt="" coords="5,5,168,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_71.png" border="0" usemap="#aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS" alt=""/>
-<map name="aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS" id="aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS">
-<area shape="rect" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS.html" title="Fault Status Register (FAULT_STATUS)" alt="" coords="5,5,168,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_72.png" border="0" usemap="#aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED" alt=""/>
-<map name="aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED" id="aTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED">
-<area shape="rect" href="structTMC9660_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html" title="Latched Fault Flags Register (FAULT_STATUS_LATCHED / FAULT_R_INT)" alt="" coords="5,5,189,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_73.png" border="0" usemap="#aTMC9660_1_1Telemetry" alt=""/>
-<map name="aTMC9660_1_1Telemetry" id="aTMC9660_1_1Telemetry">
-<area shape="rect" href="structTMC9660_1_1Telemetry.html" title="Subsystem for reading various telemetry and status information from the driver." alt="" coords="5,5,161,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_74.png" border="0" usemap="#atmc9660_1_1TMC9660Bootloader" alt=""/>
-<map name="atmc9660_1_1TMC9660Bootloader" id="atmc9660_1_1TMC9660Bootloader">
-<area shape="rect" href="classtmc9660_1_1TMC9660Bootloader.html" title="Convenience wrapper around the bootloader commands for SPI and UART." alt="" coords="5,5,224,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_75.png" border="0" usemap="#aTMC9660_1_1TorqueFluxControl" alt=""/>
-<map name="aTMC9660_1_1TorqueFluxControl" id="aTMC9660_1_1TorqueFluxControl">
-<area shape="rect" href="structTMC9660_1_1TorqueFluxControl.html" title="Subsystem for torque and flux current control (FOC inner loop)." alt="" coords="5,5,215,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_76.png" border="0" usemap="#aTMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig" alt=""/>
-<map name="aTMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig" id="aTMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig">
-<area shape="rect" href="structTMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig.html" title="Configuration structure for torque/flux control auto&#45;configuration." alt="" coords="5,5,215,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_77.png" border="0" usemap="#atmc9660_1_1UARTConfig" alt=""/>
-<map name="atmc9660_1_1UARTConfig" id="atmc9660_1_1UARTConfig">
-<area shape="rect" href="structtmc9660_1_1UARTConfig.html" title="UART communication configuration structure." alt="" coords="5,5,168,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_78.png" border="0" usemap="#aTMC9660_1_1VelocityControl" alt=""/>
-<map name="aTMC9660_1_1VelocityControl" id="aTMC9660_1_1VelocityControl">
-<area shape="rect" href="structTMC9660_1_1VelocityControl.html" title="Subsystem for velocity control (FOC middle loop)." alt="" coords="5,5,196,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_79.png" border="0" usemap="#aTMC9660_1_1VelocityControl_1_1VelocityConfig" alt=""/>
-<map name="aTMC9660_1_1VelocityControl_1_1VelocityConfig" id="aTMC9660_1_1VelocityControl_1_1VelocityConfig">
-<area shape="rect" href="structTMC9660_1_1VelocityControl_1_1VelocityConfig.html" title="Configuration structure for velocity control auto&#45;configuration." alt="" coords="5,5,196,45"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_80.png" border="0" usemap="#aTMC9660CommInterface" alt=""/>
-<map name="aTMC9660CommInterface" id="aTMC9660CommInterface">
-<area shape="rect" href="classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="5,31,189,56"/>
-<area shape="rect" href="classSPITMC9660CommInterface.html" title="SPI implementation of TMC9660CommInterface." alt="" coords="245,5,449,31"/>
-<area shape="poly" title=" " alt="" coords="203,30,244,26,245,31,203,35"/>
-<area shape="rect" href="classUARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="237,55,456,80"/>
-<area shape="poly" title=" " alt="" coords="203,51,237,54,237,59,203,56"/>
-<area shape="rect" href="classEsp32SPITMC9660CommInterface.html" title="ESP32 SPI implementation of TMC9660CommInterface." alt="" coords="512,5,755,31"/>
-<area shape="poly" title=" " alt="" coords="462,15,512,15,512,21,462,21"/>
-<area shape="rect" href="classEsp32UARTTMC9660CommInterface.html" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="504,55,763,80"/>
-<area shape="poly" title=" " alt="" coords="470,65,504,65,504,70,470,70"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_81.png" border="0" usemap="#aTMCLFrame" alt=""/>
-<map name="aTMCLFrame" id="aTMCLFrame">
-<area shape="rect" href="structTMCLFrame.html" title="Frame structure for TMCL commands." alt="" coords="5,5,104,31"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_82.png" border="0" usemap="#aTMCLReply" alt=""/>
-<map name="aTMCLReply" id="aTMCLReply">
-<area shape="rect" href="structTMCLReply.html" title="Reply structure returned by TMCL command operations." alt="" coords="5,5,100,31"/>
-</map>
-</td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_0.svg" width="198" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_1.svg" width="146" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_2.svg" width="107" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_3.svg" width="139" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_4.svg" width="175" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_5.svg" width="175" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_6.svg" width="170" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_7.svg" width="256" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_8.svg" width="271" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_9.svg" width="210" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_10.svg" width="226" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_11.svg" width="226" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_12.svg" width="242" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_13.svg" width="218" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_14.svg" width="230" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_15.svg" width="175" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_16.svg" width="142" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_17.svg" width="171" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_18.svg" width="166" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_19.svg" width="160" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_20.svg" width="166" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_21.svg" width="211" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_22.svg" width="222" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_23.svg" width="192" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_24.svg" width="194" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_25.svg" width="200" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_26.svg" width="162" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_27.svg" width="192" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_28.svg" width="192" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_29.svg" width="192" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_30.svg" width="192" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_31.svg" width="192" height="66"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_32.svg" width="208" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_33.svg" width="208" height="66"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_34.svg" width="180" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_35.svg" width="190" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_36.svg" width="182" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_37.svg" width="194" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_38.svg" width="187" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_39.svg" width="159" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_40.svg" width="204" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_41.svg" width="204" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_42.svg" width="215" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_43.svg" width="215" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_44.svg" width="230" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_45.svg" width="230" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_46.svg" width="230" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_47.svg" width="230" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_48.svg" width="230" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_49.svg" width="238" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_50.svg" width="238" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_51.svg" width="216" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_52.svg" width="199" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_53.svg" width="232" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_54.svg" width="232" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_55.svg" width="183" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_56.svg" width="246" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_57.svg" width="246" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_58.svg" width="248" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_59.svg" width="219" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_60.svg" width="219" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_61.svg" width="207" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_62.svg" width="207" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_63.svg" width="234" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_64.svg" width="234" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_65.svg" width="239" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_66.svg" width="206" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_67.svg" width="206" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_68.svg" width="234" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_69.svg" width="204" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_70.svg" width="215" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_71.svg" width="240" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_72.svg" width="240" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_73.svg" width="232" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_74.svg" width="210" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_75.svg" width="228" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_76.svg" width="219" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_77.svg" width="219" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_78.svg" width="230" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_79.svg" width="884" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_80.svg" width="175" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_81.svg" width="171" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
+<tr><td><iframe scrolling="no" frameborder="0" src="inherit_graph_82.svg" width="174" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

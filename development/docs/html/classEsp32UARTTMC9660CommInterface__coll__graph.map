@@ -1,7 +1,7 @@
 <map id="Esp32UARTTMC9660CommInterface" name="Esp32UARTTMC9660CommInterface">
-<area shape="rect" id="Node000001" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="5,152,264,177"/>
-<area shape="rect" id="Node000002" href="$classUARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="25,79,244,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,118,137,152,132,152,132,118"/>
-<area shape="rect" id="Node000003" href="$classTMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="43,5,227,31"/>
+<area shape="rect" id="Node000001" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="5,167,264,192"/>
+<area shape="rect" id="Node000002" href="$classtmc9660_1_1UARTTMC9660CommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="21,79,248,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,132,137,166,132,166,132,132"/>
+<area shape="rect" id="Node000003" href="$classtmc9660_1_1TMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="10,5,259,31"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,44,137,79,132,79,132,44"/>
 </map>

@@ -1,3 +1,6 @@
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1718, file /tmp/doxyfile.bxEl8i
+warning: Tag 'DOT_TRANSPARENT' at line 2741 of file '/tmp/doxyfile.bxEl8i' has become obsolete.
+         To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1775: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4819: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:5207: warning: unbalanced grouping commands
@@ -11,16 +14,26 @@ Searching for dia files...
 Searching for files to exclude
 Searching INPUT for files to process...
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src
+Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode
+Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main
 Reading and parsing tag files
 Parsing files
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp...
+Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp...
-Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp...
-Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_config.hpp...
+Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_config.hpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_protocol.hpp...
+Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_protocol.hpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_utils.hpp...
+Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_utils.hpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp...
+Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_adc.hpp...
@@ -33,13 +46,19 @@ Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_sys_ctrl.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp...
-Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660Bootloader.hpp...
-Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660Bootloader.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/BLDCComprehensiveTest.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/BLDCComprehensiveTest.cpp...
-Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/BootloaderComprehensiveTest.cpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Boot/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:40: warning: Found non-existing group 'TMC9660_TMCL' for the command '@ingroup', ignoring command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:40: warning: Found non-existing group 'TMC9660_TMCL' for the command '@ingroup', ignoring command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:2: warning: Found non-existing group 'TMC9660_Bootloader' for the command '@ingroup', ignoring command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:2: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:25: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:57: warning: Found non-existing group 'TMC9660_Bootloader' for the command '@ingroup', ignoring command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
+loaderComprehensiveTest.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/BootloaderComprehensiveTest.cpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/DCComprehensiveTest.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/DCComprehensiveTest.cpp...
@@ -47,12 +66,7 @@ Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/StepperComprehensiveTest.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/StepperComprehensiveTest.cpp...
-Preprocessing /home/runner/work/hf-tmc9660-driver/hf-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:40: warning: Found non-existing group 'TMC9660_TMCL' for the command '@ingroup', ignoring command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:40: warning: Found non-existing group 'TMC9660_TMCL' for the command '@ingroup', ignoring command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:2: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:25: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
-tmc9660-driver/examples/esp32/main/TelemetryComprehensiveTest.cpp...
+Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TelemetryComprehensiveTest.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TelemetryComprehensiveTest.cpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h...
@@ -124,17 +138,21 @@ Generating code for file Esp32TMC9660Bus.hpp...
 Parsing code for file StepperComprehensiveTest.cpp...
 Parsing code for file TelemetryComprehensiveTest.cpp...
 Generating code for file TestFramework.h...
+Generating code for file bootloader_config.hpp...
+Generating code for file bootloader_protocol.hpp...
+Generating code for file bootloader_utils.hpp...
+Generating code for file TMC9660Bootloader.hpp...
 Generating code for file tmc9660_param_mode_tmcl.hpp...
 Generating code for file tmc9660_adc.hpp...
 Generating code for file tmc9660_mcc.hpp...
 Generating code for file tmc9660_ramDebug.hpp...
-Generating code for file tmc9660_sys_ctrl.hpp...
+Generatingwarning: Caller graph for 'create_test_driver' not generated, too many nodes (57), threshold is 50. Consider increasing DOT_GRAPH_MAX_NODES.
+ code for file tmc9660_sys_ctrl.hpp...
 Generating code for file TMC9660.hpp...
-Generating code for file TMC9660Bootloader.hpp...
 Generating code for file TMC9660CommInterface.hpp...
 Parsing code for file README.md...
-Parsing code for file TMC9660.cpp...
 Parsing code for file TMC9660Bootloader.cpp...
+Parsing code for file TMC9660.cpp...
 Generating file documentation...
 Generating docs for file BLDCComprehensiveTest.cpp...
 Generating call graph for function app_main
@@ -148,8 +166,7 @@ Generating caller graph for function configureHeartbeatForBLDC
 Generating caller graph for function configureMotorParametersForBLDC
 Generating caller graph for function configurePowerForBLDC
 Generating caller graph for function configureProtectionForBLDC
-Generating caller graph for warning: Caller graph for 'create_test_driver' not generated, too many nodes (57), threshold is 50. Consider increasing DOT_GRAPH_MAX_NODES.
-function configureRampForBLDC
+Generating caller graph for function configureRampForBLDC
 Generating caller graph for function configureStopEventsForBLDC
 Generating call graph for function create_test_driver
 Generating caller graph for function log_telemetry_data
@@ -260,7 +277,19 @@ Generating caller graph for function test_stepper_error_handling
 Generating call graph for function test_stepper_foc_position_control
 Generating caller graph for function test_stepper_foc_position_control
 Generating call graph for function test_stepper_microstepping_configuration
-Generating caller graph for function test_stepper_microstepping_configuration
+Generating caller graph for f/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
+  parameter 'tag'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:357: warning: The following parameter of print_test_section_header(const char *tag, const char *section_name, bool enabled=true) is not documented:
+  parameter 'tag'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: argument 'test_results' of command @param is not found in the argument list of print_test_section_status(const char *tag, const char *test_suite_name)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: The following parameter of print_test_section_status(const char *tag, const char *test_suite_name) is not documented:
+  parameter 'tag'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:321: warning: The following parameter of print_test_summary(const TestResults &test_results, const char *test_suite_name, const char *tag) is not documented:
+  parameter 'tag'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:7: warning: Found unknown command '@license'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
+unction test_stepper_microstepping_configuration
 Generating call graph for function test_stepper_motor_type_configuration
 Generating caller graph for function test_stepper_motor_type_configuration
 Generating call graph for function test_stepper_multi_device_operations
@@ -275,25 +304,7 @@ Generating call graph for function test_stepper_startup_shutdown_procedures
 Generating caller graph for function test_stepper_startup_shutdown_procedures
 Generating call graph for function test_stepper_step_dir_control
 Generating caller graph for function test_stepper_step_dir_control
-Generating /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
-  parameter 'tag'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:357: warning: The following parameter of print_test_section_header(const char *tag, const char *section_name, bool enabled=true) is not documented:
-  parameter 'tag'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: argument 'test_results' of command @param is not found in the argument list of print_test_section_status(const char *tag, const char *test_suite_name)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: The following parameter of print_test_section_status(const char *tag, const char *test_suite_name) is not documented:
-  parameter 'tag'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:321: warning: The following parameter of print_test_summary(const TestResults &test_results, const char *test_suite_name, const char *tag) is not documented:
-  parameter 'tag'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:394: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp:119: warning: explicit link request to 'define' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp:120: warning: explicit link request to 'include' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:263: warning: The following parameter of Esp32SPITMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
-  parameter 'args'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:240: warning: argument 'level' of command @param is not found in the argument list of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:240: warning: The following parameter of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
-  parameter 'signal'
-call graph for function test_stepper_telemetry_monitoring
+Generating call graph for function test_stepper_telemetry_monitoring
 Generating caller graph for function test_stepper_telemetry_monitoring
 Generating call graph for function test_stepper_velocity_control
 Generating caller graph for function test_stepper_velocity_control
@@ -334,21 +345,39 @@ Generating caller graph for function print_test_section_status
 Generating call graph for function print_test_summary
 Generating caller graph for function print_test_summary
 Generating call graph for function test_task_trampoline
+Generating docs for file bootloader_config.hpp...
+Generating docs for file bootloader_protocol.hpp...
+Generating docs for file bootloader_utils.hpp...
+Generating docs for file TMC9660Bootloader.hpp...
 Generating docs for file tmc9660_param_mode_tmcl.hpp...
 Generating docs for file tmc9660_adc.hpp...
 Generating docs for file tmc9660_mcc.hpp...
 Generating docs for file tmc9660_ramDebug.hpp...
-Generating docs for file tmc9660_sys_ctrl.hpp...
+Generating/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp:122: warning: explicit link request to 'define' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660CommInterface.hpp:123: warning: explicit link request to 'include' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_utils.hpp:31: warning: explicit link request to 'BootloaderCommandUART' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:265: warning: The following parameter of Esp32SPITMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
+  parameter 'args'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:242: warning: argument 'level' of command @param is not found in the argument list of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:242: warning: The following parameter of Esp32SPITMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
+  parameter 'signal'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:706: warning: The following parameter of Esp32UARTTMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
+  parameter 'args'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:683: warning: argument 'level' of command @param is not found in the argument list of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:683: warning: The following parameter of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
+  parameter 'signal'
+ docs for file tmc9660_sys_ctrl.hpp...
 Generating docs for file TMC9660.hpp...
-Generating docs for file TMC9660Bootloader.hpp...
 Generating docs for file TMC9660CommInterface.hpp...
-Generating caller graph for function tmclChecksum
 Generating docs for file README.md...
+Generating docs for file TMC9660Bootloader.cpp...
 Generating docs for file TMC9660.cpp...
 Generating caller graph for function calculateBootstrapCurrent_mA
-Generating docs for file TMC9660Bootloader.cpp...
 Generating page documentation...
 Generating group documentation...
+Generating call graph for function tmc9660::crc8Bootloader
+Generating caller graph for function tmc9660::crc8Bootloader
+Generating caller graph for function tmc9660::reverseByte
 Generating class documentation...
 Generating docs for compound Esp32SPITMC9660CommInterface...
 Generating call graph for function Esp32SPITMC9660CommInterface::~Esp32SPITMC9660CommInterface
@@ -359,31 +388,7 @@ Generating call graph for function Esp32SPITMC9660CommInterface::gpioRead
 Generating call graph for function Esp32SPITMC9660CommInterface::gpioSet
 Generating call graph for function Esp32SPITMC9660CommInterface::initialize
 Generating docs for compound Esp32TMC9660BusConfig...
-Generating docs for compound Esp32UARTTMC966/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:704: warning: The following parameter of Esp32UARTTMC9660CommInterface::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
-  parameter 'args'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: argument 'level' of command @param is not found in the argument list of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/Esp32TMC9660Bus.hpp:681: warning: The following parameter of Esp32UARTTMC9660CommInterface::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
-  parameter 'signal'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:9: warning: argument 'comm' from the argument list of TMC9660::TMC9660 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:9: warning: argument 'address' from the argument list of TMC9660::TMC9660 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'cfg' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'performReset' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'retrieveBootloaderInfo' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:38: warning: argument 'failOnVerifyError' from the argument list of TMC9660::bootloaderInit has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:414: warning: argument 'id' from the argument list of TMC9660::readGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:414: warning: argument 'bank' from the argument list of TMC9660::readGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:414: warning: argument 'value' from the argument list of TMC9660::readGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:378: warning: argument 'id' from the argument list of TMC9660::readParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:378: warning: argument 'value' from the argument list of TMC9660::readParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:378: warning: argument 'motorIndex' from the argument list of TMC9660::readParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:395: warning: argument 'id' from the argument list of TMC9660::writeGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:395: warning: argument 'bank' from the argument list of TMC9660::writeGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:395: warning: argument 'value' from the argument list of TMC9660::writeGlobalParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:361: warning: argument 'id' from the argument list of TMC9660::writeParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:361: warning: argument 'value' from the argument list of TMC9660::writeParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:361: warning: argument 'motorIndex' from the argument list of TMC9660::writeParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660Bootloader.hpp:1325: warning: explicit link request to 'BootloaderCommandUART' could not be resolved
-0CommInterface...
+Generating docs for compound Esp32UARTTMC9660CommInterface...
 Generating call graph for function Esp32UARTTMC9660CommInterface::~Esp32UARTTMC9660CommInterface
 Generating caller graph for function Esp32UARTTMC9660CommInterface::configureGpioPins
 Generating caller graph for function Esp32UARTTMC9660CommInterface::deinitialize
@@ -392,69 +397,15 @@ Generating call graph for function Esp32UARTTMC9660CommInterface::gpioRead
 Generating call graph for function Esp32UARTTMC9660CommInterface::gpioSet
 Generating call graph for function Esp32UARTTMC9660CommInterface::initialize
 Generating call graph for function Esp32UARTTMC9660CommInterface::transferTMCL
-Generating docs for compound SPITMC9660CommInterface...
-Generating caller graph for function SPITMC9660CommInterface::spiTransferTMCL
-Generating call graph for function SPITMC9660CommInterface::transferTMCL
 Generating docs for compound TestDriverHandle...
 Generating docs for compound TestResults...
 Generating caller graph for function TestResults::add_result
 Generating docs for compound TestTaskContext...
-Generating docs for compound TMC9660...
-Generating call graph for function TMC9660::TMC9660
-Generating caller graph for function TMC9660::TMC9660
-Generating call graph for function TMC9660::~TMC9660
-Generating caller graph for function TMC9660::~TMC9660
-Generating call graph for function TMC9660::bootloaderInit
-Generating caller graph for function TMC9660::bootloaderInit
-Generating call graph for function TMC9660::enterBootloaderMode
-Generating call graph for function TMC9660::readGlobalParameter
-Generating caller graph for function TMC9660::readGlobalParameter
-Generating call graph for function TMC9660::readParameter
-Generating caller graph for function TMC9660::readParameter
-Generating call graph for function TMC9660::sendCommand
-Generating caller graph for function TMC9660::sendCommand
-Generating call graph for function TMC9660::writeGlobalParameter
-Generating caller graph for function TMC9660::writeGlobalParameter
-Generating call graph for function TMC9660::writeParameter
-Generating caller graph for function TMC9660::writeParameter
-Generating docs for compound TMC9660CommInterface...
-Generating caller graph for function TMC9660CommInterface::debugLog
-Generating caller graph for function TMC9660CommInterface::delayMs
-Generating call graph for function TMC9660CommInterface::delayUs
-Generating caller graph for function TMC9660CommInterface::delayUs
-Generating caller graph for function TMC9660CommInterface::gpioLevelToSignal
-Generating caller graph for function TMC9660CommInterface::gpioSet
-Generating call graph for function TMC9660CommInterface::gpioSetActive
-Generating call graph for function TMC9660CommInterface::gpioSetInactive
-Generating call graph for function TMC9660CommInterface::logDebug
-Generating caller graph for function TMC9660CommInterface::logDebug
-Generating caller graph for function TMC9660CommInterface::signalToGpioLevel
-Generating docs for compound TMCLFrame...
-Generating call graph for function TMCLFrame::fromSpiChecked
-Generating call graph for function TMCLFrame::fromUart
-Generating call graph for function TMCLFrame::toSpi
-Generating caller graph for function TMCLFrame::toSpi
-Generating call graph for function TMCLFrame::toUart
-Generating docs for compound TMCLReply...
-Generating call graph for function TMCLReply::fromSpi
-Generating caller graph for function TMCLReply::fromSpi
-Generating call graph for function TMCLReply::fromUart
-Generating caller graph for function TMCLReply::fromUart
-Generating docs for compound UARTTMC9660CommInterface...
-Generating call graph for function UARTTMC9660CommInterface::transferTMCL
-Generating caller graph for function UARTTMC9660CommInterface::uartReceiveTMCL
-Generating caller graph for function UARTTMC9660CommInterface::uartSendTMCL
 Generating concept documentation...
 Generating module documentation...
 Generating namespace documentation...
 Generating docs for namespace tmc9660
-Generating call graph for function tmc9660::crc8Bootloader
-Generating caller graph for function tmc9660::crc8Bootloader
-Generating calle/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: explicit link request to 'BootloaderConfig' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:797: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:704: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
-r graph for function tmc9660::reverseByte
+Generating caller graph for function tmc9660::tmclChecksum
 Generating docs for compound tmc9660::ABN1Config...
 Generating docs for compound tmc9660::ABN2Config...
 Generating docs for compound tmc9660::BootConfig...
@@ -482,7 +433,30 @@ Generating docs for compound tmc9660::GPIOConfig...
 Generating docs for compound tmc9660::HallConfig...
 Generating docs for compound tmc9660::I2CConfig...
 Generating docs for compound tmc9660::LDOConfig...
-Generating docs for compound tmc9660::MechBrakeConfig...
+Generati/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:11: warning: argument 'comm' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:11: warning: argument 'address' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:40: warning: argument 'cfg' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:40: warning: argument 'performReset' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:40: warning: argument 'retrieveBootloaderInfo' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:40: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:438: warning: argument 'id' from the argument list of tmc9660::TMC9660::readGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:438: warning: argument 'bank' from the argument list of tmc9660::TMC9660::readGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:438: warning: argument 'value' from the argument list of tmc9660::TMC9660::readGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:402: warning: argument 'id' from the argument list of tmc9660::TMC9660::readParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:402: warning: argument 'value' from the argument list of tmc9660::TMC9660::readParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:402: warning: argument 'motorIndex' from the argument list of tmc9660::TMC9660::readParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:419: warning: argument 'id' from the argument list of tmc9660::TMC9660::writeGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:419: warning: argument 'bank' from the argument list of tmc9660::TMC9660::writeGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:419: warning: argument 'value' from the argument list of tmc9660::TMC9660::writeGlobalParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:385: warning: argument 'id' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:385: warning: argument 'value' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660.cpp:385: warning: argument 'motorIndex' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3972: warning: argument 'R' of command @param is not found in the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3972: warning: argument 'H' of command @param is not found in the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3972: warning: argument 'mask' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3972: warning: argument 'invertL' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3972: warning: argument 'swapLR' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+ng docs for compound tmc9660::MechBrakeConfig...
 Generating docs for compound tmc9660::MemStorageConfig...
 Generating docs for compound tmc9660::OtpBurnResult...
 Generating caller graph for function tmc9660::OtpBurnResult::createError
@@ -496,7 +470,81 @@ Generating docs for compound tmc9660::RS485Config...
 Generating docs for compound tmc9660::SPIBootConfig...
 Generating docs for compound tmc9660::SPIEncConfig...
 Generating docs for compound tmc9660::SPIFlashConfig...
+Generating docs for compound tmc9660::SPITMC9660CommInterface...
+Generating caller graph for function tmc9660::SPITMC9660CommInterface::spiTransferTMCL
+Generating call graph for function tmc9660::SPITMC9660CommInterface::transferTMCL
 Generating docs for compound tmc9660::StepDirConfig...
+Generating docs for compound tmc9660::TMC9660...
+Generating call graph for function tmc9660::TMC9660::enterBootloaderMode
+Generating call graph for function tmc9660::TMC9660::sendCommand
+Generating caller graph for function tmc9660::TMC9660::sendCommand
+Generating docs for nested compound tmc9660::TMC9660::Brake...
+Generating docs for nested compound tmc9660::TMC9660::Brake::BrakeConfig...
+Generating docs for nested compound tmc9660::TMC9660::CurrentSensing...
+Generating docs for nested compound tmc9660::TMC9660::CurrentSensing::AutoConfig...
+Generating docs for nested compound tmc9660::TMC9660::FeedbackSense...
+Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::Abn2Config...
+Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::AbnConfig...
+Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::HallConfig...
+Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig...
+Generating docs for nested compound tmc9660::TMC9660::GateDriver...
+Generating call graph for function tmc9660::TMC9660::GateDriver::configurePowerStageProtection
+Generating docs for nested compound tmc9660::TMC9660::GateDriver::PowerStageProfile...
+Generating docs for nested compound tmc9660::TMC9660::Globals...
+Generating docs for nested compound tmc9660::TMC9660::GPIO...
+Generating docs for nested compound tmc9660::TMC9660::Heartbeat...
+Generating docs for nested compound tmc9660::TMC9660::Heartbeat::HeartbeatConfig...
+Generating docs for nested compound tmc9660::TMC9660::IIT...
+Generating docs for nested compound tmc9660::TMC9660::MotorConfig...
+Generating docs for nested compound tmc9660::TMC9660::MotorConfig::MotorProfile...
+Generating docs for nested compound tmc9660::TMC9660::NvmStorage...
+Generating docs for nested compound tmc9660::TMC9660::PositionControl...
+Generating docs for nested compound tmc9660::TMC9660::PositionControl::PositionConfig...
+Generating docs for nested compound tmc9660::TMC9660::Power...
+Generating docs for nested compound tmc9660::TMC9660::Power::PowerConfig...
+Generating docs for nested compound tmc9660::TMC9660::Protection...
+Generating docs for nested compound tmc9660::TMC9660::Protection::ProtectionConfig...
+Generating docs for nested compound tmc9660::TMC9660::RamDebug...
+Generating docs for nested compound tmc9660::TMC9660::Ramp...
+Generating docs for nested compound tmc9660::TMC9660::Ramp::RampConfig...
+Generating docs for nested compound tmc9660::TMC9660::ReferenceSearch...
+Generating docs for nested compound tmc9660::TMC9660::Script...
+Generating docs for nested compound tmc9660::TMC9660::StepDir...
+Generating docs for nested compound tmc9660::TMC9660::StopEvents...
+Generating docs for nested compound tmc9660::TMC9660::StopEvents::StopEventsConfig...
+Generating docs for nested compound tmc9660::TMC9660::Telemetry...
+Generating docs for nested compound tmc9660::TMC9660::TorqueFluxControl...
+Generating call graph for function tmc9660::TMC96/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/TMC9660Bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:790: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:790: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:723: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:705: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:705: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:334: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:334: warning: argument 'pageAddr' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:334: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:383: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:383: warning: argument 'pageAddr' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:383: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:383: warning: argument 'vdrvWaitMs' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:293: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:293: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:2061: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read16 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:2085: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read32 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:2037: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read8 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:204: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:189: warning: argument 'bank' from the argument list of tmc9660::TMC9660Bootloader::setBank has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:1951: warning: argument 'bootMode' from the argument list of tmc9660::TMC9660Bootloader::startMotorControl has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:230: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write16 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:243: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write32 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:268: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple(const uint32_t *vals, size_t count)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:268: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/TMC9660Bootloader.cpp:217: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
+60::TorqueFluxControl::stop
+Generating docs for nested compound tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig...
+Generating docs for nested compound tmc9660::TMC9660::VelocityControl...
+Generating docs for nested compound tmc9660::TMC9660::VelocityControl::VelocityConfig...
 Generating docs for compound tmc9660::TMC9660Bootloader...
 Generating call graph for function tmc9660::TMC9660Bootloader::getAllBootloaderInfo
 Generating caller graph for function tmc9660::TMC9660Bootloader::getBank
@@ -515,34 +563,7 @@ Generating caller graph for function tmc9660::TMC9660Bootloader::getConfigMemSiz
 Generating call graph for function tmc9660::TMC9660Bootloader::getConfigMemStart
 Generating caller graph for function tmc9660::TMC9660Bootloader::getConfigMemStart
 Generating call graph for function tmc9660::TMC9660Bootloader::getFeatures
-Generating caller graph for function tmc9660::TM/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:688: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'pageAddr' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:325: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:374: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:374: warning: argument 'pageAddr' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:374: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:374: warning: argument 'vdrvWaitMs' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:284: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:284: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:1883: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read16 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:1907: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read32 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:1859: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:195: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:180: warning: argument 'bank' from the argument list of tmc9660::TMC9660Bootloader::setBank has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:1773: warning: argument 'bootMode' from the argument list of tmc9660::TMC9660Bootloader::startMotorControl has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:221: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write16 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:234: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write32 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple(const uint32_t *vals, size_t count)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:259: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/TMC9660Bootloader.cpp:208: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3800: warning: argument 'R' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3800: warning: argument 'H' of command @param is not found in the argument list of TMC9660::StopEvents::configureReferenceSwitches(uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3800: warning: argument 'mask' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3800: warning: argument 'invertL' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/TMC9660.hpp:3800: warning: argument 'swapLR' from the argument list of TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-C9660Bootloader::getFeatures
+Generating caller graph for function tmc9660::TMC9660Bootloader::getFeatures
 Generating call graph for function tmc9660::TMC9660Bootloader::getGitInfo
 Generating caller graph for function tmc9660::TMC9660Bootloader::getGitInfo
 Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
@@ -565,64 +586,72 @@ Generating call graph for function tmc9660::TMC9660Bootloader::sendCommandSPI
 Generating call graph for function tmc9660::TMC9660Bootloader::sendCommandUART
 Generating call graph for function tmc9660::TMC9660Bootloader::setBank
 Generating caller graph for function tmc9660::TMC9660Bootloader::setBank
+Generating docs for compound tmc9660::TMC9660CommInterface...
+Generating caller graph for function tmc9660::TMC9660CommInterface::debugLog
+Generating caller graph for function tmc9660::TMC9660CommInterface::delayMs
+Generating call graph for function tmc9660::TMC9660CommInterface::delayUs
+Generating caller graph for function tmc9660::TMC9660CommInterface::delayUs
+Generating caller graph for function tmc9660::TMC9660CommInterface::gpioLevelToSignal
+Generating caller graph for function tmc9660::TMC9660CommInterface::gpioSet
+Generating call graph for function tmc9660::TMC9660CommInterface::gpiindex:1: warning: expected whitespace after \{ command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:1: warning: expected whitespace after \{ command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:28: warning: unable to resolve reference to '-overview' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:29: warning: unable to resolve reference to '-architecture' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:30: warning: unable to resolve reference to '-motor-types' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:31: warning: unable to resolve reference to '-quick-start' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:32: warning: unable to resolve reference to '-api-documentation' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:33: warning: unable to resolve reference to '-building' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:34: warning: unable to resolve reference to '-examples' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:35: warning: unable to resolve reference to '-contributing' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:36: warning: unable to resolve reference to '-license' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:202: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:203: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/SetupGuide.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:322: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:323: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/SetupGuide.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:324: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/ImplementingCommInterface.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:325: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/HardwareAgnosticExamples.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:329: warning: unable to resolve reference to 'examples/esp32/docs/README.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:334: warning: unable to resolve reference to 'CONTRIBUTING.md' for \ref command
+oSetActive
+Generating call graph for function tmc9660::TMC9660CommInterface::gpioSetInactive
+Generating call graph for function tmc9660::TMC9660CommInterface::logDebug
+Generating caller graph for function tmc9660::TMC9660CommInterface::logDebug
+Generating caller graph for function tmc9660::TMC9660CommInterface::signalToGpioLevel
+Generating docs for compound tmc9660::TMCLFrame...
+Generating call graph for function tmc9660::TMCLFrame::fromSpiChecked
+Generating call graph for function tmc9660::TMCLFrame::fromUart
+Generating call graph for function tmc9660::TMCLFrame::toSpi
+Generating caller graph for function tmc9660::TMCLFrame::toSpi
+Generating call graph for function tmc9660::TMCLFrame::toUart
+Generating docs for compound tmc9660::TMCLReply...
+Generating call graph for function tmc9660::TMCLReply::fromSpi
+Generating caller graph for function tmc9660::TMCLReply::fromSpi
+Generating call graph for function tmc9660::TMCLReply::fromUart
+Generating caller graph for function tmc9660::TMCLReply::fromUart
 Generating docs for compound tmc9660::UARTConfig...
-Generating docs for namespace TMC9660
-Generating docs for compound TMC9660::Brake...
-Generating docs for nested compound TMC9660::Brake::BrakeConfig...
-Generating docs for compound TMC9660::CurrentSensing...
-Generating docs for nested compound TMC9660::CurrentSensing::AutoConfig...
-Generating docs for compound TMC9660::FeedbackSense...
-Generating docs for nested compound TMC9660::FeedbackSense::Abn2Config...
-Generating docs for nested compound TMC9660::FeedbackSense::AbnConfig...
-Generating docs for nested compound TMC9660::FeedbackSense::HallConfig...
-Generating docs for nested compound TMC9660::FeedbackSense::SpiEncoderConfig...
-Generating docs for compound TMC9660::GateDriver...
-Generating call graph for function TMC9660::GateDriver::configurePowerStageProtection
-Generating docs for nested compound TMC9660::GateDriver::PowerStageProfile...
-Generating docs for compound TMC9660::Globals...
-Generating docs for compound TMC9660::GPIO...
-Generating docs for compound TMC9660::Heartbeat...
-Generating docs for nested compound TMC9660::Heartbeat::HeartbeatConfig...
-Generating docs for compound TMC9660::IIT...
-Generating docs for compound TMC9660::MotorConfig...
-Generating docs for nested compound TMC9660::MotorConfig::MotorProfile...
-Generating docs for compound TMC9660::NvmStorage...
-Generating docs for compound TMC9660::PositionControl...
-Generating docs for nested compound TMC9660::PositionControl::PositionConfig...
-Generating docs for compound TMC9660::Power...
-Generating docs for nested compound TMC9660::Power::PowerConfig...
-Generating docs for compound TMC9660::Protection...
-Generating docs for nested compound TMC9660::Protection::ProtectionConfig...
-Generating docs for compound TMC9660::RamDebug...
-Generating docs for compound TMC9660::Ramp...
-Generating docs for nested compound TMC9660::Ramp::RampConfig...
-Generating docs for compound TMC9660::ReferenceSearch...
-Generating docs for compound TMC9660::Script...
-Generating docs for compound TMC9660::StepDir...
-Generating docs for compound TMC9660::StopEvents...
-Generating docs for nested compound TMC9660::StopEvents::StopEventsConfig...
-Generating docs for compound TMC9660::Telemetry...
-Generating docs for compound TMC9660::TorqueFluxControl...
-Generating call graph for function TMC9660::TorqueFluxControl::stop
-Generating docs for nested compound TMC9660::TorqueFluxControl::TorqueFluxConfig...
-Generating docs for compound TMC9660::VelocityControl...
-Generating docs for nested compound TMC9660::VelocityControl::VelocityConfig...
-Generating docs for namespace TMC9660::ADC
-Generating docs for compound TMC9660::ADC::CSA_SETUP...
-Generating docs for compound TMC9660::ADC::SETUP...
-Generating docs for compound TMC9660::ADC::SRC_CONFIG...
-Generating docs for compound TMC9660::ADC::STATUS_FLAGS...
+Generating docs for compound tmc9660::UARTTMC9660CommInterface...
+Generating call graph for function tmc9660::UARTTMC9660CommInterface::transferTMCL
+Generating caller graph for function tmc9660::UARTTMC9660CommInterface::uartReceiveTMCL
+Generating caller graph for function tmc9660::UARTTMC9660CommInterface::uartSendTMCL
 Generating docs for namespace tmc9660::bootaddr
 Generating docs for namespace tmc9660::bootcfg
-Generating docs for namespace TMC9660::RAMDebug
-Generating docs for namespace TMC9660::SYS_CTRL
-Generating docs for compound TMC9660::SYS_CTRL::FAULT_INT_ENABLE...
-Generating docs for compound TMC9660::SYS_CTRL::FAULT_STATUS...
-Generating docs for compound TMC9660::SYS_CTRL::FAULT_STATUS_LATCHED...
+Generating docs for namespace tmc9660::register_mode
+Generating docs for namespace tmc9660::register_mode::ADC
+Generating docs for compound tmc9660::register_mode::ADC::CSA_SETUP...
+Generating docs for compound tmc9660::register_mode::ADC::SETUP...
+Generating docs for compound tmc9660::register_mode::ADC::SRC_CONFIG...
+Generating docs for compound tmc9660::register_mode::ADC::STATUS_FLAGS...
+Generating docs for namespace tmc9660::register_mode::RAMDebug
+Generating docs for namespace tmc9660::register_mode::SYS_CTRL
+Generating docs for compound tmc9660::register_mode::SYS_CTRL::FAULT_INT_ENABLE...
+Generating docs for compound tmc9660::register_mode::SYS_CTRL::FAULT_STATUS...
+Generating docs for compound tmc9660::register_mode::SYS_CTRL::FAULT_STATUS_LATCHED...
 Generating docs for namespace tmc9660::tmcl
 Generating caller graph for function tmc9660::tmcl::to_string
 Generating graph info page...
 Generating directory documentation...
+Generating dependency graph for directory bootloader
+Generating dependency graph for directory bootloader
 Generating dependency graph for directory esp32
 Generating dependency graph for directory examples
 Generating dependency graph for directory inc
@@ -631,6 +660,7 @@ Generating dependency graph for directory parameter_mode
 Generating dependency graph for directory register_mode
 Generating dependency graph for directory src
 Generating index page...
+Generating main page...
 Generating page index...
 Generating topic index...
 Generating module index...
@@ -651,121 +681,952 @@ writing tag file...
 Running plantuml with JAVA...
 Running dot...
 Generating dot graphs using 5 parallel threads...
-Running dot for graph 1/89
-Running dot for graph 2/89
-Running dot for graph 3/89
-Running dot for graph 4/89
-Running dot for graph 5/89
-Running dot for graph 6/89
-Running dot for graph 7/89
-Running dot for graph 8/89
-Running dot for graph 9/89
-Running dot for graph 10/89
-Running dot for graph 11/89
-Running dot for graph 12/89
-Running dot for graph 13/89
-Running dot for graph 14/89
-Running dot for graph 15/89
-Running dot for graph 16/89
-Running dot for graph 17/89
-Running dot for graph 18/89
-Running dot for graph 19/89
-Running dot for graph 20/89
-Running dot for graph 21/89
-Running dot for graph 22/89
-Running dot for graph 23/89
-Running dot for graph 24/89
-Running dot for graph 25/89
-Running dot for graph 26/89
-Running dot for graph 27/89
-Running dot for graph 28/89
-Running dot for graph 29/89
-Running dot for graph 30/89
-Running dot for graph 31/89
-Running dot for graph 32/89
-Running dot for graph 33/89
-Running dot for graph 34/89
-Running dot for graph 35/89
-Running dot for graph 36/89
-Running dot for graph 37/89
-Running dot for graph 38/89
-Running dot for graph 39/89
-Running dot for graph 40/89
-Running dot for graph 41/89
-Running dot for graph 42/89
-Running dot for graph 43/89
-Running dot for graph 44/89
-Running dot for graph 45/89
-Running dot for graph 46/89
-Running dot for graph 47/89
-Running dot for graph 48/89
-Running dot for graph 49/89
-Running dot for graph 50/89
-Running dot for graph 51/89
-Running dot for graph 52/89
-Running dot for graph 53/89
-Running dot for graph 54/89
-Running dot for graph 55/89
-Running dot for graph 56/89
-Running dot for graph 57/89
-Running dot for graph 58/89
-Running dot for graph 59/89
-Running dot for graph 60/89
-Running dot for graph 61/89
-Running dot for graph 62/89
-Running dot for graph 63/89
-Running dot for graph 64/89
-Running dot for graph 65/89
-Running dot for graph 66/89
-Running dot for graph 67/89
-Running dot for graph 68/89
-Running dot for graph 69/89
-Running dot for graph 70/89
-Running dot for graph 71/89
-Running dot for graph 72/89
-Running dot for graph 73/89
-Running dot for graph 74/89
-Running dot for graph 75/89
-Running dot for graph 76/89
-Running dot for graph 77/89
-Running dot for graph 78/89
-Running dot for graph 79/89
-Running dot for graph 80/89
-Running dot for graph 81/89
-Running dot for graph 82/89
-Running dot for graph 83/89
-Running dot for graph 84/89
-Running dot for graph 85/89
-Running dot for graph 86/89
-Running dot for graph 87/89
-Running dot for graph 88/89
-Running dot for graph 89/89
-Patching output file 1/26
-Patching output file 2/26
-Patching output file 3/26
-Patching output file 4/26
-Patching output file 5/26
-Patching output file 6/26
-Patching output file 7/26
-Patching output file 8/26
-Patching output file 9/26
-Patching output file 10/26
-Patching output file 11/26
-Patching output file 12/26
-Patching output file 13/26
-Patching output file 14/26
-Patching output file 15/26
-Patching output file 16/26
-Patching output file 17/26
-Patching output file 18/26
-Patching output file 19/26
-Patching output file 20/26
-Patching output file 21/26
-Patching output file 22/26
-Patching output file 23/26
-Patching output file 24/26
-Patching output file 25/26
-Patching output file 26/26
-type lookup cache used 3375/65536 hits=11891 misses=3592
-symbol lookup cache used 4436/65536 hits=24746 misses=4436
+Running dot for graph 1/435
+Running dot for graph 2/435
+Running dot for graph 3/435
+Running dot for graph 4/435
+Running dot for graph 5/435
+Running dot for graph 6/435
+Running dot for graph 7/435
+Running dot for graph 8/435
+Running dot for graph 9/435
+Running dot for graph 10/435
+Running dot for graph 11/435
+Running dot for graph 12/435
+Running dot for graph 13/435
+Running dot for graph 14/435
+Running dot for graph 15/435
+Running dot for graph 16/435
+Running dot for graph 17/435
+Running dot for graph 18/435
+Running dot for graph 19/435
+Running dot for graph 20/435
+Running dot for graph 21/435
+Running dot for graph 22/435
+Running dot for graph 23/435
+Running dot for graph 24/435
+Running dot for graph 25/435
+Running dot for graph 26/435
+Running dot for graph 27/435
+Running dot for graph 28/435
+Running dot for graph 29/435
+Running dot for graph 30/435
+Running dot for graph 31/435
+Running dot for graph 32/435
+Running dot for graph 33/435
+Running dot for graph 34/435
+Running dot for graph 35/435
+Running dot for graph 36/435
+Running dot for graph 37/435
+Running dot for graph 38/435
+Running dot for graph 39/435
+Running dot for graph 40/435
+Running dot for graph 41/435
+Running dot for graph 42/435
+Running dot for graph 43/435
+Running dot for graph 44/435
+Running dot for graph 45/435
+Running dot for graph 46/435
+Running dot for graph 47/435
+Running dot for graph 48/435
+Running dot for graph 49/435
+Running dot for graph 50/435
+Running dot for graph 51/435
+Running dot for graph 52/435
+Running dot for graph 53/435
+Running dot for graph 54/435
+Running dot for graph 55/435
+Running dot for graph 56/435
+Running dot for graph 57/435
+Running dot for graph 58/435
+Running dot for graph 59/435
+Running dot for graph 60/435
+Running dot for graph 61/435
+Running dot for graph 62/435
+Running dot for graph 63/435
+Running dot for graph 64/435
+Running dot for graph 65/435
+Running dot for graph 66/435
+Running dot for graph 67/435
+Running dot for graph 68/435
+Running dot for graph 69/435
+Running dot for graph 70/435
+Running dot for graph 71/435
+Running dot for graph 72/435
+Running dot for graph 73/435
+Running dot for graph 74/435
+Running dot for graph 75/435
+Running dot for graph 76/435
+Running dot for graph 77/435
+Running dot for graph 78/435
+Running dot for graph 79/435
+Running dot for graph 80/435
+Running dot for graph 81/435
+Running dot for graph 82/435
+Running dot for graph 83/435
+Running dot for graph 84/435
+Running dot for graph 85/435
+Running dot for graph 86/435
+Running dot for graph 87/435
+Running dot for graph 88/435
+Running dot for graph 89/435
+Running dot for graph 90/435
+Running dot for graph 91/435
+Running dot for graph 92/435
+Running dot for graph 93/435
+Running dot for graph 94/435
+Running dot for graph 95/435
+Running dot for graph 96/435
+Running dot for graph 97/435
+Running dot for graph 98/435
+Running dot for graph 99/435
+Running dot for graph 100/435
+Running dot for graph 101/435
+Running dot for graph 102/435
+Running dot for graph 103/435
+Running dot for graph 104/435
+Running dot for graph 105/435
+Running dot for graph 106/435
+Running dot for graph 107/435
+Running dot for graph 108/435
+Running dot for graph 109/435
+Running dot for graph 110/435
+Running dot for graph 111/435
+Running dot for graph 112/435
+Running dot for graph 113/435
+Running dot for graph 114/435
+Running dot for graph 115/435
+Running dot for graph 116/435
+Running dot for graph 117/435
+Running dot for graph 118/435
+Running dot for graph 119/435
+Running dot for graph 120/435
+Running dot for graph 121/435
+Running dot for graph 122/435
+Running dot for graph 123/435
+Running dot for graph 124/435
+Running dot for graph 125/435
+Running dot for graph 126/435
+Running dot for graph 127/435
+Running dot for graph 128/435
+Running dot for graph 129/435
+Running dot for graph 130/435
+Running dot for graph 131/435
+Running dot for graph 132/435
+Running dot for graph 133/435
+Running dot for graph 134/435
+Running dot for graph 135/435
+Running dot for graph 136/435
+Running dot for graph 137/435
+Running dot for graph 138/435
+Running dot for graph 139/435
+Running dot for graph 140/435
+Running dot for graph 141/435
+Running dot for graph 142/435
+Running dot for graph 143/435
+Running dot for graph 144/435
+Running dot for graph 145/435
+Running dot for graph 146/435
+Running dot for graph 147/435
+Running dot for graph 148/435
+Running dot for graph 149/435
+Running dot for graph 150/435
+Running dot for graph 151/435
+Running dot for graph 152/435
+Running dot for graph 153/435
+Running dot for graph 154/435
+Running dot for graph 155/435
+Running dot for graph 156/435
+Running dot for graph 157/435
+Running dot for graph 158/435
+Running dot for graph 159/435
+Running dot for graph 160/435
+Running dot for graph 161/435
+Running dot for graph 162/435
+Running dot for graph 163/435
+Running dot for graph 164/435
+Running dot for graph 165/435
+Running dot for graph 166/435
+Running dot for graph 167/435
+Running dot for graph 168/435
+Running dot for graph 169/435
+Running dot for graph 170/435
+Running dot for graph 171/435
+Running dot for graph 172/435
+Running dot for graph 173/435
+Running dot for graph 174/435
+Running dot for graph 175/435
+Running dot for graph 176/435
+Running dot for graph 177/435
+Running dot for graph 178/435
+Running dot for graph 179/435
+Running dot for graph 180/435
+Running dot for graph 181/435
+Running dot for graph 182/435
+Running dot for graph 183/435
+Running dot for graph 184/435
+Running dot for graph 185/435
+Running dot for graph 186/435
+Running dot for graph 187/435
+Running dot for graph 188/435
+Running dot for graph 189/435
+Running dot for graph 190/435
+Running dot for graph 191/435
+Running dot for graph 192/435
+Running dot for graph 193/435
+Running dot for graph 194/435
+Running dot for graph 195/435
+Running dot for graph 196/435
+Running dot for graph 197/435
+Running dot for graph 198/435
+Running dot for graph 199/435
+Running dot for graph 200/435
+Running dot for graph 201/435
+Running dot for graph 202/435
+Running dot for graph 203/435
+Running dot for graph 204/435
+Running dot for graph 205/435
+Running dot for graph 206/435
+Running dot for graph 207/435
+Running dot for graph 208/435
+Running dot for graph 209/435
+Running dot for graph 210/435
+Running dot for graph 211/435
+Running dot for graph 212/435
+Running dot for graph 213/435
+Running dot for graph 214/435
+Running dot for graph 215/435
+Running dot for graph 216/435
+Running dot for graph 217/435
+Running dot for graph 218/435
+Running dot for graph 219/435
+Running dot for graph 220/435
+Running dot for graph 221/435
+Running dot for graph 222/435
+Running dot for graph 223/435
+Running dot for graph 224/435
+Running dot for graph 225/435
+Running dot for graph 226/435
+Running dot for graph 227/435
+Running dot for graph 228/435
+Running dot for graph 229/435
+Running dot for graph 230/435
+Running dot for graph 231/435
+Running dot for graph 232/435
+Running dot for graph 233/435
+Running dot for graph 234/435
+Running dot for graph 235/435
+Running dot for graph 236/435
+Running dot for graph 237/435
+Running dot for graph 238/435
+Running dot for graph 239/435
+Running dot for graph 240/435
+Running dot for graph 241/435
+Running dot for graph 242/435
+Running dot for graph 243/435
+Running dot for graph 244/435
+Running dot for graph 245/435
+Running dot for graph 246/435
+Running dot for graph 247/435
+Running dot for graph 248/435
+Running dot for graph 249/435
+Running dot for graph 250/435
+Running dot for graph 251/435
+Running dot for graph 252/435
+Running dot for graph 253/435
+Running dot for graph 254/435
+Running dot for graph 255/435
+Running dot for graph 256/435
+Running dot for graph 257/435
+Running dot for graph 258/435
+Running dot for graph 259/435
+Running dot for graph 260/435
+Running dot for graph 261/435
+Running dot for graph 262/435
+Running dot for graph 263/435
+Running dot for graph 264/435
+Running dot for graph 265/435
+Running dot for graph 266/435
+Running dot for graph 267/435
+Running dot for graph 268/435
+Running dot for graph 269/435
+Running dot for graph 270/435
+Running dot for graph 271/435
+Running dot for graph 272/435
+Running dot for graph 273/435
+Running dot for graph 274/435
+Running dot for graph 275/435
+Running dot for graph 276/435
+Running dot for graph 277/435
+Running dot for graph 278/435
+Running dot for graph 279/435
+Running dot for graph 280/435
+Running dot for graph 281/435
+Running dot for graph 282/435
+Running dot for graph 283/435
+Running dot for graph 284/435
+Running dot for graph 285/435
+Running dot for graph 286/435
+Running dot for graph 287/435
+Running dot for graph 288/435
+Running dot for graph 289/435
+Running dot for graph 290/435
+Running dot for graph 291/435
+Running dot for graph 292/435
+Running dot for graph 293/435
+Running dot for graph 294/435
+Running dot for graph 295/435
+Running dot for graph 296/435
+Running dot for graph 297/435
+Running dot for graph 298/435
+Running dot for graph 299/435
+Running dot for graph 300/435
+Running dot for graph 301/435
+Running dot for graph 302/435
+Running dot for graph 303/435
+Running dot for graph 304/435
+Running dot for graph 305/435
+Running dot for graph 306/435
+Running dot for graph 307/435
+Running dot for graph 308/435
+Running dot for graph 309/435
+Running dot for graph 310/435
+Running dot for graph 311/435
+Running dot for graph 312/435
+Running dot for graph 313/435
+Running dot for graph 314/435
+Running dot for graph 315/435
+Running dot for graph 316/435
+Running dot for graph 317/435
+Running dot for graph 318/435
+Running dot for graph 319/435
+Running dot for graph 320/435
+Running dot for graph 321/435
+Running dot for graph 322/435
+Running dot for graph 323/435
+Running dot for graph 324/435
+Running dot for graph 325/435
+Running dot for graph 326/435
+Running dot for graph 327/435
+Running dot for graph 328/435
+Running dot for graph 329/435
+Running dot for graph 330/435
+Running dot for graph 331/435
+Running dot for graph 332/435
+Running dot for graph 333/435
+Running dot for graph 334/435
+Running dot for graph 335/435
+Running dot for graph 336/435
+Running dot for graph 337/435
+Running dot for graph 338/435
+Running dot for graph 339/435
+Running dot for graph 340/435
+Running dot for graph 341/435
+Running dot for graph 342/435
+Running dot for graph 343/435
+Running dot for graph 344/435
+Running dot for graph 345/435
+Running dot for graph 346/435
+Running dot for graph 347/435
+Running dot for graph 348/435
+Running dot for graph 349/435
+Running dot for graph 350/435
+Running dot for graph 351/435
+Running dot for graph 352/435
+Running dot for graph 353/435
+Running dot for graph 354/435
+Running dot for graph 355/435
+Running dot for graph 356/435
+Running dot for graph 357/435
+Running dot for graph 358/435
+Running dot for graph 359/435
+Running dot for graph 360/435
+Running dot for graph 361/435
+Running dot for graph 362/435
+Running dot for graph 363/435
+Running dot for graph 364/435
+Running dot for graph 365/435
+Running dot for graph 366/435
+Running dot for graph 367/435
+Running dot for graph 368/435
+Running dot for graph 369/435
+Running dot for graph 370/435
+Running dot for graph 371/435
+Running dot for graph 372/435
+Running dot for graph 373/435
+Running dot for graph 374/435
+Running dot for graph 375/435
+Running dot for graph 376/435
+Running dot for graph 377/435
+Running dot for graph 378/435
+Running dot for graph 379/435
+Running dot for graph 380/435
+Running dot for graph 381/435
+Running dot for graph 382/435
+Running dot for graph 383/435
+Running dot for graph 384/435
+Running dot for graph 385/435
+Running dot for graph 386/435
+Running dot for graph 387/435
+Running dot for graph 388/435
+Running dot for graph 389/435
+Running dot for graph 390/435
+Running dot for graph 391/435
+Running dot for graph 392/435
+Running dot for graph 393/435
+Running dot for graph 394/435
+Running dot for graph 395/435
+Running dot for graph 396/435
+Running dot for graph 397/435
+Running dot for graph 398/435
+Running dot for graph 399/435
+Running dot for graph 400/435
+Running dot for graph 401/435
+Running dot for graph 402/435
+Running dot for graph 403/435
+Running dot for graph 404/435
+Running dot for graph 405/435
+Running dot for graph 406/435
+Running dot for graph 407/435
+Running dot for graph 408/435
+Running dot for graph 409/435
+Running dot for graph 410/435
+Running dot for graph 411/435
+Running dot for graph 412/435
+Running dot for graph 413/435
+Running dot for graph 414/435
+Running dot for graph 415/435
+Running dot for graph 416/435
+Running dot for graph 417/435
+Running dot for graph 418/435
+Running dot for graph 419/435
+Running dot for graph 420/435
+Running dot for graph 421/435
+Running dot for graph 422/435
+Running dot for graph 423/435
+Running dot for graph 424/435
+Running dot for graph 425/435
+Running dot for graph 426/435
+Running dot for graph 427/435
+Running dot for graph 428/435
+Running dot for graph 429/435
+Running dot for graph 430/435
+Running dot for graph 431/435
+Running dot for graph 432/435
+Running dot for graph 433/435
+Running dot for graph 434/435
+Running dot for graph 435/435
+Patching output file 1/511
+Patching output file 2/511
+Patching output file 3/511
+Patching output file 4/511
+Patching output file 5/511
+Patching output file 6/511
+Patching output file 7/511
+Patching output file 8/511
+Patching output file 9/511
+Patching output file 10/511
+Patching output file 11/511
+Patching output file 12/511
+Patching output file 13/511
+Patching output file 14/511
+Patching output file 15/511
+Patching output file 16/511
+Patching output file 17/511
+Patching output file 18/511
+Patching output file 19/511
+Patching output file 20/511
+Patching output file 21/511
+Patching output file 22/511
+Patching output file 23/511
+Patching output file 24/511
+Patching output file 25/511
+Patching output file 26/511
+Patching output file 27/511
+Patching output file 28/511
+Patching output file 29/511
+Patching output file 30/511
+Patching output file 31/511
+Patching output file 32/511
+Patching output file 33/511
+Patching output file 34/511
+Patching output file 35/511
+Patching output file 36/511
+Patching output file 37/511
+Patching output file 38/511
+Patching output file 39/511
+Patching output file 40/511
+Patching output file 41/511
+Patching output file 42/511
+Patching output file 43/511
+Patching output file 44/511
+Patching output file 45/511
+Patching output file 46/511
+Patching output file 47/511
+Patching output file 48/511
+Patching output file 49/511
+Patching output file 50/511
+Patching output file 51/511
+Patching output file 52/511
+Patching output file 53/511
+Patching output file 54/511
+Patching output file 55/511
+Patching output file 56/511
+Patching output file 57/511
+Patching output file 58/511
+Patching output file 59/511
+Patching output file 60/511
+Patching output file 61/511
+Patching output file 62/511
+Patching output file 63/511
+Patching output file 64/511
+Patching output file 65/511
+Patching output file 66/511
+Patching output file 67/511
+Patching output file 68/511
+Patching output file 69/511
+Patching output file 70/511
+Patching output file 71/511
+Patching output file 72/511
+Patching output file 73/511
+Patching output file 74/511
+Patching output file 75/511
+Patching output file 76/511
+Patching output file 77/511
+Patching output file 78/511
+Patching output file 79/511
+Patching output file 80/511
+Patching output file 81/511
+Patching output file 82/511
+Patching output file 83/511
+Patching output file 84/511
+Patching output file 85/511
+Patching output file 86/511
+Patching output file 87/511
+Patching output file 88/511
+Patching output file 89/511
+Patching output file 90/511
+Patching output file 91/511
+Patching output file 92/511
+Patching output file 93/511
+Patching output file 94/511
+Patching output file 95/511
+Patching output file 96/511
+Patching output file 97/511
+Patching output file 98/511
+Patching output file 99/511
+Patching output file 100/511
+Patching output file 101/511
+Patching output file 102/511
+Patching output file 103/511
+Patching output file 104/511
+Patching output file 105/511
+Patching output file 106/511
+Patching output file 107/511
+Patching output file 108/511
+Patching output file 109/511
+Patching output file 110/511
+Patching output file 111/511
+Patching output file 112/511
+Patching output file 113/511
+Patching output file 114/511
+Patching output file 115/511
+Patching output file 116/511
+Patching output file 117/511
+Patching output file 118/511
+Patching output file 119/511
+Patching output file 120/511
+Patching output file 121/511
+Patching output file 122/511
+Patching output file 123/511
+Patching output file 124/511
+Patching output file 125/511
+Patching output file 126/511
+Patching output file 127/511
+Patching output file 128/511
+Patching output file 129/511
+Patching output file 130/511
+Patching output file 131/511
+Patching output file 132/511
+Patching output file 133/511
+Patching output file 134/511
+Patching output file 135/511
+Patching output file 136/511
+Patching output file 137/511
+Patching output file 138/511
+Patching output file 139/511
+Patching output file 140/511
+Patching output file 141/511
+Patching output file 142/511
+Patching output file 143/511
+Patching output file 144/511
+Patching output file 145/511
+Patching output file 146/511
+Patching output file 147/511
+Patching output file 148/511
+Patching output file 149/511
+Patching output file 150/511
+Patching output file 151/511
+Patching output file 152/511
+Patching output file 153/511
+Patching output file 154/511
+Patching output file 155/511
+Patching output file 156/511
+Patching output file 157/511
+Patching output file 158/511
+Patching output file 159/511
+Patching output file 160/511
+Patching output file 161/511
+Patching output file 162/511
+Patching output file 163/511
+Patching output file 164/511
+Patching output file 165/511
+Patching output file 166/511
+Patching output file 167/511
+Patching output file 168/511
+Patching output file 169/511
+Patching output file 170/511
+Patching output file 171/511
+Patching output file 172/511
+Patching output file 173/511
+Patching output file 174/511
+Patching output file 175/511
+Patching output file 176/511
+Patching output file 177/511
+Patching output file 178/511
+Patching output file 179/511
+Patching output file 180/511
+Patching output file 181/511
+Patching output file 182/511
+Patching output file 183/511
+Patching output file 184/511
+Patching output file 185/511
+Patching output file 186/511
+Patching output file 187/511
+Patching output file 188/511
+Patching output file 189/511
+Patching output file 190/511
+Patching output file 191/511
+Patching output file 192/511
+Patching output file 193/511
+Patching output file 194/511
+Patching output file 195/511
+Patching output file 196/511
+Patching output file 197/511
+Patching output file 198/511
+Patching output file 199/511
+Patching output file 200/511
+Patching output file 201/511
+Patching output file 202/511
+Patching output file 203/511
+Patching output file 204/511
+Patching output file 205/511
+Patching output file 206/511
+Patching output file 207/511
+Patching output file 208/511
+Patching output file 209/511
+Patching output file 210/511
+Patching output file 211/511
+Patching output file 212/511
+Patching output file 213/511
+Patching output file 214/511
+Patching output file 215/511
+Patching output file 216/511
+Patching output file 217/511
+Patching output file 218/511
+Patching output file 219/511
+Patching output file 220/511
+Patching output file 221/511
+Patching output file 222/511
+Patching output file 223/511
+Patching output file 224/511
+Patching output file 225/511
+Patching output file 226/511
+Patching output file 227/511
+Patching output file 228/511
+Patching output file 229/511
+Patching output file 230/511
+Patching output file 231/511
+Patching output file 232/511
+Patching output file 233/511
+Patching output file 234/511
+Patching output file 235/511
+Patching output file 236/511
+Patching output file 237/511
+Patching output file 238/511
+Patching output file 239/511
+Patching output file 240/511
+Patching output file 241/511
+Patching output file 242/511
+Patching output file 243/511
+Patching output file 244/511
+Patching output file 245/511
+Patching output file 246/511
+Patching output file 247/511
+Patching output file 248/511
+Patching output file 249/511
+Patching output file 250/511
+Patching output file 251/511
+Patching output file 252/511
+Patching output file 253/511
+Patching output file 254/511
+Patching output file 255/511
+Patching output file 256/511
+Patching output file 257/511
+Patching output file 258/511
+Patching output file 259/511
+Patching output file 260/511
+Patching output file 261/511
+Patching output file 262/511
+Patching output file 263/511
+Patching output file 264/511
+Patching output file 265/511
+Patching output file 266/511
+Patching output file 267/511
+Patching output file 268/511
+Patching output file 269/511
+Patching output file 270/511
+Patching output file 271/511
+Patching output file 272/511
+Patching output file 273/511
+Patching output file 274/511
+Patching output file 275/511
+Patching output file 276/511
+Patching output file 277/511
+Patching output file 278/511
+Patching output file 279/511
+Patching output file 280/511
+Patching output file 281/511
+Patching output file 282/511
+Patching output file 283/511
+Patching output file 284/511
+Patching output file 285/511
+Patching output file 286/511
+Patching output file 287/511
+Patching output file 288/511
+Patching output file 289/511
+Patching output file 290/511
+Patching output file 291/511
+Patching output file 292/511
+Patching output file 293/511
+Patching output file 294/511
+Patching output file 295/511
+Patching output file 296/511
+Patching output file 297/511
+Patching output file 298/511
+Patching output file 299/511
+Patching output file 300/511
+Patching output file 301/511
+Patching output file 302/511
+Patching output file 303/511
+Patching output file 304/511
+Patching output file 305/511
+Patching output file 306/511
+Patching output file 307/511
+Patching output file 308/511
+Patching output file 309/511
+Patching output file 310/511
+Patching output file 311/511
+Patching output file 312/511
+Patching output file 313/511
+Patching output file 314/511
+Patching output file 315/511
+Patching output file 316/511
+Patching output file 317/511
+Patching output file 318/511
+Patching output file 319/511
+Patching output file 320/511
+Patching output file 321/511
+Patching output file 322/511
+Patching output file 323/511
+Patching output file 324/511
+Patching output file 325/511
+Patching output file 326/511
+Patching output file 327/511
+Patching output file 328/511
+Patching output file 329/511
+Patching output file 330/511
+Patching output file 331/511
+Patching output file 332/511
+Patching output file 333/511
+Patching output file 334/511
+Patching output file 335/511
+Patching output file 336/511
+Patching output file 337/511
+Patching output file 338/511
+Patching output file 339/511
+Patching output file 340/511
+Patching output file 341/511
+Patching output file 342/511
+Patching output file 343/511
+Patching output file 344/511
+Patching output file 345/511
+Patching output file 346/511
+Patching output file 347/511
+Patching output file 348/511
+Patching output file 349/511
+Patching output file 350/511
+Patching output file 351/511
+Patching output file 352/511
+Patching output file 353/511
+Patching output file 354/511
+Patching output file 355/511
+Patching output file 356/511
+Patching output file 357/511
+Patching output file 358/511
+Patching output file 359/511
+Patching output file 360/511
+Patching output file 361/511
+Patching output file 362/511
+Patching output file 363/511
+Patching output file 364/511
+Patching output file 365/511
+Patching output file 366/511
+Patching output file 367/511
+Patching output file 368/511
+Patching output file 369/511
+Patching output file 370/511
+Patching output file 371/511
+Patching output file 372/511
+Patching output file 373/511
+Patching output file 374/511
+Patching output file 375/511
+Patching output file 376/511
+Patching output file 377/511
+Patching output file 378/511
+Patching output file 379/511
+Patching output file 380/511
+Patching output file 381/511
+Patching output file 382/511
+Patching output file 383/511
+Patching output file 384/511
+Patching output file 385/511
+Patching output file 386/511
+Patching output file 387/511
+Patching output file 388/511
+Patching output file 389/511
+Patching output file 390/511
+Patching output file 391/511
+Patching output file 392/511
+Patching output file 393/511
+Patching output file 394/511
+Patching output file 395/511
+Patching output file 396/511
+Patching output file 397/511
+Patching output file 398/511
+Patching output file 399/511
+Patching output file 400/511
+Patching output file 401/511
+Patching output file 402/511
+Patching output file 403/511
+Patching output file 404/511
+Patching output file 405/511
+Patching output file 406/511
+Patching output file 407/511
+Patching output file 408/511
+Patching output file 409/511
+Patching output file 410/511
+Patching output file 411/511
+Patching output file 412/511
+Patching output file 413/511
+Patching output file 414/511
+Patching output file 415/511
+Patching output file 416/511
+Patching output file 417/511
+Patching output file 418/511
+Patching output file 419/511
+Patching output file 420/511
+Patching output file 421/511
+Patching output file 422/511
+Patching output file 423/511
+Patching output file 424/511
+Patching output file 425/511
+Patching output file 426/511
+Patching output file 427/511
+Patching output file 428/511
+Patching output file 429/511
+Patching output file 430/511
+Patching output file 431/511
+Patching output file 432/511
+Patching output file 433/511
+Patching output file 434/511
+Patching output file 435/511
+Patching output file 436/511
+Patching output file 437/511
+Patching output file 438/511
+Patching output file 439/511
+Patching output file 440/511
+Patching output file 441/511
+Patching output file 442/511
+Patching output file 443/511
+Patching output file 444/511
+Patching output file 445/511
+Patching output file 446/511
+Patching output file 447/511
+Patching output file 448/511
+Patching output file 449/511
+Patching output file 450/511
+Patching output file 451/511
+Patching output file 452/511
+Patching output file 453/511
+Patching output file 454/511
+Patching output file 455/511
+Patching output file 456/511
+Patching output file 457/511
+Patching output file 458/511
+Patching output file 459/511
+Patching output file 460/511
+Patching output file 461/511
+Patching output file 462/511
+Patching output file 463/511
+Patching output file 464/511
+Patching output file 465/511
+Patching output file 466/511
+Patching output file 467/511
+Patching output file 468/511
+Patching output file 469/511
+Patching output file 470/511
+Patching output file 471/511
+Patching output file 472/511
+Patching output file 473/511
+Patching output file 474/511
+Patching output file 475/511
+Patching output file 476/511
+Patching output file 477/511
+Patching output file 478/511
+Patching output file 479/511
+Patching output file 480/511
+Patching output file 481/511
+Patching output file 482/511
+Patching output file 483/511
+Patching output file 484/511
+Patching output file 485/511
+Patching output file 486/511
+Patching output file 487/511
+Patching output file 488/511
+Patching output file 489/511
+Patching output file 490/511
+Patching output file 491/511
+Patching output file 492/511
+Patching output file 493/511
+Patching output file 494/511
+Patching output file 495/511
+Patching output file 496/511
+Patching output file 497/511
+Patching output file 498/511
+Patching output file 499/511
+Patching output file 500/511
+Patching output file 501/511
+Patching output file 502/511
+Patching output file 503/511
+Patching output file 504/511
+Patching output file 505/511
+Patching output file 506/511
+Patching output file 507/511
+Patching output file 508/511
+Patching output file 509/511
+Patching output file 510/511
+Patching output file 511/511
+type lookup cache used 4480/65536 hits=14802 misses=4808
+symbol lookup cache used 4475/65536 hits=28298 misses=4475
 finished...

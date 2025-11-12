@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['globalparambankvariant_0',['GlobalParamBankVariant',['../classTMC9660.html#a991b2cc02c9b0743b23b03ae12aa8a1a',1,'TMC9660']]]
+  ['globalparambankvariant_0',['GlobalParamBankVariant',['../classtmc9660_1_1TMC9660.html#a2a895b9f8b4ede11e282140dc205af62',1,'tmc9660::TMC9660']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['measurement_0',['ADC and Analog Measurement',['../group__TMC9660__ADC.html',1,'']]],
-  ['monitoring_1',['ADC Status and Monitoring',['../group__TMC9660__ADCStatus.html',1,'']]]
+  ['protocol_0',['Communication Protocol',['../group__TMC9660__BootloaderProtocol.html',1,'']]],
+  ['protocol_20structures_1',['TMCL Protocol Structures',['../group__TMC9660__TMCLProtocol.html',1,'']]]
 ];

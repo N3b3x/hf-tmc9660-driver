@@ -10,7 +10,7 @@ var searchData=
   ['spiflashfreq_7',['SPIFlashFreq',['../namespacetmc9660_1_1bootcfg.html#a12c336e8c7823ae380a9e897650fdbab',1,'tmc9660::bootcfg']]],
   ['spiinitmethod_8',['SpiInitMethod',['../namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6',1,'tmc9660::tmcl']]],
   ['spiinterface_9',['SPIInterface',['../namespacetmc9660_1_1bootcfg.html#aea005d9b7d531dc75ed6137f0ebfe036',1,'tmc9660::bootcfg']]],
-  ['spistatus_10',['SPIStatus',['../TMC9660CommInterface_8hpp.html#a840303fcd4d20be81413f45c22f0d4c7',1,'TMC9660CommInterface.hpp']]],
+  ['spistatus_10',['SPIStatus',['../namespacetmc9660.html#aa6ed72b377a8d74c2505b89b77b8a505',1,'tmc9660']]],
   ['stepdir_11',['StepDir',['../namespacetmc9660_1_1tmcl.html#abd3b41a27e67a710d8776b4511d08835',1,'tmc9660::tmcl']]],
   ['stepdirstepdividershift_12',['StepDirStepDividerShift',['../namespacetmc9660_1_1tmcl.html#a41b663732c5e824ae82b8e8347e65ffc',1,'tmc9660::tmcl']]],
   ['steppin_13',['StepPin',['../namespacetmc9660_1_1bootcfg.html#a600e402877af033fd0776b26bc1744dd',1,'tmc9660::bootcfg']]],

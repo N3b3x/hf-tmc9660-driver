@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['velocitycontrol_0',['VelocityControl',['../structTMC9660_1_1VelocityControl.html#a458fa4c953e73668e820d8158e8e3800',1,'TMC9660::VelocityControl']]],
+  ['velocitycontrol_0',['VelocityControl',['../structtmc9660_1_1TMC9660_1_1VelocityControl.html#ae115e577f06d6cd070771e8b64851545',1,'tmc9660::TMC9660::VelocityControl']]],
   ['verify_5fcurrent_5flimits_1',['verify_current_limits',['../DCComprehensiveTest_8cpp.html#a2ebb3b345cf5b1eb696654404b045f39',1,'DCComprehensiveTest.cpp']]],
   ['verify_5fdc_5fconfiguration_2',['verify_dc_configuration',['../DCComprehensiveTest_8cpp.html#af08dfd5cb56d0b5e9ba0db5c41af4d9c',1,'DCComprehensiveTest.cpp']]],
   ['verify_5fposition_5fcontrol_3',['verify_position_control',['../StepperComprehensiveTest_8cpp.html#a370e704e7568cd681dfc3db702c55887',1,'StepperComprehensiveTest.cpp']]],

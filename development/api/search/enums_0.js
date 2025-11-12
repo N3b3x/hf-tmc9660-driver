@@ -12,7 +12,7 @@ var searchData=
   ['adcconfig_9',['AdcConfig',['../namespacetmc9660_1_1tmcl.html#aebcd42d4151c2bd4a2bd3444a0cf0fec',1,'tmc9660::tmcl']]],
   ['adcinversion_10',['AdcInversion',['../namespacetmc9660_1_1tmcl.html#a9939098d05bf7c6184beef4cc7fbd17d',1,'tmc9660::tmcl']]],
   ['adcmapping_11',['AdcMapping',['../namespacetmc9660_1_1tmcl.html#a305d707e9b05649271acae6c8c9cbae8',1,'tmc9660::tmcl']]],
-  ['adcshiftsample_12',['ADCShiftSample',['../structTMC9660_1_1ADC_1_1SETUP.html#a56f02ad008e899e005188b4264c6cc21',1,'TMC9660::ADC::SETUP']]],
+  ['adcshiftsample_12',['ADCShiftSample',['../structtmc9660_1_1register__mode_1_1ADC_1_1SETUP.html#ab4ce149b252c7ed1c4bacb4f977a9bb7',1,'tmc9660::register_mode::ADC::SETUP']]],
   ['adcshunttype_13',['AdcShuntType',['../namespacetmc9660_1_1tmcl.html#a7b10db10451330aa408e7ab86c47e0ef',1,'tmc9660::tmcl']]],
   ['adcstatusflags_14',['AdcStatusFlags',['../namespacetmc9660_1_1tmcl.html#a522fa2332ef2d2d9eb028fb80ee7b4cb',1,'tmc9660::tmcl']]]
 ];

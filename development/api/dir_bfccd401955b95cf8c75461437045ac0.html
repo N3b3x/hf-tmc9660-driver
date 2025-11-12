@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -98,18 +100,13 @@ $(function(){initNavTree('dir_bfccd401955b95cf8c75461437045ac0.html',''); initRe
 <div class="dynheader">
 Directory dependency graph for inc:</div>
 <div class="dyncontent">
-<div class="center"><img src="dir_bfccd401955b95cf8c75461437045ac0_dep.png" border="0" usemap="#adir__bfccd401955b95cf8c75461437045ac0__dep" alt="inc"/></div>
-<map name="adir__bfccd401955b95cf8c75461437045ac0__dep" id="adir__bfccd401955b95cf8c75461437045ac0__dep">
-<area shape="rect" href="dir_ed7cf8b2b4b3409ac705323f61f1438d.html" title="parameter_mode" alt="" coords="74,100,209,125"/>
-<area shape="poly" href="dir_000002_000004.html" alt="" coords="183,54,159,90,154,87,178,51"/>
-<area shape="rect" href="dir_000002_000004.html" title="1" alt="" coords="161,82,171,97"/>
-<area shape="rect" href="dir_1931185f807cb01034afdaa9a18485d6.html" title="register_mode" alt="" coords="27,27,143,52"/>
-<area shape="rect" href="dir_bfccd401955b95cf8c75461437045ac0.html" alt="" coords="16,16,220,136"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dir_bfccd401955b95cf8c75461437045ac0_dep.svg" width="306" height="152"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="subdirs" name="subdirs"></a>
 Directories</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_df4eb1f3dcd4b267aaca751da50ab2ac.html">bootloader</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_ed7cf8b2b4b3409ac705323f61f1438d.html">parameter_mode</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_1931185f807cb01034afdaa9a18485d6.html">register_mode</a></td></tr>
@@ -118,13 +115,10 @@ Directories</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="TMC9660_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TMC9660_8hpp.html">TMC9660.hpp</a></td></tr>
-<tr class="memdesc:TMC9660_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> motor driver interface and subsystem classes. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="TMC9660Bootloader_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TMC9660Bootloader_8hpp.html">TMC9660Bootloader.hpp</a></td></tr>
-<tr class="memdesc:TMC9660Bootloader_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> bootloader interface and configuration structures. <br /></td></tr>
+<tr class="memdesc:TMC9660_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main TMC9660 motor driver interface and subsystem classes. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="TMC9660CommInterface_8hpp_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="TMC9660CommInterface_8hpp.html">TMC9660CommInterface.hpp</a></td></tr>
-<tr class="memdesc:TMC9660CommInterface_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Communication interfaces for <a class="el" href="classTMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> Parameter Mode devices using TMCL protocol over SPI and UART. <br /></td></tr>
+<tr class="memdesc:TMC9660CommInterface_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

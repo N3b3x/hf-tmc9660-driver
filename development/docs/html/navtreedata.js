@@ -25,6 +25,58 @@
 var NAVTREE =
 [
   [ "HF-TMC9660 Driver", "index.html", [
+    [ "🔧 HardFOC TMC9660 Driver", "index.html#autotoc_md36", [
+      [ "} md_README", "index.html#autotoc_md34", null ],
+      [ "has_children: true", "index.html#autotoc_md35", null ],
+      [ "🎯 Universal Motor Controller Interface for Multi-MCU Development", "index.html#autotoc_md37", null ],
+      [ "📚 Table of Contents", "index.html#autotoc_md39", null ],
+      [ "🎯 Overview", "index.html#autotoc_md41", [
+        [ "🏆 Core Benefits", "index.html#autotoc_md42", null ],
+        [ "🎨 Design Philosophy", "index.html#autotoc_md43", null ]
+      ] ],
+      [ "🏗️ Architecture", "index.html#autotoc_md45", [
+        [ "Transport-Agnostic Design", "index.html#autotoc_md46", null ],
+        [ "Abstraction Benefits", "index.html#autotoc_md47", [
+          [ "1. MCU Independence", "index.html#autotoc_md48", null ]
+        ] ]
+      ] ],
+      [ "🔌 Motor Types", "index.html#autotoc_md50", [
+        [ "Supported Motor Types", "index.html#autotoc_md51", null ],
+        [ "Communication Modes", "index.html#autotoc_md52", null ]
+      ] ],
+      [ "🚀 Quick Start", "index.html#autotoc_md54", [
+        [ "1. Clone Repository", "index.html#autotoc_md55", null ],
+        [ "2. Implement Communication Interface", "index.html#autotoc_md56", null ],
+        [ "3. Basic Motor Control", "index.html#autotoc_md57", null ],
+        [ "4. Build Example", "index.html#autotoc_md58", null ]
+      ] ],
+      [ "📖 API Documentation", "index.html#autotoc_md60", [
+        [ "Generated Documentation", "index.html#autotoc_md61", null ],
+        [ "Key Concepts", "index.html#autotoc_md62", [
+          [ "Bootloader Initialization", "index.html#autotoc_md63", null ],
+          [ "Motor Configuration", "index.html#autotoc_md64", null ],
+          [ "FOC Control", "index.html#autotoc_md65", null ]
+        ] ]
+      ] ],
+      [ "🔧 Building", "index.html#autotoc_md67", [
+        [ "Build System Features", "index.html#autotoc_md68", null ],
+        [ "Build Commands", "index.html#autotoc_md69", null ]
+      ] ],
+      [ "📊 Examples", "index.html#autotoc_md71", [
+        [ "Available Test Applications", "index.html#autotoc_md72", null ],
+        [ "Usage Examples", "index.html#autotoc_md73", null ]
+      ] ],
+      [ "🤝 Contributing", "index.html#autotoc_md75", [
+        [ "Development Workflow", "index.html#autotoc_md76", null ],
+        [ "Coding Standards", "index.html#autotoc_md77", null ]
+      ] ],
+      [ "📄 License", "index.html#autotoc_md79", null ],
+      [ "🔗 Quick Links", "index.html#autotoc_md81", [
+        [ "Documentation", "index.html#autotoc_md82", null ],
+        [ "Development", "index.html#autotoc_md83", null ],
+        [ "Community", "index.html#autotoc_md84", null ]
+      ] ]
+    ] ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -54,7 +106,6 @@ var NAVTREE =
         [ "All", "globals.html", "globals_dup" ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
-        [ "Enumerations", "globals_enum.html", null ],
         [ "Macros", "globals_defs.html", "globals_defs" ]
       ] ]
     ] ]
@@ -64,22 +115,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "BLDCComprehensiveTest_8cpp.html",
-"TMC9660Bootloader_8hpp.html#a941a785fa3d0a467511111f27ddfdcb0a14b52fa379dea9171c3eb958d7fa5795",
-"TestFramework_8h.html#a7bb80345e5681c19686df292fa897daf",
-"functions_g.html",
-"namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2afc54cc5168d94ca409e12befda8c2a4a",
-"namespacetmc9660_1_1tmcl.html#a26b05e4bf0a611aaf1c867f65393afa5",
-"structEsp32TMC9660BusConfig.html#a9818780dbc4869274c4e4f495c18cfa5",
-"structTMC9660_1_1Brake.html#af37d364f9ecf6448bd83dd3ec8290567",
-"structTMC9660_1_1FeedbackSense_1_1HallConfig.html#a5b29cc0e0d97e5a585609f0870586dbb",
-"structTMC9660_1_1IIT.html#ae1c8bfdd7e932676424fa7329e4677fd",
-"structTMC9660_1_1Ramp.html#a8aeef6b13f372ab998ac6e33b62e8609",
-"structTMC9660_1_1StopEvents_1_1StopEventsConfig.html#a2ad2d76c6b7547c9070bea87dd1f729d",
-"structTMC9660_1_1VelocityControl.html#aaf4def75df52105ade59b0794bc410f0",
-"structtmc9660_1_1BrakeChopperConfig.html",
-"tmc9660__param__mode__tmcl_8hpp.html#a20a3cacda4c443399cf320e330503a85",
+"bootloader__config_8hpp.html#a1fdf2841593feea1ca7a6f1ca7854e9d",
+"classEsp32UARTTMC9660CommInterface.html#af397cf2a22f1d0ae2fc84352a78ef52a",
+"classtmc9660_1_1UARTTMC9660CommInterface.html#ab4c94b06ae2d4658425ef9bf74dcdf1c",
+"index.html#autotoc_md68",
+"namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8",
+"namespacetmc9660_1_1tmcl.html#aa7f040843b92070159754d92bc01bf22",
+"structtmc9660_1_1BrakeChopperConfig.html#a280fda351565c64b10a4b121f8efd485",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense.html",
+"structtmc9660_1_1TMC9660_1_1PositionControl.html#a5304742e95497626ddd6561f80e2ffe6",
+"structtmc9660_1_1TMC9660_1_1VelocityControl.html#a0a7b596c452f0cf81720186fe47dfedd",
+"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a4a013ef8476249accc4fecc15f77280f",
+"tmc9660__param__mode__tmcl_8hpp.html#a20fc74db601b27e86ecb1b164909017c",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#af3e7e0dbfd4f6c2cd992b25bae531b31"
+"tmc9660__param__mode__tmcl_8hpp.html#af4212d06adcc44c807d49eefd59fd826"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

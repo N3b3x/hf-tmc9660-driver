@@ -9,7 +9,6 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -19,6 +18,9 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -113,42 +115,12 @@ $(function(){initNavTree('TestFramework_8h.html',''); initResizable(); });
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for TestFramework.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h__incl.png" border="0" usemap="#aTestFramework_8h" alt=""/></div>
-<map name="aTestFramework_8h" id="aTestFramework_8h">
-<area shape="rect" title="Shared testing framework for ESP32&#45;C6 comprehensive test suites." alt="" coords="374,5,507,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,89,104"/>
-<area shape="poly" title=" " alt="" coords="374,33,103,81,102,76,373,28"/>
-<area shape="rect" title=" " alt="" coords="114,79,213,104"/>
-<area shape="poly" title=" " alt="" coords="397,33,222,78,221,73,395,28"/>
-<area shape="rect" title=" " alt="" coords="237,79,341,104"/>
-<area shape="poly" title=" " alt="" coords="417,33,327,75,325,70,415,28"/>
-<area shape="rect" title=" " alt="" coords="365,79,516,104"/>
-<area shape="poly" title=" " alt="" coords="443,31,443,65,438,65,438,31"/>
-<area shape="rect" title=" " alt="" coords="540,79,669,104"/>
-<area shape="poly" title=" " alt="" coords="468,28,567,71,564,76,466,33"/>
-<area shape="rect" title=" " alt="" coords="693,79,831,104"/>
-<area shape="poly" title=" " alt="" coords="493,28,697,73,696,78,492,33"/>
-<area shape="rect" title=" " alt="" coords="855,79,973,104"/>
-<area shape="poly" title=" " alt="" coords="508,26,842,76,841,81,507,32"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h__incl.svg" width="979" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h__dep__incl.png" border="0" usemap="#aTestFramework_8hdep" alt=""/></div>
-<map name="aTestFramework_8hdep" id="aTestFramework_8hdep">
-<area shape="rect" title="Shared testing framework for ESP32&#45;C6 comprehensive test suites." alt="" coords="545,5,678,31"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,79,217,104"/>
-<area shape="poly" title=" " alt="" coords="531,33,192,81,192,76,531,28"/>
-<area shape="rect" href="BootloaderComprehensiveTest_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="241,79,489,104"/>
-<area shape="poly" title=" " alt="" coords="559,37,405,81,404,76,558,32"/>
-<area shape="rect" href="DCComprehensiveTest_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="513,79,709,104"/>
-<area shape="poly" title=" " alt="" coords="614,44,614,79,609,79,609,44"/>
-<area shape="rect" href="StepperComprehensiveTest_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="734,79,961,104"/>
-<area shape="poly" title=" " alt="" coords="663,32,810,76,808,81,662,37"/>
-<area shape="rect" href="TelemetryComprehensiveTest_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="985,79,1227,104"/>
-<area shape="poly" title=" " alt="" coords="692,28,1027,76,1026,81,691,33"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h__dep__incl.svg" width="1234" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="TestFramework_8h_source.html">Go to the source code of this file.</a></p>
@@ -275,7 +247,7 @@ Variables</h2></td></tr>
 <div class="line">      ESP_LOGI(<a class="code hl_variable" href="BLDCComprehensiveTest_8cpp.html#a5a85b9c772bbeb480b209a3e6ea92b4c">TAG</a>, <span class="stringliteral">&quot;Test &#39;%s&#39; disabled by configuration&quot;</span>, test_name);                             \</div>
 <div class="line">    }                                                                                              \</div>
 <div class="line">  } <span class="keywordflow">while</span> (0)</div>
-<div class="ttc" id="aBLDCComprehensiveTest_8cpp_html_a5a85b9c772bbeb480b209a3e6ea92b4c"><div class="ttname"><a href="BLDCComprehensiveTest_8cpp.html#a5a85b9c772bbeb480b209a3e6ea92b4c">TAG</a></div><div class="ttdeci">static const char * TAG</div><div class="ttdef"><b>Definition</b> BLDCComprehensiveTest.cpp:47</div></div>
+<div class="ttc" id="aBLDCComprehensiveTest_8cpp_html_a5a85b9c772bbeb480b209a3e6ea92b4c"><div class="ttname"><a href="BLDCComprehensiveTest_8cpp.html#a5a85b9c772bbeb480b209a3e6ea92b4c">TAG</a></div><div class="ttdeci">static const char * TAG</div><div class="ttdef"><b>Definition</b> BLDCComprehensiveTest.cpp:49</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -312,7 +284,7 @@ Variables</h2></td></tr>
 <div class="line">    }                                                                                              \</div>
 <div class="line">    vTaskDelay(pdMS_TO_TICKS(100));                                                                \</div>
 <div class="line">  } <span class="keywordflow">while</span> (0)</div>
-<div class="ttc" id="aBLDCComprehensiveTest_8cpp_html_aaff89257c54366921eebb8ec1348b1fd"><div class="ttname"><a href="BLDCComprehensiveTest_8cpp.html#aaff89257c54366921eebb8ec1348b1fd">g_test_results</a></div><div class="ttdeci">static TestResults g_test_results</div><div class="ttdef"><b>Definition</b> BLDCComprehensiveTest.cpp:48</div></div>
+<div class="ttc" id="aBLDCComprehensiveTest_8cpp_html_aaff89257c54366921eebb8ec1348b1fd"><div class="ttname"><a href="BLDCComprehensiveTest_8cpp.html#aaff89257c54366921eebb8ec1348b1fd">g_test_results</a></div><div class="ttdeci">static TestResults g_test_results</div><div class="ttdef"><b>Definition</b> BLDCComprehensiveTest.cpp:50</div></div>
 <div class="ttc" id="astructTestResults_html_a257eba3a9005a5c19c68ae27774948f7"><div class="ttname"><a href="structTestResults.html#a257eba3a9005a5c19c68ae27774948f7">TestResults::add_result</a></div><div class="ttdeci">void add_result(bool passed, uint64_t execution_time) noexcept</div><div class="ttdoc">Add test result and update statistics.</div><div class="ttdef"><b>Definition</b> TestFramework.h:169</div></div>
 </div><!-- fragment -->
 <p>Standardized test execution macro with timing and result tracking. </p>
@@ -623,27 +595,12 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a57a48f91a141d98e45f82937581e1a97_cgraph.png" border="0" usemap="#aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_cgraph" alt=""/></div>
-<map name="aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_cgraph" id="aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_cgraph">
-<area shape="rect" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="5,13,193,38"/>
-<area shape="rect" href="TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="241,5,380,45"/>
-<area shape="poly" title=" " alt="" coords="193,23,228,23,228,28,193,28"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a57a48f91a141d98e45f82937581e1a97_cgraph.svg" width="386" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a57a48f91a141d98e45f82937581e1a97_icgraph.png" border="0" usemap="#aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_icgraph" alt=""/></div>
-<map name="aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_icgraph" id="aTestFramework_8h_a57a48f91a141d98e45f82937581e1a97_icgraph">
-<area shape="rect" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="341,42,529,67"/>
-<area shape="rect" href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="147,5,286,45"/>
-<area shape="poly" title=" " alt="" coords="327,43,286,37,287,32,328,38"/>
-<area shape="rect" href="TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="140,70,293,95"/>
-<area shape="poly" title=" " alt="" coords="328,71,294,75,294,70,327,66"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,42,92,67"/>
-<area shape="poly" title=" " alt="" coords="134,42,92,50,92,45,133,37"/>
-<area shape="poly" title=" " alt="" coords="127,70,92,64,93,59,128,65"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a57a48f91a141d98e45f82937581e1a97_icgraph.svg" width="535" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -676,12 +633,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a7bb80345e5681c19686df292fa897daf_icgraph.png" border="0" usemap="#aTestFramework_8h_a7bb80345e5681c19686df292fa897daf_icgraph" alt=""/></div>
-<map name="aTestFramework_8h_a7bb80345e5681c19686df292fa897daf_icgraph" id="aTestFramework_8h_a7bb80345e5681c19686df292fa897daf_icgraph">
-<area shape="rect" title="Flip the test progression indicator to show next test." alt="" coords="140,5,277,45"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
-<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a7bb80345e5681c19686df292fa897daf_icgraph.svg" width="283" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -715,19 +667,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a3967179ac699a5b02ef9787b549409fe_icgraph.png" border="0" usemap="#aTestFramework_8h_a3967179ac699a5b02ef9787b549409fe_icgraph" alt=""/></div>
-<map name="aTestFramework_8h_a3967179ac699a5b02ef9787b549409fe_icgraph" id="aTestFramework_8h_a3967179ac699a5b02ef9787b549409fe_icgraph">
-<area shape="rect" title="Initialize the test progression indicator on GPIO14." alt="" coords="577,35,716,75"/>
-<area shape="rect" href="TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="341,42,529,67"/>
-<area shape="poly" title=" " alt="" coords="564,57,529,57,529,52,564,52"/>
-<area shape="rect" href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="147,5,286,45"/>
-<area shape="poly" title=" " alt="" coords="327,43,286,37,287,32,328,38"/>
-<area shape="rect" href="TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="140,70,293,95"/>
-<area shape="poly" title=" " alt="" coords="328,71,294,75,294,70,327,66"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,42,92,67"/>
-<area shape="poly" title=" " alt="" coords="134,42,92,50,92,45,133,37"/>
-<area shape="poly" title=" " alt="" coords="127,70,92,64,93,59,128,65"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a3967179ac699a5b02ef9787b549409fe_icgraph.svg" width="722" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -890,24 +830,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_cgraph.png" border="0" usemap="#aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_cgraph" alt=""/></div>
-<map name="aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_cgraph" id="aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_cgraph">
-<area shape="rect" title="Print standardized test summary." alt="" coords="5,5,144,45"/>
-<area shape="rect" href="TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="192,13,380,38"/>
-<area shape="poly" title=" " alt="" coords="144,23,178,23,178,28,144,28"/>
-<area shape="rect" href="TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="428,5,567,45"/>
-<area shape="poly" title=" " alt="" coords="380,23,414,23,414,28,380,28"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_cgraph.svg" width="572" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_icgraph.png" border="0" usemap="#aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_icgraph" alt=""/></div>
-<map name="aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_icgraph" id="aTestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_icgraph">
-<area shape="rect" title="Print standardized test summary." alt="" coords="140,5,279,45"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,13,92,38"/>
-<area shape="poly" title=" " alt="" coords="126,28,92,28,92,23,126,23"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_a200bb35a3a48c625b9cb8d2511d6bd87_icgraph.svg" width="284" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -955,24 +883,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_cgraph.png" border="0" usemap="#aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_cgraph" alt=""/></div>
-<map name="aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_cgraph" id="aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_cgraph">
-<area shape="rect" title="Print standardized test summary." alt="" coords="5,13,159,38"/>
-<area shape="rect" href="TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="207,13,395,38"/>
-<area shape="poly" title=" " alt="" coords="159,23,193,23,193,28,159,28"/>
-<area shape="rect" href="TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="443,5,581,45"/>
-<area shape="poly" title=" " alt="" coords="395,23,429,23,429,28,395,28"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_cgraph.svg" width="587" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_icgraph.png" border="0" usemap="#aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_icgraph" alt=""/></div>
-<map name="aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_icgraph" id="aTestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_icgraph">
-<area shape="rect" title="Print standardized test summary." alt="" coords="140,5,293,31"/>
-<area shape="rect" href="BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,5,92,31"/>
-<area shape="poly" title=" " alt="" coords="126,21,92,21,92,15,126,15"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_ab7e4c076755ecdf2ad6212cb8f6578ab_icgraph.svg" width="299" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1004,12 +920,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="TestFramework_8h_ae0c6ad85cd439fc16572fe4b495e5479_cgraph.png" border="0" usemap="#aTestFramework_8h_ae0c6ad85cd439fc16572fe4b495e5479_cgraph" alt=""/></div>
-<map name="aTestFramework_8h_ae0c6ad85cd439fc16572fe4b495e5479_cgraph" id="aTestFramework_8h_ae0c6ad85cd439fc16572fe4b495e5479_cgraph">
-<area shape="rect" title="FreeRTOS task trampoline to execute a test with a larger dedicated stack." alt="" coords="5,5,165,31"/>
-<area shape="rect" href="structTestResults.html#a257eba3a9005a5c19c68ae27774948f7" title="Add test result and update statistics." alt="" coords="213,5,385,31"/>
-<area shape="poly" title=" " alt="" coords="165,15,200,15,200,21,165,21"/>
-</map>
+<div class="center"><iframe scrolling="no" frameborder="0" src="TestFramework_8h_ae0c6ad85cd439fc16572fe4b495e5479_cgraph.svg" width="391" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

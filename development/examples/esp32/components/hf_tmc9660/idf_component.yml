@@ -140,7 +140,7 @@ files:
 #
 #  4. Implementation Files (src/)
 #     - TMC9660.cpp: Core driver implementation
-#     - TMC9660Bootloader.cpp: Bootloader implementation
+#     - bootloader/TMC9660Bootloader.cpp: Bootloader implementation
 #
 #  Usage Example:
 #  ```cpp

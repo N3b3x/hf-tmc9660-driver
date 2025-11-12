@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['interface_0',['Interface',['../group__TMC9660__Bootloader.html',1,'Bootloader Interface'],['../group__TMC9660__GPIOControl.html',1,'GPIO Control Interface']]],
-  ['interfaces_1',['Interfaces',['../group__TMC9660__CommInterface.html',1,'Communication Interfaces'],['../group__TMC9660__Subsystems.html',1,'Subsystem Interfaces']]]
+  ['measurement_0',['ADC and Analog Measurement',['../group__TMC9660__ADC.html',1,'']]],
+  ['monitoring_1',['ADC Status and Monitoring',['../group__TMC9660__ADCStatus.html',1,'']]]
 ];
