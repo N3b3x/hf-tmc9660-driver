@@ -1,4 +1,5 @@
 #include "../../inc/bootloader/TMC9660Bootloader.hpp"
+#include "../../inc/TMC9660CommInterface.hpp"
 
 using namespace tmc9660;
 
