@@ -25,58 +25,7 @@
 var NAVTREE =
 [
   [ "HF-TMC9660 Driver", "index.html", [
-    [ "🔧 HardFOC TMC9660 Driver", "index.html#autotoc_md36", [
-      [ "} md_README", "index.html#autotoc_md34", null ],
-      [ "has_children: true", "index.html#autotoc_md35", null ],
-      [ "🎯 Universal Motor Controller Interface for Multi-MCU Development", "index.html#autotoc_md37", null ],
-      [ "📚 Table of Contents", "index.html#autotoc_md39", null ],
-      [ "🎯 Overview", "index.html#autotoc_md41", [
-        [ "🏆 Core Benefits", "index.html#autotoc_md42", null ],
-        [ "🎨 Design Philosophy", "index.html#autotoc_md43", null ]
-      ] ],
-      [ "🏗️ Architecture", "index.html#autotoc_md45", [
-        [ "Transport-Agnostic Design", "index.html#autotoc_md46", null ],
-        [ "Abstraction Benefits", "index.html#autotoc_md47", [
-          [ "1. MCU Independence", "index.html#autotoc_md48", null ]
-        ] ]
-      ] ],
-      [ "🔌 Motor Types", "index.html#autotoc_md50", [
-        [ "Supported Motor Types", "index.html#autotoc_md51", null ],
-        [ "Communication Modes", "index.html#autotoc_md52", null ]
-      ] ],
-      [ "🚀 Quick Start", "index.html#autotoc_md54", [
-        [ "1. Clone Repository", "index.html#autotoc_md55", null ],
-        [ "2. Implement Communication Interface", "index.html#autotoc_md56", null ],
-        [ "3. Basic Motor Control", "index.html#autotoc_md57", null ],
-        [ "4. Build Example", "index.html#autotoc_md58", null ]
-      ] ],
-      [ "📖 API Documentation", "index.html#autotoc_md60", [
-        [ "Generated Documentation", "index.html#autotoc_md61", null ],
-        [ "Key Concepts", "index.html#autotoc_md62", [
-          [ "Bootloader Initialization", "index.html#autotoc_md63", null ],
-          [ "Motor Configuration", "index.html#autotoc_md64", null ],
-          [ "FOC Control", "index.html#autotoc_md65", null ]
-        ] ]
-      ] ],
-      [ "🔧 Building", "index.html#autotoc_md67", [
-        [ "Build System Features", "index.html#autotoc_md68", null ],
-        [ "Build Commands", "index.html#autotoc_md69", null ]
-      ] ],
-      [ "📊 Examples", "index.html#autotoc_md71", [
-        [ "Available Test Applications", "index.html#autotoc_md72", null ],
-        [ "Usage Examples", "index.html#autotoc_md73", null ]
-      ] ],
-      [ "🤝 Contributing", "index.html#autotoc_md75", [
-        [ "Development Workflow", "index.html#autotoc_md76", null ],
-        [ "Coding Standards", "index.html#autotoc_md77", null ]
-      ] ],
-      [ "📄 License", "index.html#autotoc_md79", null ],
-      [ "🔗 Quick Links", "index.html#autotoc_md81", [
-        [ "Documentation", "index.html#autotoc_md82", null ],
-        [ "Development", "index.html#autotoc_md83", null ],
-        [ "Community", "index.html#autotoc_md84", null ]
-      ] ]
-    ] ],
+    [ "🔧 HardFOC TMC9660 Driver", "index.html", "index" ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -118,17 +67,17 @@ var NAVTREEINDEX =
 "bootloader__config_8hpp.html#a1fdf2841593feea1ca7a6f1ca7854e9d",
 "classEsp32UARTTMC9660CommInterface.html#af397cf2a22f1d0ae2fc84352a78ef52a",
 "classtmc9660_1_1UARTTMC9660CommInterface.html#ab4c94b06ae2d4658425ef9bf74dcdf1c",
-"index.html#autotoc_md68",
-"namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8",
-"namespacetmc9660_1_1tmcl.html#aa7f040843b92070159754d92bc01bf22",
-"structtmc9660_1_1BrakeChopperConfig.html#a280fda351565c64b10a4b121f8efd485",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense.html",
-"structtmc9660_1_1TMC9660_1_1PositionControl.html#a5304742e95497626ddd6561f80e2ffe6",
-"structtmc9660_1_1TMC9660_1_1VelocityControl.html#a0a7b596c452f0cf81720186fe47dfedd",
-"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a4a013ef8476249accc4fecc15f77280f",
-"tmc9660__param__mode__tmcl_8hpp.html#a20fc74db601b27e86ecb1b164909017c",
+"namespacemembers_g.html",
+"namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a01098461485951bc5d4cd945b5fa5345",
+"namespacetmc9660_1_1tmcl.html#ab381f1e26f24f43b279d3e24c71d67ffa756045a8d37de34ca27188466b2c0c8b",
+"structtmc9660_1_1GPIOConfig.html#a600e909c7a23fe2143201e06e5394fe3",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#a8f8c29c78e0535d68d3259ce40255029",
+"structtmc9660_1_1TMC9660_1_1PositionControl_1_1PositionConfig.html",
+"structtmc9660_1_1TMC9660_1_1VelocityControl.html#a9d4f2327f599409cce3f8134945d1bae",
+"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a7cda532dd47ac185b173af0566f5ca36",
+"tmc9660__param__mode__tmcl_8hpp.html#a2f81fd424bfb3401efcedca33f794491",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#af4212d06adcc44c807d49eefd59fd826"
+"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a2ae05249e15e8c6bf7f6ab2a4306faca"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
