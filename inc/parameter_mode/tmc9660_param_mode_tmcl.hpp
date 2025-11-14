@@ -1,6 +1,6 @@
 // clang-format off
 //====================================================================================================================
-//  @file TMC9660TmclCommands.hpp
+//  @file tmc9660_param_mode_tmcl.hpp
 //  @brief Enumerations and helpers for **TMCL® operation & reply codes** when the TMC9660 is used
 //  in *Parameter Mode*.
 //
