@@ -1,5 +1,5 @@
 /**
- * @file TMC9660.hpp
+ * @file tmc9660.hpp
  * @brief Main TMC9660 motor driver interface and subsystem classes.
  *
  * This file contains the primary TMC9660 class and all its subsystem interfaces
