@@ -28,7 +28,7 @@ for your real SPI or UART implementation.
 #include "TMC9660.hpp"
 #include <iostream>
 
-class DummyBus : public SPITMC9660CommInterface {
+class DummyBus : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -72,7 +72,7 @@ loop FOC control.  Again the `DummyBus` merely mimics the real transport layer.
 #include "TMC9660.hpp"
 #include <iostream>
 
-class DummyBus : public SPITMC9660CommInterface {
+class DummyBus : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -108,7 +108,7 @@ move.  As before, `DummyBus` is just a stand‑in for a real bus driver.
 #include "TMC9660.hpp"
 #include <iostream>
 
-class DummyBus : public SPITMC9660CommInterface {
+class DummyBus : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -143,7 +143,7 @@ communication layer.
 #include "TMC9660.hpp"
 #include <iostream>
 
-class DummyBus : public SPITMC9660CommInterface {
+class DummyBus : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -178,7 +178,7 @@ example sets a current limit and commands a constant current.  Replace
 #include "TMC9660.hpp"
 #include <iostream>
 
-class DummyBus : public SPITMC9660CommInterface {
+class DummyBus : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -206,4 +206,4 @@ These snippets are minimal but cover the main features of the library. Refer to
 
 ---
 
-[⬅️ Prev](BuildingExamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](CommonOperations.md)
+[⬅️ Prev](Buildingexamples.md) | [⬆️ Back to Index](index.md) | [Next ➡️](common_operations.md)

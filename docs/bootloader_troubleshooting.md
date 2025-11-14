@@ -597,10 +597,10 @@ Timing Checks:
 
 ## 📚 Related Documentation
 
-- **[Communication Protocol Guide](CommunicationProtocolGuide.md)** - Detailed protocol specs
-- **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - Complete setup process
-- **[TMCL Protocol Guide](TMCLProtocolGuide.md)** - Parameter mode operations
-- **[Common Operations](CommonOperations.md)** - Practical usage examples
+- **[Communication Protocol Guide](communication_protocol_guide.md)** - Detailed protocol specs
+- **[Bootloader Initialization Guide](bootloader_initialization_guide.md)** - Complete setup process
+- **[TMCL Protocol Guide](tmcl_protocol_guide.md)** - Parameter mode operations
+- **[Common Operations](common_operations.md)** - Practical usage examples
 
 ---
 

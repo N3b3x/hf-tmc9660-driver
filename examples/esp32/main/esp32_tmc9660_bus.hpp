@@ -1,5 +1,5 @@
 /**
- * @file Esp32TMC9660Bus.hpp
+ * @file esp32_tmc9660_bus.hpp
  * @brief ESP32-specific communication interfaces for TMC9660 using SPI and UART
  *
  * This file provides ESP32-specific implementations of the TMC9660CommInterface
@@ -13,7 +13,7 @@
 
 #pragma once
 
-#include "../../../inc/TMC9660CommInterface.hpp"
+#include "../../../inc/tmc9660_comm_interface.hpp"
 #include "esp_log.h"
 
 using namespace tmc9660;
@@ -37,7 +37,7 @@ static const char* BUS_TAG = "TMC9660_Bus";
  * This class provides SPI communication for the TMC9660 using ESP-IDF SPI driver.
  * It handles the 8-byte SPI transfers required by the TMC9660 parameter mode.
  */
-class Esp32SPITMC9660CommInterface : public SPITMC9660CommInterface {
+class Esp32SPITMC9660CommInterface : public SpiCommInterface {
 public:
     /**
      * @brief Construct ESP32 SPI communication interface
@@ -64,7 +64,7 @@ public:
                                  gpio_num_t wake_pin,
                                  uint32_t clock_speed_hz = 10000000,
                                  uint8_t mode = 0) noexcept
-        : SPITMC9660CommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : SpiCommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           host_(host), mosi_pin_(mosi_pin), miso_pin_(miso_pin), 
           sclk_pin_(sclk_pin), cs_pin_(cs_pin), rst_pin_(rst_pin),
           drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
@@ -390,7 +390,7 @@ private:
  * This class provides UART communication for the TMC9660 using ESP-IDF UART driver.
  * It handles the TMCL protocol over UART as specified in the TMC9660 documentation.
  */
-class Esp32UARTTMC9660CommInterface : public UARTTMC9660CommInterface {
+class Esp32UARTTMC9660CommInterface : public UartCommInterface {
 public:
     /**
      * @brief Construct ESP32 UART communication interface
@@ -413,7 +413,7 @@ public:
                                   gpio_num_t wake_pin,
                                   uint32_t baud_rate = 115200,
                                   uint8_t address = 0) noexcept
-        : UARTTMC9660CommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : UartCommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           uart_num_(uart_num), tx_pin_(tx_pin), rx_pin_(rx_pin), 
           rst_pin_(rst_pin), drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
           baud_rate_(baud_rate), address_(address), initialized_(false) {

@@ -1,5 +1,5 @@
-#include "../../inc/bootloader/TMC9660Bootloader.hpp"
-#include "../../inc/TMC9660CommInterface.hpp"
+#include "../../inc/bootloader/tmc9660_bootloader.hpp"
+#include "../../inc/tmc9660_comm_interface.hpp"
 
 using namespace tmc9660;
 
@@ -11,7 +11,7 @@ using namespace tmc9660;
  *
  * @param comm Reference to the communication interface for bootloader commands
  */
-TMC9660Bootloader::TMC9660Bootloader(TMC9660CommInterface& comm) noexcept
+TMC9660Bootloader::TMC9660Bootloader(CommInterface& comm) noexcept
     : comm_(comm), deviceAddr_(1), hostAddr_(255) {
   // Default UART addresses: device=1, host=255 (as per spec)
 }
@@ -55,7 +55,7 @@ bool TMC9660Bootloader::sendCommand(uint8_t cmd, uint32_t value, uint32_t* reply
  * @return true if command was sent successfully, false on error
  */
 bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept {
-  auto* spiComm = static_cast<SPITMC9660CommInterface*>(&comm_);
+  auto* spiComm = static_cast<SpiCommInterface*>(&comm_);
   BootloaderCommandSPI tx{cmd, value};
 
   TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader",
@@ -131,7 +131,7 @@ bool TMC9660Bootloader::sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t* re
  * @return true if command was sent successfully, false on error
  */
 bool TMC9660Bootloader::sendCommandUART(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept {
-  auto* uartComm = static_cast<UARTTMC9660CommInterface*>(&comm_);
+  auto* uartComm = static_cast<UartCommInterface*>(&comm_);
   BootloaderCommandUART tx{deviceAddr_, cmd, value};
 
   TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader",

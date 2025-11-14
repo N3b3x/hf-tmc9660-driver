@@ -1006,8 +1006,8 @@ driver.motorConfig.setType(...);
 
 ## 🔗 **Related Documentation**
 
-- [Bootloader Guide](BootloaderGuide.md) - Complete bootloader command reference
-- [Bootloader Quick Reference](BootloaderQuickReference.md) - Quick lookup
-- [Setup Guide](SetupGuide.md) - Hardware and software setup
+- [Bootloader Guide](bootloader_guide.md) - Complete bootloader command reference
+- [Bootloader Quick Reference](bootloader_quick_reference.md) - Quick lookup
+- [Setup Guide](setup_guide.md) - Hardware and software setup
 
 ---

@@ -560,14 +560,14 @@ bool gracefulShutdown(TMC9660& driver) {
 
 With these common operations mastered, explore advanced features:
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.md)** - Complete
+**👉 [Hardware-Agnostic Examples](hardware_agnostic_examples.md)** - Complete
 application scenarios
 
 **👉 [API Reference](annotated.md)** - Complete function documentation
 
 ---
 
-[⬅️ Building Examples](BuildingExamples.md) |
+[⬅️ Building Examples](Buildingexamples.md) |
 [⬆️ Back to Index](index.md) |
 [Next ➡️ GitHub Pages](HostingDocsWithGitHubPages.md)
 

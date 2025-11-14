@@ -18,7 +18,7 @@ metadata:
 apps:
   bldc_comprehensive_test:
     description: "Comprehensive BLDC motor testing suite with Hall sensors, ABN encoders, and velocity control"
-    source_file: "BLDCComprehensiveTest.cpp"
+    source_file: "bldc_comprehensive_test.cpp"
     category: "motor_control"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
@@ -27,7 +27,7 @@ apps:
 
   stepper_comprehensive_test:
     description: "Comprehensive Stepper motor testing suite with FOC and step/dir control"
-    source_file: "StepperComprehensiveTest.cpp"
+    source_file: "stepper_comprehensive_test.cpp"
     category: "motor_control"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
@@ -36,7 +36,7 @@ apps:
 
   dc_comprehensive_test:
     description: "Comprehensive DC motor testing suite with current control and velocity control"
-    source_file: "DCComprehensiveTest.cpp"
+    source_file: "dc_comprehensive_test.cpp"
     category: "motor_control"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
@@ -45,7 +45,7 @@ apps:
 
   telemetry_comprehensive_test:
     description: "Comprehensive telemetry monitoring test suite for temperature, current, voltage, and status"
-    source_file: "TelemetryComprehensiveTest.cpp"
+    source_file: "telemetry_comprehensive_test.cpp"
     category: "monitoring"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]
@@ -54,7 +54,7 @@ apps:
 
   bootloader_comprehensive_test:
     description: "Comprehensive bootloader testing suite for initialization and configuration validation"
-    source_file: "BootloaderComprehensiveTest.cpp"
+    source_file: "bootloader_comprehensive_test.cpp"
     category: "system"
     idf_versions: ["release/v5.5"]
     build_types: ["Debug", "Release"]

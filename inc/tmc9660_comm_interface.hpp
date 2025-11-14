@@ -1,5 +1,5 @@
 /**
- * @file TMC9660CommInterface.hpp
+ * @file tmc9660_comm_interface.hpp
  * @brief Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI
  * and UART.
  *
@@ -517,7 +517,7 @@ struct TMCLFrame {
  * (via SPI) or 72-bit (via UART) without knowledge of the underlying transport.
  * Also provides GPIO control interface for TMC9660 control pins.
  */
-class TMC9660CommInterface {
+class CommInterface {
 public:
   /**
    * @brief Construct communication interface with pin active level configuration
@@ -526,11 +526,11 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  TMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+  CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
                        bool faultnActiveLevel) noexcept
       : pinActiveLevels_{rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel} {}
 
-  virtual ~TMC9660CommInterface() noexcept = default;
+  virtual ~CommInterface() noexcept = default;
 
   /**
    * @brief Get the underlying communication mode used by this interface.
@@ -815,7 +815,7 @@ public:
  * Data is sent MSB-first, big-endian. Replies match the previous command; initial reply uses
  * FIRST_CMD status.
  */
-class SPITMC9660CommInterface : public TMC9660CommInterface {
+class SpiCommInterface : public CommInterface {
 public:
   /**
    * @brief Construct SPI communication interface with pin active level configuration
@@ -824,9 +824,9 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  SPITMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
-                          bool faultnActiveLevel) noexcept
-      : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
+  SpiCommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+                       bool faultnActiveLevel) noexcept
+      : CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
   }
 
   CommMode mode() const noexcept override {
@@ -978,7 +978,7 @@ public:
  * Frames consist of 9 bytes: sync+address, command, type, motor, 4-byte data, checksum.
  * LSB-first transmission; checksum is 8-bit sum of first 8 bytes.
  */
-class UARTTMC9660CommInterface : public TMC9660CommInterface {
+class UartCommInterface : public CommInterface {
 public:
   /**
    * @brief Construct UART communication interface with pin active level configuration
@@ -987,9 +987,9 @@ public:
    * @param wakeActiveLevel Physical GPIO level for WAKE pin when ACTIVE (true=HIGH, false=LOW)
    * @param faultnActiveLevel Physical GPIO level for FAULTN pin when ACTIVE (true=HIGH, false=LOW)
    */
-  UARTTMC9660CommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
-                           bool faultnActiveLevel) noexcept
-      : TMC9660CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
+  UartCommInterface(bool rstActiveLevel, bool drvEnActiveLevel, bool wakeActiveLevel,
+                       bool faultnActiveLevel) noexcept
+      : CommInterface(rstActiveLevel, drvEnActiveLevel, wakeActiveLevel, faultnActiveLevel) {
   }
 
   CommMode mode() const noexcept override {

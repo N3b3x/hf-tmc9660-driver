@@ -328,12 +328,12 @@ connections.
 
 Congratulations! Your HF-TMC9660 development environment is ready. Continue with:
 
-**👉 [Implementing Communication Interface](ImplementingCommInterface.md)** -
+**👉 [Implementing Communication Interface](implementing_comm_interface.md)** -
 Create your hardware-specific communication layer
 
 ---
 
-[⬅️ Back to Index](index.md) | [Next ➡️ Communication Interface](ImplementingCommInterface.md)
+[⬅️ Back to Index](index.md) | [Next ➡️ Communication Interface](implementing_comm_interface.md)
 
 ---
 

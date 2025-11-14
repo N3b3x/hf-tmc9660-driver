@@ -32,8 +32,8 @@
 #include <variant>
 #include <vector>
 
-#include "TMC9660CommInterface.hpp"
-#include "bootloader/TMC9660Bootloader.hpp"
+#include "tmc9660_comm_interface.hpp"
+#include "bootloader/tmc9660_bootloader.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
 namespace tmc9660 {
@@ -127,7 +127,7 @@ public:
    * @param address (Optional) Module address if multiple TMC9660 devices are on
    * one bus. For SPI, this is typically 0.
    */
-  TMC9660(TMC9660CommInterface& comm, uint8_t address = 0,
+  TMC9660(CommInterface& comm, uint8_t address = 0,
           const tmc9660::BootloaderConfig* bootCfg = nullptr) noexcept;
 
   /** @brief Destructor for TMC9660, cleans up resources */
@@ -136,7 +136,7 @@ public:
   /** @brief Get the communication interface used by this TMC9660 instance.
    * @return Reference to the communication interface (SPI, UART, etc).
    */
-  [[nodiscard]] TMC9660CommInterface& comm() noexcept {
+  [[nodiscard]] CommInterface& comm() noexcept {
     return comm_;
   }
 
@@ -4691,7 +4691,7 @@ public:
   // PRIVATE MEMBERS
   //==================================================
 private:
-  TMC9660CommInterface& comm_; ///< Communication interface (transport) for
+  CommInterface& comm_; ///< Communication interface (transport) for
                                ///< sending/receiving data.
   uint8_t address_;            ///< Module address (0-127). Used primarily for UART
                                ///< multi-drop addressing.

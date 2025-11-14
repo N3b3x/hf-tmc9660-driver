@@ -247,9 +247,9 @@ vTaskDelay(150);  // Wait for motor control to initialize
 
 For complete details, examples, and troubleshooting:
 
-👉 **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - START HERE for
+👉 **[Bootloader Initialization Guide](bootloader_initialization_guide.md)** - START HERE for
   proper initialization  
-👉 **[Bootloader Complete Guide](BootloaderGuide.md)** - Full command reference
+👉 **[Bootloader Complete Guide](bootloader_guide.md)** - Full command reference
 
 ---
 

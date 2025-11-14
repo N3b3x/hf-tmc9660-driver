@@ -1,5 +1,5 @@
 /**
- * @file BLDCComprehensiveTest.cpp
+ * @file bldc_comprehensive_test.cpp
  * @brief Comprehensive BLDC motor testing suite for ESP32-C6 DevKit-M-1 (noexcept)
  *
  * This file contains comprehensive testing for BLDC motor control including:
@@ -35,8 +35,8 @@
  * @copyright HardFOC
  */
 
-#include "../../../inc/TMC9660.hpp"
-#include "Esp32TMC9660Bus.hpp"
+#include "../../../inc/tmc9660.hpp"
+#include "esp32_tmc9660_bus.hpp"
 #include "TestFramework.h"
 #include <memory>
 #include <vector>
@@ -76,7 +76,7 @@ static constexpr uint16_t TEST_POSITION_TARGET = 500;    // internal units
 
 // Helper functions
 struct TestDriverHandle {
-    std::unique_ptr<TMC9660CommInterface> interface;
+    std::unique_ptr<CommInterface> interface;
     std::unique_ptr<TMC9660> driver;
 };
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;

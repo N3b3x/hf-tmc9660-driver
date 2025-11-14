@@ -1,5 +1,5 @@
 /**
- * @file TMC9660Bootloader.hpp
+ * @file tmc9660_bootloader.hpp
  * @brief Main TMC9660 bootloader interface class
  * @ingroup TMC9660_Bootloader
  *
@@ -15,7 +15,7 @@
 
 // Forward declaration for communication interface
 namespace tmc9660 {
-class TMC9660CommInterface;
+class CommInterface;
 }
 
 namespace tmc9660 {
@@ -56,7 +56,7 @@ namespace tmc9660 {
  */
 class TMC9660Bootloader {
 public:
-  explicit TMC9660Bootloader(TMC9660CommInterface& comm) noexcept;
+  explicit TMC9660Bootloader(CommInterface& comm) noexcept;
 
   //==================================================
   // BASIC MEMORY OPERATIONS
@@ -823,7 +823,7 @@ private:
   bool sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept;
   bool sendCommandUART(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept;
 
-  TMC9660CommInterface& comm_;
+  CommInterface& comm_;
   uint8_t deviceAddr_; ///< Device address for UART protocol
   uint8_t hostAddr_;   ///< Host address for UART protocol
 };

@@ -43,7 +43,7 @@ multiple MCU platforms - designed for the HardFOC board ecosystem*
 
 **HF-TMC9660** is a portable C++20 driver for the **TMC9660** motor controller from Trinamic.
 It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL
-scripting. The driver is transport agnostic – implement `TMC9660CommInterface` for SPI or
+scripting. The driver is transport agnostic – implement `CommInterface` for SPI or
 UART and run it on any MCU or host.
 
 ### 🏆 **Core Benefits**
@@ -85,9 +85,9 @@ driver.focControl.setTargetVelocity(1000);
 │   └── TMCL Scripting                  # Command execution
 │
 ├── 🔌 Communication Interface          # Abstract transport layer
-│   ├── TMC9660CommInterface            # Base interface
-│   ├── SPITMC9660CommInterface         # SPI implementation
-│   └── UARTTMC9660CommInterface        # UART implementation
+│   ├── CommInterface                   # Base interface
+│   ├── SpiCommInterface               # SPI implementation
+│   └── UartCommInterface              # UART implementation
 │
 └── 🔧 Hardware Layer                   # Platform-specific implementations
     ├── ESP32 SPI/UART                  # ESP32 family support
@@ -152,7 +152,7 @@ cd hf-tmc9660-driver
 ```cpp
 #include "inc/TMC9660CommInterface.hpp"
 
-class YourSPIInterface : public SPITMC9660CommInterface {
+class YourSPIInterface : public SpiCommInterface {
 public:
     bool spiTransfer(std::array<uint8_t,8>& tx,
                      std::array<uint8_t,8>& rx) noexcept override {
@@ -199,7 +199,7 @@ cd examples/esp32
 - **[📚 Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - Interactive
   guides and tutorials
 - **[API Reference](docs/index.md)** - Complete driver API documentation
-- **[Setup Guide](docs/SetupGuide.md)** - Installation and configuration
+- **[Setup Guide](docs/setup_guide.md)** - Installation and configuration
 
 ### **Key Concepts**
 
@@ -319,9 +319,9 @@ See [LICENSE](LICENSE) for full details.
 ### **Documentation**
 - 📚 [Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/) - Interactive guides and tutorials
 - 📋 [API Reference](docs/index.md) - Complete driver API documentation
-- 🔧 [Setup Guide](docs/SetupGuide.md) - Installation and build instructions
-- 🔌 [Communication Interface Guide](docs/ImplementingCommInterface.md) - Platform integration
-- ⚡ [Hardware Examples](docs/HardwareAgnosticExamples.md) - Practical usage scenarios
+- 🔧 [Setup Guide](docs/setup_guide.md) - Installation and build instructions
+- 🔌 [Communication Interface Guide](docs/implementing_comm_interface.md) - Platform integration
+- ⚡ [Hardware Examples](docs/hardware_agnostic_examples.md) - Practical usage scenarios
 
 ### **Development**
 - 🚀 [Examples](examples/esp32/) - Test applications and usage examples

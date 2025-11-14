@@ -129,12 +129,12 @@ bool success = driver.sendCommand(
 ## Sources
 
 - TMC9660 Parameter Mode Reference Manual (Table 18 - TMCL Commands)
-- Driver source code: `src/TMC9660.cpp`, `inc/TMC9660CommInterface.hpp`
+- Driver source code: `src/TMC9660.cpp`, `inc/TMC9660CommInterface.hpp` (contains `CommInterface`, `SpiCommInterface`, `UartCommInterface`)
 - TMCL Protocol Standard (Trinamic Motion Control Language)
 - Analog Devices TMC9660 documentation
 
 ## References
 
-- **TMCL Protocol Reference**: See [TMCLProtocolGuide.md](./TMCLProtocolGuide.md)
+- **TMCL Protocol Reference**: See [tmcl_protocol_guide.md](./tmcl_protocol_guide.md)
 - **Parameter Mode Manual**: See TMC9660 Parameter Mode Reference Manual PDF in `Datasheet/`
   directory

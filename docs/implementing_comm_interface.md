@@ -21,7 +21,7 @@ examples for different platforms.
 
 ## 🎯 What You'll Learn
 
-- ✅ Understanding the `TMC9660CommInterface` architecture
+- ✅ Understanding the `CommInterface` architecture
 - ✅ Implementing SPI communication interfaces
 - ✅ Implementing UART communication interfaces  
 - ✅ Platform-specific examples (Arduino, STM32, Linux, etc.)
@@ -35,9 +35,9 @@ examples for different platforms.
 The communication system uses an abstract base class that you inherit from:
 
 ```text
-TMC9660CommInterface (Abstract Base)
-├── SPITMC9660CommInterface (SPI Implementation)
-└── UARTTMC9660CommInterface (UART Implementation)
+CommInterface (Abstract Base)
+├── SpiCommInterface (SPI Implementation)
+└── UartCommInterface (UART Implementation)
 ```
 
 ### Core Requirements
@@ -58,9 +58,9 @@ Most applications use SPI communication due to its simplicity and speed.
 ### Step 1: Basic SPI Interface
 
 ```cpp
-#include "TMC9660CommInterface.hpp"
+#include "CommInterface.hpp"
 
-class MySPIInterface : public SPITMC9660CommInterface {
+class MySPIInterface : public SpiCommInterface {
 private:
     // Your hardware-specific members
     SPIClass* spi_;
@@ -96,7 +96,7 @@ public:
 ```cpp
 #include <SPI.h>
 
-class ArduinoSPIInterface : public SPITMC9660CommInterface {
+class ArduinoSPIInterface : public SpiCommInterface {
 private:
     int cs_pin_;
     SPISettings spi_settings_;
@@ -133,7 +133,7 @@ TMC9660 driver(spi_bus);
 #### STM32 HAL Implementation
 
 ```cpp
-class STM32SPIInterface : public SPITMC9660CommInterface {
+class STM32SPIInterface : public SpiCommInterface {
 private:
     SPI_HandleTypeDef* hspi_;
     GPIO_TypeDef* cs_port_;
@@ -171,7 +171,7 @@ TMC9660 driver(spi_bus);
 #include <fcntl.h>
 #include <unistd.h>
 
-class LinuxSPIInterface : public SPITMC9660CommInterface {
+class LinuxSPIInterface : public SpiCommInterface {
 private:
     int spi_fd_;
     
@@ -232,7 +232,7 @@ For applications requiring UART communication (RS485 networks, longer distances)
 ### Basic UART Interface
 
 ```cpp
-class MyUARTInterface : public UARTTMC9660CommInterface {
+class MyUARTInterface : public UartCommInterface {
 private:
     HardwareSerial* uart_;
     int txen_pin_;  // RS485 TX enable pin (optional)
@@ -348,7 +348,7 @@ bool testLoopback(TMC9660& driver) {
 ### Performance Optimization
 
 ```cpp
-class OptimizedSPIInterface : public SPITMC9660CommInterface {
+class OptimizedSPIInterface : public SpiCommInterface {
 private:
     // Use DMA for faster transfers (platform-specific)
     bool use_dma_;
@@ -368,7 +368,7 @@ public:
 ### Error Handling & Retry Logic
 
 ```cpp
-class RobustSPIInterface : public SPITMC9660CommInterface {
+class RobustSPIInterface : public SpiCommInterface {
 private:
     static constexpr int MAX_RETRIES = 3;
     
@@ -398,7 +398,7 @@ private:
 ### Thread Safety
 
 ```cpp
-class ThreadSafeSPIInterface : public SPITMC9660CommInterface {
+class ThreadSafeSPIInterface : public SpiCommInterface {
 private:
     std::mutex spi_mutex_;
     
@@ -449,7 +449,7 @@ public:
 
 Before integrating your communication interface:
 
-- [ ] **Correct inheritance** from `SPITMC9660CommInterface` or `UARTTMC9660CommInterface`
+- [ ] **Correct inheritance** from `SpiCommInterface` or `UartCommInterface`
 - [ ] **8-byte frame handling** implemented correctly
 - [ ] **Error conditions handled** and return appropriate boolean status
 - [ ] **Hardware initialization** performed in constructor
@@ -464,15 +464,15 @@ Before integrating your communication interface:
 
 With your communication interface working, you're ready to explore motor control:
 
-**👉 [Building Examples](BuildingExamples.md)** - Compile and test the provided
+**👉 [Building Examples](Buildingexamples.md)** - Compile and test the provided
 examples
 
-**👉 [Hardware-Agnostic Examples](HardwareAgnosticExamples.md)** - Complete motor
+**👉 [Hardware-Agnostic Examples](hardware_agnostic_examples.md)** - Complete motor
 control scenarios
 
 ---
 
-[⬅️ Setup Guide](SetupGuide.md) | [⬆️ Back to Index](index.md) | [Next ➡️ Building Examples](BuildingExamples.md)
+[⬅️ Setup Guide](setup_guide.md) | [⬆️ Back to Index](index.md) | [Next ➡️ Building Examples](Buildingexamples.md)
 
 ---
 

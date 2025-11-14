@@ -1,4 +1,4 @@
-#include "../inc/TMC9660.hpp"
+#include "../inc/tmc9660.hpp"
 #include <chrono>
 #include <cmath>
 #include <thread>
@@ -16,7 +16,7 @@ using namespace tmc9660;
  * @param address Module address for multi-device systems (0-127, masked to 7 bits)
  * @param bootCfg Optional bootloader configuration (can be set later)
  */
-TMC9660::TMC9660(TMC9660CommInterface& comm, uint8_t address,
+TMC9660::TMC9660(CommInterface& comm, uint8_t address,
                  const BootloaderConfig* bootCfg) noexcept
     : comm_(comm), address_(address & 0x7F), bootCfg_(bootCfg) {
   // Initialize bootloader for SPI and UART interfaces
@@ -4016,10 +4016,11 @@ bool TMC9660::Brake::configureAuto(const BrakeConfig& config) noexcept {
   // If enableChopper is not provided, leave chopper in current state
 
   // Step 2: Configure mechanical brake parameters (if provided)
-  constexpr uint8_t DEFAULT_RELEASING_DUTY = 50;
-  constexpr uint8_t DEFAULT_HOLDING_DUTY = 30;
-  constexpr uint16_t DEFAULT_RELEASING_DURATION_MS = 100;
-  constexpr bool DEFAULT_INVERT_OUTPUT = false;
+  // Note: Default values are currently unused but kept for future use
+  // constexpr uint8_t DEFAULT_RELEASING_DUTY = 50;
+  // constexpr uint8_t DEFAULT_HOLDING_DUTY = 30;
+  // constexpr uint16_t DEFAULT_RELEASING_DURATION_MS = 100;
+  // constexpr bool DEFAULT_INVERT_OUTPUT = false;
 
   if (config.releasingDutyCycle.has_value()) {
     uint8_t duty = config.releasingDutyCycle.value();
@@ -4833,4 +4834,4 @@ bool TMC9660::GPIO::readAnalog(uint8_t pin, uint16_t& value) noexcept {
 // PRIVATE MEMBERS
 //==================================================
 
-// TMC9660.cpp - Implementation of TMC9660 motor controller interface
+// tmc9660.cpp - Implementation of TMC9660 motor controller interface

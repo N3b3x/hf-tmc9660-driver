@@ -1182,11 +1182,11 @@ if (!bootloader.write32(value)) {
 
 ## 📚 Additional Resources
 
-- **[⚡ Bootloader Quick Reference](BootloaderQuickReference.md)** - Quick lookup card
+- **[⚡ Bootloader Quick Reference](bootloader_quick_reference.md)** - Quick lookup card
   for commands and codes
-- **[Common Operations Guide](CommonOperations.md)** - Motor control after bootloader init
+- **[Common Operations Guide](common_operations.md)** - Motor control after bootloader init
 - **[API Reference](annotated.md)** - Complete class documentation
-- **[Setup Guide](SetupGuide.md)** - Getting started with the driver
+- **[Setup Guide](setup_guide.md)** - Getting started with the driver
 
 ---
 
@@ -1207,7 +1207,7 @@ Before moving to motor control, ensure:
 
 <div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
   <strong>🎉 Ready to control motors?</strong><br>
-  <a href="CommonOperations.md"
+  <a href="common_operations.md"
      style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em;
      background: #28a745; color: white; text-decoration: none;
      border-radius: 4px;">Motor Control Guide →</a>

@@ -691,8 +691,8 @@ comm.setLogLevel(2);  // 0=Error, 1=Warn, 2=Info, 3=Debug, 4=Verbose
 
 ## 📚 Additional Resources
 
-- **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - Complete bootloader setup
-- **[TMCL Protocol Guide](TMCLProtocolGuide.md)** - Detailed TMCL operations
+- **[Bootloader Initialization Guide](bootloader_initialization_guide.md)** - Complete bootloader setup
+- **[TMCL Protocol Guide](tmcl_protocol_guide.md)** - Detailed TMCL operations
 - **TMC9660 Datasheet** - Official protocol specifications
-- **[Common Operations](CommonOperations.md)** - Practical usage examples
+- **[Common Operations](common_operations.md)** - Practical usage examples
 ---

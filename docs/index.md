@@ -41,35 +41,35 @@ graph LR
 
 ### **Foundation & Setup**
 
-1. **[📋 Setup Guide](SetupGuide.md)** - Get started with installation and
+1. **[📋 Setup Guide](setup_guide.md)** - Get started with installation and
    compilation
-2. **[🔌 Implementing Communication Interface](ImplementingCommInterface.md)**
+2. **[🔌 Implementing Communication Interface](implementing_comm_interface.md)**
    - Create your hardware-specific communication layer
 
 ### **Bootloader & Configuration**
 
-1. **[⭐ Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - **START HERE!**
+1. **[⭐ Bootloader Initialization Guide](bootloader_initialization_guide.md)** - **START HERE!**
    Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering
-2. **[🔧 Bootloader Complete Guide](BootloaderGuide.md)** - Comprehensive
+2. **[🔧 Bootloader Complete Guide](bootloader_guide.md)** - Comprehensive
    bootloader documentation with all 18 commands, protocols, OTP management, and
    external memory operations
-3. **[⚡ Bootloader Quick Reference](BootloaderQuickReference.md)** - Quick
+3. **[⚡ Bootloader Quick Reference](bootloader_quick_reference.md)** - Quick
    lookup card for commands, codes, and common operations
-4. **[🛠️ Bootloader Troubleshooting](BootloaderTroubleshooting.md)** - **NEW!** Complete
+4. **[🛠️ Bootloader Troubleshooting](bootloader_troubleshooting.md)** - **NEW!** Complete
    troubleshooting guide with real-world debugging solutions
 
 ### **Communication Protocols**
 
-1. **[📡 Communication Protocol Guide](CommunicationProtocolGuide.md)** - **NEW!** Detailed
+1. **[📡 Communication Protocol Guide](communication_protocol_guide.md)** - **NEW!** Detailed
    SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing
-2. **[📨 TMCL Protocol Guide](TMCLProtocolGuide.md)** - Parameter mode command reference
+2. **[📨 TMCL Protocol Guide](tmcl_protocol_guide.md)** - Parameter mode command reference
    and usage patterns
 
 ### **Practical Application**
 
-1. **[⚡ Hardware-Agnostic Examples](HardwareAgnosticExamples.md)** - Complete
+1. **[⚡ Hardware-Agnostic Examples](hardware_agnostic_examples.md)** - Complete
    motor control scenarios
-2. **[🛠️ Common Operations](CommonOperations.md)** - Everyday driver usage
+2. **[🛠️ Common Operations](common_operations.md)** - Everyday driver usage
    patterns
 3. **[📦 Namespace Structure](NamespaceStructure.md)** - Complete guide to library namespace organization and usage patterns
 4. **[📖 API Reference](annotated.md)** - Complete C++ class documentation
@@ -121,11 +121,11 @@ Ready to begin? Start with the **Setup Guide** to prepare your development envir
 
 ### **First Time Users**
 
-👉 **[Start Here: Setup Guide](SetupGuide.md)**
+👉 **[Start Here: Setup Guide](setup_guide.md)**
 
 ### **Experienced Developers**
 
-👉 **[Jump to Examples](HardwareAgnosticExamples.md)**
+👉 **[Jump to Examples](hardware_agnostic_examples.md)**
 
 ### **API Reference**
 
@@ -143,7 +143,7 @@ Ready to begin? Start with the **Setup Guide** to prepare your development envir
 
 <div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
   <strong>🎯 Ready to control some motors?</strong><br>
-  <a href="SetupGuide.md"
+  <a href="setup_guide.md"
      style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em;
      background: #007bff; color: white; text-decoration: none; border-radius: 4px;">Get Started →</a>
 </div>

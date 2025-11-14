@@ -476,7 +476,7 @@ out[0] = (addr & 0xFE) | 0x01;
 
 - TMC9660 Parameter Mode Reference Manual
 - TMC9660 Datasheet (Bootloader section)
-- `inc/TMC9660CommInterface.hpp` - Protocol implementation
-- `docs/BootloaderGuide.md` - Bootloader configuration guide
+- `inc/TMC9660CommInterface.hpp` - Communication interface (contains `CommInterface`, `SpiCommInterface`, `UartCommInterface`)
+- `docs/bootloader_guide.md` - Bootloader configuration guide
 
 ---

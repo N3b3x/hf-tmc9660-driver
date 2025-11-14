@@ -1,5 +1,5 @@
 /**
- * @file TelemetryComprehensiveTest.cpp
+ * @file telemetry_comprehensive_test.cpp
  * @brief Comprehensive Telemetry monitoring test suite for ESP32-C6 DevKit-M-1 (noexcept)
  *
  * This file contains comprehensive testing for TMC9660 telemetry features including:
@@ -18,8 +18,8 @@
  * @copyright HardFOC
  */
 
-#include "../../../inc/TMC9660.hpp"
-#include "Esp32TMC9660Bus.hpp"
+#include "../../../inc/tmc9660.hpp"
+#include "esp32_tmc9660_bus.hpp"
 #include "TestFramework.h"
 #include <memory>
 #include <vector>
@@ -59,7 +59,7 @@ bool test_telemetry_multi_device() noexcept;
 
 // Helper functions
 struct TestDriverHandle {
-    std::unique_ptr<TMC9660CommInterface> interface;
+    std::unique_ptr<CommInterface> interface;
     std::unique_ptr<TMC9660> driver;
 };
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;
@@ -109,7 +109,7 @@ bool test_telemetry_temperature_monitoring() noexcept {
     log_telemetry_data(*driver, "Idle state");
 
     // Test 2: Monitor temperature during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for temperature monitoring");
         
         for (int i = 0; i < 10; ++i) {
@@ -123,7 +123,7 @@ bool test_telemetry_temperature_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -159,7 +159,7 @@ bool test_telemetry_current_monitoring() noexcept {
     log_telemetry_data(*driver, "Idle state");
 
     // Test 2: Monitor current during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for current monitoring");
         
         for (int i = 0; i < 10; ++i) {
@@ -173,7 +173,7 @@ bool test_telemetry_current_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -195,7 +195,7 @@ bool test_telemetry_voltage_monitoring() noexcept {
     log_telemetry_data(*driver, "Idle state");
 
     // Test 2: Monitor voltage during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for voltage monitoring");
         
         for (int i = 0; i < 10; ++i) {
@@ -209,7 +209,7 @@ bool test_telemetry_voltage_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -242,7 +242,7 @@ bool test_telemetry_position_monitoring() noexcept {
     log_telemetry_data(*driver, "Initial position");
 
     // Test 2: Monitor position during movement
-    if (driver->focControl.setTargetPosition(1000)) {
+    if (driver->positionControl.setTargetPosition(1000)) {
         ESP_LOGI(TAG, "Motor started for position monitoring");
         
         for (int i = 0; i < 10; ++i) {
@@ -251,7 +251,7 @@ bool test_telemetry_position_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -284,7 +284,7 @@ bool test_telemetry_velocity_monitoring() noexcept {
     log_telemetry_data(*driver, "Initial velocity");
 
     // Test 2: Monitor velocity during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for velocity monitoring");
         
         for (int i = 0; i < 10; ++i) {
@@ -293,7 +293,7 @@ bool test_telemetry_velocity_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -315,7 +315,7 @@ bool test_telemetry_status_monitoring() noexcept {
     log_telemetry_data(*driver, "System status check");
 
     // Test 2: Monitor status during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for status monitoring");
         
         for (int i = 0; i < 5; ++i) {
@@ -323,7 +323,7 @@ bool test_telemetry_status_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(1000));
         }
         
-        driver->focControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 

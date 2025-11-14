@@ -31,7 +31,7 @@ The TMC9660 library uses a **hierarchical namespace structure** that groups rela
 ```
 tmc9660                                    (main namespace)
 ├── TMC9660                                (main driver class)
-├── TMC9660CommInterface                   (communication interface)
+├── CommInterface                          (communication interface)
 ├── TMC9660Bootloader                     (bootloader class)
 │
 ├── bootcfg                                (bootloader configuration)
@@ -70,7 +70,7 @@ The root namespace containing all main classes and functionality.
 
 **Contents**:
 - `tmc9660::TMC9660` - Main driver class
-- `tmc9660::TMC9660CommInterface` - Abstract communication interface
+- `tmc9660::CommInterface` - Abstract communication interface
 - `tmc9660::TMC9660Bootloader` - Bootloader management class
 - `tmc9660::BootloaderConfig` - Bootloader configuration structure
 
@@ -392,11 +392,11 @@ void controlMotor(TMC9660& driver) {
 
 ## 🔗 Related Documentation
 
-- **[Setup Guide](SetupGuide.md)** - Getting started with the library
-- **[Bootloader Initialization Guide](BootloaderInitializationGuide.md)** - Bootloader configuration
-- **[TMCL Protocol Guide](TMCLProtocolGuide.md)** - Parameter mode usage
-- **[Common Operations](CommonOperations.md)** - Everyday usage patterns
-- **[Hardware-Agnostic Examples](HardwareAgnosticExamples.md)** - Complete examples
+- **[Setup Guide](setup_guide.md)** - Getting started with the library
+- **[Bootloader Initialization Guide](bootloader_initialization_guide.md)** - Bootloader configuration
+- **[TMCL Protocol Guide](tmcl_protocol_guide.md)** - Parameter mode usage
+- **[Common Operations](common_operations.md)** - Everyday usage patterns
+- **[Hardware-Agnostic Examples](hardware_agnostic_examples.md)** - Complete examples
 
 ---
 

@@ -1,5 +1,5 @@
 /**
- * @file BootloaderComprehensiveTest.cpp
+ * @file bootloader_comprehensive_test.cpp
  * @brief Comprehensive Bootloader testing suite for ESP32-C6 DevKit-M-1 (noexcept)
  *
  * This file contains comprehensive testing for TMC9660 bootloader features including:
@@ -17,8 +17,8 @@
  * @copyright HardFOC
  */
 
-#include "../../../inc/TMC9660.hpp"
-#include "Esp32TMC9660Bus.hpp"
+#include "../../../inc/tmc9660.hpp"
+#include "esp32_tmc9660_bus.hpp"
 #include "TestFramework.h"
 #include <memory>
 #include <vector>
