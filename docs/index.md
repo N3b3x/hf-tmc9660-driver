@@ -1,151 +1,74 @@
----
-layout: default
-title: "📚 Documentation"
-description: "Complete documentation for the HardFOC TMC9660 Driver - Setup guides, API reference, and usage examples"
-nav_order: 2
-parent: "🔧 HardFOC TMC9660 Driver"
-permalink: /docs/
-has_children: true
----
+# HF-TMC9660 Documentation
 
-## 🚀 HF-TMC9660 Driver Documentation
-
-Welcome to the comprehensive documentation for the HardFOC TMC9660 driver library
-– a modern C++20 hardware-agnostic driver for the TMC9660 motor controller
-operating in **Parameter Mode**.
-
-## 📖 What You'll Learn
-
-This documentation will guide you through everything from initial setup to
-advanced motor control applications. Whether you're new to TMC9660 or an
-experienced embedded developer, you'll find practical examples and detailed
-explanations for every aspect of the driver.
-
----
-
-## 🎯 Quick Start Path
-
-**New to TMC9660?** Follow this recommended learning path:
-
-```mermaid
-graph LR
-    A[📋 Setup Guide] --> B[🔌 Communication Interface]
-    B --> C[⚡ Hardware Examples]
-    C --> D[🛠️ Common Operations]
-    D --> E[🚀 Advanced Usage]
-```
-
----
+Welcome! This directory contains step-by-step guides for installing, building, and using the **HF-TMC9660** library.
 
 ## 📚 Documentation Structure
 
-### **Foundation & Setup**
+### **Getting Started**
 
-1. **[📋 Setup Guide](setup_guide.md)** - Get started with installation and
-   compilation
-2. **[🔌 Implementing Communication Interface](implementing_comm_interface.md)**
-   - Create your hardware-specific communication layer
+1. **[🛠️ Installation](installation.md)** – Prerequisites and how to obtain the source
+2. **[⚡ Quick Start](quickstart.md)** – Minimal working example to get you running
+3. **[🔌 Hardware Setup](hardware_setup.md)** – Wiring diagrams and pin connections
 
-### **Bootloader & Configuration**
+### **Integration**
 
-1. **[⭐ Bootloader Initialization Guide](bootloader_initialization_guide.md)** - **START HERE!**
-   Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering
-2. **[🔧 Bootloader Complete Guide](bootloader_guide.md)** - Comprehensive
-   bootloader documentation with all 18 commands, protocols, OTP management, and
-   external memory operations
-3. **[⚡ Bootloader Quick Reference](bootloader_quick_reference.md)** - Quick
-   lookup card for commands, codes, and common operations
-4. **[🛠️ Bootloader Troubleshooting](bootloader_troubleshooting.md)** - **NEW!** Complete
-   troubleshooting guide with real-world debugging solutions
+4. **[🔧 Platform Integration](platform_integration.md)** – Implement the SPI/UART interface for your platform
+5. **[⚙️ Configuration](configuration.md)** – Configuration options and settings
 
-### **Communication Protocols**
+### **Reference**
 
-1. **[📡 Communication Protocol Guide](communication_protocol_guide.md)** - **NEW!** Detailed
-   SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing
-2. **[📨 TMCL Protocol Guide](tmcl_protocol_guide.md)** - Parameter mode command reference
-   and usage patterns
+6. **[📖 API Reference](api_reference.md)** – Complete API documentation
+7. **[💡 Examples](examples.md)** – Detailed example walkthroughs
 
-### **Practical Application**
+### **Advanced Features**
 
-1. **[⚡ Hardware-Agnostic Examples](hardware_agnostic_examples.md)** - Complete
-   motor control scenarios
-2. **[🛠️ Common Operations](common_operations.md)** - Everyday driver usage
-   patterns
-3. **[📦 Namespace Structure](NamespaceStructure.md)** - Complete guide to library namespace organization and usage patterns
-4. **[📖 API Reference](annotated.md)** - Complete C++ class documentation
+8. **[🚀 Bootloader Initialization](special_feature_bootloader.md)** – Critical bootloader setup guide
+9. **[📡 Communication Protocols](special_feature_protocols.md)** – Detailed protocol specifications
+
+### **Troubleshooting**
+
+10. **[🐛 Troubleshooting](troubleshooting.md)** – Common issues and solutions
+
+---
+
+## 🚀 Quick Start Path
+
+**New to TMC9660?** Follow this recommended path:
+
+1. Start with **[Installation](installation.md)** to prepare your environment
+2. Follow **[Hardware Setup](hardware_setup.md)** to wire your hardware
+3. Read **[Quick Start](quickstart.md)** for a minimal working example
+4. **CRITICAL**: Review **[Bootloader Initialization](special_feature_bootloader.md)** - this is required!
+5. Check **[Platform Integration](platform_integration.md)** to implement the communication interface
+6. Explore **[Examples](examples.md)** for more advanced usage
 
 ---
 
 ## ⚠️ Critical Requirements
 
-> **PARAMETER MODE SETUP IS MANDATORY**
+> **BOOTLOADER INITIALIZATION IS MANDATORY**
 >
-> The TMC9660 must be properly configured for **Parameter Mode** operation via
-> bootloader initialization before any motor control functions will work. This is
-> the #1 source of issues for new users.
+> The TMC9660 must be properly configured for **Parameter Mode** operation via bootloader initialization before any motor control functions will work. This is the #1 source of issues for new users.
 
-### Essential Setup Sequence
-
+**Essential Setup Sequence:**
 ```cpp
-// 1. CRITICAL: Configure for Parameter Mode
 tmc9660::BootloaderConfig cfg{};
 cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;  // ESSENTIAL!
 cfg.boot.start_motor_control = true;
-
-// 2. Initialize bootloader
 auto result = driver.bootloaderInit(&cfg);
-
-// 3. Configure motor and start control
-driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
-driver.focControl.setTargetVelocity(1000);
 ```
 
----
-
-## 🌟 Key Features
-
-| Feature | Description |
-|---------|-------------|
-| **🔧 Hardware Agnostic** | Abstract communication interface for any SPI/UART implementation |
-| **⚡ FOC Control** | Advanced Field-Oriented Control for BLDC, stepper, and DC motors |
-| **📊 Real-time Telemetry** | Temperature, current, voltage monitoring with logging |
-| **🛡️ Protection Systems** | Comprehensive safety features and fault monitoring |
-| **🎛️ Complete Configuration** | Access to all 300+ TMC9660 parameters |
-| **📱 Modern C++** | Clean C++20 API with type safety and RAII principles |
-
----
-
-## 🚦 Getting Started
-
-Ready to begin? Start with the **Setup Guide** to prepare your development environment:
-
-### **First Time Users**
-
-👉 **[Start Here: Setup Guide](setup_guide.md)**
-
-### **Experienced Developers**
-
-👉 **[Jump to Examples](hardware_agnostic_examples.md)**
-
-### **API Reference**
-
-👉 **[Browse API Documentation](annotated.md)**
+See [Bootloader Initialization](special_feature_bootloader.md) for complete details.
 
 ---
 
 ## 💡 Need Help?
 
-- **🐛 Found a bug?** Check the troubleshooting sections in each guide
-- **❓ Have questions?** Review the Common Operations guide
-- **📝 Want to contribute?** See the implementation guides
+- **🐛 Found a bug?** Check the [Troubleshooting](troubleshooting.md) guide
+- **❓ Have questions?** Review the [API Reference](api_reference.md)
+- **📝 Want to contribute?** See the contributing guidelines in the main README
 
 ---
 
-<div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
-  <strong>🎯 Ready to control some motors?</strong><br>
-  <a href="setup_guide.md"
-     style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em;
-     background: #007bff; color: white; text-decoration: none; border-radius: 4px;">Get Started →</a>
-</div>
-
----
+**Navigation**
+➡️ [Installation](installation.md)

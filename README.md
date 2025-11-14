@@ -1,341 +1,114 @@
----
-layout: default
-title: "🔧 HardFOC TMC9660 Driver"
-description: "Hardware-Agnostic TMC9660 Motor Controller Driver - Universal C++20 driver with FOC control, telemetry, and TMCL scripting"
-nav_order: 1
-permalink: /
-has_children: true
----
+# HF-TMC9660 Driver
+**C++20 hardware-agnostic driver for Trinamic TMC9660 motor controller with FOC control, telemetry, and TMCL scripting**
 
-# 🔧 HardFOC TMC9660 Driver
-**Hardware-Agnostic Motor Controller Driver**
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-![TMC9660](https://img.shields.io/badge/TMC9660-Motor%20Controller-blue?style=for-the-badge&logo=microchip)
-![C++20](https://img.shields.io/badge/C%2B%2B-20-blue?style=for-the-badge&logo=cplusplus)
-![Hardware-Agnostic](https://img.shields.io/badge/Hardware--Agnostic-Universal-green?style=for-the-badge&logo=hardware)
-![License](https://img.shields.io/badge/License-GPL--3.0-green?style=for-the-badge&logo=opensourceinitiative)
+## 📚 Table of Contents
+1. [Overview](#-overview)
+2. [Features](#-features)
+3. [Quick Start](#-quick-start)
+4. [Installation](#-installation)
+5. [API Reference](#-api-reference)
+6. [Examples](#-examples)
+7. [Documentation](#-documentation)
+8. [Contributing](#-contributing)
+9. [License](#-license)
 
-## 🎯 Universal Motor Controller Interface for Multi-MCU Development
-
-*A professional hardware-agnostic driver enabling seamless TMC9660 motor control across
-multiple MCU platforms - designed for the HardFOC board ecosystem*
-
----
-
-## 📚 **Table of Contents**
-
-- [🎯 **Overview**](#-overview)
-- [🏗️ **Architecture**](#-architecture)
-- [🔌 **Motor Types**](#-motor-types)
-- [🚀 **Quick Start**](#-quick-start)
-- [📖 **API Documentation**](#-api-documentation)
-- [🔧 **Building**](#-building)
-- [📊 **Examples**](#-examples)
-- [🤝 **Contributing**](#-contributing)
-- [📄 **License**](#-license)
-
----
-
-## 🎯 **Overview**
+## 📦 Overview
 
 > **📖 [📚🌐 Live Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - 
 > Interactive guides, examples, and step-by-step tutorials
 
-**HF-TMC9660** is a portable C++20 driver for the **TMC9660** motor controller from Trinamic.
-It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL
-scripting. The driver is transport agnostic – implement `CommInterface` for SPI or
-UART and run it on any MCU or host.
+**HF-TMC9660** is a portable C++20 driver for the **Trinamic TMC9660** motor controller IC. The TMC9660 is a sophisticated motor driver supporting BLDC, stepper, and DC motors with advanced Field-Oriented Control (FOC), comprehensive telemetry, and TMCL scripting capabilities. The driver provides hardware-agnostic communication interfaces, allowing it to run on any platform (ESP32, STM32, etc.) with SPI or UART.
 
-### 🏆 **Core Benefits**
+The driver exposes the full parameter mode interface, providing access to all 300+ TMC9660 parameters through an intuitive C++ API. It supports bootloader initialization, motor configuration, sensor integration (Hall sensors, encoders), FOC control loops, real-time telemetry, and protection systems.
 
-- **🔄 Hardware Portability** - Write once, run on any MCU with SPI or UART
-- **🎯 Unified API** - Consistent interface across all communication transports
-- **⚡ FOC Control** - Advanced Field-Oriented Control for BLDC, stepper, and DC motors
-- **🛡️ Safety Features** - Comprehensive protection systems and fault monitoring
-- **📈 Telemetry** - Real-time temperature, current, and voltage monitoring
-- **🔌 Complete Coverage** - Access to all 300+ TMC9660 parameters
+## ✨ Features
 
-### 🎨 **Design Philosophy**
+- ✅ **Multiple Motor Types**: BLDC/PMSM, Stepper, and DC motor support
+- ✅ **FOC Control**: Advanced Field-Oriented Control with torque, velocity, and position loops
+- ✅ **Sensor Integration**: Hall sensors, incremental encoders, SPI encoders
+- ✅ **Comprehensive Telemetry**: Real-time temperature, current, voltage, and position monitoring
+- ✅ **Protection Systems**: Overcurrent, overtemperature, overvoltage protection
+- ✅ **TMCL Scripting**: Execute custom scripts on device microcontroller
+- ✅ **Hardware Agnostic**: SPI or UART interface for platform independence
+- ✅ **Modern C++20**: Type-safe API with RAII principles
+- ✅ **Parameter Mode**: Full access to 300+ TMC9660 parameters
+
+## 🚀 Quick Start
 
 ```cpp
-// Write hardware-agnostic motor control code
-TMC9660 driver(commInterface);  // SPI or UART interface
+#include "inc/tmc9660.hpp"
 
-// Configure for Parameter Mode
-driver.bootloaderInit(&config);
-
-// Control any motor type - same API
-driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7);
-driver.focControl.setTargetVelocity(1000);
-```
-
----
-
-## 🏗️ **Architecture**
-
-### **Transport-Agnostic Design**
-
-```text
-📦 TMC9660 Driver Architecture
-├── 🎯 Driver Layer (TMC9660 class)     # High-level motor control API
-│   ├── Motor Configuration             # Motor type, commutation, sensors
-│   ├── FOC Control                     # Torque, velocity, position loops
-│   ├── Telemetry                       # Temperature, current, voltage
-│   ├── Bootloader                      # Parameter mode initialization
-│   └── TMCL Scripting                  # Command execution
-│
-├── 🔌 Communication Interface          # Abstract transport layer
-│   ├── CommInterface                   # Base interface
-│   ├── SpiCommInterface               # SPI implementation
-│   └── UartCommInterface              # UART implementation
-│
-└── 🔧 Hardware Layer                   # Platform-specific implementations
-    ├── ESP32 SPI/UART                  # ESP32 family support
-    ├── STM32 SPI/UART                  # STM32 support
-    └── Any MCU with SPI/UART           # Your implementation
-```
-
-### **Abstraction Benefits**
-
-#### **1. MCU Independence**
-```cpp
-// Application code remains the same across MCUs
-class MotorController {
-    TMC9660* driver;
-    
-public:
-    void Initialize() {
-        // Platform-specific interface, same driver code
-        YourSPIInterface spi;  // ESP32, STM32, or any MCU
-        driver = new TMC9660(spi);
-        
-        // Same configuration regardless of MCU
-        driver->bootloaderInit(&config);
-        driver->motorConfig.setType(MotorType::BLDC_MOTOR, 7);
-    }
+// 1. Implement the communication interface (see platform_integration.md)
+class MySPI : public tmc9660::SpiCommInterface {
+    // ... implement required methods
 };
-```
 
----
+// 2. Create driver instance
+MySPI spi;
+tmc9660::TMC9660 driver(spi);
 
-## 🔌 **Motor Types**
-
-### **Supported Motor Types**
-
-| **Motor Type** | **Control Mode** | **Key Features** |
-|----------------|-----------------|------------------|
-| **BLDC Motor** | FOC with Hall sensors | High efficiency, smooth operation |
-| **BLDC Motor** | FOC with encoder | Precise position and velocity control |
-| **Stepper Motor** | FOC position control | High torque, microstepping |
-| **Stepper Motor** | STEP/DIR interface | Traditional stepper control |
-| **DC Motor** | Velocity control | Simple brushed motor control |
-| **DC Motor** | Current control | Open-loop current drive |
-
-### **Communication Modes**
-
-| **Mode** | **Transport** | **Use Case** |
-|----------|---------------|--------------|
-| **Parameter Mode** | SPI or UART | Full motor control, TMCL scripting |
-| **Register Mode** | SPI only | Direct register access |
-
----
-
-## 🚀 **Quick Start**
-
-### **1. Clone Repository**
-```cpp
-git clone https://github.com/n3b3x/hf-tmc9660-driver.git
-cd hf-tmc9660-driver
-```
-
-### **2. Implement Communication Interface**
-```cpp
-#include "inc/TMC9660CommInterface.hpp"
-
-class YourSPIInterface : public SpiCommInterface {
-public:
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
-        // Your SPI transfer implementation
-        return true;
-    }
-};
-```
-
-### **3. Basic Motor Control**
-```cpp
-#include "inc/TMC9660.hpp"
-
-YourSPIInterface spi;
-TMC9660 driver(spi);
-
-// CRITICAL: Configure bootloader for Parameter Mode
+// 3. CRITICAL: Initialize bootloader for Parameter Mode
 tmc9660::BootloaderConfig cfg{};
 cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
 cfg.boot.start_motor_control = true;
 
-auto result = driver.bootloaderInit(&cfg);
-if (result != TMC9660::BootloaderInitResult::Success) {
-    return -1;
+if (driver.bootloaderInit(&cfg) != tmc9660::TMC9660::BootloaderInitResult::Success) {
+    // Handle error
+    return;
 }
 
-// Configure and start motor
-driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
+// 4. Configure and start motor
+driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); // 7 pole pairs
 driver.focControl.setTargetVelocity(1000);
 ```
 
-### **4. Build Example**
-```bash
-cd examples/esp32
-./scripts/setup_repo.sh
-./scripts/build_app.sh bldc_test Release
-```
+For detailed setup, see [Installation](docs/installation.md) and [Quick Start Guide](docs/quickstart.md).
 
----
+## 🔧 Installation
 
-## 📖 **API Documentation**
+1. **Clone or copy** the driver files into your project
+2. **Implement the communication interface** for your platform (see [Platform Integration](docs/platform_integration.md))
+3. **Include the header** in your code:
+   ```cpp
+   #include "inc/tmc9660.hpp"
+   ```
+4. Compile with a **C++20** or newer compiler
 
-### **Generated Documentation**
-- **[📚 Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/)** - Interactive
-  guides and tutorials
-- **[API Reference](docs/index.md)** - Complete driver API documentation
-- **[Setup Guide](docs/setup_guide.md)** - Installation and configuration
+For detailed installation instructions, see [docs/installation.md](docs/installation.md).
 
-### **Key Concepts**
+## 📖 API Reference
 
-#### **Bootloader Initialization**
-```cpp
-// CRITICAL: Must configure for Parameter Mode first
-tmc9660::BootloaderConfig cfg{};
-cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter;
-cfg.boot.start_motor_control = true;
-cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;
+| Method | Description |
+|--------|-------------|
+| `bootloaderInit()` | Initialize bootloader for Parameter Mode (CRITICAL) |
+| `motorConfig.setType()` | Set motor type and pole pairs |
+| `focControl.setTargetVelocity()` | Set target velocity for FOC control |
+| `telemetry.getTemperature()` | Read motor temperature |
+| `telemetry.getCurrent()` | Read motor current |
 
-auto result = driver.bootloaderInit(&cfg);
-```
+For complete API documentation, see [docs/api_reference.md](docs/api_reference.md).
 
-#### **Motor Configuration**
-```text
-// Set motor type and pole pairs
-driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);
+## 📊 Examples
 
-// Configure current limits
-driver.motorConfig.setMaxTorqueCurrent(2000);  // 2A limit
+For ESP32 examples, see the [examples/esp32](examples/esp32/) directory.
 
-// Setup feedback sensors
-driver.feedbackSense.configureHall();
-```
+Detailed example walkthroughs are available in [docs/examples.md](docs/examples.md).
 
-#### **FOC Control**
-```text
-// Configure control gains
-driver.focControl.setCurrentLoopGains(50, 100);
-driver.focControl.setVelocityLoopGains(800, 1);
+## 📚 Documentation
 
-// Set target velocity
-driver.focControl.setTargetVelocity(1000);
-```
+For complete documentation, see the [docs directory](docs/index.md).
 
----
+### Special Features
 
-## 🔧 **Building**
+- **[Bootloader Initialization](docs/special_feature_bootloader.md)** - Critical bootloader setup guide
 
-### **Build System Features**
-- **Multi-MCU Support** - Works with any MCU providing SPI or UART
-- **ESP32 Examples** - Comprehensive test applications
-- **Automated Testing** - Hardware validation suites
-- **CI/CD Integration** - Automated builds and validation
+## 🤝 Contributing
 
-### **Build Commands**
-```bash
-## For ESP32 development
-cd examples/esp32
-./scripts/setup_repo.sh
-./scripts/build_app.sh <app_name> <build_type>
+Pull requests and suggestions are welcome! Please follow the existing code style and include tests for new features.
 
-## Examples
-./scripts/build_app.sh bldc_test Release
-./scripts/build_app.sh stepper_test Debug
-./scripts/build_app.sh telemetry_test Release
-```
-
----
-
-## 📊 **Examples**
-
-### **Available Test Applications**
-
-| **Application** | **Tests** | **Purpose** |
-|------------------|-----------|-------------|
-| **bldc_test** | BLDC motor with Hall sensors | FOC commutation validation |
-| **stepper_test** | Stepper motor control | Position and velocity control |
-| **dc_test** | DC motor control | Simple velocity loop |
-| **telemetry_test** | Temperature, current, voltage | Monitoring and diagnostics |
-| **bootloader_test** | Bootloader configuration | Parameter mode setup |
-
-### **Usage Examples**
-```text
-// BLDC Motor with Hall Sensors
-driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7);
-driver.feedbackSense.configureHall();
-driver.motorConfig.setCommutationMode(CommutationMode::FOC_HALL_SENSOR);
-driver.focControl.setTargetVelocity(1000);
-
-// Stepper Motor Position Control
-driver.motorConfig.setType(MotorType::STEPPER_MOTOR, 200);
-driver.focControl.setTargetPosition(10000);
-```
-
----
-
-## 🤝 **Contributing**
-
-### **Development Workflow**
-1. **Fork** the repository
-2. **Create** feature branch (`feature/new-feature`)
-3. **Implement** following coding standards
-4. **Test** with existing applications
-5. **Document** your changes
-6. **Submit** pull request
-
-### **Coding Standards**
-- **Functions**: PascalCase (`SetTargetVelocity`, `GetChipTemperature`)
-- **Types**: snake_case (`tmc9660::tmcl::MotorType`)
-- **Error Handling**: Return status codes
-- **Code Formatting**: Use `clang-format`
-
----
-
-## 📄 **License**
+## 📄 License
 
 This project is licensed under the **GNU General Public License v3.0**.
-
-See [LICENSE](LICENSE) for full details.
-
----
-
-## 🔗 **Quick Links**
-
-### **Documentation**
-- 📚 [Complete Documentation](https://n3b3x.github.io/hf-tmc9660-driver/) - Interactive guides and tutorials
-- 📋 [API Reference](docs/index.md) - Complete driver API documentation
-- 🔧 [Setup Guide](docs/setup_guide.md) - Installation and build instructions
-- 🔌 [Communication Interface Guide](docs/implementing_comm_interface.md) - Platform integration
-- ⚡ [Hardware Examples](docs/hardware_agnostic_examples.md) - Practical usage scenarios
-
-### **Development**
-- 🚀 [Examples](examples/esp32/) - Test applications and usage examples
-- 🧪 [Test Documentation](examples/esp32/docs/README.md) - Comprehensive test documentation
-- 🔧 [Scripts](examples/esp32/scripts/) - Build, flash, and development tools
-- 📊 [Configuration](examples/esp32/app_config.yml) - Application and build settings
-
-### **Community**
-- 🤝 [Contributing](CONTRIBUTING.md) - Development guidelines
-- 🐛 [Issue Tracker](https://github.com/n3b3x/hf-tmc9660-driver/issues)
-- 💬 [Discussions](https://github.com/n3b3x/hf-tmc9660-driver/discussions)
-
----
-
-**Built for the HardFOC ecosystem - Enabling seamless motor control**
-
-*Hardware-agnostic motor control that just works™*
+See the [LICENSE](LICENSE) file for details.
