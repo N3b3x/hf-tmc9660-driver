@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: 🔧 HardFOC TMC9660 Driver</title>
+<title>HF-TMC9660 Driver: HF-TMC9660 Driver</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -94,148 +94,124 @@ $(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">🔧 HardFOC TMC9660 Driver </div></div>
+  <div class="headertitle"><div class="title">HF-TMC9660 Driver </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_README"></a><b>Hardware-Agnostic Motor Controller Driver</b></p>
-<p><img src="https://img.shields.io/badge/TMC9660-Motor%20Controller-blue?style=for-the-badge&amp;logo=microchip" alt="TMC9660" class="inline"/> <img src="https://img.shields.io/badge/C%2B%2B-20-blue?style=for-the-badge&amp;logo=cplusplus" alt="C++20" class="inline"/> <img src="https://img.shields.io/badge/Hardware--Agnostic-Universal-green?style=for-the-badge&amp;logo=hardware" alt="Hardware-Agnostic" class="inline"/> <img src="https://img.shields.io/badge/License-GPL--3.0-green?style=for-the-badge&amp;logo=opensourceinitiative" alt="License" class="inline"/></p>
+<div class="textblock"><p><a class="anchor" id="md_README"></a><b>C++20 hardware-agnostic driver for Trinamic TMC9660 motor controller with FOC control, telemetry, and TMCL scripting</b></p>
+<p><a href="https://en.cppreference.com/w/cpp/20"><img src="https://img.shields.io/badge/C%2B%2B-20-blue.svg" alt="C++" style="pointer-events: none;" class="inline"/></a> <a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/N3b3x/hf-tmc9660-driver/actions/workflows/esp32-examples-build-ci.yml"><img src="https://github.com/N3b3x/hf-tmc9660-driver/actions/workflows/esp32-examples-build-ci.yml/badge.svg?branch=main" alt="CI" style="pointer-events: none;" class="inline"/></a> <a href="https://n3b3x.github.io/hf-tmc9660-driver/"><img src="https://img.shields.io/badge/docs-GitHub%20Pages-blue" alt="Docs" class="inline"/></a></p>
 <h1><a class="anchor" id="autotoc_md35"></a>
-🎯 Universal Motor Controller Interface for Multi-MCU Development</h1>
-<p><em>A professional hardware-agnostic driver enabling seamless TMC9660 motor control across multiple MCU platforms - designed for the HardFOC board ecosystem</em></p>
+📚 Table of Contents</h1>
+<ol type="1">
+<li>Overview</li>
+<li>Features</li>
+<li>Quick Start</li>
+<li>Installation</li>
+<li>API Reference</li>
+<li>Examples</li>
+<li>Documentation</li>
+<li>Contributing</li>
+<li>License</li>
+</ol>
 <h1><a class="anchor" id="autotoc_md36"></a>
-🎯 <b>Overview</b></h1>
+📦 Overview</h1>
 <blockquote class="doxtable">
 <p>&zwj;<b>📖 <a href="https://n3b3x.github.io/hf-tmc9660-driver/">📚🌐 Live Complete Documentation</a></b> - Interactive guides, examples, and step-by-step tutorials </p>
 </blockquote>
-<p><b>HF-TMC9660</b> is a portable C++20 driver for the <b>TMC9660</b> motor controller from Trinamic. It exposes the full parameter mode interface with FOC control, telemetry readback and TMCL scripting. The driver is transport agnostic – implement <code>TMC9660CommInterface</code> for SPI or UART and run it on any MCU or host.</p>
-<h2><a class="anchor" id="autotoc_md37"></a>
-🏆 <b>Core Benefits</b></h2>
+<p><b>HF-TMC9660</b> is a portable C++20 driver for the <b>Trinamic TMC9660</b> motor controller IC. The TMC9660 is a sophisticated motor driver supporting BLDC, stepper, and DC motors with advanced Field-Oriented Control (FOC), comprehensive telemetry, and TMCL scripting capabilities. The driver provides hardware-agnostic communication interfaces, allowing it to run on any platform (ESP32, STM32, etc.) with SPI or UART.</p>
+<p>The driver exposes the full parameter mode interface, providing access to all 300+ TMC9660 parameters through an intuitive C++ API. It supports bootloader initialization, motor configuration, sensor integration (Hall sensors, encoders), FOC control loops, real-time telemetry, and protection systems.</p>
+<h1><a class="anchor" id="autotoc_md37"></a>
+✨ Features</h1>
 <ul>
-<li><b>🔄 Hardware Portability</b> - Write once, run on any MCU with SPI or UART</li>
-<li><b>🎯 Unified API</b> - Consistent interface across all communication transports</li>
-<li><b>⚡ FOC Control</b> - Advanced Field-Oriented Control for BLDC, stepper, and DC motors</li>
-<li><b>🛡️ Safety Features</b> - Comprehensive protection systems and fault monitoring</li>
-<li><b>📈 Telemetry</b> - Real-time temperature, current, and voltage monitoring</li>
-<li><b>🔌 Complete Coverage</b> - Access to all 300+ TMC9660 parameters</li>
+<li>✅ <b>Multiple Motor Types</b>: BLDC/PMSM, Stepper, and DC motor support</li>
+<li>✅ <b>FOC Control</b>: Advanced Field-Oriented Control with torque, velocity, and position loops</li>
+<li>✅ <b>Sensor Integration</b>: Hall sensors, incremental encoders, SPI encoders</li>
+<li>✅ <b>Comprehensive Telemetry</b>: Real-time temperature, current, voltage, and position monitoring</li>
+<li>✅ <b>Protection Systems</b>: Overcurrent, overtemperature, overvoltage protection</li>
+<li>✅ <b>TMCL Scripting</b>: Execute custom scripts on device microcontroller</li>
+<li>✅ <b>Hardware Agnostic</b>: SPI or UART interface for platform independence</li>
+<li>✅ <b>Modern C++20</b>: Type-safe API with RAII principles</li>
+<li>✅ <b>Parameter Mode</b>: Full access to 300+ TMC9660 parameters</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md38"></a>
-🎨 <b>Design Philosophy</b></h2>
-<div class="fragment"><div class="line"><span class="comment">// Write hardware-agnostic motor control code</span></div>
-<div class="line">TMC9660 driver(commInterface);  <span class="comment">// SPI or UART interface</span></div>
+<h1><a class="anchor" id="autotoc_md38"></a>
+🚀 Quick Start</h1>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="tmc9660_8hpp.html">inc/tmc9660.hpp</a>&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Configure for Parameter Mode</span></div>
-<div class="line">driver.bootloaderInit(&amp;config);</div>
+<div class="line"><span class="comment">// 1. Implement the communication interface (see platform_integration.md)</span></div>
+<div class="line"><span class="keyword">class </span>MySPI : <span class="keyword">public</span> <a class="code hl_class" href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface</a> {</div>
+<div class="line">    <span class="comment">// ... implement required methods</span></div>
+<div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Control any motor type - same API</span></div>
-<div class="line">driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7);</div>
-<div class="line">driver.focControl.setTargetVelocity(1000);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
-🔌 <b>Motor Types</b></h1>
-<h2><a class="anchor" id="autotoc_md40"></a>
-<b>Supported Motor Types</b></h2>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone"><b>Motor Type</b>   </th><th class="markdownTableHeadNone"><b>Control Mode</b>   </th><th class="markdownTableHeadNone"><b>Key Features</b>    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>BLDC Motor</b>   </td><td class="markdownTableBodyNone">FOC with Hall sensors   </td><td class="markdownTableBodyNone">High efficiency, smooth operation    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>BLDC Motor</b>   </td><td class="markdownTableBodyNone">FOC with encoder   </td><td class="markdownTableBodyNone">Precise position and velocity control    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Stepper Motor</b>   </td><td class="markdownTableBodyNone">FOC position control   </td><td class="markdownTableBodyNone">High torque, microstepping    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>Stepper Motor</b>   </td><td class="markdownTableBodyNone">STEP/DIR interface   </td><td class="markdownTableBodyNone">Traditional stepper control    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>DC Motor</b>   </td><td class="markdownTableBodyNone">Velocity control   </td><td class="markdownTableBodyNone">Simple brushed motor control    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>DC Motor</b>   </td><td class="markdownTableBodyNone">Current control   </td><td class="markdownTableBodyNone">Open-loop current drive   </td></tr>
-</table>
-<h2><a class="anchor" id="autotoc_md41"></a>
-<b>Communication Modes</b></h2>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone"><b>Mode</b>   </th><th class="markdownTableHeadNone"><b>Transport</b>   </th><th class="markdownTableHeadNone"><b>Use Case</b>    </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Parameter Mode</b>   </td><td class="markdownTableBodyNone">SPI or UART   </td><td class="markdownTableBodyNone">Full motor control, TMCL scripting    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>Register Mode</b>   </td><td class="markdownTableBodyNone">SPI only   </td><td class="markdownTableBodyNone">Direct register access   </td></tr>
-</table>
-<h1><a class="anchor" id="autotoc_md42"></a>
-📖 <b>API Documentation</b></h1>
-<h2><a class="anchor" id="autotoc_md43"></a>
-<b>Generated Documentation</b></h2>
-<ul>
-<li><b><a href="https://n3b3x.github.io/hf-tmc9660-driver/">📚 Complete Documentation</a></b> - Interactive guides and tutorials</li>
-<li><b>API Reference</b> - Complete driver API documentation</li>
-<li><b>Setup Guide</b> - Installation and configuration</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md44"></a>
-<b>Key Concepts</b></h2>
-<h3><a class="anchor" id="autotoc_md45"></a>
-<b>Bootloader Initialization</b></h3>
-<div class="fragment"><div class="line"><span class="comment">// CRITICAL: Must configure for Parameter Mode first</span></div>
+<div class="line"><span class="comment">// 2. Create driver instance</span></div>
+<div class="line">MySPI spi;</div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a> driver(spi);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 3. CRITICAL: Initialize bootloader for Parameter Mode</span></div>
 <div class="line"><a class="code hl_struct" href="structtmc9660_1_1BootloaderConfig.html">tmc9660::BootloaderConfig</a> cfg{};</div>
 <div class="line">cfg.<a class="code hl_variable" href="structtmc9660_1_1BootloaderConfig.html#a90caeaa7ba7df57286aac1721689b77a">boot</a>.<a class="code hl_variable" href="structtmc9660_1_1BootConfig.html#a20d8ce7b4f5b4b3828425c231704754c">boot_mode</a> = <a class="code hl_enumvalue" href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">tmc9660::bootcfg::BootMode::Parameter</a>;</div>
 <div class="line">cfg.boot.start_motor_control = <span class="keyword">true</span>;</div>
-<div class="line">cfg.spiComm.boot_spi_iface = tmc9660::bootcfg::SPIInterface::IFACE0;</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">auto</span> result = driver.bootloaderInit(&amp;cfg);</div>
+<div class="line"><span class="keywordflow">if</span> (driver.bootloaderInit(&amp;cfg) != <a class="code hl_enumvalue" href="classtmc9660_1_1TMC9660.html#a08f6d00384458a6833df71c1f856f48ca505a83f220c02df2f85c3810cd9ceb38">tmc9660::TMC9660::BootloaderInitResult::Success</a>) {</div>
+<div class="line">    <span class="comment">// Handle error</span></div>
+<div class="line">    <span class="keywordflow">return</span>;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// 4. Configure and start motor</span></div>
+<div class="line">driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); <span class="comment">// 7 pole pairs</span></div>
+<div class="line">driver.focControl.setTargetVelocity(1000);</div>
+<div class="ttc" id="aclasstmc9660_1_1SpiCommInterface_html"><div class="ttname"><a href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface</a></div><div class="ttdoc">SPI implementation of TMC9660CommInterface.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:818</div></div>
+<div class="ttc" id="aclasstmc9660_1_1TMC9660_html"><div class="ttname"><a href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a></div><div class="ttdoc">Main class representing a TMC9660 motor driver in Parameter Mode.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:117</div></div>
+<div class="ttc" id="aclasstmc9660_1_1TMC9660_html_a08f6d00384458a6833df71c1f856f48ca505a83f220c02df2f85c3810cd9ceb38"><div class="ttname"><a href="classtmc9660_1_1TMC9660.html#a08f6d00384458a6833df71c1f856f48ca505a83f220c02df2f85c3810cd9ceb38">tmc9660::TMC9660::BootloaderInitResult::Success</a></div><div class="ttdeci">@ Success</div><div class="ttdoc">Successfully initialized the bootloader.</div></div>
 <div class="ttc" id="anamespacetmc9660_1_1bootcfg_html_aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396"><div class="ttname"><a href="namespacetmc9660_1_1bootcfg.html#aa0dcb8bfb71ebc85f5c97a0bd9f53134a83f499a540b1323009c200d6f8cc9396">tmc9660::bootcfg::BootMode::Parameter</a></div><div class="ttdeci">@ Parameter</div><div class="ttdoc">Parameter mode - TMCL command-based motor control (recommended)</div></div>
 <div class="ttc" id="astructtmc9660_1_1BootConfig_html_a20d8ce7b4f5b4b3828425c231704754c"><div class="ttname"><a href="structtmc9660_1_1BootConfig.html#a20d8ce7b4f5b4b3828425c231704754c">tmc9660::BootConfig::boot_mode</a></div><div class="ttdeci">bootcfg::BootMode boot_mode</div><div class="ttdoc">Target boot mode (Register or Parameter)</div><div class="ttdef"><b>Definition</b> bootloader_config.hpp:768</div></div>
 <div class="ttc" id="astructtmc9660_1_1BootloaderConfig_html"><div class="ttname"><a href="structtmc9660_1_1BootloaderConfig.html">tmc9660::BootloaderConfig</a></div><div class="ttdoc">Complete bootloader configuration structure.</div><div class="ttdef"><b>Definition</b> bootloader_config.hpp:1007</div></div>
 <div class="ttc" id="astructtmc9660_1_1BootloaderConfig_html_a90caeaa7ba7df57286aac1721689b77a"><div class="ttname"><a href="structtmc9660_1_1BootloaderConfig.html#a90caeaa7ba7df57286aac1721689b77a">tmc9660::BootloaderConfig::boot</a></div><div class="ttdeci">BootConfig boot</div><div class="ttdef"><b>Definition</b> bootloader_config.hpp:1009</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md46"></a>
-<b>Motor Configuration</b></h3>
-<div class="fragment"><div class="line">// Set motor type and pole pairs</div>
-<div class="line">driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7);</div>
-<div class="line"> </div>
-<div class="line">// Configure current limits</div>
-<div class="line">driver.motorConfig.setMaxTorqueCurrent(2000);  // 2A limit</div>
-<div class="line"> </div>
-<div class="line">// Setup feedback sensors</div>
-<div class="line">driver.feedbackSense.configureHall();</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md47"></a>
-<b>FOC Control</b></h3>
-<div class="fragment"><div class="line">// Configure control gains</div>
-<div class="line">driver.focControl.setCurrentLoopGains(50, 100);</div>
-<div class="line">driver.focControl.setVelocityLoopGains(800, 1);</div>
-<div class="line"> </div>
-<div class="line">// Set target velocity</div>
-<div class="line">driver.focControl.setTargetVelocity(1000);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md48"></a>
-📊 <b>Examples</b></h1>
-<h2><a class="anchor" id="autotoc_md49"></a>
-<b>Available Test Applications</b></h2>
+<div class="ttc" id="atmc9660_8hpp_html"><div class="ttname"><a href="tmc9660_8hpp.html">tmc9660.hpp</a></div><div class="ttdoc">Main TMC9660 motor driver interface and subsystem classes.</div></div>
+</div><!-- fragment --><p>For detailed setup, see Installation and Quick Start Guide.</p>
+<h1><a class="anchor" id="autotoc_md39"></a>
+🔧 Installation</h1>
+<ol type="1">
+<li><b>Clone or copy</b> the driver files into your project</li>
+<li><b>Implement the communication interface</b> for your platform (see Platform Integration)</li>
+<li><b>Include the header</b> in your code: <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="tmc9660_8hpp.html">inc/tmc9660.hpp</a>&quot;</span></div>
+</div><!-- fragment --></li>
+<li>Compile with a <b>C++20</b> or newer compiler</li>
+</ol>
+<p>For detailed installation instructions, see docs/installation.md.</p>
+<h1><a class="anchor" id="autotoc_md40"></a>
+📖 API Reference</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone"><b>Application</b>   </th><th class="markdownTableHeadNone"><b>Tests</b>   </th><th class="markdownTableHeadNone"><b>Purpose</b>    </th></tr>
+<th class="markdownTableHeadNone">Method   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>bldc_test</b>   </td><td class="markdownTableBodyNone">BLDC motor with Hall sensors   </td><td class="markdownTableBodyNone">FOC commutation validation    </td></tr>
+<td class="markdownTableBodyNone"><code>bootloaderInit()</code>   </td><td class="markdownTableBodyNone">Initialize bootloader for Parameter Mode (CRITICAL)    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>stepper_test</b>   </td><td class="markdownTableBodyNone">Stepper motor control   </td><td class="markdownTableBodyNone">Position and velocity control    </td></tr>
+<td class="markdownTableBodyNone"><code>motorConfig.setType()</code>   </td><td class="markdownTableBodyNone">Set motor type and pole pairs    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>dc_test</b>   </td><td class="markdownTableBodyNone">DC motor control   </td><td class="markdownTableBodyNone">Simple velocity loop    </td></tr>
+<td class="markdownTableBodyNone"><code>focControl.setTargetVelocity()</code>   </td><td class="markdownTableBodyNone">Set target velocity for FOC control    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>telemetry_test</b>   </td><td class="markdownTableBodyNone">Temperature, current, voltage   </td><td class="markdownTableBodyNone">Monitoring and diagnostics    </td></tr>
+<td class="markdownTableBodyNone"><code>telemetry.getTemperature()</code>   </td><td class="markdownTableBodyNone">Read motor temperature    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>bootloader_test</b>   </td><td class="markdownTableBodyNone">Bootloader configuration   </td><td class="markdownTableBodyNone">Parameter mode setup   </td></tr>
+<td class="markdownTableBodyNone"><code>telemetry.getCurrent()</code>   </td><td class="markdownTableBodyNone">Read motor current   </td></tr>
 </table>
-<h2><a class="anchor" id="autotoc_md50"></a>
-<b>Usage Examples</b></h2>
-<div class="fragment"><div class="line">// BLDC Motor with Hall Sensors</div>
-<div class="line">driver.motorConfig.setType(MotorType::BLDC_MOTOR, 7);</div>
-<div class="line">driver.feedbackSense.configureHall();</div>
-<div class="line">driver.motorConfig.setCommutationMode(CommutationMode::FOC_HALL_SENSOR);</div>
-<div class="line">driver.focControl.setTargetVelocity(1000);</div>
-<div class="line"> </div>
-<div class="line">// Stepper Motor Position Control</div>
-<div class="line">driver.motorConfig.setType(MotorType::STEPPER_MOTOR, 200);</div>
-<div class="line">driver.focControl.setTargetPosition(10000);</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md51"></a>
-📄 <b>License</b></h1>
-<p>This project is licensed under the <b>GNU General Public License v3.0</b>.</p>
-<p>See [LICENSE](LICENSE) for full details.</p>
-<p><b>Built for the HardFOC ecosystem - Enabling seamless motor control</b></p>
-<p><em>Hardware-agnostic motor control that just works™</em> </p>
+<p>For complete API documentation, see docs/api_reference.md.</p>
+<h1><a class="anchor" id="autotoc_md41"></a>
+📊 Examples</h1>
+<p>For ESP32 examples, see the <a href="examples/esp32/">examples/esp32</a> directory.</p>
+<p>Detailed example walkthroughs are available in docs/examples.md.</p>
+<h1><a class="anchor" id="autotoc_md42"></a>
+📚 Documentation</h1>
+<p>For complete documentation, see the docs directory.</p>
+<h2><a class="anchor" id="autotoc_md43"></a>
+Special Features</h2>
+<ul>
+<li><b>Bootloader Initialization</b> - Critical bootloader setup guide</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md44"></a>
+🤝 Contributing</h1>
+<p>Pull requests and suggestions are welcome! Please follow the existing code style and include tests for new features.</p>
+<h1><a class="anchor" id="autotoc_md45"></a>
+📄 License</h1>
+<p>This project is licensed under the <b>GNU General Public License v3.0</b>. See the [LICENSE](LICENSE) file for details. </p>
 </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"/>
 </div><!-- contents -->

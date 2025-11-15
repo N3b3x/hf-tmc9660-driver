@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🏆_20strong_20core_20benefits_20strong_0',['🏆 &lt;strong&gt;Core Benefits&lt;/strong&gt;',['../index.html#autotoc_md37',1,'']]]
+  ['📊_20examples_0',['📊 Examples',['../index.html#autotoc_md41',1,'']]]
 ];

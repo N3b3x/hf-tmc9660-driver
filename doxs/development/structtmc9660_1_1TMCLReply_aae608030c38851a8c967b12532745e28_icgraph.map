@@ -4,6 +4,6 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,69,263,60,216,48,217,43,265,55,299,64"/>
 <area shape="rect" id="Node000003" href="$classEsp32UARTTMC9660CommInterface.html#a576246048cac498b368621b30ab0dbdd" title="Transfer TMCL frame over UART for parameter mode communication." alt="" coords="5,69,264,109"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="298,92,264,92,264,87,298,87"/>
-<area shape="rect" id="Node000004" href="$classtmc9660_1_1UARTTMC9660CommInterface.html#adead1dc66c704f9c0cb1f7817e8a9703" title="Perform a full duplex TMCL transfer for parameter mode communication." alt="" coords="21,133,248,173"/>
+<area shape="rect" id="Node000004" href="$classtmc9660_1_1UartCommInterface.html#a213ddc04b16859b4950bce9dec66ce68" title="Perform a full duplex TMCL transfer for parameter mode communication." alt="" coords="27,133,243,173"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="299,115,265,124,217,136,216,131,263,119,298,110"/>
 </map>
