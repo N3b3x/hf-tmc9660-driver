@@ -84,17 +84,12 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
   if (comm_.mode() != CommMode::SPI) {
     return false;
   }
-  // At this point, we know comm_.mode() == CommMode::SPI, so CommType must be an SPI interface
-  // Use reinterpret_cast to avoid template instantiation issues - we know this is safe
-  // because we've verified mode() == SPI. The actual derived type (e.g., Esp32SPITMC9660CommInterface)
-  // inherits from SpiCommInterface<Derived>, so we can access the method this way.
-  struct SpiInterface {
-    bool spiTransferBootloader(const std::array<uint8_t, 5>& tx, std::array<uint8_t, 5>& rx) noexcept {
-      // This will be implemented by the actual derived type
-      return false;
-    }
-  };
-  
+  // At this point, we know comm_.mode() == CommMode::SPI, so CommType must be SpiCommInterface<Derived>
+  // We use reinterpret_cast to access the method via CRTP - this is safe because:
+  // 1. Runtime check ensures mode() == SPI
+  // 2. CommType (e.g., Esp32SPITMC9660CommInterface) inherits from SpiCommInterface<CommType>
+  // 3. We cast to the actual base class type, not a local struct, so CRTP will work correctly
+  // Note: We can't use static_cast because it would require template instantiation for both SPI and UART
   BootloaderCommandSPI tx{cmd, value};
 
   TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader",
@@ -106,13 +101,12 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
   // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
   //                txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
 
-  // Cast comm_ to SpiInterface* to access the method - safe because mode() == SPI
-  auto* spiComm = reinterpret_cast<SpiInterface*>(&comm_);
-  
   // Step 1: Send the command
   // NOTE: In SPI, the reply to THIS command will come in the NEXT transaction.
   // The rxBuf here contains the reply from the PREVIOUS command (we ignore it).
-  if (!spiComm->spiTransferBootloader(txBuf, rxBuf)) {
+  // Cast to SpiCommInterface base class to access the CRTP method - safe because CommType is SPI
+  auto* spi_comm = reinterpret_cast<SpiCommInterface<CommType>*>(&comm_);
+  if (!spi_comm->spiTransferBootloader(txBuf, rxBuf)) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Failed to send SPI command (cmd=0x%02X)",
                       cmd);
     return false;
@@ -133,7 +127,8 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
                     dummyTx[0], dummyTx[1], dummyTx[2], dummyTx[3], dummyTx[4]);
 
-  if (!spiComm->spiTransferBootloader(dummyTx, replyBuf)) {
+  // Reuse the same spi_comm pointer for the second transfer
+  if (!spi_comm->spiTransferBootloader(dummyTx, replyBuf)) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Failed to receive SPI reply (cmd=0x%02X)",
                       cmd);
     return false;
@@ -194,24 +189,14 @@ bool TMC9660Bootloader<CommType>::sendCommandUART(uint8_t cmd, uint32_t value, u
   //                txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4], txBuf[5], txBuf[6], txBuf[7]);
 
   // UART: Send command and receive reply in same transaction (no delayed reply like SPI)
-  // Since we've verified mode() == CommMode::UART at runtime, CommType must be a UART interface.
-  // The problem is that the compiler instantiates UartCommInterface<CommType> even for SPI types.
-  // We work around this by using reinterpret_cast to bypass the type system entirely.
-  // This is safe because we've verified mode() == UART at runtime, so CommType must be UART.
-  
-  // Use reinterpret_cast to avoid template instantiation issues - we know this is safe
-  // because we've verified mode() == UART. The actual derived type (e.g., Esp32UARTTMC9660CommInterface)
-  // inherits from UartCommInterface<Derived>, so we can access the method this way.
-  struct UartInterface {
-    bool uartTransferBootloader(const std::array<uint8_t, 8>& tx, std::array<uint8_t, 8>& rx) noexcept {
-      // This will be implemented by the actual derived type
-      return false;
-    }
-  };
-  
-  // Cast comm_ to UartInterface* to access the method - safe because mode() == UART
-  auto* uartInterface = reinterpret_cast<UartInterface*>(&comm_);
-  if (!uartInterface->uartTransferBootloader(txBuf, rxBuf)) {
+  // Since we've verified mode() == CommMode::UART at runtime, CommType must be UartCommInterface<Derived>
+  // We use reinterpret_cast to access the method via CRTP - this is safe because:
+  // 1. Runtime check ensures mode() == UART
+  // 2. CommType (e.g., Esp32UARTTMC9660CommInterface) inherits from UartCommInterface<CommType>
+  // 3. We cast to the actual base class type, not a local struct, so CRTP will work correctly
+  // Note: We can't use static_cast because it would require template instantiation for both SPI and UART
+  auto* uart_comm = reinterpret_cast<UartCommInterface<CommType>*>(&comm_);
+  if (!uart_comm->uartTransferBootloader(txBuf, rxBuf)) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Failed to send UART command (cmd=0x%02X)",
                       cmd);
     return false;
