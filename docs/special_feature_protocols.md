@@ -1,3 +1,12 @@
+---
+layout: default
+title: "📡 Communication Protocols"
+description: "Detailed protocol specifications for TMC9660"
+nav_order: 9
+parent: "📚 Documentation"
+permalink: /docs/special_feature_protocols/
+---
+
 # Communication Protocols
 
 This guide covers the detailed communication protocols for the TMC9660, including bootloader and parameter mode (TMCL) protocols for both SPI and UART interfaces.

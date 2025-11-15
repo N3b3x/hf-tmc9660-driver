@@ -1,3 +1,12 @@
+---
+layout: default
+title: "🔌 Hardware Setup"
+description: "Hardware wiring and connection guide for TMC9660 driver"
+nav_order: 3
+parent: "📚 Documentation"
+permalink: /docs/hardware_setup/
+---
+
 # Hardware Setup
 
 This guide covers the hardware connections and requirements for the TMC9660 motor controller.

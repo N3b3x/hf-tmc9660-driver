@@ -1,3 +1,12 @@
+---
+layout: default
+title: "⚙️ Configuration"
+description: "Configuration options for the TMC9660 driver"
+nav_order: 5
+parent: "📚 Documentation"
+permalink: /docs/configuration/
+---
+
 # Configuration
 
 This guide covers configuration options for the TMC9660 driver.

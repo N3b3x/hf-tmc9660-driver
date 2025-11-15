@@ -1,3 +1,12 @@
+---
+layout: default
+title: "🐛 Troubleshooting"
+description: "Common issues and solutions for the TMC9660 driver"
+nav_order: 10
+parent: "📚 Documentation"
+permalink: /docs/troubleshooting/
+---
+
 # Troubleshooting
 
 Common issues and solutions for the TMC9660 driver.

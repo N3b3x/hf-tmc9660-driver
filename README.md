@@ -1,3 +1,11 @@
+---
+layout: default
+title: "HardFOC TMC9660 Driver"
+description: "C++20 hardware-agnostic driver for Trinamic TMC9660 motor controller with FOC control, telemetry, and TMCL scripting"
+nav_order: 1
+permalink: /
+---
+
 # HF-TMC9660 Driver
 **C++20 hardware-agnostic driver for Trinamic TMC9660 motor controller with FOC control, telemetry, and TMCL scripting**
 

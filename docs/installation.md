@@ -1,3 +1,12 @@
+---
+layout: default
+title: "🛠️ Installation"
+description: "Installation and integration instructions for the TMC9660 driver"
+nav_order: 1
+parent: "📚 Documentation"
+permalink: /docs/installation/
+---
+
 # Installation
 
 This guide covers how to obtain and integrate the HF-TMC9660 driver into your project.

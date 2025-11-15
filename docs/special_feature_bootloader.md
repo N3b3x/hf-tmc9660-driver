@@ -1,3 +1,12 @@
+---
+layout: default
+title: "🚀 Bootloader Initialization"
+description: "Critical bootloader setup guide for TMC9660"
+nav_order: 8
+parent: "📚 Documentation"
+permalink: /docs/special_feature_bootloader/
+---
+
 # Bootloader Initialization
 
 The TMC9660 bootloader initialization is **CRITICAL** and must be completed successfully before any motor control operations. This guide covers the essential bootloader setup.

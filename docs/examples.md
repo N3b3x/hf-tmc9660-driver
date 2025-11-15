@@ -1,3 +1,12 @@
+---
+layout: default
+title: "💡 Examples"
+description: "Complete example walkthroughs for the TMC9660 driver"
+nav_order: 7
+parent: "📚 Documentation"
+permalink: /docs/examples/
+---
+
 # Examples
 
 This guide provides detailed examples for various TMC9660 use cases.
@@ -7,13 +16,13 @@ This guide provides detailed examples for various TMC9660 use cases.
 ```cpp
 #include "inc/tmc9660.hpp"
 
-class MySPI : public tmc9660::SpiCommInterface {
-    // ... implement spiTransfer() ...
+class MySPI : public tmc9660::SpiCommInterface<MySPI> {
+    // ... implement required methods (spiTransferTMCL, gpioSet, etc.) ...
 };
 
 int main() {
     MySPI spi;
-    tmc9660::TMC9660 driver(spi);
+    tmc9660::TMC9660<MySPI> driver(spi);
     
     // 1. Initialize bootloader
     tmc9660::BootloaderConfig cfg{};

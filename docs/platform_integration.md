@@ -1,3 +1,12 @@
+---
+layout: default
+title: "🔧 Platform Integration"
+description: "How to implement the SPI/UART interface for your platform"
+nav_order: 4
+parent: "📚 Documentation"
+permalink: /docs/platform_integration/
+---
+
 # Platform Integration
 
 The TMC9660 driver uses a hardware-agnostic communication interface pattern (CRTP - Curiously Recurring Template Pattern) to abstract platform-specific SPI or UART implementations. This allows the same driver code to work across different MCU platforms.
@@ -26,13 +35,46 @@ CommInterface (Abstract Base)
 ```cpp
 #include "inc/tmc9660_comm_interface.hpp"
 
-class MySPI : public tmc9660::SpiCommInterface {
+class MySPI : public tmc9660::SpiCommInterface<MySPI> {
 public:
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
+    CommMode mode() const noexcept {
+        return CommMode::SPI;
+    }
+    
+    bool spiTransferTMCL(std::array<uint8_t,8>& tx,
+                         std::array<uint8_t,8>& rx) noexcept {
         // Your SPI transfer implementation
         // Exchange 8 bytes: tx -> TMC9660, rx <- TMC9660
         return true; // Return false on error
+    }
+    
+    bool spiTransferBootloader(std::array<uint8_t,5>& tx,
+                               std::array<uint8_t,5>& rx) noexcept {
+        // Your SPI bootloader transfer implementation
+        // Exchange 5 bytes: tx -> TMC9660, rx <- TMC9660
+        return true; // Return false on error
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Your GPIO set implementation
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Your GPIO read implementation
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Your debug logging implementation (optional)
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        // Your millisecond delay implementation
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        // Your microsecond delay implementation
     }
 };
 ```
@@ -43,13 +85,14 @@ public:
 #include "driver/spi_master.h"
 #include "inc/tmc9660_comm_interface.hpp"
 
-class ESP32SPI : public tmc9660::SpiCommInterface {
+class ESP32SPI : public tmc9660::SpiCommInterface<ESP32SPI> {
 private:
     spi_device_handle_t spi_;
     
 public:
     ESP32SPI(spi_host_device_t host, gpio_num_t mosi, gpio_num_t miso, 
-              gpio_num_t sclk, gpio_num_t cs) {
+              gpio_num_t sclk, gpio_num_t cs) 
+        : SpiCommInterface<ESP32SPI>(true, true, false, false) { // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
         spi_bus_config_t bus_cfg = {
             .mosi_io_num = mosi,
             .miso_io_num = miso,
@@ -61,15 +104,19 @@ public:
         
         spi_device_interface_config_t dev_cfg = {
             .clock_speed_hz = 4 * 1000 * 1000, // 4 MHz
-            .mode = 0,
+            .mode = 3, // TMC9660 requires SPI mode 3
             .spics_io_num = cs,
             .queue_size = 1,
         };
         spi_bus_add_device(host, &dev_cfg, &spi_);
     }
     
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
+    CommMode mode() const noexcept {
+        return CommMode::SPI;
+    }
+    
+    bool spiTransferTMCL(std::array<uint8_t,8>& tx,
+                         std::array<uint8_t,8>& rx) noexcept {
         spi_transaction_t trans = {
             .length = 64, // 8 bytes * 8 bits
             .tx_buffer = tx.data(),
@@ -79,11 +126,45 @@ public:
         esp_err_t ret = spi_device_transmit(spi_, &trans);
         return (ret == ESP_OK);
     }
+    
+    bool spiTransferBootloader(std::array<uint8_t,5>& tx,
+                               std::array<uint8_t,5>& rx) noexcept {
+        spi_transaction_t trans = {
+            .length = 40, // 5 bytes * 8 bits
+            .tx_buffer = tx.data(),
+            .rx_buffer = rx.data(),
+        };
+        
+        esp_err_t ret = spi_device_transmit(spi_, &trans);
+        return (ret == ESP_OK);
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Implementation using gpio_set_level
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Implementation using gpio_get_level
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Route to ESP-IDF logging
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        vTaskDelay(pdMS_TO_TICKS(ms));
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        esp_rom_delay_us(us);
+    }
 };
 
 // Usage
-ESP32SPI spi(VSPI_HOST, GPIO_NUM_7, GPIO_NUM_2, GPIO_NUM_6, GPIO_NUM_18);
-tmc9660::TMC9660 driver(spi);
+ESP32SPI spi(SPI2_HOST, GPIO_NUM_7, GPIO_NUM_2, GPIO_NUM_6, GPIO_NUM_18);
+tmc9660::TMC9660<ESP32SPI> driver(spi);
 ```
 
 ### STM32 HAL Example
@@ -92,7 +173,7 @@ tmc9660::TMC9660 driver(spi);
 #include "stm32f4xx_hal.h"
 #include "inc/tmc9660_comm_interface.hpp"
 
-class STM32SPI : public tmc9660::SpiCommInterface {
+class STM32SPI : public tmc9660::SpiCommInterface<STM32SPI> {
 private:
     SPI_HandleTypeDef* hspi_;
     GPIO_TypeDef* cs_port_;
@@ -100,12 +181,17 @@ private:
     
 public:
     STM32SPI(SPI_HandleTypeDef* hspi, GPIO_TypeDef* cs_port, uint16_t cs_pin)
-        : hspi_(hspi), cs_port_(cs_port), cs_pin_(cs_pin) {
+        : SpiCommInterface<STM32SPI>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+          hspi_(hspi), cs_port_(cs_port), cs_pin_(cs_pin) {
         HAL_GPIO_WritePin(cs_port_, cs_pin_, GPIO_PIN_SET);
     }
     
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
+    CommMode mode() const noexcept {
+        return CommMode::SPI;
+    }
+    
+    bool spiTransferTMCL(std::array<uint8_t,8>& tx,
+                         std::array<uint8_t,8>& rx) noexcept {
         HAL_GPIO_WritePin(cs_port_, cs_pin_, GPIO_PIN_RESET);
         
         HAL_StatusTypeDef result = HAL_SPI_TransmitReceive(
@@ -115,11 +201,45 @@ public:
         
         return (result == HAL_OK);
     }
+    
+    bool spiTransferBootloader(std::array<uint8_t,5>& tx,
+                               std::array<uint8_t,5>& rx) noexcept {
+        HAL_GPIO_WritePin(cs_port_, cs_pin_, GPIO_PIN_RESET);
+        
+        HAL_StatusTypeDef result = HAL_SPI_TransmitReceive(
+            hspi_, tx.data(), rx.data(), 5, 100);
+        
+        HAL_GPIO_WritePin(cs_port_, cs_pin_, GPIO_PIN_SET);
+        
+        return (result == HAL_OK);
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Implementation using HAL_GPIO_WritePin
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Implementation using HAL_GPIO_ReadPin
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Implementation using printf or HAL logging
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        HAL_Delay(ms);
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        // Implementation using DWT or timer
+    }
 };
 
 // Usage
 STM32SPI spi(&hspi1, GPIOA, GPIO_PIN_4);
-tmc9660::TMC9660 driver(spi);
+tmc9660::TMC9660<STM32SPI> driver(spi);
 ```
 
 ### Arduino Example
@@ -128,21 +248,26 @@ tmc9660::TMC9660 driver(spi);
 #include <SPI.h>
 #include "inc/tmc9660_comm_interface.hpp"
 
-class ArduinoSPI : public tmc9660::SpiCommInterface {
+class ArduinoSPI : public tmc9660::SpiCommInterface<ArduinoSPI> {
 private:
     int cs_pin_;
     SPISettings spi_settings_;
     
 public:
     ArduinoSPI(int cs_pin, uint32_t frequency = 1000000) 
-        : cs_pin_(cs_pin), spi_settings_(frequency, MSBFIRST, SPI_MODE0) {
+        : SpiCommInterface<ArduinoSPI>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+          cs_pin_(cs_pin), spi_settings_(frequency, MSBFIRST, SPI_MODE3) { // TMC9660 requires mode 3
         pinMode(cs_pin_, OUTPUT);
         digitalWrite(cs_pin_, HIGH);
         SPI.begin();
     }
     
-    bool spiTransfer(std::array<uint8_t,8>& tx,
-                     std::array<uint8_t,8>& rx) noexcept override {
+    CommMode mode() const noexcept {
+        return CommMode::SPI;
+    }
+    
+    bool spiTransferTMCL(std::array<uint8_t,8>& tx,
+                         std::array<uint8_t,8>& rx) noexcept {
         SPI.beginTransaction(spi_settings_);
         digitalWrite(cs_pin_, LOW);
         
@@ -154,11 +279,47 @@ public:
         SPI.endTransaction();
         return true;
     }
+    
+    bool spiTransferBootloader(std::array<uint8_t,5>& tx,
+                               std::array<uint8_t,5>& rx) noexcept {
+        SPI.beginTransaction(spi_settings_);
+        digitalWrite(cs_pin_, LOW);
+        
+        for (size_t i = 0; i < 5; i++) {
+            rx[i] = SPI.transfer(tx[i]);
+        }
+        
+        digitalWrite(cs_pin_, HIGH);
+        SPI.endTransaction();
+        return true;
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Implementation using digitalWrite
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Implementation using digitalRead
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Implementation using Serial
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        delay(ms);
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        delayMicroseconds(us);
+    }
 };
 
 // Usage
 ArduinoSPI spi(10); // CS on pin 10
-tmc9660::TMC9660 driver(spi);
+tmc9660::TMC9660<ArduinoSPI> driver(spi);
 ```
 
 ## UART Interface Implementation
@@ -166,14 +327,52 @@ tmc9660::TMC9660 driver(spi);
 ### Base Interface
 
 ```cpp
-class MyUART : public tmc9660::UartCommInterface {
+#include "inc/tmc9660_comm_interface.hpp"
+
+class MyUART : public tmc9660::UartCommInterface<MyUART> {
 public:
-    bool uartTransfer(const tmc9660::TMCLFrame& tx, 
-                      tmc9660::TMCLReply& reply,
-                      uint8_t address) noexcept override {
-        // Your UART transfer implementation
-        // Send 8-byte frame, receive 9-byte reply
+    CommMode mode() const noexcept {
+        return CommMode::UART;
+    }
+    
+    bool uartSendTMCL(const std::array<uint8_t,9>& data) noexcept {
+        // Your UART send implementation
+        // Send 9-byte frame
         return true; // Return false on error
+    }
+    
+    bool uartReceiveTMCL(std::array<uint8_t,9>& data) noexcept {
+        // Your UART receive implementation
+        // Receive 9-byte reply
+        return true; // Return false on error
+    }
+    
+    bool uartTransferBootloader(const std::array<uint8_t,8>& tx,
+                                 std::array<uint8_t,8>& rx) noexcept {
+        // Your UART bootloader transfer implementation
+        return true;
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Your GPIO set implementation
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Your GPIO read implementation
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Your debug logging implementation (optional)
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        // Your millisecond delay implementation
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        // Your microsecond delay implementation
     }
 };
 ```
@@ -184,13 +383,16 @@ public:
 #include "driver/uart.h"
 #include "inc/tmc9660_comm_interface.hpp"
 
-class ESP32UART : public tmc9660::UartCommInterface {
+class ESP32UART : public tmc9660::UartCommInterface<ESP32UART> {
 private:
     uart_port_t uart_num_;
+    uint8_t address_;
     
 public:
     ESP32UART(uart_port_t uart_num, gpio_num_t tx, gpio_num_t rx, 
-               int baud_rate = 115200) : uart_num_(uart_num) {
+               uint8_t address = 0, int baud_rate = 115200) 
+        : UartCommInterface<ESP32UART>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+          uart_num_(uart_num), address_(address) {
         uart_config_t uart_config = {
             .baud_rate = baud_rate,
             .data_bits = UART_DATA_8_BITS,
@@ -203,54 +405,88 @@ public:
         uart_driver_install(uart_num_, 1024, 1024, 0, NULL, 0);
     }
     
-    bool uartTransfer(const tmc9660::TMCLFrame& tx,
-                     tmc9660::TMCLReply& reply,
-                     uint8_t address) noexcept override {
-        // Serialize and send frame
-        uint8_t frame[9];
-        tx.serialize(frame, address);
-        uart_write_bytes(uart_num_, frame, 9);
-        
-        // Wait for and read reply
-        uint8_t reply_data[9];
-        int len = uart_read_bytes(uart_num_, reply_data, 9, 
-                                   pdMS_TO_TICKS(100));
-        if (len == 9) {
-            return reply.deserialize(reply_data);
-        }
-        return false;
+    CommMode mode() const noexcept {
+        return CommMode::UART;
+    }
+    
+    bool uartSendTMCL(const std::array<uint8_t,9>& data) noexcept {
+        int bytes_written = uart_write_bytes(uart_num_, data.data(), data.size());
+        uart_wait_tx_done(uart_num_, portMAX_DELAY);
+        return (bytes_written == static_cast<int>(data.size()));
+    }
+    
+    bool uartReceiveTMCL(std::array<uint8_t,9>& data) noexcept {
+        int bytes_read = uart_read_bytes(uart_num_, data.data(), data.size(), 
+                                         pdMS_TO_TICKS(100));
+        return (bytes_read == static_cast<int>(data.size()));
+    }
+    
+    bool uartTransferBootloader(const std::array<uint8_t,8>& tx,
+                                std::array<uint8_t,8>& rx) noexcept {
+        uart_flush_input(uart_num_);
+        uart_write_bytes(uart_num_, tx.data(), tx.size());
+        uart_wait_tx_done(uart_num_, portMAX_DELAY);
+        int bytes_read = uart_read_bytes(uart_num_, rx.data(), rx.size(), 
+                                         pdMS_TO_TICKS(100));
+        return (bytes_read == static_cast<int>(rx.size()));
+    }
+    
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Implementation using gpio_set_level
+        return true;
+    }
+    
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Implementation using gpio_get_level
+        return true;
+    }
+    
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
+        // Route to ESP-IDF logging
+    }
+    
+    void delayMs(uint32_t ms) noexcept {
+        vTaskDelay(pdMS_TO_TICKS(ms));
+    }
+    
+    void delayUs(uint32_t us) noexcept {
+        esp_rom_delay_us(us);
     }
 };
 
 // Usage
-ESP32UART uart(UART_NUM_1, GPIO_NUM_5, GPIO_NUM_4);
-tmc9660::TMC9660 driver(uart);
+ESP32UART uart(UART_NUM_1, GPIO_NUM_5, GPIO_NUM_4, 0); // address = 0
+tmc9660::TMC9660<ESP32UART> driver(uart);
 ```
 
 ## GPIO Control Interface
 
-The TMC9660 also requires GPIO control for RST, DRV_EN, WAKE, and FAULTN pins. Implement these methods if your interface class inherits from `CommInterface`:
+The TMC9660 requires GPIO control for RST, DRV_EN, WAKE, and FAULTN pins. These methods are required when implementing the CRTP interface:
 
 ```cpp
-class MySPI : public tmc9660::SpiCommInterface {
+class MySPI : public tmc9660::SpiCommInterface<MySPI> {
 public:
-    // ... spiTransfer implementation ...
+    // ... other required methods ...
     
-    // GPIO control (optional but recommended)
-    void gpioSetActive(tmc9660::TMC9660CtrlPin pin) noexcept override {
-        // Set pin to active state
+    // GPIO control (required)
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+        // Set pin to signal state (ACTIVE or INACTIVE)
+        // Use signalToGpioLevel(pin, signal) helper to convert signal to physical level
+        return true;
     }
     
-    void gpioSetInactive(tmc9660::TMC9660CtrlPin pin) noexcept override {
-        // Set pin to inactive state
-    }
-    
-    bool gpioRead(tmc9660::TMC9660CtrlPin pin, bool& signal) noexcept override {
-        // Read pin state
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+        // Read pin state and convert to signal using gpioLevelToSignal(pin, level)
         return true;
     }
 };
 ```
+
+**Note:** The base `CommInterface` class provides helper methods:
+- `signalToGpioLevel(pin, signal)` - Convert signal state to physical GPIO level
+- `gpioLevelToSignal(pin, level)` - Convert physical GPIO level to signal state
+
+These helpers handle board-specific active level configurations automatically.
 
 ## Testing Your Implementation
 
