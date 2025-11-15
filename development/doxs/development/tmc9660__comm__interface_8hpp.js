@@ -2,9 +2,9 @@ var tmc9660__comm__interface_8hpp =
 [
     [ "tmc9660::TMCLReply", "structtmc9660_1_1TMCLReply.html", "structtmc9660_1_1TMCLReply" ],
     [ "tmc9660::TMCLFrame", "structtmc9660_1_1TMCLFrame.html", "structtmc9660_1_1TMCLFrame" ],
-    [ "tmc9660::CommInterface", "classtmc9660_1_1CommInterface.html", "classtmc9660_1_1CommInterface" ],
-    [ "tmc9660::SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html", "classtmc9660_1_1SpiCommInterface" ],
-    [ "tmc9660::UartCommInterface", "classtmc9660_1_1UartCommInterface.html", "classtmc9660_1_1UartCommInterface" ],
+    [ "tmc9660::CommInterface< Derived >", "classtmc9660_1_1CommInterface.html", "classtmc9660_1_1CommInterface" ],
+    [ "tmc9660::SpiCommInterface< Derived >", "classtmc9660_1_1SpiCommInterface.html", "classtmc9660_1_1SpiCommInterface" ],
+    [ "tmc9660::UartCommInterface< Derived >", "classtmc9660_1_1UartCommInterface.html", "classtmc9660_1_1UartCommInterface" ],
     [ "TMC9660_LOG_DEBUG", "tmc9660__comm__interface_8hpp.html#a362c0b121b0e91437836f3b91a0a0a92", null ],
     [ "CommMode", "tmc9660__comm__interface_8hpp.html#a8b383411946ce7705569a4708d8bac14", [
       [ "SPI", "tmc9660__comm__interface_8hpp.html#a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8", null ],

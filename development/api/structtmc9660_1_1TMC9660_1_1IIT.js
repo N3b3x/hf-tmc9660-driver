@@ -1,6 +1,6 @@
 var structtmc9660_1_1TMC9660_1_1IIT =
 [
-    [ "IIT", "structtmc9660_1_1TMC9660_1_1IIT.html#a0da8f1963c5f4c624da61b2ebdade487", null ],
+    [ "IIT", "structtmc9660_1_1TMC9660_1_1IIT.html#af9efa6ad5eb73ec63055db403006f213", null ],
     [ "configure", "structtmc9660_1_1TMC9660_1_1IIT.html#ad98b93f3c13abf695d41dbf419eeaa51", null ],
     [ "getActualTotalMotorCurrent", "structtmc9660_1_1TMC9660_1_1IIT.html#a005ce05824cf9132dc164ed7775cdff1", null ],
     [ "getLimit1", "structtmc9660_1_1TMC9660_1_1IIT.html#aeab35b0bda8c62b236a546985db3cec0", null ],
@@ -15,5 +15,5 @@ var structtmc9660_1_1TMC9660_1_1IIT =
     [ "setThermalWindingTimeConstant1", "structtmc9660_1_1TMC9660_1_1IIT.html#a3814c6d971d045338ce9f05e0896ad90", null ],
     [ "setThermalWindingTimeConstant2", "structtmc9660_1_1TMC9660_1_1IIT.html#a520f4664bcf1cdb91c05a011f13ed994", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1IIT.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1IIT.html#a37e166c4f146edf1d7c47e4b8f1549e3", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1IIT.html#a5941bbd5fa3d07c5d0034a8eb7228f87", null ]
 ];

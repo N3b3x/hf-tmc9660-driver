@@ -1,7 +1,7 @@
 var structtmc9660_1_1TMC9660_1_1VelocityControl =
 [
     [ "VelocityConfig", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig" ],
-    [ "VelocityControl", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#ae115e577f06d6cd070771e8b64851545", null ],
+    [ "VelocityControl", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a0fe34708b15bfbf10c8d8f27b6511d9a", null ],
     [ "configureAuto", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a1cecb2a8bc0c2cca408a156805612b2d", null ],
     [ "getActualVelocity", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#ae685f03e22052538f6c20fe82cf4505b", null ],
     [ "getActualVelocityBiquadFilterACoeff1", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#adfecbe791f864acaecf30cfae3af60da", null ],
@@ -11,7 +11,7 @@ var structtmc9660_1_1TMC9660_1_1VelocityControl =
     [ "getActualVelocityBiquadFilterBCoeff2", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a50df16d49d1f16a5b850ade555607674", null ],
     [ "getActualVelocityBiquadFilterEnable", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a345075c27f87b808bb0a2477433b7bb4", null ],
     [ "getIntegratedActualVelocityValue", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#ad6160062cc7fc3bbd8f3e55e421c519c", null ],
-    [ "getStopOnVelocityDeviation", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a1c6ba069405d8326a307623ec7fb2aff", null ],
+    [ "getStopOnVelocityDeviation", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a970aecdf4c295a8f65caf720e714d1ee", null ],
     [ "getVelocityLoopDownsampling", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a566d2d937c80af5e927c13999aca6d95", null ],
     [ "getVelocityMeterMode", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a394ec94c3588f4d8ee7587e39471ecf0", null ],
     [ "getVelocityMeterSwitchHysteresis", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a24450466ccbe83dc97fed12f5be0d595", null ],
@@ -27,17 +27,17 @@ var structtmc9660_1_1TMC9660_1_1VelocityControl =
     [ "setActualVelocityBiquadFilterBCoeff1", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#aae4bbaa54f428e06450e81ed3a82dd70", null ],
     [ "setActualVelocityBiquadFilterBCoeff2", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a3f9ce12bbf16abd563000cc17733ef46", null ],
     [ "setActualVelocityBiquadFilterEnable", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#aaf4def75df52105ade59b0794bc410f0", null ],
-    [ "setStopOnVelocityDeviation", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a29b72156ddf456ed210d6bbccd0a2198", null ],
+    [ "setStopOnVelocityDeviation", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a06d6e82e3f1be715a467f47569ad5d22", null ],
     [ "setTargetVelocity", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a6f625fdf20aba3a64610830fff61eb0e", null ],
     [ "setVelocityLoopDownsampling", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a30720a1e972bb791d246b69fab4678b2", null ],
     [ "setVelocityLoopGains", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#abb2258eca5e4770f0e0d4086438363a2", null ],
     [ "setVelocityMeterSwitchHysteresis", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#ae79e3b8c57b4d33c3d38adcb231c7256", null ],
     [ "setVelocityMeterSwitchThreshold", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a68f55d40badd546dc575c864225f176c", null ],
-    [ "setVelocityNormalization", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a476526cbd08e1f7860110b258198947b", null ],
+    [ "setVelocityNormalization", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a3fcbfd8ee7f90719e3314b562d668e10", null ],
     [ "setVelocityOffset", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a8b77203914efbde36d7894f82cd1dced", null ],
     [ "setVelocityScalingFactor", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a5d10d3adf6435a8d4b990deb9efb1359", null ],
     [ "setVelocitySensor", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#adc0c41da903f048a17c378cd4d18e3f0", null ],
     [ "stop", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#ab1501e22e60aa04e2417559ced330ff3", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a9d4f2327f599409cce3f8134945d1bae", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1VelocityControl.html#a4016ad2f7d979c97c822774b075b0469", null ]
 ];

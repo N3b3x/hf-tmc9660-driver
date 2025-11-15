@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::GateDriver::PowerStageProfile Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::GateDriver::PowerStageProfile Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStagePr
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::GateDriver::PowerStageProfile Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::GateDriver::PowerStageProfile Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,51 +108,52 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStagePr
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a2114b0a2dca60e18aeddb749c23ada7b" id="r_a2114b0a2dca60e18aeddb749c23ada7b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2114b0a2dca60e18aeddb749c23ada7b">mosfet_RdsOn_mOhm</a></td></tr>
-<tr class="memdesc:a2114b0a2dca60e18aeddb749c23ada7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">MOSFET on-resistance in milliohms (at operating junction temp)  <br /></td></tr>
-<tr class="separator:a2114b0a2dca60e18aeddb749c23ada7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e7a79f6fe2f9f968f23b1df2cf6eaf9" id="r_a7e7a79f6fe2f9f968f23b1df2cf6eaf9"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e7a79f6fe2f9f968f23b1df2cf6eaf9">mosfet_gateCharge_nC</a></td></tr>
-<tr class="memdesc:a7e7a79f6fe2f9f968f23b1df2cf6eaf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">MOSFET gate charge in nanocoulombs (Qg from datasheet)  <br /></td></tr>
-<tr class="separator:a7e7a79f6fe2f9f968f23b1df2cf6eaf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a176e448b788f5dd0a8c793993ab32c19" id="r_a176e448b788f5dd0a8c793993ab32c19"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a176e448b788f5dd0a8c793993ab32c19">shuntResistance_mOhm</a></td></tr>
-<tr class="separator:a176e448b788f5dd0a8c793993ab32c19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16b5fbb2f9bce1e7cc3056046ebe5155" id="r_a16b5fbb2f9bce1e7cc3056046ebe5155"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a16b5fbb2f9bce1e7cc3056046ebe5155">busVoltage_V</a></td></tr>
-<tr class="memdesc:a16b5fbb2f9bce1e7cc3056046ebe5155"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC bus voltage in volts.  <br /></td></tr>
-<tr class="separator:a16b5fbb2f9bce1e7cc3056046ebe5155"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cc3f83ee079c4ed23c76a077b28db03" id="r_a6cc3f83ee079c4ed23c76a077b28db03"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cc3f83ee079c4ed23c76a077b28db03">pwmFrequency_Hz</a></td></tr>
-<tr class="memdesc:a6cc3f83ee079c4ed23c76a077b28db03"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWM switching frequency in Hz.  <br /></td></tr>
-<tr class="separator:a6cc3f83ee079c4ed23c76a077b28db03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe20858a44668829ab065b3ddb0b741b" id="r_afe20858a44668829ab065b3ddb0b741b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe20858a44668829ab065b3ddb0b741b">expectedPeakCurrent_A</a></td></tr>
-<tr class="memdesc:afe20858a44668829ab065b3ddb0b741b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expected peak phase current in amperes.  <br /></td></tr>
-<tr class="separator:afe20858a44668829ab065b3ddb0b741b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d1161733226d2f25282592080b1ed9f" id="r_a0d1161733226d2f25282592080b1ed9f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d1161733226d2f25282592080b1ed9f">motorInductance_uH</a></td></tr>
-<tr class="separator:a0d1161733226d2f25282592080b1ed9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51de3348f015a1b3f8c993a93721311e" id="r_a51de3348f015a1b3f8c993a93721311e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51de3348f015a1b3f8c993a93721311e">overcurrentMargin</a></td></tr>
-<tr class="memdesc:a51de3348f015a1b3f8c993a93721311e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overcurrent threshold margin above expected peak (default: 1.5x)  <br /></td></tr>
-<tr class="separator:a51de3348f015a1b3f8c993a93721311e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cbcc4e933815b0d7ffd84ae26fbfe94" id="r_a3cbcc4e933815b0d7ffd84ae26fbfe94"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3cbcc4e933815b0d7ffd84ae26fbfe94">blankingMargin</a> = 1.2f</td></tr>
-<tr class="memdesc:a3cbcc4e933815b0d7ffd84ae26fbfe94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blanking time safety margin multiplier (default: 1.2x)  <br /></td></tr>
-<tr class="separator:a3cbcc4e933815b0d7ffd84ae26fbfe94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae423125650c082ba427e4c7e9dcb4bcc" id="r_ae423125650c082ba427e4c7e9dcb4bcc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae423125650c082ba427e4c7e9dcb4bcc">retryBehaviour</a></td></tr>
-<tr class="separator:ae423125650c082ba427e4c7e9dcb4bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1592934409532d36f77e6a5cc817623a" id="r_a1592934409532d36f77e6a5cc817623a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1592934409532d36f77e6a5cc817623a">faultBehaviour</a></td></tr>
-<tr class="separator:a1592934409532d36f77e6a5cc817623a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dc60d23fd8e9838fc91a2d970128024" id="r_a3dc60d23fd8e9838fc91a2d970128024"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dc60d23fd8e9838fc91a2d970128024">faultHandlerRetries</a></td></tr>
-<tr class="memdesc:a3dc60d23fd8e9838fc91a2d970128024"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of retries per detected fault [0-255] (default: 5)  <br /></td></tr>
-<tr class="separator:a3dc60d23fd8e9838fc91a2d970128024"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a461aaebec74002f8944eb57a6c7bfd7b" id="r_a461aaebec74002f8944eb57a6c7bfd7b"><td class="memItemLeft" align="right" valign="top">std::optional&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a461aaebec74002f8944eb57a6c7bfd7b">targetTurnOnTime_ns</a></td></tr>
-<tr class="separator:a461aaebec74002f8944eb57a6c7bfd7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a318dfb53e393e27867c620bbc4213a59" id="r_a318dfb53e393e27867c620bbc4213a59"><td class="memItemLeft" align="right" valign="top">std::optional&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a318dfb53e393e27867c620bbc4213a59">targetTurnOffTime_ns</a></td></tr>
-<tr class="separator:a318dfb53e393e27867c620bbc4213a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac17af047756624b5123ffb9006538181" id="r_ac17af047756624b5123ffb9006538181"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac17af047756624b5123ffb9006538181">pwmLowPolarity</a></td></tr>
-<tr class="separator:ac17af047756624b5123ffb9006538181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac196bcb8f36f46f3ff44edecfae9f321" id="r_ac196bcb8f36f46f3ff44edecfae9f321"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac196bcb8f36f46f3ff44edecfae9f321">pwmHighPolarity</a></td></tr>
-<tr class="separator:ac196bcb8f36f46f3ff44edecfae9f321"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af13aac27d8b05a2c2c4f5c476c7b256f" id="r_af13aac27d8b05a2c2c4f5c476c7b256f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af13aac27d8b05a2c2c4f5c476c7b256f">supplyLevel</a></td></tr>
-<tr class="separator:af13aac27d8b05a2c2c4f5c476c7b256f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa84dd16ba413e6284e1afd0c1c5b7ce6" id="r_aa84dd16ba413e6284e1afd0c1c5b7ce6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa84dd16ba413e6284e1afd0c1c5b7ce6">mosfet_RdsOn_mOhm</a></td></tr>
+<tr class="memdesc:aa84dd16ba413e6284e1afd0c1c5b7ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">MOSFET on-resistance in milliohms (at operating junction temp)  <br /></td></tr>
+<tr class="separator:aa84dd16ba413e6284e1afd0c1c5b7ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ee1516ea8e7a5f531a605611653460e" id="r_a9ee1516ea8e7a5f531a605611653460e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ee1516ea8e7a5f531a605611653460e">mosfet_gateCharge_nC</a></td></tr>
+<tr class="memdesc:a9ee1516ea8e7a5f531a605611653460e"><td class="mdescLeft">&#160;</td><td class="mdescRight">MOSFET gate charge in nanocoulombs (Qg from datasheet)  <br /></td></tr>
+<tr class="separator:a9ee1516ea8e7a5f531a605611653460e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43bbce6d55a025fe7fc6d01e8e2e11bf" id="r_a43bbce6d55a025fe7fc6d01e8e2e11bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43bbce6d55a025fe7fc6d01e8e2e11bf">shuntResistance_mOhm</a></td></tr>
+<tr class="separator:a43bbce6d55a025fe7fc6d01e8e2e11bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0bce397cdf8727d6b0e0a3548951b1e" id="r_ad0bce397cdf8727d6b0e0a3548951b1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0bce397cdf8727d6b0e0a3548951b1e">busVoltage_V</a></td></tr>
+<tr class="memdesc:ad0bce397cdf8727d6b0e0a3548951b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DC bus voltage in volts.  <br /></td></tr>
+<tr class="separator:ad0bce397cdf8727d6b0e0a3548951b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6e76008ca74affc72dcf15505b6977d" id="r_aa6e76008ca74affc72dcf15505b6977d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa6e76008ca74affc72dcf15505b6977d">pwmFrequency_Hz</a></td></tr>
+<tr class="memdesc:aa6e76008ca74affc72dcf15505b6977d"><td class="mdescLeft">&#160;</td><td class="mdescRight">PWM switching frequency in Hz.  <br /></td></tr>
+<tr class="separator:aa6e76008ca74affc72dcf15505b6977d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18536743e0b4e7fad50d17b31d1a185d" id="r_a18536743e0b4e7fad50d17b31d1a185d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18536743e0b4e7fad50d17b31d1a185d">expectedPeakCurrent_A</a></td></tr>
+<tr class="memdesc:a18536743e0b4e7fad50d17b31d1a185d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expected peak phase current in amperes.  <br /></td></tr>
+<tr class="separator:a18536743e0b4e7fad50d17b31d1a185d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4790e0c003169980b34331abecb85833" id="r_a4790e0c003169980b34331abecb85833"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4790e0c003169980b34331abecb85833">motorInductance_uH</a></td></tr>
+<tr class="separator:a4790e0c003169980b34331abecb85833"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94b7999efb4e8effdd3f16c43c9252c8" id="r_a94b7999efb4e8effdd3f16c43c9252c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94b7999efb4e8effdd3f16c43c9252c8">overcurrentMargin</a></td></tr>
+<tr class="memdesc:a94b7999efb4e8effdd3f16c43c9252c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overcurrent threshold margin above expected peak (default: 1.5x)  <br /></td></tr>
+<tr class="separator:a94b7999efb4e8effdd3f16c43c9252c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06b37b7a3fbe86d72d08290720a03585" id="r_a06b37b7a3fbe86d72d08290720a03585"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06b37b7a3fbe86d72d08290720a03585">blankingMargin</a> = 1.2<a class="el" href="classtmc9660_1_1CommInterface.html">f</a></td></tr>
+<tr class="memdesc:a06b37b7a3fbe86d72d08290720a03585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blanking time safety margin multiplier (default: 1.2x)  <br /></td></tr>
+<tr class="separator:a06b37b7a3fbe86d72d08290720a03585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecbb401f61c5ebffdc4f7b1bd7db3ec5" id="r_aecbb401f61c5ebffdc4f7b1bd7db3ec5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecbb401f61c5ebffdc4f7b1bd7db3ec5">retryBehaviour</a></td></tr>
+<tr class="separator:aecbb401f61c5ebffdc4f7b1bd7db3ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354dec8178abf3db7a93d3a8310b5369" id="r_a354dec8178abf3db7a93d3a8310b5369"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a354dec8178abf3db7a93d3a8310b5369">faultBehaviour</a></td></tr>
+<tr class="separator:a354dec8178abf3db7a93d3a8310b5369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4413860fec61453291a6d32fe1dbf13" id="r_aa4413860fec61453291a6d32fe1dbf13"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4413860fec61453291a6d32fe1dbf13">faultHandlerRetries</a></td></tr>
+<tr class="memdesc:aa4413860fec61453291a6d32fe1dbf13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of retries per detected fault [0-255] (default: 5)  <br /></td></tr>
+<tr class="separator:aa4413860fec61453291a6d32fe1dbf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1aa8b4f386e75adfb9242039bc907a0" id="r_ad1aa8b4f386e75adfb9242039bc907a0"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1aa8b4f386e75adfb9242039bc907a0">targetTurnOnTime_ns</a></td></tr>
+<tr class="separator:ad1aa8b4f386e75adfb9242039bc907a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5114d99a2e9ac9990d367b7b11c93c1" id="r_ac5114d99a2e9ac9990d367b7b11c93c1"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5114d99a2e9ac9990d367b7b11c93c1">targetTurnOffTime_ns</a></td></tr>
+<tr class="separator:ac5114d99a2e9ac9990d367b7b11c93c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6db59492463be5d83bf24baf7de5530b" id="r_a6db59492463be5d83bf24baf7de5530b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6db59492463be5d83bf24baf7de5530b">pwmLowPolarity</a></td></tr>
+<tr class="separator:a6db59492463be5d83bf24baf7de5530b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f2da6fc91df81c28752db709787d947" id="r_a1f2da6fc91df81c28752db709787d947"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1f2da6fc91df81c28752db709787d947">pwmHighPolarity</a></td></tr>
+<tr class="separator:a1f2da6fc91df81c28752db709787d947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06f4716b5d558280b22d765bf7a7d5ff" id="r_a06f4716b5d558280b22d765bf7a7d5ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06f4716b5d558280b22d765bf7a7d5ff">supplyLevel</a></td></tr>
+<tr class="separator:a06f4716b5d558280b22d765bf7a7d5ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for auto-configuring power stage protection. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::GateDriver::PowerStageProfile</div><p>Configuration structure for auto-configuring power stage protection. </p>
 <p>This struct contains high-level physical properties of the power stage that are used to automatically derive all low-level protection timing parameters.</p>
 <p>Instead of manually configuring dozens of blanking/deglitch registers, users specify only the essential physical properties:</p><ul>
 <li>MOSFET Rds_on: Used to compute overcurrent trip thresholds</li>
@@ -163,42 +164,36 @@ Public Attributes</h2></td></tr>
 <li>Motor inductance (optional): For more accurate di/dt estimation</li>
 </ul>
 <div class="fragment"><div class="line"><span class="comment">// Example: Basic configuration</span></div>
-<div class="line"><a class="code hl_struct" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">TMC9660::GateDriver::PowerStageProfile</a> profile;</div>
-<div class="line">profile.<a class="code hl_variable" href="#a2114b0a2dca60e18aeddb749c23ada7b">mosfet_RdsOn_mOhm</a> = 3.8f;      <span class="comment">// 3.8 mΩ at operating temperature</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#a7e7a79f6fe2f9f968f23b1df2cf6eaf9">mosfet_gateCharge_nC</a> = 14.0f;  <span class="comment">// 14 nC gate charge</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#a176e448b788f5dd0a8c793993ab32c19">shuntResistance_mOhm</a> = 3.0f;   <span class="comment">// 3 mΩ shunt resistors (for low-side sensing)</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#a16b5fbb2f9bce1e7cc3056046ebe5155">busVoltage_V</a> = 24.0f;          <span class="comment">// 24V bus</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#a6cc3f83ee079c4ed23c76a077b28db03">pwmFrequency_Hz</a> = 32000.0f;    <span class="comment">// 32 kHz PWM</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#afe20858a44668829ab065b3ddb0b741b">expectedPeakCurrent_A</a> = 5.0f;   <span class="comment">// 5A peak phase current</span></div>
-<div class="line">profile.<a class="code hl_variable" href="#a0d1161733226d2f25282592080b1ed9f">motorInductance_uH</a> = 50.0f;     <span class="comment">// 50 µH phase inductance (optional, for gear motors)</span></div>
-<div class="line"><a class="code hl_variable" href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ab04db8ecd3e3bb68cd474da217d9a45a">driver</a>.gateDriver.configurePowerStageProtection(profile);</div>
+<div class="line"><a class="code hl_struct" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">TMC9660::GateDriver::PowerStageProfile</a> <a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>;</div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.mosfet_RdsOn_mOhm = 3.8f;      <span class="comment">// 3.8 mΩ at operating temperature</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.mosfet_gateCharge_nC = 14.0f;  <span class="comment">// 14 n_c gate charge</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.shuntResistance_mOhm = 3.0f;   <span class="comment">// 3 mΩ shunt resistors (for low-side sensing)</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.busVoltage_V = 24.0f;          <span class="comment">// 24V bus</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.pwmFrequency_Hz = 32000.0f;    <span class="comment">// 32 kHz PWM</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.expectedPeakCurrent_A = 5.0f;   <span class="comment">// 5A peak phase current</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>.motorInductance_uH = 50.0f;     <span class="comment">// 50 µH phase inductance (optional, for gear motors)</span></div>
+<div class="line"><a class="code hl_variable" href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ace391c1c0444fab8ae7ecd178c0cebb4">driver</a>.gateDriver.configurePowerStageProtection(<a class="code hl_class" href="classtmc9660_1_1CommInterface.html">profile</a>);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Example: Custom switching speed (faster turn-on for lower EMI, slower turn-off for safety)</span></div>
-<div class="line"><a class="code hl_struct" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">TMC9660::GateDriver::PowerStageProfile</a> fastProfile;</div>
+<div class="line"><a class="code hl_struct" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">TMC9660::GateDriver::PowerStageProfile</a> <a class="code hl_class" href="classtmc9660_1_1CommInterface.html">fastProfile</a>;</div>
 <div class="line"><span class="comment">// ... set required parameters ...</span></div>
-<div class="line">fastProfile.<a class="code hl_variable" href="#a461aaebec74002f8944eb57a6c7bfd7b">targetTurnOnTime_ns</a> = 150.0f;   <span class="comment">// Faster turn-on: 150ns (default: 200ns)</span></div>
-<div class="line">fastProfile.<a class="code hl_variable" href="#a318dfb53e393e27867c620bbc4213a59">targetTurnOffTime_ns</a> = 180.0f;  <span class="comment">// Slower turn-off: 180ns (default: 135ns)</span></div>
-<div class="line"><a class="code hl_variable" href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ab04db8ecd3e3bb68cd474da217d9a45a">driver</a>.gateDriver.configurePowerStageProtection(fastProfile);</div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html"><div class="ttname"><a href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">tmc9660::TMC9660::GateDriver::PowerStageProfile</a></div><div class="ttdoc">Configuration structure for auto-configuring power stage protection.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1402</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a0d1161733226d2f25282592080b1ed9f"><div class="ttname"><a href="#a0d1161733226d2f25282592080b1ed9f">tmc9660::TMC9660::GateDriver::PowerStageProfile::motorInductance_uH</a></div><div class="ttdeci">float motorInductance_uH</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1413</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a16b5fbb2f9bce1e7cc3056046ebe5155"><div class="ttname"><a href="#a16b5fbb2f9bce1e7cc3056046ebe5155">tmc9660::TMC9660::GateDriver::PowerStageProfile::busVoltage_V</a></div><div class="ttdeci">float busVoltage_V</div><div class="ttdoc">DC bus voltage in volts.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1408</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a176e448b788f5dd0a8c793993ab32c19"><div class="ttname"><a href="#a176e448b788f5dd0a8c793993ab32c19">tmc9660::TMC9660::GateDriver::PowerStageProfile::shuntResistance_mOhm</a></div><div class="ttdeci">float shuntResistance_mOhm</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1406</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a2114b0a2dca60e18aeddb749c23ada7b"><div class="ttname"><a href="#a2114b0a2dca60e18aeddb749c23ada7b">tmc9660::TMC9660::GateDriver::PowerStageProfile::mosfet_RdsOn_mOhm</a></div><div class="ttdeci">float mosfet_RdsOn_mOhm</div><div class="ttdoc">MOSFET on-resistance in milliohms (at operating junction temp)</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1404</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a318dfb53e393e27867c620bbc4213a59"><div class="ttname"><a href="#a318dfb53e393e27867c620bbc4213a59">tmc9660::TMC9660::GateDriver::PowerStageProfile::targetTurnOffTime_ns</a></div><div class="ttdeci">std::optional&lt; float &gt; targetTurnOffTime_ns</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1437</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a461aaebec74002f8944eb57a6c7bfd7b"><div class="ttname"><a href="#a461aaebec74002f8944eb57a6c7bfd7b">tmc9660::TMC9660::GateDriver::PowerStageProfile::targetTurnOnTime_ns</a></div><div class="ttdeci">std::optional&lt; float &gt; targetTurnOnTime_ns</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1434</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a6cc3f83ee079c4ed23c76a077b28db03"><div class="ttname"><a href="#a6cc3f83ee079c4ed23c76a077b28db03">tmc9660::TMC9660::GateDriver::PowerStageProfile::pwmFrequency_Hz</a></div><div class="ttdeci">float pwmFrequency_Hz</div><div class="ttdoc">PWM switching frequency in Hz.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1409</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_a7e7a79f6fe2f9f968f23b1df2cf6eaf9"><div class="ttname"><a href="#a7e7a79f6fe2f9f968f23b1df2cf6eaf9">tmc9660::TMC9660::GateDriver::PowerStageProfile::mosfet_gateCharge_nC</a></div><div class="ttdeci">float mosfet_gateCharge_nC</div><div class="ttdoc">MOSFET gate charge in nanocoulombs (Qg from datasheet)</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1405</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html_afe20858a44668829ab065b3ddb0b741b"><div class="ttname"><a href="#afe20858a44668829ab065b3ddb0b741b">tmc9660::TMC9660::GateDriver::PowerStageProfile::expectedPeakCurrent_A</a></div><div class="ttdeci">float expectedPeakCurrent_A</div><div class="ttdoc">Expected peak phase current in amperes.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1410</div></div>
-<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_html_ab04db8ecd3e3bb68cd474da217d9a45a"><div class="ttname"><a href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ab04db8ecd3e3bb68cd474da217d9a45a">tmc9660::TMC9660::GateDriver::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1578</div></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">fast_profile</a>.targetTurnOnTime_ns = 150.0f;   <span class="comment">// Faster turn-on: 150ns (default: 200ns)</span></div>
+<div class="line"><a class="code hl_class" href="classtmc9660_1_1CommInterface.html">fast_profile</a>.targetTurnOffTime_ns = 180.0f;  <span class="comment">// Slower turn-off: 180ns (default: 135ns)</span></div>
+<div class="line"><a class="code hl_variable" href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ace391c1c0444fab8ae7ecd178c0cebb4">driver</a>.gateDriver.configurePowerStageProtection(<a class="code hl_class" href="classtmc9660_1_1CommInterface.html">fast_profile</a>);</div>
+<div class="ttc" id="aclasstmc9660_1_1CommInterface_html"><div class="ttname"><a href="classtmc9660_1_1CommInterface.html">tmc9660::CommInterface</a></div><div class="ttdoc">SPI status codes as per TMC9660 Parameter Mode.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:544</div></div>
+<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile_html"><div class="ttname"><a href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">tmc9660::TMC9660::GateDriver::PowerStageProfile</a></div><div class="ttdoc">Configuration structure for auto-configuring power stage protection.</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1414</div></div>
+<div class="ttc" id="astructtmc9660_1_1TMC9660_1_1GateDriver_html_ace391c1c0444fab8ae7ecd178c0cebb4"><div class="ttname"><a href="structtmc9660_1_1TMC9660_1_1GateDriver.html#ace391c1c0444fab8ae7ecd178c0cebb4">tmc9660::TMC9660::GateDriver::driver</a></div><div class="ttdeci">TMC9660 &amp; driver</div><div class="ttdef"><b>Definition</b> tmc9660.hpp:1590</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a3cbcc4e933815b0d7ffd84ae26fbfe94" name="a3cbcc4e933815b0d7ffd84ae26fbfe94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3cbcc4e933815b0d7ffd84ae26fbfe94">&#9670;&#160;</a></span>blankingMargin</h2>
+<a id="a06b37b7a3fbe86d72d08290720a03585" name="a06b37b7a3fbe86d72d08290720a03585"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06b37b7a3fbe86d72d08290720a03585">&#9670;&#160;</a></span>blankingMargin</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::blankingMargin = 1.2f</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::blankingMargin = 1.2<a class="el" href="classtmc9660_1_1CommInterface.html">f</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -207,14 +202,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a16b5fbb2f9bce1e7cc3056046ebe5155" name="a16b5fbb2f9bce1e7cc3056046ebe5155"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16b5fbb2f9bce1e7cc3056046ebe5155">&#9670;&#160;</a></span>busVoltage_V</h2>
+<a id="ad0bce397cdf8727d6b0e0a3548951b1e" name="ad0bce397cdf8727d6b0e0a3548951b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0bce397cdf8727d6b0e0a3548951b1e">&#9670;&#160;</a></span>busVoltage_V</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::busVoltage_V</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::busVoltage_V</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -223,14 +220,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="afe20858a44668829ab065b3ddb0b741b" name="afe20858a44668829ab065b3ddb0b741b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe20858a44668829ab065b3ddb0b741b">&#9670;&#160;</a></span>expectedPeakCurrent_A</h2>
+<a id="a18536743e0b4e7fad50d17b31d1a185d" name="a18536743e0b4e7fad50d17b31d1a185d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18536743e0b4e7fad50d17b31d1a185d">&#9670;&#160;</a></span>expectedPeakCurrent_A</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::expectedPeakCurrent_A</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::expectedPeakCurrent_A</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -239,14 +238,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1592934409532d36f77e6a5cc817623a" name="a1592934409532d36f77e6a5cc817623a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1592934409532d36f77e6a5cc817623a">&#9670;&#160;</a></span>faultBehaviour</h2>
+<a id="a354dec8178abf3db7a93d3a8310b5369" name="a354dec8178abf3db7a93d3a8310b5369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a354dec8178abf3db7a93d3a8310b5369">&#9670;&#160;</a></span>faultBehaviour</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a> tmc9660::TMC9660::GateDriver::PowerStageProfile::faultBehaviour</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::faultBehaviour</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -256,14 +257,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3dc60d23fd8e9838fc91a2d970128024" name="a3dc60d23fd8e9838fc91a2d970128024"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dc60d23fd8e9838fc91a2d970128024">&#9670;&#160;</a></span>faultHandlerRetries</h2>
+<a id="aa4413860fec61453291a6d32fe1dbf13" name="aa4413860fec61453291a6d32fe1dbf13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4413860fec61453291a6d32fe1dbf13">&#9670;&#160;</a></span>faultHandlerRetries</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t tmc9660::TMC9660::GateDriver::PowerStageProfile::faultHandlerRetries</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::faultHandlerRetries</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,14 +277,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7e7a79f6fe2f9f968f23b1df2cf6eaf9" name="a7e7a79f6fe2f9f968f23b1df2cf6eaf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e7a79f6fe2f9f968f23b1df2cf6eaf9">&#9670;&#160;</a></span>mosfet_gateCharge_nC</h2>
+<a id="a9ee1516ea8e7a5f531a605611653460e" name="a9ee1516ea8e7a5f531a605611653460e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ee1516ea8e7a5f531a605611653460e">&#9670;&#160;</a></span>mosfet_gateCharge_nC</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::mosfet_gateCharge_nC</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::mosfet_gateCharge_nC</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -290,14 +295,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2114b0a2dca60e18aeddb749c23ada7b" name="a2114b0a2dca60e18aeddb749c23ada7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2114b0a2dca60e18aeddb749c23ada7b">&#9670;&#160;</a></span>mosfet_RdsOn_mOhm</h2>
+<a id="aa84dd16ba413e6284e1afd0c1c5b7ce6" name="aa84dd16ba413e6284e1afd0c1c5b7ce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa84dd16ba413e6284e1afd0c1c5b7ce6">&#9670;&#160;</a></span>mosfet_RdsOn_mOhm</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::mosfet_RdsOn_mOhm</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::mosfet_RdsOn_mOhm</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -306,14 +313,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0d1161733226d2f25282592080b1ed9f" name="a0d1161733226d2f25282592080b1ed9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d1161733226d2f25282592080b1ed9f">&#9670;&#160;</a></span>motorInductance_uH</h2>
+<a id="a4790e0c003169980b34331abecb85833" name="a4790e0c003169980b34331abecb85833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4790e0c003169980b34331abecb85833">&#9670;&#160;</a></span>motorInductance_uH</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::motorInductance_uH</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::motorInductance_uH</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -323,14 +332,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a51de3348f015a1b3f8c993a93721311e" name="a51de3348f015a1b3f8c993a93721311e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51de3348f015a1b3f8c993a93721311e">&#9670;&#160;</a></span>overcurrentMargin</h2>
+<a id="a94b7999efb4e8effdd3f16c43c9252c8" name="a94b7999efb4e8effdd3f16c43c9252c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b7999efb4e8effdd3f16c43c9252c8">&#9670;&#160;</a></span>overcurrentMargin</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::overcurrentMargin</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::overcurrentMargin</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -341,14 +352,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6cc3f83ee079c4ed23c76a077b28db03" name="a6cc3f83ee079c4ed23c76a077b28db03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cc3f83ee079c4ed23c76a077b28db03">&#9670;&#160;</a></span>pwmFrequency_Hz</h2>
+<a id="aa6e76008ca74affc72dcf15505b6977d" name="aa6e76008ca74affc72dcf15505b6977d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6e76008ca74affc72dcf15505b6977d">&#9670;&#160;</a></span>pwmFrequency_Hz</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::pwmFrequency_Hz</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::pwmFrequency_Hz</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -357,14 +370,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac196bcb8f36f46f3ff44edecfae9f321" name="ac196bcb8f36f46f3ff44edecfae9f321"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac196bcb8f36f46f3ff44edecfae9f321">&#9670;&#160;</a></span>pwmHighPolarity</h2>
+<a id="a1f2da6fc91df81c28752db709787d947" name="a1f2da6fc91df81c28752db709787d947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f2da6fc91df81c28752db709787d947">&#9670;&#160;</a></span>pwmHighPolarity</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> tmc9660::TMC9660::GateDriver::PowerStageProfile::pwmHighPolarity</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::pwmHighPolarity</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -374,14 +389,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac17af047756624b5123ffb9006538181" name="ac17af047756624b5123ffb9006538181"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac17af047756624b5123ffb9006538181">&#9670;&#160;</a></span>pwmLowPolarity</h2>
+<a id="a6db59492463be5d83bf24baf7de5530b" name="a6db59492463be5d83bf24baf7de5530b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6db59492463be5d83bf24baf7de5530b">&#9670;&#160;</a></span>pwmLowPolarity</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> tmc9660::TMC9660::GateDriver::PowerStageProfile::pwmLowPolarity</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::pwmLowPolarity</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -391,14 +408,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae423125650c082ba427e4c7e9dcb4bcc" name="ae423125650c082ba427e4c7e9dcb4bcc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae423125650c082ba427e4c7e9dcb4bcc">&#9670;&#160;</a></span>retryBehaviour</h2>
+<a id="aecbb401f61c5ebffdc4f7b1bd7db3ec5" name="aecbb401f61c5ebffdc4f7b1bd7db3ec5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecbb401f61c5ebffdc4f7b1bd7db3ec5">&#9670;&#160;</a></span>retryBehaviour</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a> tmc9660::TMC9660::GateDriver::PowerStageProfile::retryBehaviour</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::retryBehaviour</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -408,14 +427,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a176e448b788f5dd0a8c793993ab32c19" name="a176e448b788f5dd0a8c793993ab32c19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a176e448b788f5dd0a8c793993ab32c19">&#9670;&#160;</a></span>shuntResistance_mOhm</h2>
+<a id="a43bbce6d55a025fe7fc6d01e8e2e11bf" name="a43bbce6d55a025fe7fc6d01e8e2e11bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43bbce6d55a025fe7fc6d01e8e2e11bf">&#9670;&#160;</a></span>shuntResistance_mOhm</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::GateDriver::PowerStageProfile::shuntResistance_mOhm</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::shuntResistance_mOhm</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -423,14 +444,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af13aac27d8b05a2c2c4f5c476c7b256f" name="af13aac27d8b05a2c2c4f5c476c7b256f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af13aac27d8b05a2c2c4f5c476c7b256f">&#9670;&#160;</a></span>supplyLevel</h2>
+<a id="a06f4716b5d558280b22d765bf7a7d5ff" name="a06f4716b5d558280b22d765bf7a7d5ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06f4716b5d558280b22d765bf7a7d5ff">&#9670;&#160;</a></span>supplyLevel</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a> tmc9660::TMC9660::GateDriver::PowerStageProfile::supplyLevel</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::supplyLevel</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -440,14 +463,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a318dfb53e393e27867c620bbc4213a59" name="a318dfb53e393e27867c620bbc4213a59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a318dfb53e393e27867c620bbc4213a59">&#9670;&#160;</a></span>targetTurnOffTime_ns</h2>
+<a id="ac5114d99a2e9ac9990d367b7b11c93c1" name="ac5114d99a2e9ac9990d367b7b11c93c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5114d99a2e9ac9990d367b7b11c93c1">&#9670;&#160;</a></span>targetTurnOffTime_ns</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;float&gt; tmc9660::TMC9660::GateDriver::PowerStageProfile::targetTurnOffTime_ns</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::targetTurnOffTime_ns</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -455,14 +480,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a461aaebec74002f8944eb57a6c7bfd7b" name="a461aaebec74002f8944eb57a6c7bfd7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a461aaebec74002f8944eb57a6c7bfd7b">&#9670;&#160;</a></span>targetTurnOnTime_ns</h2>
+<a id="ad1aa8b4f386e75adfb9242039bc907a0" name="ad1aa8b4f386e75adfb9242039bc907a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1aa8b4f386e75adfb9242039bc907a0">&#9670;&#160;</a></span>targetTurnOnTime_ns</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;float&gt; tmc9660::TMC9660::GateDriver::PowerStageProfile::targetTurnOnTime_ns</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::PowerStageProfile::targetTurnOnTime_ns</td>
         </tr>
       </table>
 </div><div class="memdoc">

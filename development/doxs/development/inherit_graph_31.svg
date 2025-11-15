@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="Node000000" class="node">
 <title>Node0</title>
-<g id="a_Node000000"><a xlink:href="structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html" target="_top" xlink:title="ADC Status Flags Register for monitoring ADC health and readiness.">
+<g id="a_Node000000"><a xlink:href="structtmc9660_1_1register__mode_1_1ADC_1_1SETUP.html" target="_top" xlink:title="ADC Setup Register for timing and operational configuration.">
 <polygon fill="white" stroke="#666666" points="136,-30 0,-30 0,0 136,0 136,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::register_mode</text>
-<text text-anchor="middle" x="68" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::ADC::STATUS_FLAGS</text>
+<text text-anchor="middle" x="68" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::ADC::SETUP</text>
 </a>
 </g>
 </g>

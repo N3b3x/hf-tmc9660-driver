@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::StopEvents Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::StopEvents Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -101,7 +101,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1StopEvents.html',''); init
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1StopEvents-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::StopEvents Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::StopEvents Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -110,9 +110,9 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1StopEvents.html',''); init
 
 <p><code>#include &lt;<a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Collaboration diagram for tmc9660::TMC9660::StopEvents:</div>
+Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::StopEvents:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1StopEvents__coll__graph.svg" width="1188" height="1892"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1StopEvents__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -123,48 +123,51 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a316f76ce08a274a5ab1c2233f477e440" id="r_a316f76ce08a274a5ab1c2233f477e440"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a316f76ce08a274a5ab1c2233f477e440">enableDeviationStop</a> (uint32_t maxVelError, uint32_t maxPosError, bool softStop=true) noexcept</td></tr>
-<tr class="memdesc:a316f76ce08a274a5ab1c2233f477e440"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop when ramp target deviates from actual &gt; thresholds.  <br /></td></tr>
-<tr class="separator:a316f76ce08a274a5ab1c2233f477e440"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31098023e527cba36e5f432d2ef063b1" id="r_a31098023e527cba36e5f432d2ef063b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31098023e527cba36e5f432d2ef063b1">configureReferenceSwitches</a> (uint8_t mask, bool invertL, bool invertR, bool invertH, bool swapLR) noexcept</td></tr>
-<tr class="memdesc:a31098023e527cba36e5f432d2ef063b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure reference / limit-switch inputs.  <br /></td></tr>
-<tr class="separator:a31098023e527cba36e5f432d2ef063b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a331a33413d9430aa81a9e9265deec1c0" id="r_a331a33413d9430aa81a9e9265deec1c0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a331a33413d9430aa81a9e9265deec1c0">getAndClearLatchedPosition</a> (int32_t &amp;pos) noexcept</td></tr>
+<tr class="memitem:afea73eb5d3b195365264babc4feeb1ae" id="r_afea73eb5d3b195365264babc4feeb1ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afea73eb5d3b195365264babc4feeb1ae">enableDeviationStop</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">max_vel_error</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">max_pos_error</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">softStop</a>=<a class="el" href="classtmc9660_1_1CommInterface.html">true</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:afea73eb5d3b195365264babc4feeb1ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop when ramp target deviates from actual &gt; thresholds.  <br /></td></tr>
+<tr class="separator:afea73eb5d3b195365264babc4feeb1ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affbee126831f419ab43988dfdae1a95f" id="r_affbee126831f419ab43988dfdae1a95f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affbee126831f419ab43988dfdae1a95f">configureReferenceSwitches</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">invert_l</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">invert_r</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">invert_h</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">swap_lr</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:affbee126831f419ab43988dfdae1a95f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure reference / limit-switch inputs.  <br /></td></tr>
+<tr class="separator:affbee126831f419ab43988dfdae1a95f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a331a33413d9430aa81a9e9265deec1c0" id="r_a331a33413d9430aa81a9e9265deec1c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a331a33413d9430aa81a9e9265deec1c0">getAndClearLatchedPosition</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">pos</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a331a33413d9430aa81a9e9265deec1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read and clear the latched position from a switch event.  <br /></td></tr>
 <tr class="separator:a331a33413d9430aa81a9e9265deec1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17eb49c0a62fb4b16c906fe7e3cbeb23" id="r_a17eb49c0a62fb4b16c906fe7e3cbeb23"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17eb49c0a62fb4b16c906fe7e3cbeb23">configureAuto</a> (const <a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html">StopEventsConfig</a> &amp;config) noexcept</td></tr>
+<tr class="memitem:a17eb49c0a62fb4b16c906fe7e3cbeb23" id="r_a17eb49c0a62fb4b16c906fe7e3cbeb23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17eb49c0a62fb4b16c906fe7e3cbeb23">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html">StopEventsConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a17eb49c0a62fb4b16c906fe7e3cbeb23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure stop events parameters.  <br /></td></tr>
 <tr class="separator:a17eb49c0a62fb4b16c906fe7e3cbeb23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a6e1a5e383b6bf5569d1a9f5a10b9a6d8" id="r_a6e1a5e383b6bf5569d1a9f5a10b9a6d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e1a5e383b6bf5569d1a9f5a10b9a6d8">StopEvents</a> (<a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;parent) noexcept</td></tr>
-<tr class="separator:a6e1a5e383b6bf5569d1a9f5a10b9a6d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2e30a09810274a60dcf3c6aaf29ff79" id="r_ad2e30a09810274a60dcf3c6aaf29ff79"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2e30a09810274a60dcf3c6aaf29ff79">StopEvents</a> (<a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">parent</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="separator:ad2e30a09810274a60dcf3c6aaf29ff79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aacaf028f32638fb9aa46d902b1d79a7c" id="r_aacaf028f32638fb9aa46d902b1d79a7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aacaf028f32638fb9aa46d902b1d79a7c">driver</a></td></tr>
-<tr class="separator:aacaf028f32638fb9aa46d902b1d79a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5f8171812f43a88a792f8df1114c34a" id="r_ae5f8171812f43a88a792f8df1114c34a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5f8171812f43a88a792f8df1114c34a">driver</a></td></tr>
+<tr class="separator:ae5f8171812f43a88a792f8df1114c34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a7a162b5b230edf1d03327269e36ce893" id="r_a7a162b5b230edf1d03327269e36ce893"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a162b5b230edf1d03327269e36ce893">TMC9660</a></td></tr>
+<tr class="memitem:a7a162b5b230edf1d03327269e36ce893" id="r_a7a162b5b230edf1d03327269e36ce893"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">class</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a162b5b230edf1d03327269e36ce893">TMC9660</a></td></tr>
 <tr class="separator:a7a162b5b230edf1d03327269e36ce893"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configure automatic stop/latch behaviour for deviation, switches. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::StopEvents</div><p>Configure automatic stop/latch behaviour for deviation, switches. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6e1a5e383b6bf5569d1a9f5a10b9a6d8" name="a6e1a5e383b6bf5569d1a9f5a10b9a6d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e1a5e383b6bf5569d1a9f5a10b9a6d8">&#9670;&#160;</a></span>StopEvents()</h2>
+<a id="ad2e30a09810274a60dcf3c6aaf29ff79" name="ad2e30a09810274a60dcf3c6aaf29ff79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2e30a09810274a60dcf3c6aaf29ff79">&#9670;&#160;</a></span>StopEvents()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">tmc9660::TMC9660::StopEvents::StopEvents </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEvents </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>parent</em></span></td><td>)</td>
           <td></td>
@@ -185,14 +188,16 @@ Friends</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool TMC9660::StopEvents::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::StopEvents::configureAuto </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html">StopEventsConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html">StopEventsConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -215,39 +220,41 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a31098023e527cba36e5f432d2ef063b1" name="a31098023e527cba36e5f432d2ef063b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31098023e527cba36e5f432d2ef063b1">&#9670;&#160;</a></span>configureReferenceSwitches()</h2>
+<a id="affbee126831f419ab43988dfdae1a95f" name="affbee126831f419ab43988dfdae1a95f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affbee126831f419ab43988dfdae1a95f">&#9670;&#160;</a></span>configureReferenceSwitches()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool TMC9660::StopEvents::configureReferenceSwitches </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::StopEvents::configureReferenceSwitches </td>
           <td>(</td>
-          <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>mask</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>mask</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>invertL</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>invert_l</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>invertR</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>invert_r</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>invertH</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>invert_h</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>swapLR</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>swap_lr</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -261,8 +268,8 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mask</td><td>Bit-mask 0…7 ; see REFERENCE_SWITCH_ENABLE. </td></tr>
-    <tr><td class="paramname">invertL,R,H</td><td>invert individual polarities. </td></tr>
-    <tr><td class="paramname">swapLR</td><td>swap left/right wiring.</td></tr>
+    <tr><td class="paramname">invert_l,R,H</td><td>invert individual polarities. </td></tr>
+    <tr><td class="paramname">swap_lr</td><td>swap left/right wiring.</td></tr>
   </table>
   </dd>
 </dl>
@@ -270,10 +277,10 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">mask</td><td>Bit mask of switches to enable (see REFERENCE_SWITCH_ENABLE). </td></tr>
-    <tr><td class="paramname">invertL</td><td>Invert left switch polarity. </td></tr>
-    <tr><td class="paramname">invertR</td><td>Invert right switch polarity. </td></tr>
-    <tr><td class="paramname">invertH</td><td>Invert home switch polarity. </td></tr>
-    <tr><td class="paramname">swapLR</td><td>Swap left and right wiring. </td></tr>
+    <tr><td class="paramname">invert_l</td><td>Invert left switch polarity. </td></tr>
+    <tr><td class="paramname">invert_r</td><td>Invert right switch polarity. </td></tr>
+    <tr><td class="paramname">invert_h</td><td>Invert home switch polarity. </td></tr>
+    <tr><td class="paramname">swap_lr</td><td>Swap left and right wiring. </td></tr>
   </table>
   </dd>
 </dl>
@@ -284,29 +291,31 @@ Datasheet REFERENCE_SWITCH_ENABLE </dd></dl>
 
 </div>
 </div>
-<a id="a316f76ce08a274a5ab1c2233f477e440" name="a316f76ce08a274a5ab1c2233f477e440"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a316f76ce08a274a5ab1c2233f477e440">&#9670;&#160;</a></span>enableDeviationStop()</h2>
+<a id="afea73eb5d3b195365264babc4feeb1ae" name="afea73eb5d3b195365264babc4feeb1ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afea73eb5d3b195365264babc4feeb1ae">&#9670;&#160;</a></span>enableDeviationStop()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool TMC9660::StopEvents::enableDeviationStop </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::StopEvents::enableDeviationStop </td>
           <td>(</td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>maxVelError</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>max_vel_error</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>maxPosError</em>, </span></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>max_pos_error</em>, </span></td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>softStop</em><span class="paramdefsep"> = </span><span class="paramdefval">true</span></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>softStop</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="classtmc9660_1_1CommInterface.html">true</a></span></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -320,9 +329,9 @@ Datasheet REFERENCE_SWITCH_ENABLE </dd></dl>
 <p>Stop when ramp target deviates from actual values beyond the allowed thresholds.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">maxVelError</td><td>Maximum allowed velocity error. </td></tr>
-    <tr><td class="paramname">maxPosError</td><td>Maximum allowed position error. </td></tr>
-    <tr><td class="paramname">softStop</td><td>Use soft stop instead of immediate stop when true. </td></tr>
+    <tr><td class="paramname">max_vel_error</td><td>Maximum allowed velocity error. </td></tr>
+    <tr><td class="paramname">max_pos_error</td><td>Maximum allowed position error. </td></tr>
+    <tr><td class="paramname">soft_stop</td><td>Use soft stop instead of immediate stop when true. </td></tr>
   </table>
   </dd>
 </dl>
@@ -338,14 +347,16 @@ Datasheet EVENT_STOP_SETTINGS </dd></dl>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool TMC9660::StopEvents::getAndClearLatchedPosition </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::StopEvents::getAndClearLatchedPosition </td>
           <td>(</td>
-          <td class="paramtype">int32_t &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pos</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -376,12 +387,14 @@ Datasheet LATCH_POSITION </dd></dl>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">friend class <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a></td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">friend</a> <a class="el" href="classtmc9660_1_1CommInterface.html">class</a> <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a></td>
         </tr>
       </table>
   </td>
@@ -394,17 +407,19 @@ Datasheet LATCH_POSITION </dd></dl>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aacaf028f32638fb9aa46d902b1d79a7c" name="aacaf028f32638fb9aa46d902b1d79a7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacaf028f32638fb9aa46d902b1d79a7c">&#9670;&#160;</a></span>driver</h2>
+<a id="ae5f8171812f43a88a792f8df1114c34a" name="ae5f8171812f43a88a792f8df1114c34a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5f8171812f43a88a792f8df1114c34a">&#9670;&#160;</a></span>driver</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&amp; tmc9660::TMC9660::StopEvents::driver</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&amp; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::driver</td>
         </tr>
       </table>
   </td>
@@ -418,7 +433,7 @@ Datasheet LATCH_POSITION </dd></dl>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
-<li><a class="el" href="tmc9660_8cpp.html">tmc9660.cpp</a></li>
+<li><a class="el" href="tmc9660_8cpp_source.html">tmc9660.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

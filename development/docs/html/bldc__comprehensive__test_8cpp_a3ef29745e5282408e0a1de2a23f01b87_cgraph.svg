@@ -12,16 +12,16 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="139,-101.5 0,-101.5 0,-71.5 139,-71.5 139,-101.5"/>
-<text text-anchor="start" x="8" y="-89.5" font-family="Helvetica,sans-Serif" font-size="10.00">test_bldc_motor_runtime</text>
-<text text-anchor="middle" x="69.5" y="-78.5" font-family="Helvetica,sans-Serif" font-size="10.00">_configuration</text>
+<polygon fill="#999999" stroke="#666666" points="139,-82.5 0,-82.5 0,-52.5 139,-52.5 139,-82.5"/>
+<text text-anchor="start" x="8" y="-70.5" font-family="Helvetica,sans-Serif" font-size="10.00">test_bldc_motor_runtime</text>
+<text text-anchor="middle" x="69.5" y="-59.5" font-family="Helvetica,sans-Serif" font-size="10.00">_configuration</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="bldc__comprehensive__test_8cpp.html#aaa6256cb75ad3e8ab36a7b9b6942e58a" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="bldc__comprehensive__test_8cpp.html#ac01721d900f937652abff17ca8d2c5d9" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="339,-210 175,-210 175,-191 339,-191 339,-210"/>
 <text text-anchor="middle" x="257" y="-198" font-family="Helvetica,sans-Serif" font-size="10.00">configureCompleteBLDCMotor</text>
 </a>
@@ -31,15 +31,15 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M95.13,-101.64C130.78,-123.54 196.34,-163.83 231.76,-185.6"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="230.14,-188.72 240.49,-190.97 233.81,-182.75 230.14,-188.72"/>
+<path fill="none" stroke="#63b8ff" d="M91.78,-82.76C127.22,-108.17 198,-158.91 233.95,-184.69"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="232.13,-187.69 242.29,-190.67 236.21,-182 232.13,-187.69"/>
 </a>
 </g>
 </g>
 <!-- Node13 -->
 <g id="Node000013" class="node">
 <title>Node13</title>
-<g id="a_Node000013"><a xlink:href="bootloader__comprehensive__test_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" target="_top" xlink:title=" ">
+<g id="a_Node000013"><a xlink:href="bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.5,-96 204.5,-96 204.5,-77 309.5,-77 309.5,-96"/>
 <text text-anchor="middle" x="257" y="-84" font-family="Helvetica,sans-Serif" font-size="10.00">create_test_driver</text>
 </a>
@@ -49,17 +49,17 @@
 <g id="edge12_Node000001_Node000013" class="edge">
 <title>Node1&#45;&gt;Node13</title>
 <g id="a_edge12_Node000001_Node000013"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M139.05,-86.5C157.08,-86.5 176.42,-86.5 194.08,-86.5"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="194.26,-90 204.26,-86.5 194.26,-83 194.26,-90"/>
+<path fill="none" stroke="#63b8ff" d="M139.05,-74.52C157.08,-76.37 176.42,-78.35 194.08,-80.16"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="193.96,-83.66 204.26,-81.2 194.67,-76.7 193.96,-83.66"/>
 </a>
 </g>
 </g>
 <!-- Node15 -->
 <g id="Node000015" class="node">
 <title>Node15</title>
-<g id="a_Node000015"><a xlink:href="bldc__comprehensive__test_8cpp.html#a1747c1efdce438b256df6c7f22c9efba" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="313,-59 201,-59 201,-40 313,-40 313,-59"/>
-<text text-anchor="middle" x="257" y="-47" font-family="Helvetica,sans-Serif" font-size="10.00">log_telemetry_data</text>
+<g id="a_Node000015"><a xlink:href="bldc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="300,-59 214,-59 214,-40 300,-40 300,-59"/>
+<text text-anchor="middle" x="257" y="-47" font-family="Helvetica,sans-Serif" font-size="10.00">get_spi_driver</text>
 </a>
 </g>
 </g>
@@ -67,15 +67,33 @@
 <g id="edge14_Node000001_Node000015" class="edge">
 <title>Node1&#45;&gt;Node15</title>
 <g id="a_edge14_Node000001_Node000015"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M139.05,-72.83C158.56,-68.94 179.6,-64.74 198.39,-60.99"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="199.15,-64.41 208.28,-59.02 197.79,-57.54 199.15,-64.41"/>
+<path fill="none" stroke="#63b8ff" d="M139.05,-60.85C160.4,-58.78 183.6,-56.53 203.66,-54.58"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="204.23,-58.04 213.84,-53.59 203.55,-51.07 204.23,-58.04"/>
+</a>
+</g>
+</g>
+<!-- Node16 -->
+<g id="Node000016" class="node">
+<title>Node16</title>
+<g id="a_Node000016"><a xlink:href="bldc__comprehensive__test_8cpp.html#a962a06830f4a0826596f8482a0532679" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="313,-22 201,-22 201,-3 313,-3 313,-22"/>
+<text text-anchor="middle" x="257" y="-10" font-family="Helvetica,sans-Serif" font-size="10.00">log_telemetry_data</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node16 -->
+<g id="edge15_Node000001_Node000016" class="edge">
+<title>Node1&#45;&gt;Node16</title>
+<g id="a_edge15_Node000001_Node000016"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M109.34,-52.48C128.86,-45.26 152.99,-36.82 175,-30.5 182.68,-28.3 190.83,-26.2 198.89,-24.28"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="199.69,-27.68 208.64,-22.01 198.11,-20.86 199.69,-27.68"/>
 </a>
 </g>
 </g>
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="bldc__comprehensive__test_8cpp.html#a48117104967d8760b294c87608e410ff" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="bldc__comprehensive__test_8cpp.html#a6892c0ec537f2a3cf1a43f1d1d33feef" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="529,-401 398,-401 398,-382 529,-382 529,-401"/>
 <text text-anchor="middle" x="463.5" y="-389" font-family="Helvetica,sans-Serif" font-size="10.00">configureBrakeForBLDC</text>
 </a>
@@ -93,7 +111,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="bldc__comprehensive__test_8cpp.html#a0f096f9335c63088b35dbe32cfda477d" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="bldc__comprehensive__test_8cpp.html#a4776118ef723773758472742d22a3374" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="552,-364 375,-364 375,-345 552,-345 552,-364"/>
 <text text-anchor="middle" x="463.5" y="-352" font-family="Helvetica,sans-Serif" font-size="10.00">configureCurrentSensingForBLDC</text>
 </a>
@@ -111,7 +129,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="bldc__comprehensive__test_8cpp.html#a027f857dabbd63bdc7d015c4448f982f" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="bldc__comprehensive__test_8cpp.html#a0f8b1f72f4a1906c5a16d921147a2d62" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="542.5,-327 384.5,-327 384.5,-308 542.5,-308 542.5,-327"/>
 <text text-anchor="middle" x="463.5" y="-315" font-family="Helvetica,sans-Serif" font-size="10.00">configureFOCControlForBLDC</text>
 </a>
@@ -129,7 +147,7 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="bldc__comprehensive__test_8cpp.html#aecdf284d22d080dd3753a35cf58b194c" target="_top" xlink:title=" ">
+<g id="a_Node000006"><a xlink:href="bldc__comprehensive__test_8cpp.html#abd59e96bda5d7e2c20ab795224f2e5ff" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="541.5,-290 385.5,-290 385.5,-271 541.5,-271 541.5,-290"/>
 <text text-anchor="middle" x="463.5" y="-278" font-family="Helvetica,sans-Serif" font-size="10.00">configureGateDriverForBLDC</text>
 </a>
@@ -147,7 +165,7 @@
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="bldc__comprehensive__test_8cpp.html#a07ab319bd2748236c75233652869276e" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="bldc__comprehensive__test_8cpp.html#a71410be0cbd297c6148bba9382c39b77" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="539.5,-253 387.5,-253 387.5,-234 539.5,-234 539.5,-253"/>
 <text text-anchor="middle" x="463.5" y="-241" font-family="Helvetica,sans-Serif" font-size="10.00">configureHeartbeatForBLDC</text>
 </a>
@@ -165,7 +183,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="bldc__comprehensive__test_8cpp.html#a15952d660a687a8576101294cc739448" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="bldc__comprehensive__test_8cpp.html#a06f0774496678bcf670dc108a5625f28" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="536.5,-215.5 390.5,-215.5 390.5,-185.5 536.5,-185.5 536.5,-215.5"/>
 <text text-anchor="start" x="398.5" y="-203.5" font-family="Helvetica,sans-Serif" font-size="10.00">configureMotorParameters</text>
 <text text-anchor="middle" x="463.5" y="-192.5" font-family="Helvetica,sans-Serif" font-size="10.00">ForBLDC</text>
@@ -184,7 +202,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="bldc__comprehensive__test_8cpp.html#a098cc37a3006922b2fee401c2a874c1e" target="_top" xlink:title=" ">
+<g id="a_Node000009"><a xlink:href="bldc__comprehensive__test_8cpp.html#a3b4df9d2e299e266adec5764e737e1f2" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="530,-167 397,-167 397,-148 530,-148 530,-167"/>
 <text text-anchor="middle" x="463.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">configurePowerForBLDC</text>
 </a>
@@ -202,7 +220,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="bldc__comprehensive__test_8cpp.html#a88f027de413792c34d771b44a6b9dce5" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="bldc__comprehensive__test_8cpp.html#a72a3381e092238849362137ea52f0597" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="539.5,-130 387.5,-130 387.5,-111 539.5,-111 539.5,-130"/>
 <text text-anchor="middle" x="463.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">configureProtectionForBLDC</text>
 </a>
@@ -220,7 +238,7 @@
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="bldc__comprehensive__test_8cpp.html#a392bde9e1f3cb33dfab6dfa525b047df" target="_top" xlink:title=" ">
+<g id="a_Node000011"><a xlink:href="bldc__comprehensive__test_8cpp.html#a6a58d88b93386adaa607f54caf894be6" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="529,-93 398,-93 398,-74 529,-74 529,-93"/>
 <text text-anchor="middle" x="463.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">configureRampForBLDC</text>
 </a>
@@ -238,7 +256,7 @@
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="bldc__comprehensive__test_8cpp.html#a0b9016e9b6d9e3d930dc7185df274210" target="_top" xlink:title=" ">
+<g id="a_Node000012"><a xlink:href="bldc__comprehensive__test_8cpp.html#a46b024ea9ea9407eb7cd5bb6614d350f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="542.5,-56 384.5,-56 384.5,-37 542.5,-37 542.5,-56"/>
 <text text-anchor="middle" x="463.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">configureStopEventsForBLDC</text>
 </a>

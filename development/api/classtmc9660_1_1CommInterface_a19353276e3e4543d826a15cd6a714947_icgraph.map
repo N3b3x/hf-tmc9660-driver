@@ -1,0 +1,5 @@
+<map id="tmc9660::CommInterface::logDebug" name="tmc9660::CommInterface::logDebug">
+<area shape="rect" id="Node000001" title="Public debug logging wrapper for external classes." alt="" coords="312,5,500,45"/>
+<area shape="rect" id="Node000002" href="$classEsp32UARTTMC9660CommInterface.html#a3e280f979b6cabcd9e3f4022a9442761" title="Transfer TMCL frame over UART for parameter mode communication." alt="" coords="5,5,264,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="298,28,264,28,264,23,298,23"/>
+</map>

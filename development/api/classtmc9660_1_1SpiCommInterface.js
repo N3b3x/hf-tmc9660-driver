@@ -1,10 +1,15 @@
 var classtmc9660_1_1SpiCommInterface =
 [
-    [ "SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html#ac8fb3a6a5f30dffe5fbdbcb852fbd43e", null ],
-    [ "gpioRead", "classtmc9660_1_1SpiCommInterface.html#a0fa6526f57007e7b94d44b151e9e045d", null ],
-    [ "gpioSet", "classtmc9660_1_1SpiCommInterface.html#ab5f3eba33a85e63f902e1d1b74badced", null ],
-    [ "mode", "classtmc9660_1_1SpiCommInterface.html#ad121c8f6ca556746cc75f18c5ea70cd3", null ],
-    [ "spiTransferBootloader", "classtmc9660_1_1SpiCommInterface.html#ab73b68e3df084328baa9531047493e35", null ],
-    [ "spiTransferTMCL", "classtmc9660_1_1SpiCommInterface.html#af027a36a3e973f9d19589e47bc1587f2", null ],
-    [ "transferTMCL", "classtmc9660_1_1SpiCommInterface.html#aeaaeb306bf694473e62a661af3039729", null ]
+    [ "SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html#a8174aac237ee3139acda9574acef926d", null ],
+    [ "~SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html#a9808bf570e6071b68d4476905c927497", null ],
+    [ "SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html#a921f3951acbf7bd8c3ab5c95f37d1d5d", null ],
+    [ "SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html#add6d3798f0c2732b2eaebb9c39d85eb4", null ],
+    [ "gpioRead", "classtmc9660_1_1SpiCommInterface.html#af672da6054925cacc5b37048cdd365b9", null ],
+    [ "gpioSet", "classtmc9660_1_1SpiCommInterface.html#a9ec17f6eb5be8fb71aac120c0a246503", null ],
+    [ "mode", "classtmc9660_1_1SpiCommInterface.html#a3487906a07a8bc769918808efead522f", null ],
+    [ "operator=", "classtmc9660_1_1SpiCommInterface.html#a170072e9d0e424a25a0f96d76332c201", null ],
+    [ "operator=", "classtmc9660_1_1SpiCommInterface.html#a9664652d430ba1aeb1ad5e269f133e81", null ],
+    [ "spiTransferBootloader", "classtmc9660_1_1SpiCommInterface.html#a054da31a2d2cc5ec3fb15732636414a6", null ],
+    [ "spiTransferTMCL", "classtmc9660_1_1SpiCommInterface.html#a2dcc084ff38eb325f60923d1d745cfbf", null ],
+    [ "transferTMCL", "classtmc9660_1_1SpiCommInterface.html#a6bfcfb6e669db97e2d12bd3b5b944a0c", null ]
 ];

@@ -1,5 +1,5 @@
 var structTestDriverHandle =
 [
-    [ "driver", "structTestDriverHandle.html#a6932dc8c8d6a09925d1651d35c832cec", null ],
-    [ "interface", "structTestDriverHandle.html#af4f801cef63642958218ac63813d088e", null ]
+    [ "driver", "structTestDriverHandle.html#a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21", null ],
+    [ "interface", "structTestDriverHandle.html#ad3dcc1efd3ca70594666316e8aaa0447", null ]
 ];

@@ -1,7 +1,7 @@
 var structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config =
 [
-    [ "countsPerRev", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#a8925bb5a1d18455ae39866d716faf2b9", null ],
-    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#af6e782076ad86c5584085d13656c5b64", null ],
-    [ "enable", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#af849d45b4e07b589387bfc3a331cb45a", null ],
-    [ "gearRatio", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#adf175dc6b7182e4dd58c7b1faf7f425c", null ]
+    [ "countsPerRev", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#a7e8379360f226aafdc5975d28bcaa0b0", null ],
+    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#a9e2354fa679ddb13bbd138f82e529184", null ],
+    [ "enable", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#ab763aec6335f59a397dc52b7f92a234a", null ],
+    [ "gearRatio", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html#ac7b4a475a9c32c7eab35c28d9f6febbf", null ]
 ];

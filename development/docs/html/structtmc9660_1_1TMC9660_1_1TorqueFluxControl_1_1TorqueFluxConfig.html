@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::TorqueFluxControl::TorqueFluxConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1Torqu
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::TorqueFluxControl::TorqueFluxConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,69 +108,72 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1Torqu
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad8873f7b79f25482c7b42819911bd2f8" id="r_ad8873f7b79f25482c7b42819911bd2f8"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8873f7b79f25482c7b42819911bd2f8">torqueP</a></td></tr>
-<tr class="memdesc:ad8873f7b79f25482c7b42819911bd2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct PI gain configuration (optional).  <br /></td></tr>
-<tr class="separator:ad8873f7b79f25482c7b42819911bd2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68adc3b89f746dedc760d3795ec68070" id="r_a68adc3b89f746dedc760d3795ec68070"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68adc3b89f746dedc760d3795ec68070">torqueI</a></td></tr>
-<tr class="memdesc:a68adc3b89f746dedc760d3795ec68070"><td class="mdescLeft">&#160;</td><td class="mdescRight">Torque I gain [0-32767] (optional, defaults to 100 if not provided)  <br /></td></tr>
-<tr class="separator:a68adc3b89f746dedc760d3795ec68070"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f0ef05c5b2470f14f79cdf9793795bd" id="r_a8f0ef05c5b2470f14f79cdf9793795bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0ef05c5b2470f14f79cdf9793795bd">separateTorqueFluxLoops</a></td></tr>
-<tr class="memdesc:a8f0ef05c5b2470f14f79cdf9793795bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use separate PI parameters for torque and flux loops.  <br /></td></tr>
-<tr class="separator:a8f0ef05c5b2470f14f79cdf9793795bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a437388cdab20d9595d22c2a455b5b73c" id="r_a437388cdab20d9595d22c2a455b5b73c"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a437388cdab20d9595d22c2a455b5b73c">fluxP</a></td></tr>
-<tr class="memdesc:a437388cdab20d9595d22c2a455b5b73c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux PI gains (only used if separateTorqueFluxLoops = true).  <br /></td></tr>
-<tr class="separator:a437388cdab20d9595d22c2a455b5b73c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a060aefb8e6ad6c7c3a052db8e3d21b14" id="r_a060aefb8e6ad6c7c3a052db8e3d21b14"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a060aefb8e6ad6c7c3a052db8e3d21b14">fluxI</a></td></tr>
-<tr class="memdesc:a060aefb8e6ad6c7c3a052db8e3d21b14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux I gain [0-32767] (optional, only used if separateTorqueFluxLoops = true)  <br /></td></tr>
-<tr class="separator:a060aefb8e6ad6c7c3a052db8e3d21b14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4f0c29497cfbc466e8f16a5de465398" id="r_ac4f0c29497cfbc466e8f16a5de465398"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4f0c29497cfbc466e8f16a5de465398">pNormalization</a></td></tr>
-<tr class="memdesc:ac4f0c29497cfbc466e8f16a5de465398"><td class="mdescLeft">&#160;</td><td class="mdescRight">PI normalization format (optional).  <br /></td></tr>
-<tr class="separator:ac4f0c29497cfbc466e8f16a5de465398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7ee723ee3ff582020f8579ba7f298d4" id="r_ae7ee723ee3ff582020f8579ba7f298d4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7ee723ee3ff582020f8579ba7f298d4">iNormalization</a></td></tr>
-<tr class="memdesc:ae7ee723ee3ff582020f8579ba7f298d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">I-term normalization format (optional, defaults to SHIFT_16_BIT)  <br /></td></tr>
-<tr class="separator:ae7ee723ee3ff582020f8579ba7f298d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9aa4cf4caa99d254ec5dc6e9cc1e45c5" id="r_a9aa4cf4caa99d254ec5dc6e9cc1e45c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9aa4cf4caa99d254ec5dc6e9cc1e45c5">enableFieldWeakening</a> = false</td></tr>
-<tr class="memdesc:a9aa4cf4caa99d254ec5dc6e9cc1e45c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable field weakening for high-speed operation.  <br /></td></tr>
-<tr class="separator:a9aa4cf4caa99d254ec5dc6e9cc1e45c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fe88de16c32b9db3323355281b019ae" id="r_a1fe88de16c32b9db3323355281b019ae"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fe88de16c32b9db3323355281b019ae">fieldWeakeningVoltageThresholdPercent</a></td></tr>
-<tr class="memdesc:a1fe88de16c32b9db3323355281b019ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field weakening voltage threshold as percentage of OUTPUT_VOLTAGE_LIMIT.  <br /></td></tr>
-<tr class="separator:a1fe88de16c32b9db3323355281b019ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc701884d4b6149627b4563798034ac3" id="r_adc701884d4b6149627b4563798034ac3"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc701884d4b6149627b4563798034ac3">fieldWeakeningI</a> = 100</td></tr>
-<tr class="memdesc:adc701884d4b6149627b4563798034ac3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field weakening I-controller gain.  <br /></td></tr>
-<tr class="separator:adc701884d4b6149627b4563798034ac3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4031a6d4096aacc757dfbfa6214948d" id="r_ae4031a6d4096aacc757dfbfa6214948d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4031a6d4096aacc757dfbfa6214948d">torqueOffset_mA</a> = 0</td></tr>
-<tr class="memdesc:ae4031a6d4096aacc757dfbfa6214948d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current offset compensation.  <br /></td></tr>
-<tr class="separator:ae4031a6d4096aacc757dfbfa6214948d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24370b9c5812fb3427648c2204336867" id="r_a24370b9c5812fb3427648c2204336867"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24370b9c5812fb3427648c2204336867">fluxOffset_mA</a> = 0</td></tr>
-<tr class="memdesc:a24370b9c5812fb3427648c2204336867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux offset in mA [-4700 to 4700] (default: 0)  <br /></td></tr>
-<tr class="separator:a24370b9c5812fb3427648c2204336867"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0436326856c487ea34fc96260446b219" id="r_a0436326856c487ea34fc96260446b219"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0436326856c487ea34fc96260446b219">enableTorqueBiquadFilter</a></td></tr>
-<tr class="memdesc:a0436326856c487ea34fc96260446b219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable biquad filter on target torque command.  <br /></td></tr>
-<tr class="separator:a0436326856c487ea34fc96260446b219"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49ca0893e3fdafe41265ab0b44ec41f8" id="r_a49ca0893e3fdafe41265ab0b44ec41f8"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49ca0893e3fdafe41265ab0b44ec41f8">biquadACoeff1</a></td></tr>
-<tr class="memdesc:a49ca0893e3fdafe41265ab0b44ec41f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Biquad filter coefficients (optional, only used if enableTorqueBiquadFilter = true).  <br /></td></tr>
-<tr class="separator:a49ca0893e3fdafe41265ab0b44ec41f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a035d5aa2e8c82f0de1047e9f1c4321bf" id="r_a035d5aa2e8c82f0de1047e9f1c4321bf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a035d5aa2e8c82f0de1047e9f1c4321bf">biquadACoeff2</a></td></tr>
-<tr class="separator:a035d5aa2e8c82f0de1047e9f1c4321bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a506451087db6b0667675b1dfe804bb44" id="r_a506451087db6b0667675b1dfe804bb44"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a506451087db6b0667675b1dfe804bb44">biquadBCoeff0</a></td></tr>
-<tr class="separator:a506451087db6b0667675b1dfe804bb44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5db2bf39a0e2baa44c13bc2e6ac9996d" id="r_a5db2bf39a0e2baa44c13bc2e6ac9996d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5db2bf39a0e2baa44c13bc2e6ac9996d">biquadBCoeff1</a></td></tr>
-<tr class="separator:a5db2bf39a0e2baa44c13bc2e6ac9996d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85a7b593ffd1d137a458e2310b26caf" id="r_aa85a7b593ffd1d137a458e2310b26caf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa85a7b593ffd1d137a458e2310b26caf">biquadBCoeff2</a></td></tr>
-<tr class="separator:aa85a7b593ffd1d137a458e2310b26caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2926585ba03ae7771022191d1169625f" id="r_a2926585ba03ae7771022191d1169625f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2926585ba03ae7771022191d1169625f">torqueP</a></td></tr>
+<tr class="memdesc:a2926585ba03ae7771022191d1169625f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct PI gain configuration (optional).  <br /></td></tr>
+<tr class="separator:a2926585ba03ae7771022191d1169625f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a992b2680293b57c7606b1c3d1f317983" id="r_a992b2680293b57c7606b1c3d1f317983"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a992b2680293b57c7606b1c3d1f317983">torqueI</a></td></tr>
+<tr class="memdesc:a992b2680293b57c7606b1c3d1f317983"><td class="mdescLeft">&#160;</td><td class="mdescRight">Torque I gain [0-32767] (optional, defaults to 100 if not provided)  <br /></td></tr>
+<tr class="separator:a992b2680293b57c7606b1c3d1f317983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4101493bad7a2f82da538d7cd7870c" id="r_a2d4101493bad7a2f82da538d7cd7870c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d4101493bad7a2f82da538d7cd7870c">separateTorqueFluxLoops</a></td></tr>
+<tr class="memdesc:a2d4101493bad7a2f82da538d7cd7870c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use separate PI parameters for torque and flux loops.  <br /></td></tr>
+<tr class="separator:a2d4101493bad7a2f82da538d7cd7870c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0d4bb8f3dc06a5f81284bcb006d1c84" id="r_af0d4bb8f3dc06a5f81284bcb006d1c84"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0d4bb8f3dc06a5f81284bcb006d1c84">fluxP</a></td></tr>
+<tr class="memdesc:af0d4bb8f3dc06a5f81284bcb006d1c84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux PI gains (only used if separateTorqueFluxLoops = true).  <br /></td></tr>
+<tr class="separator:af0d4bb8f3dc06a5f81284bcb006d1c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117cc33e427357f318b0eaf0baf1e0b5" id="r_a117cc33e427357f318b0eaf0baf1e0b5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a117cc33e427357f318b0eaf0baf1e0b5">fluxI</a></td></tr>
+<tr class="memdesc:a117cc33e427357f318b0eaf0baf1e0b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux I gain [0-32767] (optional, only used if separateTorqueFluxLoops = true)  <br /></td></tr>
+<tr class="separator:a117cc33e427357f318b0eaf0baf1e0b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1e1cfce3a75ca9e3fb48bb4653c3b20" id="r_ab1e1cfce3a75ca9e3fb48bb4653c3b20"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1e1cfce3a75ca9e3fb48bb4653c3b20">pNormalization</a></td></tr>
+<tr class="memdesc:ab1e1cfce3a75ca9e3fb48bb4653c3b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">PI normalization format (optional).  <br /></td></tr>
+<tr class="separator:ab1e1cfce3a75ca9e3fb48bb4653c3b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17a4e7507198336b8ee06cf4dc865769" id="r_a17a4e7507198336b8ee06cf4dc865769"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17a4e7507198336b8ee06cf4dc865769">iNormalization</a></td></tr>
+<tr class="memdesc:a17a4e7507198336b8ee06cf4dc865769"><td class="mdescLeft">&#160;</td><td class="mdescRight">I-term normalization format (optional, defaults to SHIFT_16_BIT)  <br /></td></tr>
+<tr class="separator:a17a4e7507198336b8ee06cf4dc865769"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b8267ba63a0992a9017fa9b895dc08" id="r_ae7b8267ba63a0992a9017fa9b895dc08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b8267ba63a0992a9017fa9b895dc08">enableFieldWeakening</a> = <a class="el" href="classtmc9660_1_1CommInterface.html">false</a></td></tr>
+<tr class="memdesc:ae7b8267ba63a0992a9017fa9b895dc08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable field weakening for high-speed operation.  <br /></td></tr>
+<tr class="separator:ae7b8267ba63a0992a9017fa9b895dc08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3161aa6b936a5110622c88acd7909b2a" id="r_a3161aa6b936a5110622c88acd7909b2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3161aa6b936a5110622c88acd7909b2a">fieldWeakeningVoltageThresholdPercent</a></td></tr>
+<tr class="memdesc:a3161aa6b936a5110622c88acd7909b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field weakening voltage threshold as percentage of OUTPUT_VOLTAGE_LIMIT.  <br /></td></tr>
+<tr class="separator:a3161aa6b936a5110622c88acd7909b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a818edcfa74bca33c44543f80b3d233c2" id="r_a818edcfa74bca33c44543f80b3d233c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a818edcfa74bca33c44543f80b3d233c2">fieldWeakeningI</a> = 100</td></tr>
+<tr class="memdesc:a818edcfa74bca33c44543f80b3d233c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Field weakening I-controller gain.  <br /></td></tr>
+<tr class="separator:a818edcfa74bca33c44543f80b3d233c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac750651a3d6ee50cc19f6e9edb1901bc" id="r_ac750651a3d6ee50cc19f6e9edb1901bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac750651a3d6ee50cc19f6e9edb1901bc">torqueOffset_mA</a> = 0</td></tr>
+<tr class="memdesc:ac750651a3d6ee50cc19f6e9edb1901bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current offset compensation.  <br /></td></tr>
+<tr class="separator:ac750651a3d6ee50cc19f6e9edb1901bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a900d9f08427ac0b9a40f6e61247f2d60" id="r_a900d9f08427ac0b9a40f6e61247f2d60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a900d9f08427ac0b9a40f6e61247f2d60">fluxOffset_mA</a> = 0</td></tr>
+<tr class="memdesc:a900d9f08427ac0b9a40f6e61247f2d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flux offset in m_a [-4700 to 4700] (default: 0)  <br /></td></tr>
+<tr class="separator:a900d9f08427ac0b9a40f6e61247f2d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa27de759e223e9ed57ba09c5d024bfc0" id="r_aa27de759e223e9ed57ba09c5d024bfc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa27de759e223e9ed57ba09c5d024bfc0">enableTorqueBiquadFilter</a></td></tr>
+<tr class="memdesc:aa27de759e223e9ed57ba09c5d024bfc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable biquad filter on target torque command.  <br /></td></tr>
+<tr class="separator:aa27de759e223e9ed57ba09c5d024bfc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c6b11bc6408db0e1bca330d683f195b" id="r_a8c6b11bc6408db0e1bca330d683f195b"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c6b11bc6408db0e1bca330d683f195b">biquadACoeff1</a></td></tr>
+<tr class="memdesc:a8c6b11bc6408db0e1bca330d683f195b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Biquad filter coefficients (optional, only used if enableTorqueBiquadFilter = true).  <br /></td></tr>
+<tr class="separator:a8c6b11bc6408db0e1bca330d683f195b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e289ca228d1498863df8bafb8883b6d" id="r_a2e289ca228d1498863df8bafb8883b6d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e289ca228d1498863df8bafb8883b6d">biquadACoeff2</a></td></tr>
+<tr class="separator:a2e289ca228d1498863df8bafb8883b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd9c24c73c0e3270dc465e7c6782f08b" id="r_afd9c24c73c0e3270dc465e7c6782f08b"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd9c24c73c0e3270dc465e7c6782f08b">biquadBCoeff0</a></td></tr>
+<tr class="separator:afd9c24c73c0e3270dc465e7c6782f08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c8bbfee39b22c2fccddc7ccf006894f" id="r_a3c8bbfee39b22c2fccddc7ccf006894f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c8bbfee39b22c2fccddc7ccf006894f">biquadBCoeff1</a></td></tr>
+<tr class="separator:a3c8bbfee39b22c2fccddc7ccf006894f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12a4b1644f660003d0f60778fa018ac6" id="r_a12a4b1644f660003d0f60778fa018ac6"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12a4b1644f660003d0f60778fa018ac6">biquadBCoeff2</a></td></tr>
+<tr class="separator:a12a4b1644f660003d0f60778fa018ac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for torque/flux control auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::TorqueFluxControl::TorqueFluxConfig</div><p>Configuration structure for torque/flux control auto-configuration. </p>
 <p>This structure provides high-level, user-friendly parameters for configuring the torque and flux current control loops. Complex low-level parameters are automatically derived from these intuitive settings. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a49ca0893e3fdafe41265ab0b44ec41f8" name="a49ca0893e3fdafe41265ab0b44ec41f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49ca0893e3fdafe41265ab0b44ec41f8">&#9670;&#160;</a></span>biquadACoeff1</h2>
+<a id="a8c6b11bc6408db0e1bca330d683f195b" name="a8c6b11bc6408db0e1bca330d683f195b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c6b11bc6408db0e1bca330d683f195b">&#9670;&#160;</a></span>biquadACoeff1</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::biquadACoeff1</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::biquadACoeff1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -197,14 +200,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a035d5aa2e8c82f0de1047e9f1c4321bf" name="a035d5aa2e8c82f0de1047e9f1c4321bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a035d5aa2e8c82f0de1047e9f1c4321bf">&#9670;&#160;</a></span>biquadACoeff2</h2>
+<a id="a2e289ca228d1498863df8bafb8883b6d" name="a2e289ca228d1498863df8bafb8883b6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e289ca228d1498863df8bafb8883b6d">&#9670;&#160;</a></span>biquadACoeff2</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::biquadACoeff2</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::biquadACoeff2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -212,14 +217,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a506451087db6b0667675b1dfe804bb44" name="a506451087db6b0667675b1dfe804bb44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a506451087db6b0667675b1dfe804bb44">&#9670;&#160;</a></span>biquadBCoeff0</h2>
+<a id="afd9c24c73c0e3270dc465e7c6782f08b" name="afd9c24c73c0e3270dc465e7c6782f08b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd9c24c73c0e3270dc465e7c6782f08b">&#9670;&#160;</a></span>biquadBCoeff0</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff0</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -227,14 +234,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5db2bf39a0e2baa44c13bc2e6ac9996d" name="a5db2bf39a0e2baa44c13bc2e6ac9996d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5db2bf39a0e2baa44c13bc2e6ac9996d">&#9670;&#160;</a></span>biquadBCoeff1</h2>
+<a id="a3c8bbfee39b22c2fccddc7ccf006894f" name="a3c8bbfee39b22c2fccddc7ccf006894f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c8bbfee39b22c2fccddc7ccf006894f">&#9670;&#160;</a></span>biquadBCoeff1</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff1</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -242,14 +251,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa85a7b593ffd1d137a458e2310b26caf" name="aa85a7b593ffd1d137a458e2310b26caf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa85a7b593ffd1d137a458e2310b26caf">&#9670;&#160;</a></span>biquadBCoeff2</h2>
+<a id="a12a4b1644f660003d0f60778fa018ac6" name="a12a4b1644f660003d0f60778fa018ac6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12a4b1644f660003d0f60778fa018ac6">&#9670;&#160;</a></span>biquadBCoeff2</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff2</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::biquadBCoeff2</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -257,32 +268,36 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9aa4cf4caa99d254ec5dc6e9cc1e45c5" name="a9aa4cf4caa99d254ec5dc6e9cc1e45c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9aa4cf4caa99d254ec5dc6e9cc1e45c5">&#9670;&#160;</a></span>enableFieldWeakening</h2>
+<a id="ae7b8267ba63a0992a9017fa9b895dc08" name="ae7b8267ba63a0992a9017fa9b895dc08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b8267ba63a0992a9017fa9b895dc08">&#9670;&#160;</a></span>enableFieldWeakening</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::enableFieldWeakening = false</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::enableFieldWeakening = <a class="el" href="classtmc9660_1_1CommInterface.html">false</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Enable field weakening for high-speed operation. </p>
 <p>Field weakening allows the motor to operate beyond its base speed by reducing the back-EMF through negative flux current. This is essential for high-speed BLDC/stepper motors.</p>
-<p>When enabled, field weakening activates automatically when the motor voltage exceeds fieldWeakeningVoltageThresholdPercent. Enable field weakening (default: false) </p>
+<p>When enabled, field weakening activates automatically when the motor voltage exceeds field_weakening_voltage_threshold_percent. Enable field weakening (default: false) </p>
 
 </div>
 </div>
-<a id="a0436326856c487ea34fc96260446b219" name="a0436326856c487ea34fc96260446b219"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0436326856c487ea34fc96260446b219">&#9670;&#160;</a></span>enableTorqueBiquadFilter</h2>
+<a id="aa27de759e223e9ed57ba09c5d024bfc0" name="aa27de759e223e9ed57ba09c5d024bfc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa27de759e223e9ed57ba09c5d024bfc0">&#9670;&#160;</a></span>enableTorqueBiquadFilter</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::enableTorqueBiquadFilter</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::enableTorqueBiquadFilter</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -296,14 +311,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adc701884d4b6149627b4563798034ac3" name="adc701884d4b6149627b4563798034ac3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc701884d4b6149627b4563798034ac3">&#9670;&#160;</a></span>fieldWeakeningI</h2>
+<a id="a818edcfa74bca33c44543f80b3d233c2" name="a818edcfa74bca33c44543f80b3d233c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a818edcfa74bca33c44543f80b3d233c2">&#9670;&#160;</a></span>fieldWeakeningI</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::fieldWeakeningI = 100</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::fieldWeakeningI = 100</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -318,14 +335,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1fe88de16c32b9db3323355281b019ae" name="a1fe88de16c32b9db3323355281b019ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fe88de16c32b9db3323355281b019ae">&#9670;&#160;</a></span>fieldWeakeningVoltageThresholdPercent</h2>
+<a id="a3161aa6b936a5110622c88acd7909b2a" name="a3161aa6b936a5110622c88acd7909b2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3161aa6b936a5110622c88acd7909b2a">&#9670;&#160;</a></span>fieldWeakeningVoltageThresholdPercent</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">float tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::fieldWeakeningVoltageThresholdPercent</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::fieldWeakeningVoltageThresholdPercent</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -342,14 +361,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a060aefb8e6ad6c7c3a052db8e3d21b14" name="a060aefb8e6ad6c7c3a052db8e3d21b14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a060aefb8e6ad6c7c3a052db8e3d21b14">&#9670;&#160;</a></span>fluxI</h2>
+<a id="a117cc33e427357f318b0eaf0baf1e0b5" name="a117cc33e427357f318b0eaf0baf1e0b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a117cc33e427357f318b0eaf0baf1e0b5">&#9670;&#160;</a></span>fluxI</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::fluxI</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::fluxI</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -358,47 +379,53 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a24370b9c5812fb3427648c2204336867" name="a24370b9c5812fb3427648c2204336867"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24370b9c5812fb3427648c2204336867">&#9670;&#160;</a></span>fluxOffset_mA</h2>
+<a id="a900d9f08427ac0b9a40f6e61247f2d60" name="a900d9f08427ac0b9a40f6e61247f2d60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a900d9f08427ac0b9a40f6e61247f2d60">&#9670;&#160;</a></span>fluxOffset_mA</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int16_t tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::fluxOffset_mA = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::fluxOffset_mA = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Flux offset in mA [-4700 to 4700] (default: 0) </p>
+<p>Flux offset in m_a [-4700 to 4700] (default: 0) </p>
 
 </div>
 </div>
-<a id="a437388cdab20d9595d22c2a455b5b73c" name="a437388cdab20d9595d22c2a455b5b73c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a437388cdab20d9595d22c2a455b5b73c">&#9670;&#160;</a></span>fluxP</h2>
+<a id="af0d4bb8f3dc06a5f81284bcb006d1c84" name="af0d4bb8f3dc06a5f81284bcb006d1c84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0d4bb8f3dc06a5f81284bcb006d1c84">&#9670;&#160;</a></span>fluxP</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::fluxP</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::fluxP</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Flux PI gains (only used if separateTorqueFluxLoops = true). </p>
-<p>If separateTorqueFluxLoops is true and these are not provided, they default to the same values as torqueP/torqueI. Flux P gain [0-32767] (optional, only used if separateTorqueFluxLoops = true) </p>
+<p>If separate_torque_flux_loops is true and these are not provided, they default to the same values as torqueP/torqueI. Flux P gain [0-32767] (optional, only used if separateTorqueFluxLoops = true) </p>
 
 </div>
 </div>
-<a id="ae7ee723ee3ff582020f8579ba7f298d4" name="ae7ee723ee3ff582020f8579ba7f298d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7ee723ee3ff582020f8579ba7f298d4">&#9670;&#160;</a></span>iNormalization</h2>
+<a id="a17a4e7507198336b8ee06cf4dc865769" name="a17a4e7507198336b8ee06cf4dc865769"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17a4e7507198336b8ee06cf4dc865769">&#9670;&#160;</a></span>iNormalization</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a>&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::iNormalization</td>
+          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::iNormalization</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -407,14 +434,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac4f0c29497cfbc466e8f16a5de465398" name="ac4f0c29497cfbc466e8f16a5de465398"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4f0c29497cfbc466e8f16a5de465398">&#9670;&#160;</a></span>pNormalization</h2>
+<a id="ab1e1cfce3a75ca9e3fb48bb4653c3b20" name="ab1e1cfce3a75ca9e3fb48bb4653c3b20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1e1cfce3a75ca9e3fb48bb4653c3b20">&#9670;&#160;</a></span>pNormalization</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a>&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::pNormalization</td>
+          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a82ab935559b5449c054075aa3807a17a">tmc9660::tmcl::CurrentPiNormalization</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::pNormalization</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -429,14 +458,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8f0ef05c5b2470f14f79cdf9793795bd" name="a8f0ef05c5b2470f14f79cdf9793795bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f0ef05c5b2470f14f79cdf9793795bd">&#9670;&#160;</a></span>separateTorqueFluxLoops</h2>
+<a id="a2d4101493bad7a2f82da538d7cd7870c" name="a2d4101493bad7a2f82da538d7cd7870c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4101493bad7a2f82da538d7cd7870c">&#9670;&#160;</a></span>separateTorqueFluxLoops</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::separateTorqueFluxLoops</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::separateTorqueFluxLoops</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -444,19 +475,21 @@ Public Attributes</h2></td></tr>
 <div class="line">          <span class="keyword">false</span></div>
 </div><!-- fragment -->
 <p>Use separate PI parameters for torque and flux loops. </p>
-<p>When false (default): Torque and flux share the same PI gains. When true: Torque and flux have independent PI gains (fluxP, fluxI).</p>
+<p>When false (default): Torque and flux share the same PI gains. When true: Torque and flux have independent PI gains (flux_p, flux_i).</p>
 <p>Separate loops are useful when torque and flux have different response requirements, but most applications work fine with combined loops. Use separate PI parameters for torque and flux (default: false, combined) </p>
 
 </div>
 </div>
-<a id="a68adc3b89f746dedc760d3795ec68070" name="a68adc3b89f746dedc760d3795ec68070"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a68adc3b89f746dedc760d3795ec68070">&#9670;&#160;</a></span>torqueI</h2>
+<a id="a992b2680293b57c7606b1c3d1f317983" name="a992b2680293b57c7606b1c3d1f317983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a992b2680293b57c7606b1c3d1f317983">&#9670;&#160;</a></span>torqueI</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::torqueI</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::torqueI</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -465,31 +498,35 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae4031a6d4096aacc757dfbfa6214948d" name="ae4031a6d4096aacc757dfbfa6214948d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4031a6d4096aacc757dfbfa6214948d">&#9670;&#160;</a></span>torqueOffset_mA</h2>
+<a id="ac750651a3d6ee50cc19f6e9edb1901bc" name="ac750651a3d6ee50cc19f6e9edb1901bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac750651a3d6ee50cc19f6e9edb1901bc">&#9670;&#160;</a></span>torqueOffset_mA</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int16_t tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::torqueOffset_mA = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::torqueOffset_mA = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Current offset compensation. </p>
-<p>These offsets are added to the torque/flux commands to compensate for measurement errors or motor asymmetries. Usually set to 0 unless calibration reveals systematic offsets. Torque offset in mA [-4700 to 4700] (default: 0) </p>
+<p>These offsets are added to the torque/flux commands to compensate for measurement errors or motor asymmetries. Usually set to 0 unless calibration reveals systematic offsets. Torque offset in m_a [-4700 to 4700] (default: 0) </p>
 
 </div>
 </div>
-<a id="ad8873f7b79f25482c7b42819911bd2f8" name="ad8873f7b79f25482c7b42819911bd2f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8873f7b79f25482c7b42819911bd2f8">&#9670;&#160;</a></span>torqueP</h2>
+<a id="a2926585ba03ae7771022191d1169625f" name="a2926585ba03ae7771022191d1169625f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2926585ba03ae7771022191d1169625f">&#9670;&#160;</a></span>torqueP</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig::torqueP</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::TorqueFluxControl::TorqueFluxConfig::torqueP</td>
         </tr>
       </table>
 </div><div class="memdoc">

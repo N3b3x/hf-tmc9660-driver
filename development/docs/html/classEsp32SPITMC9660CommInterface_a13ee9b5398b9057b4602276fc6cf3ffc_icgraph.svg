@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classEsp32SPITMC9660CommInterface.html#a2bf1cfc7bc14af6ea0aee0ba4d35680c" target="_top" xlink:title="Destructor &#45; cleans up SPI resources.">
+<g id="a_Node000002"><a xlink:href="classEsp32SPITMC9660CommInterface.html#a37386e7f60211e9d92e55dbc98035c94" target="_top" xlink:title="Destructor &#45; cleans up SPI resources.">
 <polygon fill="white" stroke="#666666" points="197,-30 0,-30 0,0 197,0 197,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Esp32SPITMC9660CommInterface</text>
 <text text-anchor="middle" x="98.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::~Esp32SPITMC9660CommInterface</text>

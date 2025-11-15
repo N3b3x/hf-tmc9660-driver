@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classEsp32UARTTMC9660CommInterface.html#a27947e26727e95168856878ecefd2bfe" target="_top" xlink:title="Read GPIO pin level for TMC9660 status pins.">
+<g id="a_Node000002"><a xlink:href="classEsp32UARTTMC9660CommInterface.html#abb095455cc97a521dd06aebf4f63cbe5" target="_top" xlink:title="Read GPIO pin level for TMC9660 status pins.">
 <polygon fill="white" stroke="#666666" points="194,-78 0,-78 0,-48 194,-48 194,-78"/>
 <text text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Esp32UARTTMC9660CommInterface</text>
 <text text-anchor="middle" x="97" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::gpioRead</text>
@@ -40,7 +40,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="classEsp32UARTTMC9660CommInterface.html#afb5f9538bd39ab862ee05d57774a9b38" target="_top" xlink:title="Set GPIO pin signal state for TMC9660 control pins.">
+<g id="a_Node000003"><a xlink:href="classEsp32UARTTMC9660CommInterface.html#afd46af0fa4b2a240ed931b0ab9dc6dfa" target="_top" xlink:title="Set GPIO pin signal state for TMC9660 control pins.">
 <polygon fill="white" stroke="#666666" points="194,-30 0,-30 0,0 194,0 194,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Esp32UARTTMC9660CommInterface</text>
 <text text-anchor="middle" x="97" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::gpioSet</text>

@@ -1,14 +1,14 @@
 var structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig =
 [
-    [ "cmdSize", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a1fed942c18bfd8319e9092fb10a67555", null ],
-    [ "csIdleTimeUs", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a422ec8e5c66a36444dd8954607710cc8", null ],
-    [ "csSettleTimeNs", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a46903dc83fdd7f48c2e40a400125c4ba", null ],
-    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ad63ea0ebcdb05a4a41ce8ab30de6db06", null ],
-    [ "initMethod", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#aec0a3090a487f5c8984319b7325df1fe", null ],
-    [ "lutCorrection", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a4ac9733a3346c9c07a0f7717a406ca90", null ],
-    [ "lutShiftFactor", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#abce7150c80d8ce00d28e0aefb1be916b", null ],
-    [ "offset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a9c85a219210307e8fd22291de427fead", null ],
-    [ "positionMask", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ada0af954e40f7a859c001efb346b1437", null ],
-    [ "positionShift", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a8ac71af0bdc226c6e1e448c899bcef26", null ],
-    [ "requestData", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a4748a09aac21746a5a94035453bb6c00", null ]
+    [ "cmdSize", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a31fb19150685c2ba9db8282308c10fa5", null ],
+    [ "csIdleTimeUs", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a2c44260e6cab21061f38e89e602996fc", null ],
+    [ "csSettleTimeNs", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a96544aebedc52709f3b098151228725d", null ],
+    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ab8b19aeccf78c7d52151706c3b0da97d", null ],
+    [ "initMethod", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ae2b8d9fa2ce864b7e5fc0132af5f67ae", null ],
+    [ "lutCorrection", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a704ce3e074f651a767314b4c0916d33d", null ],
+    [ "lutShiftFactor", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a42a7fca2ef011ef7096f1e3d0f9fdc2e", null ],
+    [ "offset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a42db9c797563b56d50bc38af6de2ddfc", null ],
+    [ "positionMask", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a0e26d4fce8483969011a84c0329fe948", null ],
+    [ "positionShift", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a0f3bf53146b409a3e74b59bde28c04d4", null ],
+    [ "requestData", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#aeae9e39fa5682d03c75364438cfc559f", null ]
 ];

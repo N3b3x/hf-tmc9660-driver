@@ -1,7 +1,9 @@
 <map id="test_bldc_hall_sensor_configuration" name="test_bldc_hall_sensor_configuration">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,45"/>
-<area shape="rect" id="Node000002" href="$bootloader__comprehensive__test_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="216,13,356,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,23,202,23,202,28,169,28"/>
-<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="404,13,545,38"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,23,390,23,390,28,356,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,168,63"/>
+<area shape="rect" id="Node000002" href="$bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" title=" " alt="" coords="216,5,356,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,30,202,26,203,31,169,36"/>
+<area shape="rect" id="Node000004" href="$bldc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" title=" " alt="" coords="229,55,343,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="169,51,215,56,215,61,168,56"/>
+<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="404,5,545,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="356,15,390,15,390,21,356,21"/>
 </map>

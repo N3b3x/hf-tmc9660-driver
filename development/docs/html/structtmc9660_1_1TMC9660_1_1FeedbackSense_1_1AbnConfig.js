@@ -1,12 +1,12 @@
 var structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig =
 [
-    [ "clearOnNextNull", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a6650ff9a887eb01d493a218de291b3d4", null ],
-    [ "countsPerRev", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a667b6c79613881d2393f80406bbca5a8", null ],
-    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a30e9ca0571a4b6dac1f92bf0dc888c71", null ],
-    [ "initDelay", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#aaed4b48e5a1c5a254812012f54e24e2d", null ],
-    [ "initMethod", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a3fd84ab0d7d6ce8975006a39c322b62f", null ],
-    [ "initVelocity", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a3d1343e5063a204ee011a1d31c565645", null ],
-    [ "nChannelFiltering", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a99ee34651f7e35583c39f23bde35f97d", null ],
-    [ "nChannelInverted", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a4f35be149e2b8a8ff677baf1ea0d98ef", null ],
-    [ "nChannelOffset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#afb30c7e61f8bf15d179cdb0b620f7d6f", null ]
+    [ "clearOnNextNull", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a651886cd5c5eb19a0bb35dd91cff55e8", null ],
+    [ "countsPerRev", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a69f1c461610c309c2c6785b7af4fe22f", null ],
+    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#ad7ff2b50fd56c68275e09132d6826caa", null ],
+    [ "initDelay", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a082e66b126c9337bc0c71fc1c2de6ab2", null ],
+    [ "initMethod", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a328b53fdcafc3089a56583605379d857", null ],
+    [ "initVelocity", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a493c8cde7ec50ea1524b4d7a1026c40b", null ],
+    [ "nChannelFiltering", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#a7c901cdeb09bf02a217264199d4e4055", null ],
+    [ "nChannelInverted", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#ac8b0b09add6b34ed200b849bd7f48593", null ],
+    [ "nChannelOffset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#aa197d34cd989ffa68f42a9a7b370f85b", null ]
 ];

@@ -75,20 +75,20 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "TestFramework_8h.html",
-"bootloader__config_8hpp.html#adae30f2d71b2e485715c2521485b997f",
-"classtmc9660_1_1TMC9660Bootloader.html#a17fe0169ede842e6879cd2990c0f7b91",
-"globals_c.html",
-"namespacetmc9660_1_1bootcfg.html#a3af6b766582c8f5e26cc4633dc2713c7af3a87e7c46ff169f089d05141890e90a",
-"namespacetmc9660_1_1tmcl.html#a3336dee40377bffd791bddefc92226aca756045a8d37de34ca27188466b2c0c8b",
-"stepper__comprehensive__test_8cpp.html#aa92c65863db39b4e93167b6b806584d3",
-"structtmc9660_1_1MechBrakeConfig.html",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ad63ea0ebcdb05a4a41ce8ab30de6db06",
-"structtmc9660_1_1TMC9660_1_1Ramp.html#aa4d91c7d668622776561bd065da8a585",
-"structtmc9660_1_1TMCLReply.html",
-"structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html#aef611b3bc1e058bac16614a5a093f21d",
-"tmc9660__param__mode__tmcl_8hpp.html#a3260ec477704e03d19feaf38b85b8060",
+"bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72ea313677ceab546a36b6a7da1431ee145a",
+"classtmc9660_1_1TMC9660.html#ae84c6b5fbda594a78e2ec2599aa1267f",
+"functions_rela.html",
+"namespacetmc9660_1_1bootaddr.html#ae04ba16579ba1d222a9e8e273d66fb0c",
+"namespacetmc9660_1_1tmcl.html#a18663a474f75b063d1d3e6ac611fe444",
+"namespacetmc9660_1_1tmcl.html#af5a7d97e2a7252cda6165531563d4f58",
+"structtmc9660_1_1GitInfo.html#a329188344bd7284b2c94824385547e01",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#afd513b5d93b65c4971f310c71b8739a7",
+"structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a532ef213d53012d478959884483db5c7",
+"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a559736a1e07e1f3f5e60b7db4ef74036",
+"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#af2b67ff930115c7210feb5edb8b6fd28",
+"tmc9660__param__mode__tmcl_8hpp.html#a0e513fc222acb4c7cf6017bf32c3e611",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a95b19f7739b0b7ea7d6b07586be54f36"
+"tmc9660__param__mode__tmcl_8hpp.html#ae00a99490999ac54f56149489d961146"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

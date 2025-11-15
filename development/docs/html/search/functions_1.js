@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bootloaderinit_0',['bootloaderInit',['../classtmc9660_1_1TMC9660.html#ad1164f1632c501f522054545fd2d709e',1,'tmc9660::TMC9660']]],
-  ['bootstraprs485_1',['bootstrapRS485',['../classtmc9660_1_1TMC9660Bootloader.html#a3668756cc4c364f8c11c16fb4512458f',1,'tmc9660::TMC9660Bootloader']]],
-  ['brake_2',['Brake',['../structtmc9660_1_1TMC9660_1_1Brake.html#a38bf4c99cfa08385ea052a29d12d7c0b',1,'tmc9660::TMC9660::Brake']]]
+  ['bootloaderinit_0',['bootloaderInit',['../classtmc9660_1_1TMC9660.html#a46ff0298acd72a9c6d1bc504a3b9c0ce',1,'tmc9660::TMC9660']]],
+  ['bootstraprs485_1',['bootstrapRS485',['../classtmc9660_1_1TMC9660Bootloader.html#a300d0f10989b72ed2094636a352bce6e',1,'tmc9660::TMC9660Bootloader']]],
+  ['brake_2',['Brake',['../structtmc9660_1_1TMC9660_1_1Brake.html#a87ce633a45e2a8f823b5264179c56543',1,'tmc9660::TMC9660::Brake']]]
 ];

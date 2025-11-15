@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::Power::PowerConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::Power::PowerConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html'
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::Power::PowerConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::Power::PowerConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,24 +108,27 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html'
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a7851765732e7a877db34f32db58985bf" id="r_a7851765732e7a877db34f32db58985bf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7851765732e7a877db34f32db58985bf">enableWakePin</a></td></tr>
-<tr class="memdesc:a7851765732e7a877db34f32db58985bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable external wake-up pin (optional, default: false).  <br /></td></tr>
-<tr class="separator:a7851765732e7a877db34f32db58985bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79c9d0907bf1d8edd044dbac03606507" id="r_a79c9d0907bf1d8edd044dbac03606507"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a3bf39e01008683eff7881e4d01e4874f">tmc9660::tmcl::PowerDownTimeout</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79c9d0907bf1d8edd044dbac03606507">powerDownTimeout</a></td></tr>
-<tr class="memdesc:a79c9d0907bf1d8edd044dbac03606507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power-down timeout period (optional, default: disabled).  <br /></td></tr>
-<tr class="separator:a79c9d0907bf1d8edd044dbac03606507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a532ef213d53012d478959884483db5c7" id="r_a532ef213d53012d478959884483db5c7"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a532ef213d53012d478959884483db5c7">enableWakePin</a></td></tr>
+<tr class="memdesc:a532ef213d53012d478959884483db5c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable external wake-up pin (optional, default: false).  <br /></td></tr>
+<tr class="separator:a532ef213d53012d478959884483db5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82c8445b41915dde3ef2366983238730" id="r_a82c8445b41915dde3ef2366983238730"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespacetmc9660_1_1tmcl.html#a3bf39e01008683eff7881e4d01e4874f">tmc9660::tmcl::PowerDownTimeout</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82c8445b41915dde3ef2366983238730">powerDownTimeout</a></td></tr>
+<tr class="memdesc:a82c8445b41915dde3ef2366983238730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Power-down timeout period (optional, default: disabled).  <br /></td></tr>
+<tr class="separator:a82c8445b41915dde3ef2366983238730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for power management auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::Power::PowerConfig</div><p>Configuration structure for power management auto-configuration. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a7851765732e7a877db34f32db58985bf" name="a7851765732e7a877db34f32db58985bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7851765732e7a877db34f32db58985bf">&#9670;&#160;</a></span>enableWakePin</h2>
+<a id="a532ef213d53012d478959884483db5c7" name="a532ef213d53012d478959884483db5c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a532ef213d53012d478959884483db5c7">&#9670;&#160;</a></span>enableWakePin</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::Power::PowerConfig::enableWakePin</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Power::PowerConfig::enableWakePin</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -135,14 +138,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a79c9d0907bf1d8edd044dbac03606507" name="a79c9d0907bf1d8edd044dbac03606507"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79c9d0907bf1d8edd044dbac03606507">&#9670;&#160;</a></span>powerDownTimeout</h2>
+<a id="a82c8445b41915dde3ef2366983238730" name="a82c8445b41915dde3ef2366983238730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82c8445b41915dde3ef2366983238730">&#9670;&#160;</a></span>powerDownTimeout</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a3bf39e01008683eff7881e4d01e4874f">tmc9660::tmcl::PowerDownTimeout</a>&gt; tmc9660::TMC9660::Power::PowerConfig::powerDownTimeout</td>
+          <td class="memname">std::optional&lt;<a class="el" href="namespacetmc9660_1_1tmcl.html#a3bf39e01008683eff7881e4d01e4874f">tmc9660::tmcl::PowerDownTimeout</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Power::PowerConfig::powerDownTimeout</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -15,5 +15,5 @@ var structtmc9660_1_1TMC9660_1_1Telemetry =
     [ "getMotorCurrent", "structtmc9660_1_1TMC9660_1_1Telemetry.html#a1a621543b53b02c2c4ab3524e7b29541", null ],
     [ "getSupplyVoltage", "structtmc9660_1_1TMC9660_1_1Telemetry.html#a6d380c25a5c84b61e5268d0bb758e281", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1Telemetry.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1Telemetry.html#af13a63326fec40f351ab632781183f9c", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1Telemetry.html#ae0a16a25931f56fe74a52025e346994c", null ]
 ];

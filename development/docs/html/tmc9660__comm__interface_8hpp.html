@@ -122,7 +122,7 @@ Include dependency graph for tmc9660_comm_interface.hpp:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__comm__interface_8hpp__dep__incl.svg" width="1168" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__comm__interface_8hpp__dep__incl.svg" width="1168" height="344"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="tmc9660__comm__interface_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -135,14 +135,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMCLFrame.html">tmc9660::TMCLFrame</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frame structure for TMCL commands.  <a href="structtmc9660_1_1TMCLFrame.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1CommInterface.html">tmc9660::CommInterface</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1CommInterface.html">tmc9660::CommInterface&lt; Derived &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI status codes as per <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> Parameter Mode.  <a href="classtmc9660_1_1CommInterface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI implementation of TMC9660CommInterface.  <a href="classtmc9660_1_1SpiCommInterface.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface&lt; Derived &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRTP-based SPI implementation of TMC9660CommInterface.  <a href="classtmc9660_1_1SpiCommInterface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1UartCommInterface.html">tmc9660::UartCommInterface</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">UART implementation of TMC9660CommInterface.  <a href="classtmc9660_1_1UartCommInterface.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1UartCommInterface.html">tmc9660::UartCommInterface&lt; Derived &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">CRTP-based UART implementation of TMC9660CommInterface.  <a href="classtmc9660_1_1UartCommInterface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -185,7 +185,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2fc16e5feffbef089c5c9660c62615d5" id="r_a2fc16e5feffbef089c5c9660c62615d5"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660.html#a2fc16e5feffbef089c5c9660c62615d5">tmc9660::tmclChecksum</a> (const uint8_t *bytes, size_t n, uint8_t start=0) noexcept</td></tr>
+<tr class="memitem:a2fc16e5feffbef089c5c9660c62615d5" id="r_a2fc16e5feffbef089c5c9660c62615d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">constexpr</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660.html#a2fc16e5feffbef089c5c9660c62615d5">tmc9660::tmclChecksum</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> *<a class="el" href="classtmc9660_1_1CommInterface.html">bytes</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">size_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">n</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> start=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a2fc16e5feffbef089c5c9660c62615d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate 8-bit checksum using sum of bytes method.  <br /></td></tr>
 <tr class="separator:a2fc16e5feffbef089c5c9660c62615d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

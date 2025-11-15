@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::PositionControl::PositionConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::PositionControl::PositionConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1PositionControl_1_1Positio
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1PositionControl_1_1PositionConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::PositionControl::PositionConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::PositionControl::PositionConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,52 +108,55 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1PositionControl_1_1Positio
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a52e6efd9ec559ede029b706e9a0d5cef" id="r_a52e6efd9ec559ede029b706e9a0d5cef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad76e747d0db321a75ff34b1ca1830dc6">tmc9660::tmcl::PositionSensorSelection</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52e6efd9ec559ede029b706e9a0d5cef">sensorSelection</a></td></tr>
-<tr class="memdesc:a52e6efd9ec559ede029b706e9a0d5cef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position feedback sensor selection (required)  <br /></td></tr>
-<tr class="separator:a52e6efd9ec559ede029b706e9a0d5cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90b622abdbf6a4866fe840aa2b4e3cee" id="r_a90b622abdbf6a4866fe840aa2b4e3cee"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90b622abdbf6a4866fe840aa2b4e3cee">positionP</a></td></tr>
-<tr class="memdesc:a90b622abdbf6a4866fe840aa2b4e3cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position P gain [0-32767] (optional, default: 2000).  <br /></td></tr>
-<tr class="separator:a90b622abdbf6a4866fe840aa2b4e3cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19f67015534540cc22c9216a0c26b9c5" id="r_a19f67015534540cc22c9216a0c26b9c5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19f67015534540cc22c9216a0c26b9c5">positionI</a></td></tr>
-<tr class="memdesc:a19f67015534540cc22c9216a0c26b9c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position I gain [0-32767] (optional, default: 100).  <br /></td></tr>
-<tr class="separator:a19f67015534540cc22c9216a0c26b9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa358b212c2004343e1104e789a85dc6c" id="r_aa358b212c2004343e1104e789a85dc6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa358b212c2004343e1104e789a85dc6c">pNormalization</a></td></tr>
-<tr class="separator:aa358b212c2004343e1104e789a85dc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c9916480f5267d2c449b22019f30a94" id="r_a3c9916480f5267d2c449b22019f30a94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c9916480f5267d2c449b22019f30a94">iNormalization</a></td></tr>
-<tr class="separator:a3c9916480f5267d2c449b22019f30a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e55d11877cc4f6022858f1f8c106511" id="r_a8e55d11877cc4f6022858f1f8c106511"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint16_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e55d11877cc4f6022858f1f8c106511">positionScalingFactor</a></td></tr>
-<tr class="separator:a8e55d11877cc4f6022858f1f8c106511"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02e0fd6169b7b1f912f093cc9a0fd158" id="r_a02e0fd6169b7b1f912f093cc9a0fd158"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02e0fd6169b7b1f912f093cc9a0fd158">encoderCountsPerRev</a></td></tr>
-<tr class="separator:a02e0fd6169b7b1f912f093cc9a0fd158"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33bc3881a5421192064e2511934891d3" id="r_a33bc3881a5421192064e2511934891d3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33bc3881a5421192064e2511934891d3">loopDownsampling</a> = 1</td></tr>
-<tr class="memdesc:a33bc3881a5421192064e2511934891d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position loop downsampling factor [0-127] (default: 1).  <br /></td></tr>
-<tr class="separator:a33bc3881a5421192064e2511934891d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae84210efb2e6a2dca7b5d42278a26010" id="r_ae84210efb2e6a2dca7b5d42278a26010"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae84210efb2e6a2dca7b5d42278a26010">positionLimitLow</a></td></tr>
-<tr class="memdesc:ae84210efb2e6a2dca7b5d42278a26010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low position limit (optional, disabled if not provided)  <br /></td></tr>
-<tr class="separator:ae84210efb2e6a2dca7b5d42278a26010"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4483720a376b07ddb4ae230d6612924" id="r_ad4483720a376b07ddb4ae230d6612924"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4483720a376b07ddb4ae230d6612924">positionLimitHigh</a></td></tr>
-<tr class="memdesc:ad4483720a376b07ddb4ae230d6612924"><td class="mdescLeft">&#160;</td><td class="mdescRight">High position limit (optional, disabled if not provided)  <br /></td></tr>
-<tr class="separator:ad4483720a376b07ddb4ae230d6612924"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c1f5909ecef6ea10b96dd13e08679b4" id="r_a1c1f5909ecef6ea10b96dd13e08679b4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c1f5909ecef6ea10b96dd13e08679b4">positionReachedThreshold</a> = 100</td></tr>
-<tr class="memdesc:a1c1f5909ecef6ea10b96dd13e08679b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position reached threshold (default: 100)  <br /></td></tr>
-<tr class="separator:a1c1f5909ecef6ea10b96dd13e08679b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a009137f92301d883c879fdff19dd4c2f" id="r_a009137f92301d883c879fdff19dd4c2f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a009137f92301d883c879fdff19dd4c2f">stopOnDeviationMaxError</a></td></tr>
-<tr class="separator:a009137f92301d883c879fdff19dd4c2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe0f03729af050ddd41903a2aaaada0a" id="r_abe0f03729af050ddd41903a2aaaada0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe0f03729af050ddd41903a2aaaada0a">stopOnDeviationSoftStop</a></td></tr>
-<tr class="memdesc:abe0f03729af050ddd41903a2aaaada0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use soft stop (ramp down) for deviation stop (default: true)  <br /></td></tr>
-<tr class="separator:abe0f03729af050ddd41903a2aaaada0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57bf262f18a49b96fadf8b235df969a2" id="r_a57bf262f18a49b96fadf8b235df969a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad76e747d0db321a75ff34b1ca1830dc6">tmc9660::tmcl::PositionSensorSelection</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57bf262f18a49b96fadf8b235df969a2">sensorSelection</a></td></tr>
+<tr class="memdesc:a57bf262f18a49b96fadf8b235df969a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position feedback sensor selection (required)  <br /></td></tr>
+<tr class="separator:a57bf262f18a49b96fadf8b235df969a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee0e7bfcfc6d600b455cd7480ab40201" id="r_aee0e7bfcfc6d600b455cd7480ab40201"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee0e7bfcfc6d600b455cd7480ab40201">positionP</a></td></tr>
+<tr class="memdesc:aee0e7bfcfc6d600b455cd7480ab40201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position P gain [0-32767] (optional, default: 2000).  <br /></td></tr>
+<tr class="separator:aee0e7bfcfc6d600b455cd7480ab40201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7bd822b655475cd04f4c4bc325d6909" id="r_ac7bd822b655475cd04f4c4bc325d6909"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7bd822b655475cd04f4c4bc325d6909">positionI</a></td></tr>
+<tr class="memdesc:ac7bd822b655475cd04f4c4bc325d6909"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position I gain [0-32767] (optional, default: 100).  <br /></td></tr>
+<tr class="separator:ac7bd822b655475cd04f4c4bc325d6909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a172b737b8ed4919b2e422f5b94d4f181" id="r_a172b737b8ed4919b2e422f5b94d4f181"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a172b737b8ed4919b2e422f5b94d4f181">pNormalization</a></td></tr>
+<tr class="separator:a172b737b8ed4919b2e422f5b94d4f181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d7e8e4527e5405f077d2d1a00551534" id="r_a6d7e8e4527e5405f077d2d1a00551534"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d7e8e4527e5405f077d2d1a00551534">iNormalization</a></td></tr>
+<tr class="separator:a6d7e8e4527e5405f077d2d1a00551534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec4821f56e9638b08632b6298c05e1e4" id="r_aec4821f56e9638b08632b6298c05e1e4"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec4821f56e9638b08632b6298c05e1e4">positionScalingFactor</a></td></tr>
+<tr class="separator:aec4821f56e9638b08632b6298c05e1e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb9855f39c985d25ac8b21e18fff857" id="r_aecb9855f39c985d25ac8b21e18fff857"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aecb9855f39c985d25ac8b21e18fff857">encoderCountsPerRev</a></td></tr>
+<tr class="separator:aecb9855f39c985d25ac8b21e18fff857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78596059504cf903c77d5e404816cdec" id="r_a78596059504cf903c77d5e404816cdec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78596059504cf903c77d5e404816cdec">loopDownsampling</a> = 1</td></tr>
+<tr class="memdesc:a78596059504cf903c77d5e404816cdec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position loop downsampling factor [0-127] (default: 1).  <br /></td></tr>
+<tr class="separator:a78596059504cf903c77d5e404816cdec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5df4aafe601465f4c70a04e306a31304" id="r_a5df4aafe601465f4c70a04e306a31304"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5df4aafe601465f4c70a04e306a31304">positionLimitLow</a></td></tr>
+<tr class="memdesc:a5df4aafe601465f4c70a04e306a31304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Low position limit (optional, disabled if not provided)  <br /></td></tr>
+<tr class="separator:a5df4aafe601465f4c70a04e306a31304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad81d9b0ea980570536c1e82e71f04525" id="r_ad81d9b0ea980570536c1e82e71f04525"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad81d9b0ea980570536c1e82e71f04525">positionLimitHigh</a></td></tr>
+<tr class="memdesc:ad81d9b0ea980570536c1e82e71f04525"><td class="mdescLeft">&#160;</td><td class="mdescRight">High position limit (optional, disabled if not provided)  <br /></td></tr>
+<tr class="separator:ad81d9b0ea980570536c1e82e71f04525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff6a9094f43d24d45071fd4c7fe7ba69" id="r_aff6a9094f43d24d45071fd4c7fe7ba69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff6a9094f43d24d45071fd4c7fe7ba69">positionReachedThreshold</a> = 100</td></tr>
+<tr class="memdesc:aff6a9094f43d24d45071fd4c7fe7ba69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position reached threshold (default: 100)  <br /></td></tr>
+<tr class="separator:aff6a9094f43d24d45071fd4c7fe7ba69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee0225f83e0eb295b8e0ea0a354e4cb" id="r_abee0225f83e0eb295b8e0ea0a354e4cb"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abee0225f83e0eb295b8e0ea0a354e4cb">stopOnDeviationMaxError</a></td></tr>
+<tr class="separator:abee0225f83e0eb295b8e0ea0a354e4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d43356b4019de8572e55e879117f0eb" id="r_a9d43356b4019de8572e55e879117f0eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d43356b4019de8572e55e879117f0eb">stopOnDeviationSoftStop</a></td></tr>
+<tr class="memdesc:a9d43356b4019de8572e55e879117f0eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use soft stop (ramp down) for deviation stop (default: true)  <br /></td></tr>
+<tr class="separator:a9d43356b4019de8572e55e879117f0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for position control auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::PositionControl::PositionConfig</div><p>Configuration structure for position control auto-configuration. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a02e0fd6169b7b1f912f093cc9a0fd158" name="a02e0fd6169b7b1f912f093cc9a0fd158"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02e0fd6169b7b1f912f093cc9a0fd158">&#9670;&#160;</a></span>encoderCountsPerRev</h2>
+<a id="aecb9855f39c985d25ac8b21e18fff857" name="aecb9855f39c985d25ac8b21e18fff857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb9855f39c985d25ac8b21e18fff857">&#9670;&#160;</a></span>encoderCountsPerRev</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint32_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::encoderCountsPerRev</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::encoderCountsPerRev</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -161,14 +164,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3c9916480f5267d2c449b22019f30a94" name="a3c9916480f5267d2c449b22019f30a94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c9916480f5267d2c449b22019f30a94">&#9670;&#160;</a></span>iNormalization</h2>
+<a id="a6d7e8e4527e5405f077d2d1a00551534" name="a6d7e8e4527e5405f077d2d1a00551534"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d7e8e4527e5405f077d2d1a00551534">&#9670;&#160;</a></span>iNormalization</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a> tmc9660::TMC9660::PositionControl::PositionConfig::iNormalization</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::iNormalization</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -178,14 +183,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a33bc3881a5421192064e2511934891d3" name="a33bc3881a5421192064e2511934891d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33bc3881a5421192064e2511934891d3">&#9670;&#160;</a></span>loopDownsampling</h2>
+<a id="a78596059504cf903c77d5e404816cdec" name="a78596059504cf903c77d5e404816cdec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78596059504cf903c77d5e404816cdec">&#9670;&#160;</a></span>loopDownsampling</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t tmc9660::TMC9660::PositionControl::PositionConfig::loopDownsampling = 1</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::loopDownsampling = 1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -193,7 +200,7 @@ Public Attributes</h2></td></tr>
 <p>Position loop downsampling factor [0-127] (default: 1). </p>
 <p><b>Clock Distribution (Cascading):</b> The position control loop frequency is derived from the <b>velocity loop frequency</b>:</p><ul>
 <li>Velocity loop frequency = PWM frequency / (VELOCITY_LOOP_DOWNSAMPLING + 1)</li>
-<li>Position loop frequency = Velocity loop frequency / (loopDownsampling + 1)</li>
+<li>Position loop frequency = Velocity loop frequency / (loop_downsampling + 1)</li>
 <li>Example: 25kHz PWM, velocity downsampling=5, position downsampling=1 → velocity loop = 25kHz/6 = 4.17kHz → position loop = 4.17kHz/2 = 2.08kHz</li>
 </ul>
 <p><b>Effect on PI Gains:</b> Lower loop frequencies (higher downsampling) require proportionally higher PI gains to maintain the same response. The integrator speed depends on the PWM frequency, velocity loop downsampling, and this position loop downsampling factor.</p>
@@ -207,14 +214,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa358b212c2004343e1104e789a85dc6c" name="aa358b212c2004343e1104e789a85dc6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa358b212c2004343e1104e789a85dc6c">&#9670;&#160;</a></span>pNormalization</h2>
+<a id="a172b737b8ed4919b2e422f5b94d4f181" name="a172b737b8ed4919b2e422f5b94d4f181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a172b737b8ed4919b2e422f5b94d4f181">&#9670;&#160;</a></span>pNormalization</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a> tmc9660::TMC9660::PositionControl::PositionConfig::pNormalization</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a449f06d1ce3c73cb15bbb40464898764">tmc9660::tmcl::VelocityPiNorm</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::pNormalization</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -224,14 +233,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a19f67015534540cc22c9216a0c26b9c5" name="a19f67015534540cc22c9216a0c26b9c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19f67015534540cc22c9216a0c26b9c5">&#9670;&#160;</a></span>positionI</h2>
+<a id="ac7bd822b655475cd04f4c4bc325d6909" name="ac7bd822b655475cd04f4c4bc325d6909"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7bd822b655475cd04f4c4bc325d6909">&#9670;&#160;</a></span>positionI</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::positionI</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionI</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -241,14 +252,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad4483720a376b07ddb4ae230d6612924" name="ad4483720a376b07ddb4ae230d6612924"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4483720a376b07ddb4ae230d6612924">&#9670;&#160;</a></span>positionLimitHigh</h2>
+<a id="ad81d9b0ea980570536c1e82e71f04525" name="ad81d9b0ea980570536c1e82e71f04525"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad81d9b0ea980570536c1e82e71f04525">&#9670;&#160;</a></span>positionLimitHigh</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::positionLimitHigh</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionLimitHigh</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -257,14 +270,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae84210efb2e6a2dca7b5d42278a26010" name="ae84210efb2e6a2dca7b5d42278a26010"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae84210efb2e6a2dca7b5d42278a26010">&#9670;&#160;</a></span>positionLimitLow</h2>
+<a id="a5df4aafe601465f4c70a04e306a31304" name="a5df4aafe601465f4c70a04e306a31304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5df4aafe601465f4c70a04e306a31304">&#9670;&#160;</a></span>positionLimitLow</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;int32_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::positionLimitLow</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionLimitLow</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -273,14 +288,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a90b622abdbf6a4866fe840aa2b4e3cee" name="a90b622abdbf6a4866fe840aa2b4e3cee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90b622abdbf6a4866fe840aa2b4e3cee">&#9670;&#160;</a></span>positionP</h2>
+<a id="aee0e7bfcfc6d600b455cd7480ab40201" name="aee0e7bfcfc6d600b455cd7480ab40201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee0e7bfcfc6d600b455cd7480ab40201">&#9670;&#160;</a></span>positionP</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::positionP</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionP</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -290,14 +307,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1c1f5909ecef6ea10b96dd13e08679b4" name="a1c1f5909ecef6ea10b96dd13e08679b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c1f5909ecef6ea10b96dd13e08679b4">&#9670;&#160;</a></span>positionReachedThreshold</h2>
+<a id="aff6a9094f43d24d45071fd4c7fe7ba69" name="aff6a9094f43d24d45071fd4c7fe7ba69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff6a9094f43d24d45071fd4c7fe7ba69">&#9670;&#160;</a></span>positionReachedThreshold</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t tmc9660::TMC9660::PositionControl::PositionConfig::positionReachedThreshold = 100</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionReachedThreshold = 100</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -306,14 +325,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8e55d11877cc4f6022858f1f8c106511" name="a8e55d11877cc4f6022858f1f8c106511"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e55d11877cc4f6022858f1f8c106511">&#9670;&#160;</a></span>positionScalingFactor</h2>
+<a id="aec4821f56e9638b08632b6298c05e1e4" name="aec4821f56e9638b08632b6298c05e1e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec4821f56e9638b08632b6298c05e1e4">&#9670;&#160;</a></span>positionScalingFactor</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint16_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::positionScalingFactor</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::positionScalingFactor</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -321,14 +342,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a52e6efd9ec559ede029b706e9a0d5cef" name="a52e6efd9ec559ede029b706e9a0d5cef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52e6efd9ec559ede029b706e9a0d5cef">&#9670;&#160;</a></span>sensorSelection</h2>
+<a id="a57bf262f18a49b96fadf8b235df969a2" name="a57bf262f18a49b96fadf8b235df969a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57bf262f18a49b96fadf8b235df969a2">&#9670;&#160;</a></span>sensorSelection</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad76e747d0db321a75ff34b1ca1830dc6">tmc9660::tmcl::PositionSensorSelection</a> tmc9660::TMC9660::PositionControl::PositionConfig::sensorSelection</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad76e747d0db321a75ff34b1ca1830dc6">tmc9660::tmcl::PositionSensorSelection</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::sensorSelection</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -337,14 +360,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a009137f92301d883c879fdff19dd4c2f" name="a009137f92301d883c879fdff19dd4c2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a009137f92301d883c879fdff19dd4c2f">&#9670;&#160;</a></span>stopOnDeviationMaxError</h2>
+<a id="abee0225f83e0eb295b8e0ea0a354e4cb" name="abee0225f83e0eb295b8e0ea0a354e4cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee0225f83e0eb295b8e0ea0a354e4cb">&#9670;&#160;</a></span>stopOnDeviationMaxError</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint32_t&gt; tmc9660::TMC9660::PositionControl::PositionConfig::stopOnDeviationMaxError</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::stopOnDeviationMaxError</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -352,14 +377,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="abe0f03729af050ddd41903a2aaaada0a" name="abe0f03729af050ddd41903a2aaaada0a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe0f03729af050ddd41903a2aaaada0a">&#9670;&#160;</a></span>stopOnDeviationSoftStop</h2>
+<a id="a9d43356b4019de8572e55e879117f0eb" name="a9d43356b4019de8572e55e879117f0eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d43356b4019de8572e55e879117f0eb">&#9670;&#160;</a></span>stopOnDeviationSoftStop</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool tmc9660::TMC9660::PositionControl::PositionConfig::stopOnDeviationSoftStop</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::PositionConfig::stopOnDeviationSoftStop</td>
         </tr>
       </table>
 </div><div class="memdoc">

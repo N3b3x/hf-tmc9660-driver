@@ -1,7 +1,7 @@
 var structtmc9660_1_1TMC9660_1_1PositionControl =
 [
     [ "PositionConfig", "structtmc9660_1_1TMC9660_1_1PositionControl_1_1PositionConfig.html", "structtmc9660_1_1TMC9660_1_1PositionControl_1_1PositionConfig" ],
-    [ "PositionControl", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a80ad0b627e0e1931e480073f693dfa79", null ],
+    [ "PositionControl", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a25da87e1f836ddb9486a133f6e0dbd05", null ],
     [ "configureAuto", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a8a114987fe74fe7a40456060db0f61b1", null ],
     [ "getActualPosition", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a4733fbb303d6c6cfcb5d8eaa00079286", null ],
     [ "getEventStopSettings", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a2a0e8b33876880cbfecd666902920f34", null ],
@@ -23,13 +23,13 @@ var structtmc9660_1_1TMC9660_1_1PositionControl =
     [ "getReferenceSwitchSearchSpeed", "structtmc9660_1_1TMC9660_1_1PositionControl.html#abf91ee3d1bee60914e479598de414288", null ],
     [ "getReferenceSwitchSpeed", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a85c5b6fd0e0910eddf2fa2bec84b34e5", null ],
     [ "getRightLimitSwitchPosition", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a21e0363bf8577aed40d1d5013cabaf6a", null ],
-    [ "getStopOnPositionDeviation", "structtmc9660_1_1TMC9660_1_1PositionControl.html#aebfa7ee79361c4cb613d500cdfc8a249", null ],
+    [ "getStopOnPositionDeviation", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a0dcbee441f4f93297b51a33ff1051993", null ],
     [ "setEventStopSettings", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a2515084fb65e95cb7bf16f2f51687cb6", null ],
     [ "setPositionLimitHigh", "structtmc9660_1_1TMC9660_1_1PositionControl.html#aa2c811bc459c9f9f15499ba354ba14d0", null ],
     [ "setPositionLimitLow", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a920accefc602cd837708f8b8af613870", null ],
     [ "setPositionLoopDownsampling", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a2e6288eef5839f57e8f3bc60303fc75d", null ],
     [ "setPositionLoopGains", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a15eaa499b9ed558cb10ae401499d6841", null ],
-    [ "setPositionNormalization", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a94c0b8dbad4588dd4eb78a0c6ba24321", null ],
+    [ "setPositionNormalization", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a53fa08932b69b82e3e88ea4a5e305608", null ],
     [ "setPositionReachedThreshold", "structtmc9660_1_1TMC9660_1_1PositionControl.html#ad41ba3f0624454dfa1416a00263f31fe", null ],
     [ "setPositionScalingFactor", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a31178f9dd2d0cddb6fde3340df07be1a", null ],
     [ "setPositionSensor", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a9fc673f82b870e86feeaacd96a342bd2", null ],
@@ -39,9 +39,9 @@ var structtmc9660_1_1TMC9660_1_1PositionControl =
     [ "setReferenceSwitchSearchMode", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a5e891f30fcec34789ef63e93ec751c2b", null ],
     [ "setReferenceSwitchSearchSpeed", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a82d3d4bf7b5a85c40bcc8343ee77ed6f", null ],
     [ "setReferenceSwitchSpeed", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a03e4b41eec6a5743fc31f272791d486c", null ],
-    [ "setStopOnPositionDeviation", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a4beaa3ff91a5d1b5c7ba75dc603e90c3", null ],
+    [ "setStopOnPositionDeviation", "structtmc9660_1_1TMC9660_1_1PositionControl.html#aa148675b1b8b3b8d7a5a6225c8c148a9", null ],
     [ "setTargetPosition", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a179d146dd369e7943032d2b5307209d6", null ],
     [ "stop", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a1b57ebb07d9789bf6fb98d79961b3a4c", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a25735b566b62d4f5e06ceb83c856e493", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1PositionControl.html#a61628564a521936af52ad0dafa21c46f", null ]
 ];

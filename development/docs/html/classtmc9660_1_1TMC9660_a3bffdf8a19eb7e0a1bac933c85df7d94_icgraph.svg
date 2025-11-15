@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a42c0a38df2b3a9cd735f1dda3347ab9d" target="_top" xlink:title="Exit parameter mode and return to bootloader mode.">
+<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a1933267505d2f90ab93e4a04bd1099bc" target="_top" xlink:title="Exit parameter mode and return to bootloader mode.">
 <polygon fill="white" stroke="#666666" points="223,-67.5 0,-67.5 0,-48.5 223,-48.5 223,-67.5"/>
 <text text-anchor="middle" x="111.5" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660::enterBootloaderMode</text>
 </a>

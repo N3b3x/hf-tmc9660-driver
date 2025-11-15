@@ -76,11 +76,50 @@ static constexpr uint16_t TEST_POSITION_TARGET = 500;    // internal units
 
 // Helper functions
 struct TestDriverHandle {
-    std::unique_ptr<CommInterface> interface;
-    std::unique_ptr<TMC9660> driver;
+    std::variant<
+        std::unique_ptr<Esp32SPITMC9660CommInterface>,
+        std::unique_ptr<Esp32UARTTMC9660CommInterface>
+    > interface;
+    std::variant<
+        std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>,
+        std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>
+    > driver;
 };
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;
-void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
+
+// Helper to get SPI driver
+inline TMC9660<Esp32SPITMC9660CommInterface>* get_spi_driver(TestDriverHandle& handle) {
+    if (auto* spi_driver = std::get_if<std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>>(&handle.driver)) {
+        return spi_driver->get();
+    }
+    return nullptr;
+}
+
+// Helper to get UART driver
+inline TMC9660<Esp32UARTTMC9660CommInterface>* get_uart_driver(TestDriverHandle& handle) {
+    if (auto* uart_driver = std::get_if<std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>>(&handle.driver)) {
+        return uart_driver->get();
+    }
+    return nullptr;
+}
+
+// Helper to get driver (tries SPI first, then UART)
+// Returns nullptr if neither is available
+template<typename DriverType = TMC9660<Esp32SPITMC9660CommInterface>>
+DriverType* get_driver(TestDriverHandle& handle) {
+    if constexpr (std::is_same_v<DriverType, TMC9660<Esp32SPITMC9660CommInterface>>) {
+        return get_spi_driver(handle);
+    } else if constexpr (std::is_same_v<DriverType, TMC9660<Esp32UARTTMC9660CommInterface>>) {
+        return get_uart_driver(handle);
+    }
+    return nullptr;
+}
+
+// Note: get_spi_driver removed - use get_spi_driver() or get_uart_driver() explicitly
+// Most tests use SPI, so use get_spi_driver() unless explicitly testing UART
+
+void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept;
+void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept;
 
 // Forward declarations
 // Bootloader initialization and basic functionality tests
@@ -101,19 +140,32 @@ bool test_bldc_startup_shutdown_procedures() noexcept;
 bool test_bldc_motor_runtime_configuration() noexcept;
 
 // Comprehensive BLDC motor configuration functions
-bool configureGateDriverForBLDC(TMC9660& driver) noexcept;
-bool configureCurrentSensingForBLDC(TMC9660& driver) noexcept;
-bool configureHallSensorForBLDC(TMC9660& driver) noexcept;
-bool configureABNEncoderForBLDC(TMC9660& driver, uint32_t countsPerRev = 1024) noexcept;
-bool configureMotorParametersForBLDC(TMC9660& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept;
-bool configureFOCControlForBLDC(TMC9660& driver) noexcept;
-bool configureProtectionForBLDC(TMC9660& driver) noexcept;
-bool configureRampForBLDC(TMC9660& driver) noexcept;
-bool configureBrakeForBLDC(TMC9660& driver) noexcept;
-bool configureStopEventsForBLDC(TMC9660& driver) noexcept;
-bool configureHeartbeatForBLDC(TMC9660& driver) noexcept;
-bool configurePowerForBLDC(TMC9660& driver) noexcept;
-bool configureCompleteBLDCMotor(TMC9660& driver, uint8_t polePairs = 7, uint32_t pwmFrequency = 20000) noexcept;
+template<typename CommType>
+bool configureGateDriverForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureCurrentSensingForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureHallSensorForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureABNEncoderForBLDC(TMC9660<CommType>& driver, uint32_t countsPerRev = 1024) noexcept;
+template<typename CommType>
+bool configureMotorParametersForBLDC(TMC9660<CommType>& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept;
+template<typename CommType>
+bool configureFOCControlForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureProtectionForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureRampForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureBrakeForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureStopEventsForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureHeartbeatForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configurePowerForBLDC(TMC9660<CommType>& driver) noexcept;
+template<typename CommType>
+bool configureCompleteBLDCMotor(TMC9660<CommType>& driver, uint8_t polePairs = 7, uint32_t pwmFrequency = 20000) noexcept;
 
 
 
@@ -129,8 +181,13 @@ bool test_bldc_bootloader_initialization() noexcept {
     // Test 1: Basic bootloader initialization with SPI (using create_test_driver)
     ESP_LOGI(TAG, "Testing SPI bootloader initialization with EVKIT configuration...");
     auto spi_handle = create_test_driver(false, false);  // use_uart = false, use_flash = false
-    if (!spi_handle || !spi_handle->driver) {
+    if (!spi_handle) {
         ESP_LOGE(TAG, "Failed to create SPI test driver for bootloader initialization test");
+        return false;
+    }
+    auto* spi_driver = get_spi_driver(*spi_handle);
+    if (!spi_driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
     ESP_LOGI(TAG, "✅ SPI bootloader initialization successful with EVKIT config");
@@ -138,8 +195,14 @@ bool test_bldc_bootloader_initialization() noexcept {
     // Test 2: Bootloader initialization with UART and flash (using same EVKIT configuration)
     ESP_LOGI(TAG, "Testing UART bootloader initialization with flash enabled...");
     auto uart_handle = create_test_driver(true, true);  // use_uart = true, use_flash = true
-    if (!uart_handle || !uart_handle->driver) {
+    if (!uart_handle) {
         ESP_LOGW(TAG, "Failed to create UART test driver for bootloader initialization test");
+        ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
+        return true;
+    }
+    auto* uart_driver = get_uart_driver(*uart_handle);
+    if (!uart_driver) {
+        ESP_LOGW(TAG, "Failed to get UART driver");
         ESP_LOGI(TAG, "[SUCCESS] BLDC bootloader initialization tests passed (SPI only)");
         return true;
     }
@@ -152,14 +215,20 @@ bool test_bldc_driver_enable() noexcept {
     ESP_LOGI(TAG, "Testing BLDC driver enable (DRV_EN pin)...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Enable DRV_EN pin - this must be done before setting any motor parameters
     ESP_LOGI(TAG, "⚠️  ENABLING DRV_EN PIN - Motor driver outputs will be enabled!");
-    if (!handle->driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to enable DRV_EN pin");
         return false;
     }
@@ -168,7 +237,7 @@ bool test_bldc_driver_enable() noexcept {
     // Small delay to allow pin state to stabilize
     vTaskDelay(pdMS_TO_TICKS(10));
 
-    if(!handle->driver->comm().gpioSetInactive(TMC9660CtrlPin::DRV_EN)) {
+    if(!driver->comm().gpioSetInactive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to set DRV_EN pin to inactive");
         return false;
     }
@@ -182,8 +251,14 @@ bool test_bldc_motor_type_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC motor type configuration...");
 
     auto handle = create_test_driver(true, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
@@ -191,7 +266,7 @@ bool test_bldc_motor_type_configuration() noexcept {
     std::vector<uint8_t> pole_pairs = {1, 2, 4, 7, 14, 21};
     
     for (auto pole_pair : pole_pairs) {
-        if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, pole_pair)) {
+        if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, pole_pair)) {
             ESP_LOGE(TAG, "Failed to set BLDC motor type with %d pole pairs", pole_pair);
             return false;
         }
@@ -199,19 +274,19 @@ bool test_bldc_motor_type_configuration() noexcept {
     }
 
     // Test 2: Configure PWM frequency (required before setting current limits)
-    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+    if (!driver->motorConfig.setPWMFrequency(25000)) {
         ESP_LOGE(TAG, "Failed to set PWM frequency");
         //return false;
     }
     ESP_LOGI(TAG, "PWM frequency set to 25000 Hz");
 
     // Test 3: Set current limits
-    if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
+    if (!driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max torque current");
         //return false;
     }
 
-    if (!handle->driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
+    if (!driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max flux current");
         //return false;
     }
@@ -230,19 +305,25 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC Hall sensor configuration...");
 
     auto handle = create_test_driver(true, true);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
-        //return false;
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
     }
 
     // Configure basic motor setup first
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for Hall sensor test");
         //return false;
     }
 
     // Test 1: Configure Hall sensors
-    if (!handle->driver->feedbackSense.configureHall()) {
+    if (!driver->feedbackSense.configureHall()) {
         ESP_LOGE(TAG, "Failed to configure Hall sensors");
         //return false;
     }
@@ -250,7 +331,7 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "Hall sensors configured successfully");
 
     // Test 2: Set commutation mode to FOC with Hall sensors
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_HALL_SENSOR)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_HALL_SENSOR)) {
         ESP_LOGE(TAG, "Failed to set FOC Hall sensor commutation mode");
         //return false;
     }
@@ -258,12 +339,12 @@ bool test_bldc_hall_sensor_configuration() noexcept {
     ESP_LOGI(TAG, "FOC Hall sensor commutation mode set");
 
     // Test 3: Configure FOC control gains
-    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         //return false;
     }
 
-    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 1)) {
+    if (!driver->velocityControl.setVelocityLoopGains(800, 1)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         //return false;
     }
@@ -281,13 +362,19 @@ bool test_bldc_abn_encoder_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC ABN encoder configuration...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure basic motor setup first
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for ABN encoder test");
         return false;
     }
@@ -296,7 +383,7 @@ bool test_bldc_abn_encoder_configuration() noexcept {
     std::vector<uint16_t> encoder_cprs = {256, 512, 1024, 2048, 4096};
     
     for (auto cpr : encoder_cprs) {
-        if (!handle->driver->feedbackSense.configureABNEncoder(cpr)) {
+        if (!driver->feedbackSense.configureABNEncoder(cpr)) {
             ESP_LOGE(TAG, "Failed to configure ABN encoder with %d CPR", cpr);
             return false;
         }
@@ -304,7 +391,7 @@ bool test_bldc_abn_encoder_configuration() noexcept {
     }
 
     // Test 2: Set commutation mode to FOC with ABN encoder
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
         ESP_LOGE(TAG, "Failed to set FOC ABN commutation mode");
         return false;
     }
@@ -312,12 +399,12 @@ bool test_bldc_abn_encoder_configuration() noexcept {
     ESP_LOGI(TAG, "FOC ABN commutation mode set");
 
     // Test 3: Configure FOC control gains for encoder feedback
-    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(60, 120)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(60, 120)) {
         ESP_LOGE(TAG, "Failed to set current loop gains for ABN");
         return false;
     }
 
-    if (!handle->driver->velocityControl.setVelocityLoopGains(1000, 2)) {
+    if (!driver->velocityControl.setVelocityLoopGains(1000, 2)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains for ABN");
         return false;
     }
@@ -332,13 +419,19 @@ bool test_bldc_foc_control_configuration() noexcept {
     ESP_LOGI(TAG, "Testing BLDC FOC control configuration...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure basic motor setup
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for FOC test");
         return false;
     }
@@ -349,7 +442,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     };
 
     for (const auto& gains : current_gains) {
-        if (!handle->driver->torqueFluxControl.setCurrentLoopGains(gains.first, gains.second)) {
+        if (!driver->torqueFluxControl.setCurrentLoopGains(gains.first, gains.second)) {
             ESP_LOGE(TAG, "Failed to set current loop gains P=%d, I=%d", 
                      gains.first, gains.second);
             return false;
@@ -363,7 +456,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     };
 
     for (const auto& gains : velocity_gains) {
-        if (!handle->driver->velocityControl.setVelocityLoopGains(gains.first, gains.second)) {
+        if (!driver->velocityControl.setVelocityLoopGains(gains.first, gains.second)) {
             ESP_LOGE(TAG, "Failed to set velocity loop gains P=%d, I=%d", 
                      gains.first, gains.second);
             return false;
@@ -372,7 +465,7 @@ bool test_bldc_foc_control_configuration() noexcept {
     }
 
     // Test 3: Configure position loop gains
-    if (!handle->driver->positionControl.setPositionLoopGains(2000, 100)) {
+    if (!driver->positionControl.setPositionLoopGains(2000, 100)) {
         ESP_LOGW(TAG, "Position loop gains not supported or failed");
     } else {
         ESP_LOGI(TAG, "Position loop gains configured");
@@ -386,28 +479,34 @@ bool test_bldc_velocity_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC velocity control...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure motor for velocity control
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for velocity control test");
         return false;
     }
 
-    if (!handle->driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
+    if (!driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
         ESP_LOGE(TAG, "Failed to configure encoder for velocity control test");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
         ESP_LOGE(TAG, "Failed to set commutation mode for velocity control test");
         return false;
     }
 
-    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 2)) {
+    if (!driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         return false;
     }
@@ -416,7 +515,7 @@ bool test_bldc_velocity_control() noexcept {
     std::vector<int16_t> velocity_targets = {0, 100, 500, 1000, 2000, -500, -1000};
 
     for (auto target : velocity_targets) {
-        if (!handle->driver->velocityControl.setTargetVelocity(target)) {
+        if (!driver->velocityControl.setTargetVelocity(target)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d", target);
             return false;
         }
@@ -429,7 +528,7 @@ bool test_bldc_velocity_control() noexcept {
     // Test 2: Test velocity ramping
     ESP_LOGI(TAG, "Testing velocity ramping...");
     for (int16_t vel = 0; vel <= 1000; vel += 100) {
-        if (!handle->driver->velocityControl.setTargetVelocity(vel)) {
+        if (!driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d during ramping", vel);
             return false;
         }
@@ -437,7 +536,7 @@ bool test_bldc_velocity_control() noexcept {
     }
 
     // Test 3: Stop motor
-    handle->driver->torqueFluxControl.stop();
+    driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC velocity control tests passed");
@@ -448,29 +547,35 @@ bool test_bldc_current_control() noexcept {
     ESP_LOGI(TAG, "Testing BLDC current control...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure motor for current control
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for current control test");
         return false;
     }
 
     // Set PWM frequency before setting current limits
-    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+    if (!driver->motorConfig.setPWMFrequency(25000)) {
         ESP_LOGE(TAG, "Failed to set PWM frequency");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
+    if (!driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max torque current");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
+    if (!driver->motorConfig.setMaxFluxCurrent(TEST_MAX_FLUX_CURRENT)) {
         ESP_LOGE(TAG, "Failed to set max flux current");
         return false;
     }
@@ -480,12 +585,12 @@ bool test_bldc_current_control() noexcept {
     std::vector<uint16_t> flux_limits = {250, 500, 750, 1000, 1500};
 
     for (size_t i = 0; i < torque_limits.size(); ++i) {
-        if (!handle->driver->motorConfig.setMaxTorqueCurrent(torque_limits[i])) {
+        if (!driver->motorConfig.setMaxTorqueCurrent(torque_limits[i])) {
             ESP_LOGE(TAG, "Failed to set torque current limit %d", torque_limits[i]);
             return false;
         }
 
-        if (!handle->driver->motorConfig.setMaxFluxCurrent(flux_limits[i])) {
+        if (!driver->motorConfig.setMaxFluxCurrent(flux_limits[i])) {
             ESP_LOGE(TAG, "Failed to set flux current limit %d", flux_limits[i]);
             return false;
         }
@@ -495,7 +600,7 @@ bool test_bldc_current_control() noexcept {
     }
 
     // Test 2: Configure current loop gains
-    if (!handle->driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         return false;
     }
@@ -508,50 +613,56 @@ bool test_bldc_commutation_modes() noexcept {
     ESP_LOGI(TAG, "Testing BLDC commutation modes...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure basic motor setup
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for commutation test");
         return false;
     }
 
     // Test 1: FOC with Hall sensors
-    if (!handle->driver->feedbackSense.configureHall()) {
+    if (!driver->feedbackSense.configureHall()) {
         ESP_LOGE(TAG, "Failed to configure Hall sensors");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_HALL_SENSOR)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_HALL_SENSOR)) {
         ESP_LOGE(TAG, "Failed to set FOC Hall sensor commutation mode");
         return false;
     }
     ESP_LOGI(TAG, "FOC Hall sensor commutation mode set");
 
     // Test 2: FOC with ABN encoder
-    if (!handle->driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
+    if (!driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
         ESP_LOGE(TAG, "Failed to configure ABN encoder");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
         ESP_LOGE(TAG, "Failed to set FOC ABN commutation mode");
         return false;
     }
     ESP_LOGI(TAG, "FOC ABN commutation mode set");
 
     // Test 3: FOC open-loop current mode
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_CURRENT_MODE)) {
         ESP_LOGE(TAG, "Failed to set FOC open-loop current mode");
         return false;
     }
     ESP_LOGI(TAG, "FOC open-loop current mode set");
 
     // Test 4: FOC open-loop velocity mode
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_VOLTAGE_MODE)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_VOLTAGE_MODE)) {
         ESP_LOGE(TAG, "Failed to set FOC open-loop velocity mode");
         return false;
     }
@@ -565,35 +676,41 @@ bool test_bldc_telemetry_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing BLDC telemetry monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure motor for telemetry testing
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for telemetry test");
         return false;
     }
 
     // Test 1: Read basic telemetry data
-    log_telemetry_data(*handle->driver, "Initial state");
+    log_telemetry_data(*driver, "Initial state");
 
     // Test 2: Read telemetry during motor operation
-    if (handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started for telemetry monitoring");
         
         for (int i = 0; i < 5; ++i) {
-            log_telemetry_data(*handle->driver, "During operation");
+            log_telemetry_data(*driver, "During operation");
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        handle->driver->torqueFluxControl.stop();
+        driver->torqueFluxControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
     // Test 3: Read telemetry after motor stop
-    log_telemetry_data(*handle->driver, "After stop");
+    log_telemetry_data(*driver, "After stop");
 
     ESP_LOGI(TAG, "[SUCCESS] BLDC telemetry monitoring tests passed");
     return true;
@@ -603,30 +720,36 @@ bool test_bldc_performance_benchmarks() noexcept {
     ESP_LOGI(TAG, "Testing BLDC performance benchmarks...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Configure motor for performance testing
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Failed to set motor type for performance test");
         return false;
     }
 
-    if (!handle->driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
+    if (!driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
         ESP_LOGE(TAG, "Failed to configure encoder for performance test");
         return false;
     }
 
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
         ESP_LOGE(TAG, "Failed to set commutation mode for performance test");
         return false;
     }
 
     // Test 1: Command response time
     uint64_t start_time = esp_timer_get_time();
-    bool result = handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET);
+    bool result = driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET);
     uint64_t end_time = esp_timer_get_time();
     uint64_t response_time = end_time - start_time;
 
@@ -639,9 +762,9 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     // Test 2: Telemetry read performance
     start_time = esp_timer_get_time();
-    float temp = handle->driver->telemetry.getChipTemperature();
-    int16_t current = handle->driver->telemetry.getMotorCurrent();
-    float voltage = handle->driver->telemetry.getSupplyVoltage();
+    float temp = driver->telemetry.getChipTemperature();
+    int16_t current = driver->telemetry.getMotorCurrent();
+    float voltage = driver->telemetry.getSupplyVoltage();
     end_time = esp_timer_get_time();
     uint64_t telemetry_time = end_time - start_time;
 
@@ -650,7 +773,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     // Test 3: Configuration change performance
     start_time = esp_timer_get_time();
-    result = handle->driver->velocityControl.setVelocityLoopGains(1000, 5);
+    result = driver->velocityControl.setVelocityLoopGains(1000, 5);
     end_time = esp_timer_get_time();
     uint64_t config_time = end_time - start_time;
 
@@ -661,7 +784,7 @@ bool test_bldc_performance_benchmarks() noexcept {
 
     ESP_LOGI(TAG, "Configuration change time: %llu μs", config_time);
 
-    handle->driver->torqueFluxControl.stop();
+    driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "[SUCCESS] BLDC performance benchmark tests passed");
     return true;
 }
@@ -670,34 +793,40 @@ bool test_bldc_error_handling() noexcept {
     ESP_LOGI(TAG, "Testing BLDC error handling...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Test 1: Invalid motor type configuration
-    if (handle->driver->motorConfig.setType(static_cast<tmcl::MotorType>(0xFF), 0)) {
+    if (driver->motorConfig.setType(static_cast<tmcl::MotorType>(0xFF), 0)) {
         ESP_LOGW(TAG, "Unexpected success with invalid motor type");
     } else {
         ESP_LOGI(TAG, "Correctly rejected invalid motor type");
     }
 
     // Test 2: Invalid pole pair count
-    if (handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 0)) {
+    if (driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 0)) {
         ESP_LOGW(TAG, "Unexpected success with zero pole pairs");
     } else {
         ESP_LOGI(TAG, "Correctly rejected zero pole pairs");
     }
 
     // Test 3: Invalid current limits
-    if (handle->driver->motorConfig.setMaxTorqueCurrent(0)) {
+    if (driver->motorConfig.setMaxTorqueCurrent(0)) {
         ESP_LOGW(TAG, "Unexpected success with zero torque current");
     } else {
         ESP_LOGI(TAG, "Correctly rejected zero torque current");
     }
 
     // Test 4: Invalid encoder resolution
-    if (handle->driver->feedbackSense.configureABNEncoder(0)) {
+    if (driver->feedbackSense.configureABNEncoder(0)) {
         ESP_LOGW(TAG, "Unexpected success with zero encoder CPR");
     } else {
         ESP_LOGI(TAG, "Correctly rejected zero encoder CPR");
@@ -711,27 +840,33 @@ bool test_bldc_edge_cases() noexcept {
     ESP_LOGI(TAG, "Testing BLDC edge cases...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
     // Test 1: Maximum pole pairs
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 255)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 255)) {
         ESP_LOGW(TAG, "Failed to set maximum pole pairs (255)");
     } else {
         ESP_LOGI(TAG, "Successfully set maximum pole pairs (255)");
     }
 
     // Test 2: Maximum encoder resolution
-    if (!handle->driver->feedbackSense.configureABNEncoder(65535)) {
+    if (!driver->feedbackSense.configureABNEncoder(65535)) {
         ESP_LOGW(TAG, "Failed to set maximum encoder CPR (65535)");
     } else {
         ESP_LOGI(TAG, "Successfully set maximum encoder CPR (65535)");
     }
 
     // Test 3: Maximum current limits
-    if (!handle->driver->motorConfig.setMaxTorqueCurrent(65535)) {
+    if (!driver->motorConfig.setMaxTorqueCurrent(65535)) {
         ESP_LOGW(TAG, "Failed to set maximum torque current (65535)");
     } else {
         ESP_LOGI(TAG, "Successfully set maximum torque current (65535)");
@@ -740,7 +875,7 @@ bool test_bldc_edge_cases() noexcept {
     // Test 4: Extreme velocity targets
     std::vector<int16_t> extreme_velocities = {32767, -32768, 0};
     for (auto vel : extreme_velocities) {
-        if (handle->driver->velocityControl.setTargetVelocity(vel)) {
+        if (driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGI(TAG, "Successfully set extreme velocity target: %d", vel);
         } else {
             ESP_LOGW(TAG, "Failed to set extreme velocity target: %d", vel);
@@ -755,8 +890,14 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing BLDC startup and shutdown procedures...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
+        return false;
+    }
+    
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
@@ -765,44 +906,44 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     
     // Step 0: Enable DRV_EN pin (must be done before any motor parameters)
     ESP_LOGI(TAG, "Step 0: Enabling DRV_EN pin...");
-    if (!handle->driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Startup step 0 failed: DRV_EN pin enable");
         return false;
     }
     ESP_LOGI(TAG, "DRV_EN pin enabled");
     
     // Step 1: Configure motor type
-    if (!handle->driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
+    if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, TEST_POLE_PAIRS)) {
         ESP_LOGE(TAG, "Startup step 1 failed: motor type configuration");
         return false;
     }
 
     // Step 1.5: Set PWM frequency before current limits
-    if (!handle->driver->motorConfig.setPWMFrequency(25000)) {
+    if (!driver->motorConfig.setPWMFrequency(25000)) {
         ESP_LOGE(TAG, "Startup step 1.5 failed: PWM frequency");
         return false;
     }
 
     // Step 2: Set current limits
-    if (!handle->driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
+    if (!driver->motorConfig.setMaxTorqueCurrent(TEST_MAX_TORQUE_CURRENT)) {
         ESP_LOGE(TAG, "Startup step 2 failed: torque current limit");
         return false;
     }
 
     // Step 3: Configure feedback
-    if (!handle->driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
+    if (!driver->feedbackSense.configureABNEncoder(TEST_ENCODER_CPR)) {
         ESP_LOGE(TAG, "Startup step 3 failed: encoder configuration");
         return false;
     }
 
     // Step 4: Set commutation mode
-    if (!handle->driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
+    if (!driver->motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_ABN)) {
         ESP_LOGE(TAG, "Startup step 4 failed: commutation mode");
         return false;
     }
 
     // Step 5: Configure control gains
-    if (!handle->driver->velocityControl.setVelocityLoopGains(800, 2)) {
+    if (!driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Startup step 5 failed: velocity loop gains");
         return false;
     }
@@ -810,7 +951,7 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Startup sequence completed successfully");
 
     // Test 2: Motor operation
-    if (handle->driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started successfully");
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
@@ -819,11 +960,11 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing shutdown sequence...");
     
     // Step 1: Stop motor
-    handle->driver->torqueFluxControl.stop();
+    driver->torqueFluxControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     // Step 2: Reset to safe state
-    if (handle->driver->velocityControl.setTargetVelocity(0)) {
+    if (driver->velocityControl.setTargetVelocity(0)) {
         ESP_LOGI(TAG, "Velocity target reset to zero");
     }
 
@@ -843,13 +984,14 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
 //   - Peak current: ~2.5-3.75A (2500-3750mA)
 //=============================================================================
 
-bool configureGateDriverForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureGateDriverForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring gate driver for BLDC motor...");
     
     auto& gd = driver.gateDriver;
     
     // MOSFET: BSC040N10NS5ATMA1 (Qg = 58nC, Rds_on = 4mΩ @ operating temp)
-    TMC9660::GateDriver::PowerStageProfile powerStage;
+    typename TMC9660<CommType>::GateDriver::PowerStageProfile powerStage;
     
     // === REQUIRED PARAMETERS ===
     powerStage.mosfet_RdsOn_mOhm = 4.0f;        // BSC040N10NS5ATMA1: 4 mΩ at operating junction temp
@@ -892,13 +1034,14 @@ bool configureGateDriverForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureCurrentSensingForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureCurrentSensingForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring current sensing for BLDC motor...");
     
     // Use the auto-configuration method with intuitive parameters
     // For 24V, 30W motor: ~1.25A continuous, ~2.5A peak
     // Using 3 mΩ bottom shunts (typical for TMC9660 EVKIT)
-    TMC9660::CurrentSensing::AutoConfig config;
+    typename TMC9660<CommType>::CurrentSensing::AutoConfig config;
     
     // === REQUIRED PARAMETERS ===
     config.shuntResistance_mOhm = 3.0f;  // Nominal shunt resistor value in milliohms (e.g., 3.0 for 3 mΩ)
@@ -975,14 +1118,15 @@ bool configureCurrentSensingForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureMotorParametersForBLDC(TMC9660& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept {
+template<typename CommType>
+bool configureMotorParametersForBLDC(TMC9660<CommType>& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept {
     ESP_LOGI(TAG, "Configuring motor parameters for BLDC motor...");
     ESP_LOGI(TAG, "  Motor specs: %d pole pairs, %lu Hz PWM", polePairs, (unsigned long)pwmFrequency);
     
     auto& mc = driver.motorConfig;
     
     // Use the auto-configuration method with high-level motor characteristics
-    TMC9660::MotorConfig::MotorProfile motorProfile;
+    typename TMC9660<CommType>::MotorConfig::MotorProfile motorProfile;
     
     // === REQUIRED PARAMETERS ===
     motorProfile.motorType = tmcl::MotorType::BLDC_MOTOR;
@@ -1010,13 +1154,14 @@ bool configureMotorParametersForBLDC(TMC9660& driver, uint8_t polePairs, uint32_
     return true;
 }
 
-bool configureHallSensorForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureHallSensorForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring Hall sensor for BLDC motor...");
     
     auto& fs = driver.feedbackSense;
     
     // Use the auto-configuration method with high-level Hall sensor characteristics
-    TMC9660::FeedbackSense::HallConfig hallConfig;
+    typename TMC9660<CommType>::FeedbackSense::HallConfig hallConfig;
     
     // === REQUIRED PARAMETERS ===
     hallConfig.sectorOffset = tmcl::HallSectorOffset::DEG_0;  // No sector offset (adjust if motor doesn't start smoothly)
@@ -1048,14 +1193,15 @@ bool configureHallSensorForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureABNEncoderForBLDC(TMC9660& driver, uint32_t countsPerRev) noexcept {
+template<typename CommType>
+bool configureABNEncoderForBLDC(TMC9660<CommType>& driver, uint32_t countsPerRev) noexcept {
     ESP_LOGI(TAG, "Configuring ABN encoder for BLDC motor...");
     ESP_LOGI(TAG, "  Encoder resolution: %lu counts per revolution (CPR)", (unsigned long)countsPerRev);
     
     auto& fs = driver.feedbackSense;
     
     // Use the auto-configuration method with high-level ABN encoder characteristics
-    TMC9660::FeedbackSense::AbnConfig abnConfig;
+    typename TMC9660<CommType>::FeedbackSense::AbnConfig abnConfig;
     
     // === REQUIRED PARAMETERS ===
     abnConfig.countsPerRev = countsPerRev;  // Encoder resolution (CPR) [0-16777215]
@@ -1089,11 +1235,12 @@ bool configureABNEncoderForBLDC(TMC9660& driver, uint32_t countsPerRev) noexcept
     return true;
 }
 
-bool configureFOCControlForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureFOCControlForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring FOC control for BLDC motor...");
     
     // Configure torque/flux control using auto-configuration
-    TMC9660::TorqueFluxControl::TorqueFluxConfig torqueFluxConfig;
+    typename TMC9660<CommType>::TorqueFluxControl::TorqueFluxConfig torqueFluxConfig;
     torqueFluxConfig.torqueP = 50;   // P gain for torque/flux control
     torqueFluxConfig.torqueI = 100;  // I gain for torque/flux control
     torqueFluxConfig.torqueOffset_mA = 0;  // Torque offset
@@ -1108,7 +1255,7 @@ bool configureFOCControlForBLDC(TMC9660& driver) noexcept {
     
     // Configure velocity control using auto-configuration
     // Use SAME_AS_COMMUTATION as default (uses the same sensor as commutation)
-    TMC9660::VelocityControl::VelocityConfig velocityConfig;
+    typename TMC9660<CommType>::VelocityControl::VelocityConfig velocityConfig;
     velocityConfig.sensorSelection = tmcl::VelocitySensorSelection::SAME_AS_COMMUTATION;
     velocityConfig.velocityP = 1000;  // P gain for velocity control
     velocityConfig.velocityI = 2;     // I gain for velocity control
@@ -1126,11 +1273,12 @@ bool configureFOCControlForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureProtectionForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureProtectionForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring protection systems for BLDC motor...");
     
     // Configure protection using auto-configuration
-    TMC9660::Protection::ProtectionConfig protectionConfig;
+    typename TMC9660<CommType>::Protection::ProtectionConfig protectionConfig;
     // All parameters use defaults (24V system defaults):
     // - Overvoltage: 28.0V
     // - Undervoltage: 20.0V
@@ -1155,11 +1303,12 @@ bool configureProtectionForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureRampForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureRampForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring ramp generator for BLDC motor...");
     
     // Configure ramp using auto-configuration
-    TMC9660::Ramp::RampConfig rampConfig;
+    typename TMC9660<CommType>::Ramp::RampConfig rampConfig;
     
     // For a 24V, 30W BLDC motor, use reasonable defaults:
     // - Max velocity: unlimited (default)
@@ -1189,11 +1338,12 @@ bool configureRampForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureBrakeForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureBrakeForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring brake system for BLDC motor...");
     
     // Configure brake using auto-configuration
-    TMC9660::Brake::BrakeConfig brakeConfig;
+    typename TMC9660<CommType>::Brake::BrakeConfig brakeConfig;
     
     // For a 24V, 30W BLDC motor:
     // - Brake chopper: disabled by default (can be enabled if regenerative braking is used)
@@ -1222,11 +1372,12 @@ bool configureBrakeForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureStopEventsForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureStopEventsForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring stop events for BLDC motor...");
     
     // Configure stop events using auto-configuration
-    TMC9660::StopEvents::StopEventsConfig stopEventsConfig;
+    typename TMC9660<CommType>::StopEvents::StopEventsConfig stopEventsConfig;
     
     // For a 24V, 30W BLDC motor:
     // - Deviation stop: disabled by default (can be enabled for safety)
@@ -1257,11 +1408,12 @@ bool configureStopEventsForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureHeartbeatForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configureHeartbeatForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring heartbeat monitoring for BLDC motor...");
     
     // Configure heartbeat using auto-configuration
-    TMC9660::Heartbeat::HeartbeatConfig heartbeatConfig;
+    typename TMC9660<CommType>::Heartbeat::HeartbeatConfig heartbeatConfig;
     
     // For a 24V, 30W BLDC motor:
     // - Heartbeat monitoring: disabled by default (can be enabled for watchdog protection)
@@ -1282,11 +1434,12 @@ bool configureHeartbeatForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configurePowerForBLDC(TMC9660& driver) noexcept {
+template<typename CommType>
+bool configurePowerForBLDC(TMC9660<CommType>& driver) noexcept {
     ESP_LOGI(TAG, "Configuring power management for BLDC motor...");
     
     // Configure power management using auto-configuration
-    TMC9660::Power::PowerConfig powerConfig;
+    typename TMC9660<CommType>::Power::PowerConfig powerConfig;
     
     // For a 24V, 30W BLDC motor:
     // - Wake-up pin: disabled by default (enable if external wake-up is needed)
@@ -1311,7 +1464,8 @@ bool configurePowerForBLDC(TMC9660& driver) noexcept {
     return true;
 }
 
-bool configureCompleteBLDCMotor(TMC9660& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept {
+template<typename CommType>
+bool configureCompleteBLDCMotor(TMC9660<CommType>& driver, uint8_t polePairs, uint32_t pwmFrequency) noexcept {
     ESP_LOGI(TAG, "========================================");
     ESP_LOGI(TAG, "Starting comprehensive BLDC motor configuration");
     ESP_LOGI(TAG, "Motor: 24V, 30W, %d pole pairs, %lu Hz PWM", polePairs, (unsigned long)pwmFrequency);
@@ -1441,14 +1595,19 @@ bool test_bldc_motor_runtime_configuration() noexcept {
     
     // Create test driver
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
     
     // Configure the complete BLDC motor system
     // Using 7 pole pairs and 20kHz PWM as defaults (can be changed)
-    if (!configureCompleteBLDCMotor(*handle->driver, 7, 20000)) {
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
+    if (!configureCompleteBLDCMotor(*driver, 7, 20000)) {
         ESP_LOGE(TAG, "Failed to configure BLDC motor");
         return false;
     }
@@ -1460,7 +1619,7 @@ bool test_bldc_motor_runtime_configuration() noexcept {
     // Note: We can't directly read commutation mode, but we know it's set
     
     // Log telemetry to verify communication is working
-    log_telemetry_data(*handle->driver, "After configuration");
+    log_telemetry_data(*driver, "After configuration");
     
     ESP_LOGI(TAG, "✅ BLDC motor runtime configuration test passed");
     ESP_LOGI(TAG, "Motor is ready for operation");
@@ -1482,24 +1641,30 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         uart_config.uart.tx_pin = GPIO_NUM_5;
         uart_config.uart.rx_pin = GPIO_NUM_4;
         
-        handle->interface = createUARTInterface(uart_config);
-        if (!handle->interface) {
+        auto uart_interface = createUARTInterface(uart_config);
+        if (!uart_interface) {
             ESP_LOGE(TAG, "Failed to create UART interface");
             return nullptr;
         }
+        handle->interface = std::move(uart_interface);
         ESP_LOGI(TAG, "Created UART interface (115200 baud, address 1)");
+        
+        // Create TMC9660 driver with UART interface
+        auto* uart_iface = std::get<std::unique_ptr<Esp32UARTTMC9660CommInterface>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32UARTTMC9660CommInterface>>(*uart_iface, 1);
     } else {
-        handle->interface = createSPIInterface();
-        if (!handle->interface) {
+        auto spi_interface = createSPIInterface();
+        if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
         return nullptr;
         }
+        handle->interface = std::move(spi_interface);
         ESP_LOGI(TAG, "Created SPI interface");
+        
+        // Create TMC9660 driver with SPI interface
+        auto* spi_iface = std::get<std::unique_ptr<Esp32SPITMC9660CommInterface>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32SPITMC9660CommInterface>>(*spi_iface, 1);
     }
-
-    // Create TMC9660 driver with address matching the bootloader configuration
-    // The address must match cfg.uart.device_address (set to 1 below)
-    handle->driver = std::make_unique<TMC9660>(*handle->interface, 1);
     
     // ============================================================================
     // TMC9660 BOOTLOADER CONFIGURATION (TMC9660-3PH-EVKIT Compatible)
@@ -1887,8 +2052,15 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // 6. SESSION_START consumption (0x0C)
     // 7. TMCL communication verification (GetVersion)
     ESP_LOGI(TAG, "Performing complete initialization (reset + config + info + motor control + verify)...");
-    auto init_result = handle->driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
-    if (init_result != TMC9660::BootloaderInitResult::Success) {
+    // Get the driver from variant - we know it's SPI for this test
+    auto* spi_driver = get_spi_driver(*handle);
+    if (!spi_driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver for bootloader init");
+        return nullptr;
+    }
+    
+    auto init_result = spi_driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
+    if (init_result != TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;
     }
@@ -1897,7 +2069,16 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     return handle;
 }
 
-void log_telemetry_data(TMC9660& driver, const char* context) noexcept {
+void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept {
+    float temp = driver.telemetry.getChipTemperature();
+    int16_t current = driver.telemetry.getMotorCurrent();
+    float voltage = driver.telemetry.getSupplyVoltage();
+    
+    ESP_LOGI(TAG, "%s - Temp: %.1f°C, Current: %dmA, Voltage: %.2fV", 
+             context, temp, current, voltage);
+}
+
+void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept {
     float temp = driver.telemetry.getChipTemperature();
     int16_t current = driver.telemetry.getMotorCurrent();
     float voltage = driver.telemetry.getSupplyVoltage();
