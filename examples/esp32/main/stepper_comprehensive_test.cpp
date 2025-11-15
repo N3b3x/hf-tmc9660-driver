@@ -187,18 +187,18 @@ bool test_stepper_foc_position_control() noexcept {
         return false;
     }
 
-    // Test 1: Configure FOC control gains for position control
-    if (!driver->focControl.setCurrentLoopGains(40, 80)) {
+    // Test 1: Configure control gains for position control
+    if (!driver->torqueFluxControl.setCurrentLoopGains(40, 80)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         return false;
     }
 
-    if (!driver->focControl.setVelocityLoopGains(600, 3)) {
+    if (!driver->velocityControl.setVelocityLoopGains(600, 3)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         return false;
     }
 
-    if (!driver->focControl.setPositionLoopGains(2000, 100)) {
+    if (!driver->positionControl.setPositionLoopGains(2000, 100)) {
         ESP_LOGW(TAG, "Position loop gains not supported or failed");
     } else {
         ESP_LOGI(TAG, "Position loop gains configured");
@@ -210,7 +210,7 @@ bool test_stepper_foc_position_control() noexcept {
     std::vector<int32_t> position_targets = {0, 100, 500, 1000, 2000, -500, -1000};
 
     for (auto target : position_targets) {
-        if (!driver->focControl.setTargetPosition(target)) {
+        if (!driver->positionControl.setTargetPosition(target)) {
             ESP_LOGE(TAG, "Failed to set position target %d", target);
             return false;
         }
@@ -332,7 +332,7 @@ bool test_stepper_position_control() noexcept {
     std::vector<int32_t> position_targets = {0, 100, 500, 1000, 2000, -500, -1000, 0};
 
     for (auto target : position_targets) {
-        if (!driver->focControl.setTargetPosition(target)) {
+        if (!driver->positionControl.setTargetPosition(target)) {
             ESP_LOGE(TAG, "Failed to set position target %d", target);
             return false;
         }
@@ -345,7 +345,7 @@ bool test_stepper_position_control() noexcept {
     // Test 2: Test position ramping
     ESP_LOGI(TAG, "Testing position ramping...");
     for (int32_t pos = 0; pos <= 1000; pos += 100) {
-        if (!driver->focControl.setTargetPosition(pos)) {
+        if (!driver->positionControl.setTargetPosition(pos)) {
             ESP_LOGE(TAG, "Failed to set position target %d during ramping", pos);
             return false;
         }
@@ -388,7 +388,7 @@ bool test_stepper_velocity_control() noexcept {
         return false;
     }
 
-    if (!driver->focControl.setVelocityLoopGains(800, 2)) {
+    if (!driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         return false;
     }
@@ -397,7 +397,7 @@ bool test_stepper_velocity_control() noexcept {
     std::vector<int16_t> velocity_targets = {0, 100, 500, 1000, 2000, -500, -1000};
 
     for (auto target : velocity_targets) {
-        if (!driver->focControl.setTargetVelocity(target)) {
+        if (!driver->velocityControl.setTargetVelocity(target)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d", target);
             return false;
         }
@@ -410,7 +410,7 @@ bool test_stepper_velocity_control() noexcept {
     // Test 2: Test velocity ramping
     ESP_LOGI(TAG, "Testing velocity ramping...");
     for (int16_t vel = 0; vel <= 1000; vel += 100) {
-        if (!driver->focControl.setTargetVelocity(vel)) {
+        if (!driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d during ramping", vel);
             return false;
         }
@@ -418,7 +418,7 @@ bool test_stepper_velocity_control() noexcept {
     }
 
     // Test 3: Stop motor
-    driver->focControl.stop();
+    driver->velocityControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     ESP_LOGI(TAG, "[SUCCESS] Stepper velocity control tests passed");
@@ -454,7 +454,7 @@ bool test_stepper_current_control() noexcept {
     }
 
     // Test 2: Configure current loop gains
-    if (!driver->focControl.setCurrentLoopGains(50, 100)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         return false;
     }
@@ -462,10 +462,10 @@ bool test_stepper_current_control() noexcept {
     ESP_LOGI(TAG, "Current loop gains configured");
 
     // Test 3: Test current control during operation
-    if (driver->focControl.setTargetVelocity(500)) {
+    if (driver->velocityControl.setTargetVelocity(500)) {
         ESP_LOGI(TAG, "Motor started for current control testing");
         vTaskDelay(pdMS_TO_TICKS(1000));
-        driver->focControl.stop();
+        driver->velocityControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -499,7 +499,7 @@ bool test_stepper_stall_detection() noexcept {
     ESP_LOGI(TAG, "Stall detection parameters configured");
 
     // Test 2: Test stall detection during operation
-    if (driver->focControl.setTargetVelocity(1000)) {
+    if (driver->velocityControl.setTargetVelocity(1000)) {
         ESP_LOGI(TAG, "Motor started for stall detection testing");
         
         // Simulate stall detection monitoring
@@ -509,7 +509,7 @@ bool test_stepper_stall_detection() noexcept {
             vTaskDelay(pdMS_TO_TICKS(200));
         }
         
-        driver->focControl.stop();
+        driver->velocityControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -540,7 +540,7 @@ bool test_stepper_telemetry_monitoring() noexcept {
     log_stepper_telemetry_data(*driver, "Initial state");
 
     // Test 2: Read telemetry during motor operation
-    if (driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started for telemetry monitoring");
         
         for (int i = 0; i < 5; ++i) {
@@ -548,7 +548,7 @@ bool test_stepper_telemetry_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        driver->focControl.stop();
+        driver->velocityControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -587,7 +587,7 @@ bool test_stepper_performance_benchmarks() noexcept {
 
     // Test 1: Command response time
     uint64_t start_time = esp_timer_get_time();
-    bool result = driver->focControl.setTargetPosition(TEST_POSITION_TARGET);
+    bool result = driver->positionControl.setTargetPosition(TEST_POSITION_TARGET);
     uint64_t end_time = esp_timer_get_time();
     uint64_t response_time = end_time - start_time;
 
@@ -611,7 +611,7 @@ bool test_stepper_performance_benchmarks() noexcept {
 
     // Test 3: Configuration change performance
     start_time = esp_timer_get_time();
-    result = driver->focControl.setVelocityLoopGains(1000, 5);
+    result = driver->velocityControl.setVelocityLoopGains(1000, 5);
     end_time = esp_timer_get_time();
     uint64_t config_time = end_time - start_time;
 
@@ -622,7 +622,7 @@ bool test_stepper_performance_benchmarks() noexcept {
 
     ESP_LOGI(TAG, "Configuration change time: %llu μs", config_time);
 
-    driver->focControl.stop();
+    driver->velocityControl.stop();
     ESP_LOGI(TAG, "[SUCCESS] Stepper performance benchmark tests passed");
     return true;
 }
@@ -659,7 +659,7 @@ bool test_stepper_error_handling() noexcept {
     }
 
     // Test 4: Invalid position targets
-    if (driver->focControl.setTargetPosition(INT32_MAX)) {
+    if (driver->positionControl.setTargetPosition(INT32_MAX)) {
         ESP_LOGW(TAG, "Unexpected success with extreme position target");
     } else {
         ESP_LOGI(TAG, "Correctly rejected extreme position target");
@@ -696,7 +696,7 @@ bool test_stepper_edge_cases() noexcept {
     // Test 3: Extreme position targets
     std::vector<int32_t> extreme_positions = {INT32_MAX, INT32_MIN, 0};
     for (auto pos : extreme_positions) {
-        if (driver->focControl.setTargetPosition(pos)) {
+        if (driver->positionControl.setTargetPosition(pos)) {
             ESP_LOGI(TAG, "Successfully set extreme position target: %d", pos);
         } else {
             ESP_LOGW(TAG, "Failed to set extreme position target: %d", pos);
@@ -706,7 +706,7 @@ bool test_stepper_edge_cases() noexcept {
     // Test 4: Extreme velocity targets
     std::vector<int16_t> extreme_velocities = {INT16_MAX, INT16_MIN, 0};
     for (auto vel : extreme_velocities) {
-        if (driver->focControl.setTargetVelocity(vel)) {
+        if (driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGI(TAG, "Successfully set extreme velocity target: %d", vel);
         } else {
             ESP_LOGW(TAG, "Failed to set extreme velocity target: %d", vel);
@@ -772,7 +772,7 @@ bool test_stepper_startup_shutdown_procedures() noexcept {
     }
 
     // Step 5: Configure control gains
-    if (!driver->focControl.setVelocityLoopGains(800, 2)) {
+    if (!driver->velocityControl.setVelocityLoopGains(800, 2)) {
         ESP_LOGE(TAG, "Startup step 5 failed: velocity loop gains");
         return false;
     }
@@ -780,7 +780,7 @@ bool test_stepper_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Startup sequence completed successfully");
 
     // Test 2: Motor operation
-    if (driver->focControl.setTargetPosition(TEST_POSITION_TARGET)) {
+    if (driver->positionControl.setTargetPosition(TEST_POSITION_TARGET)) {
         ESP_LOGI(TAG, "Motor started successfully");
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
@@ -789,11 +789,11 @@ bool test_stepper_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing shutdown sequence...");
     
     // Step 1: Stop motor
-    driver->focControl.stop();
+    driver->positionControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     // Step 2: Reset to safe state
-    if (driver->focControl.setTargetPosition(0)) {
+    if (driver->positionControl.setTargetPosition(0)) {
         ESP_LOGI(TAG, "Position target reset to zero");
     }
 
