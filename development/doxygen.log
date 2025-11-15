@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.wPKOxm
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.wPKOxm' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.b31wry
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.b31wry' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1775: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4819: warning: unbalanced grouping commands
@@ -594,23 +594,23 @@ Generating /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:268: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple(const uint32_t *vals, size_t count)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:268: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:217: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:10: warning: unable to resolve reference to '-overview' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:11: warning: unable to resolve reference to '-features' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:12: warning: unable to resolve reference to '-quick-start' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:13: warning: unable to resolve reference to '-installation' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:14: warning: unable to resolve reference to '-api-reference' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:15: warning: unable to resolve reference to '-examples' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:16: warning: unable to resolve reference to '-documentation' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:17: warning: unable to resolve reference to '-contributing' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:18: warning: unable to resolve reference to '-license' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:70: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/installation.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:70: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/quickstart.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:75: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/platform_integration.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:82: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/installation.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:94: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/api_reference.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:100: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/examples.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:104: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:108: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/special_feature_bootloader.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:11: warning: unable to resolve reference to '-overview' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:12: warning: unable to resolve reference to '-features' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:13: warning: unable to resolve reference to '-quick-start' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:14: warning: unable to resolve reference to '-installation' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:15: warning: unable to resolve reference to '-api-reference' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:16: warning: unable to resolve reference to '-examples' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:17: warning: unable to resolve reference to '-documentation' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:18: warning: unable to resolve reference to '-contributing' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:19: warning: unable to resolve reference to '-license' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:71: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/installation.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:71: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/quickstart.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:76: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/platform_integration.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:83: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/installation.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:95: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/api_reference.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:101: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/examples.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:105: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:109: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/special_feature_bootloader.md' for \ref command
 call graph for function tmc9660::TMC9660Bootloader::sendCommandSPI
 Generating call graph for function tmc9660::TMC9660Bootloader::sendCommandUART
 Generating call graph for function tmc9660::TMC9660Bootloader::setBank
