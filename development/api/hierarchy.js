@@ -17,6 +17,14 @@ var hierarchy =
     [ "tmc9660::BrakeChopperConfig", "structtmc9660_1_1BrakeChopperConfig.html", null ],
     [ "tmc9660::TMC9660::Brake::BrakeConfig", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html", null ],
     [ "tmc9660::ClockConfig", "structtmc9660_1_1ClockConfig.html", null ],
+    [ "tmc9660::CommInterface", "classtmc9660_1_1CommInterface.html", [
+      [ "tmc9660::SpiCommInterface", "classtmc9660_1_1SpiCommInterface.html", [
+        [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", null ]
+      ] ],
+      [ "tmc9660::UartCommInterface", "classtmc9660_1_1UartCommInterface.html", [
+        [ "Esp32UARTTMC9660CommInterface", "classEsp32UARTTMC9660CommInterface.html", null ]
+      ] ]
+    ] ],
     [ "tmc9660::register_mode::ADC::CSA_SETUP", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html", null ],
     [ "tmc9660::TMC9660::CurrentSensing", "structtmc9660_1_1TMC9660_1_1CurrentSensing.html", null ],
     [ "Esp32TMC9660BusConfig", "structEsp32TMC9660BusConfig.html", null ],
@@ -75,14 +83,6 @@ var hierarchy =
     [ "TestTaskContext", "structTestTaskContext.html", null ],
     [ "tmc9660::TMC9660", "classtmc9660_1_1TMC9660.html", null ],
     [ "tmc9660::TMC9660Bootloader", "classtmc9660_1_1TMC9660Bootloader.html", null ],
-    [ "tmc9660::TMC9660CommInterface", "classtmc9660_1_1TMC9660CommInterface.html", [
-      [ "tmc9660::SPITMC9660CommInterface", "classtmc9660_1_1SPITMC9660CommInterface.html", [
-        [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", null ]
-      ] ],
-      [ "tmc9660::UARTTMC9660CommInterface", "classtmc9660_1_1UARTTMC9660CommInterface.html", [
-        [ "Esp32UARTTMC9660CommInterface", "classEsp32UARTTMC9660CommInterface.html", null ]
-      ] ]
-    ] ],
     [ "tmc9660::TMCLFrame", "structtmc9660_1_1TMCLFrame.html", null ],
     [ "tmc9660::TMCLReply", "structtmc9660_1_1TMCLReply.html", null ],
     [ "tmc9660::TMC9660::TorqueFluxControl::TorqueFluxConfig", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig.html", null ],

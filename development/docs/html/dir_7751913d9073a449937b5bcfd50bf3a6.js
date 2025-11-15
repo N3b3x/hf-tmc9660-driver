@@ -1,10 +1,10 @@
 var dir_7751913d9073a449937b5bcfd50bf3a6 =
 [
-    [ "BLDCComprehensiveTest.cpp", "BLDCComprehensiveTest_8cpp.html", "BLDCComprehensiveTest_8cpp" ],
-    [ "BootloaderComprehensiveTest.cpp", "BootloaderComprehensiveTest_8cpp.html", "BootloaderComprehensiveTest_8cpp" ],
-    [ "DCComprehensiveTest.cpp", "DCComprehensiveTest_8cpp.html", "DCComprehensiveTest_8cpp" ],
-    [ "Esp32TMC9660Bus.hpp", "Esp32TMC9660Bus_8hpp.html", "Esp32TMC9660Bus_8hpp" ],
-    [ "StepperComprehensiveTest.cpp", "StepperComprehensiveTest_8cpp.html", "StepperComprehensiveTest_8cpp" ],
-    [ "TelemetryComprehensiveTest.cpp", "TelemetryComprehensiveTest_8cpp.html", "TelemetryComprehensiveTest_8cpp" ],
+    [ "bldc_comprehensive_test.cpp", "bldc__comprehensive__test_8cpp.html", "bldc__comprehensive__test_8cpp" ],
+    [ "bootloader_comprehensive_test.cpp", "bootloader__comprehensive__test_8cpp.html", "bootloader__comprehensive__test_8cpp" ],
+    [ "dc_comprehensive_test.cpp", "dc__comprehensive__test_8cpp.html", "dc__comprehensive__test_8cpp" ],
+    [ "esp32_tmc9660_bus.hpp", "esp32__tmc9660__bus_8hpp.html", "esp32__tmc9660__bus_8hpp" ],
+    [ "stepper_comprehensive_test.cpp", "stepper__comprehensive__test_8cpp.html", "stepper__comprehensive__test_8cpp" ],
+    [ "telemetry_comprehensive_test.cpp", "telemetry__comprehensive__test_8cpp.html", "telemetry__comprehensive__test_8cpp" ],
     [ "TestFramework.h", "TestFramework_8h.html", "TestFramework_8h" ]
 ];

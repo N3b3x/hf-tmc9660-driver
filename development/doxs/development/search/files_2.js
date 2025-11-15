@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['esp32tmc9660bus_2ehpp_0',['Esp32TMC9660Bus.hpp',['../Esp32TMC9660Bus_8hpp.html',1,'']]]
+  ['esp32_5ftmc9660_5fbus_2ehpp_0',['esp32_tmc9660_bus.hpp',['../esp32__tmc9660__bus_8hpp.html',1,'']]]
 ];

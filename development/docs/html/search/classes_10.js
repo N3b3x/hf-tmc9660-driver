@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['uartconfig_0',['UARTConfig',['../structtmc9660_1_1UARTConfig.html',1,'tmc9660']]],
-  ['uarttmc9660comminterface_1',['UARTTMC9660CommInterface',['../classtmc9660_1_1UARTTMC9660CommInterface.html',1,'tmc9660']]]
+  ['uartcomminterface_0',['UartCommInterface',['../classtmc9660_1_1UartCommInterface.html',1,'tmc9660']]],
+  ['uartconfig_1',['UARTConfig',['../structtmc9660_1_1UARTConfig.html',1,'tmc9660']]]
 ];

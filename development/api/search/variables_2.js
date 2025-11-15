@@ -28,6 +28,6 @@ var searchData=
   ['bootloader_5f_25',['bootloader_',['../classtmc9660_1_1TMC9660.html#a8ddf6a60dfbf923f126b438a6fad1334',1,'tmc9660::TMC9660']]],
   ['brakechopper_26',['brakeChopper',['../structtmc9660_1_1BootloaderConfig.html#a3e8d8a87c758fff539aa96f67b1dbf1c',1,'tmc9660::BootloaderConfig']]],
   ['brakechopper_5fconfig_27',['BRAKECHOPPER_CONFIG',['../namespacetmc9660_1_1bootaddr.html#a3419c9d0f8db687b9ed5bb60fab092a5',1,'tmc9660::bootaddr']]],
-  ['bus_5ftag_28',['BUS_TAG',['../Esp32TMC9660Bus_8hpp.html#a73a911be261c628a3ee57cedbafb89a1',1,'Esp32TMC9660Bus.hpp']]],
+  ['bus_5ftag_28',['BUS_TAG',['../esp32__tmc9660__bus_8hpp.html#a73a911be261c628a3ee57cedbafb89a1',1,'esp32_tmc9660_bus.hpp']]],
   ['busvoltage_5fv_29',['busVoltage_V',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a16b5fbb2f9bce1e7cc3056046ebe5155',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]]
 ];

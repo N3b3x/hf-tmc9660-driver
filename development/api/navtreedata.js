@@ -25,7 +25,18 @@
 var NAVTREE =
 [
   [ "HF-TMC9660 Driver", "index.html", [
-    [ "🔧 HardFOC TMC9660 Driver", "index.html", "index" ],
+    [ "📚 Table of Contents", "index.html#autotoc_md35", null ],
+    [ "📦 Overview", "index.html#autotoc_md36", null ],
+    [ "✨ Features", "index.html#autotoc_md37", null ],
+    [ "🚀 Quick Start", "index.html#autotoc_md38", null ],
+    [ "🔧 Installation", "index.html#autotoc_md39", null ],
+    [ "📖 API Reference", "index.html#autotoc_md40", null ],
+    [ "📊 Examples", "index.html#autotoc_md41", null ],
+    [ "📚 Documentation", "index.html#autotoc_md42", [
+      [ "Special Features", "index.html#autotoc_md43", null ]
+    ] ],
+    [ "🤝 Contributing", "index.html#autotoc_md44", null ],
+    [ "📄 License", "index.html#autotoc_md45", null ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -63,21 +74,21 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"BLDCComprehensiveTest_8cpp.html",
-"bootloader__config_8hpp.html#a1fdf2841593feea1ca7a6f1ca7854e9d",
-"classEsp32UARTTMC9660CommInterface.html#af397cf2a22f1d0ae2fc84352a78ef52a",
-"classtmc9660_1_1UARTTMC9660CommInterface.html#ab4c94b06ae2d4658425ef9bf74dcdf1c",
-"namespacemembers_g.html",
-"namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a01098461485951bc5d4cd945b5fa5345",
-"namespacetmc9660_1_1tmcl.html#ab381f1e26f24f43b279d3e24c71d67ffa756045a8d37de34ca27188466b2c0c8b",
-"structtmc9660_1_1GPIOConfig.html#a600e909c7a23fe2143201e06e5394fe3",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#a8f8c29c78e0535d68d3259ce40255029",
-"structtmc9660_1_1TMC9660_1_1PositionControl_1_1PositionConfig.html",
-"structtmc9660_1_1TMC9660_1_1VelocityControl.html#a9d4f2327f599409cce3f8134945d1bae",
-"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a7cda532dd47ac185b173af0566f5ca36",
-"tmc9660__param__mode__tmcl_8hpp.html#a2f81fd424bfb3401efcedca33f794491",
+"TestFramework_8h.html",
+"bootloader__config_8hpp.html#adae30f2d71b2e485715c2521485b997f",
+"classtmc9660_1_1TMC9660Bootloader.html#a17fe0169ede842e6879cd2990c0f7b91",
+"globals_c.html",
+"namespacetmc9660_1_1bootcfg.html#a3af6b766582c8f5e26cc4633dc2713c7af3a87e7c46ff169f089d05141890e90a",
+"namespacetmc9660_1_1tmcl.html#a3336dee40377bffd791bddefc92226aca756045a8d37de34ca27188466b2c0c8b",
+"stepper__comprehensive__test_8cpp.html#aa92c65863db39b4e93167b6b806584d3",
+"structtmc9660_1_1MechBrakeConfig.html",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ad63ea0ebcdb05a4a41ce8ab30de6db06",
+"structtmc9660_1_1TMC9660_1_1Ramp.html#aa4d91c7d668622776561bd065da8a585",
+"structtmc9660_1_1TMCLReply.html",
+"structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html#aef611b3bc1e058bac16614a5a093f21d",
+"tmc9660__param__mode__tmcl_8hpp.html#a3260ec477704e03d19feaf38b85b8060",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a2ae05249e15e8c6bf7f6ab2a4306faca"
+"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a95b19f7739b0b7ea7d6b07586be54f36"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

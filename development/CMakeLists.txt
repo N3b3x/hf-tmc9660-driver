@@ -9,8 +9,8 @@ set(COMPONENT_INCLUDE_DIRS "inc" "inc/register_mode" "inc/parameter_mode")
 
 # Source files
 set(COMPONENT_SRCS
-    src/TMC9660.cpp
-    src/bootloader/TMC9660Bootloader.cpp
+    src/tmc9660.cpp
+    src/bootloader/tmc9660_bootloader.cpp
 )
 
 # Component dependencies

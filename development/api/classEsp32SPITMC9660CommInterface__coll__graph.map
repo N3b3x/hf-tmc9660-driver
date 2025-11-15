@@ -1,7 +1,7 @@
 <map id="Esp32SPITMC9660CommInterface" name="Esp32SPITMC9660CommInterface">
-<area shape="rect" id="Node000001" title="ESP32 SPI implementation of TMC9660CommInterface." alt="" coords="19,152,261,177"/>
-<area shape="rect" id="Node000002" href="$classtmc9660_1_1SPITMC9660CommInterface.html" title="SPI implementation of TMC9660CommInterface." alt="" coords="5,79,275,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,118,143,152,137,152,137,118"/>
-<area shape="rect" id="Node000003" href="$classtmc9660_1_1TMC9660CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="15,5,265,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="143,44,143,79,137,79,137,44"/>
+<area shape="rect" id="Node000001" title="ESP32 SPI implementation of TMC9660CommInterface." alt="" coords="5,152,248,177"/>
+<area shape="rect" id="Node000002" href="$classtmc9660_1_1SpiCommInterface.html" title="SPI implementation of TMC9660CommInterface." alt="" coords="23,79,231,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,118,129,152,124,152,124,118"/>
+<area shape="rect" id="Node000003" href="$classtmc9660_1_1CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="33,5,221,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="129,44,129,79,124,79,124,44"/>
 </map>

@@ -1,6 +1,6 @@
 var classtmc9660_1_1TMC9660Bootloader =
 [
-    [ "TMC9660Bootloader", "classtmc9660_1_1TMC9660Bootloader.html#a781d90caaa9df438770c02cc87c6b78c", null ],
+    [ "TMC9660Bootloader", "classtmc9660_1_1TMC9660Bootloader.html#a4bc245831711c7b1b2f777e70fa09bc1", null ],
     [ "applyConfiguration", "classtmc9660_1_1TMC9660Bootloader.html#a068b6c606bbaa434038ffe6b60fe5c0d", null ],
     [ "bootstrapRS485", "classtmc9660_1_1TMC9660Bootloader.html#a3668756cc4c364f8c11c16fb4512458f", null ],
     [ "checkOtpBurnStatus", "classtmc9660_1_1TMC9660Bootloader.html#a5f65393a7afc98033c32b42905828433", null ],
@@ -60,7 +60,7 @@ var classtmc9660_1_1TMC9660Bootloader =
     [ "write32IncMultiple", "classtmc9660_1_1TMC9660Bootloader.html#ad1d8f29d09f812b0e8df13b397632561", null ],
     [ "write8", "classtmc9660_1_1TMC9660Bootloader.html#ad360738f63596fe0604291485fca44e0", null ],
     [ "write8Inc", "classtmc9660_1_1TMC9660Bootloader.html#a47b8653e675124eb21bfd2eda868c50f", null ],
-    [ "comm_", "classtmc9660_1_1TMC9660Bootloader.html#a28e60d44aa027886e8866abf68c9164c", null ],
+    [ "comm_", "classtmc9660_1_1TMC9660Bootloader.html#abe6514964cbf180f7beff5c51c05dfb0", null ],
     [ "deviceAddr_", "classtmc9660_1_1TMC9660Bootloader.html#a8b18c2d00419de3199dfd418871b3ba1", null ],
     [ "hostAddr_", "classtmc9660_1_1TMC9660Bootloader.html#a619f480554e8c0767c8ca026719fc3a8", null ]
 ];

@@ -14,10 +14,9 @@
   <style id="jtd-nav-activation">
   
 
-    .site-nav > ul.nav-list:first-child > li > a,
     
-    .site-nav > ul.nav-list:first-child > li > ul > li:not(:nth-child(1)) > a,
-    .site-nav > ul.nav-list:first-child > li > ul > li > ul > li a {
+    .site-nav > ul.nav-list:first-child > li:not(:nth-child(6)) > a,
+    .site-nav > ul.nav-list:first-child > li > ul > li a {
       background-image: none;
     }
 
@@ -26,14 +25,12 @@
       background-image: none;
     }
 
-    .site-nav > ul.nav-list:first-child > li:nth-child(1) > ul > li:nth-child(1) > a {
+    .site-nav > ul.nav-list:first-child > li:nth-child(6) > a {
       font-weight: 600;
       text-decoration: none;
-    }.site-nav > ul.nav-list:first-child > li:nth-child(1) > button svg,
-    .site-nav > ul.nav-list:first-child > li:nth-child(1) > ul > li:nth-child(1) > button svg {
+    }.site-nav > ul.nav-list:first-child > li:nth-child(6) > button svg {
       transform: rotate(-90deg);
-    }.site-nav > ul.nav-list:first-child > li.nav-list-item:nth-child(1) > ul.nav-list,
-    .site-nav > ul.nav-list:first-child > li.nav-list-item:nth-child(1) > ul.nav-list > li.nav-list-item:nth-child(1) > ul.nav-list {
+    }.site-nav > ul.nav-list:first-child > li.nav-list-item:nth-child(6) > ul.nav-list {
       display: block;
     }
   </style>
@@ -53,21 +50,21 @@
 
 
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>📚 Documentation | HardFOC TMC9660 Driver - development</title>
+<title>HF-TMC9660 Documentation | HardFOC TMC9660 Driver - development</title>
 <meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="📚 Documentation" />
+<meta property="og:title" content="HF-TMC9660 Documentation" />
 <meta name="author" content="N3b3x" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Complete documentation for the HardFOC TMC9660 Driver - Setup guides, API reference, and usage examples" />
-<meta property="og:description" content="Complete documentation for the HardFOC TMC9660 Driver - Setup guides, API reference, and usage examples" />
+<meta name="description" content="Hardware-Agnostic TMC9660 Motor Controller Driver with FOC control, telemetry, and TMCL scripting support" />
+<meta property="og:description" content="Hardware-Agnostic TMC9660 Motor Controller Driver with FOC control, telemetry, and TMCL scripting support" />
 <link rel="canonical" href="https://n3b3x.github.io/hf-tmc9660-driver/development/docs/" />
 <meta property="og:url" content="https://n3b3x.github.io/hf-tmc9660-driver/development/docs/" />
 <meta property="og:site_name" content="HardFOC TMC9660 Driver - development" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="📚 Documentation" />
+<meta property="twitter:title" content="HF-TMC9660 Documentation" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"N3b3x","url":"https://github.com/n3b3x"},"description":"Complete documentation for the HardFOC TMC9660 Driver - Setup guides, API reference, and usage examples","headline":"📚 Documentation","url":"https://n3b3x.github.io/hf-tmc9660-driver/development/docs/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"N3b3x","url":"https://github.com/n3b3x"},"description":"Hardware-Agnostic TMC9660 Motor Controller Driver with FOC control, telemetry, and TMCL scripting support","headline":"HF-TMC9660 Documentation","url":"https://n3b3x.github.io/hf-tmc9660-driver/development/docs/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -169,11 +166,7 @@
   <nav aria-label="Main" id="site-nav" class="site-nav">
   
   
-    <ul class="nav-list"><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in 🔧 HardFOC TMC9660 Driver category" aria-pressed="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-      </button><a href="/hf-tmc9660-driver/development/" class="nav-list-link">🔧 HardFOC TMC9660 Driver</a><ul class="nav-list"><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="toggle items in 📚 Documentation category" aria-pressed="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/SetupGuide/" class="nav-list-link">📋 Setup Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderInitializationGuide/" class="nav-list-link">⭐ Bootloader Initialization Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderGuide/" class="nav-list-link">🔧 Bootloader Complete Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderQuickReference/" class="nav-list-link">⚡ Bootloader Quick Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/BootloaderTroubleshooting/" class="nav-list-link">🛠️ Bootloader Troubleshooting</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommunicationProtocolGuide/" class="nav-list-link">📡 Communication Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/" class="nav-list-link">📨 TMCL Protocol Guide</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/ImplementingCommInterface/" class="nav-list-link">🔌 Implementing Communication Interface</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/" class="nav-list-link">⚡ Hardware-Agnostic Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/CommonOperations/" class="nav-list-link">🛠️ Common Operations</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/NamespaceStructure/" class="nav-list-link">📦 Namespace Structure</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/GetVersionCommandReference/" class="nav-list-link">📖 GetVersion Command Reference</a></li></ul></li></ul></li></ul>
+    <ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/api_reference.html" class="nav-list-link">API Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader.html" class="nav-list-link">Bootloader Initialization</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols.html" class="nav-list-link">Communication Protocols</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/configuration.html" class="nav-list-link">Configuration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/examples.html" class="nav-list-link">Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">HF-TMC9660 Documentation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/" class="nav-list-link">HF-TMC9660 Driver</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/hardware_setup.html" class="nav-list-link">Hardware Setup</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/installation.html" class="nav-list-link">Installation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/platform_integration.html" class="nav-list-link">Platform Integration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/quickstart.html" class="nav-list-link">Quick Start</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/troubleshooting.html" class="nav-list-link">Troubleshooting</a></li></ul>
   
 </nav>
 
@@ -247,59 +240,20 @@
 </div>
 
     <div class="main-content-wrap">
-      <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-  <ol class="breadcrumb-nav-list">
-    <li class="breadcrumb-nav-list-item"><a href="/hf-tmc9660-driver/development/">🔧 HardFOC TMC9660 Driver</a></li>
-    <li class="breadcrumb-nav-list-item"><span>📚 Documentation</span></li>
-  </ol>
-</nav>
-
-
+      
       <div id="main-content" class="main-content">
         <main>
           
-            <h2 id="-hf-tmc9660-driver-documentation">
+            <h1 id="hf-tmc9660-documentation">
   
   
-    <a href="#-hf-tmc9660-driver-documentation" class="anchor-heading" aria-labelledby="-hf-tmc9660-driver-documentation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 🚀 HF-TMC9660 Driver Documentation
+    <a href="#hf-tmc9660-documentation" class="anchor-heading" aria-labelledby="hf-tmc9660-documentation"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> HF-TMC9660 Documentation
   
   
-</h2>
+</h1>
     
 
-<p>Welcome to the comprehensive documentation for the HardFOC TMC9660 driver library
-– a modern C++20 hardware-agnostic driver for the TMC9660 motor controller
-operating in <strong>Parameter Mode</strong>.</p>
-<h2 id="-what-youll-learn">
-  
-  
-    <a href="#-what-youll-learn" class="anchor-heading" aria-labelledby="-what-youll-learn"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 📖 What You’ll Learn
-  
-  
-</h2>
-    
-
-<p>This documentation will guide you through everything from initial setup to
-advanced motor control applications. Whether you’re new to TMC9660 or an
-experienced embedded developer, you’ll find practical examples and detailed
-explanations for every aspect of the driver.</p><hr />
-<h2 id="-quick-start-path">
-  
-  
-    <a href="#-quick-start-path" class="anchor-heading" aria-labelledby="-quick-start-path"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 🎯 Quick Start Path
-  
-  
-</h2>
-    
-
-<p><strong>New to TMC9660?</strong> Follow this recommended learning path:</p>
-
-<pre><code class="language-mermaid">graph LR
-    A[📋 Setup Guide] --&gt; B[🔌 Communication Interface]
-    B --&gt; C[⚡ Hardware Examples]
-    C --&gt; D[🛠️ Common Operations]
-    D --&gt; E[🚀 Advanced Usage]
-</code></pre><hr />
+<p>Welcome! This directory contains step-by-step guides for installing, building, and using the <strong>HF-TMC9660</strong> library.</p>
 <h2 id="-documentation-structure">
   
   
@@ -308,75 +262,89 @@ explanations for every aspect of the driver.</p><hr />
   
 </h2>
     
-<h3 id="foundation--setup">
+<h3 id="getting-started">
   
   
-    <a href="#foundation--setup" class="anchor-heading" aria-labelledby="foundation--setup"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Foundation &amp; Setup</strong>
+    <a href="#getting-started" class="anchor-heading" aria-labelledby="getting-started"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Getting Started</strong>
   
   
 </h3>
     
 
 <ol>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/SetupGuide/">📋 Setup Guide</a></strong> - Get started with installation and
-compilation</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/ImplementingCommInterface/">🔌 Implementing Communication Interface</a></strong>
-    <ul>
-      <li>Create your hardware-specific communication layer</li>
-    </ul>
-  </li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/installation.html">🛠️ Installation</a></strong> – Prerequisites and how to obtain the source</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/quickstart.html">⚡ Quick Start</a></strong> – Minimal working example to get you running</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/hardware_setup.html">🔌 Hardware Setup</a></strong> – Wiring diagrams and pin connections</li>
 </ol>
-<h3 id="bootloader--configuration">
+<h3 id="integration">
   
   
-    <a href="#bootloader--configuration" class="anchor-heading" aria-labelledby="bootloader--configuration"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Bootloader &amp; Configuration</strong>
+    <a href="#integration" class="anchor-heading" aria-labelledby="integration"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Integration</strong>
   
   
 </h3>
     
 
 <ol>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/BootloaderInitializationGuide/">⭐ Bootloader Initialization Guide</a></strong> - <strong>START HERE!</strong>
-Critical guide for proper bootloader initialization sequence, OTP vs Runtime, and command ordering</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/BootloaderGuide/">🔧 Bootloader Complete Guide</a></strong> - Comprehensive
-bootloader documentation with all 18 commands, protocols, OTP management, and
-external memory operations</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/BootloaderQuickReference/">⚡ Bootloader Quick Reference</a></strong> - Quick
-lookup card for commands, codes, and common operations</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/BootloaderTroubleshooting/">🛠️ Bootloader Troubleshooting</a></strong> - <strong>NEW!</strong> Complete
-troubleshooting guide with real-world debugging solutions</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/platform_integration.html">🔧 Platform Integration</a></strong> – Implement the SPI/UART interface for your platform</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/configuration.html">⚙️ Configuration</a></strong> – Configuration options and settings</li>
 </ol>
-<h3 id="communication-protocols">
+<h3 id="reference">
   
   
-    <a href="#communication-protocols" class="anchor-heading" aria-labelledby="communication-protocols"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Communication Protocols</strong>
+    <a href="#reference" class="anchor-heading" aria-labelledby="reference"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Reference</strong>
   
   
 </h3>
     
 
 <ol>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/CommunicationProtocolGuide/">📡 Communication Protocol Guide</a></strong> - <strong>NEW!</strong> Detailed
-SPI and UART protocol specifications with ASCII diagrams, CRC calculations, and timing</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/">📨 TMCL Protocol Guide</a></strong> - Parameter mode command reference
-and usage patterns</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/api_reference.html">📖 API Reference</a></strong> – Complete API documentation</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/examples.html">💡 Examples</a></strong> – Detailed example walkthroughs</li>
 </ol>
-<h3 id="practical-application">
+<h3 id="advanced-features">
   
   
-    <a href="#practical-application" class="anchor-heading" aria-labelledby="practical-application"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Practical Application</strong>
+    <a href="#advanced-features" class="anchor-heading" aria-labelledby="advanced-features"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Advanced Features</strong>
   
   
 </h3>
     
 
 <ol>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/">⚡ Hardware-Agnostic Examples</a></strong> - Complete
-motor control scenarios</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/CommonOperations/">🛠️ Common Operations</a></strong> - Everyday driver usage
-patterns</li>
-  <li><strong><a href="/hf-tmc9660-driver/development/docs/NamespaceStructure/">📦 Namespace Structure</a></strong> - Complete guide to library namespace organization and usage patterns</li>
-  <li><strong><a href="annotated.md">📖 API Reference</a></strong> - Complete C++ class documentation</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader.html">🚀 Bootloader Initialization</a></strong> – Critical bootloader setup guide</li>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols.html">📡 Communication Protocols</a></strong> – Detailed protocol specifications</li>
+</ol>
+<h3 id="troubleshooting">
+  
+  
+    <a href="#troubleshooting" class="anchor-heading" aria-labelledby="troubleshooting"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Troubleshooting</strong>
+  
+  
+</h3>
+    
+
+<ol>
+  <li><strong><a href="/hf-tmc9660-driver/development/docs/troubleshooting.html">🐛 Troubleshooting</a></strong> – Common issues and solutions</li>
+</ol><hr />
+<h2 id="-quick-start-path">
+  
+  
+    <a href="#-quick-start-path" class="anchor-heading" aria-labelledby="-quick-start-path"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 🚀 Quick Start Path
+  
+  
+</h2>
+    
+
+<p><strong>New to TMC9660?</strong> Follow this recommended path:</p>
+
+<ol>
+  <li>Start with <strong><a href="/hf-tmc9660-driver/development/docs/installation.html">Installation</a></strong> to prepare your environment</li>
+  <li>Follow <strong><a href="/hf-tmc9660-driver/development/docs/hardware_setup.html">Hardware Setup</a></strong> to wire your hardware</li>
+  <li>Read <strong><a href="/hf-tmc9660-driver/development/docs/quickstart.html">Quick Start</a></strong> for a minimal working example</li>
+  <li><strong>CRITICAL</strong>: Review <strong><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader.html">Bootloader Initialization</a></strong> - this is required!</li>
+  <li>Check <strong><a href="/hf-tmc9660-driver/development/docs/platform_integration.html">Platform Integration</a></strong> to implement the communication interface</li>
+  <li>Explore <strong><a href="/hf-tmc9660-driver/development/docs/examples.html">Examples</a></strong> for more advanced usage</li>
 </ol><hr />
 <h2 id="️-critical-requirements">
   
@@ -388,127 +356,23 @@ patterns</li>
     
 
 <blockquote>
-  <p><strong>PARAMETER MODE SETUP IS MANDATORY</strong></p>
+  <p><strong>BOOTLOADER INITIALIZATION IS MANDATORY</strong></p>
 
-  <p>The TMC9660 must be properly configured for <strong>Parameter Mode</strong> operation via
-bootloader initialization before any motor control functions will work. This is
-the #1 source of issues for new users.</p>
+  <p>The TMC9660 must be properly configured for <strong>Parameter Mode</strong> operation via bootloader initialization before any motor control functions will work. This is the #1 source of issues for new users.</p>
 </blockquote>
-<h3 id="essential-setup-sequence">
-  
-  
-    <a href="#essential-setup-sequence" class="anchor-heading" aria-labelledby="essential-setup-sequence"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Essential Setup Sequence
-  
-  
-</h3>
-    
 
+<p><strong>Essential Setup Sequence:</strong></p>
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><div class="table-wrapper"><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
-5
-6
-7
-8
-9
-10
-11
-</pre></td><td class="rouge-code"><pre><span class="c1">// 1. CRITICAL: Configure for Parameter Mode</span>
-<span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
+</pre></td><td class="rouge-code"><pre><span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
 <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>  <span class="c1">// ESSENTIAL!</span>
 <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">start_motor_control</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-
-<span class="c1">// 2. Initialize bootloader</span>
 <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
+</pre></td></tr></tbody></table></div></code></pre></div></div>
 
-<span class="c1">// 3. Configure motor and start control</span>
-<span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
-<span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
-</pre></td></tr></tbody></table></div></code></pre></div></div><hr />
-<h2 id="-key-features">
-  
-  
-    <a href="#-key-features" class="anchor-heading" aria-labelledby="-key-features"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 🌟 Key Features
-  
-  
-</h2>
-    
-
-<div class="table-wrapper"><table>
-  <thead>
-    <tr>
-      <th>Feature</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>🔧 Hardware Agnostic</strong></td>
-      <td>Abstract communication interface for any SPI/UART implementation</td>
-    </tr>
-    <tr>
-      <td><strong>⚡ FOC Control</strong></td>
-      <td>Advanced Field-Oriented Control for BLDC, stepper, and DC motors</td>
-    </tr>
-    <tr>
-      <td><strong>📊 Real-time Telemetry</strong></td>
-      <td>Temperature, current, voltage monitoring with logging</td>
-    </tr>
-    <tr>
-      <td><strong>🛡️ Protection Systems</strong></td>
-      <td>Comprehensive safety features and fault monitoring</td>
-    </tr>
-    <tr>
-      <td><strong>🎛️ Complete Configuration</strong></td>
-      <td>Access to all 300+ TMC9660 parameters</td>
-    </tr>
-    <tr>
-      <td><strong>📱 Modern C++</strong></td>
-      <td>Clean C++20 API with type safety and RAII principles</td>
-    </tr>
-  </tbody>
-</table></div><hr />
-<h2 id="-getting-started">
-  
-  
-    <a href="#-getting-started" class="anchor-heading" aria-labelledby="-getting-started"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> 🚦 Getting Started
-  
-  
-</h2>
-    
-
-<p>Ready to begin? Start with the <strong>Setup Guide</strong> to prepare your development environment:</p>
-<h3 id="first-time-users">
-  
-  
-    <a href="#first-time-users" class="anchor-heading" aria-labelledby="first-time-users"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>First Time Users</strong>
-  
-  
-</h3>
-    
-
-<p>👉 <strong><a href="/hf-tmc9660-driver/development/docs/SetupGuide/">Start Here: Setup Guide</a></strong></p>
-<h3 id="experienced-developers">
-  
-  
-    <a href="#experienced-developers" class="anchor-heading" aria-labelledby="experienced-developers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>Experienced Developers</strong>
-  
-  
-</h3>
-    
-
-<p>👉 <strong><a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/">Jump to Examples</a></strong></p>
-<h3 id="api-reference">
-  
-  
-    <a href="#api-reference" class="anchor-heading" aria-labelledby="api-reference"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <strong>API Reference</strong>
-  
-  
-</h3>
-    
-
-<p>👉 <strong><a href="annotated.md">Browse API Documentation</a></strong></p><hr />
+<p>See <a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader.html">Bootloader Initialization</a> for complete details.</p><hr />
 <h2 id="-need-help">
   
   
@@ -519,78 +383,18 @@ the #1 source of issues for new users.</p>
     
 
 <ul>
-  <li><strong>🐛 Found a bug?</strong> Check the troubleshooting sections in each guide</li>
-  <li><strong>❓ Have questions?</strong> Review the Common Operations guide</li>
-  <li><strong>📝 Want to contribute?</strong> See the implementation guides</li>
+  <li><strong>🐛 Found a bug?</strong> Check the <a href="/hf-tmc9660-driver/development/docs/troubleshooting.html">Troubleshooting</a> guide</li>
+  <li><strong>❓ Have questions?</strong> Review the <a href="/hf-tmc9660-driver/development/docs/api_reference.html">API Reference</a></li>
+  <li><strong>📝 Want to contribute?</strong> See the contributing guidelines in the main README</li>
 </ul><hr />
 
-<div style="text-align: center; margin: 2em 0; padding: 1em; background: #f8f9fa; border-radius: 8px;">
-  <strong>🎯 Ready to control some motors?</strong><br />
-  <a href="SetupGuide.md" style="display: inline-block; margin-top: 0.5em; padding: 0.5em 1em;
-     background: #007bff; color: white; text-decoration: none; border-radius: 4px;">Get Started →</a>
-</div><hr />
+<p><strong>Navigation</strong>
+➡️ <a href="/hf-tmc9660-driver/development/docs/installation.html">Installation</a></p>
 
           
 
           
-            <hr>
-<h2 class="text-delta">Table of contents</h2>
-
-<ul>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/SetupGuide/">📋 Setup Guide</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/BootloaderInitializationGuide/">⭐ Bootloader Initialization Guide</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/BootloaderGuide/">🔧 Bootloader Complete Guide</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/BootloaderQuickReference/">⚡ Bootloader Quick Reference</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/BootloaderTroubleshooting/">🛠️ Bootloader Troubleshooting</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/CommunicationProtocolGuide/">📡 Communication Protocol Guide</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/TMCLProtocolGuide/">📨 TMCL Protocol Guide</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/ImplementingCommInterface/">🔌 Implementing Communication Interface</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/HardwareAgnosticExamples/">⚡ Hardware-Agnostic Examples</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/CommonOperations/">🛠️ Common Operations</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/NamespaceStructure/">📦 Namespace Structure</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/examples/esp32/">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a>
-  </li>
-  
-  <li>
-    <a href="/hf-tmc9660-driver/development/docs/GetVersionCommandReference/">📖 GetVersion Command Reference</a>
-  </li>
-  
-</ul>
+            
           
         </main>
         

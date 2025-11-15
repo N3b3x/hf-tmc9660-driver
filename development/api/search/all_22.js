@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🔧_20hardfoc_20tmc9660_20driver_0',['🔧 HardFOC TMC9660 Driver',['../index.html',1,'']]]
+  ['🚀_20quick_20start_0',['🚀 Quick Start',['../index.html#autotoc_md38',1,'']]]
 ];

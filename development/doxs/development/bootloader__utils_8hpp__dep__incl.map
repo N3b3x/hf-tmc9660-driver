@@ -1,23 +1,23 @@
 <map id="bootloader_utils.hpp" name="bootloader_utils.hpp">
-<area shape="rect" id="Node000001" title="TMC9660 bootloader utility functions and helpers." alt="" coords="735,5,890,31"/>
-<area shape="rect" id="Node000002" href="$bootloader__protocol_8hpp.html" title="TMC9660 bootloader communication protocol structures and enumerations." alt="" coords="723,79,903,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="815,44,815,79,810,79,810,44"/>
-<area shape="rect" id="Node000003" href="$TMC9660Bootloader_8hpp.html" title="Main TMC9660 bootloader interface class." alt="" coords="722,152,903,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="815,118,815,152,810,152,810,118"/>
-<area shape="rect" id="Node000004" href="$TMC9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="673,225,784,251"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="790,188,744,227,741,223,787,184"/>
-<area shape="rect" id="Node000011" href="$TMC9660Bootloader_8cpp.html" title=" " alt="" coords="808,225,988,251"/>
-<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="838,184,886,223,882,227,835,188"/>
-<area shape="rect" id="Node000005" href="$BLDCComprehensiveTest_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,299,217,324"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="660,250,211,301,210,296,659,245"/>
-<area shape="rect" id="Node000006" href="$BootloaderComprehensiveTest_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="241,299,489,324"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="660,255,424,301,423,296,659,250"/>
-<area shape="rect" id="Node000007" href="$DCComprehensiveTest_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="513,299,709,324"/>
-<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="699,260,632,301,629,296,697,255"/>
-<area shape="rect" id="Node000008" href="$StepperComprehensiveTest_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="734,299,961,324"/>
-<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="761,255,829,296,827,301,758,260"/>
-<area shape="rect" id="Node000009" href="$TMC9660_8cpp.html" title=" " alt="" coords="985,299,1096,324"/>
-<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="793,251,991,296,990,301,791,256"/>
-<area shape="rect" id="Node000010" href="$TelemetryComprehensiveTest_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="1121,299,1363,324"/>
-<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="798,248,1151,296,1150,301,797,253"/>
+<area shape="rect" id="Node000001" title="TMC9660 bootloader utility functions and helpers." alt="" coords="623,5,778,31"/>
+<area shape="rect" id="Node000002" href="$bootloader__protocol_8hpp.html" title="TMC9660 bootloader communication protocol structures and enumerations." alt="" coords="611,79,791,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="703,44,703,79,698,79,698,44"/>
+<area shape="rect" id="Node000003" href="$tmc9660__bootloader_8hpp.html" title="Main TMC9660 bootloader interface class." alt="" coords="609,152,792,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="703,118,703,152,698,152,698,118"/>
+<area shape="rect" id="Node000004" href="$tmc9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="563,225,670,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="678,188,632,227,629,223,675,184"/>
+<area shape="rect" id="Node000011" href="$tmc9660__bootloader_8cpp.html" title=" " alt="" coords="695,225,877,251"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="726,184,774,223,770,227,723,188"/>
+<area shape="rect" id="Node000005" href="$bldc__comprehensive__test_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,299,161,339"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="550,249,379,271,173,301,162,303,161,298,172,296,378,265,549,244"/>
+<area shape="rect" id="Node000006" href="$bootloader__comprehensive__test_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="185,299,384,339"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="556,256,365,301,364,296,555,251"/>
+<area shape="rect" id="Node000007" href="$dc__comprehensive__test_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="409,306,611,331"/>
+<area shape="poly" id="edge6_Node000004_Node000007" title=" " alt="" coords="592,261,527,308,524,304,588,257"/>
+<area shape="rect" id="Node000008" href="$stepper__comprehensive__test_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="635,299,814,339"/>
+<area shape="poly" id="edge7_Node000004_Node000008" title=" " alt="" coords="645,257,700,296,697,301,642,261"/>
+<area shape="rect" id="Node000009" href="$telemetry__comprehensive__test_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="839,299,1032,339"/>
+<area shape="poly" id="edge8_Node000004_Node000009" title=" " alt="" coords="677,251,859,296,858,301,676,257"/>
+<area shape="rect" id="Node000010" href="$tmc9660_8cpp.html" title=" " alt="" coords="1057,306,1163,331"/>
+<area shape="poly" id="edge9_Node000004_Node000010" title=" " alt="" coords="683,248,684,248,785,261,865,269,944,278,1045,296,1074,303,1073,309,1044,301,943,283,864,274,785,266,683,253,683,253"/>
 </map>

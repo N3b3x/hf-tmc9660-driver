@@ -1,0 +1,25 @@
+var classtmc9660_1_1CommInterface =
+[
+    [ "CommInterface", "classtmc9660_1_1CommInterface.html#a484b8291850821158139edae5b6e2f37", null ],
+    [ "~CommInterface", "classtmc9660_1_1CommInterface.html#aae42c349892ade853d6d0c87ae050e21", null ],
+    [ "debugLog", "classtmc9660_1_1CommInterface.html#ac8216ec0a975f9c88bd9b1ee422c5f04", null ],
+    [ "delayMs", "classtmc9660_1_1CommInterface.html#add193fd585f74d2b6d1dc0861d0139c3", null ],
+    [ "delayUs", "classtmc9660_1_1CommInterface.html#a05ccd5838ef7cf8328cbb0cd74a6a915", null ],
+    [ "getSpiRetryInterval", "classtmc9660_1_1CommInterface.html#af1bf842ce5390bf9ddb8b7aae4cd14c6", null ],
+    [ "getSpiRetryMaxCount", "classtmc9660_1_1CommInterface.html#a12743b844f9651bd28d7f963bc68b8c4", null ],
+    [ "gpioLevelToSignal", "classtmc9660_1_1CommInterface.html#ad59a14162c8df22c79f7fba4b0a856ed", null ],
+    [ "gpioRead", "classtmc9660_1_1CommInterface.html#adba096b8b2054c4f248254c678faf47a", null ],
+    [ "gpioSet", "classtmc9660_1_1CommInterface.html#a4322c45054d3af4effebd7e161fb7df1", null ],
+    [ "gpioSetActive", "classtmc9660_1_1CommInterface.html#ac9c020079d6c45c17872b277673d7e0b", null ],
+    [ "gpioSetInactive", "classtmc9660_1_1CommInterface.html#a05c6cef3b356650d5953a550efe3b9cc", null ],
+    [ "logDebug", "classtmc9660_1_1CommInterface.html#a75c43036c512a4e122d8a6a57a35167b", null ],
+    [ "mode", "classtmc9660_1_1CommInterface.html#ae41c9229ac7092e45d218ab46fb18b38", null ],
+    [ "setPinActiveLevel", "classtmc9660_1_1CommInterface.html#aae9355334fe240350ca335ee722c669e", null ],
+    [ "setSpiRetryInterval", "classtmc9660_1_1CommInterface.html#a605b71b592e76b7663e2ea06638a0751", null ],
+    [ "setSpiRetryMaxCount", "classtmc9660_1_1CommInterface.html#abd6285a5c55a8ec41e8b019f6de7398a", null ],
+    [ "signalToGpioLevel", "classtmc9660_1_1CommInterface.html#a363aa9de0dcdd3f9bd86d1ec673b52b9", null ],
+    [ "transferTMCL", "classtmc9660_1_1CommInterface.html#a35c08dae9bb204383f1315e54b8f5eb5", null ],
+    [ "pinActiveLevels_", "classtmc9660_1_1CommInterface.html#a5fe2bcee1970c05ddd296ef1c4ed8ae5", null ],
+    [ "spiRetryIntervalUs_", "classtmc9660_1_1CommInterface.html#aec28fa98fff25ce18dc5c599f981f877", null ],
+    [ "spiRetryMaxCount_", "classtmc9660_1_1CommInterface.html#a39914c1b84d4b15a0d7eb852b4d21209", null ]
+];

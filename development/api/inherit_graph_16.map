@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$structtmc9660_1_1GitInfo.html" title="Git version control information from bootloader firmware." alt="" coords="5,5,136,31"/>
+<area shape="rect" id="Node000000" href="$classtmc9660_1_1CommInterface.html" title="SPI status codes as per TMC9660 Parameter Mode." alt="" coords="5,31,193,56"/>
+<area shape="rect" id="Node000001" href="$classtmc9660_1_1SpiCommInterface.html" title="SPI implementation of TMC9660CommInterface." alt="" coords="245,5,453,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="207,30,245,26,245,31,207,35"/>
+<area shape="rect" id="Node000003" href="$classtmc9660_1_1UartCommInterface.html" title="UART implementation of TMC9660CommInterface." alt="" coords="241,55,457,80"/>
+<area shape="poly" id="edge3_Node000000_Node000003" title=" " alt="" coords="207,51,241,54,241,60,207,56"/>
+<area shape="rect" id="Node000002" href="$classEsp32SPITMC9660CommInterface.html" title="ESP32 SPI implementation of TMC9660CommInterface." alt="" coords="513,5,756,31"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="467,15,513,15,513,21,467,21"/>
+<area shape="rect" id="Node000004" href="$classEsp32UARTTMC9660CommInterface.html" title="ESP32 UART implementation of TMC9660CommInterface." alt="" coords="505,55,764,80"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="471,65,505,65,505,70,471,70"/>
 </map>

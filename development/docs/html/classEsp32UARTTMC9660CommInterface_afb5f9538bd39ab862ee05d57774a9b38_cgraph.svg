@@ -40,9 +40,9 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="classtmc9660_1_1TMC9660CommInterface.html#a225178f7a26d083cf8daaa421ef70e3a" target="_top" xlink:title="Convert signal state to physical GPIO level.">
-<polygon fill="white" stroke="#666666" points="420.5,-30 233.5,-30 233.5,0 420.5,0 420.5,-30"/>
-<text text-anchor="start" x="241.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660CommInterface</text>
+<g id="a_Node000003"><a xlink:href="classtmc9660_1_1CommInterface.html#a363aa9de0dcdd3f9bd86d1ec673b52b9" target="_top" xlink:title="Convert signal state to physical GPIO level.">
+<polygon fill="white" stroke="#666666" points="397.5,-30 256.5,-30 256.5,0 397.5,0 397.5,-30"/>
+<text text-anchor="start" x="264.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::CommInterface</text>
 <text text-anchor="middle" x="327" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::signalToGpioLevel</text>
 </a>
 </g>
@@ -51,8 +51,8 @@
 <g id="edge2_Node000001_Node000003" class="edge">
 <title>Node1&#45;&gt;Node3</title>
 <g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M194.03,-28.89C203.7,-27.87 213.54,-26.84 223.27,-25.81"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="223.78,-29.28 233.36,-24.75 223.05,-22.32 223.78,-29.28"/>
+<path fill="none" stroke="#63b8ff" d="M194.03,-28.89C211.37,-27.07 229.27,-25.18 246.08,-23.41"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="246.82,-26.85 256.4,-22.33 246.09,-19.89 246.82,-26.85"/>
 </a>
 </g>
 </g>

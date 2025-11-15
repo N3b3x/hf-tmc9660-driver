@@ -29,8 +29,8 @@ message(STATUS "Source Root: ${SRC_ROOT}")
 # =============================================================================
 # List all potential driver source files
 set(DRIVER_SRCS
-    "${SRC_ROOT}/src/TMC9660.cpp"
-    "${SRC_ROOT}/src/bootloader/TMC9660Bootloader.cpp"
+    "${SRC_ROOT}/src/tmc9660.cpp"
+    "${SRC_ROOT}/src/bootloader/tmc9660_bootloader.cpp"
 )
 
 # Check which source files actually exist and add them

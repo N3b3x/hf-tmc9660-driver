@@ -15,7 +15,7 @@ var searchData=
   ['clock_5fspeed_5fhz_12',['clock_speed_hz',['../structEsp32TMC9660BusConfig.html#a5d845b7945d724014af256c9d6fea4c2',1,'Esp32TMC9660BusConfig']]],
   ['clock_5fspeed_5fhz_5f_13',['clock_speed_hz_',['../classEsp32SPITMC9660CommInterface.html#aadede6d4702a8c85b2195ca43d918fb3',1,'Esp32SPITMC9660CommInterface']]],
   ['cmdsize_14',['cmdSize',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a1fed942c18bfd8319e9092fb10a67555',1,'tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig']]],
-  ['comm_5f_15',['comm_',['../classtmc9660_1_1TMC9660Bootloader.html#a28e60d44aa027886e8866abf68c9164c',1,'tmc9660::TMC9660Bootloader::comm_'],['../classtmc9660_1_1TMC9660.html#ac3cf12d9947e8556fefb33fd29fcbf98',1,'tmc9660::TMC9660::comm_']]],
+  ['comm_5f_15',['comm_',['../classtmc9660_1_1TMC9660Bootloader.html#abe6514964cbf180f7beff5c51c05dfb0',1,'tmc9660::TMC9660Bootloader::comm_'],['../classtmc9660_1_1TMC9660.html#a3ee5e03539ed9e0c82d8630d67bfabf0',1,'tmc9660::TMC9660::comm_']]],
   ['comm_5fconfig_16',['COMM_CONFIG',['../namespacetmc9660_1_1bootaddr.html#aa8bf89ff76a77f933d7bea4d42f41641',1,'tmc9660::bootaddr']]],
   ['command_17',['command',['../structtmc9660_1_1BootloaderCommandSPI.html#a2a5cdf0d558dcdf1fa335c1686915fb8',1,'tmc9660::BootloaderCommandSPI::command'],['../structtmc9660_1_1BootloaderCommandUART.html#a46a2b5e5fe591105fe0307f1308d90c8',1,'tmc9660::BootloaderCommandUART::command']]],
   ['commit_5fhash_18',['commit_hash',['../structtmc9660_1_1GitInfo.html#a22ccc75894a1eca74945388ccc0e36d3',1,'tmc9660::GitInfo']]],

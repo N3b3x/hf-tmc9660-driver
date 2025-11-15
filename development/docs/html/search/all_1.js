@@ -93,13 +93,11 @@ var searchData=
   ['and_20their_20behavior_3a_90',['Commutation Modes and Their Behavior:',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md2',1,'']]],
   ['anyedges_91',['AnyEdgeS',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a51ee3d23180e00bf54bb48c31ceadd11ab973f48329f671846a2c3a8167eb5964',1,'tmc9660::register_mode::RAMDebug']]],
   ['anyedgeu_92',['AnyEdgeU',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a51ee3d23180e00bf54bb48c31ceadd11a5b3f67cb26a4d508d13c2f067c963e95',1,'tmc9660::register_mode::RAMDebug']]],
-  ['api_20documentation_20strong_93',['📖 &lt;strong&gt;API Documentation&lt;/strong&gt;',['../index.html#autotoc_md42',1,'']]],
-  ['app_5fmain_94',['app_main',['../BLDCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;BLDCComprehensiveTest.cpp'],['../BootloaderComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;BootloaderComprehensiveTest.cpp'],['../DCComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;DCComprehensiveTest.cpp'],['../StepperComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;StepperComprehensiveTest.cpp'],['../TelemetryComprehensiveTest_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;TelemetryComprehensiveTest.cpp']]],
-  ['applications_20strong_95',['&lt;strong&gt;Available Test Applications&lt;/strong&gt;',['../index.html#autotoc_md49',1,'']]],
-  ['applyconfiguration_96',['applyConfiguration',['../classtmc9660_1_1TMC9660Bootloader.html#a068b6c606bbaa434038ffe6b60fe5c0d',1,'tmc9660::TMC9660Bootloader']]],
-  ['auto16x_97',['Auto16x',['../namespacetmc9660_1_1bootcfg.html#acc006f70a14856afce87fd4c75373c77acc1842280307f6f542db62ea161eaac7',1,'tmc9660::bootcfg']]],
-  ['auto8x_98',['Auto8x',['../namespacetmc9660_1_1bootcfg.html#acc006f70a14856afce87fd4c75373c77abd346ce96cc25c92024a8b2a5c401c18',1,'tmc9660::bootcfg']]],
-  ['autocalibrate_99',['autoCalibrate',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#abdb2a816937ccce8fe3f664f92dff895',1,'tmc9660::TMC9660::CurrentSensing::AutoConfig']]],
-  ['autoconfig_100',['AutoConfig',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html',1,'tmc9660::TMC9660::CurrentSensing']]],
-  ['available_20test_20applications_20strong_101',['&lt;strong&gt;Available Test Applications&lt;/strong&gt;',['../index.html#autotoc_md49',1,'']]]
+  ['api_20reference_93',['📖 API Reference',['../index.html#autotoc_md40',1,'']]],
+  ['app_5fmain_94',['app_main',['../bldc__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;bldc_comprehensive_test.cpp'],['../bootloader__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;bootloader_comprehensive_test.cpp'],['../dc__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;dc_comprehensive_test.cpp'],['../stepper__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;stepper_comprehensive_test.cpp'],['../telemetry__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70',1,'app_main(void):&#160;telemetry_comprehensive_test.cpp']]],
+  ['applyconfiguration_95',['applyConfiguration',['../classtmc9660_1_1TMC9660Bootloader.html#a068b6c606bbaa434038ffe6b60fe5c0d',1,'tmc9660::TMC9660Bootloader']]],
+  ['auto16x_96',['Auto16x',['../namespacetmc9660_1_1bootcfg.html#acc006f70a14856afce87fd4c75373c77acc1842280307f6f542db62ea161eaac7',1,'tmc9660::bootcfg']]],
+  ['auto8x_97',['Auto8x',['../namespacetmc9660_1_1bootcfg.html#acc006f70a14856afce87fd4c75373c77abd346ce96cc25c92024a8b2a5c401c18',1,'tmc9660::bootcfg']]],
+  ['autocalibrate_98',['autoCalibrate',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#abdb2a816937ccce8fe3f664f92dff895',1,'tmc9660::TMC9660::CurrentSensing::AutoConfig']]],
+  ['autoconfig_99',['AutoConfig',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html',1,'tmc9660::TMC9660::CurrentSensing']]]
 ];
