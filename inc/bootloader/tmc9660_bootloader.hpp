@@ -12,7 +12,9 @@
 
 #include "bootloader_config.hpp"
 #include "bootloader_protocol.hpp"
+#include "../tmc9660_comm_interface.hpp"
 #include <cstdint>
+#include <type_traits>
 
 namespace tmc9660 {
 
