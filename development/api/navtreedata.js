@@ -81,14 +81,14 @@ var NAVTREEINDEX =
 "namespacetmc9660_1_1bootaddr.html#ae04ba16579ba1d222a9e8e273d66fb0c",
 "namespacetmc9660_1_1tmcl.html#a18663a474f75b063d1d3e6ac611fe444",
 "namespacetmc9660_1_1tmcl.html#af5a7d97e2a7252cda6165531563d4f58",
-"structtmc9660_1_1GitInfo.html#a329188344bd7284b2c94824385547e01",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#afd513b5d93b65c4971f310c71b8739a7",
-"structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a532ef213d53012d478959884483db5c7",
-"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a559736a1e07e1f3f5e60b7db4ef74036",
-"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#af2b67ff930115c7210feb5edb8b6fd28",
-"tmc9660__param__mode__tmcl_8hpp.html#a0e513fc222acb4c7cf6017bf32c3e611",
+"structtmc9660_1_1GitInfo.html#a22ccc75894a1eca74945388ccc0e36d3",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#af9a98b150855960f6e890d5d06068419",
+"structtmc9660_1_1TMC9660_1_1Power.html#ac7c79424539c482f03d9f88d4d563435",
+"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a282dbb9c2b2115285d67925861fe3dd0",
+"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#ae7158f6c644ed286db5801715f4f69af",
+"tmc9660__param__mode__tmcl_8hpp.html#a0dc885d02449e043cb0c075c66e9095e",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#ae00a99490999ac54f56149489d961146"
+"tmc9660__param__mode__tmcl_8hpp.html#add6e015f26fa726f4b8d63afb20df81e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

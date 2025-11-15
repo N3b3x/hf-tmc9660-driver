@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.0YQlIA
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.0YQlIA' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.y5AuoF
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.y5AuoF' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1776: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4820: warning: unbalanced grouping commands
@@ -55,9 +55,9 @@ Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:2: warning: Found non-existing group 'TMC9660_Bootloader' for the command '@ingroup', ignoring command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:2: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode/tmc9660_ramDebug.hpp:25: warning: the name 'tmc9660_ramdebug.hpp' supplied as the argument in the \file statement is not an input file
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:57: warning: Found non-existing group 'TMC9660_Bootloader' for the command '@ingroup', ignoring command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:59: warning: Found non-existing group 'TMC9660_Bootloader' for the command '@ingroup', ignoring command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:395: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:772: warning: explicit link request to 'BootloaderConfig' could not be resolved
 32/main/bootloader_comprehensive_test.cpp...
 Parsing file /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/bootloader_comprehensive_test.cpp...
 Preprocessing /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/dc_comprehensive_test.cpp...
@@ -406,6 +406,8 @@ Generating call graph for function Esp32UARTTMC9660CommInterface::gpioRead
 Generating call graph for function Esp32UARTTMC9660CommInterface::gpioSet
 Generating call graph for function Esp32UARTTMC9660CommInterface::initialize
 Generating call graph for function Esp32UARTTMC9660CommInterface::transferTMCL
+Generating docs for compound is_spi_interface...
+Generating docs for compound is_uart_interface...
 Generating docs for compound TestDriverHandle...
 Generating docs for compound TestResults...
 Generating caller graph for function TestResults::add_result
@@ -431,9 +433,7 @@ Generating caller graph for function tmc9660::BootloaderReplyUART::fromBuffer
 Generating call graph for function tmc9660::BootloaderReplyUART::verifyCRC
 Generating docs for compound tmc9660::BootloaderVersion...
 Generating caller graph for function tmc9660::BootloaderVersion::fromValue
-Generating docs for compound tmc9660::BrakeChopperConfig...
-Generating docs for compound tmc9660::ClockConfig...
-Generating d/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:17: warning: argument 'boot_cfg' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr)
+Generating docs for compou/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:17: warning: argument 'boot_cfg' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:17: warning: argument 'comm' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:17: warning: argument 'address' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:17: warning: The following parameter of tmc9660::TMC9660::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr) is not documented:
@@ -454,12 +454,9 @@ Generating d/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cp
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:394: warning: argument 'id' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:394: warning: argument 'value' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.cpp:394: warning: argument 'motor_index' from the argument list of tmc9660::TMC9660::writeParameter has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: argument 'wait_for_completion' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: argument 'timeout_ms' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: The following parameters of tmc9660::TMC9660::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000) are not documented:
-  parameter 'waitForCompletion'
-  parameter 'timeoutMs'
-ocs for compound tmc9660::CommInterface...
+nd tmc9660::BrakeChopperConfig...
+Generating docs for compound tmc9660::ClockConfig...
+Generating docs for compound tmc9660::CommInterface...
 Generating caller graph for function tmc9660::CommInterface::CommInterface
 Generating call graph for function tmc9660::CommInterface::debugLog
 Generating caller graph for function tmc9660::CommInterface::debugLog
@@ -519,8 +516,12 @@ Generating call graph for function tmc9660::TMC9660::sendCommand
 Generating caller graph for function tmc9660::TMC9660::sendCommand
 Generating docs for nested compound tmc9660::TMC9660::Brake...
 Generating docs for nested compound tmc9660::TMC9660::Brake::BrakeConfig...
-Generating docs for nested compound tmc9660::TMC9660::CurrentSensing...
-Generating call graph for function tmc9660::TMC9660::CurrentSensing::calib/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1718: warning: argument 'n_channel_inverted' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED)
+Generating docs for nested compound tmc9660::TM/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: argument 'wait_for_completion' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: argument 'timeout_ms' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:834: warning: The following parameters of tmc9660::TMC9660::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000) are not documented:
+  parameter 'waitForCompletion'
+  parameter 'timeoutMs'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1718: warning: argument 'n_channel_inverted' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1718: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED) is not documented:
   parameter 'nChannelInverted'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1736: warning: argument 'init_method' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
@@ -591,15 +592,16 @@ Generating call graph for function tmc9660::TMC9660::CurrentSensing::calib/home/
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2631: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2631: warning: The following parameter of tmc9660::TMC9660::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true) is not documented:
   parameter 'softStop'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:770: warning: explicit link request to 'BootloaderConfig' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:894: warning: argument 'fail_on_verify_error' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::applyConfiguration(const BootloaderConfig &cfg, bool failOnVerifyError=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:894: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:894: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:820: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:801: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:801: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-rateOffsets
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:772: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:772: warning: explicit link request to 'BootloaderConfig' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:899: warning: argument 'fail_on_verify_error' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::applyConfiguration(const BootloaderConfig &cfg, bool failOnVerifyError=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:899: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:899: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:825: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:806: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:806: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+C9660::CurrentSensing...
+Generating call graph for function tmc9660::TMC9660::CurrentSensing::calibrateOffsets
 Generating call graph for function tmc9660::TMC9660::CurrentSensing::configureAuto
 Generating docs for nested compound tmc9660::TMC9660::CurrentSensing::AutoConfig...
 Generating docs for nested compound tmc9660::TMC9660::FeedbackSense...
@@ -652,27 +654,26 @@ Generating call graph for function tmc9660::TMC9660Bootloader::getFeatures
 Generating call graph for function tmc9660::TMC9660Bootloader::getGitInfo
 Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
 Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
-Generating caller graph for function tmc9660::TMC9660Bootloader::getInfo
-Generating call graph for function tmc9660::TMC9660/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:407: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:407: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:407: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:459: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, uint32_t vdrvWaitMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:459: warning: argument 'vdrv_wait_ms' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, uint32_t vdrvWaitMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:459: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:459: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:363: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:363: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2168: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read16 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2193: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read32 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2143: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read8 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:261: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:245: warning: argument 'bank' from the argument list of tmc9660::TMC9660Bootloader::setBank has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2056: warning: argument 'boot_mode' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::startMotorControl(bootcfg::BootMode bootMode=bootcfg::BootMode::Parameter)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:289: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write16 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:303: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write32 has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:335: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::write32IncMultiple(const uint32_t *vals, size_t count)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:335: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:275: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
+Generating caller graph f/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:412: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:412: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:412: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:464: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, uint32_t vdrvWaitMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:464: warning: argument 'vdrv_wait_ms' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, uint32_t vdrvWaitMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:464: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:464: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurnWithWorkaround has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:368: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:368: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpLoad has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2173: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read16 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2198: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read32 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2148: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read8 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:266: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:250: warning: argument 'bank' from the argument list of tmc9660::TMC9660Bootloader::setBank has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2061: warning: argument 'boot_mode' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::startMotorControl(bootcfg::BootMode bootMode=bootcfg::BootMode::Parameter)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:294: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write16 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:308: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write32 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:340: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::write32IncMultiple(const uint32_t *vals, size_t count)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:340: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:280: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:11: warning: unable to resolve reference to '-overview' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:12: warning: unable to resolve reference to '-features' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:13: warning: unable to resolve reference to '-quick-start' for \ref command
@@ -690,7 +691,8 @@ Generating call graph for function tmc9660::TMC9660/home/runner/work/hf-tmc9660-
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:101: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/examples.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:105: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:109: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/special_feature_bootloader.md' for \ref command
-Bootloader::getOtpMemSize
+or function tmc9660::TMC9660Bootloader::getInfo
+Generating call graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
 Generating call graph for function tmc9660::TMC9660Bootloader::getPartitionVersion
 Generating call graph for function tmc9660::TMC9660Bootloader::getSpiMemPartitions
 Generating call graph for function tmc9660::TMC9660Bootloader::getSpiMemSize
@@ -771,7 +773,219 @@ finalizing index lists...
 writing tag file...
 Running plantuml with JAVA...
 Running dot...
-Patching output file 1/1
-type lookup cache used 8341/65536 hits=37633 misses=8681
-symbol lookup cache used 6156/65536 hits=24322 misses=6156
+Generating dot graphs using 5 parallel threads...
+Running dot for graph 1/99
+Running dot for graph 2/99
+Running dot for graph 3/99
+Running dot for graph 4/99
+Running dot for graph 5/99
+Running dot for graph 6/99
+Running dot for graph 7/99
+Running dot for graph 8/99
+Running dot for graph 9/99
+Running dot for graph 10/99
+Running dot for graph 11/99
+Running dot for graph 12/99
+Running dot for graph 13/99
+Running dot for graph 14/99
+Running dot for graph 15/99
+Running dot for graph 16/99
+Running dot for graph 17/99
+Running dot for graph 18/99
+Running dot for graph 19/99
+Running dot for graph 20/99
+Running dot for graph 21/99
+Running dot for graph 22/99
+Running dot for graph 23/99
+Running dot for graph 24/99
+Running dot for graph 25/99
+Running dot for graph 26/99
+Running dot for graph 27/99
+Running dot for graph 28/99
+Running dot for graph 29/99
+Running dot for graph 30/99
+Running dot for graph 31/99
+Running dot for graph 32/99
+Running dot for graph 33/99
+Running dot for graph 34/99
+Running dot for graph 35/99
+Running dot for graph 36/99
+Running dot for graph 37/99
+Running dot for graph 38/99
+Running dot for graph 39/99
+Running dot for graph 40/99
+Running dot for graph 41/99
+Running dot for graph 42/99
+Running dot for graph 43/99
+Running dot for graph 44/99
+Running dot for graph 45/99
+Running dot for graph 46/99
+Running dot for graph 47/99
+Running dot for graph 48/99
+Running dot for graph 49/99
+Running dot for graph 50/99
+Running dot for graph 51/99
+Running dot for graph 52/99
+Running dot for graph 53/99
+Running dot for graph 54/99
+Running dot for graph 55/99
+Running dot for graph 56/99
+Running dot for graph 57/99
+Running dot for graph 58/99
+Running dot for graph 59/99
+Running dot for graph 60/99
+Running dot for graph 61/99
+Running dot for graph 62/99
+Running dot for graph 63/99
+Running dot for graph 64/99
+Running dot for graph 65/99
+Running dot for graph 66/99
+Running dot for graph 67/99
+Running dot for graph 68/99
+Running dot for graph 69/99
+Running dot for graph 70/99
+Running dot for graph 71/99
+Running dot for graph 72/99
+Running dot for graph 73/99
+Running dot for graph 74/99
+Running dot for graph 75/99
+Running dot for graph 76/99
+Running dot for graph 77/99
+Running dot for graph 78/99
+Running dot for graph 79/99
+Running dot for graph 80/99
+Running dot for graph 81/99
+Running dot for graph 82/99
+Running dot for graph 83/99
+Running dot for graph 84/99
+Running dot for graph 85/99
+Running dot for graph 86/99
+Running dot for graph 87/99
+Running dot for graph 88/99
+Running dot for graph 89/99
+Running dot for graph 90/99
+Running dot for graph 91/99
+Running dot for graph 92/99
+Running dot for graph 93/99
+Running dot for graph 94/99
+Running dot for graph 95/99
+Running dot for graph 96/99
+Running dot for graph 97/99
+Running dot for graph 98/99
+Running dot for graph 99/99
+Patching output file 1/113
+Patching output file 2/113
+Patching output file 3/113
+Patching output file 4/113
+Patching output file 5/113
+Patching output file 6/113
+Patching output file 7/113
+Patching output file 8/113
+Patching output file 9/113
+Patching output file 10/113
+Patching output file 11/113
+Patching output file 12/113
+Patching output file 13/113
+Patching output file 14/113
+Patching output file 15/113
+Patching output file 16/113
+Patching output file 17/113
+Patching output file 18/113
+Patching output file 19/113
+Patching output file 20/113
+Patching output file 21/113
+Patching output file 22/113
+Patching output file 23/113
+Patching output file 24/113
+Patching output file 25/113
+Patching output file 26/113
+Patching output file 27/113
+Patching output file 28/113
+Patching output file 29/113
+Patching output file 30/113
+Patching output file 31/113
+Patching output file 32/113
+Patching output file 33/113
+Patching output file 34/113
+Patching output file 35/113
+Patching output file 36/113
+Patching output file 37/113
+Patching output file 38/113
+Patching output file 39/113
+Patching output file 40/113
+Patching output file 41/113
+Patching output file 42/113
+Patching output file 43/113
+Patching output file 44/113
+Patching output file 45/113
+Patching output file 46/113
+Patching output file 47/113
+Patching output file 48/113
+Patching output file 49/113
+Patching output file 50/113
+Patching output file 51/113
+Patching output file 52/113
+Patching output file 53/113
+Patching output file 54/113
+Patching output file 55/113
+Patching output file 56/113
+Patching output file 57/113
+Patching output file 58/113
+Patching output file 59/113
+Patching output file 60/113
+Patching output file 61/113
+Patching output file 62/113
+Patching output file 63/113
+Patching output file 64/113
+Patching output file 65/113
+Patching output file 66/113
+Patching output file 67/113
+Patching output file 68/113
+Patching output file 69/113
+Patching output file 70/113
+Patching output file 71/113
+Patching output file 72/113
+Patching output file 73/113
+Patching output file 74/113
+Patching output file 75/113
+Patching output file 76/113
+Patching output file 77/113
+Patching output file 78/113
+Patching output file 79/113
+Patching output file 80/113
+Patching output file 81/113
+Patching output file 82/113
+Patching output file 83/113
+Patching output file 84/113
+Patching output file 85/113
+Patching output file 86/113
+Patching output file 87/113
+Patching output file 88/113
+Patching output file 89/113
+Patching output file 90/113
+Patching output file 91/113
+Patching output file 92/113
+Patching output file 93/113
+Patching output file 94/113
+Patching output file 95/113
+Patching output file 96/113
+Patching output file 97/113
+Patching output file 98/113
+Patching output file 99/113
+Patching output file 100/113
+Patching output file 101/113
+Patching output file 102/113
+Patching output file 103/113
+Patching output file 104/113
+Patching output file 105/113
+Patching output file 106/113
+Patching output file 107/113
+Patching output file 108/113
+Patching output file 109/113
+Patching output file 110/113
+Patching output file 111/113
+Patching output file 112/113
+Patching output file 113/113
+type lookup cache used 8351/65536 hits=37648 misses=8691
+symbol lookup cache used 6160/65536 hits=24324 misses=6160
 finished...

@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"tmc9660__param__mode__tmcl_8hpp.html#add6e015f26fa726f4b8d63afb20df81e":[13,0,1,1,0,282],
+"tmc9660__param__mode__tmcl_8hpp.html#add6e015f26fa726f4b8d63afb20df81ea756045a8d37de34ca27188466b2c0c8b":[13,0,1,1,0,282,0],
 "tmc9660__param__mode__tmcl_8hpp.html#ae00a99490999ac54f56149489d961146":[13,0,1,1,0,65],
 "tmc9660__param__mode__tmcl_8hpp.html#ae0559def73e6c05e4161a1d8f59819cc":[13,0,1,1,0,72],
 "tmc9660__param__mode__tmcl_8hpp.html#ae115c2d0a8722306551510ef24c47a89":[13,0,1,1,0,409],

@@ -1,11 +1,13 @@
 <map id="tmc9660_comm_interface.hpp" name="tmc9660_comm_interface.hpp">
-<area shape="rect" id="Node000001" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="521,5,741,31"/>
+<area shape="rect" id="Node000001" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="507,5,727,31"/>
 <area shape="rect" id="Node000002" href="$esp32__tmc9660__bus_8hpp.html" title="ESP32&#45;specific communication interfaces for TMC9660 using SPI and UART." alt="" coords="411,225,593,251"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="584,38,554,56,530,80,512,118,504,159,502,197,503,225,498,225,497,197,498,158,507,116,525,77,551,51,582,34"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="599,43,571,80,549,121,531,162,508,226,503,224,526,160,545,118,566,77,595,39"/>
 <area shape="rect" id="Node000008" href="$tmc9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="674,225,781,251"/>
-<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="685,34,714,51,738,77,746,97,751,118,751,160,743,198,735,226,729,224,738,197,745,159,745,118,741,98,733,80,711,56,682,38"/>
-<area shape="rect" id="Node000010" href="$tmc9660__bootloader_8cpp.html" title=" " alt="" coords="540,79,723,104"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="634,44,634,79,629,79,629,44"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="724,33,760,50,788,77,802,103,804,126,799,151,788,179,769,207,746,227,743,223,765,203,784,176,794,149,799,126,796,104,784,80,757,54,722,37"/>
+<area shape="rect" id="Node000010" href="$tmc9660__bootloader_8cpp.html" title=" " alt="" coords="591,79,773,104"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="639,39,673,77,669,80,635,43"/>
+<area shape="rect" id="Node000011" href="$tmc9660__bootloader_8hpp.html" title="Main TMC9660 bootloader interface class." alt="" coords="591,152,773,177"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="597,43,579,73,576,88,580,103,593,118,608,131,644,150,641,154,605,136,589,122,576,105,571,88,574,71,593,40"/>
 <area shape="rect" id="Node000003" href="$bldc__comprehensive__test_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="223,299,379,339"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="461,258,350,301,348,296,459,253"/>
 <area shape="rect" id="Node000004" href="$bootloader__comprehensive__test_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="403,299,601,339"/>
@@ -24,8 +26,7 @@
 <area shape="rect" id="Node000009" href="$tmc9660_8cpp.html" title=" " alt="" coords="1055,306,1162,331"/>
 <area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="795,249,906,269,1032,296,1060,303,1059,309,1031,301,905,275,794,254"/>
 <area shape="poly" id="edge14_Node000009_Node000008" title=" " alt="" coords="1069,305,1055,301,906,270,780,249,781,244,907,265,1056,296,1070,300"/>
-<area shape="rect" id="Node000011" href="$tmc9660__bootloader_8hpp.html" title="Main TMC9660 bootloader interface class." alt="" coords="540,152,723,177"/>
-<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="625,118,627,152,622,152,620,118"/>
-<area shape="poly" id="edge17_Node000011_Node000008" title=" " alt="" coords="659,183,713,223,710,227,656,188"/>
-<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="637,139,636,104,641,104,643,138"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="676,118,678,152,672,152,671,118"/>
+<area shape="poly" id="edge17_Node000011_Node000008" title=" " alt="" coords="699,188,722,224,718,227,695,191"/>
+<area shape="poly" id="edge18_Node000011_Node000010" title=" " alt="" coords="688,139,686,104,692,104,693,138"/>
 </map>

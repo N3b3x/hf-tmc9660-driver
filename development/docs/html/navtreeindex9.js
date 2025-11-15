@@ -1,5 +1,7 @@
 var NAVTREEINDEX9 =
 {
+"structtmc9660_1_1TMC9660_1_1Power.html#ac7c79424539c482f03d9f88d4d563435":[10,9,0,10,2],
+"structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html":[10,9,0,10,0],
 "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a532ef213d53012d478959884483db5c7":[10,9,0,10,0,0],
 "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a82c8445b41915dde3ef2366983238730":[10,9,0,10,0,1],
 "structtmc9660_1_1TMC9660_1_1Protection.html":[10,9,0,11],
@@ -247,7 +249,5 @@ var NAVTREEINDEX9 =
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a0a5f81ba3983dada7c69ecd2671c6cfd":[10,9,0,20,0,18],
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a0bc5c657b04d2c1f277b03357840d636":[10,9,0,20,0,17],
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a14c35d702ea288b3dcf3012c8b2dc5bc":[10,9,0,20,0,8],
-"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a1c6debd86e855efa4450734c82012c05":[10,9,0,20,0,19],
-"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a282dbb9c2b2115285d67925861fe3dd0":[10,9,0,20,0,14],
-"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a37c176e217f1313a24997aa3164027be":[10,9,0,20,0,7]
+"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a1c6debd86e855efa4450734c82012c05":[10,9,0,20,0,19]
 };
