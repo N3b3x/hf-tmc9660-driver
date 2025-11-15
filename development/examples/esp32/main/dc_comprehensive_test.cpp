@@ -183,7 +183,7 @@ bool test_dc_current_control() noexcept {
     }
 
     // Test 2: Configure current loop gains
-    if (!driver->focControl.setCurrentLoopGains(50, 100)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(50, 100)) {
         ESP_LOGE(TAG, "Failed to set current loop gains");
         return false;
     }
@@ -191,10 +191,10 @@ bool test_dc_current_control() noexcept {
     ESP_LOGI(TAG, "Current loop gains configured: P=50, I=100");
 
     // Test 3: Test current control during operation
-    if (driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started for current control testing");
         vTaskDelay(pdMS_TO_TICKS(1000));
-        driver->focControl.stop();
+        driver->velocityControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -234,7 +234,7 @@ bool test_dc_velocity_control() noexcept {
         return false;
     }
 
-    if (!driver->focControl.setVelocityLoopGains(500, 5)) {
+    if (!driver->velocityControl.setVelocityLoopGains(500, 5)) {
         ESP_LOGE(TAG, "Failed to set velocity loop gains");
         return false;
     }
@@ -243,7 +243,7 @@ bool test_dc_velocity_control() noexcept {
     std::vector<int16_t> velocity_targets = {0, 100, 500, 1000, 2000, -500, -1000};
 
     for (auto target : velocity_targets) {
-        if (!driver->focControl.setTargetVelocity(target)) {
+        if (!driver->velocityControl.setTargetVelocity(target)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d", target);
             return false;
         }
@@ -256,7 +256,7 @@ bool test_dc_velocity_control() noexcept {
     // Test 2: Test velocity ramping
     ESP_LOGI(TAG, "Testing velocity ramping...");
     for (int16_t vel = 0; vel <= 1000; vel += 100) {
-        if (!driver->focControl.setTargetVelocity(vel)) {
+        if (!driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGE(TAG, "Failed to set velocity target %d during ramping", vel);
             return false;
         }
@@ -264,7 +264,7 @@ bool test_dc_velocity_control() noexcept {
     }
 
     // Test 3: Stop motor
-    driver->focControl.stop();
+    driver->velocityControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     ESP_LOGI(TAG, "[SUCCESS] DC motor velocity control tests passed");
@@ -301,7 +301,7 @@ bool test_dc_openloop_current_mode() noexcept {
     ESP_LOGI(TAG, "Open-loop current mode configured");
 
     // Test 2: Configure current loop gains for open-loop
-    if (!driver->focControl.setCurrentLoopGains(40, 80)) {
+    if (!driver->torqueFluxControl.setCurrentLoopGains(40, 80)) {
         ESP_LOGE(TAG, "Failed to set current loop gains for open-loop");
         return false;
     }
@@ -457,7 +457,7 @@ bool test_dc_telemetry_monitoring() noexcept {
     log_dc_telemetry_data(*driver, "Initial state");
 
     // Test 2: Read telemetry during motor operation
-    if (driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started for telemetry monitoring");
         
         for (int i = 0; i < 5; ++i) {
@@ -465,7 +465,7 @@ bool test_dc_telemetry_monitoring() noexcept {
             vTaskDelay(pdMS_TO_TICKS(500));
         }
         
-        driver->focControl.stop();
+        driver->velocityControl.stop();
         ESP_LOGI(TAG, "Motor stopped");
     }
 
@@ -513,7 +513,7 @@ bool test_dc_performance_benchmarks() noexcept {
 
     // Test 1: Command response time
     uint64_t start_time = esp_timer_get_time();
-    bool result = driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET);
+    bool result = driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET);
     uint64_t end_time = esp_timer_get_time();
     uint64_t response_time = end_time - start_time;
 
@@ -537,7 +537,7 @@ bool test_dc_performance_benchmarks() noexcept {
 
     // Test 3: Configuration change performance
     start_time = esp_timer_get_time();
-    result = driver->focControl.setVelocityLoopGains(600, 8);
+    result = driver->velocityControl.setVelocityLoopGains(600, 8);
     end_time = esp_timer_get_time();
     uint64_t config_time = end_time - start_time;
 
@@ -550,7 +550,7 @@ bool test_dc_performance_benchmarks() noexcept {
 
     // Test 4: Current control performance
     start_time = esp_timer_get_time();
-    result = driver->focControl.setCurrentLoopGains(60, 120);
+    result = driver->torqueFluxControl.setCurrentLoopGains(60, 120);
     end_time = esp_timer_get_time();
     uint64_t current_config_time = end_time - start_time;
 
@@ -561,7 +561,7 @@ bool test_dc_performance_benchmarks() noexcept {
 
     ESP_LOGI(TAG, "Current configuration change time: %llu μs", current_config_time);
 
-    driver->focControl.stop();
+    driver->velocityControl.stop();
     ESP_LOGI(TAG, "[SUCCESS] DC motor performance benchmark tests passed");
     return true;
 }
@@ -598,7 +598,7 @@ bool test_dc_error_handling() noexcept {
     }
 
     // Test 4: Invalid velocity targets
-    if (driver->focControl.setTargetVelocity(INT16_MAX)) {
+    if (driver->velocityControl.setTargetVelocity(INT16_MAX)) {
         ESP_LOGW(TAG, "Unexpected success with extreme velocity target");
     } else {
         ESP_LOGI(TAG, "Correctly rejected extreme velocity target");
@@ -642,7 +642,7 @@ bool test_dc_edge_cases() noexcept {
     // Test 3: Extreme velocity targets
     std::vector<int16_t> extreme_velocities = {INT16_MAX, INT16_MIN, 0};
     for (auto vel : extreme_velocities) {
-        if (driver->focControl.setTargetVelocity(vel)) {
+        if (driver->velocityControl.setTargetVelocity(vel)) {
             ESP_LOGI(TAG, "Successfully set extreme velocity target: %d", vel);
         } else {
             ESP_LOGW(TAG, "Failed to set extreme velocity target: %d", vel);
@@ -659,7 +659,7 @@ bool test_dc_edge_cases() noexcept {
     // Test 5: Rapid configuration changes
     ESP_LOGI(TAG, "Testing rapid configuration changes...");
     for (int i = 0; i < 10; ++i) {
-        driver->focControl.setVelocityLoopGains(400 + i * 100, 2 + i);
+        driver->velocityControl.setVelocityLoopGains(400 + i * 100, 2 + i);
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
@@ -722,7 +722,7 @@ bool test_dc_startup_shutdown_procedures() noexcept {
     }
 
     // Step 5: Configure control gains
-    if (!driver->focControl.setVelocityLoopGains(500, 5)) {
+    if (!driver->velocityControl.setVelocityLoopGains(500, 5)) {
         ESP_LOGE(TAG, "Startup step 5 failed: velocity loop gains");
         return false;
     }
@@ -730,7 +730,7 @@ bool test_dc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Startup sequence completed successfully");
 
     // Test 2: Motor operation
-    if (driver->focControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
+    if (driver->velocityControl.setTargetVelocity(TEST_VELOCITY_TARGET)) {
         ESP_LOGI(TAG, "Motor started successfully");
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
@@ -739,11 +739,11 @@ bool test_dc_startup_shutdown_procedures() noexcept {
     ESP_LOGI(TAG, "Testing shutdown sequence...");
     
     // Step 1: Stop motor
-    driver->focControl.stop();
+    driver->velocityControl.stop();
     ESP_LOGI(TAG, "Motor stopped");
 
     // Step 2: Reset to safe state
-    if (driver->focControl.setTargetVelocity(0)) {
+    if (driver->velocityControl.setTargetVelocity(0)) {
         ESP_LOGI(TAG, "Velocity target reset to zero");
     }
 
