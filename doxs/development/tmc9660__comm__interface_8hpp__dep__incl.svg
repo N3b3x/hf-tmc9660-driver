@@ -12,8 +12,8 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.">
-<polygon fill="#999999" stroke="#666666" points="552,-250 387,-250 387,-231 552,-231 552,-250"/>
-<text text-anchor="middle" x="469.5" y="-238" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_comm_interface.hpp</text>
+<polygon fill="#999999" stroke="#666666" points="541,-250 376,-250 376,-231 541,-231 541,-250"/>
+<text text-anchor="middle" x="458.5" y="-238" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_comm_interface.hpp</text>
 </a>
 </g>
 </g>
@@ -30,8 +30,8 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M433.25,-227C418.03,-219.93 401.57,-209.54 391.5,-195 367.42,-160.23 369.58,-106.09 371.51,-85.16"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="431.92,-230.24 442.49,-230.98 434.69,-223.81 431.92,-230.24"/>
+<path fill="none" stroke="#63b8ff" d="M443.52,-223.27C436.54,-215.17 428.49,-205 422.5,-195 399.43,-156.5 381.77,-105.4 375.24,-85.23"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="441,-225.7 450.26,-230.85 446.23,-221.05 441,-225.7"/>
 </a>
 </g>
 </g>
@@ -48,8 +48,8 @@
 <g id="edge7_Node000001_Node000008" class="edge">
 <title>Node1&#45;&gt;Node8</title>
 <g id="a_edge7_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M508.64,-226.89C523.53,-219.96 538.96,-209.71 547.5,-195 568.4,-159.02 552.58,-106.04 544.98,-85.29"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="506.84,-223.85 499,-230.97 509.58,-230.29 506.84,-223.85"/>
+<path fill="none" stroke="#63b8ff" d="M538.44,-227.78C556.8,-221.17 574.22,-210.9 585.5,-195 604.53,-168.17 598,-151.42 585.5,-121 579.22,-105.73 564.89,-92.9 554.28,-85"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="537.21,-224.5 528.78,-230.91 539.37,-231.16 537.21,-224.5"/>
 </a>
 </g>
 </g>
@@ -57,8 +57,8 @@
 <g id="Node000010" class="node">
 <title>Node10</title>
 <g id="a_Node000010"><a xlink:href="tmc9660__bootloader_8cpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="538,-195 401,-195 401,-176 538,-176 538,-195"/>
-<text text-anchor="middle" x="469.5" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_bootloader.cpp</text>
+<polygon fill="white" stroke="#666666" points="576,-195 439,-195 439,-176 576,-176 576,-195"/>
+<text text-anchor="middle" x="507.5" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_bootloader.cpp</text>
 </a>
 </g>
 </g>
@@ -66,8 +66,26 @@
 <g id="edge15_Node000001_Node000010" class="edge">
 <title>Node1&#45;&gt;Node10</title>
 <g id="a_edge15_Node000001_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M469.5,-220.66C469.5,-211.93 469.5,-201.99 469.5,-195.09"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="466,-220.75 469.5,-230.75 473,-220.75 466,-220.75"/>
+<path fill="none" stroke="#63b8ff" d="M473.53,-223.24C482.12,-213.95 492.54,-202.68 499.56,-195.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="470.81,-221.03 466.59,-230.75 475.95,-225.78 470.81,-221.03"/>
+</a>
+</g>
+</g>
+<!-- Node11 -->
+<g id="Node000011" class="node">
+<title>Node11</title>
+<g id="a_Node000011"><a xlink:href="tmc9660__bootloader_8hpp.html" target="_top" xlink:title="Main TMC9660 bootloader interface class.">
+<polygon fill="white" stroke="#666666" points="576,-140 439,-140 439,-121 576,-121 576,-140"/>
+<text text-anchor="middle" x="507.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_bootloader.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node11 -->
+<g id="edge19_Node000001_Node000011" class="edge">
+<title>Node1&#45;&gt;Node11</title>
+<g id="a_edge19_Node000001_Node000011"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M442.12,-222.88C431.3,-209.81 420.61,-191.3 429.5,-176 439.91,-158.07 460.56,-146.76 478,-140.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="439.76,-225.5 449.05,-230.6 444.97,-220.82 439.76,-225.5"/>
 </a>
 </g>
 </g>
@@ -237,21 +255,12 @@
 </a>
 </g>
 </g>
-<!-- Node11 -->
-<g id="Node000011" class="node">
-<title>Node11</title>
-<g id="a_Node000011"><a xlink:href="tmc9660__bootloader_8hpp.html" target="_top" xlink:title="Main TMC9660 bootloader interface class.">
-<polygon fill="white" stroke="#666666" points="538,-140 401,-140 401,-121 538,-121 538,-140"/>
-<text text-anchor="middle" x="469.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_bootloader.hpp</text>
-</a>
-</g>
-</g>
 <!-- Node10&#45;&gt;Node11 -->
 <g id="edge16_Node000010_Node000011" class="edge">
 <title>Node10&#45;&gt;Node11</title>
 <g id="a_edge16_Node000010_Node000011"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M463.01,-165.66C462.41,-156.93 462.86,-146.99 464.37,-140.09"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="459.56,-166.29 464.33,-175.75 466.5,-165.38 459.56,-166.29"/>
+<path fill="none" stroke="#63b8ff" d="M501.01,-165.66C500.41,-156.93 500.86,-146.99 502.37,-140.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="497.56,-166.29 502.33,-175.75 504.5,-165.38 497.56,-166.29"/>
 </a>
 </g>
 </g>
@@ -259,8 +268,8 @@
 <g id="edge17_Node000011_Node000008" class="edge">
 <title>Node11&#45;&gt;Node8</title>
 <g id="a_edge17_Node000011_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M489.37,-114.88C502.32,-105.34 518.8,-93.21 529.72,-85.17"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="487.05,-112.24 481.07,-120.98 491.2,-117.88 487.05,-112.24"/>
+<path fill="none" stroke="#63b8ff" d="M518.66,-112.1C524.47,-103.04 531.32,-92.37 535.99,-85.09"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="515.57,-110.44 513.11,-120.75 521.46,-114.22 515.57,-110.44"/>
 </a>
 </g>
 </g>
@@ -268,8 +277,8 @@
 <g id="edge18_Node000011_Node000010" class="edge">
 <title>Node11&#45;&gt;Node10</title>
 <g id="a_edge18_Node000011_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M475.98,-150.13C476.6,-158.85 476.16,-168.8 474.67,-175.75"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="479.43,-149.53 474.63,-140.09 472.49,-150.47 479.43,-149.53"/>
+<path fill="none" stroke="#63b8ff" d="M513.98,-150.13C514.6,-158.85 514.16,-168.8 512.67,-175.75"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="517.43,-149.53 512.63,-140.09 510.49,-150.47 517.43,-149.53"/>
 </a>
 </g>
 </g>

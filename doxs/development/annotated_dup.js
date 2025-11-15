@@ -54,6 +54,8 @@ var annotated_dup =
     [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", "classEsp32SPITMC9660CommInterface" ],
     [ "Esp32TMC9660BusConfig", "structEsp32TMC9660BusConfig.html", "structEsp32TMC9660BusConfig" ],
     [ "Esp32UARTTMC9660CommInterface", "classEsp32UARTTMC9660CommInterface.html", "classEsp32UARTTMC9660CommInterface" ],
+    [ "is_spi_interface", "structis__spi__interface.html", null ],
+    [ "is_uart_interface", "structis__uart__interface.html", null ],
     [ "TestDriverHandle", "structTestDriverHandle.html", "structTestDriverHandle" ],
     [ "TestResults", "structTestResults.html", "structTestResults" ],
     [ "TestTaskContext", "structTestTaskContext.html", "structTestTaskContext" ]

@@ -47,6 +47,10 @@ var hierarchy =
     [ "tmc9660::TMC9660< CommType >::Heartbeat::HeartbeatConfig", "structtmc9660_1_1TMC9660_1_1Heartbeat_1_1HeartbeatConfig.html", null ],
     [ "tmc9660::I2CConfig", "structtmc9660_1_1I2CConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::IIT", "structtmc9660_1_1TMC9660_1_1IIT.html", null ],
+    [ "std::is_base_of", null, [
+      [ "is_spi_interface< T >", "structis__spi__interface.html", null ],
+      [ "is_uart_interface< T >", "structis__uart__interface.html", null ]
+    ] ],
     [ "tmc9660::LDOConfig", "structtmc9660_1_1LDOConfig.html", null ],
     [ "tmc9660::MechBrakeConfig", "structtmc9660_1_1MechBrakeConfig.html", null ],
     [ "tmc9660::MemStorageConfig", "structtmc9660_1_1MemStorageConfig.html", null ],
