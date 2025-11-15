@@ -12,9 +12,9 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="523,-151 394,-151 394,-121 523,-121 523,-151"/>
-<text text-anchor="start" x="402" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_param_mode</text>
-<text text-anchor="middle" x="458.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_tmcl.hpp</text>
+<polygon fill="#999999" stroke="#666666" points="604,-151 475,-151 475,-121 604,-121 604,-151"/>
+<text text-anchor="start" x="483" y="-139" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_param_mode</text>
+<text text-anchor="middle" x="539.5" y="-128" font-family="Helvetica,sans-Serif" font-size="10.00">_tmcl.hpp</text>
 </a>
 </g>
 </g>
@@ -22,8 +22,8 @@
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="tmc9660_8hpp.html" target="_top" xlink:title="Main TMC9660 motor driver interface and subsystem classes.">
-<polygon fill="white" stroke="#666666" points="498.5,-85 418.5,-85 418.5,-66 498.5,-66 498.5,-85"/>
-<text text-anchor="middle" x="458.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660.hpp</text>
+<polygon fill="white" stroke="#666666" points="579.5,-85 499.5,-85 499.5,-66 579.5,-66 579.5,-85"/>
+<text text-anchor="middle" x="539.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660.hpp</text>
 </a>
 </g>
 </g>
@@ -31,8 +31,8 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M458.5,-110.75C458.5,-101.72 458.5,-92.03 458.5,-85.27"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="455,-110.84 458.5,-120.84 462,-110.84 455,-110.84"/>
+<path fill="none" stroke="#63b8ff" d="M539.5,-110.75C539.5,-101.72 539.5,-92.03 539.5,-85.27"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="536,-110.84 539.5,-120.84 543,-110.84 536,-110.84"/>
 </a>
 </g>
 </g>
@@ -50,8 +50,8 @@
 <g id="edge2_Node000002_Node000003" class="edge">
 <title>Node2&#45;&gt;Node3</title>
 <g id="a_edge2_Node000002_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M408.35,-68.96C343.03,-61.47 225.37,-47.08 125.5,-30 122.81,-29.54 120.06,-29.05 117.28,-28.54"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="408.04,-72.44 418.37,-70.1 408.84,-65.49 408.04,-72.44"/>
+<path fill="none" stroke="#63b8ff" d="M489.32,-70.72C411.23,-64.47 256.02,-50.6 125.5,-30 122.8,-29.57 120.04,-29.11 117.27,-28.62"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="489.12,-74.21 499.36,-71.51 489.67,-67.23 489.12,-74.21"/>
 </a>
 </g>
 </g>
@@ -69,8 +69,8 @@
 <g id="edge3_Node000002_Node000004" class="edge">
 <title>Node2&#45;&gt;Node4</title>
 <g id="a_edge3_Node000002_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M412.46,-63.68C372.15,-54.21 313.32,-40.39 269.36,-30.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="411.76,-67.11 422.29,-65.99 413.36,-60.3 411.76,-67.11"/>
+<path fill="none" stroke="#63b8ff" d="M489.23,-65.59C434.6,-55.9 346.74,-40.33 284.07,-29.22"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="488.91,-69.09 499.37,-67.39 490.13,-62.19 488.91,-69.09"/>
 </a>
 </g>
 </g>
@@ -87,8 +87,8 @@
 <g id="edge4_Node000002_Node000005" class="edge">
 <title>Node2&#45;&gt;Node5</title>
 <g id="a_edge4_Node000002_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M438.46,-59.85C423.31,-48.77 403.02,-33.93 390.35,-24.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="436.56,-62.79 446.7,-65.87 440.69,-57.14 436.56,-62.79"/>
+<path fill="none" stroke="#63b8ff" d="M506.54,-62.52C475.41,-51.21 429.5,-34.53 401.94,-24.52"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="505.5,-65.87 516.09,-65.99 507.89,-59.29 505.5,-65.87"/>
 </a>
 </g>
 </g>
@@ -106,8 +106,8 @@
 <g id="edge5_Node000002_Node000006" class="edge">
 <title>Node2&#45;&gt;Node6</title>
 <g id="a_edge5_Node000002_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M478.9,-59.77C491.48,-50.68 507.54,-39.09 519.96,-30.11"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="476.51,-57.18 470.45,-65.87 480.61,-62.85 476.51,-57.18"/>
+<path fill="none" stroke="#63b8ff" d="M539.5,-55.65C539.5,-47.36 539.5,-37.78 539.5,-30.11"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="536,-55.87 539.5,-65.87 543,-55.87 536,-55.87"/>
 </a>
 </g>
 </g>
@@ -125,8 +125,8 @@
 <g id="edge6_Node000002_Node000007" class="edge">
 <title>Node2&#45;&gt;Node7</title>
 <g id="a_edge6_Node000002_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M503.18,-63.56C541.86,-54.1 598.03,-40.35 640.04,-30.06"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="502.13,-60.22 493.25,-65.99 503.8,-67.02 502.13,-60.22"/>
+<path fill="none" stroke="#63b8ff" d="M572.02,-62.46C597.44,-53.05 632.8,-39.95 659.51,-30.06"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="570.64,-59.24 562.47,-65.99 573.07,-65.8 570.64,-59.24"/>
 </a>
 </g>
 </g>
@@ -143,8 +143,17 @@
 <g id="edge7_Node000002_Node000008" class="edge">
 <title>Node2&#45;&gt;Node8</title>
 <g id="a_edge7_Node000002_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M508.74,-69.74C572.24,-63.23 684.72,-50.01 779.5,-30 786.6,-28.5 794.18,-26.53 801.2,-24.53"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="508.19,-66.28 498.6,-70.77 508.9,-73.25 508.19,-66.28"/>
+<path fill="none" stroke="#63b8ff" d="M589.86,-65.41C636.86,-57.32 708.62,-44.54 770.5,-30 777.3,-28.4 784.58,-26.46 791.64,-24.53"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="589.19,-61.97 579.92,-67.11 590.37,-68.87 589.19,-61.97"/>
+</a>
+</g>
+</g>
+<!-- Node8&#45;&gt;Node2 -->
+<g id="edge8_Node000008_Node000002" class="edge">
+<title>Node8&#45;&gt;Node2</title>
+<g id="a_edge8_Node000008_Node000002"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M799.1,-27.34C795.55,-28.28 791.96,-29.19 788.5,-30 715.69,-47.11 629.19,-61.78 579.55,-69.24"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="800.18,-30.67 808.86,-24.6 798.29,-23.93 800.18,-30.67"/>
 </a>
 </g>
 </g>

@@ -1,5 +1,5 @@
 var structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig =
 [
-    [ "enableWakePin", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a7851765732e7a877db34f32db58985bf", null ],
-    [ "powerDownTimeout", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a79c9d0907bf1d8edd044dbac03606507", null ]
+    [ "enableWakePin", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a532ef213d53012d478959884483db5c7", null ],
+    [ "powerDownTimeout", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html#a82c8445b41915dde3ef2366983238730", null ]
 ];

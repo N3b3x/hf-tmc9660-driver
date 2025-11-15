@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::FeedbackSense::SpiEncoderConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncode
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::FeedbackSense::SpiEncoderConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,48 +108,51 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncode
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a1fed942c18bfd8319e9092fb10a67555" id="r_a1fed942c18bfd8319e9092fb10a67555"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fed942c18bfd8319e9092fb10a67555">cmdSize</a></td></tr>
-<tr class="memdesc:a1fed942c18bfd8319e9092fb10a67555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of SPI transfer frame [1-16 bytes].  <br /></td></tr>
-<tr class="separator:a1fed942c18bfd8319e9092fb10a67555"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada0af954e40f7a859c001efb346b1437" id="r_ada0af954e40f7a859c001efb346b1437"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada0af954e40f7a859c001efb346b1437">positionMask</a></td></tr>
-<tr class="memdesc:ada0af954e40f7a859c001efb346b1437"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask to extract position from SPI response [0-4294967295].  <br /></td></tr>
-<tr class="separator:ada0af954e40f7a859c001efb346b1437"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46903dc83fdd7f48c2e40a400125c4ba" id="r_a46903dc83fdd7f48c2e40a400125c4ba"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46903dc83fdd7f48c2e40a400125c4ba">csSettleTimeNs</a> = 0</td></tr>
-<tr class="memdesc:a46903dc83fdd7f48c2e40a400125c4ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">CS settle delay time [0-6375 ns] (default: 0)  <br /></td></tr>
-<tr class="separator:a46903dc83fdd7f48c2e40a400125c4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a422ec8e5c66a36444dd8954607710cc8" id="r_a422ec8e5c66a36444dd8954607710cc8"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a422ec8e5c66a36444dd8954607710cc8">csIdleTimeUs</a> = 0</td></tr>
-<tr class="memdesc:a422ec8e5c66a36444dd8954607710cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">CS idle time between frames [0-102 µs] (default: 0)  <br /></td></tr>
-<tr class="separator:a422ec8e5c66a36444dd8954607710cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ac71af0bdc226c6e1e448c899bcef26" id="r_a8ac71af0bdc226c6e1e448c899bcef26"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ac71af0bdc226c6e1e448c899bcef26">positionShift</a> = 0</td></tr>
-<tr class="memdesc:a8ac71af0bdc226c6e1e448c899bcef26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right shift for position counter [0-127] (default: 0)  <br /></td></tr>
-<tr class="separator:a8ac71af0bdc226c6e1e448c899bcef26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad63ea0ebcdb05a4a41ce8ab30de6db06" id="r_ad63ea0ebcdb05a4a41ce8ab30de6db06"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad63ea0ebcdb05a4a41ce8ab30de6db06">direction</a></td></tr>
-<tr class="memdesc:ad63ea0ebcdb05a4a41ce8ab30de6db06"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI encoder direction (default: NOT_INVERTED)  <br /></td></tr>
-<tr class="separator:ad63ea0ebcdb05a4a41ce8ab30de6db06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec0a3090a487f5c8984319b7325df1fe" id="r_aec0a3090a487f5c8984319b7325df1fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec0a3090a487f5c8984319b7325df1fe">initMethod</a></td></tr>
-<tr class="separator:aec0a3090a487f5c8984319b7325df1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c85a219210307e8fd22291de427fead" id="r_a9c85a219210307e8fd22291de427fead"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c85a219210307e8fd22291de427fead">offset</a> = 0</td></tr>
-<tr class="memdesc:a9c85a219210307e8fd22291de427fead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manual offset for USE_OFFSET initialization method (default: 0)  <br /></td></tr>
-<tr class="separator:a9c85a219210307e8fd22291de427fead"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4748a09aac21746a5a94035453bb6c00" id="r_a4748a09aac21746a5a94035453bb6c00"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::array&lt; uint8_t, 16 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4748a09aac21746a5a94035453bb6c00">requestData</a></td></tr>
-<tr class="separator:a4748a09aac21746a5a94035453bb6c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ac9733a3346c9c07a0f7717a406ca90" id="r_a4ac9733a3346c9c07a0f7717a406ca90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ac9733a3346c9c07a0f7717a406ca90">lutCorrection</a></td></tr>
-<tr class="separator:a4ac9733a3346c9c07a0f7717a406ca90"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abce7150c80d8ce00d28e0aefb1be916b" id="r_abce7150c80d8ce00d28e0aefb1be916b"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abce7150c80d8ce00d28e0aefb1be916b">lutShiftFactor</a> = 0</td></tr>
-<tr class="memdesc:abce7150c80d8ce00d28e0aefb1be916b"><td class="mdescLeft">&#160;</td><td class="mdescRight">LUT common shift factor [0-4] (default: 0)  <br /></td></tr>
-<tr class="separator:abce7150c80d8ce00d28e0aefb1be916b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31fb19150685c2ba9db8282308c10fa5" id="r_a31fb19150685c2ba9db8282308c10fa5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31fb19150685c2ba9db8282308c10fa5">cmdSize</a></td></tr>
+<tr class="memdesc:a31fb19150685c2ba9db8282308c10fa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of SPI transfer frame [1-16 bytes].  <br /></td></tr>
+<tr class="separator:a31fb19150685c2ba9db8282308c10fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e26d4fce8483969011a84c0329fe948" id="r_a0e26d4fce8483969011a84c0329fe948"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e26d4fce8483969011a84c0329fe948">positionMask</a></td></tr>
+<tr class="memdesc:a0e26d4fce8483969011a84c0329fe948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bit mask to extract position from SPI response [0-4294967295].  <br /></td></tr>
+<tr class="separator:a0e26d4fce8483969011a84c0329fe948"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96544aebedc52709f3b098151228725d" id="r_a96544aebedc52709f3b098151228725d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96544aebedc52709f3b098151228725d">csSettleTimeNs</a> = 0</td></tr>
+<tr class="memdesc:a96544aebedc52709f3b098151228725d"><td class="mdescLeft">&#160;</td><td class="mdescRight">CS settle delay time [0-6375 ns] (default: 0)  <br /></td></tr>
+<tr class="separator:a96544aebedc52709f3b098151228725d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c44260e6cab21061f38e89e602996fc" id="r_a2c44260e6cab21061f38e89e602996fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c44260e6cab21061f38e89e602996fc">csIdleTimeUs</a> = 0</td></tr>
+<tr class="memdesc:a2c44260e6cab21061f38e89e602996fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">CS idle time between frames [0-102 µs] (default: 0)  <br /></td></tr>
+<tr class="separator:a2c44260e6cab21061f38e89e602996fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3bf53146b409a3e74b59bde28c04d4" id="r_a0f3bf53146b409a3e74b59bde28c04d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f3bf53146b409a3e74b59bde28c04d4">positionShift</a> = 0</td></tr>
+<tr class="memdesc:a0f3bf53146b409a3e74b59bde28c04d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Right shift for position counter [0-127] (default: 0)  <br /></td></tr>
+<tr class="separator:a0f3bf53146b409a3e74b59bde28c04d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b19aeccf78c7d52151706c3b0da97d" id="r_ab8b19aeccf78c7d52151706c3b0da97d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8b19aeccf78c7d52151706c3b0da97d">direction</a></td></tr>
+<tr class="memdesc:ab8b19aeccf78c7d52151706c3b0da97d"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI encoder direction (default: NOT_INVERTED)  <br /></td></tr>
+<tr class="separator:ab8b19aeccf78c7d52151706c3b0da97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2b8d9fa2ce864b7e5fc0132af5f67ae" id="r_ae2b8d9fa2ce864b7e5fc0132af5f67ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2b8d9fa2ce864b7e5fc0132af5f67ae">initMethod</a></td></tr>
+<tr class="separator:ae2b8d9fa2ce864b7e5fc0132af5f67ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42db9c797563b56d50bc38af6de2ddfc" id="r_a42db9c797563b56d50bc38af6de2ddfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42db9c797563b56d50bc38af6de2ddfc">offset</a> = 0</td></tr>
+<tr class="memdesc:a42db9c797563b56d50bc38af6de2ddfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manual offset for USE_OFFSET initialization method (default: 0)  <br /></td></tr>
+<tr class="separator:a42db9c797563b56d50bc38af6de2ddfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae9e39fa5682d03c75364438cfc559f" id="r_aeae9e39fa5682d03c75364438cfc559f"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::array&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>, 16 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeae9e39fa5682d03c75364438cfc559f">requestData</a></td></tr>
+<tr class="separator:aeae9e39fa5682d03c75364438cfc559f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a704ce3e074f651a767314b4c0916d33d" id="r_a704ce3e074f651a767314b4c0916d33d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a704ce3e074f651a767314b4c0916d33d">lutCorrection</a></td></tr>
+<tr class="separator:a704ce3e074f651a767314b4c0916d33d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a7fca2ef011ef7096f1e3d0f9fdc2e" id="r_a42a7fca2ef011ef7096f1e3d0f9fdc2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42a7fca2ef011ef7096f1e3d0f9fdc2e">lutShiftFactor</a> = 0</td></tr>
+<tr class="memdesc:a42a7fca2ef011ef7096f1e3d0f9fdc2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">LUT common shift factor [0-4] (default: 0)  <br /></td></tr>
+<tr class="separator:a42a7fca2ef011ef7096f1e3d0f9fdc2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for SPI encoder auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::FeedbackSense::SpiEncoderConfig</div><p>Configuration structure for SPI encoder auto-configuration. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a1fed942c18bfd8319e9092fb10a67555" name="a1fed942c18bfd8319e9092fb10a67555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fed942c18bfd8319e9092fb10a67555">&#9670;&#160;</a></span>cmdSize</h2>
+<a id="a31fb19150685c2ba9db8282308c10fa5" name="a31fb19150685c2ba9db8282308c10fa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31fb19150685c2ba9db8282308c10fa5">&#9670;&#160;</a></span>cmdSize</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::cmdSize</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::cmdSize</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -158,14 +161,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a422ec8e5c66a36444dd8954607710cc8" name="a422ec8e5c66a36444dd8954607710cc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a422ec8e5c66a36444dd8954607710cc8">&#9670;&#160;</a></span>csIdleTimeUs</h2>
+<a id="a2c44260e6cab21061f38e89e602996fc" name="a2c44260e6cab21061f38e89e602996fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c44260e6cab21061f38e89e602996fc">&#9670;&#160;</a></span>csIdleTimeUs</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::csIdleTimeUs = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::csIdleTimeUs = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -174,14 +179,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a46903dc83fdd7f48c2e40a400125c4ba" name="a46903dc83fdd7f48c2e40a400125c4ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46903dc83fdd7f48c2e40a400125c4ba">&#9670;&#160;</a></span>csSettleTimeNs</h2>
+<a id="a96544aebedc52709f3b098151228725d" name="a96544aebedc52709f3b098151228725d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96544aebedc52709f3b098151228725d">&#9670;&#160;</a></span>csSettleTimeNs</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint16_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::csSettleTimeNs = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::csSettleTimeNs = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -190,14 +197,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad63ea0ebcdb05a4a41ce8ab30de6db06" name="ad63ea0ebcdb05a4a41ce8ab30de6db06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad63ea0ebcdb05a4a41ce8ab30de6db06">&#9670;&#160;</a></span>direction</h2>
+<a id="ab8b19aeccf78c7d52151706c3b0da97d" name="ab8b19aeccf78c7d52151706c3b0da97d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b19aeccf78c7d52151706c3b0da97d">&#9670;&#160;</a></span>direction</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::direction</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::direction</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -208,14 +217,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aec0a3090a487f5c8984319b7325df1fe" name="aec0a3090a487f5c8984319b7325df1fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec0a3090a487f5c8984319b7325df1fe">&#9670;&#160;</a></span>initMethod</h2>
+<a id="ae2b8d9fa2ce864b7e5fc0132af5f67ae" name="ae2b8d9fa2ce864b7e5fc0132af5f67ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2b8d9fa2ce864b7e5fc0132af5f67ae">&#9670;&#160;</a></span>initMethod</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::initMethod</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::initMethod</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -225,14 +236,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4ac9733a3346c9c07a0f7717a406ca90" name="a4ac9733a3346c9c07a0f7717a406ca90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ac9733a3346c9c07a0f7717a406ca90">&#9670;&#160;</a></span>lutCorrection</h2>
+<a id="a704ce3e074f651a767314b4c0916d33d" name="a704ce3e074f651a767314b4c0916d33d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a704ce3e074f651a767314b4c0916d33d">&#9670;&#160;</a></span>lutCorrection</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::lutCorrection</td>
+          <td class="memname"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::lutCorrection</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -242,14 +255,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="abce7150c80d8ce00d28e0aefb1be916b" name="abce7150c80d8ce00d28e0aefb1be916b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abce7150c80d8ce00d28e0aefb1be916b">&#9670;&#160;</a></span>lutShiftFactor</h2>
+<a id="a42a7fca2ef011ef7096f1e3d0f9fdc2e" name="a42a7fca2ef011ef7096f1e3d0f9fdc2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42a7fca2ef011ef7096f1e3d0f9fdc2e">&#9670;&#160;</a></span>lutShiftFactor</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int8_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::lutShiftFactor = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::lutShiftFactor = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -258,14 +273,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9c85a219210307e8fd22291de427fead" name="a9c85a219210307e8fd22291de427fead"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c85a219210307e8fd22291de427fead">&#9670;&#160;</a></span>offset</h2>
+<a id="a42db9c797563b56d50bc38af6de2ddfc" name="a42db9c797563b56d50bc38af6de2ddfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42db9c797563b56d50bc38af6de2ddfc">&#9670;&#160;</a></span>offset</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">int16_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::offset = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::offset = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -274,14 +291,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ada0af954e40f7a859c001efb346b1437" name="ada0af954e40f7a859c001efb346b1437"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada0af954e40f7a859c001efb346b1437">&#9670;&#160;</a></span>positionMask</h2>
+<a id="a0e26d4fce8483969011a84c0329fe948" name="a0e26d4fce8483969011a84c0329fe948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e26d4fce8483969011a84c0329fe948">&#9670;&#160;</a></span>positionMask</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::positionMask</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::positionMask</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -290,14 +309,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8ac71af0bdc226c6e1e448c899bcef26" name="a8ac71af0bdc226c6e1e448c899bcef26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ac71af0bdc226c6e1e448c899bcef26">&#9670;&#160;</a></span>positionShift</h2>
+<a id="a0f3bf53146b409a3e74b59bde28c04d4" name="a0f3bf53146b409a3e74b59bde28c04d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3bf53146b409a3e74b59bde28c04d4">&#9670;&#160;</a></span>positionShift</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::positionShift = 0</td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::positionShift = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -306,14 +327,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4748a09aac21746a5a94035453bb6c00" name="a4748a09aac21746a5a94035453bb6c00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4748a09aac21746a5a94035453bb6c00">&#9670;&#160;</a></span>requestData</h2>
+<a id="aeae9e39fa5682d03c75364438cfc559f" name="aeae9e39fa5682d03c75364438cfc559f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeae9e39fa5682d03c75364438cfc559f">&#9670;&#160;</a></span>requestData</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;std::array&lt;uint8_t, 16&gt; &gt; tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig::requestData</td>
+          <td class="memname">std::optional&lt;std::array&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>, 16&gt; &gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::SpiEncoderConfig::requestData</td>
         </tr>
       </table>
 </div><div class="memdoc">

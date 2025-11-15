@@ -147,19 +147,19 @@ Control Pins (Output from Host)</h3>
 <li><b>RST (Pin 22)</b>: External System Reset Input<ul>
 <li>Device remains in reset while this pin is in its active state</li>
 <li>Has internal pull-down resistor</li>
-<li>Active level depends on board implementation (configure via setPinActiveLevel)</li>
+<li>Active level depends on board implementation (configure via set_pin_active_level)</li>
 </ul>
 </li>
 <li><b>DRV_EN (Pin 21)</b>: Driver Enable Input<ul>
 <li>Enables the motor driver outputs</li>
 <li>Has internal pull-down resistor</li>
-<li>Active level depends on board implementation (configure via setPinActiveLevel)</li>
+<li>Active level depends on board implementation (configure via set_pin_active_level)</li>
 </ul>
 </li>
 <li><b>WAKE (Pin 19)</b>: Wake Input<ul>
 <li>Drive to active state to enable power-up and exit from hibernation mode</li>
 <li>When not shorted to VSA, external pull-down resistor recommended</li>
-<li>Active level depends on board implementation (configure via setPinActiveLevel)</li>
+<li>Active level depends on board implementation (configure via set_pin_active_level)</li>
 </ul>
 </li>
 </ul>
@@ -168,7 +168,7 @@ Status Pins (Input to Host)</h3>
 <ul>
 <li><b>FAULTN (Pin 20)</b>: FAULT Output Signal (open drain)<ul>
 <li>Indicates busy state during bootstrapping or severe error</li>
-<li>Active level depends on board implementation (configure via setPinActiveLevel)</li>
+<li>Active level depends on board implementation (configure via set_pin_active_level)</li>
 <li>Use gpioRead(TMC9660CtrlPin::FAULTN, signal) to check fault status </li>
 </ul>
 </li>

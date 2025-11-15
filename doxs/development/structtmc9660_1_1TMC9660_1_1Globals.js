@@ -1,6 +1,6 @@
 var structtmc9660_1_1TMC9660_1_1Globals =
 [
-    [ "Globals", "structtmc9660_1_1TMC9660_1_1Globals.html#a8dfdf760cebd2da67209424297dc7eea", null ],
+    [ "Globals", "structtmc9660_1_1TMC9660_1_1Globals.html#acf8d4ea3460901b0d10f5f4053eba0b0", null ],
     [ "configureHeartbeat", "structtmc9660_1_1TMC9660_1_1Globals.html#a732d6e911b42b770237f8f7ad71cff01", null ],
     [ "getAutoStart", "structtmc9660_1_1TMC9660_1_1Globals.html#aeca9e77bc1a957ecb77bfb79a8e4a843", null ],
     [ "getClearUserVariables", "structtmc9660_1_1TMC9660_1_1Globals.html#a4a94a6fbcb26fdd50d2a20126c2fbec0", null ],
@@ -30,5 +30,5 @@ var structtmc9660_1_1TMC9660_1_1Globals =
     [ "writeBank2", "structtmc9660_1_1TMC9660_1_1Globals.html#a666af5bf1b352094ec3c3d3b3a0565f9", null ],
     [ "writeBank3", "structtmc9660_1_1TMC9660_1_1Globals.html#ac5680cd9af4d0e4b8f638238378bd598", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1Globals.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1Globals.html#af9324236b9081582b903f9930e3442e9", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1Globals.html#a379afe329bd5e7c15edfa5fc003f09c2", null ]
 ];

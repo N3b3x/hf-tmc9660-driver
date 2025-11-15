@@ -1,14 +1,14 @@
 var structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig =
 [
-    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#abd4c74eacca89003874096f8677418fc", null ],
-    [ "extrapolation", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a88e16968ae3cfe33f03d0cd3c8d3ddbe", null ],
-    [ "filterLength", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a552d702adb877b9dec80fcb9c0290bef", null ],
-    [ "globalOffsetDeg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#ac6c881fc8dd2fa8a5517a84499b5fba4", null ],
-    [ "offset0Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#ab25232254cf03f156f10232c19a09232", null ],
-    [ "offset120Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a0c18af5afc0d8c4b6f83bbfecbb1a138", null ],
-    [ "offset180Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a44a239fe30aa6e431eb428eca240ec9e", null ],
-    [ "offset240Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a64fa0bb7163988c5f350986e1cb7cb91", null ],
-    [ "offset300Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a7b46b98ac14fbf99d287c9d3965572db", null ],
-    [ "offset60Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a87e83c30677a61c082a5575c3ca60d00", null ],
-    [ "sectorOffset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a9ad0b8b21510cc296d07ab7ca9774fee", null ]
+    [ "direction", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a011fed87a035e4f1de4fa5888efbaf08", null ],
+    [ "extrapolation", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a7e31df0c589ac78153d84b0747f75b95", null ],
+    [ "filterLength", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a92a624e6b8b1eb6c50966af57fc19a45", null ],
+    [ "globalOffsetDeg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#af2b7588cb77363f58b4359f995a8687f", null ],
+    [ "offset0Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a59b169bc01fa82cafe790857002d09e0", null ],
+    [ "offset120Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#adcc9eeb561ac2c008e83dced48fea228", null ],
+    [ "offset180Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#ac74689db0fc2b7bb8d8e3fa9214f84f3", null ],
+    [ "offset240Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a7fbc205d9408c115ed339e3200caea65", null ],
+    [ "offset300Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a2a60eaabc62aa86d3e615e1dae3602d6", null ],
+    [ "offset60Deg", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#a70f7e0109d130b6ab9614ed4a6e8cf23", null ],
+    [ "sectorOffset", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#aa2e38268aea182a24952e006a738f67d", null ]
 ];

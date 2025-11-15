@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::StopEvents::StopEventsConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::StopEvents::StopEventsConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsCo
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::StopEvents::StopEventsConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::StopEvents::StopEventsConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,42 +108,45 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsCo
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a32dd449fbe5af1c4e4eaf0b7f29d0da2" id="r_a32dd449fbe5af1c4e4eaf0b7f29d0da2"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32dd449fbe5af1c4e4eaf0b7f29d0da2">maxVelocityDeviation</a></td></tr>
-<tr class="memdesc:a32dd449fbe5af1c4e4eaf0b7f29d0da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum allowed velocity deviation for stop condition (optional, disabled if not provided).  <br /></td></tr>
-<tr class="separator:a32dd449fbe5af1c4e4eaf0b7f29d0da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab50958c955312a6b9835ffa1afa47417" id="r_ab50958c955312a6b9835ffa1afa47417"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab50958c955312a6b9835ffa1afa47417">maxPositionDeviation</a></td></tr>
-<tr class="memdesc:ab50958c955312a6b9835ffa1afa47417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum allowed position deviation for stop condition (optional, disabled if not provided).  <br /></td></tr>
-<tr class="separator:ab50958c955312a6b9835ffa1afa47417"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08fae35d7d9b162c663a479c9e3de379" id="r_a08fae35d7d9b162c663a479c9e3de379"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08fae35d7d9b162c663a479c9e3de379">deviationSoftStop</a></td></tr>
-<tr class="memdesc:a08fae35d7d9b162c663a479c9e3de379"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use soft stop (ramp down) for deviation stop (optional, default: true).  <br /></td></tr>
-<tr class="separator:a08fae35d7d9b162c663a479c9e3de379"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4a65615e6cd8c42262fdf96d7b3de9d" id="r_ac4a65615e6cd8c42262fdf96d7b3de9d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4a65615e6cd8c42262fdf96d7b3de9d">referenceSwitchMask</a></td></tr>
-<tr class="memdesc:ac4a65615e6cd8c42262fdf96d7b3de9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference switch enable mask (optional, default: 0 = all disabled).  <br /></td></tr>
-<tr class="separator:ac4a65615e6cd8c42262fdf96d7b3de9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77cc0574081436daf1ab7783a00f1410" id="r_a77cc0574081436daf1ab7783a00f1410"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77cc0574081436daf1ab7783a00f1410">invertLeftSwitch</a></td></tr>
-<tr class="memdesc:a77cc0574081436daf1ab7783a00f1410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert left switch polarity (optional, default: false).  <br /></td></tr>
-<tr class="separator:a77cc0574081436daf1ab7783a00f1410"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a1006224d0488ed61f9fba7307dce04" id="r_a6a1006224d0488ed61f9fba7307dce04"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a1006224d0488ed61f9fba7307dce04">invertRightSwitch</a></td></tr>
-<tr class="memdesc:a6a1006224d0488ed61f9fba7307dce04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert right switch polarity (optional, default: false).  <br /></td></tr>
-<tr class="separator:a6a1006224d0488ed61f9fba7307dce04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9834d33cfef3844cb2f2ebb97713a340" id="r_a9834d33cfef3844cb2f2ebb97713a340"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9834d33cfef3844cb2f2ebb97713a340">invertHomeSwitch</a></td></tr>
-<tr class="memdesc:a9834d33cfef3844cb2f2ebb97713a340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert home switch polarity (optional, default: false).  <br /></td></tr>
-<tr class="separator:a9834d33cfef3844cb2f2ebb97713a340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46ae659672362351569e208b4264d0e7" id="r_a46ae659672362351569e208b4264d0e7"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46ae659672362351569e208b4264d0e7">swapLeftRight</a></td></tr>
-<tr class="memdesc:a46ae659672362351569e208b4264d0e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap left and right switch wiring (optional, default: false).  <br /></td></tr>
-<tr class="separator:a46ae659672362351569e208b4264d0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2e82ff1364fdcebf34953c20b2e687a" id="r_ab2e82ff1364fdcebf34953c20b2e687a"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2e82ff1364fdcebf34953c20b2e687a">maxVelocityDeviation</a></td></tr>
+<tr class="memdesc:ab2e82ff1364fdcebf34953c20b2e687a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum allowed velocity deviation for stop condition (optional, disabled if not provided).  <br /></td></tr>
+<tr class="separator:ab2e82ff1364fdcebf34953c20b2e687a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20ed736a57c3f5dbd04b8ceca93c5510" id="r_a20ed736a57c3f5dbd04b8ceca93c5510"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20ed736a57c3f5dbd04b8ceca93c5510">maxPositionDeviation</a></td></tr>
+<tr class="memdesc:a20ed736a57c3f5dbd04b8ceca93c5510"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum allowed position deviation for stop condition (optional, disabled if not provided).  <br /></td></tr>
+<tr class="separator:a20ed736a57c3f5dbd04b8ceca93c5510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab13c6d25ecbafd4e9f81213a14f612bf" id="r_ab13c6d25ecbafd4e9f81213a14f612bf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab13c6d25ecbafd4e9f81213a14f612bf">deviationSoftStop</a></td></tr>
+<tr class="memdesc:ab13c6d25ecbafd4e9f81213a14f612bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use soft stop (ramp down) for deviation stop (optional, default: true).  <br /></td></tr>
+<tr class="separator:ab13c6d25ecbafd4e9f81213a14f612bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec6a9328757f06892a17db837643e273" id="r_aec6a9328757f06892a17db837643e273"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec6a9328757f06892a17db837643e273">referenceSwitchMask</a></td></tr>
+<tr class="memdesc:aec6a9328757f06892a17db837643e273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference switch enable mask (optional, default: 0 = all disabled).  <br /></td></tr>
+<tr class="separator:aec6a9328757f06892a17db837643e273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f651409d26a33fac141cd5a7f39d012" id="r_a5f651409d26a33fac141cd5a7f39d012"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f651409d26a33fac141cd5a7f39d012">invertLeftSwitch</a></td></tr>
+<tr class="memdesc:a5f651409d26a33fac141cd5a7f39d012"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert left switch polarity (optional, default: false).  <br /></td></tr>
+<tr class="separator:a5f651409d26a33fac141cd5a7f39d012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe7ac20a8b33d544f590fdfa4a810aaf" id="r_abe7ac20a8b33d544f590fdfa4a810aaf"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe7ac20a8b33d544f590fdfa4a810aaf">invertRightSwitch</a></td></tr>
+<tr class="memdesc:abe7ac20a8b33d544f590fdfa4a810aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert right switch polarity (optional, default: false).  <br /></td></tr>
+<tr class="separator:abe7ac20a8b33d544f590fdfa4a810aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac132a3d9d93f258dec0d1d9f9323b104" id="r_ac132a3d9d93f258dec0d1d9f9323b104"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac132a3d9d93f258dec0d1d9f9323b104">invertHomeSwitch</a></td></tr>
+<tr class="memdesc:ac132a3d9d93f258dec0d1d9f9323b104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert home switch polarity (optional, default: false).  <br /></td></tr>
+<tr class="separator:ac132a3d9d93f258dec0d1d9f9323b104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8135c40f2938061412f4a960131b1b31" id="r_a8135c40f2938061412f4a960131b1b31"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8135c40f2938061412f4a960131b1b31">swapLeftRight</a></td></tr>
+<tr class="memdesc:a8135c40f2938061412f4a960131b1b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap left and right switch wiring (optional, default: false).  <br /></td></tr>
+<tr class="separator:a8135c40f2938061412f4a960131b1b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for stop events auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::StopEvents::StopEventsConfig</div><p>Configuration structure for stop events auto-configuration. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a08fae35d7d9b162c663a479c9e3de379" name="a08fae35d7d9b162c663a479c9e3de379"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08fae35d7d9b162c663a479c9e3de379">&#9670;&#160;</a></span>deviationSoftStop</h2>
+<a id="ab13c6d25ecbafd4e9f81213a14f612bf" name="ab13c6d25ecbafd4e9f81213a14f612bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab13c6d25ecbafd4e9f81213a14f612bf">&#9670;&#160;</a></span>deviationSoftStop</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::deviationSoftStop</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::deviationSoftStop</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -153,14 +156,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9834d33cfef3844cb2f2ebb97713a340" name="a9834d33cfef3844cb2f2ebb97713a340"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9834d33cfef3844cb2f2ebb97713a340">&#9670;&#160;</a></span>invertHomeSwitch</h2>
+<a id="ac132a3d9d93f258dec0d1d9f9323b104" name="ac132a3d9d93f258dec0d1d9f9323b104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac132a3d9d93f258dec0d1d9f9323b104">&#9670;&#160;</a></span>invertHomeSwitch</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::invertHomeSwitch</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::invertHomeSwitch</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -170,14 +175,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a77cc0574081436daf1ab7783a00f1410" name="a77cc0574081436daf1ab7783a00f1410"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77cc0574081436daf1ab7783a00f1410">&#9670;&#160;</a></span>invertLeftSwitch</h2>
+<a id="a5f651409d26a33fac141cd5a7f39d012" name="a5f651409d26a33fac141cd5a7f39d012"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f651409d26a33fac141cd5a7f39d012">&#9670;&#160;</a></span>invertLeftSwitch</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::invertLeftSwitch</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::invertLeftSwitch</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -187,14 +194,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6a1006224d0488ed61f9fba7307dce04" name="a6a1006224d0488ed61f9fba7307dce04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a1006224d0488ed61f9fba7307dce04">&#9670;&#160;</a></span>invertRightSwitch</h2>
+<a id="abe7ac20a8b33d544f590fdfa4a810aaf" name="abe7ac20a8b33d544f590fdfa4a810aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe7ac20a8b33d544f590fdfa4a810aaf">&#9670;&#160;</a></span>invertRightSwitch</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::invertRightSwitch</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::invertRightSwitch</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -204,14 +213,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab50958c955312a6b9835ffa1afa47417" name="ab50958c955312a6b9835ffa1afa47417"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab50958c955312a6b9835ffa1afa47417">&#9670;&#160;</a></span>maxPositionDeviation</h2>
+<a id="a20ed736a57c3f5dbd04b8ceca93c5510" name="a20ed736a57c3f5dbd04b8ceca93c5510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20ed736a57c3f5dbd04b8ceca93c5510">&#9670;&#160;</a></span>maxPositionDeviation</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint32_t&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::maxPositionDeviation</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::maxPositionDeviation</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -221,14 +232,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a32dd449fbe5af1c4e4eaf0b7f29d0da2" name="a32dd449fbe5af1c4e4eaf0b7f29d0da2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32dd449fbe5af1c4e4eaf0b7f29d0da2">&#9670;&#160;</a></span>maxVelocityDeviation</h2>
+<a id="ab2e82ff1364fdcebf34953c20b2e687a" name="ab2e82ff1364fdcebf34953c20b2e687a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2e82ff1364fdcebf34953c20b2e687a">&#9670;&#160;</a></span>maxVelocityDeviation</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint32_t&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::maxVelocityDeviation</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::maxVelocityDeviation</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -238,14 +251,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac4a65615e6cd8c42262fdf96d7b3de9d" name="ac4a65615e6cd8c42262fdf96d7b3de9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4a65615e6cd8c42262fdf96d7b3de9d">&#9670;&#160;</a></span>referenceSwitchMask</h2>
+<a id="aec6a9328757f06892a17db837643e273" name="aec6a9328757f06892a17db837643e273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec6a9328757f06892a17db837643e273">&#9670;&#160;</a></span>referenceSwitchMask</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint8_t&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::referenceSwitchMask</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::referenceSwitchMask</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -259,14 +274,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a46ae659672362351569e208b4264d0e7" name="a46ae659672362351569e208b4264d0e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46ae659672362351569e208b4264d0e7">&#9670;&#160;</a></span>swapLeftRight</h2>
+<a id="a8135c40f2938061412f4a960131b1b31" name="a8135c40f2938061412f4a960131b1b31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8135c40f2938061412f4a960131b1b31">&#9670;&#160;</a></span>swapLeftRight</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::StopEvents::StopEventsConfig::swapLeftRight</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::StopEvents::StopEventsConfig::swapLeftRight</td>
         </tr>
       </table>
 </div><div class="memdoc">

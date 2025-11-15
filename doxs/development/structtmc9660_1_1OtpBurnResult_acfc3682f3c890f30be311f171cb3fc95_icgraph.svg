@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660Bootloader.html#aaeabbe543e9d408fff1ed030fd11eb26" target="_top" xlink:title="Permanently burn data to OTP (One&#45;Time Programmable) memory.">
+<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660Bootloader.html#af2d575426b3fb528764fd009567a698a" target="_top" xlink:title="Permanently burn data to OTP (One&#45;Time Programmable) memory.">
 <polygon fill="white" stroke="#666666" points="164,-78 0,-78 0,-48 164,-48 164,-78"/>
 <text text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660Bootloader</text>
 <text text-anchor="middle" x="82" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::otpBurn</text>
@@ -40,7 +40,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="classtmc9660_1_1TMC9660Bootloader.html#a5ddb855bdc8f2a66147ad64443883701" target="_top" xlink:title="Burn OTP page with Erratum 1 workaround for reliable operation.">
+<g id="a_Node000003"><a xlink:href="classtmc9660_1_1TMC9660Bootloader.html#a3a99e88cef7762a0681422d89f52a9a7" target="_top" xlink:title="Burn OTP page with Erratum 1 workaround for reliable operation.">
 <polygon fill="white" stroke="#666666" points="164,-30 0,-30 0,0 164,0 164,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660Bootloader</text>
 <text text-anchor="middle" x="82" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::otpBurnWithWorkaround</text>

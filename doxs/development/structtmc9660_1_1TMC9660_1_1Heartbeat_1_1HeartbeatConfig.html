@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>HF-TMC9660 Driver: tmc9660::TMC9660::Heartbeat::HeartbeatConfig Struct Reference</title>
+<title>HF-TMC9660 Driver: tmc9660::TMC9660&lt; CommType &gt;::Heartbeat::HeartbeatConfig Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,7 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Heartbeat_1_1HeartbeatConf
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structtmc9660_1_1TMC9660_1_1Heartbeat_1_1HeartbeatConfig-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">tmc9660::TMC9660::Heartbeat::HeartbeatConfig Struct Reference</div></div>
+  <div class="headertitle"><div class="title">tmc9660::TMC9660&lt; CommType &gt;::Heartbeat::HeartbeatConfig Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -108,24 +108,27 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Heartbeat_1_1HeartbeatConf
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a8531fad2187f8ceb54b5efb8703b3e36" id="r_a8531fad2187f8ceb54b5efb8703b3e36"><td class="memItemLeft" align="right" valign="top">std::optional&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8531fad2187f8ceb54b5efb8703b3e36">enable</a></td></tr>
-<tr class="memdesc:a8531fad2187f8ceb54b5efb8703b3e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable heartbeat monitoring (optional, default: false).  <br /></td></tr>
-<tr class="separator:a8531fad2187f8ceb54b5efb8703b3e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeae821d116888acc31e40c2a15d92ae5" id="r_aeae821d116888acc31e40c2a15d92ae5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeae821d116888acc31e40c2a15d92ae5">timeout_ms</a></td></tr>
-<tr class="memdesc:aeae821d116888acc31e40c2a15d92ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structtmc9660_1_1TMC9660_1_1Heartbeat.html" title="Subsystem for configuring the communication watchdog (heartbeat).">Heartbeat</a> timeout in milliseconds (optional, default: 1000ms).  <br /></td></tr>
-<tr class="separator:aeae821d116888acc31e40c2a15d92ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473696d031b4ee09098b2aa5c1dc814d" id="r_a473696d031b4ee09098b2aa5c1dc814d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a473696d031b4ee09098b2aa5c1dc814d">enable</a></td></tr>
+<tr class="memdesc:a473696d031b4ee09098b2aa5c1dc814d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable heartbeat monitoring (optional, default: false).  <br /></td></tr>
+<tr class="separator:a473696d031b4ee09098b2aa5c1dc814d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ce35bb9180665da3ae852e0b511456" id="r_ac2ce35bb9180665da3ae852e0b511456"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2ce35bb9180665da3ae852e0b511456">timeoutMs</a></td></tr>
+<tr class="memdesc:ac2ce35bb9180665da3ae852e0b511456"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structtmc9660_1_1TMC9660_1_1Heartbeat.html" title="Subsystem for configuring the communication watchdog (heartbeat).">Heartbeat</a> timeout in milliseconds (optional, default: 1000ms).  <br /></td></tr>
+<tr class="separator:ac2ce35bb9180665da3ae852e0b511456"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Configuration structure for heartbeat auto-configuration. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
+struct tmc9660::TMC9660&lt; CommType &gt;::Heartbeat::HeartbeatConfig</div><p>Configuration structure for heartbeat auto-configuration. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a8531fad2187f8ceb54b5efb8703b3e36" name="a8531fad2187f8ceb54b5efb8703b3e36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8531fad2187f8ceb54b5efb8703b3e36">&#9670;&#160;</a></span>enable</h2>
+<a id="a473696d031b4ee09098b2aa5c1dc814d" name="a473696d031b4ee09098b2aa5c1dc814d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a473696d031b4ee09098b2aa5c1dc814d">&#9670;&#160;</a></span>enable</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;bool&gt; tmc9660::TMC9660::Heartbeat::HeartbeatConfig::enable</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Heartbeat::HeartbeatConfig::enable</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -135,14 +138,16 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aeae821d116888acc31e40c2a15d92ae5" name="aeae821d116888acc31e40c2a15d92ae5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeae821d116888acc31e40c2a15d92ae5">&#9670;&#160;</a></span>timeout_ms</h2>
+<a id="ac2ce35bb9180665da3ae852e0b511456" name="ac2ce35bb9180665da3ae852e0b511456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2ce35bb9180665da3ae852e0b511456">&#9670;&#160;</a></span>timeoutMs</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;uint32_t&gt; tmc9660::TMC9660::Heartbeat::HeartbeatConfig::timeout_ms</td>
+          <td class="memname">std::optional&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&gt; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Heartbeat::HeartbeatConfig::timeoutMs</td>
         </tr>
       </table>
 </div><div class="memdoc">

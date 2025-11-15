@@ -1,7 +1,7 @@
 var structtmc9660_1_1TMC9660_1_1TorqueFluxControl =
 [
     [ "TorqueFluxConfig", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig.html", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig" ],
-    [ "TorqueFluxControl", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a95c5e6c64ed9f1a70720668caa0a76ef", null ],
+    [ "TorqueFluxControl", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a49aaf21c20c98ad002aab1da3de3780f", null ],
     [ "configureAuto", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#ac41857a7a70dd4aa6fc6dd28d62e1a01", null ],
     [ "getActualFlux", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#aa1941ad06413399d305a3ed858c245c6", null ],
     [ "getActualTorque", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a88f1bd5ab6c7072e56c3753f3326e1c7", null ],
@@ -35,7 +35,7 @@ var structtmc9660_1_1TMC9660_1_1TorqueFluxControl =
     [ "getTorquePiIntegrator", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#aeb930442464e2d3855edfb22415e205a", null ],
     [ "getVoltageDqCombinedActualValues", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#aeb4809577e0b2a5086ddd54fbd155527", null ],
     [ "setCurrentLoopGains", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a00558beccf15759421c1828f2f3b338f", null ],
-    [ "setCurrentNormalization", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a397fa336eb745b2036d70b7b20baf4f3", null ],
+    [ "setCurrentNormalization", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a9c5c1db85fc61765d3c5d8b7c6e6a382", null ],
     [ "setFieldWeakeningI", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a5bbaf226989704a2f7fb5ba64e645c9b", null ],
     [ "setFieldWeakeningVoltageThreshold", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a01735f1e35b881255281ed690da2b4fb", null ],
     [ "setFluxOffset", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#ab7111dde99d64070c10d2e86697aa1d3", null ],
@@ -53,5 +53,5 @@ var structtmc9660_1_1TMC9660_1_1TorqueFluxControl =
     [ "setTorqueOffset", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a8e9a0bcf4deceb7b143c48d4f51ebdf7", null ],
     [ "stop", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#affcc3c9ec8f633a7c255bdd43b029dba", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#afc3d4a5016d320163c24d347fb0b9672", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html#a8814a4ba708f01d7ab28c265dc64fb10", null ]
 ];

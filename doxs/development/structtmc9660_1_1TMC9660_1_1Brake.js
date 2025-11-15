@@ -1,7 +1,7 @@
 var structtmc9660_1_1TMC9660_1_1Brake =
 [
     [ "BrakeConfig", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig" ],
-    [ "Brake", "structtmc9660_1_1TMC9660_1_1Brake.html#a38bf4c99cfa08385ea052a29d12d7c0b", null ],
+    [ "Brake", "structtmc9660_1_1TMC9660_1_1Brake.html#a87ce633a45e2a8f823b5264179c56543", null ],
     [ "configureAuto", "structtmc9660_1_1TMC9660_1_1Brake.html#a93eaa67cf02e74e2c43547c5a7a71cdb", null ],
     [ "enableChopper", "structtmc9660_1_1TMC9660_1_1Brake.html#af2f0c7a00b33cbd32a311066d578a91d", null ],
     [ "engage", "structtmc9660_1_1TMC9660_1_1Brake.html#ac61ca662ef6a539feec3e1d71d257f29", null ],
@@ -13,5 +13,5 @@ var structtmc9660_1_1TMC9660_1_1Brake =
     [ "setReleasingDutyCycle", "structtmc9660_1_1TMC9660_1_1Brake.html#a9b7ab9e068ae0babf0c6454f4db15ea1", null ],
     [ "setVoltageLimit", "structtmc9660_1_1TMC9660_1_1Brake.html#afd78890c2bb2daa154dea1f8cd5abd59", null ],
     [ "TMC9660", "structtmc9660_1_1TMC9660_1_1Brake.html#a7a162b5b230edf1d03327269e36ce893", null ],
-    [ "driver", "structtmc9660_1_1TMC9660_1_1Brake.html#ab154b3d40e34679ebb4585f5ea9c6152", null ]
+    [ "driver", "structtmc9660_1_1TMC9660_1_1Brake.html#a194ba5c580c33e4139f64964e3458481", null ]
 ];

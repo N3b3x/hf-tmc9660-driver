@@ -1,7 +1,9 @@
 <map id="test_dc_protection_features" name="test_dc_protection_features">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,148,45"/>
-<area shape="rect" id="Node000002" href="$bootloader__comprehensive__test_8cpp.html#a193b30ef3686c5852a972b9995d3ee6e" title=" " alt="" coords="196,13,336,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,23,182,23,182,28,148,28"/>
-<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="384,13,525,38"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,23,370,23,370,28,336,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,148,63"/>
+<area shape="rect" id="Node000002" href="$bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" title=" " alt="" coords="196,5,336,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,31,182,27,183,32,148,36"/>
+<area shape="rect" id="Node000004" href="$dc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" title=" " alt="" coords="209,55,323,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,50,195,56,194,61,148,55"/>
+<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="384,5,525,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,15,370,15,370,21,336,21"/>
 </map>

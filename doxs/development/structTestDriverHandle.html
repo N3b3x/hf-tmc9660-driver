@@ -103,34 +103,34 @@ $(function(){initNavTree('structTestDriverHandle.html',''); initResizable(); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:af4f801cef63642958218ac63813d088e" id="r_af4f801cef63642958218ac63813d088e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4f801cef63642958218ac63813d088e">interface</a></td></tr>
-<tr class="separator:af4f801cef63642958218ac63813d088e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6932dc8c8d6a09925d1651d35c832cec" id="r_a6932dc8c8d6a09925d1651d35c832cec"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6932dc8c8d6a09925d1651d35c832cec">driver</a></td></tr>
-<tr class="separator:a6932dc8c8d6a09925d1651d35c832cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3dcc1efd3ca70594666316e8aaa0447" id="r_ad3dcc1efd3ca70594666316e8aaa0447"><td class="memItemLeft" align="right" valign="top">std::variant&lt; std::unique_ptr&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt;, std::unique_ptr&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3dcc1efd3ca70594666316e8aaa0447">interface</a></td></tr>
+<tr class="separator:ad3dcc1efd3ca70594666316e8aaa0447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21" id="r_a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21"><td class="memItemLeft" align="right" valign="top">std::variant&lt; std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt; &gt;, std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21">driver</a></td></tr>
+<tr class="separator:a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6932dc8c8d6a09925d1651d35c832cec" name="a6932dc8c8d6a09925d1651d35c832cec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6932dc8c8d6a09925d1651d35c832cec">&#9670;&#160;</a></span>driver</h2>
+<a id="a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21" name="a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fcfb4d81dbd0f6c3d37dd4c1d9e4e21">&#9670;&#160;</a></span>driver</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &gt; TestDriverHandle::driver</td>
+          <td class="memname">std::variant&lt; std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt; &gt;, std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a>&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt; &gt; &gt; TestDriverHandle::driver</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="af4f801cef63642958218ac63813d088e" name="af4f801cef63642958218ac63813d088e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4f801cef63642958218ac63813d088e">&#9670;&#160;</a></span>interface</h2>
+<a id="ad3dcc1efd3ca70594666316e8aaa0447" name="ad3dcc1efd3ca70594666316e8aaa0447"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3dcc1efd3ca70594666316e8aaa0447">&#9670;&#160;</a></span>interface</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommInterface</a> &gt; TestDriverHandle::interface</td>
+          <td class="memname">std::variant&lt; std::unique_ptr&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt;, std::unique_ptr&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt; &gt; TestDriverHandle::interface</td>
         </tr>
       </table>
 </div><div class="memdoc">

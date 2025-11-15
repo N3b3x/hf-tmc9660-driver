@@ -1,11 +1,11 @@
 var structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig =
 [
-    [ "deviationSoftStop", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a08fae35d7d9b162c663a479c9e3de379", null ],
-    [ "invertHomeSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a9834d33cfef3844cb2f2ebb97713a340", null ],
-    [ "invertLeftSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a77cc0574081436daf1ab7783a00f1410", null ],
-    [ "invertRightSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a6a1006224d0488ed61f9fba7307dce04", null ],
-    [ "maxPositionDeviation", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#ab50958c955312a6b9835ffa1afa47417", null ],
-    [ "maxVelocityDeviation", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a32dd449fbe5af1c4e4eaf0b7f29d0da2", null ],
-    [ "referenceSwitchMask", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#ac4a65615e6cd8c42262fdf96d7b3de9d", null ],
-    [ "swapLeftRight", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a46ae659672362351569e208b4264d0e7", null ]
+    [ "deviationSoftStop", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#ab13c6d25ecbafd4e9f81213a14f612bf", null ],
+    [ "invertHomeSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#ac132a3d9d93f258dec0d1d9f9323b104", null ],
+    [ "invertLeftSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a5f651409d26a33fac141cd5a7f39d012", null ],
+    [ "invertRightSwitch", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#abe7ac20a8b33d544f590fdfa4a810aaf", null ],
+    [ "maxPositionDeviation", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a20ed736a57c3f5dbd04b8ceca93c5510", null ],
+    [ "maxVelocityDeviation", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#ab2e82ff1364fdcebf34953c20b2e687a", null ],
+    [ "referenceSwitchMask", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#aec6a9328757f06892a17db837643e273", null ],
+    [ "swapLeftRight", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#a8135c40f2938061412f4a960131b1b31", null ]
 ];
