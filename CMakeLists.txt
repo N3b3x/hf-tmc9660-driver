@@ -8,9 +8,9 @@ set(COMPONENT_SRCDIR "src")
 set(COMPONENT_INCLUDE_DIRS "inc" "inc/register_mode" "inc/parameter_mode")
 
 # Source files
+# Note: Both src/tmc9660.cpp and src/bootloader/tmc9660_bootloader.cpp are included at the end
+# of their respective headers as header-only template implementations
 set(COMPONENT_SRCS
-    src/tmc9660.cpp
-    src/bootloader/tmc9660_bootloader.cpp
 )
 
 # Component dependencies

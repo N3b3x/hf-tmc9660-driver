@@ -16,7 +16,8 @@
  * @brief ADC status flags and system health monitoring
  */
 
-#pragma once
+#ifndef TMC9660_TMC9660_ADC_HPP
+#define TMC9660_TMC9660_ADC_HPP
 #include <cstdint>
 
 /**
@@ -328,3 +329,5 @@ struct CSA_SETUP {
 } // namespace ADC
 } // namespace register_mode
 } // namespace tmc9660
+
+#endif // TMC9660_TMC9660_ADC_HPP

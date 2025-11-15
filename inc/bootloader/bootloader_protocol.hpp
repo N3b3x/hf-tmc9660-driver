@@ -11,7 +11,8 @@
  * @brief SPI/UART protocol structures and command definitions
  */
 
-#pragma once
+#ifndef TMC9660_BOOTLOADER_PROTOCOL_HPP
+#define TMC9660_BOOTLOADER_PROTOCOL_HPP
 
 #include "bootloader_utils.hpp"
 #include <array>
@@ -442,3 +443,4 @@ struct BootloaderReplyUART {
 };
 
 } // namespace tmc9660
+#endif // TMC9660_BOOTLOADER_PROTOCOL_HPP

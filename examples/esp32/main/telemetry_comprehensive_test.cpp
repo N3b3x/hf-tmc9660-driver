@@ -59,22 +59,62 @@ bool test_telemetry_multi_device() noexcept;
 
 // Helper functions
 struct TestDriverHandle {
-    std::unique_ptr<CommInterface> interface;
-    std::unique_ptr<TMC9660> driver;
+    std::variant<
+        std::unique_ptr<Esp32SPITMC9660CommInterface>,
+        std::unique_ptr<Esp32UARTTMC9660CommInterface>
+    > interface;
+    std::variant<
+        std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>,
+        std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>
+    > driver;
 };
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;
-void log_telemetry_data(TMC9660& driver, const char* context) noexcept;
-bool verify_telemetry_ranges(TMC9660& driver) noexcept;
+
+// Helper to get driver pointer from variant
+template<typename T>
+T* get_driver(TestDriverHandle& handle) {
+    return std::visit([](auto& driver_ptr) -> T* {
+        if constexpr (std::is_same_v<std::decay_t<decltype(*driver_ptr)>, T>) {
+            return driver_ptr.get();
+        }
+        return nullptr;
+    }, handle.driver);
+}
+
+// Helper to get SPI driver
+inline TMC9660<Esp32SPITMC9660CommInterface>* get_spi_driver(TestDriverHandle& handle) {
+    if (auto* spi_driver = std::get_if<std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>>(&handle.driver)) {
+        return spi_driver->get();
+    }
+    return nullptr;
+}
+
+// Helper to get UART driver
+inline TMC9660<Esp32UARTTMC9660CommInterface>* get_uart_driver(TestDriverHandle& handle) {
+    if (auto* uart_driver = std::get_if<std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>>(&handle.driver)) {
+        return uart_driver->get();
+    }
+    return nullptr;
+}
+
+void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept;
+void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept;
+bool verify_telemetry_ranges(TMC9660<Esp32SPITMC9660CommInterface>& driver) noexcept;
+bool verify_telemetry_ranges(TMC9660<Esp32UARTTMC9660CommInterface>& driver) noexcept;
 
 bool test_telemetry_basic_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing basic telemetry monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Configure basic motor setup
     if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 7)) {
@@ -99,11 +139,15 @@ bool test_telemetry_temperature_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing temperature monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Test 1: Read temperature at different states
     log_telemetry_data(*driver, "Idle state");
@@ -138,11 +182,15 @@ bool test_telemetry_current_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing current monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Configure motor for current monitoring
     if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 7)) {
@@ -185,11 +233,15 @@ bool test_telemetry_voltage_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing voltage monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Test 1: Read voltage at different states
     log_telemetry_data(*driver, "Idle state");
@@ -221,11 +273,15 @@ bool test_telemetry_position_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing position monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Configure motor for position monitoring
     if (!driver->motorConfig.setType(tmcl::MotorType::STEPPER_MOTOR)) {
@@ -263,11 +319,15 @@ bool test_telemetry_velocity_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing velocity monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Configure motor for velocity monitoring
     if (!driver->motorConfig.setType(tmcl::MotorType::BLDC_MOTOR, 7)) {
@@ -305,11 +365,15 @@ bool test_telemetry_status_monitoring() noexcept {
     ESP_LOGI(TAG, "Testing status monitoring...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Test 1: Read system status
     log_telemetry_data(*driver, "System status check");
@@ -338,11 +402,15 @@ bool test_telemetry_performance_benchmarks() noexcept {
     ESP_LOGI(TAG, "Testing telemetry performance benchmarks...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Test 1: Single telemetry read performance
     uint64_t start_time = esp_timer_get_time();
@@ -380,11 +448,15 @@ bool test_telemetry_error_handling() noexcept {
     ESP_LOGI(TAG, "Testing telemetry error handling...");
 
     auto handle = create_test_driver(false, false);
-    if (!handle || !handle->driver) {
+    if (!handle) {
         ESP_LOGE(TAG, "Failed to create test driver");
         return false;
     }
-    auto* driver = handle->driver.get();
+    auto* driver = get_spi_driver(*handle);
+    if (!driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
+        return false;
+    }
 
     // Test 1: Read telemetry with invalid configuration
     ESP_LOGI(TAG, "Testing telemetry with invalid motor configuration...");
@@ -416,8 +488,13 @@ bool test_telemetry_multi_device() noexcept {
 
     // Test 1: Create multiple drivers
     auto spi_handle = create_test_driver(false, false);
-    if (!spi_handle || !spi_handle->driver) {
+    if (!spi_handle) {
         ESP_LOGE(TAG, "Failed to create SPI driver");
+        return false;
+    }
+    auto* spi_driver = get_spi_driver(*spi_handle);
+    if (!spi_driver) {
+        ESP_LOGE(TAG, "Failed to get SPI driver");
         return false;
     }
 
@@ -441,24 +518,30 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         uart_config.uart.tx_pin = GPIO_NUM_5;
         uart_config.uart.rx_pin = GPIO_NUM_4;
         
-        handle->interface = createUARTInterface(uart_config);
-        if (!handle->interface) {
+        auto uart_interface = createUARTInterface(uart_config);
+        if (!uart_interface) {
             ESP_LOGE(TAG, "Failed to create UART interface");
             return nullptr;
         }
+        handle->interface = std::move(uart_interface);
         ESP_LOGI(TAG, "Created UART interface (115200 baud, address 1)");
+        
+        // Create TMC9660 driver with UART interface
+        auto* uart_iface = std::get<std::unique_ptr<Esp32UARTTMC9660CommInterface>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32UARTTMC9660CommInterface>>(*uart_iface, 1);
     } else {
-        handle->interface = createSPIInterface();
-        if (!handle->interface) {
+        auto spi_interface = createSPIInterface();
+        if (!spi_interface) {
             ESP_LOGE(TAG, "Failed to create SPI interface");
             return nullptr;
         }
+        handle->interface = std::move(spi_interface);
         ESP_LOGI(TAG, "Created SPI interface");
+        
+        // Create TMC9660 driver with SPI interface
+        auto* spi_iface = std::get<std::unique_ptr<Esp32SPITMC9660CommInterface>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32SPITMC9660CommInterface>>(*spi_iface, 1);
     }
-
-    // Create TMC9660 driver with address matching the bootloader configuration
-    // The address must match cfg.uart.device_address (set to 1 below)
-    handle->driver = std::make_unique<TMC9660>(*handle->interface, 1);
     
     // ============================================================================
     // TMC9660 BOOTLOADER CONFIGURATION (TMC9660-3PH-EVKIT Compatible)
@@ -608,9 +691,30 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // 6. SESSION_START consumption (0x0C)
     // 7. TMCL communication verification (GetVersion)
     ESP_LOGI(TAG, "Performing complete initialization (reset + config + info + motor control + verify)...");
-    auto init_result = handle->driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
-    if (init_result != TMC9660::BootloaderInitResult::Success) {
-        ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
+    // Get the appropriate driver based on interface type
+    auto* spi_driver = get_spi_driver(*handle);
+    auto* uart_driver = get_uart_driver(*handle);
+    
+    bool success = false;
+    
+    if (spi_driver) {
+        auto init_result = spi_driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
+        if (init_result != TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult::Success) {
+            ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
+            return nullptr;
+        }
+        success = true;
+    } else if (uart_driver) {
+        auto init_result = uart_driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
+        if (init_result != TMC9660<Esp32UARTTMC9660CommInterface>::BootloaderInitResult::Success) {
+            ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
+            return nullptr;
+        }
+        success = true;
+    }
+    
+    if (!success) {
+        ESP_LOGE(TAG, "Failed to get driver for initialization");
         return nullptr;
     }
     ESP_LOGI(TAG, "✅ Complete initialization successful - chip ready for motor control!");
@@ -618,7 +722,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     return handle;
 }
 
-void log_telemetry_data(TMC9660& driver, const char* context) noexcept {
+void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept {
     float temp = driver.telemetry.getChipTemperature();
     int16_t current = driver.telemetry.getMotorCurrent();
     float voltage = driver.telemetry.getSupplyVoltage();
@@ -627,7 +731,45 @@ void log_telemetry_data(TMC9660& driver, const char* context) noexcept {
              context, temp, current, voltage);
 }
 
-bool verify_telemetry_ranges(TMC9660& driver) noexcept {
+void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept {
+    float temp = driver.telemetry.getChipTemperature();
+    int16_t current = driver.telemetry.getMotorCurrent();
+    float voltage = driver.telemetry.getSupplyVoltage();
+    
+    ESP_LOGI(TAG, "%s - Temp: %.1f°C, Current: %dmA, Voltage: %.2fV", 
+             context, temp, current, voltage);
+}
+
+bool verify_telemetry_ranges(TMC9660<Esp32SPITMC9660CommInterface>& driver) noexcept {
+    float temp = driver.telemetry.getChipTemperature();
+    int16_t current = driver.telemetry.getMotorCurrent();
+    float voltage = driver.telemetry.getSupplyVoltage();
+    
+    bool valid = true;
+    
+    if (temp < -40.0f || temp > 150.0f) {
+        ESP_LOGW(TAG, "Temperature out of range: %.1f°C", temp);
+        valid = false;
+    }
+    
+    if (current < -10000 || current > 10000) {
+        ESP_LOGW(TAG, "Current out of range: %dmA", current);
+        valid = false;
+    }
+    
+    if (voltage < 0.0f || voltage > 100.0f) {
+        ESP_LOGW(TAG, "Voltage out of range: %.2fV", voltage);
+        valid = false;
+    }
+    
+    if (valid) {
+        ESP_LOGI(TAG, "All telemetry values within expected ranges");
+    }
+    
+    return valid;
+}
+
+bool verify_telemetry_ranges(TMC9660<Esp32UARTTMC9660CommInterface>& driver) noexcept {
     float temp = driver.telemetry.getChipTemperature();
     int16_t current = driver.telemetry.getMotorCurrent();
     float voltage = driver.telemetry.getSupplyVoltage();

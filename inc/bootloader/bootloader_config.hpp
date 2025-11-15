@@ -11,7 +11,8 @@
  * @brief Bootloader configuration data structures and enums
  */
 
-#pragma once
+#ifndef TMC9660_BOOTLOADER_CONFIG_HPP
+#define TMC9660_BOOTLOADER_CONFIG_HPP
 
 #include <cstdint>
 
@@ -1026,3 +1027,4 @@ struct BootloaderConfig {
 };
 
 } // namespace tmc9660
+#endif // TMC9660_BOOTLOADER_CONFIG_HPP

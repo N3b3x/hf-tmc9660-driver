@@ -7,16 +7,12 @@
  * @license MIT License
  */
 
-#pragma once
+#ifndef TMC9660_BOOTLOADER_HPP
+#define TMC9660_BOOTLOADER_HPP
 
 #include "bootloader_config.hpp"
 #include "bootloader_protocol.hpp"
 #include <cstdint>
-
-// Forward declaration for communication interface
-namespace tmc9660 {
-class CommInterface;
-}
 
 namespace tmc9660 {
 
@@ -42,7 +38,7 @@ namespace tmc9660 {
  *
  * @code{.cpp}
  * // Create bootloader instance
- * TMC9660Bootloader bootloader(commInterface);
+ * TMC9660Bootloader<MySPI> bootloader(comm_interface);
  *
  * // Configure the system
  * BootloaderConfig cfg{};
@@ -53,10 +49,14 @@ namespace tmc9660 {
  * // Apply configuration and start motor control
  * bootloader.applyConfiguration(cfg);
  * @endcode
+ *
+ * @tparam CommType The communication interface type (must inherit from
+ *                  SpiCommInterface<CommType> or UartCommInterface<CommType>)
  */
+template <typename CommType>
 class TMC9660Bootloader {
 public:
-  explicit TMC9660Bootloader(CommInterface& comm) noexcept;
+  explicit TMC9660Bootloader(CommType& comm) noexcept;
 
   //==================================================
   // BASIC MEMORY OPERATIONS
@@ -294,10 +294,10 @@ public:
    * for debugging purposes.
    *
    * @param expected The expected 8-bit value to match
-   * @param configName Human-readable configuration name for logging
+   * @param config_name Human-readable configuration name for logging
    * @return true if read successful and value matches
    */
-  bool readAndVerify8(uint8_t expected, const char* configName) noexcept;
+  bool readAndVerify8(uint8_t expected, const char* config_name) noexcept;
 
   /**
    * @brief Read back and verify a 16-bit value matches the expected value.
@@ -307,10 +307,10 @@ public:
    * for debugging purposes.
    *
    * @param expected The expected 16-bit value to match
-   * @param configName Human-readable configuration name for logging
+   * @param config_name Human-readable configuration name for logging
    * @return true if read successful and value matches
    */
-  bool readAndVerify16(uint16_t expected, const char* configName) noexcept;
+  bool readAndVerify16(uint16_t expected, const char* config_name) noexcept;
 
   /**
    * @brief Read back and verify a 32-bit value matches the expected value.
@@ -320,10 +320,10 @@ public:
    * for debugging purposes.
    *
    * @param expected The expected 32-bit value to match
-   * @param configName Human-readable configuration name for logging
+   * @param config_name Human-readable configuration name for logging
    * @return true if read successful and value matches
    */
-  bool readAndVerify32(uint32_t expected, const char* configName) noexcept;
+  bool readAndVerify32(uint32_t expected, const char* config_name) noexcept;
 
   //==================================================
   // OTP OPERATIONS
@@ -337,8 +337,8 @@ public:
    *
    * @param page OTP page number to load (0-based)
    * @param result Pointer to receive parsed OTP load result (error count + page tag)
-   * @return true if command executed successfully (check result.errorCount for bit errors)
-   * @note Check result.errorCount for bit errors, result.pageTag for page identification
+   * @return true if command executed successfully (check result.error_count for bit errors)
+   * @note Check result.error_count for bit errors, result.page_tag for page identification
    */
   bool otpLoad(uint8_t page, OtpLoadResult* result) noexcept;
 
@@ -349,11 +349,11 @@ public:
    * instead of a structured result object.
    *
    * @param page OTP page number to load
-   * @param errorCount Optional pointer to receive bit error count (bits 15-8)
-   * @param pageTag Optional pointer to receive page tag (bits 7-0)
+   * @param error_count Optional pointer to receive bit error count (bits 15-8)
+   * @param page_tag Optional pointer to receive page tag (bits 7-0)
    * @return true if successful
    */
-  bool otpLoad(uint8_t page, uint8_t* errorCount = nullptr, uint8_t* pageTag = nullptr) noexcept;
+  bool otpLoad(uint8_t page, uint8_t* error_count = nullptr, uint8_t* page_tag = nullptr) noexcept;
 
   /**
    * @brief Permanently burn data to OTP (One-Time Programmable) memory.
@@ -363,12 +363,12 @@ public:
    * and timing to succeed.
    *
    * @param page OTP page number to burn (bits 7-0)
-   * @param pageAddr OTP page address to write (bits 15-8)
+   * @param page_addr OTP page address to write (bits 15-8)
    * @param result Pointer to receive detailed burn result with error information
-   * @return true if command executed (check result.isSuccess and result.errorCode)
+   * @return true if command executed (check result.isSuccess and result.error_code)
    * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
    */
-  bool otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult* result) noexcept;
+  bool otpBurn(uint8_t page, uint8_t page_addr, OtpBurnResult* result) noexcept;
 
   /**
    * @brief Permanently burn OTP page (legacy method without detailed results).
@@ -377,11 +377,11 @@ public:
    * Use the overload with OtpBurnResult for detailed error information.
    *
    * @param page OTP page number to burn (bits 7-0)
-   * @param pageAddr OTP page address to write (bits 15-8)
+   * @param page_addr OTP page address to write (bits 15-8)
    * @return true if successful
    * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
    */
-  bool otpBurn(uint8_t page, uint8_t pageAddr = 0) noexcept;
+  bool otpBurn(uint8_t page, uint8_t page_addr = 0) noexcept;
 
   /**
    * @brief Burn OTP page with Erratum 1 workaround for reliable operation.
@@ -391,15 +391,15 @@ public:
    * before and after the burn operation.
    *
    * @param page OTP page number to burn (bits 7-0)
-   * @param pageAddr OTP page address to write (bits 15-8)
+   * @param page_addr OTP page address to write (bits 15-8)
    * @param result Pointer to receive detailed burn result with error information
-   * @param vdrvWaitMs Wait time for VDRV voltage to drop (default 1000ms for 10uF capacitor)
-   * @return true if command executed (check result.isSuccess and result.errorCode)
+   * @param vdrv_wait_ms Wait time for VDRV voltage to drop (default 1000ms for 10uF capacitor)
+   * @return true if command executed (check result.isSuccess and result.error_code)
    * @note ⚠️ This operation is PERMANENT and IRREVERSIBLE!
    * @note Recommended method for production OTP burning
    */
-  bool otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult* result,
-                             uint32_t vdrvWaitMs = 1000) noexcept;
+  bool otpBurnWithWorkaround(uint8_t page, uint8_t page_addr, OtpBurnResult* result,
+                             uint32_t vdrv_wait_ms = 1000) noexcept;
 
   /**
    * @brief Check OTP burn status using Erratum 1 workaround verification.
@@ -425,10 +425,10 @@ public:
    * the memory can be accessed.
    *
    * @param bank Memory bank to check
-   * @param isConfigured Returns true if configured
+   * @param is_configured Returns true if configured
    * @return true if command successful
    */
-  bool memIsConfigured(MemoryBank bank, bool* isConfigured) noexcept;
+  bool memIsConfigured(MemoryBank bank, bool* is_configured) noexcept;
 
   /**
    * @brief Check if external memory is connected.
@@ -437,10 +437,10 @@ public:
    * connected and responding to communication attempts.
    *
    * @param bank Memory bank to check
-   * @param isConnected Returns true if connected
+   * @param is_connected Returns true if connected
    * @return true if command successful
    */
-  bool memIsConnected(MemoryBank bank, bool* isConnected) noexcept;
+  bool memIsConnected(MemoryBank bank, bool* is_connected) noexcept;
 
   /**
    * @brief Check if external memory is busy.
@@ -449,10 +449,10 @@ public:
    * busy with an operation (e.g., write cycle, erase operation).
    *
    * @param bank Memory bank to check
-   * @param isBusy Returns true if busy
+   * @param is_busy Returns true if busy
    * @return true if command successful
    */
-  bool memIsBusy(MemoryBank bank, bool* isBusy) noexcept;
+  bool memIsBusy(MemoryBank bank, bool* is_busy) noexcept;
 
   //==================================================
   // SPI FLASH OPERATIONS
@@ -489,10 +489,10 @@ public:
    * Transmits the specified number of bytes from the internal flash command
    * buffer to the external SPI flash device and receives the response.
    *
-   * @param numBytes Number of bytes to transmit (1-6)
+   * @param num_bytes Number of bytes to transmit (1-6)
    * @return true if successful
    */
-  bool flashSendDatagram(uint8_t numBytes) noexcept;
+  bool flashSendDatagram(uint8_t num_bytes) noexcept;
 
   /**
    * @brief Erase a sector on external SPI flash.
@@ -511,10 +511,10 @@ public:
    * Reads the JEDEC manufacturer ID from the external SPI flash device.
    * This can be used to identify the flash chip type and verify connectivity.
    *
-   * @param manufacturerId Returns manufacturer ID
+   * @param manufacturer_id Returns manufacturer ID
    * @return true if successful
    */
-  bool flashReadJedecId(uint8_t* manufacturerId) noexcept;
+  bool flashReadJedecId(uint8_t* manufacturer_id) noexcept;
 
   //==================================================
   // RS485 CONFIGURATION
@@ -527,14 +527,14 @@ public:
    * be sent as the first command when using RS485 communication interface.
    * It configures the transmit enable pin and timing parameters.
    *
-   * @param txEnPin GPIO pin for TX_EN (1=GPIO8, 2=GPIO2)
-   * @param preDelay Delay between TX_EN assertion and TX start
-   * @param hostAddr Host address
-   * @param deviceAddr Device address
+   * @param tx_en_pin GPIO pin for TX_EN (1=GPIO8, 2=GPIO2)
+   * @param pre_delay Delay between TX_EN assertion and TX start
+   * @param host_addr Host address
+   * @param device_addr Device address
    * @return true if successful
    */
-  bool bootstrapRS485(uint8_t txEnPin, uint8_t preDelay, uint8_t hostAddr,
-                      uint8_t deviceAddr) noexcept;
+  bool bootstrapRS485(uint8_t tx_en_pin, uint8_t pre_delay, uint8_t host_addr,
+                      uint8_t device_addr) noexcept;
 
   //==================================================
   // INFORMATION QUERIES
@@ -563,11 +563,11 @@ public:
    * Retrieves the chip type identifier. For TMC9660, this should return
    * 0x544D0001, which can be used to verify correct chip identification.
    *
-   * @param chipType Returns chip type
+   * @param chip_type Returns chip type
    * @return true if successful
    */
-  bool getChipType(uint32_t* chipType) noexcept {
-    return getInfo(InfoQuery::CHIP_TYPE, chipType);
+  bool getChipType(uint32_t* chip_type) noexcept {
+    return getInfo(InfoQuery::CHIP_TYPE, chip_type);
   }
 
   /**
@@ -598,10 +598,10 @@ public:
    * Retrieves Git commit hash and dirty bit from the bootloader firmware,
    * indicating the exact firmware build version and development state.
    *
-   * @param gitInfo Returns parsed Git information
+   * @param git_info Returns parsed Git information
    * @return true if successful
    */
-  bool getGitInfo(GitInfo* gitInfo) noexcept;
+  bool getGitInfo(GitInfo* git_info) noexcept;
 
   /**
    * @brief Get chip version (silicon revision).
@@ -775,12 +775,12 @@ public:
    * system configuration.
    *
    * @param cfg Configuration to apply
-   * @param failOnVerifyError If true, return false on read-back verification failure;
+   * @param fail_on_verify_error If true, return false on read-back verification failure;
    *                          if false, log warning but continue
    * @return true if successful
    * @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
    */
-  bool applyConfiguration(const BootloaderConfig& cfg, bool failOnVerifyError = true) noexcept;
+  bool applyConfiguration(const BootloaderConfig& cfg, bool fail_on_verify_error = true) noexcept;
 
   //==================================================
   // MOTOR CONTROL STARTUP
@@ -797,7 +797,7 @@ public:
    * respond to commands. All bootloader configuration must be completed BEFORE
    * calling this function.
    *
-   * @param bootMode Motor control mode to start (Register or Parameter mode)
+   * @param boot_mode Motor control mode to start (Register or Parameter mode)
    * @return true if command sent successfully
    * @note The bootloader exits immediately after this command
    * @note Allow 100-150ms for motor control to fully initialize after calling
@@ -816,16 +816,23 @@ public:
    * // Now use motor control commands
    * @endcode
    */
-  bool startMotorControl(bootcfg::BootMode bootMode = bootcfg::BootMode::Parameter) noexcept;
+  bool startMotorControl(bootcfg::BootMode boot_mode = bootcfg::BootMode::Parameter) noexcept;
 
 private:
   bool sendCommand(uint8_t cmd, uint32_t value, uint32_t* reply = nullptr) noexcept;
   bool sendCommandSPI(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept;
   bool sendCommandUART(uint8_t cmd, uint32_t value, uint32_t* reply) noexcept;
 
-  CommInterface& comm_;
+  CommType& comm_;
   uint8_t deviceAddr_; ///< Device address for UART protocol
   uint8_t hostAddr_;   ///< Host address for UART protocol
 };
 
 } // namespace tmc9660
+
+// Include template implementation
+#define TMC9660_BOOTLOADER_HEADER_INCLUDED
+#include "../../src/bootloader/tmc9660_bootloader.cpp"
+#undef TMC9660_BOOTLOADER_HEADER_INCLUDED
+
+#endif // TMC9660_BOOTLOADER_HPP

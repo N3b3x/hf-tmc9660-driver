@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TMC9660_TMC9660_MCC_HPP
+#define TMC9660_TMC9660_MCC_HPP
 #include <cstdint>
 
 /**
@@ -4421,3 +4422,5 @@ struct MOTION_CONFIG {
 } // namespace MCC
 } // namespace register_mode
 } // namespace tmc9660
+
+#endif // TMC9660_TMC9660_MCC_HPP

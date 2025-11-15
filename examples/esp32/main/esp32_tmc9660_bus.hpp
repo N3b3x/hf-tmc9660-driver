@@ -37,7 +37,7 @@ static const char* BUS_TAG = "TMC9660_Bus";
  * This class provides SPI communication for the TMC9660 using ESP-IDF SPI driver.
  * It handles the 8-byte SPI transfers required by the TMC9660 parameter mode.
  */
-class Esp32SPITMC9660CommInterface : public SpiCommInterface {
+class Esp32SPITMC9660CommInterface : public SpiCommInterface<Esp32SPITMC9660CommInterface> {
 public:
     /**
      * @brief Construct ESP32 SPI communication interface
@@ -64,7 +64,7 @@ public:
                                  gpio_num_t wake_pin,
                                  uint32_t clock_speed_hz = 10000000,
                                  uint8_t mode = 0) noexcept
-        : SpiCommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : SpiCommInterface<Esp32SPITMC9660CommInterface>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           host_(host), mosi_pin_(mosi_pin), miso_pin_(miso_pin), 
           sclk_pin_(sclk_pin), cs_pin_(cs_pin), rst_pin_(rst_pin),
           drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
@@ -75,7 +75,7 @@ public:
     /**
      * @brief Destructor - cleans up SPI resources
      */
-    ~Esp32SPITMC9660CommInterface() noexcept override {
+    ~Esp32SPITMC9660CommInterface() noexcept {
         deinitialize();
     }
 
@@ -165,7 +165,7 @@ public:
      * @param rx Receive buffer (8 bytes, TMCL format) 
      * @return true if successful, false otherwise
      */
-    bool spiTransferTMCL(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    bool spiTransferTMCL(std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept {
         if (!initialized_ || !device_handle_) {
             ESP_LOGE(BUS_TAG, "SPI interface not initialized");
             return false;
@@ -185,7 +185,7 @@ public:
         return true;
     }
 
-    bool spiTransferBootloader(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept override {
+    bool spiTransferBootloader(std::array<uint8_t, 5> &tx, std::array<uint8_t, 5> &rx) noexcept {
         if (!initialized_ || !device_handle_) {
             ESP_LOGE(BUS_TAG, "SPI interface not initialized");
             return false;
@@ -209,7 +209,7 @@ public:
      * @brief Get communication mode
      * @return CommMode::SPI
      */
-    CommMode mode() const noexcept override {
+    CommMode mode() const noexcept {
         return CommMode::SPI;
     }
 
@@ -219,7 +219,7 @@ public:
      * @param signal The desired signal state
      * @return true if the GPIO was set successfully
      */
-    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override {
+    bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
@@ -243,7 +243,7 @@ public:
      * @param level Reference to store the current GPIO level
      * @return true if the GPIO was read successfully
      */
-    bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override {
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
@@ -267,7 +267,7 @@ public:
      * @param format printf-style format string
      * @param ... Variable arguments for format string
      */
-    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept override {
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
         // Route to appropriate ESP-IDF log level
         switch (level) {
             case 0: // Error
@@ -291,11 +291,11 @@ public:
         }
     }
     
-    void delayMs(uint32_t ms) noexcept override {
+    void delayMs(uint32_t ms) noexcept {
         vTaskDelay(pdMS_TO_TICKS(ms));
     }
 
-    void delayUs(uint32_t us) noexcept override {
+    void delayUs(uint32_t us) noexcept {
         // ESP32: Use esp_rom_delay_us for accurate microsecond delays
         // For FreeRTOS tasks, convert >= 1ms delays to task delays to avoid blocking
         if (us >= 1000) {
@@ -390,7 +390,7 @@ private:
  * This class provides UART communication for the TMC9660 using ESP-IDF UART driver.
  * It handles the TMCL protocol over UART as specified in the TMC9660 documentation.
  */
-class Esp32UARTTMC9660CommInterface : public UartCommInterface {
+class Esp32UARTTMC9660CommInterface : public UartCommInterface<Esp32UARTTMC9660CommInterface> {
 public:
     /**
      * @brief Construct ESP32 UART communication interface
@@ -413,7 +413,7 @@ public:
                                   gpio_num_t wake_pin,
                                   uint32_t baud_rate = 115200,
                                   uint8_t address = 0) noexcept
-        : UartCommInterface(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : UartCommInterface<Esp32UARTTMC9660CommInterface>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           uart_num_(uart_num), tx_pin_(tx_pin), rx_pin_(rx_pin), 
           rst_pin_(rst_pin), drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
           baud_rate_(baud_rate), address_(address), initialized_(false) {
@@ -422,7 +422,7 @@ public:
     /**
      * @brief Destructor - cleans up UART resources
      */
-    ~Esp32UARTTMC9660CommInterface() noexcept override {
+    ~Esp32UARTTMC9660CommInterface() noexcept {
         deinitialize();
     }
 
@@ -495,7 +495,7 @@ public:
      * @param data Array of 9 bytes including sync, fields, and checksum (TMCL format)
      * @return true if transmission succeeded
      */
-    bool uartSendTMCL(const std::array<uint8_t, 9> &data) noexcept override {
+    bool uartSendTMCL(const std::array<uint8_t, 9> &data) noexcept {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -517,7 +517,7 @@ public:
      * @param data Array to store 9 received bytes (TMCL format)
      * @return true if reception succeeded
      */
-    bool uartReceiveTMCL(std::array<uint8_t, 9> &data) noexcept override {
+    bool uartReceiveTMCL(std::array<uint8_t, 9> &data) noexcept {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -542,7 +542,7 @@ public:
      * @return true if transfer succeeded
      */
     bool transferTMCL(const TMCLFrame &tx, TMCLReply &reply, uint8_t address,
-                     TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept override {
+                     TMCLReply *firstReply, const TMCLFrame *secondCommand) noexcept {
         // UART doesn't use the two-transaction pattern, so firstReply and secondCommand are ignored
         (void)firstReply;      // Suppress unused parameter warning
         (void)secondCommand;   // Suppress unused parameter warning
@@ -617,7 +617,7 @@ public:
      * @param rx Buffer to receive 8 bytes from device (bootloader format)
      * @return true if transfer succeeded
      */
-    bool uartTransferBootloader(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept override {
+    bool uartTransferBootloader(const std::array<uint8_t, 8> &tx, std::array<uint8_t, 8> &rx) noexcept {
         if (!initialized_) {
             ESP_LOGE(BUS_TAG, "UART interface not initialized");
             return false;
@@ -650,7 +650,7 @@ public:
      * @brief Get communication mode
      * @return CommMode::UART
      */
-    CommMode mode() const noexcept override {
+    CommMode mode() const noexcept {
         return CommMode::UART;
     }
 
@@ -660,7 +660,7 @@ public:
      * @param signal The desired signal state
      * @return true if the GPIO was set successfully
      */
-     bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept override {
+     bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
@@ -684,7 +684,7 @@ public:
      * @param level Reference to store the current GPIO level
      * @return true if the GPIO was read successfully
      */
-    bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept override {
+    bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept {
         gpio_num_t gpio_pin = getGpioPin(pin);
         if (gpio_pin == GPIO_NUM_NC) {
             ESP_LOGE(BUS_TAG, "Invalid GPIO pin for TMC9660 control pin");
@@ -708,7 +708,7 @@ public:
      * @param format printf-style format string
      * @param ... Variable arguments for format string
      */
-    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept override {
+    void debugLog(int level, const char* tag, const char* format, va_list args) noexcept {
         // Route to appropriate ESP-IDF log level
         switch (level) {
             case 0: // Error
@@ -732,11 +732,11 @@ public:
         }
     }
     
-    void delayMs(uint32_t ms) noexcept override {
+    void delayMs(uint32_t ms) noexcept {
         vTaskDelay(pdMS_TO_TICKS(ms));
     }
 
-    void delayUs(uint32_t us) noexcept override {
+    void delayUs(uint32_t us) noexcept {
         // ESP32: Use esp_rom_delay_us for accurate microsecond delays
         // For FreeRTOS tasks, convert >= 1ms delays to task delays to avoid blocking
         if (us >= 1000) {

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TMC9660_TMC9660_SYS_CTRL_HPP
+#define TMC9660_TMC9660_SYS_CTRL_HPP
 #include <cstdint>
 
 /**
@@ -169,3 +170,5 @@ struct FAULT_INT_ENABLE {
 } // namespace SYS_CTRL
 } // namespace register_mode
 } // namespace tmc9660
+
+#endif // TMC9660_TMC9660_SYS_CTRL_HPP

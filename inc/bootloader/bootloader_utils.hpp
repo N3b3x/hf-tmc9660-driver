@@ -10,7 +10,8 @@
  * @brief Helper functions for bootloader operations
  */
 
-#pragma once
+#ifndef TMC9660_BOOTLOADER_UTILS_HPP
+#define TMC9660_BOOTLOADER_UTILS_HPP
 
 #include <array>
 #include <cstddef>
@@ -88,3 +89,4 @@ static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcep
 }
 
 } // namespace tmc9660
+#endif // TMC9660_BOOTLOADER_UTILS_HPP

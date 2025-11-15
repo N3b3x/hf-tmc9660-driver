@@ -24,7 +24,8 @@
 //  --------------------------------------------------------------------------------------------------
 //  © 2025 <Nebiyu Tadesse>. Released under the GNU GPL V3 License.
 //====================================================================================================================
-#pragma once
+#ifndef TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
+#define TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
 
 #include <cstdint>
 
@@ -5374,6 +5375,9 @@ inline const char* to_string(Parameters param) {
 #undef INTERNAL_MEASUREMENT_LIST
 #undef COMBINED_DIAGNOSTIC_VALUES_LIST
 #undef ERRORS_AND_FLAGS_LIST
+#undef FLAG
 
 // clang-format on
 } // namespace tmc9660::tmcl
+
+#endif // TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
