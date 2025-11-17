@@ -11,6 +11,12 @@
 *.gch
 *.pch
 
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -30,6 +36,10 @@
 *.exe
 *.out
 *.app
+
+# Debug information files
+*.dwo
+
 # Build directories (ESP-IDF and general)
 **/build/
 **/build_*/
@@ -39,48 +49,91 @@ build/
 tests/build/
 examples/esp32/build*/
 examples/esp32/**/build*/
-**/dependencies.lock
 
 # ESP-IDF specific
 # sdkconfig and sdkconfig.defaults should be tracked (contain important ESP32 configuration)
 # Only ignore backup files
 **/sdkconfig.old
+**/partition_table.csv
+**/*.elf
+**/*.bin
+**/*.map
+**/*.hex
+**/*.img
+**/*.ota
 
-# Don't exclude .vscode folder
-# .vscode/
-# But exclude user-specific files
-.vscode/settings.json.user
-.vscode/*.backup
+# CMake and Make build folders
+CMakeFiles/
+**/CMakeFiles/
+CMakeCache.txt
+**/CMakeCache.txt
+cmake_install.cmake
+**/cmake_install.cmake
+Makefile
+**/Makefile
 
+# Dependencies
+**/dependencies.lock
+
+# Documentation output
+**/docs/html/
 **/docs/doxygen/
 docs/doxygen/
-.DS_Store
+docs/html/
 # Allow doxygen-extensions directory (contains submodule)
 !_config/doxygen-extensions/
 !_config/doxygen-extensions/doxygen-awesome-css/
-**/doxygen*
-**/.cache/
 
-**/compile_commands.json
+# VSCode user-specific files (keep .vscode/ but ignore user files)
+.vscode/settings.json.user
+.vscode/*.backup
 
+# IDE settings
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
 .venv/
 **/venv/
 **/.venv/
-
 __pycache__/
 **/__pycache__/
+*.pyc
+.python_env/
 
-actionlint*
-**/actionlint*
+# Cache
+**/.cache/
+.cache/
+
+# Compile commands
+**/compile_commands.json
+compile_commands.json
 
 # Log files
 **/logs/
 **/*.log
 logs/
 
+# CI/CD
 ci_build_path/
+actionlint*
+**/actionlint*
+
+# Node modules
 **/node_modules/
 node_modules/
-
 package-lock.json
 package*.json
+
+# OS files
+.DS_Store
+**/.DS_Store
+*.DS_Store
+Thumbs.db
+**/Thumbs.db
+
+# Backup files
+**/*.bak*
+*.bak
