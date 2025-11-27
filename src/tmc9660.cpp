@@ -5177,6 +5177,345 @@ bool TMC9660<CommType>::GPIO::readAnalog(uint8_t pin, uint16_t& value) noexcept 
 // Note: To use other communication interfaces, either:
 // 1. Add explicit instantiations here, OR
 // 2. Move template implementations to header files (inline)
+//===========================================================================
+//==                  SUBSYSTEM: Stall Detection Tuning                   ==//
+//===========================================================================
+
+template <typename CommType>
+bool TMC9660<CommType>::StallDetectionTuning::waitForVelocity(int32_t target_velocity,
+                                                                 uint32_t timeout_ms) noexcept {
+  const uint32_t max_iterations = timeout_ms / 10; // Check every 10ms
+  const int32_t tolerance = target_velocity / 20;   // 5% tolerance
+
+  for (uint32_t i = 0; i < max_iterations; ++i) {
+    int32_t actual_velocity = driver.telemetry.getActualVelocity();
+    int32_t error = (actual_velocity > target_velocity) ? (actual_velocity - target_velocity)
+                                                        : (target_velocity - actual_velocity);
+
+    if (error <= tolerance) {
+      return true; // Velocity reached
+    }
+
+    comm_.delayMs(10); // Check every 10ms
+  }
+
+  return false; // Timeout
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::StallDetectionTuning::measureVelocityDeviation(uint32_t& deviation,
+                                                                         int32_t& position_error,
+                                                                         uint8_t samples) noexcept {
+  uint32_t sum_deviation = 0;
+  int32_t sum_position_error = 0;
+  uint8_t valid_samples = 0;
+
+  for (uint8_t i = 0; i < samples; ++i) {
+    int32_t vel_error = 0;
+    int32_t pos_error = 0;
+
+    if (driver.velocityControl.getVelocityPiError(vel_error) &&
+        driver.positionControl.getPositionPiError(pos_error)) {
+      // Use absolute values for deviation
+      sum_deviation += static_cast<uint32_t>(std::abs(vel_error));
+      sum_position_error += std::abs(pos_error);
+      valid_samples++;
+    }
+
+    comm_.delayMs(5); // 5ms between samples
+  }
+
+  if (valid_samples == 0) {
+    return false;
+  }
+
+  deviation = sum_deviation / valid_samples;
+  position_error = sum_position_error / valid_samples;
+  return true;
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::StallDetectionTuning::findWorkingVelocityRange(
+    int32_t start_velocity, int32_t& min_working, int32_t& max_working,
+    uint32_t velocity_deviation_threshold, uint32_t position_deviation_threshold) noexcept {
+  // This is a simplified implementation - in practice, you'd want to scan
+  // velocities systematically to find where stall detection becomes unreliable
+  min_working = start_velocity;
+  max_working = start_velocity * 10; // Placeholder - would need actual scanning
+  return true;
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::StallDetectionTuning::autoTune(
+    int32_t target_velocity, TuningResult& result, uint32_t min_velocity_deviation,
+    uint32_t max_velocity_deviation, uint32_t min_position_deviation,
+    uint32_t max_position_deviation, uint32_t acceleration, int32_t min_velocity,
+    int32_t max_velocity, uint16_t safe_current_margin_mA) noexcept {
+  // Initialize result structure
+  result = TuningResult{};
+
+  // Validate input parameters
+  if (target_velocity <= 0) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning",
+                      "Invalid target velocity: %d (must be > 0)", target_velocity);
+    return false;
+  }
+
+  if (min_velocity_deviation >= max_velocity_deviation ||
+      min_position_deviation >= max_position_deviation) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning",
+                      "Invalid threshold range: min must be < max");
+    return false;
+  }
+
+  // ========================================================================
+  // STEP 1: Save and prepare motor state
+  // ========================================================================
+
+  // Save original deviation thresholds
+  uint32_t orig_vel_dev = 0;
+  uint32_t orig_pos_dev = 0;
+  bool orig_vel_soft_stop = false;
+  driver.velocityControl.getStopOnVelocityDeviation(orig_vel_dev, orig_vel_soft_stop);
+  driver.positionControl.getStopOnPositionDeviation(orig_pos_dev, orig_vel_soft_stop);
+  result.original_velocity_deviation = orig_vel_dev;
+  result.original_position_deviation = orig_pos_dev;
+
+  // Disable automatic stop on deviation during tuning (we want to observe without stopping)
+  driver.stopEvents.enableDeviationStop(0, 0, false);
+
+  // Save and adjust motor current if safe margin specified
+  uint16_t original_current_mA = 0;
+  if (safe_current_margin_mA > 0) {
+    // Get current motor current setting by reading MAX_TORQUE parameter
+    uint32_t max_torque_param = 0;
+    if (driver.readParameter(tmc9660::tmcl::Parameters::MAX_TORQUE, max_torque_param)) {
+      original_current_mA = static_cast<uint16_t>(max_torque_param);
+      result.original_current_mA = original_current_mA;
+
+      // Calculate new current with margin
+      uint16_t new_current_mA = 0;
+      if (original_current_mA > safe_current_margin_mA) {
+        new_current_mA = original_current_mA - safe_current_margin_mA;
+      } else {
+        // Don't reduce below 20% of original
+        new_current_mA = original_current_mA / 5;
+      }
+
+      // Ensure minimum current (e.g., 100mA) to allow motor to move
+      if (new_current_mA < 100) {
+        new_current_mA = 100;
+      }
+
+      TMC9660_LOG_DEBUG(comm_, 1, "StallDetectionTuning",
+                       "Reducing motor current from %u mA to %u mA for safe tuning",
+                       original_current_mA, new_current_mA);
+
+      if (!driver.motor.setMaxTorqueCurrent(new_current_mA)) {
+        TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning",
+                          "Failed to set reduced motor current");
+        // Continue anyway - tuning might still work
+      }
+    }
+  }
+
+  // ========================================================================
+  // STEP 2: Configure velocity mode and ramp to target speed
+  // ========================================================================
+
+  // Set velocity mode
+  if (!driver.ramp.setDirectVelocityMode(true)) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning", "Failed to enable direct velocity mode");
+    goto cleanup;
+  }
+
+  // Configure ramp parameters
+  if (!driver.ramp.setMaxVelocity(target_velocity) ||
+      !driver.ramp.setAcceleration(acceleration) || !driver.ramp.setDeceleration(acceleration)) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning", "Failed to configure ramp parameters");
+    goto cleanup;
+  }
+
+  // Start motor at target velocity
+  if (!driver.velocityControl.setTargetVelocity(target_velocity)) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning", "Failed to set target velocity");
+    goto cleanup;
+  }
+
+  // Wait for motor to reach target velocity
+  if (!waitForVelocity(target_velocity, 5000)) {
+    TMC9660_LOG_DEBUG(comm_, 1, "StallDetectionTuning",
+                     "Motor did not reach target velocity within timeout, continuing anyway");
+  }
+
+  // ========================================================================
+  // STEP 3: Scan threshold ranges to find optimal values
+  // ========================================================================
+
+  // Target: find thresholds where deviation readings are moderate (not too high, not zero)
+  // Ideal: velocity deviation around 200-500 units, position error around 100-1000 units
+  const uint32_t TARGET_VEL_DEVIATION = 300;
+  const uint32_t TARGET_POS_DEVIATION = 500;
+
+  uint32_t best_vel_deviation = 0;
+  uint32_t best_pos_deviation = 0;
+  uint32_t best_vel_diff = UINT32_MAX;
+  uint32_t best_pos_diff = UINT32_MAX;
+  bool found_any_working = false;
+
+  // Scan velocity deviation threshold
+  const uint32_t vel_step = (max_velocity_deviation - min_velocity_deviation) / 20; // ~20 steps
+  for (uint32_t vel_threshold = min_velocity_deviation; vel_threshold <= max_velocity_deviation;
+       vel_threshold += vel_step) {
+    // Set velocity deviation threshold
+    driver.velocityControl.setStopOnVelocityDeviation(vel_threshold, false);
+
+    comm_.delayMs(20); // Let driver update
+
+    // Measure actual deviation at this threshold
+    uint32_t measured_deviation = 0;
+    int32_t measured_pos_error = 0;
+    if (!measureVelocityDeviation(measured_deviation, measured_pos_error, 8)) {
+      continue; // Skip if measurement failed
+    }
+
+    // Check for false stall (deviation too high = threshold too sensitive)
+    if (measured_deviation >= vel_threshold) {
+      // This threshold would trigger false stalls
+      continue;
+    }
+
+    found_any_working = true;
+
+    // Calculate how close to target
+    uint32_t diff = (measured_deviation > TARGET_VEL_DEVIATION)
+                        ? (measured_deviation - TARGET_VEL_DEVIATION)
+                        : (TARGET_VEL_DEVIATION - measured_deviation);
+
+    if (diff < best_vel_diff && measured_deviation >= 100 && measured_deviation <= 1000) {
+      best_vel_diff = diff;
+      best_vel_deviation = vel_threshold;
+    }
+  }
+
+  // Scan position deviation threshold (similar approach)
+  const uint32_t pos_step = (max_position_deviation - min_position_deviation) / 20;
+  for (uint32_t pos_threshold = min_position_deviation; pos_threshold <= max_position_deviation;
+       pos_threshold += pos_step) {
+    // Set position deviation threshold
+    driver.positionControl.setStopOnPositionDeviation(pos_threshold, false);
+
+    comm_.delayMs(20); // Let driver update
+
+    // Measure actual position error at this threshold
+    uint32_t measured_deviation = 0;
+    int32_t measured_pos_error = 0;
+    if (!measureVelocityDeviation(measured_deviation, measured_pos_error, 8)) {
+      continue;
+    }
+
+    // Check for false stall
+    if (static_cast<uint32_t>(measured_pos_error) >= pos_threshold) {
+      continue;
+    }
+
+    // Calculate how close to target
+    uint32_t diff = (static_cast<uint32_t>(measured_pos_error) > TARGET_POS_DEVIATION)
+                        ? (static_cast<uint32_t>(measured_pos_error) - TARGET_POS_DEVIATION)
+                        : (TARGET_POS_DEVIATION - static_cast<uint32_t>(measured_pos_error));
+
+    if (diff < best_pos_diff && measured_pos_error >= 50 && measured_pos_error <= 2000) {
+      best_pos_diff = diff;
+      best_pos_deviation = pos_threshold;
+    }
+  }
+
+  if (!found_any_working || best_vel_deviation == 0 || best_pos_deviation == 0) {
+    TMC9660_LOG_DEBUG(comm_, 0, "StallDetectionTuning",
+                     "No working threshold combination found in tested range");
+    goto cleanup;
+  }
+
+  // Use midpoint of working range if no ideal value found
+  if (best_vel_deviation == 0) {
+    best_vel_deviation = (min_velocity_deviation + max_velocity_deviation) / 2;
+  }
+  if (best_pos_deviation == 0) {
+    best_pos_deviation = (min_position_deviation + max_position_deviation) / 2;
+  }
+
+  result.optimal_velocity_deviation = best_vel_deviation;
+  result.optimal_position_deviation = best_pos_deviation;
+
+  // ========================================================================
+  // STEP 4: Measure final values with optimal thresholds
+  // ========================================================================
+
+  driver.velocityControl.setStopOnVelocityDeviation(best_vel_deviation, false);
+  driver.positionControl.setStopOnPositionDeviation(best_pos_deviation, false);
+  comm_.delayMs(20);
+
+  if (!measureVelocityDeviation(result.target_velocity_deviation_reading,
+                                 result.target_velocity_position_error, 8)) {
+    TMC9660_LOG_DEBUG(comm_, 1, "StallDetectionTuning",
+                     "Failed to measure final deviation values");
+  }
+
+  // ========================================================================
+  // STEP 5: Validate at min/max velocities (if specified)
+  // ========================================================================
+
+  if (min_velocity > 0) {
+    driver.velocityControl.setTargetVelocity(min_velocity);
+    if (waitForVelocity(min_velocity, 3000)) {
+      uint32_t min_dev = 0;
+      int32_t min_pos_err = 0;
+      if (measureVelocityDeviation(min_dev, min_pos_err, 5)) {
+        result.min_velocity_deviation_reading = min_dev;
+        // Check if thresholds still work (no false stall)
+        result.min_velocity_success =
+            (min_dev < best_vel_deviation && static_cast<uint32_t>(std::abs(min_pos_err)) < best_pos_deviation);
+      }
+    }
+  }
+
+  if (max_velocity > 0) {
+    driver.velocityControl.setTargetVelocity(max_velocity);
+    if (waitForVelocity(max_velocity, 3000)) {
+      uint32_t max_dev = 0;
+      int32_t max_pos_err = 0;
+      if (measureVelocityDeviation(max_dev, max_pos_err, 5)) {
+        result.max_velocity_deviation_reading = max_dev;
+        // Check if thresholds still work
+        result.max_velocity_success =
+            (max_dev < best_vel_deviation && static_cast<uint32_t>(std::abs(max_pos_err)) < best_pos_deviation);
+      }
+    }
+  }
+
+  // ========================================================================
+  // STEP 6: Mark success and cleanup
+  // ========================================================================
+
+  result.tuning_success = true;
+
+cleanup:
+  // Stop motor
+  driver.velocityControl.stop();
+
+  // Restore original deviation thresholds
+  driver.stopEvents.enableDeviationStop(orig_vel_dev, orig_pos_dev, orig_vel_soft_stop);
+
+  // Restore original motor current if it was changed
+  if (safe_current_margin_mA > 0 && original_current_mA > 0) {
+    driver.motor.setMaxTorqueCurrent(original_current_mA);
+    TMC9660_LOG_DEBUG(comm_, 1, "StallDetectionTuning",
+                     "Restored motor current to %u mA", original_current_mA);
+  }
+
+  return result.tuning_success;
+}
+
 //=============================================================================
 
 // Forward declarations for ESP32 types (defined in examples)

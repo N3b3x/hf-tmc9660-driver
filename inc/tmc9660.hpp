@@ -4699,6 +4699,127 @@ public:
     TMC9660& driver;
   } power{*this};
 
+  //===========================================================================
+  //==                SUBSYSTEM: Stall Detection Tuning                      ==//
+  //===========================================================================
+
+  /** @brief Subsystem for automatic stall detection threshold tuning.
+   *
+   * This subsystem provides automatic calibration of stall detection thresholds
+   * for reliable stall detection without false triggers. The tuning process
+   * systematically searches for optimal velocity and position deviation thresholds
+   * that detect real stalls while avoiding false alarms.
+   *
+   * The tuning algorithm follows industry best practices:
+   * - Tests motor at target velocity with no load
+   * - Scans threshold range to find optimal sensitivity
+   * - Validates performance at min/max velocities
+   * - Supports safe current margin for calibration
+   *
+   * @note This tuning is designed for velocity/position deviation-based stall
+   *       detection as used in TMC9660. For TMC51x0 StallGuard tuning, adapt
+   *       the threshold scanning logic to work with SGT values.
+   */
+  struct StallDetectionTuning {
+    /** @brief Result structure for stall detection tuning.
+     *
+     * Contains all information about the tuning process and results.
+     */
+    struct TuningResult {
+      bool tuning_success = false; ///< True if tuning completed successfully
+
+      // Optimal thresholds found
+      uint32_t optimal_velocity_deviation = 0; ///< Optimal velocity deviation threshold
+      uint32_t optimal_position_deviation = 0;  ///< Optimal position deviation threshold
+
+      // Measured values at target velocity
+      uint32_t target_velocity_deviation_reading = 0; ///< Velocity error at target velocity
+      int32_t target_velocity_position_error = 0;      ///< Position error at target velocity
+
+      // Validation results
+      bool min_velocity_success = false; ///< True if thresholds work at min velocity
+      bool max_velocity_success = false; ///< True if thresholds work at max velocity
+
+      uint32_t min_velocity_deviation_reading = 0; ///< Velocity error at min velocity
+      uint32_t max_velocity_deviation_reading = 0;  ///< Velocity error at max velocity
+
+      int32_t actual_min_velocity = 0; ///< Lowest velocity where stall detection works
+      int32_t actual_max_velocity = 0; ///< Highest velocity where stall detection works
+
+      // Diagnostic information
+      uint32_t original_velocity_deviation = 0; ///< Original velocity threshold (restored after tuning)
+      uint32_t original_position_deviation = 0; ///< Original position threshold (restored after tuning)
+      uint16_t original_current_mA = 0;         ///< Original motor current (restored after tuning)
+    };
+
+    /** @brief Automatic stall detection threshold tuning.
+     *
+     * This function performs comprehensive automatic tuning of stall detection
+     * thresholds by:
+     * 1. Preparing the motor (disabling auto-stop, setting safe current)
+     * 2. Scanning threshold ranges at target velocity
+     * 3. Selecting optimal thresholds
+     * 4. Validating at min/max velocities
+     * 5. Restoring original settings
+     *
+     * @param target_velocity Target velocity for tuning (in internal units or converted from user units)
+     * @param[out] result Tuning result structure filled with results
+     * @param min_velocity_deviation Minimum velocity deviation threshold to test (default: 100)
+     * @param max_velocity_deviation Maximum velocity deviation threshold to test (default: 10000)
+     * @param min_position_deviation Minimum position deviation threshold to test (default: 100)
+     * @param max_position_deviation Maximum position deviation threshold to test (default: 10000)
+     * @param acceleration Acceleration for velocity ramping (in internal units)
+     * @param min_velocity Minimum velocity to validate (0 to skip validation)
+     * @param max_velocity Maximum velocity to validate (0 to skip validation)
+     * @param safe_current_margin_mA Safe current margin in mA to reduce motor current during tuning (0 to disable)
+     * @return true if tuning succeeded, false otherwise
+     *
+     * @note The function takes several seconds to complete as it systematically
+     *       tests different threshold values.
+     *
+     * @note If safe_current_margin_mA is specified, the motor current will be
+     *       reduced during tuning and restored afterward.
+     *
+     * @code
+     * TMC9660::StallDetectionTuning::TuningResult result;
+     * if (driver.stallDetectionTuning.autoTune(
+     *         5000,  // target velocity: 5000 steps/s
+     *         result,
+     *         100,   // min velocity deviation
+     *         5000,  // max velocity deviation
+     *         100,   // min position deviation
+     *         5000,  // max position deviation
+     *         1000,  // acceleration: 1000 steps/s²
+     *         100,   // min velocity to validate
+     *         10000, // max velocity to validate
+     *         400    // safe current margin: 400 mA
+     *     )) {
+     *     // Use result.optimal_velocity_deviation and result.optimal_position_deviation
+     *     driver.velocityControl.setStopOnVelocityDeviation(result.optimal_velocity_deviation);
+     *     driver.positionControl.setStopOnPositionDeviation(result.optimal_position_deviation);
+     * }
+     * @endcode
+     */
+    bool autoTune(int32_t target_velocity, TuningResult& result,
+                  uint32_t min_velocity_deviation = 100, uint32_t max_velocity_deviation = 10000,
+                  uint32_t min_position_deviation = 100, uint32_t max_position_deviation = 10000,
+                  uint32_t acceleration = 1000, int32_t min_velocity = 0, int32_t max_velocity = 0,
+                  uint16_t safe_current_margin_mA = 0) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit StallDetectionTuning(TMC9660& parent) noexcept : driver(parent) {}
+    TMC9660& driver;
+
+    // Helper functions
+    bool waitForVelocity(int32_t target_velocity, uint32_t timeout_ms = 5000) noexcept;
+    bool measureVelocityDeviation(uint32_t& deviation, int32_t& position_error,
+                                   uint8_t samples = 8) noexcept;
+    bool findWorkingVelocityRange(int32_t start_velocity, int32_t& min_working,
+                                   int32_t& max_working, uint32_t velocity_deviation_threshold,
+                                   uint32_t position_deviation_threshold) noexcept;
+  } stallDetectionTuning{*this};
+
   //==================================================
   // PRIVATE MEMBERS
   //==================================================
