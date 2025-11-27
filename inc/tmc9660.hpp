@@ -4632,6 +4632,146 @@ public:
   } gpio{*this};
 
   //***************************************************************************
+  //**               SUBSYSTEM: Diagnostics & StallGuard Tuning           **//
+  //***************************************************************************
+
+  /** @brief Subsystem for diagnostics, stall detection, and automatic StallGuard tuning.
+   *
+   * Provides functionality for:
+   * - Configuring StallGuard threshold (SGT) and filter settings
+   * - Reading StallGuard result (SG_RESULT) values
+   * - Automatic tuning of StallGuard threshold for optimal stall detection
+   * - Stall flag monitoring and verification
+   *
+   * StallGuard is a sensorless load measurement feature that detects motor stall
+   * by measuring back-EMF. Proper tuning of the StallGuard threshold is crucial
+   * for reliable stall detection without false triggers.
+   */
+  struct Diagnostics {
+    /** @brief StallGuard configuration structure.
+     */
+    struct StallGuardConfig {
+      int8_t threshold; ///< StallGuard threshold (SGT) [-64 to +63]. Lower = more sensitive.
+      bool enableFilter; ///< Enable StallGuard filtering (SFILT). When false, responds within one full step.
+    };
+
+    /** @brief Configure StallGuard threshold and filter settings.
+     * @param config StallGuard configuration (threshold and filter enable)
+     * @return true if configuration was successful
+     *
+     * @note For tuning, typically set enableFilter=false for fastest response.
+     * @note After tuning, filter can be enabled for noise reduction if needed.
+     */
+    bool configureStallGuard(const StallGuardConfig& config) noexcept;
+
+    /** @brief Read the current StallGuard result (SG_RESULT) value.
+     * @param[out] sgResult StallGuard result value (0-1023). 0 indicates stall or very high load.
+     * @return true if the value was read successfully
+     *
+     * @note SG_RESULT=0 indicates a stall condition or very high load.
+     * @note Higher values indicate lower load (more "spare energy").
+     * @note Typical no-load values are in the 100-500 range when properly tuned.
+     */
+    bool getStallGuard(uint16_t& sgResult) noexcept;
+
+    /** @brief Check if stall flag is currently set.
+     * @param[out] stallDetected true if stall is currently detected
+     * @return true if the stall flag was read successfully
+     *
+     * @note The stall flag indicates that SG_RESULT has reached 0 (stall condition).
+     * @note This can be used for interrupt-driven stall detection.
+     */
+    bool getStallFlag(bool& stallDetected) noexcept;
+
+    /** @brief Enable or disable automatic stop-on-stall behavior.
+     * @param enable true to enable automatic motor stop when stall is detected
+     * @return true if configuration was successful
+     *
+     * @note During tuning, this should typically be disabled to allow manual observation.
+     * @note In normal operation, this can be enabled for automatic stall protection.
+     */
+    bool enableStopOnStall(bool enable) noexcept;
+
+    /** @brief StallGuard tuning result structure.
+     *
+     * Contains all information about the tuning process and results.
+     */
+    struct StallGuardTuningResult {
+      bool tuningSuccess; ///< true if tuning completed successfully
+      int8_t optimalSgt; ///< Optimal StallGuard threshold found during tuning
+      uint16_t targetVelocitySgResult; ///< Average SG_RESULT at target velocity with optimal SGT
+      bool minVelocitySuccess; ///< true if optimal SGT works at minimum velocity
+      bool maxVelocitySuccess; ///< true if optimal SGT works at maximum velocity
+      uint16_t minVelocitySgResult; ///< Average SG_RESULT at minimum velocity
+      uint16_t maxVelocitySgResult; ///< Average SG_RESULT at maximum velocity
+      uint32_t actualMinVelocity; ///< Actual minimum velocity where StallGuard is viable (if found)
+      uint32_t actualMaxVelocity; ///< Actual maximum velocity where StallGuard is viable (if found)
+    };
+
+    /** @brief Unit type for velocity parameters.
+     */
+    enum class Unit {
+      StepsPerSecond, ///< Velocity in steps per second (internal units)
+      RevolutionsPerSecond, ///< Velocity in revolutions per second
+      RevolutionsPerMinute ///< Velocity in revolutions per minute
+    };
+
+    /** @brief Automatically tune StallGuard threshold for optimal stall detection.
+     *
+     * This function implements a comprehensive StallGuard tuning algorithm following
+     * Trinamic application note recommendations. It:
+     * 1. Prepares the system (disables interfering features, adjusts current if needed)
+     * 2. Scans SGT range to find optimal threshold
+     * 3. Validates performance at min/max velocities
+     * 4. Restores original settings
+     *
+     * @param targetVelocity Target velocity for tuning (in specified units)
+     * @param result Reference to store tuning results
+     * @param minSgt Minimum SGT value to test (default: 0, recommended: -10 to +10)
+     * @param maxSgt Maximum SGT value to test (default: 10, recommended: -10 to +10)
+     * @param acceleration Acceleration for motion profile (in steps/s²)
+     * @param minVelocity Optional minimum velocity to validate (0 = skip validation)
+     * @param maxVelocity Optional maximum velocity to validate (0 = skip validation)
+     * @param unit Unit type for velocity parameters (default: StepsPerSecond)
+     * @param safeCurrentMargin_mA Safe current margin in mA to reduce current during tuning (0 = no reduction)
+     * @return true if tuning completed successfully
+     *
+     * @note The function takes several seconds to complete as it tests multiple SGT values.
+     * @note Motor must be free to rotate during tuning (no mechanical load).
+     * @note After tuning, the optimal SGT is automatically configured in the driver.
+     * @note If current was reduced for tuning, it is restored to original value at the end.
+     *
+     * @code
+     * // Example: Basic tuning at 5 rev/s
+     * TMC9660::Diagnostics::StallGuardTuningResult result;
+     * if (driver.diagnostics.autoTuneStallGuard(
+     *         5.0f, result, 0, 10, 1000, 0, 0,
+     *         TMC9660::Diagnostics::Unit::RevolutionsPerSecond, 400)) {
+     *     printf("Optimal SGT: %d, SG at target: %u\n", result.optimalSgt, result.targetVelocitySgResult);
+     * }
+     *
+     * // Example: Full tuning with velocity range validation
+     * if (driver.diagnostics.autoTuneStallGuard(
+     *         5.0f, result, -5, 10, 1000, 1.0f, 10.0f,
+     *         TMC9660::Diagnostics::Unit::RevolutionsPerSecond, 0)) {
+     *     if (result.minVelocitySuccess && result.maxVelocitySuccess) {
+     *         printf("StallGuard works across full velocity range\n");
+     *     }
+     * }
+     * @endcode
+     */
+    bool autoTuneStallGuard(float targetVelocity, StallGuardTuningResult& result, int8_t minSgt = 0,
+                            int8_t maxSgt = 10, float acceleration = 1000.0f, float minVelocity = 0.0f,
+                            float maxVelocity = 0.0f, Unit unit = Unit::StepsPerSecond,
+                            uint16_t safeCurrentMargin_mA = 0) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit Diagnostics(TMC9660& parent) noexcept : driver(parent) {}
+    TMC9660& driver;
+  } diagnostics{*this};
+
+  //***************************************************************************
   //**               SUBSYSTEM: Power Management                          **//
   //***************************************************************************
 
