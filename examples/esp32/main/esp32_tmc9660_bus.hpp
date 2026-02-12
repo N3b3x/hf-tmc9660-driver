@@ -863,7 +863,7 @@ struct Esp32Tmc9660BusConfig {
  * @param config Bus configuration
  * @return Unique pointer to SPI interface, or nullptr on failure
  */
-inline std::unique_ptr<Esp32Tmc9660SpiBus> createSPIInterface(
+inline std::unique_ptr<Esp32Tmc9660SpiBus> CreateEsp32Tmc9660SpiBus(
     const Esp32Tmc9660BusConfig& config = Esp32Tmc9660BusConfig{}) noexcept {
     
     auto interface = std::make_unique<Esp32Tmc9660SpiBus>(
@@ -893,7 +893,7 @@ inline std::unique_ptr<Esp32Tmc9660SpiBus> createSPIInterface(
  * @param config Bus configuration
  * @return Unique pointer to UART interface, or nullptr on failure
  */
-inline std::unique_ptr<Esp32Tmc9660UartBus> createUARTInterface(
+inline std::unique_ptr<Esp32Tmc9660UartBus> CreateEsp32Tmc9660UartBus(
     const Esp32Tmc9660BusConfig& config = Esp32Tmc9660BusConfig{}) noexcept {
     
     auto interface = std::make_unique<Esp32Tmc9660UartBus>(
