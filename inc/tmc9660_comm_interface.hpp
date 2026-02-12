@@ -1,36 +1,6 @@
 /**
  * @file tmc9660_comm_interface.hpp
  * @brief Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI
- * and UART.
- *
- * This file provides comprehensive communication interfaces for the TMC9660 motor driver,
- * supporting both SPI and UART protocols with TMCL command/reply structures. It includes
- * GPIO control interfaces and board-agnostic pin management for different hardware implementations.
- *
- * ## Compile-Time Configuration
- *
- * **TMC9660_DISABLE_DEBUG_LOGGING**: Define this macro to completely disable all debug
- * logging throughout the TMC9660 library (including TX/RX hex dumps, bootloader logs,
- * and initialization messages). This removes all logging code from the binary at compile
- * time, saving code size and improving performance. When disabled, all TMC9660_LOG_DEBUG
- * macro calls are optimized out completely, including argument evaluation.
- *
- * Example usage:
- * ```cpp
- * // In your build system or before including this header:
- * #define TMC9660_DISABLE_DEBUG_LOGGING
- * #include "TMC9660CommInterface.hpp"
- * ```
- *
- * Or via compiler flags:
- * ```bash
- * -DTMC9660_DISABLE_DEBUG_LOGGING
- * ```
- *
- * Or in CMake:
- * ```cmake
- * target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_DEBUG_LOGGING)
- * ```
  *
  * @defgroup TMC9660_CommInterface Communication Interfaces
  * @brief Core communication interface classes and protocols
@@ -97,10 +67,10 @@
  *   - Indicates busy state during bootstrapping or severe error
  *   - Active level depends on board implementation (configure via set_pin_active_level)
  *   - Use gpioRead(TMC9660CtrlPin::FAULTN, signal) to check fault status
+ * 
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_COMM_INTERFACE_HPP
-#define TMC9660_COMM_INTERFACE_HPP
+#pragma once
 #include <array>
 #include <cstdarg>
 #include <cstdint>
@@ -1204,5 +1174,3 @@ protected:
 };
 
 } // namespace tmc9660
-
-#endif // TMC9660_COMM_INTERFACE_HPP

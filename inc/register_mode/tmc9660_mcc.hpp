@@ -1,24 +1,10 @@
-#ifndef TMC9660_TMC9660_MCC_HPP
-#define TMC9660_TMC9660_MCC_HPP
+#pragma once
 #include <cstdint>
-
 /**
  * @file tmc9660_mcc.hpp
  * @brief TMC9660 Motor Control Core (MCC) Register Definitions
- *
- * This file contains register definitions for the Motor Control Core of the TMC9660,
- * including motor control configurations, feedback systems, and status monitoring.
- *
- * Key Features:
- * - Motor type configuration and pole pair settings
- * - Position, velocity and current control loops
- * - ADC measurements for current and voltage sensing
- * - PWM generation and control
- * - Protection and fault handling
- *
- * @note All registers are 32-bit wide and use little-endian byte ordering
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
 namespace tmc9660 {
 namespace register_mode {
 namespace MCC {
@@ -4422,5 +4408,3 @@ struct MOTION_CONFIG {
 } // namespace MCC
 } // namespace register_mode
 } // namespace tmc9660
-
-#endif // TMC9660_TMC9660_MCC_HPP

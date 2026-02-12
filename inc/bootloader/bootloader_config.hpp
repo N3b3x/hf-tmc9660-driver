@@ -1,19 +1,9 @@
 /**
  * @file bootloader_config.hpp
- * @brief TMC9660 bootloader configuration structures and enumerations.
- *
- * This file contains all configuration-related structures, enumerations, and
- * constants needed to configure the TMC9660 bootloader. These define hardware
- * pin assignments, communication parameters, power supply settings, and system
- * behavior options.
- *
- * @defgroup TMC9660_BootloaderConfig Configuration Structures
- * @brief Bootloader configuration data structures and enums
+ * @brief TMC9660 bootloader configuration structures and enumerations
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_BOOTLOADER_CONFIG_HPP
-#define TMC9660_BOOTLOADER_CONFIG_HPP
-
+#pragma once
 #include <cstdint>
 
 namespace tmc9660 {
@@ -1027,4 +1017,3 @@ struct BootloaderConfig {
 };
 
 } // namespace tmc9660
-#endif // TMC9660_BOOTLOADER_CONFIG_HPP

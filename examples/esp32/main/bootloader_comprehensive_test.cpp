@@ -56,9 +56,9 @@ bool test_bootloader_multi_device() noexcept;
 bool test_bootloader_edge_cases() noexcept;
 
 // Helper functions
-std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>> create_test_driver() noexcept;
+std::unique_ptr<TMC9660<Esp32Tmc9660SpiBus>> create_test_driver() noexcept;
 bool test_bootloader_config(const BootloaderConfig& config, const char* test_name) noexcept;
-void log_bootloader_result(typename TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult result, const char* context) noexcept;
+void log_bootloader_result(typename TMC9660<Esp32Tmc9660SpiBus>::BootloaderInitResult result, const char* context) noexcept;
 
 // Bootloader reset sequence function
 template<typename InterfaceType>
@@ -380,7 +380,7 @@ bool test_bootloader_multi_device() noexcept {
         return false;
     }
 
-    auto uart_driver = std::make_unique<TMC9660<Esp32UARTTMC9660CommInterface>>(*createUARTInterface());
+    auto uart_driver = std::make_unique<TMC9660<Esp32Tmc9660UartBus>>(*createUARTInterface());
     if (!uart_driver) {
         ESP_LOGW(TAG, "Failed to create UART driver, testing SPI only");
         ESP_LOGI(TAG, "[SUCCESS] Multi-device bootloader tests passed (SPI only)");
@@ -466,14 +466,14 @@ bool test_bootloader_edge_cases() noexcept {
 }
 
 // Helper function implementations
-std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>> create_test_driver() noexcept {
+std::unique_ptr<TMC9660<Esp32Tmc9660SpiBus>> create_test_driver() noexcept {
     auto spi_interface = createSPIInterface();
     if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
         return nullptr;
     }
 
-    return std::make_unique<TMC9660<Esp32SPITMC9660CommInterface>>(*spi_interface);
+    return std::make_unique<TMC9660<Esp32Tmc9660SpiBus>>(*spi_interface);
 }
 
 // Bootloader reset sequence implementation
@@ -533,7 +533,7 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
     // Step 4: Call bootloader unit function (bootloader initialization)
     ESP_LOGI(TAG, "Calling bootloader unit function...");
     auto result = driver.bootloaderInit(&cfg);
-    if (result != TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult::Success) {
+    if (result != TMC9660<Esp32Tmc9660SpiBus>::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Bootloader initialization failed");
         return false;
     }
@@ -551,7 +551,7 @@ bool test_bootloader_config(const BootloaderConfig& config, const char* test_nam
     }
 
     // Create TMC9660 driver with the interface
-    auto driver = std::make_unique<TMC9660<Esp32SPITMC9660CommInterface>>(*spi_interface);
+    auto driver = std::make_unique<TMC9660<Esp32Tmc9660SpiBus>>(*spi_interface);
     if (!driver) {
         ESP_LOGE(TAG, "Failed to create test driver for %s", test_name);
         return false;
@@ -567,9 +567,9 @@ bool test_bootloader_config(const BootloaderConfig& config, const char* test_nam
     return true;
 }
 
-void log_bootloader_result(typename TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult result, const char* context) noexcept {
+void log_bootloader_result(typename TMC9660<Esp32Tmc9660SpiBus>::BootloaderInitResult result, const char* context) noexcept {
     const char* result_str = "Unknown";
-    using BootloaderInitResult = TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult;
+    using BootloaderInitResult = TMC9660<Esp32Tmc9660SpiBus>::BootloaderInitResult;
     switch (result) {
         case BootloaderInitResult::Success:
             result_str = "Success";

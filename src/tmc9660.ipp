@@ -1,3 +1,8 @@
+/**
+ * @file tmc9660.ipp
+ * @brief Template implementation of TMC9660 motor driver methods
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
+ */
 #ifndef TMC9660_IMPL
 #define TMC9660_IMPL
 

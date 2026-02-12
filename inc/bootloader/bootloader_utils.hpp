@@ -1,18 +1,9 @@
 /**
  * @file bootloader_utils.hpp
- * @brief TMC9660 bootloader utility functions and helpers.
- *
- * This file contains utility functions and helper routines used by the
- * TMC9660 bootloader protocol implementation. These include CRC calculation
- * functions, bit manipulation utilities, and other support functions.
- *
- * @defgroup TMC9660_BootloaderUtils Utility Functions
- * @brief Helper functions for bootloader operations
+ * @brief TMC9660 bootloader utility functions and helpers
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_BOOTLOADER_UTILS_HPP
-#define TMC9660_BOOTLOADER_UTILS_HPP
-
+#pragma once
 #include <array>
 #include <cstddef>
 #include <cstdint>
@@ -89,4 +80,3 @@ static constexpr uint8_t crc8Bootloader(const uint8_t* data, size_t len) noexcep
 }
 
 } // namespace tmc9660
-#endif // TMC9660_BOOTLOADER_UTILS_HPP

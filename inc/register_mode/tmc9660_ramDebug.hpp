@@ -1,24 +1,9 @@
 /**
- * @file tmc9660_ramdebug.hpp
- * @brief RAMDebug register definitions and utilities for TMC9660.
- *
- * The RAMDebug block uses a composite register offset where the upper 4 bits
- * encode the subcommand and the lower 6 bits encode the index. All offsets
- * are within block number 31 for SPI (command 142 for UART).
- *
- * @defgroup TMC9660_RAMDebug RAMDebug System
- * @brief Real-time data capture and debugging capabilities
- *
- * @defgroup TMC9660_RAMDebugCommands RAMDebug Commands
- * @brief Subcommands and operations for RAMDebug system
- *
- * @defgroup TMC9660_RAMDebugTypes RAMDebug Type Definitions
- * @brief Enums and structures for RAMDebug operations
+ * @file tmc9660_ramDebug.hpp
+ * @brief RAMDebug register definitions and utilities for TMC9660
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_RAMDEBUG_HPP
-#define TMC9660_RAMDEBUG_HPP
-
+#pragma once
 #include <cstdint>
 
 /**
@@ -159,5 +144,3 @@ static inline uint16_t ramDebugOffset(RamDebugSub sub, uint8_t index = 0) {
 } // namespace RAMDebug
 } // namespace register_mode
 } // namespace tmc9660
-
-#endif // TMC9660_RAMDEBUG_HPP

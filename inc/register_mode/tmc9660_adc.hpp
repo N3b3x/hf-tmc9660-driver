@@ -1,23 +1,9 @@
 /**
  * @file tmc9660_adc.hpp
- * @brief TMC9660 ADC and analog measurement registers (Register Mode).
- *
- * Contains definitions for ADC readings (phase currents, voltages, temperature) and ADC/CSA
- * configuration registers. This module provides comprehensive analog measurement capabilities
- * for motor control feedback and system monitoring.
- *
- * @defgroup TMC9660_ADC ADC and Analog Measurement
- * @brief ADC configuration and analog measurement registers
- *
- * @defgroup TMC9660_CSA Current Sense Amplifiers
- * @brief Current sense amplifier configuration and control
- *
- * @defgroup TMC9660_ADCStatus ADC Status and Monitoring
- * @brief ADC status flags and system health monitoring
+ * @brief TMC9660 ADC and analog measurement registers (Register Mode)
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_TMC9660_ADC_HPP
-#define TMC9660_TMC9660_ADC_HPP
+#pragma once
 #include <cstdint>
 
 /**
@@ -329,5 +315,3 @@ struct CSA_SETUP {
 } // namespace ADC
 } // namespace register_mode
 } // namespace tmc9660
-
-#endif // TMC9660_TMC9660_ADC_HPP

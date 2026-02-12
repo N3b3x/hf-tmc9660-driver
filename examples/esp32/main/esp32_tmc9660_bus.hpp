@@ -37,7 +37,7 @@ static const char* BUS_TAG = "TMC9660_Bus";
  * This class provides SPI communication for the TMC9660 using ESP-IDF SPI driver.
  * It handles the 8-byte SPI transfers required by the TMC9660 parameter mode.
  */
-class Esp32SPITMC9660CommInterface : public SpiCommInterface<Esp32SPITMC9660CommInterface> {
+class Esp32Tmc9660SpiBus : public SpiCommInterface<Esp32Tmc9660SpiBus> {
 public:
     /**
      * @brief Construct ESP32 SPI communication interface
@@ -53,7 +53,7 @@ public:
      * @param clock_speed_hz SPI clock speed in Hz
      * @param mode SPI mode (0-3)
      */
-    Esp32SPITMC9660CommInterface(spi_host_device_t host, 
+    Esp32Tmc9660SpiBus(spi_host_device_t host, 
                                  gpio_num_t mosi_pin, 
                                  gpio_num_t miso_pin,
                                  gpio_num_t sclk_pin, 
@@ -64,7 +64,7 @@ public:
                                  gpio_num_t wake_pin,
                                  uint32_t clock_speed_hz = 10000000,
                                  uint8_t mode = 0) noexcept
-        : SpiCommInterface<Esp32SPITMC9660CommInterface>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : SpiCommInterface<Esp32Tmc9660SpiBus>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           host_(host), mosi_pin_(mosi_pin), miso_pin_(miso_pin), 
           sclk_pin_(sclk_pin), cs_pin_(cs_pin), rst_pin_(rst_pin),
           drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
@@ -75,7 +75,7 @@ public:
     /**
      * @brief Destructor - cleans up SPI resources
      */
-    ~Esp32SPITMC9660CommInterface() noexcept {
+    ~Esp32Tmc9660SpiBus() noexcept {
         deinitialize();
     }
 
@@ -390,7 +390,7 @@ private:
  * This class provides UART communication for the TMC9660 using ESP-IDF UART driver.
  * It handles the TMCL protocol over UART as specified in the TMC9660 documentation.
  */
-class Esp32UARTTMC9660CommInterface : public UartCommInterface<Esp32UARTTMC9660CommInterface> {
+class Esp32Tmc9660UartBus : public UartCommInterface<Esp32Tmc9660UartBus> {
 public:
     /**
      * @brief Construct ESP32 UART communication interface
@@ -404,7 +404,7 @@ public:
      * @param baud_rate UART baud rate
      * @param address TMC9660 module address
      */
-    Esp32UARTTMC9660CommInterface(uart_port_t uart_num,
+    Esp32Tmc9660UartBus(uart_port_t uart_num,
                                   gpio_num_t tx_pin,
                                   gpio_num_t rx_pin,
                                   gpio_num_t rst_pin,
@@ -413,7 +413,7 @@ public:
                                   gpio_num_t wake_pin,
                                   uint32_t baud_rate = 115200,
                                   uint8_t address = 0) noexcept
-        : UartCommInterface<Esp32UARTTMC9660CommInterface>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
+        : UartCommInterface<Esp32Tmc9660UartBus>(true, true, false, false), // RST: HIGH, DRV_EN: HIGH, WAKE: LOW, FAULTN: LOW
           uart_num_(uart_num), tx_pin_(tx_pin), rx_pin_(rx_pin), 
           rst_pin_(rst_pin), drv_en_pin_(drv_en_pin), faultn_pin_(faultn_pin), wake_pin_(wake_pin),
           baud_rate_(baud_rate), address_(address), initialized_(false) {
@@ -422,7 +422,7 @@ public:
     /**
      * @brief Destructor - cleans up UART resources
      */
-    ~Esp32UARTTMC9660CommInterface() noexcept {
+    ~Esp32Tmc9660UartBus() noexcept {
         deinitialize();
     }
 
@@ -828,7 +828,7 @@ private:
  * This structure contains the standard pin assignments and configuration
  * used across all comprehensive test applications.
  */
-struct Esp32TMC9660BusConfig {
+struct Esp32Tmc9660BusConfig {
     // SPI Configuration
     struct {
         spi_host_device_t host = SPI2_HOST;
@@ -863,10 +863,10 @@ struct Esp32TMC9660BusConfig {
  * @param config Bus configuration
  * @return Unique pointer to SPI interface, or nullptr on failure
  */
-inline std::unique_ptr<Esp32SPITMC9660CommInterface> createSPIInterface(
-    const Esp32TMC9660BusConfig& config = Esp32TMC9660BusConfig{}) noexcept {
+inline std::unique_ptr<Esp32Tmc9660SpiBus> createSPIInterface(
+    const Esp32Tmc9660BusConfig& config = Esp32Tmc9660BusConfig{}) noexcept {
     
-    auto interface = std::make_unique<Esp32SPITMC9660CommInterface>(
+    auto interface = std::make_unique<Esp32Tmc9660SpiBus>(
         config.spi.host,
         config.spi.mosi_pin,
         config.spi.miso_pin,
@@ -893,10 +893,10 @@ inline std::unique_ptr<Esp32SPITMC9660CommInterface> createSPIInterface(
  * @param config Bus configuration
  * @return Unique pointer to UART interface, or nullptr on failure
  */
-inline std::unique_ptr<Esp32UARTTMC9660CommInterface> createUARTInterface(
-    const Esp32TMC9660BusConfig& config = Esp32TMC9660BusConfig{}) noexcept {
+inline std::unique_ptr<Esp32Tmc9660UartBus> createUARTInterface(
+    const Esp32Tmc9660BusConfig& config = Esp32Tmc9660BusConfig{}) noexcept {
     
-    auto interface = std::make_unique<Esp32UARTTMC9660CommInterface>(
+    auto interface = std::make_unique<Esp32Tmc9660UartBus>(
         config.uart.uart_num,
         config.uart.tx_pin,
         config.uart.rx_pin,

@@ -1,15 +1,9 @@
 /**
  * @file tmc9660_bootloader.hpp
  * @brief Main TMC9660 bootloader interface class
- * @ingroup TMC9660_Bootloader
- *
- * @copyright Copyright (c) 2024
- * @license MIT License
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_BOOTLOADER_HPP
-#define TMC9660_BOOTLOADER_HPP
-
+#pragma once
 #include "bootloader_config.hpp"
 #include "bootloader_protocol.hpp"
 #include "../tmc9660_comm_interface.hpp"
@@ -836,5 +830,3 @@ private:
 #define TMC9660_BOOTLOADER_HEADER_INCLUDED
 #include "../../src/bootloader/tmc9660_bootloader.cpp"
 #undef TMC9660_BOOTLOADER_HEADER_INCLUDED
-
-#endif // TMC9660_BOOTLOADER_HPP

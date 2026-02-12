@@ -77,27 +77,27 @@ static constexpr uint16_t TEST_POSITION_TARGET = 500;    // internal units
 // Helper functions
 struct TestDriverHandle {
     std::variant<
-        std::unique_ptr<Esp32SPITMC9660CommInterface>,
-        std::unique_ptr<Esp32UARTTMC9660CommInterface>
+        std::unique_ptr<Esp32Tmc9660SpiBus>,
+        std::unique_ptr<Esp32Tmc9660UartBus>
     > interface;
     std::variant<
-        std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>,
-        std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>
+        std::unique_ptr<TMC9660<Esp32Tmc9660SpiBus>>,
+        std::unique_ptr<TMC9660<Esp32Tmc9660UartBus>>
     > driver;
 };
 std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart = false, bool use_flash = false) noexcept;
 
 // Helper to get SPI driver
-inline TMC9660<Esp32SPITMC9660CommInterface>* get_spi_driver(TestDriverHandle& handle) {
-    if (auto* spi_driver = std::get_if<std::unique_ptr<TMC9660<Esp32SPITMC9660CommInterface>>>(&handle.driver)) {
+inline TMC9660<Esp32Tmc9660SpiBus>* get_spi_driver(TestDriverHandle& handle) {
+    if (auto* spi_driver = std::get_if<std::unique_ptr<TMC9660<Esp32Tmc9660SpiBus>>>(&handle.driver)) {
         return spi_driver->get();
     }
     return nullptr;
 }
 
 // Helper to get UART driver
-inline TMC9660<Esp32UARTTMC9660CommInterface>* get_uart_driver(TestDriverHandle& handle) {
-    if (auto* uart_driver = std::get_if<std::unique_ptr<TMC9660<Esp32UARTTMC9660CommInterface>>>(&handle.driver)) {
+inline TMC9660<Esp32Tmc9660UartBus>* get_uart_driver(TestDriverHandle& handle) {
+    if (auto* uart_driver = std::get_if<std::unique_ptr<TMC9660<Esp32Tmc9660UartBus>>>(&handle.driver)) {
         return uart_driver->get();
     }
     return nullptr;
@@ -105,11 +105,11 @@ inline TMC9660<Esp32UARTTMC9660CommInterface>* get_uart_driver(TestDriverHandle&
 
 // Helper to get driver (tries SPI first, then UART)
 // Returns nullptr if neither is available
-template<typename DriverType = TMC9660<Esp32SPITMC9660CommInterface>>
+template<typename DriverType = TMC9660<Esp32Tmc9660SpiBus>>
 DriverType* get_driver(TestDriverHandle& handle) {
-    if constexpr (std::is_same_v<DriverType, TMC9660<Esp32SPITMC9660CommInterface>>) {
+    if constexpr (std::is_same_v<DriverType, TMC9660<Esp32Tmc9660SpiBus>>) {
         return get_spi_driver(handle);
-    } else if constexpr (std::is_same_v<DriverType, TMC9660<Esp32UARTTMC9660CommInterface>>) {
+    } else if constexpr (std::is_same_v<DriverType, TMC9660<Esp32Tmc9660UartBus>>) {
         return get_uart_driver(handle);
     }
     return nullptr;
@@ -118,8 +118,8 @@ DriverType* get_driver(TestDriverHandle& handle) {
 // Note: get_spi_driver removed - use get_spi_driver() or get_uart_driver() explicitly
 // Most tests use SPI, so use get_spi_driver() unless explicitly testing UART
 
-void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept;
-void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept;
+void log_telemetry_data(TMC9660<Esp32Tmc9660SpiBus>& driver, const char* context) noexcept;
+void log_telemetry_data(TMC9660<Esp32Tmc9660UartBus>& driver, const char* context) noexcept;
 
 // Forward declarations
 // Bootloader initialization and basic functionality tests
@@ -1635,7 +1635,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     // Create the appropriate communication interface
     if (use_uart) {
         // Configure UART interface to match bootloader settings
-        Esp32TMC9660BusConfig uart_config{};
+        Esp32Tmc9660BusConfig uart_config{};
         uart_config.uart.baud_rate = 115200;  // Match bootloader BR115200 setting
         uart_config.uart.address = 1;         // Match bootloader device_address = 1
         uart_config.uart.tx_pin = GPIO_NUM_5;
@@ -1650,8 +1650,8 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         ESP_LOGI(TAG, "Created UART interface (115200 baud, address 1)");
         
         // Create TMC9660 driver with UART interface
-        auto* uart_iface = std::get<std::unique_ptr<Esp32UARTTMC9660CommInterface>>(handle->interface).get();
-        handle->driver = std::make_unique<TMC9660<Esp32UARTTMC9660CommInterface>>(*uart_iface, 1);
+        auto* uart_iface = std::get<std::unique_ptr<Esp32Tmc9660UartBus>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32Tmc9660UartBus>>(*uart_iface, 1);
     } else {
         auto spi_interface = createSPIInterface();
         if (!spi_interface) {
@@ -1662,8 +1662,8 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         ESP_LOGI(TAG, "Created SPI interface");
         
         // Create TMC9660 driver with SPI interface
-        auto* spi_iface = std::get<std::unique_ptr<Esp32SPITMC9660CommInterface>>(handle->interface).get();
-        handle->driver = std::make_unique<TMC9660<Esp32SPITMC9660CommInterface>>(*spi_iface, 1);
+        auto* spi_iface = std::get<std::unique_ptr<Esp32Tmc9660SpiBus>>(handle->interface).get();
+        handle->driver = std::make_unique<TMC9660<Esp32Tmc9660SpiBus>>(*spi_iface, 1);
     }
     
     // ============================================================================
@@ -2060,7 +2060,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     }
     
     auto init_result = spi_driver->bootloaderInit(&cfg, true, true, false);  // performReset=true, retrieveBootloaderInfo=true
-    if (init_result != TMC9660<Esp32SPITMC9660CommInterface>::BootloaderInitResult::Success) {
+    if (init_result != TMC9660<Esp32Tmc9660SpiBus>::BootloaderInitResult::Success) {
         ESP_LOGE(TAG, "Complete initialization failed: %d", static_cast<int>(init_result));
         return nullptr;
     }
@@ -2069,7 +2069,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
     return handle;
 }
 
-void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const char* context) noexcept {
+void log_telemetry_data(TMC9660<Esp32Tmc9660SpiBus>& driver, const char* context) noexcept {
     float temp = driver.telemetry.getChipTemperature();
     int16_t current = driver.telemetry.getMotorCurrent();
     float voltage = driver.telemetry.getSupplyVoltage();
@@ -2078,7 +2078,7 @@ void log_telemetry_data(TMC9660<Esp32SPITMC9660CommInterface>& driver, const cha
              context, temp, current, voltage);
 }
 
-void log_telemetry_data(TMC9660<Esp32UARTTMC9660CommInterface>& driver, const char* context) noexcept {
+void log_telemetry_data(TMC9660<Esp32Tmc9660UartBus>& driver, const char* context) noexcept {
     float temp = driver.telemetry.getChipTemperature();
     int16_t current = driver.telemetry.getMotorCurrent();
     float voltage = driver.telemetry.getSupplyVoltage();

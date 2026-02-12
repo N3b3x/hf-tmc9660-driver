@@ -1,3 +1,8 @@
+/**
+ * @file tmc9660_bootloader.cpp
+ * @brief Tmc9660 Bootloader definitions
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
+ */
 #ifndef TMC9660_BOOTLOADER_IMPL
 #define TMC9660_BOOTLOADER_IMPL
 

@@ -1,14 +1,10 @@
-#ifndef TMC9660_TMC9660_SYS_CTRL_HPP
-#define TMC9660_TMC9660_SYS_CTRL_HPP
+#pragma once
 #include <cstdint>
-
 /**
  * @file tmc9660_sys_ctrl.hpp
- * @brief TMC9660 System Control and Status registers (Register Mode).
- *
- * Contains definitions for system-level registers such as Chip ID and fault status.
+ * @brief TMC9660 System Control and Status registers (Register Mode)
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
 namespace tmc9660 {
 namespace register_mode {
 namespace SYS_CTRL {
@@ -170,5 +166,3 @@ struct FAULT_INT_ENABLE {
 } // namespace SYS_CTRL
 } // namespace register_mode
 } // namespace tmc9660
-
-#endif // TMC9660_TMC9660_SYS_CTRL_HPP

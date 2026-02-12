@@ -1,10 +1,7 @@
 /**
  * @file tmc9660.hpp
- * @brief Main TMC9660 motor driver interface and subsystem classes.
- *
- * This file contains the primary TMC9660 class and all its subsystem interfaces
- * for comprehensive motor control functionality including bootloader management,
- * motor configuration, sensor integration, telemetry, and GPIO control.
+ * @brief Main TMC9660 motor driver interface and subsystem classes
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  *
  * @defgroup TMC9660_Core Core TMC9660 Driver
  * @brief Main TMC9660 driver class and core functionality
@@ -18,10 +15,7 @@
  * @defgroup TMC9660_Utilities Utility Functions
  * @brief Helper functions and utilities for TMC9660 operations
  */
-
-#ifndef TMC9660_HPP
-#define TMC9660_HPP
-
+#pragma once
 #include <array>
 #include <cmath>
 #include <cstdint>
@@ -4738,9 +4732,8 @@ private:
 
 // Include template implementation
 #define TMC9660_HEADER_INCLUDED
-#include "../src/tmc9660.cpp"
+// NOLINTNEXTLINE(bugprone-suspicious-include) - Intentional: template implementation file
+#include "../src/tmc9660.ipp"
 #undef TMC9660_HEADER_INCLUDED
 
 } // namespace tmc9660
-
-#endif // TMC9660_HPP

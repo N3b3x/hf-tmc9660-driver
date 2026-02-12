@@ -1,19 +1,9 @@
 /**
  * @file bootloader_protocol.hpp
- * @brief TMC9660 bootloader communication protocol structures and enumerations.
- *
- * This file contains all protocol-related structures, enumerations, and
- * definitions for communicating with the TMC9660 bootloader. These define
- * command codes, status codes, memory banks, information queries, and
- * communication packet structures for both SPI and UART protocols.
- *
- * @defgroup TMC9660_BootloaderProtocol Communication Protocol
- * @brief SPI/UART protocol structures and command definitions
+ * @brief TMC9660 bootloader communication protocol structures and enumerations
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
-
-#ifndef TMC9660_BOOTLOADER_PROTOCOL_HPP
-#define TMC9660_BOOTLOADER_PROTOCOL_HPP
-
+#pragma once
 #include "bootloader_utils.hpp"
 #include <array>
 #include <cstddef>
@@ -443,4 +433,3 @@ struct BootloaderReplyUART {
 };
 
 } // namespace tmc9660
-#endif // TMC9660_BOOTLOADER_PROTOCOL_HPP

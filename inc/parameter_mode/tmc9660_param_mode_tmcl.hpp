@@ -1,3 +1,9 @@
+/**
+ * @file tmc9660_param_mode_tmcl.hpp
+ * @brief TMCL operation and reply code enumerations for TMC9660 parameter mode
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
+ */
+
 // clang-format off
 //====================================================================================================================
 //  @file tmc9660_param_mode_tmcl.hpp
@@ -24,9 +30,7 @@
 //  --------------------------------------------------------------------------------------------------
 //  © 2025 <Nebiyu Tadesse>. Released under the GNU GPL V3 License.
 //====================================================================================================================
-#ifndef TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
-#define TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
-
+#pragma once
 #include <cstdint>
 
 /**
@@ -5379,5 +5383,3 @@ inline const char* to_string(Parameters param) {
 
 // clang-format on
 } // namespace tmc9660::tmcl
-
-#endif // TMC9660_TMC9660_PARAM_MODE_TMCL_HPP
