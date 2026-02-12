@@ -49,6 +49,26 @@ TMC9660<CommType>::~TMC9660() noexcept {
   // The motor should be explicitly disabled before destruction if needed.
 }
 
+template <typename CommType>
+bool TMC9660<CommType>::GpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept {
+  return comm_.gpioSet(pin, signal);
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::GpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept {
+  return comm_.gpioRead(pin, signal);
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::GpioSetActive(TMC9660CtrlPin pin) noexcept {
+  return comm_.gpioSetActive(pin);
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::GpioSetInactive(TMC9660CtrlPin pin) noexcept {
+  return comm_.gpioSetInactive(pin);
+}
+
 /**
  * @brief Initialize the TMC9660 bootloader and configure the device for parameter mode operation.
  *

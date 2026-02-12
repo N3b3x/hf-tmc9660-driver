@@ -228,7 +228,7 @@ bool test_bldc_driver_enable() noexcept {
 
     // Enable DRV_EN pin - this must be done before setting any motor parameters
     ESP_LOGI(TAG, "⚠️  ENABLING DRV_EN PIN - Motor driver outputs will be enabled!");
-    if (!driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver->GpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to enable DRV_EN pin");
         return false;
     }
@@ -237,7 +237,7 @@ bool test_bldc_driver_enable() noexcept {
     // Small delay to allow pin state to stabilize
     vTaskDelay(pdMS_TO_TICKS(10));
 
-    if(!driver->comm().gpioSetInactive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver->GpioSetInactive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to set DRV_EN pin to inactive");
         return false;
     }
@@ -906,7 +906,7 @@ bool test_bldc_startup_shutdown_procedures() noexcept {
     
     // Step 0: Enable DRV_EN pin (must be done before any motor parameters)
     ESP_LOGI(TAG, "Step 0: Enabling DRV_EN pin...");
-    if (!driver->comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver->GpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Startup step 0 failed: DRV_EN pin enable");
         return false;
     }
@@ -1571,7 +1571,7 @@ bool configureCompleteBLDCMotor(TMC9660<CommType>& driver, uint8_t polePairs, ui
     
     // Step 13: Enable DRV_EN pin (enables gate driver outputs)
     ESP_LOGI(TAG, "Step 13: Enabling DRV_EN pin...");
-    if (!driver.comm().gpioSetActive(TMC9660CtrlPin::DRV_EN)) {
+    if (!driver.GpioSetActive(TMC9660CtrlPin::DRV_EN)) {
         ESP_LOGE(TAG, "Failed to enable DRV_EN pin");
         return false;
     }

@@ -482,10 +482,11 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
                                       TMC9660<InterfaceType>& driver, 
                                       const BootloaderConfig& cfg) noexcept {
     ESP_LOGI(TAG, "Starting bootloader reset sequence...");
+    (void)interface;
     
     // Step 1: Assert reset (RST pin ACTIVE)
     ESP_LOGI(TAG, "Asserting reset (RST pin ACTIVE)...");
-    if (!interface->gpioSetActive(TMC9660CtrlPin::RST)) {
+    if (!driver.GpioSetActive(TMC9660CtrlPin::RST)) {
         ESP_LOGE(TAG, "Failed to assert reset pin");
         return false;
     }
@@ -495,7 +496,7 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
     
     // Step 2: Release reset (RST pin INACTIVE)
     ESP_LOGI(TAG, "Releasing reset (RST pin INACTIVE)...");
-    if (!interface->gpioSetInactive(TMC9660CtrlPin::RST)) {
+    if (!driver.GpioSetInactive(TMC9660CtrlPin::RST)) {
         ESP_LOGE(TAG, "Failed to release reset pin");
         return false;
     }
@@ -510,7 +511,7 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
     
     while (wait_cycles < max_wait_cycles) {
         GpioSignal fault_signal;
-        if (!interface->gpioRead(TMC9660CtrlPin::FAULTN, fault_signal)) {
+        if (!driver.GpioRead(TMC9660CtrlPin::FAULTN, fault_signal)) {
             ESP_LOGE(TAG, "Failed to read FAULTN pin");
             return false;
         }

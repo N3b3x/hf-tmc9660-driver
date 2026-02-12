@@ -77,7 +77,7 @@ build_config:
       defines: ["NDEBUG"]
 
   build_directory_pattern: "build-app-{app_type}-type-{build_type}-target-{target}-idf-{idf_version}"
-  project_name_pattern: "esp32_iid_{app_type}_app"
+  project_name_pattern: "esp32_tmc9660_{app_type}_app"
 
 ci_config:
   timeout_minutes: 30

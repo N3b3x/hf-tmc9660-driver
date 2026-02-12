@@ -146,6 +146,18 @@ public:
     return comm_;
   }
 
+  //============================================================================
+  // @name GPIO Helpers (driver-owned control)
+  // @{
+  //============================================================================
+
+  [[nodiscard]] bool GpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept;
+  [[nodiscard]] bool GpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept;
+  [[nodiscard]] bool GpioSetActive(TMC9660CtrlPin pin) noexcept;
+  [[nodiscard]] bool GpioSetInactive(TMC9660CtrlPin pin) noexcept;
+
+  // @}
+
   // @}
 
   //================================================================================
