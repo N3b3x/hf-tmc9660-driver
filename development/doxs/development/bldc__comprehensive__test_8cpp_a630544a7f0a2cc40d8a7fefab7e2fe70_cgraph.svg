@@ -403,7 +403,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="424.5,-539 319.5,-539 319.5,-520 424.5,-520 424.5,-539"/>
 <text text-anchor="middle" x="372" y="-527" font-family="Helvetica,sans-Serif" font-size="10.00">create_test_driver</text>
 </a>
@@ -421,7 +421,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="bldc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="bldc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="415,-502 329,-502 329,-483 415,-483 415,-502"/>
 <text text-anchor="middle" x="372" y="-490" font-family="Helvetica,sans-Serif" font-size="10.00">get_spi_driver</text>
 </a>
@@ -439,7 +439,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" target="_top" xlink:title="Create and initialize SPI communication interface.">
+<g id="a_Node000009"><a xlink:href="esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" target="_top" xlink:title="Create and initialize SPI communication interface.">
 <polygon fill="white" stroke="#666666" points="631.5,-539 525.5,-539 525.5,-520 631.5,-520 631.5,-539"/>
 <text text-anchor="middle" x="578.5" y="-527" font-family="Helvetica,sans-Serif" font-size="10.00">createSPIInterface</text>
 </a>
@@ -475,7 +475,7 @@
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="bldc__comprehensive__test_8cpp.html#afa338fde626ac80593a1c71ddc803ec9" target="_top" xlink:title=" ">
+<g id="a_Node000012"><a xlink:href="bldc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="417.5,-814 326.5,-814 326.5,-795 417.5,-795 417.5,-814"/>
 <text text-anchor="middle" x="372" y="-802" font-family="Helvetica,sans-Serif" font-size="10.00">get_uart_driver</text>
 </a>
@@ -655,7 +655,7 @@
 <!-- Node32 -->
 <g id="Node000032" class="node">
 <title>Node32</title>
-<g id="a_Node000032"><a xlink:href="bldc__comprehensive__test_8cpp.html#a962a06830f4a0826596f8482a0532679" target="_top" xlink:title=" ">
+<g id="a_Node000032"><a xlink:href="bldc__comprehensive__test_8cpp.html#a067ecd726a6c9d9d803a8c714838234d" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="428,-228 316,-228 316,-209 428,-209 428,-228"/>
 <text text-anchor="middle" x="372" y="-216" font-family="Helvetica,sans-Serif" font-size="10.00">log_telemetry_data</text>
 </a>

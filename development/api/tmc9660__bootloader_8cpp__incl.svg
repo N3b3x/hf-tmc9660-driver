@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Tmc9660 Bootloader definitions.">
 <polygon fill="#999999" stroke="#666666" points="716.68,-250 579.68,-250 579.68,-231 716.68,-231 716.68,-250"/>
 <text text-anchor="middle" x="648.18" y="-238" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_bootloader.cpp</text>
 </a>
@@ -39,7 +39,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="tmc9660__comm__interface_8hpp.html" target="_top" xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.">
+<g id="a_Node000009"><a xlink:href="tmc9660__comm__interface_8hpp.html" target="_top" xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI.">
 <polygon fill="white" stroke="#666666" points="348.18,-129 174.18,-129 174.18,-110 348.18,-110 348.18,-129"/>
 <text text-anchor="middle" x="261.18" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00">../tmc9660_comm_interface.hpp</text>
 </a>

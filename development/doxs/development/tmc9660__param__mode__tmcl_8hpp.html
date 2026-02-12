@@ -102,6 +102,9 @@ $(function(){initNavTree('tmc9660__param__mode__tmcl_8hpp.html',''); initResizab
   <div class="headertitle"><div class="title">tmc9660_param_mode_tmcl.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>TMCL operation and reply code enumerations for TMC9660 parameter mode.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for tmc9660_param_mode_tmcl.hpp:</div>
@@ -111,7 +114,7 @@ Include dependency graph for tmc9660_param_mode_tmcl.hpp:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__param__mode__tmcl_8hpp__dep__incl.svg" width="1170" height="212"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__param__mode__tmcl_8hpp__dep__incl.svg" width="1038" height="212"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="tmc9660__param__mode__tmcl_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -1366,7 +1369,10 @@ Combined Diagnostic Values</h2>
 <tr class="memitem:ab7349b6572359c258a1e2949eb8e6d4e" id="r_ab7349b6572359c258a1e2949eb8e6d4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#ab7349b6572359c258a1e2949eb8e6d4e">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a522fa2332ef2d2d9eb028fb80ee7b4cb">AdcStatusFlags</a> <a class="el" href="classtmc9660_1_1CommInterface.html">e</a>)</td></tr>
 <tr class="separator:ab7349b6572359c258a1e2949eb8e6d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>TMCL operation and reply code enumerations for TMC9660 parameter mode. </p>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2024-2025 HardFOC. All rights reserved. </dd></dl>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0d8b13473f477600506aa4e44c54fe30" name="a0d8b13473f477600506aa4e44c54fe30"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d8b13473f477600506aa4e44c54fe30">&#9670;&#160;</a></span>ABN_INIT_METHOD_LIST</h2>
 
@@ -1385,7 +1391,7 @@ Combined Diagnostic Values</h2>
 <div class="line">    X(FORCED_PHI_E_90_ZERO,               1, ) \</div>
 <div class="line">    X(USE_HALL,                           2, ) \</div>
 <div class="line">    X(USE_N_CHANNEL_OFFSET,               3, )</div>
-<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_a68d3e9033492bc347004797cbfd1f7d8"><div class="ttname"><a href="#a68d3e9033492bc347004797cbfd1f7d8">X</a></div><div class="ttdeci">#define X(NAME, VALUE, DOC)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:180</div></div>
+<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_a68d3e9033492bc347004797cbfd1f7d8"><div class="ttname"><a href="#a68d3e9033492bc347004797cbfd1f7d8">X</a></div><div class="ttdeci">#define X(NAME, VALUE, DOC)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:184</div></div>
 </div><!-- fragment -->
 <p>Enumerates ABN encoder initialization methods. </p>
 <p>Table — ABN Initialization Methods: </p><table class="markdownTable">
@@ -3013,7 +3019,7 @@ Parameters to Set Up Commutation Mode:</h3>
 <div class="line">    X(FAULT_RETRIES_FAILED,         <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(23), ) \</div>
 <div class="line">    X(CHIP_TEMP_WARNING,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(24), ) \</div>
 <div class="line">    X(HEARTBEAT_STOPPED,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(26), )</div>
-<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4892</div></div>
+<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4896</div></div>
 </div><!-- fragment -->
 <p>Enumerates general error flags for GENERAL_ERROR_FLAGS. </p>
 <p>These flags indicate various error conditions in the system. Most of these flags are Read-Write-Clear (RWC), meaning they can be cleared by writing a 1 to the corresponding bit position.</p>

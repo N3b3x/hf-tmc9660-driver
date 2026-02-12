@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.">
+<g id="a_Node000001"><a xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI.">
 <polygon fill="#999999" stroke="#666666" points="338.5,-74 173.5,-74 173.5,-55 338.5,-55 338.5,-74"/>
 <text text-anchor="middle" x="256" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660_comm_interface.hpp</text>
 </a>

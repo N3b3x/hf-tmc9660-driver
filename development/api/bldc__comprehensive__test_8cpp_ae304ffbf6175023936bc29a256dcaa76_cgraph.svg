@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="bldc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="bldc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="190.5,-56 104.5,-56 104.5,-37 190.5,-37 190.5,-56"/>
 <text text-anchor="middle" x="147.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">get_spi_driver</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="bldc__comprehensive__test_8cpp.html#afa338fde626ac80593a1c71ddc803ec9" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="bldc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="193,-19 102,-19 102,0 193,0 193,-19"/>
 <text text-anchor="middle" x="147.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">get_uart_driver</text>
 </a>

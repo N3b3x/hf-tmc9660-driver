@@ -1,14 +1,14 @@
 var searchData=
 [
-  ['get_5faddress_0',['GET_ADDRESS',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0a2c6a327ccec6b34078805f70e7ff46a7',1,'tmc9660']]],
-  ['get_5fbank_1',['GET_BANK',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0a6fff10bf2587cd114ff6311113b0a968',1,'tmc9660']]],
-  ['get_5finfo_2',['GET_INFO',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0ac95d2a6c5f29059e4ce8f19681800181',1,'tmc9660']]],
+  ['get_5faddress_0',['GET_ADDRESS',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a2c6a327ccec6b34078805f70e7ff46a7',1,'tmc9660']]],
+  ['get_5fbank_1',['GET_BANK',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a6fff10bf2587cd114ff6311113b0a968',1,'tmc9660']]],
+  ['get_5finfo_2',['GET_INFO',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0ac95d2a6c5f29059e4ce8f19681800181',1,'tmc9660']]],
   ['getchanneladdress_3',['GetChannelAddress',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a6939082c3fbac2c228e81350c171c4a9',1,'tmc9660::register_mode::RAMDebug']]],
   ['getchanneltype_4',['GetChannelType',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a54bd209a66359038a4b46016ffda2746',1,'tmc9660::register_mode::RAMDebug']]],
   ['getinfo_5',['GetInfo',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314acb654c9189ffca7d7a2c1a8ae1ea0757',1,'tmc9660::register_mode::RAMDebug']]],
   ['getpretriggercount_6',['GetPreTriggerCount',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a03e37a437fe6331821438dee41036d9a',1,'tmc9660::register_mode::RAMDebug']]],
   ['getstate_7',['GetState',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314aa5d2a1052e51fac25bc59b40e015f8fc',1,'tmc9660::register_mode::RAMDebug']]],
-  ['git_5finfo_8',['GIT_INFO',['../group__TMC9660__BootloaderProtocol.html#ggaf4e8a4c74acf7f0c687427b7fc2698f2a8b79c13c76697ca3e733bb68e0cc67d5',1,'tmc9660']]],
+  ['git_5finfo_8',['GIT_INFO',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a8b79c13c76697ca3e733bb68e0cc67d5',1,'tmc9660']]],
   ['gpio0_9',['GPIO0',['../namespacetmc9660_1_1bootcfg.html#ac28792a42635d90b5ea9aaf3f95852b6add11b09d8cef382dc82ecd07b56429f5',1,'tmc9660::bootcfg::GPIO0'],['../namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8add11b09d8cef382dc82ecd07b56429f5',1,'tmc9660::bootcfg::GPIO0']]],
   ['gpio1_10',['GPIO1',['../namespacetmc9660_1_1bootcfg.html#ab27775e699e7de054486cd0a09a5b861a0ed149a12d2a87f1496cdc90c23bfb1c',1,'tmc9660::bootcfg::GPIO1'],['../namespacetmc9660_1_1bootcfg.html#adcb33ea2c830e2bbc387bec988805ac2a0ed149a12d2a87f1496cdc90c23bfb1c',1,'tmc9660::bootcfg::GPIO1'],['../namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8a0ed149a12d2a87f1496cdc90c23bfb1c',1,'tmc9660::bootcfg::GPIO1']]],
   ['gpio10_11',['GPIO10',['../namespacetmc9660_1_1bootcfg.html#a41e245e5d84bfd057586a8fd691b3be8ab1e7048f4020fdcb400e70debb88c0c6',1,'tmc9660::bootcfg::GPIO10'],['../namespacetmc9660_1_1bootcfg.html#ad4c22ebdaf811c052a10a2e19efbe72eab1e7048f4020fdcb400e70debb88c0c6',1,'tmc9660::bootcfg::GPIO10'],['../namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8ab1e7048f4020fdcb400e70debb88c0c6',1,'tmc9660::bootcfg::GPIO10']]],

@@ -7,10 +7,10 @@ var searchData=
   ['write32incmultiple_4',['write32IncMultiple',['../classtmc9660_1_1TMC9660Bootloader.html#ad1d8f29d09f812b0e8df13b397632561',1,'tmc9660::TMC9660Bootloader']]],
   ['write8_5',['write8',['../classtmc9660_1_1TMC9660Bootloader.html#ad360738f63596fe0604291485fca44e0',1,'tmc9660::TMC9660Bootloader']]],
   ['write8inc_6',['write8Inc',['../classtmc9660_1_1TMC9660Bootloader.html#a47b8653e675124eb21bfd2eda868c50f',1,'tmc9660::TMC9660Bootloader']]],
-  ['writebank0_7',['writeBank0',['../structtmc9660_1_1TMC9660_1_1Globals.html#ae32ba67e7c3706dbc59bf2b768530220',1,'tmc9660::TMC9660::Globals']]],
-  ['writebank2_8',['writeBank2',['../structtmc9660_1_1TMC9660_1_1Globals.html#a666af5bf1b352094ec3c3d3b3a0565f9',1,'tmc9660::TMC9660::Globals']]],
-  ['writebank3_9',['writeBank3',['../structtmc9660_1_1TMC9660_1_1Globals.html#ac5680cd9af4d0e4b8f638238378bd598',1,'tmc9660::TMC9660::Globals']]],
-  ['writeglobalparameter_10',['writeGlobalParameter',['../classtmc9660_1_1TMC9660.html#ae84c6b5fbda594a78e2ec2599aa1267f',1,'tmc9660::TMC9660']]],
-  ['writeparameter_11',['writeParameter',['../classtmc9660_1_1TMC9660.html#abaa1e652c9bd5c7a820bbd742926e29d',1,'tmc9660::TMC9660']]],
-  ['writepin_12',['writePin',['../structtmc9660_1_1TMC9660_1_1GPIO.html#ad6cbf2d0d03924dad5c22dfd51c2925b',1,'tmc9660::TMC9660::GPIO']]]
+  ['writebank0_7',['writeBank0',['../structtmc9660_1_1TMC9660_1_1Globals.html#a535470731554799a65ab498dd8655ccd',1,'tmc9660::TMC9660::Globals']]],
+  ['writebank2_8',['writeBank2',['../structtmc9660_1_1TMC9660_1_1Globals.html#a0dd669ceee82186441488ca2b7a0c7d5',1,'tmc9660::TMC9660::Globals']]],
+  ['writebank3_9',['writeBank3',['../structtmc9660_1_1TMC9660_1_1Globals.html#acb2a2bb4611f0f74b71a092621a983cc',1,'tmc9660::TMC9660::Globals']]],
+  ['writeglobalparameter_10',['writeGlobalParameter',['../classtmc9660_1_1TMC9660.html#af01e35c1268f54323a22e5d3e105a082',1,'tmc9660::TMC9660']]],
+  ['writeparameter_11',['writeParameter',['../classtmc9660_1_1TMC9660.html#a127c977fa6bc579aa76d118102c8bc94',1,'tmc9660::TMC9660']]],
+  ['writepin_12',['writePin',['../structtmc9660_1_1TMC9660_1_1GPIO.html#af477393631ad7adf5926eafb83e760f6',1,'tmc9660::TMC9660::GPIO']]]
 ];

@@ -39,7 +39,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" target="_top" xlink:title="Create and initialize SPI communication interface.">
+<g id="a_Node000003"><a xlink:href="esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" target="_top" xlink:title="Create and initialize SPI communication interface.">
 <polygon fill="white" stroke="#666666" points="422.5,-67.5 316.5,-67.5 316.5,-48.5 422.5,-48.5 422.5,-67.5"/>
 <text text-anchor="middle" x="369.5" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">createSPIInterface</text>
 </a>

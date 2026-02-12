@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="tmc9660__comm__interface_8hpp.html" target="_top" xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.">
+<g id="a_Node000002"><a xlink:href="tmc9660__comm__interface_8hpp.html" target="_top" xlink:title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI.">
 <polygon fill="white" stroke="#666666" points="295,-85 173,-85 173,-55 295,-55 295,-85"/>
 <text text-anchor="start" x="181" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">../../../inc/tmc9660</text>
 <text text-anchor="middle" x="234" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">_comm_interface.hpp</text>

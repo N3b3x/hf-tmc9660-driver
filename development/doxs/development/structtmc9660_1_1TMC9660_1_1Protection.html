@@ -123,24 +123,24 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a229f1ffd5383e36a456a4a35bb783439" id="r_a229f1ffd5383e36a456a4a35bb783439"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a229f1ffd5383e36a456a4a35bb783439">configureVoltage</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">over_volt_threshold</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">under_volt_threshold</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a229f1ffd5383e36a456a4a35bb783439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure overvoltage and undervoltage protection thresholds.  <br /></td></tr>
-<tr class="separator:a229f1ffd5383e36a456a4a35bb783439"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bb690e923c60e13cf164dcbbcebb843" id="r_a9bb690e923c60e13cf164dcbbcebb843"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bb690e923c60e13cf164dcbbcebb843">configureTemperature</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">warning_deg_c</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">shutdown_deg_c</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9bb690e923c60e13cf164dcbbcebb843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure over-temperature protection thresholds.  <br /></td></tr>
-<tr class="separator:a9bb690e923c60e13cf164dcbbcebb843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca143a6a55acad0c657a59a22402ecbc" id="r_aca143a6a55acad0c657a59a22402ecbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca143a6a55acad0c657a59a22402ecbc">setOvercurrentEnabled</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enabled</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aca143a6a55acad0c657a59a22402ecbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable overcurrent protection on the driver outputs.  <br /></td></tr>
-<tr class="separator:aca143a6a55acad0c657a59a22402ecbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdc7e7fd2884c8400b94de505fc413fd" id="r_afdc7e7fd2884c8400b94de505fc413fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdc7e7fd2884c8400b94de505fc413fd">configureI2t</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant1_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent1_A</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant2_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent2_A</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:afdc7e7fd2884c8400b94de505fc413fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the two I²t monitoring windows for motor current.  <br /></td></tr>
-<tr class="separator:afdc7e7fd2884c8400b94de505fc413fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa878cfc30e09c49a7828cc96c096d0" id="r_a4aa878cfc30e09c49a7828cc96c096d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4aa878cfc30e09c49a7828cc96c096d0">resetI2tState</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a4aa878cfc30e09c49a7828cc96c096d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the integrated I²t sum accumulators.  <br /></td></tr>
-<tr class="separator:a4aa878cfc30e09c49a7828cc96c096d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a404e920b0e5dd5f96afbc82ea061772f" id="r_a404e920b0e5dd5f96afbc82ea061772f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a404e920b0e5dd5f96afbc82ea061772f">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html">ProtectionConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a404e920b0e5dd5f96afbc82ea061772f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure protection parameters.  <br /></td></tr>
-<tr class="separator:a404e920b0e5dd5f96afbc82ea061772f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ec1b9aaf2bd14cfec36ed7e36329938" id="r_a1ec1b9aaf2bd14cfec36ed7e36329938"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ec1b9aaf2bd14cfec36ed7e36329938">configureVoltage</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">over_volt_threshold</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">under_volt_threshold</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a1ec1b9aaf2bd14cfec36ed7e36329938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure overvoltage and undervoltage protection thresholds.  <br /></td></tr>
+<tr class="separator:a1ec1b9aaf2bd14cfec36ed7e36329938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70a0d34981a9dd4727b0739c3fe3abc6" id="r_a70a0d34981a9dd4727b0739c3fe3abc6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a70a0d34981a9dd4727b0739c3fe3abc6">configureTemperature</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">warning_deg_c</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">shutdown_deg_c</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a70a0d34981a9dd4727b0739c3fe3abc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure over-temperature protection thresholds.  <br /></td></tr>
+<tr class="separator:a70a0d34981a9dd4727b0739c3fe3abc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97de933474f23c8a77eff0b94ffc2fbd" id="r_a97de933474f23c8a77eff0b94ffc2fbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97de933474f23c8a77eff0b94ffc2fbd">setOvercurrentEnabled</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enabled</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a97de933474f23c8a77eff0b94ffc2fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable overcurrent protection on the driver outputs.  <br /></td></tr>
+<tr class="separator:a97de933474f23c8a77eff0b94ffc2fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2d850266a44780c3fa60352cd3426a9" id="r_ae2d850266a44780c3fa60352cd3426a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2d850266a44780c3fa60352cd3426a9">configureI2t</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant1_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent1_A</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant2_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent2_A</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ae2d850266a44780c3fa60352cd3426a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the two I²t monitoring windows for motor current.  <br /></td></tr>
+<tr class="separator:ae2d850266a44780c3fa60352cd3426a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57180c7550cf4a16b2be8366d0bb727d" id="r_a57180c7550cf4a16b2be8366d0bb727d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57180c7550cf4a16b2be8366d0bb727d">resetI2tState</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a57180c7550cf4a16b2be8366d0bb727d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the integrated I²t sum accumulators.  <br /></td></tr>
+<tr class="separator:a57180c7550cf4a16b2be8366d0bb727d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98a3ff626acf748d4f647530d6892730" id="r_a98a3ff626acf748d4f647530d6892730"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98a3ff626acf748d4f647530d6892730">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html">ProtectionConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a98a3ff626acf748d4f647530d6892730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure protection parameters.  <br /></td></tr>
+<tr class="separator:a98a3ff626acf748d4f647530d6892730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -189,8 +189,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a404e920b0e5dd5f96afbc82ea061772f" name="a404e920b0e5dd5f96afbc82ea061772f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a404e920b0e5dd5f96afbc82ea061772f">&#9670;&#160;</a></span>configureAuto()</h2>
+<a id="a98a3ff626acf748d4f647530d6892730" name="a98a3ff626acf748d4f647530d6892730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98a3ff626acf748d4f647530d6892730">&#9670;&#160;</a></span>configureAuto()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -201,7 +201,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html">ProtectionConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
@@ -226,8 +226,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="afdc7e7fd2884c8400b94de505fc413fd" name="afdc7e7fd2884c8400b94de505fc413fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afdc7e7fd2884c8400b94de505fc413fd">&#9670;&#160;</a></span>configureI2t()</h2>
+<a id="ae2d850266a44780c3fa60352cd3426a9" name="ae2d850266a44780c3fa60352cd3426a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2d850266a44780c3fa60352cd3426a9">&#9670;&#160;</a></span>configureI2t()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +238,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::configureI2t </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::configureI2t </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>timeConstant1_ms</em>, </span></td>
         </tr>
@@ -279,8 +279,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9bb690e923c60e13cf164dcbbcebb843" name="a9bb690e923c60e13cf164dcbbcebb843"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bb690e923c60e13cf164dcbbcebb843">&#9670;&#160;</a></span>configureTemperature()</h2>
+<a id="a70a0d34981a9dd4727b0739c3fe3abc6" name="a70a0d34981a9dd4727b0739c3fe3abc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70a0d34981a9dd4727b0739c3fe3abc6">&#9670;&#160;</a></span>configureTemperature()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -291,7 +291,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::configureTemperature </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::configureTemperature </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>warning_deg_c</em>, </span></td>
         </tr>
@@ -320,8 +320,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a229f1ffd5383e36a456a4a35bb783439" name="a229f1ffd5383e36a456a4a35bb783439"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a229f1ffd5383e36a456a4a35bb783439">&#9670;&#160;</a></span>configureVoltage()</h2>
+<a id="a1ec1b9aaf2bd14cfec36ed7e36329938" name="a1ec1b9aaf2bd14cfec36ed7e36329938"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ec1b9aaf2bd14cfec36ed7e36329938">&#9670;&#160;</a></span>configureVoltage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,7 +332,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::configureVoltage </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::configureVoltage </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>over_volt_threshold</em>, </span></td>
         </tr>
@@ -361,8 +361,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a4aa878cfc30e09c49a7828cc96c096d0" name="a4aa878cfc30e09c49a7828cc96c096d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4aa878cfc30e09c49a7828cc96c096d0">&#9670;&#160;</a></span>resetI2tState()</h2>
+<a id="a57180c7550cf4a16b2be8366d0bb727d" name="a57180c7550cf4a16b2be8366d0bb727d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57180c7550cf4a16b2be8366d0bb727d">&#9670;&#160;</a></span>resetI2tState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +373,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::resetI2tState </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::resetI2tState </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -391,8 +391,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aca143a6a55acad0c657a59a22402ecbc" name="aca143a6a55acad0c657a59a22402ecbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca143a6a55acad0c657a59a22402ecbc">&#9670;&#160;</a></span>setOvercurrentEnabled()</h2>
+<a id="a97de933474f23c8a77eff0b94ffc2fbd" name="a97de933474f23c8a77eff0b94ffc2fbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97de933474f23c8a77eff0b94ffc2fbd">&#9670;&#160;</a></span>setOvercurrentEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -403,7 +403,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Protection::setOvercurrentEnabled </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::setOvercurrentEnabled </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>enabled</em></span></td><td>)</td>
           <td></td>
@@ -477,9 +477,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
-<li><a class="el" href="tmc9660_8cpp_source.html">tmc9660.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

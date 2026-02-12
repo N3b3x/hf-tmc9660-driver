@@ -132,24 +132,24 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ESP32 SPI implementation of TMC9660CommInterface.  <a href="classEsp32SPITMC9660CommInterface.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEsp32Tmc9660SpiBus.html">Esp32Tmc9660SpiBus</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ESP32 SPI implementation of TMC9660CommInterface.  <a href="classEsp32Tmc9660SpiBus.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ESP32 UART implementation of TMC9660CommInterface.  <a href="classEsp32UARTTMC9660CommInterface.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEsp32Tmc9660UartBus.html">Esp32Tmc9660UartBus</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">ESP32 UART implementation of TMC9660CommInterface.  <a href="classEsp32Tmc9660UartBus.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common bus configuration for ESP32 TMC9660 tests.  <a href="structEsp32TMC9660BusConfig.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common bus configuration for ESP32 TMC9660 tests.  <a href="structEsp32Tmc9660BusConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6a65828a097e44c42edb1c62d89ee262" id="r_a6a65828a097e44c42edb1c62d89ee262"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a65828a097e44c42edb1c62d89ee262">createSPIInterface</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>=<a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a>{}) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6a65828a097e44c42edb1c62d89ee262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize SPI communication interface.  <br /></td></tr>
-<tr class="separator:a6a65828a097e44c42edb1c62d89ee262"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9139fa0d0c10a85938e971186348ca9c" id="r_a9139fa0d0c10a85938e971186348ca9c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9139fa0d0c10a85938e971186348ca9c">createUARTInterface</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>=<a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a>{}) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9139fa0d0c10a85938e971186348ca9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize UART communication interface.  <br /></td></tr>
-<tr class="separator:a9139fa0d0c10a85938e971186348ca9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac17f4cb878146d2d72c9cae900edbe8" id="r_aac17f4cb878146d2d72c9cae900edbe8"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classEsp32Tmc9660SpiBus.html">Esp32Tmc9660SpiBus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aac17f4cb878146d2d72c9cae900edbe8">createSPIInterface</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>=<a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a>{}) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aac17f4cb878146d2d72c9cae900edbe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize SPI communication interface.  <br /></td></tr>
+<tr class="separator:aac17f4cb878146d2d72c9cae900edbe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5bf1d1f33ae209c1079e8df4a7ce5fd" id="r_ab5bf1d1f33ae209c1079e8df4a7ce5fd"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classEsp32Tmc9660UartBus.html">Esp32Tmc9660UartBus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5bf1d1f33ae209c1079e8df4a7ce5fd">createUARTInterface</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>=<a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a>{}) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab5bf1d1f33ae209c1079e8df4a7ce5fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create and initialize UART communication interface.  <br /></td></tr>
+<tr class="separator:ab5bf1d1f33ae209c1079e8df4a7ce5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -163,8 +163,8 @@ Variables</h2></td></tr>
 <dl class="section date"><dt>Date</dt><dd>2025 </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>HardFOC </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a6a65828a097e44c42edb1c62d89ee262" name="a6a65828a097e44c42edb1c62d89ee262"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a65828a097e44c42edb1c62d89ee262">&#9670;&#160;</a></span>createSPIInterface()</h2>
+<a id="aac17f4cb878146d2d72c9cae900edbe8" name="aac17f4cb878146d2d72c9cae900edbe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac17f4cb878146d2d72c9cae900edbe8">&#9670;&#160;</a></span>createSPIInterface()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -173,9 +173,9 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="classEsp32SPITMC9660CommInterface.html">Esp32SPITMC9660CommInterface</a> &gt; createSPIInterface </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classEsp32Tmc9660SpiBus.html">Esp32Tmc9660SpiBus</a> &gt; createSPIInterface </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a>{}</span></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a>{}</span></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -197,13 +197,13 @@ Variables</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="esp32__tmc9660__bus_8hpp_a6a65828a097e44c42edb1c62d89ee262_icgraph.svg" width="652" height="2762"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="esp32__tmc9660__bus_8hpp_aac17f4cb878146d2d72c9cae900edbe8_icgraph.svg" width="652" height="2762"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
-<a id="a9139fa0d0c10a85938e971186348ca9c" name="a9139fa0d0c10a85938e971186348ca9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9139fa0d0c10a85938e971186348ca9c">&#9670;&#160;</a></span>createUARTInterface()</h2>
+<a id="ab5bf1d1f33ae209c1079e8df4a7ce5fd" name="ab5bf1d1f33ae209c1079e8df4a7ce5fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5bf1d1f33ae209c1079e8df4a7ce5fd">&#9670;&#160;</a></span>createUARTInterface()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,9 +212,9 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="el" href="classEsp32UARTTMC9660CommInterface.html">Esp32UARTTMC9660CommInterface</a> &gt; createUARTInterface </td>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="classEsp32Tmc9660UartBus.html">Esp32Tmc9660UartBus</a> &gt; createUARTInterface </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="structEsp32TMC9660BusConfig.html">Esp32TMC9660BusConfig</a>{}</span></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="structEsp32Tmc9660BusConfig.html">Esp32Tmc9660BusConfig</a>{}</span></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -236,7 +236,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="esp32__tmc9660__bus_8hpp_a9139fa0d0c10a85938e971186348ca9c_icgraph.svg" width="515" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="esp32__tmc9660__bus_8hpp_ab5bf1d1f33ae209c1079e8df4a7ce5fd_icgraph.svg" width="515" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

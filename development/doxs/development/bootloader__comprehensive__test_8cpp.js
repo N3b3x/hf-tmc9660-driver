@@ -1,8 +1,8 @@
 var bootloader__comprehensive__test_8cpp =
 [
     [ "app_main", "bootloader__comprehensive__test_8cpp.html#a630544a7f0a2cc40d8a7fefab7e2fe70", null ],
-    [ "create_test_driver", "bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994", null ],
-    [ "log_bootloader_result", "bootloader__comprehensive__test_8cpp.html#aacf797bcc45c9b4cdbcc32f774698dfd", null ],
+    [ "create_test_driver", "bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671", null ],
+    [ "log_bootloader_result", "bootloader__comprehensive__test_8cpp.html#af56f3d9eea93b1792d38149d4cce894e", null ],
     [ "perform_bootloader_reset_sequence", "bootloader__comprehensive__test_8cpp.html#a13f15c809fc3e139373dd0350226f8cb", null ],
     [ "test_bootloader_basic_initialization", "bootloader__comprehensive__test_8cpp.html#aa38f7c3ff066ae2fe629b2c49f41b273", null ],
     [ "test_bootloader_clock_configuration", "bootloader__comprehensive__test_8cpp.html#a58985493e6f5f3a40854bb67801fd0ae", null ],

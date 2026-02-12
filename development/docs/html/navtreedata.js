@@ -25,18 +25,18 @@
 var NAVTREE =
 [
   [ "HF-TMC9660 Driver", "index.html", [
-    [ "📚 Table of Contents", "index.html#autotoc_md35", null ],
-    [ "📦 Overview", "index.html#autotoc_md36", null ],
-    [ "✨ Features", "index.html#autotoc_md37", null ],
-    [ "🚀 Quick Start", "index.html#autotoc_md38", null ],
-    [ "🔧 Installation", "index.html#autotoc_md39", null ],
-    [ "📖 API Reference", "index.html#autotoc_md40", null ],
-    [ "📊 Examples", "index.html#autotoc_md41", null ],
-    [ "📚 Documentation", "index.html#autotoc_md42", [
-      [ "Special Features", "index.html#autotoc_md43", null ]
+    [ "📚 Table of Contents", "index.html#autotoc_md34", null ],
+    [ "📦 Overview", "index.html#autotoc_md35", null ],
+    [ "✨ Features", "index.html#autotoc_md36", null ],
+    [ "🚀 Quick Start", "index.html#autotoc_md37", null ],
+    [ "🔧 Installation", "index.html#autotoc_md38", null ],
+    [ "📖 API Reference", "index.html#autotoc_md39", null ],
+    [ "📊 Examples", "index.html#autotoc_md40", null ],
+    [ "📚 Documentation", "index.html#autotoc_md41", [
+      [ "Special Features", "index.html#autotoc_md42", null ]
     ] ],
-    [ "🤝 Contributing", "index.html#autotoc_md44", null ],
-    [ "📄 License", "index.html#autotoc_md45", null ],
+    [ "🤝 Contributing", "index.html#autotoc_md43", null ],
+    [ "📄 License", "index.html#autotoc_md44", null ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -75,20 +75,21 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "TestFramework_8h.html",
-"bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72ea313677ceab546a36b6a7da1431ee145a",
-"classtmc9660_1_1TMC9660.html#ae84c6b5fbda594a78e2ec2599aa1267f",
-"functions_rela.html",
-"namespacetmc9660_1_1bootaddr.html#ae04ba16579ba1d222a9e8e273d66fb0c",
-"namespacetmc9660_1_1tmcl.html#a18663a474f75b063d1d3e6ac611fe444",
-"namespacetmc9660_1_1tmcl.html#af5a7d97e2a7252cda6165531563d4f58",
-"structtmc9660_1_1GitInfo.html#a22ccc75894a1eca74945388ccc0e36d3",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense.html#af9a98b150855960f6e890d5d06068419",
-"structtmc9660_1_1TMC9660_1_1Power.html#ac7c79424539c482f03d9f88d4d563435",
-"structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#a282dbb9c2b2115285d67925861fe3dd0",
-"structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#ae7158f6c644ed286db5801715f4f69af",
-"tmc9660__param__mode__tmcl_8hpp.html#a0dc885d02449e043cb0c075c66e9095e",
+"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77abd346ce96cc25c92024a8b2a5c401c18",
+"classtmc9660_1_1CommInterface.html#af4bc9c5c9fb503a452300b96dc5585e8",
+"dc__comprehensive__test_8cpp.html#a7e12788582df425a2388bddf1124e8d3",
+"namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0ac95d2a6c5f29059e4ce8f19681800181",
+"namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8ad7bb574e4b13309394003eb975228e00",
+"namespacetmc9660_1_1tmcl.html#aadfd9a9011b9b9452c6f19cc180047db",
+"structTMC9660__TestConfig_1_1UARTParams.html#ae59c8d9c191a207c5ceecd3e73d6821b",
+"structtmc9660_1_1MechBrakeConfig.html",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#ab8b19aeccf78c7d52151706c3b0da97d",
+"structtmc9660_1_1TMC9660_1_1Ramp.html#a80079aa758ab861e8f476ff25b84070a",
+"structtmc9660_1_1TMCLReply.html",
+"structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html#aef611b3bc1e058bac16614a5a093f21d",
+"tmc9660__param__mode__tmcl_8hpp.html#a2f81fd424bfb3401efcedca33f794491",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#add6e015f26fa726f4b8d63afb20df81e"
+"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a2ae05249e15e8c6bf7f6ab2a4306faca"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

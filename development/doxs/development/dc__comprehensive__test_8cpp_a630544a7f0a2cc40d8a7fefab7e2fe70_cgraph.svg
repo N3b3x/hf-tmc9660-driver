@@ -362,7 +362,7 @@
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" target="_top" xlink:title=" ">
+<g id="a_Node000008"><a xlink:href="bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="435,-269 330,-269 330,-250 435,-250 435,-269"/>
 <text text-anchor="middle" x="382.5" y="-257" font-family="Helvetica,sans-Serif" font-size="10.00">create_test_driver</text>
 </a>
@@ -380,7 +380,7 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="dc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" target="_top" xlink:title=" ">
+<g id="a_Node000010"><a xlink:href="dc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="425.5,-306 339.5,-306 339.5,-287 425.5,-287 425.5,-306"/>
 <text text-anchor="middle" x="382.5" y="-294" font-family="Helvetica,sans-Serif" font-size="10.00">get_spi_driver</text>
 </a>
@@ -398,7 +398,7 @@
 <!-- Node11 -->
 <g id="Node000011" class="node">
 <title>Node11</title>
-<g id="a_Node000011"><a xlink:href="dc__comprehensive__test_8cpp.html#afa338fde626ac80593a1c71ddc803ec9" target="_top" xlink:title=" ">
+<g id="a_Node000011"><a xlink:href="dc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="428,-527 337,-527 337,-508 428,-508 428,-527"/>
 <text text-anchor="middle" x="382.5" y="-515" font-family="Helvetica,sans-Serif" font-size="10.00">get_uart_driver</text>
 </a>
@@ -416,7 +416,7 @@
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" target="_top" xlink:title="Create and initialize SPI communication interface.">
+<g id="a_Node000009"><a xlink:href="esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" target="_top" xlink:title="Create and initialize SPI communication interface.">
 <polygon fill="white" stroke="#666666" points="595,-269 489,-269 489,-250 595,-250 595,-269"/>
 <text text-anchor="middle" x="542" y="-257" font-family="Helvetica,sans-Serif" font-size="10.00">createSPIInterface</text>
 </a>
@@ -452,7 +452,7 @@
 <!-- Node13 -->
 <g id="Node000013" class="node">
 <title>Node13</title>
-<g id="a_Node000013"><a xlink:href="dc__comprehensive__test_8cpp.html#aecc30ecbfd275aa6e5ff1a17020470ca" target="_top" xlink:title=" ">
+<g id="a_Node000013"><a xlink:href="dc__comprehensive__test_8cpp.html#a7e12788582df425a2388bddf1124e8d3" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="441,-484 324,-484 324,-465 441,-465 441,-484"/>
 <text text-anchor="middle" x="382.5" y="-472" font-family="Helvetica,sans-Serif" font-size="10.00">verify_current_limits</text>
 </a>
@@ -542,7 +542,7 @@
 <!-- Node18 -->
 <g id="Node000018" class="node">
 <title>Node18</title>
-<g id="a_Node000018"><a xlink:href="dc__comprehensive__test_8cpp.html#a61f39bc085a7d71f6646a053dac6c4a2" target="_top" xlink:title=" ">
+<g id="a_Node000018"><a xlink:href="dc__comprehensive__test_8cpp.html#a13a67cf6fc006319ab8f3a5fdf355785" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="447.5,-62 317.5,-62 317.5,-43 447.5,-43 447.5,-62"/>
 <text text-anchor="middle" x="382.5" y="-50" font-family="Helvetica,sans-Serif" font-size="10.00">verify_dc_configuration</text>
 </a>
@@ -668,7 +668,7 @@
 <!-- Node25 -->
 <g id="Node000025" class="node">
 <title>Node25</title>
-<g id="a_Node000025"><a xlink:href="dc__comprehensive__test_8cpp.html#a4d6926752a873f3511a54daf6e474dff" target="_top" xlink:title=" ">
+<g id="a_Node000025"><a xlink:href="dc__comprehensive__test_8cpp.html#a73eeb04a20f76194ecd4ab637c7a104d" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="446.5,-19 318.5,-19 318.5,0 446.5,0 446.5,-19"/>
 <text text-anchor="middle" x="382.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">log_dc_telemetry_data</text>
 </a>

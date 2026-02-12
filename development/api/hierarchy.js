@@ -4,6 +4,7 @@ var hierarchy =
     [ "tmc9660::ABN2Config", "structtmc9660_1_1ABN2Config.html", null ],
     [ "tmc9660::TMC9660< CommType >::FeedbackSense::Abn2Config", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html", null ],
     [ "tmc9660::TMC9660< CommType >::FeedbackSense::AbnConfig", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html", null ],
+    [ "TMC9660_TestConfig::AppConfig", "structTMC9660__TestConfig_1_1AppConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::CurrentSensing::AutoConfig", "structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html", null ],
     [ "tmc9660::BootConfig", "structtmc9660_1_1BootConfig.html", null ],
     [ "tmc9660::BootloaderCommandSPI", "structtmc9660_1_1BootloaderCommandSPI.html", null ],
@@ -18,20 +19,23 @@ var hierarchy =
     [ "tmc9660::TMC9660< CommType >::Brake::BrakeConfig", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html", null ],
     [ "tmc9660::ClockConfig", "structtmc9660_1_1ClockConfig.html", null ],
     [ "tmc9660::CommInterface< Derived >", "classtmc9660_1_1CommInterface.html", [
-      [ "tmc9660::SpiCommInterface< Esp32SPITMC9660CommInterface >", "classtmc9660_1_1SpiCommInterface.html", [
-        [ "Esp32SPITMC9660CommInterface", "classEsp32SPITMC9660CommInterface.html", null ]
+      [ "tmc9660::SpiCommInterface< Esp32Tmc9660SpiBus >", "classtmc9660_1_1SpiCommInterface.html", [
+        [ "Esp32Tmc9660SpiBus", "classEsp32Tmc9660SpiBus.html", null ]
       ] ],
-      [ "tmc9660::UartCommInterface< Esp32UARTTMC9660CommInterface >", "classtmc9660_1_1UartCommInterface.html", [
-        [ "Esp32UARTTMC9660CommInterface", "classEsp32UARTTMC9660CommInterface.html", null ]
+      [ "tmc9660::UartCommInterface< Esp32Tmc9660UartBus >", "classtmc9660_1_1UartCommInterface.html", [
+        [ "Esp32Tmc9660UartBus", "classEsp32Tmc9660UartBus.html", null ]
       ] ],
       [ "tmc9660::SpiCommInterface< Derived >", "classtmc9660_1_1SpiCommInterface.html", null ],
       [ "tmc9660::UartCommInterface< Derived >", "classtmc9660_1_1UartCommInterface.html", null ]
     ] ],
-    [ "tmc9660::CommInterface< Esp32SPITMC9660CommInterface >", "classtmc9660_1_1CommInterface.html", null ],
-    [ "tmc9660::CommInterface< Esp32UARTTMC9660CommInterface >", "classtmc9660_1_1CommInterface.html", null ],
+    [ "tmc9660::CommInterface< Esp32Tmc9660SpiBus >", "classtmc9660_1_1CommInterface.html", null ],
+    [ "tmc9660::CommInterface< Esp32Tmc9660UartBus >", "classtmc9660_1_1CommInterface.html", null ],
+    [ "TMC9660_TestConfig::ControllerSpecs", "structTMC9660__TestConfig_1_1ControllerSpecs.html", null ],
+    [ "TMC9660_TestConfig::ControlPins", "structTMC9660__TestConfig_1_1ControlPins.html", null ],
     [ "tmc9660::register_mode::ADC::CSA_SETUP", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html", null ],
     [ "tmc9660::TMC9660< CommType >::CurrentSensing", "structtmc9660_1_1TMC9660_1_1CurrentSensing.html", null ],
-    [ "Esp32TMC9660BusConfig", "structEsp32TMC9660BusConfig.html", null ],
+    [ "TMC9660_TestConfig::Diagnostics", "structTMC9660__TestConfig_1_1Diagnostics.html", null ],
+    [ "Esp32Tmc9660BusConfig", "structEsp32Tmc9660BusConfig.html", null ],
     [ "tmc9660::register_mode::SYS_CTRL::FAULT_INT_ENABLE", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html", null ],
     [ "tmc9660::register_mode::SYS_CTRL::FAULT_STATUS", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html", null ],
     [ "tmc9660::register_mode::SYS_CTRL::FAULT_STATUS_LATCHED", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html", null ],
@@ -79,16 +83,22 @@ var hierarchy =
     [ "tmc9660::SPIEncConfig", "structtmc9660_1_1SPIEncConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::FeedbackSense::SpiEncoderConfig", "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html", null ],
     [ "tmc9660::SPIFlashConfig", "structtmc9660_1_1SPIFlashConfig.html", null ],
+    [ "TMC9660_TestConfig::SPIParams", "structTMC9660__TestConfig_1_1SPIParams.html", null ],
+    [ "TMC9660_TestConfig::SPIPins", "structTMC9660__TestConfig_1_1SPIPins.html", null ],
     [ "tmc9660::register_mode::ADC::SRC_CONFIG", "structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html", null ],
     [ "tmc9660::register_mode::ADC::STATUS_FLAGS", "structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html", null ],
     [ "tmc9660::TMC9660< CommType >::StepDir", "structtmc9660_1_1TMC9660_1_1StepDir.html", null ],
     [ "tmc9660::StepDirConfig", "structtmc9660_1_1StepDirConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::StopEvents", "structtmc9660_1_1TMC9660_1_1StopEvents.html", null ],
     [ "tmc9660::TMC9660< CommType >::StopEvents::StopEventsConfig", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html", null ],
+    [ "TMC9660_TestConfig::SupplyVoltage", "structTMC9660__TestConfig_1_1SupplyVoltage.html", null ],
     [ "tmc9660::TMC9660< CommType >::Telemetry", "structtmc9660_1_1TMC9660_1_1Telemetry.html", null ],
+    [ "TMC9660_TestConfig::Temperature", "structTMC9660__TestConfig_1_1Temperature.html", null ],
+    [ "TMC9660_TestConfig::TestConfig", "structTMC9660__TestConfig_1_1TestConfig.html", null ],
     [ "TestDriverHandle", "structTestDriverHandle.html", null ],
     [ "TestResults", "structTestResults.html", null ],
     [ "TestTaskContext", "structTestTaskContext.html", null ],
+    [ "TMC9660_TestConfig::Timing", "structTMC9660__TestConfig_1_1Timing.html", null ],
     [ "tmc9660::TMC9660< CommType >", "classtmc9660_1_1TMC9660.html", null ],
     [ "tmc9660::TMC9660Bootloader< CommType >", "classtmc9660_1_1TMC9660Bootloader.html", null ],
     [ "tmc9660::TMCLFrame", "structtmc9660_1_1TMCLFrame.html", null ],
@@ -96,6 +106,8 @@ var hierarchy =
     [ "tmc9660::TMC9660< CommType >::TorqueFluxControl::TorqueFluxConfig", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl_1_1TorqueFluxConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::TorqueFluxControl", "structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html", null ],
     [ "tmc9660::UARTConfig", "structtmc9660_1_1UARTConfig.html", null ],
+    [ "TMC9660_TestConfig::UARTParams", "structTMC9660__TestConfig_1_1UARTParams.html", null ],
+    [ "TMC9660_TestConfig::UARTPins", "structTMC9660__TestConfig_1_1UARTPins.html", null ],
     [ "tmc9660::TMC9660< CommType >::VelocityControl::VelocityConfig", "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html", null ],
     [ "tmc9660::TMC9660< CommType >::VelocityControl", "structtmc9660_1_1TMC9660_1_1VelocityControl.html", null ]
 ];

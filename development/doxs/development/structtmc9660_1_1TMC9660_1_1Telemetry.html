@@ -116,50 +116,50 @@ Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::Telemetry:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad42c11282eb44f497c52971513d653a6" id="r_ad42c11282eb44f497c52971513d653a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad42c11282eb44f497c52971513d653a6">getGeneralStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ad42c11282eb44f497c52971513d653a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GENERAL_STATUS_FLAGS register.  <br /></td></tr>
-<tr class="separator:ad42c11282eb44f497c52971513d653a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d380c25a5c84b61e5268d0bb758e281" id="r_a6d380c25a5c84b61e5268d0bb758e281"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d380c25a5c84b61e5268d0bb758e281">getSupplyVoltage</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6d380c25a5c84b61e5268d0bb758e281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current supply (bus) voltage.  <br /></td></tr>
-<tr class="separator:a6d380c25a5c84b61e5268d0bb758e281"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75b73646ffc71760006a4d069acff85a" id="r_a75b73646ffc71760006a4d069acff85a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75b73646ffc71760006a4d069acff85a">getChipTemperature</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a75b73646ffc71760006a4d069acff85a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the internal chip temperature.  <br /></td></tr>
-<tr class="separator:a75b73646ffc71760006a4d069acff85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a621543b53b02c2c4ab3524e7b29541" id="r_a1a621543b53b02c2c4ab3524e7b29541"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a621543b53b02c2c4ab3524e7b29541">getMotorCurrent</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a1a621543b53b02c2c4ab3524e7b29541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current motor current (torque current).  <br /></td></tr>
-<tr class="separator:a1a621543b53b02c2c4ab3524e7b29541"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7bac93249f0d4b80e4746f863c7008b" id="r_ad7bac93249f0d4b80e4746f863c7008b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7bac93249f0d4b80e4746f863c7008b">getActualVelocity</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ad7bac93249f0d4b80e4746f863c7008b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the measured actual velocity of the motor.  <br /></td></tr>
-<tr class="separator:ad7bac93249f0d4b80e4746f863c7008b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b91d710a27dba5ee6fe360b8845941c" id="r_a5b91d710a27dba5ee6fe360b8845941c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b91d710a27dba5ee6fe360b8845941c">getActualPosition</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a5b91d710a27dba5ee6fe360b8845941c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the measured actual position of the motor.  <br /></td></tr>
-<tr class="separator:a5b91d710a27dba5ee6fe360b8845941c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ca59d6b912cae23fa2cc64a9992f31c" id="r_a2ca59d6b912cae23fa2cc64a9992f31c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ca59d6b912cae23fa2cc64a9992f31c">getGeneralErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a2ca59d6b912cae23fa2cc64a9992f31c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GENERAL_ERROR_FLAGS register.  <br /></td></tr>
-<tr class="separator:a2ca59d6b912cae23fa2cc64a9992f31c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79b157f8113e77854fb897045ea7f3ea" id="r_a79b157f8113e77854fb897045ea7f3ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79b157f8113e77854fb897045ea7f3ea">getGateDriverErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a79b157f8113e77854fb897045ea7f3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GDRV_ERROR_FLAGS register.  <br /></td></tr>
-<tr class="separator:a79b157f8113e77854fb897045ea7f3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a71f93c9270401bd3d128b9464dfab0" id="r_a2a71f93c9270401bd3d128b9464dfab0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2a71f93c9270401bd3d128b9464dfab0">clearGeneralErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a2a71f93c9270401bd3d128b9464dfab0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the GENERAL_ERROR_FLAGS register.  <br /></td></tr>
-<tr class="separator:a2a71f93c9270401bd3d128b9464dfab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d4e94e9cd68a203df36d3bada6aa6db" id="r_a9d4e94e9cd68a203df36d3bada6aa6db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d4e94e9cd68a203df36d3bada6aa6db">clearGateDriverErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9d4e94e9cd68a203df36d3bada6aa6db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the GDRV_ERROR_FLAGS register.  <br /></td></tr>
-<tr class="separator:a9d4e94e9cd68a203df36d3bada6aa6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4db4c9bd62d6dc45095a6c8381aafe21" id="r_a4db4c9bd62d6dc45095a6c8381aafe21"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4db4c9bd62d6dc45095a6c8381aafe21">getADCStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a4db4c9bd62d6dc45095a6c8381aafe21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the ADC_STATUS_FLAGS register (clipped ADC channels).  <br /></td></tr>
-<tr class="separator:a4db4c9bd62d6dc45095a6c8381aafe21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56960a5ba5f4640f5a0968a6592da4bf" id="r_a56960a5ba5f4640f5a0968a6592da4bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56960a5ba5f4640f5a0968a6592da4bf">clearADCStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a56960a5ba5f4640f5a0968a6592da4bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the ADC_STATUS_FLAGS register (write-1-to-clear).  <br /></td></tr>
-<tr class="separator:a56960a5ba5f4640f5a0968a6592da4bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ccba046a4312b8f5c5a4d659252d2b1" id="r_a6ccba046a4312b8f5c5a4d659252d2b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ccba046a4312b8f5c5a4d659252d2b1">getExternalTemperature</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6ccba046a4312b8f5c5a4d659252d2b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the external temperature sensor raw value.  <br /></td></tr>
-<tr class="separator:a6ccba046a4312b8f5c5a4d659252d2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5faef9176c61a1247a201d1451be76c2" id="r_a5faef9176c61a1247a201d1451be76c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5faef9176c61a1247a201d1451be76c2">getGeneralStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5faef9176c61a1247a201d1451be76c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GENERAL_STATUS_FLAGS register.  <br /></td></tr>
+<tr class="separator:a5faef9176c61a1247a201d1451be76c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67d710ba4bf35313be665a0ad4d059a0" id="r_a67d710ba4bf35313be665a0ad4d059a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67d710ba4bf35313be665a0ad4d059a0">getSupplyVoltage</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a67d710ba4bf35313be665a0ad4d059a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current supply (bus) voltage.  <br /></td></tr>
+<tr class="separator:a67d710ba4bf35313be665a0ad4d059a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a429d5771c777fe881da4862e2e583a98" id="r_a429d5771c777fe881da4862e2e583a98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a429d5771c777fe881da4862e2e583a98">getChipTemperature</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a429d5771c777fe881da4862e2e583a98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the internal chip temperature.  <br /></td></tr>
+<tr class="separator:a429d5771c777fe881da4862e2e583a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3351e6d329767554c4bde6a29b65759f" id="r_a3351e6d329767554c4bde6a29b65759f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3351e6d329767554c4bde6a29b65759f">getMotorCurrent</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3351e6d329767554c4bde6a29b65759f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current motor current (torque current).  <br /></td></tr>
+<tr class="separator:a3351e6d329767554c4bde6a29b65759f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a510f5aac05c6d16df63d4f259cc4bb4f" id="r_a510f5aac05c6d16df63d4f259cc4bb4f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a510f5aac05c6d16df63d4f259cc4bb4f">getActualVelocity</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a510f5aac05c6d16df63d4f259cc4bb4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the measured actual velocity of the motor.  <br /></td></tr>
+<tr class="separator:a510f5aac05c6d16df63d4f259cc4bb4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2e6326975fd4aee28e429316b37ef2" id="r_a9a2e6326975fd4aee28e429316b37ef2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a2e6326975fd4aee28e429316b37ef2">getActualPosition</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9a2e6326975fd4aee28e429316b37ef2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the measured actual position of the motor.  <br /></td></tr>
+<tr class="separator:a9a2e6326975fd4aee28e429316b37ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84892c595202b8d3b43ba1e514b49a3b" id="r_a84892c595202b8d3b43ba1e514b49a3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84892c595202b8d3b43ba1e514b49a3b">getGeneralErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a84892c595202b8d3b43ba1e514b49a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GENERAL_ERROR_FLAGS register.  <br /></td></tr>
+<tr class="separator:a84892c595202b8d3b43ba1e514b49a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09117b87cb2af4f75e7bf236935e2db" id="r_af09117b87cb2af4f75e7bf236935e2db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af09117b87cb2af4f75e7bf236935e2db">getGateDriverErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:af09117b87cb2af4f75e7bf236935e2db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the GDRV_ERROR_FLAGS register.  <br /></td></tr>
+<tr class="separator:af09117b87cb2af4f75e7bf236935e2db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef6ef07c6b8d4dc69bd4fa8f84b24d0f" id="r_aef6ef07c6b8d4dc69bd4fa8f84b24d0f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef6ef07c6b8d4dc69bd4fa8f84b24d0f">clearGeneralErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aef6ef07c6b8d4dc69bd4fa8f84b24d0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the GENERAL_ERROR_FLAGS register.  <br /></td></tr>
+<tr class="separator:aef6ef07c6b8d4dc69bd4fa8f84b24d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8514e8486ff6677c15b88f1c2ed0c4" id="r_acb8514e8486ff6677c15b88f1c2ed0c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb8514e8486ff6677c15b88f1c2ed0c4">clearGateDriverErrorFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:acb8514e8486ff6677c15b88f1c2ed0c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the GDRV_ERROR_FLAGS register.  <br /></td></tr>
+<tr class="separator:acb8514e8486ff6677c15b88f1c2ed0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad30edef444154af960f8781868a3d63a" id="r_ad30edef444154af960f8781868a3d63a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad30edef444154af960f8781868a3d63a">getADCStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">flags</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad30edef444154af960f8781868a3d63a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the ADC_STATUS_FLAGS register (clipped ADC channels).  <br /></td></tr>
+<tr class="separator:ad30edef444154af960f8781868a3d63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12250f1295f3439f57f900551d7d955a" id="r_a12250f1295f3439f57f900551d7d955a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12250f1295f3439f57f900551d7d955a">clearADCStatusFlags</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a12250f1295f3439f57f900551d7d955a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear bits in the ADC_STATUS_FLAGS register (write-1-to-clear).  <br /></td></tr>
+<tr class="separator:a12250f1295f3439f57f900551d7d955a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeddc68f76b79f52bde13f8b6b2a61fed" id="r_aeddc68f76b79f52bde13f8b6b2a61fed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeddc68f76b79f52bde13f8b6b2a61fed">getExternalTemperature</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aeddc68f76b79f52bde13f8b6b2a61fed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the external temperature sensor raw value.  <br /></td></tr>
+<tr class="separator:aeddc68f76b79f52bde13f8b6b2a61fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a69dd6cb30c8817c0691d0804feb87fa6" id="r_a69dd6cb30c8817c0691d0804feb87fa6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69dd6cb30c8817c0691d0804feb87fa6">Telemetry</a> (<a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">parent</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="separator:a69dd6cb30c8817c0691d0804feb87fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72870f99d37a5acaeaa177b121fdadde" id="r_a72870f99d37a5acaeaa177b121fdadde"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72870f99d37a5acaeaa177b121fdadde">Telemetry</a> (<a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">parent</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="separator:a72870f99d37a5acaeaa177b121fdadde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -175,8 +175,8 @@ Friends</h2></td></tr>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
 struct tmc9660::TMC9660&lt; CommType &gt;::Telemetry</div><p>Subsystem for reading various telemetry and status information from the driver. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a69dd6cb30c8817c0691d0804feb87fa6" name="a69dd6cb30c8817c0691d0804feb87fa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69dd6cb30c8817c0691d0804feb87fa6">&#9670;&#160;</a></span>Telemetry()</h2>
+<a id="a72870f99d37a5acaeaa177b121fdadde" name="a72870f99d37a5acaeaa177b121fdadde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72870f99d37a5acaeaa177b121fdadde">&#9670;&#160;</a></span>Telemetry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +187,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">TMC9660::Telemetry::Telemetry </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::Telemetry </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1TMC9660.html">TMC9660</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>parent</em></span></td><td>)</td>
           <td></td>
@@ -203,8 +203,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a56960a5ba5f4640f5a0968a6592da4bf" name="a56960a5ba5f4640f5a0968a6592da4bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56960a5ba5f4640f5a0968a6592da4bf">&#9670;&#160;</a></span>clearADCStatusFlags()</h2>
+<a id="a12250f1295f3439f57f900551d7d955a" name="a12250f1295f3439f57f900551d7d955a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12250f1295f3439f57f900551d7d955a">&#9670;&#160;</a></span>clearADCStatusFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,7 +215,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::clearADCStatusFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::clearADCStatusFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
           <td></td>
@@ -239,8 +239,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9d4e94e9cd68a203df36d3bada6aa6db" name="a9d4e94e9cd68a203df36d3bada6aa6db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d4e94e9cd68a203df36d3bada6aa6db">&#9670;&#160;</a></span>clearGateDriverErrorFlags()</h2>
+<a id="acb8514e8486ff6677c15b88f1c2ed0c4" name="acb8514e8486ff6677c15b88f1c2ed0c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb8514e8486ff6677c15b88f1c2ed0c4">&#9670;&#160;</a></span>clearGateDriverErrorFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +251,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::clearGateDriverErrorFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::clearGateDriverErrorFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
           <td></td>
@@ -275,8 +275,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a2a71f93c9270401bd3d128b9464dfab0" name="a2a71f93c9270401bd3d128b9464dfab0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a71f93c9270401bd3d128b9464dfab0">&#9670;&#160;</a></span>clearGeneralErrorFlags()</h2>
+<a id="aef6ef07c6b8d4dc69bd4fa8f84b24d0f" name="aef6ef07c6b8d4dc69bd4fa8f84b24d0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef6ef07c6b8d4dc69bd4fa8f84b24d0f">&#9670;&#160;</a></span>clearGeneralErrorFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,7 +287,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::clearGeneralErrorFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::clearGeneralErrorFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
           <td></td>
@@ -311,8 +311,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a5b91d710a27dba5ee6fe360b8845941c" name="a5b91d710a27dba5ee6fe360b8845941c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b91d710a27dba5ee6fe360b8845941c">&#9670;&#160;</a></span>getActualPosition()</h2>
+<a id="a9a2e6326975fd4aee28e429316b37ef2" name="a9a2e6326975fd4aee28e429316b37ef2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2e6326975fd4aee28e429316b37ef2">&#9670;&#160;</a></span>getActualPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -323,7 +323,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> TMC9660::Telemetry::getActualPosition </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getActualPosition </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -341,8 +341,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ad7bac93249f0d4b80e4746f863c7008b" name="ad7bac93249f0d4b80e4746f863c7008b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7bac93249f0d4b80e4746f863c7008b">&#9670;&#160;</a></span>getActualVelocity()</h2>
+<a id="a510f5aac05c6d16df63d4f259cc4bb4f" name="a510f5aac05c6d16df63d4f259cc4bb4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a510f5aac05c6d16df63d4f259cc4bb4f">&#9670;&#160;</a></span>getActualVelocity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -353,7 +353,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> TMC9660::Telemetry::getActualVelocity </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getActualVelocity </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -371,8 +371,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a4db4c9bd62d6dc45095a6c8381aafe21" name="a4db4c9bd62d6dc45095a6c8381aafe21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4db4c9bd62d6dc45095a6c8381aafe21">&#9670;&#160;</a></span>getADCStatusFlags()</h2>
+<a id="ad30edef444154af960f8781868a3d63a" name="ad30edef444154af960f8781868a3d63a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad30edef444154af960f8781868a3d63a">&#9670;&#160;</a></span>getADCStatusFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +383,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::getADCStatusFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getADCStatusFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span></td><td>)</td>
           <td></td>
@@ -407,8 +407,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a75b73646ffc71760006a4d069acff85a" name="a75b73646ffc71760006a4d069acff85a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75b73646ffc71760006a4d069acff85a">&#9670;&#160;</a></span>getChipTemperature()</h2>
+<a id="a429d5771c777fe881da4862e2e583a98" name="a429d5771c777fe881da4862e2e583a98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a429d5771c777fe881da4862e2e583a98">&#9670;&#160;</a></span>getChipTemperature()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,7 +419,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> TMC9660::Telemetry::getChipTemperature </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getChipTemperature </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -437,8 +437,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a6ccba046a4312b8f5c5a4d659252d2b1" name="a6ccba046a4312b8f5c5a4d659252d2b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ccba046a4312b8f5c5a4d659252d2b1">&#9670;&#160;</a></span>getExternalTemperature()</h2>
+<a id="aeddc68f76b79f52bde13f8b6b2a61fed" name="aeddc68f76b79f52bde13f8b6b2a61fed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeddc68f76b79f52bde13f8b6b2a61fed">&#9670;&#160;</a></span>getExternalTemperature()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -449,7 +449,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> TMC9660::Telemetry::getExternalTemperature </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getExternalTemperature </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -467,8 +467,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a79b157f8113e77854fb897045ea7f3ea" name="a79b157f8113e77854fb897045ea7f3ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79b157f8113e77854fb897045ea7f3ea">&#9670;&#160;</a></span>getGateDriverErrorFlags()</h2>
+<a id="af09117b87cb2af4f75e7bf236935e2db" name="af09117b87cb2af4f75e7bf236935e2db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09117b87cb2af4f75e7bf236935e2db">&#9670;&#160;</a></span>getGateDriverErrorFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -479,7 +479,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::getGateDriverErrorFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getGateDriverErrorFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span></td><td>)</td>
           <td></td>
@@ -503,8 +503,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a2ca59d6b912cae23fa2cc64a9992f31c" name="a2ca59d6b912cae23fa2cc64a9992f31c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ca59d6b912cae23fa2cc64a9992f31c">&#9670;&#160;</a></span>getGeneralErrorFlags()</h2>
+<a id="a84892c595202b8d3b43ba1e514b49a3b" name="a84892c595202b8d3b43ba1e514b49a3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84892c595202b8d3b43ba1e514b49a3b">&#9670;&#160;</a></span>getGeneralErrorFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -515,7 +515,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::getGeneralErrorFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getGeneralErrorFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span></td><td>)</td>
           <td></td>
@@ -539,8 +539,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ad42c11282eb44f497c52971513d653a6" name="ad42c11282eb44f497c52971513d653a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad42c11282eb44f497c52971513d653a6">&#9670;&#160;</a></span>getGeneralStatusFlags()</h2>
+<a id="a5faef9176c61a1247a201d1451be76c2" name="a5faef9176c61a1247a201d1451be76c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5faef9176c61a1247a201d1451be76c2">&#9670;&#160;</a></span>getGeneralStatusFlags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -551,7 +551,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Telemetry::getGeneralStatusFlags </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getGeneralStatusFlags </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>flags</em></span></td><td>)</td>
           <td></td>
@@ -575,8 +575,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a1a621543b53b02c2c4ab3524e7b29541" name="a1a621543b53b02c2c4ab3524e7b29541"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a621543b53b02c2c4ab3524e7b29541">&#9670;&#160;</a></span>getMotorCurrent()</h2>
+<a id="a3351e6d329767554c4bde6a29b65759f" name="a3351e6d329767554c4bde6a29b65759f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3351e6d329767554c4bde6a29b65759f">&#9670;&#160;</a></span>getMotorCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -587,7 +587,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> TMC9660::Telemetry::getMotorCurrent </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getMotorCurrent </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -605,8 +605,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a6d380c25a5c84b61e5268d0bb758e281" name="a6d380c25a5c84b61e5268d0bb758e281"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d380c25a5c84b61e5268d0bb758e281">&#9670;&#160;</a></span>getSupplyVoltage()</h2>
+<a id="a67d710ba4bf35313be665a0ad4d059a0" name="a67d710ba4bf35313be665a0ad4d059a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d710ba4bf35313be665a0ad4d059a0">&#9670;&#160;</a></span>getSupplyVoltage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -617,7 +617,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> TMC9660::Telemetry::getSupplyVoltage </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Telemetry::getSupplyVoltage </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -685,9 +685,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
-<li><a class="el" href="tmc9660_8cpp_source.html">tmc9660.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

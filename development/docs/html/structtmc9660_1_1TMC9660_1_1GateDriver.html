@@ -123,72 +123,72 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a05fd83ea4c4d97bb99346cfc0737f8b8" id="r_a05fd83ea4c4d97bb99346cfc0737f8b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05fd83ea4c4d97bb99346cfc0737f8b8">setOutputPolarity</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a05fd83ea4c4d97bb99346cfc0737f8b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gate driver output polarity.  <br /></td></tr>
-<tr class="separator:a05fd83ea4c4d97bb99346cfc0737f8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88f1b5cc0815d34d7d9f9a37a3b74394" id="r_a88f1b5cc0815d34d7d9f9a37a3b74394"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88f1b5cc0815d34d7d9f9a37a3b74394">configureBreakBeforeMakeTiming</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side_y2</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a88f1b5cc0815d34d7d9f9a37a3b74394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the break-before-make timing for the gate driver (advanced API).  <br /></td></tr>
-<tr class="separator:a88f1b5cc0815d34d7d9f9a37a3b74394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30e06196b5aa6561a8f782e7a24dccb6" id="r_a30e06196b5aa6561a8f782e7a24dccb6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30e06196b5aa6561a8f782e7a24dccb6">configureBreakBeforeMakeTiming_ns</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">lowSideUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">highSideUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">lowSideY2_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">highSideY2_ns</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a30e06196b5aa6561a8f782e7a24dccb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure break-before-make timing using nanoseconds (recommended API).  <br /></td></tr>
-<tr class="separator:a30e06196b5aa6561a8f782e7a24dccb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a231e42ae24721aa65322b70f555a2cca" id="r_a231e42ae24721aa65322b70f555a2cca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a231e42ae24721aa65322b70f555a2cca">enableAdaptiveDriveTime</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a231e42ae24721aa65322b70f555a2cca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable adaptive drive time for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:a231e42ae24721aa65322b70f555a2cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3abd13be3b2e0a44ebd0528a81e0a8da" id="r_a3abd13be3b2e0a44ebd0528a81e0a8da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3abd13be3b2e0a44ebd0528a81e0a8da">configureDriveTimes</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_time_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_time_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_time_y2</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_time_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3abd13be3b2e0a44ebd0528a81e0a8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times for UVW and Y2 phases (advanced API).  <br /></td></tr>
-<tr class="separator:a3abd13be3b2e0a44ebd0528a81e0a8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60883f6fee0530e257744f40f6717640" id="r_a60883f6fee0530e257744f40f6717640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60883f6fee0530e257744f40f6717640">configureDriveTimes_ns</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sinkTimeUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sourceTimeUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sinkTimeY2_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sourceTimeY2_ns</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a60883f6fee0530e257744f40f6717640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times using nanoseconds (recommended API).  <br /></td></tr>
-<tr class="separator:a60883f6fee0530e257744f40f6717640"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e3fbea4ee294cc993d87e9203ca22ec" id="r_a4e3fbea4ee294cc993d87e9203ca22ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e3fbea4ee294cc993d87e9203ca22ec">configureCurrentLimits</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_current_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_current_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_current_y2</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_current_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a4e3fbea4ee294cc993d87e9203ca22ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate driver current limits for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:a4e3fbea4ee294cc993d87e9203ca22ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fc2ccb753961325931a01cad557d350" id="r_a3fc2ccb753961325931a01cad557d350"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fc2ccb753961325931a01cad557d350">configureBootstrapCurrentLimit</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5a65f1e33a3ba74c57d33e8a36bff236">tmc9660::tmcl::BootstrapCurrentLimit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3fc2ccb753961325931a01cad557d350"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure bootstrap current limit.  <br /></td></tr>
-<tr class="separator:a3fc2ccb753961325931a01cad557d350"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39842bd519860422a6837210d4776f48" id="r_a39842bd519860422a6837210d4776f48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39842bd519860422a6837210d4776f48">configureUndervoltageProtection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a> supplyLevel, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_vdrv</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_bst_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_bst_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a39842bd519860422a6837210d4776f48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure undervoltage protection settings.  <br /></td></tr>
-<tr class="separator:a39842bd519860422a6837210d4776f48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17f53b9bb8549f686241ae1e06404b28" id="r_a17f53b9bb8549f686241ae1e06404b28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17f53b9bb8549f686241ae1e06404b28">enableOvercurrentProtection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw_low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw_high_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2_low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2_high_side</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a17f53b9bb8549f686241ae1e06404b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable overcurrent protection for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:a17f53b9bb8549f686241ae1e06404b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb01965e14393b403b4e96cd7ffb3f77" id="r_abb01965e14393b403b4e96cd7ffb3f77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abb01965e14393b403b4e96cd7ffb3f77">setOvercurrentThresholds</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_threshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_threshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideThreshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideThreshold</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:abb01965e14393b403b4e96cd7ffb3f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure overcurrent protection thresholds for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:abb01965e14393b403b4e96cd7ffb3f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abad1d732df4c412bc896aff370502b03" id="r_abad1d732df4c412bc896aff370502b03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abad1d732df4c412bc896aff370502b03">setOvercurrentBlanking</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideTime</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideTime</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:abad1d732df4c412bc896aff370502b03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the overcurrent protection blanking time for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:abad1d732df4c412bc896aff370502b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d72c4df3b636b73085292ee375f84ca" id="r_a3d72c4df3b636b73085292ee375f84ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d72c4df3b636b73085292ee375f84ca">setOvercurrentDeglitch</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideTime</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideTime</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3d72c4df3b636b73085292ee375f84ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the overcurrent protection deglitch time for UVW and Y2 phases.  <br /></td></tr>
-<tr class="separator:a3d72c4df3b636b73085292ee375f84ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9383526246cec88d5d8036c302b3d2e8" id="r_a9383526246cec88d5d8036c302b3d2e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9383526246cec88d5d8036c302b3d2e8">enableVdsMonitoringLow</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5df4ec48db6bb2fa6d9c8c7d0eddbec0">tmc9660::tmcl::VdsUsage</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_enable</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a5df4ec48db6bb2fa6d9c8c7d0eddbec0">tmc9660::tmcl::VdsUsage</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Enable</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9383526246cec88d5d8036c302b3d2e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.  <br /></td></tr>
-<tr class="separator:a9383526246cec88d5d8036c302b3d2e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1bc3df2b903317f035c3cca1f75b26b" id="r_ae1bc3df2b903317f035c3cca1f75b26b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1bc3df2b903317f035c3cca1f75b26b">configureVgsShortProtectionUVW</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_off</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_off</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ae1bc3df2b903317f035c3cca1f75b26b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate-to-source short protection for UVW phases.  <br /></td></tr>
-<tr class="separator:ae1bc3df2b903317f035c3cca1f75b26b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61652a179a80188fef376c4bebb7abd5" id="r_a61652a179a80188fef376c4bebb7abd5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61652a179a80188fef376c4bebb7abd5">configureVgsShortProtectionY2</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_off</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_off</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a61652a179a80188fef376c4bebb7abd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate-to-source short protection for Y2 phase.  <br /></td></tr>
-<tr class="separator:a61652a179a80188fef376c4bebb7abd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7005542cec735aa8404adcb4488c9be0" id="r_a7005542cec735aa8404adcb4488c9be0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7005542cec735aa8404adcb4488c9be0">setVgsShortBlankingTime</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a490f80445862d3b02f54dfc29b109e8b">tmc9660::tmcl::VgsBlankingTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a490f80445862d3b02f54dfc29b109e8b">tmc9660::tmcl::VgsBlankingTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Time</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a7005542cec735aa8404adcb4488c9be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gate-to-source short protection blanking time.  <br /></td></tr>
-<tr class="separator:a7005542cec735aa8404adcb4488c9be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa328ea18b83beb982166b024d1e223cd" id="r_aa328ea18b83beb982166b024d1e223cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa328ea18b83beb982166b024d1e223cd">setVgsShortDeglitchTime</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9">tmc9660::tmcl::VgsDeglitchTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9">tmc9660::tmcl::VgsDeglitchTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Time</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aa328ea18b83beb982166b024d1e223cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gate-to-source short protection deglitch time.  <br /></td></tr>
-<tr class="separator:aa328ea18b83beb982166b024d1e223cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e1c0bd3b8b0b65afdd2d9c665ce9d02" id="r_a4e1c0bd3b8b0b65afdd2d9c665ce9d02"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4e1c0bd3b8b0b65afdd2d9c665ce9d02">setRetryBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a> <a class="el" href="classtmc9660_1_1CommInterface.html">retry_behavior</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a4e1c0bd3b8b0b65afdd2d9c665ce9d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure fault retry behavior.  <br /></td></tr>
-<tr class="separator:a4e1c0bd3b8b0b65afdd2d9c665ce9d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bde923d6d412cd1a5af1dce00096965" id="r_a9bde923d6d412cd1a5af1dce00096965"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bde923d6d412cd1a5af1dce00096965">setDriveFaultBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a> <a class="el" href="classtmc9660_1_1CommInterface.html">fault_behavior</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9bde923d6d412cd1a5af1dce00096965"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive fault behavior.  <br /></td></tr>
-<tr class="separator:a9bde923d6d412cd1a5af1dce00096965"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27b2e7d9d2e21bcc094c4c5983bfeab9" id="r_a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27b2e7d9d2e21bcc094c4c5983bfeab9">setFaultHandlerRetries</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">retries</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum number of retries for fault handling.  <br /></td></tr>
-<tr class="separator:a27b2e7d9d2e21bcc094c4c5983bfeab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6f8ddc1dc83b220c21ccd4c2da178b6" id="r_ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6f8ddc1dc83b220c21ccd4c2da178b6">configurePowerStageProtection</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">profile</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure complete power stage based on physical properties.  <br /></td></tr>
-<tr class="separator:ac6f8ddc1dc83b220c21ccd4c2da178b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab4c8e626482f5906d1b719f376993e" id="r_aeab4c8e626482f5906d1b719f376993e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeab4c8e626482f5906d1b719f376993e">setOutputPolarity</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aeab4c8e626482f5906d1b719f376993e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the gate driver output polarity.  <br /></td></tr>
+<tr class="separator:aeab4c8e626482f5906d1b719f376993e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a437280de6e64ba0ba92b5c9a438c4b20" id="r_a437280de6e64ba0ba92b5c9a438c4b20"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a437280de6e64ba0ba92b5c9a438c4b20">configureBreakBeforeMakeTiming</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">low_side_y2</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">high_side_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a437280de6e64ba0ba92b5c9a438c4b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the break-before-make timing for the gate driver (advanced API).  <br /></td></tr>
+<tr class="separator:a437280de6e64ba0ba92b5c9a438c4b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559601df9f2547329a5a5ab0b97fb5e5" id="r_a559601df9f2547329a5a5ab0b97fb5e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a559601df9f2547329a5a5ab0b97fb5e5">configureBreakBeforeMakeTiming_ns</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">lowSideUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">highSideUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">lowSideY2_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">highSideY2_ns</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a559601df9f2547329a5a5ab0b97fb5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure break-before-make timing using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a559601df9f2547329a5a5ab0b97fb5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37d6e222cc621ad21b025363911240d6" id="r_a37d6e222cc621ad21b025363911240d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37d6e222cc621ad21b025363911240d6">enableAdaptiveDriveTime</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a37d6e222cc621ad21b025363911240d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable adaptive drive time for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:a37d6e222cc621ad21b025363911240d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c0cbfcc4fec93b4fde4bf1197ee11dd" id="r_a6c0cbfcc4fec93b4fde4bf1197ee11dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c0cbfcc4fec93b4fde4bf1197ee11dd">configureDriveTimes</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_time_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_time_uvw</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_time_y2</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_time_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a6c0cbfcc4fec93b4fde4bf1197ee11dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times for UVW and Y2 phases (advanced API).  <br /></td></tr>
+<tr class="separator:a6c0cbfcc4fec93b4fde4bf1197ee11dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e93e1eca2f72c47a12c103ffc041c83" id="r_a3e93e1eca2f72c47a12c103ffc041c83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e93e1eca2f72c47a12c103ffc041c83">configureDriveTimes_ns</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sinkTimeUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sourceTimeUVW_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sinkTimeY2_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sourceTimeY2_ns</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3e93e1eca2f72c47a12c103ffc041c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive times using nanoseconds (recommended API).  <br /></td></tr>
+<tr class="separator:a3e93e1eca2f72c47a12c103ffc041c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59140276d9fc0294c47c0de5382531cf" id="r_a59140276d9fc0294c47c0de5382531cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59140276d9fc0294c47c0de5382531cf">configureCurrentLimits</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_current_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_current_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a> <a class="el" href="classtmc9660_1_1CommInterface.html">sink_current_y2</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a18f801c4907922577564b93dbda0b36a">tmc9660::tmcl::GateCurrentSource</a> <a class="el" href="classtmc9660_1_1CommInterface.html">source_current_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a59140276d9fc0294c47c0de5382531cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate driver current limits for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:a59140276d9fc0294c47c0de5382531cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3" id="r_a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3">configureBootstrapCurrentLimit</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5a65f1e33a3ba74c57d33e8a36bff236">tmc9660::tmcl::BootstrapCurrentLimit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure bootstrap current limit.  <br /></td></tr>
+<tr class="separator:a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad23dc6b64e93cd3f1926dd0dc6ef8319" id="r_ad23dc6b64e93cd3f1926dd0dc6ef8319"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad23dc6b64e93cd3f1926dd0dc6ef8319">configureUndervoltageProtection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a> supplyLevel, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_vdrv</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_bst_uvw</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a061e17a2ae3b59c4947cbd8666ef5e4a">tmc9660::tmcl::UndervoltageEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_bst_y2</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad23dc6b64e93cd3f1926dd0dc6ef8319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure undervoltage protection settings.  <br /></td></tr>
+<tr class="separator:ad23dc6b64e93cd3f1926dd0dc6ef8319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac07e5e714ad1baa607054a82868c1323" id="r_ac07e5e714ad1baa607054a82868c1323"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac07e5e714ad1baa607054a82868c1323">enableOvercurrentProtection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw_low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_uvw_high_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2_low_side</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_y2_high_side</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ac07e5e714ad1baa607054a82868c1323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable overcurrent protection for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:ac07e5e714ad1baa607054a82868c1323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd30949f690ef76d4e826754423e09da" id="r_acd30949f690ef76d4e826754423e09da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd30949f690ef76d4e826754423e09da">setOvercurrentThresholds</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_threshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_threshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideThreshold</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideThreshold</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:acd30949f690ef76d4e826754423e09da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure overcurrent protection thresholds for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:acd30949f690ef76d4e826754423e09da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77519d8c0ed638e3a2fc4252a0a02009" id="r_a77519d8c0ed638e3a2fc4252a0a02009"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77519d8c0ed638e3a2fc4252a0a02009">setOvercurrentBlanking</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideTime</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideTime</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a77519d8c0ed638e3a2fc4252a0a02009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the overcurrent protection blanking time for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:a77519d8c0ed638e3a2fc4252a0a02009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5aa5797070b573868bcfa34e79a02783" id="r_a5aa5797070b573868bcfa34e79a02783"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5aa5797070b573868bcfa34e79a02783">setOvercurrentDeglitch</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_low_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_high_side_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2LowSideTime</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2HighSideTime</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5aa5797070b573868bcfa34e79a02783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the overcurrent protection deglitch time for UVW and Y2 phases.  <br /></td></tr>
+<tr class="separator:a5aa5797070b573868bcfa34e79a02783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21cd4174a8e20d79e6114bbc855b205d" id="r_a21cd4174a8e20d79e6114bbc855b205d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21cd4174a8e20d79e6114bbc855b205d">enableVdsMonitoringLow</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5df4ec48db6bb2fa6d9c8c7d0eddbec0">tmc9660::tmcl::VdsUsage</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_enable</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a5df4ec48db6bb2fa6d9c8c7d0eddbec0">tmc9660::tmcl::VdsUsage</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Enable</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a21cd4174a8e20d79e6114bbc855b205d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.  <br /></td></tr>
+<tr class="separator:a21cd4174a8e20d79e6114bbc855b205d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7da8388125c25e37a1e01226a70b778" id="r_ab7da8388125c25e37a1e01226a70b778"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7da8388125c25e37a1e01226a70b778">configureVgsShortProtectionUVW</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_off</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_off</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab7da8388125c25e37a1e01226a70b778"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate-to-source short protection for UVW phases.  <br /></td></tr>
+<tr class="separator:ab7da8388125c25e37a1e01226a70b778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a26924a803a0ec028be6e11345c4696" id="r_a5a26924a803a0ec028be6e11345c4696"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a26924a803a0ec028be6e11345c4696">configureVgsShortProtectionY2</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_low_side_off</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_on</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a> <a class="el" href="classtmc9660_1_1CommInterface.html">enable_high_side_off</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5a26924a803a0ec028be6e11345c4696"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure gate-to-source short protection for Y2 phase.  <br /></td></tr>
+<tr class="separator:a5a26924a803a0ec028be6e11345c4696"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eafe4ca9c1faf58fd28d4e8e66f9103" id="r_a9eafe4ca9c1faf58fd28d4e8e66f9103"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eafe4ca9c1faf58fd28d4e8e66f9103">setVgsShortBlankingTime</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a490f80445862d3b02f54dfc29b109e8b">tmc9660::tmcl::VgsBlankingTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a490f80445862d3b02f54dfc29b109e8b">tmc9660::tmcl::VgsBlankingTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Time</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9eafe4ca9c1faf58fd28d4e8e66f9103"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gate-to-source short protection blanking time.  <br /></td></tr>
+<tr class="separator:a9eafe4ca9c1faf58fd28d4e8e66f9103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74ba9a64783cc7b4fa55aedbbbd7e0a" id="r_aa74ba9a64783cc7b4fa55aedbbbd7e0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa74ba9a64783cc7b4fa55aedbbbd7e0a">setVgsShortDeglitchTime</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9">tmc9660::tmcl::VgsDeglitchTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uvw_time</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9">tmc9660::tmcl::VgsDeglitchTime</a> <a class="el" href="classtmc9660_1_1CommInterface.html">y2Time</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aa74ba9a64783cc7b4fa55aedbbbd7e0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set gate-to-source short protection deglitch time.  <br /></td></tr>
+<tr class="separator:aa74ba9a64783cc7b4fa55aedbbbd7e0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff90ab5ea3ae16890458cf2eaa514f96" id="r_aff90ab5ea3ae16890458cf2eaa514f96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff90ab5ea3ae16890458cf2eaa514f96">setRetryBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a> <a class="el" href="classtmc9660_1_1CommInterface.html">retry_behavior</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aff90ab5ea3ae16890458cf2eaa514f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure fault retry behavior.  <br /></td></tr>
+<tr class="separator:aff90ab5ea3ae16890458cf2eaa514f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22dc11843baf81a14b602493e77651e3" id="r_a22dc11843baf81a14b602493e77651e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22dc11843baf81a14b602493e77651e3">setDriveFaultBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a> <a class="el" href="classtmc9660_1_1CommInterface.html">fault_behavior</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a22dc11843baf81a14b602493e77651e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure drive fault behavior.  <br /></td></tr>
+<tr class="separator:a22dc11843baf81a14b602493e77651e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a152006d2bf35c18ea3899cd8679a11bd" id="r_a152006d2bf35c18ea3899cd8679a11bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a152006d2bf35c18ea3899cd8679a11bd">setFaultHandlerRetries</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">retries</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a152006d2bf35c18ea3899cd8679a11bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum number of retries for fault handling.  <br /></td></tr>
+<tr class="separator:a152006d2bf35c18ea3899cd8679a11bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcd16d53014560a75ce984a1bd7ad678" id="r_adcd16d53014560a75ce984a1bd7ad678"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcd16d53014560a75ce984a1bd7ad678">configurePowerStageProtection</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">profile</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:adcd16d53014560a75ce984a1bd7ad678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure complete power stage based on physical properties.  <br /></td></tr>
+<tr class="separator:adcd16d53014560a75ce984a1bd7ad678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -237,8 +237,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3fc2ccb753961325931a01cad557d350" name="a3fc2ccb753961325931a01cad557d350"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fc2ccb753961325931a01cad557d350">&#9670;&#160;</a></span>configureBootstrapCurrentLimit()</h2>
+<a id="a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3" name="a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f6f7a8ce9f1cec35ea3ebc87cbbcfb3">&#9670;&#160;</a></span>configureBootstrapCurrentLimit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +249,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureBootstrapCurrentLimit </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureBootstrapCurrentLimit </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5a65f1e33a3ba74c57d33e8a36bff236">tmc9660::tmcl::BootstrapCurrentLimit</a></td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -273,8 +273,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a88f1b5cc0815d34d7d9f9a37a3b74394" name="a88f1b5cc0815d34d7d9f9a37a3b74394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88f1b5cc0815d34d7d9f9a37a3b74394">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming()</h2>
+<a id="a437280de6e64ba0ba92b5c9a438c4b20" name="a437280de6e64ba0ba92b5c9a438c4b20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a437280de6e64ba0ba92b5c9a438c4b20">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +285,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureBreakBeforeMakeTiming </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureBreakBeforeMakeTiming </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>low_side_uvw</em>, </span></td>
         </tr>
@@ -316,7 +316,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <p>Sets the timing for switching between high and low sides of the gate driver using register values.</p>
 <p>The break-before-make time is applied according to the following equation: time_ns = value * 8.33</p>
 <p>Or, conversely, for configuring a time in nanoseconds (ns): value = time_ns / 8.33</p>
-<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a30e06196b5aa6561a8f782e7a24dccb6" title="Configure break-before-make timing using nanoseconds (recommended API).">configureBreakBeforeMakeTiming_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a559601df9f2547329a5a5ab0b97fb5e5" title="Configure break-before-make timing using nanoseconds (recommended API).">configureBreakBeforeMakeTiming_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">low_side_uvw</td><td>Break-before-make time for UVW low side (register value: 0-255). Actual time: t = low_side_uvw * 8.33 ns </td></tr>
@@ -330,8 +330,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a30e06196b5aa6561a8f782e7a24dccb6" name="a30e06196b5aa6561a8f782e7a24dccb6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30e06196b5aa6561a8f782e7a24dccb6">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming_ns()</h2>
+<a id="a559601df9f2547329a5a5ab0b97fb5e5" name="a559601df9f2547329a5a5ab0b97fb5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559601df9f2547329a5a5ab0b97fb5e5">&#9670;&#160;</a></span>configureBreakBeforeMakeTiming_ns()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,7 +342,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureBreakBeforeMakeTiming_ns </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureBreakBeforeMakeTiming_ns </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>lowSideUVW_ns</em>, </span></td>
         </tr>
@@ -385,8 +385,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a4e3fbea4ee294cc993d87e9203ca22ec" name="a4e3fbea4ee294cc993d87e9203ca22ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e3fbea4ee294cc993d87e9203ca22ec">&#9670;&#160;</a></span>configureCurrentLimits()</h2>
+<a id="a59140276d9fc0294c47c0de5382531cf" name="a59140276d9fc0294c47c0de5382531cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59140276d9fc0294c47c0de5382531cf">&#9670;&#160;</a></span>configureCurrentLimits()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -397,7 +397,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureCurrentLimits </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureCurrentLimits </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a1d4c3465ae46c4819ec5e7bc7c29f805">tmc9660::tmcl::GateCurrentSink</a></td>          <td class="paramname"><span class="paramname"><em>sink_current_uvw</em>, </span></td>
         </tr>
@@ -438,8 +438,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a3abd13be3b2e0a44ebd0528a81e0a8da" name="a3abd13be3b2e0a44ebd0528a81e0a8da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3abd13be3b2e0a44ebd0528a81e0a8da">&#9670;&#160;</a></span>configureDriveTimes()</h2>
+<a id="a6c0cbfcc4fec93b4fde4bf1197ee11dd" name="a6c0cbfcc4fec93b4fde4bf1197ee11dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c0cbfcc4fec93b4fde4bf1197ee11dd">&#9670;&#160;</a></span>configureDriveTimes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -450,7 +450,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureDriveTimes </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureDriveTimes </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>sink_time_uvw</em>, </span></td>
         </tr>
@@ -482,7 +482,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <p>The drive time is applied according to the following equation: time_seconds = (1 / 120,000,000) * (2 * value + 3) For example, input a value between 0...255 (register units).</p>
 <p>Example conversion to nanoseconds: time_ns = ((2 * value + 3) * (1e9 / 120'000'000)) = (2*value + 3) * 8.33 ns</p>
 <p>Or, conversely, for configuring a drive time in nanoseconds (ns): value = ((desired_time_ns / 8.33) - 3) / 2</p>
-<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a60883f6fee0530e257744f40f6717640" title="Configure drive times using nanoseconds (recommended API).">configureDriveTimes_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For most use cases, prefer <a class="el" href="#a3e93e1eca2f72c47a12c103ffc041c83" title="Configure drive times using nanoseconds (recommended API).">configureDriveTimes_ns()</a> which accepts time values in nanoseconds for a more intuitive API.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sink_time_uvw</td><td>Discharge time for UVW phases (register value: 0 ... 255, default: 255). Actual time: t = (2*sink_time_uvw + 3) * 8.33 ns </td></tr>
@@ -496,8 +496,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a60883f6fee0530e257744f40f6717640" name="a60883f6fee0530e257744f40f6717640"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60883f6fee0530e257744f40f6717640">&#9670;&#160;</a></span>configureDriveTimes_ns()</h2>
+<a id="a3e93e1eca2f72c47a12c103ffc041c83" name="a3e93e1eca2f72c47a12c103ffc041c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e93e1eca2f72c47a12c103ffc041c83">&#9670;&#160;</a></span>configureDriveTimes_ns()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -508,7 +508,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureDriveTimes_ns </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureDriveTimes_ns </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>sinkTimeUVW_ns</em>, </span></td>
         </tr>
@@ -551,8 +551,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ac6f8ddc1dc83b220c21ccd4c2da178b6" name="ac6f8ddc1dc83b220c21ccd4c2da178b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6f8ddc1dc83b220c21ccd4c2da178b6">&#9670;&#160;</a></span>configurePowerStageProtection()</h2>
+<a id="adcd16d53014560a75ce984a1bd7ad678" name="adcd16d53014560a75ce984a1bd7ad678"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcd16d53014560a75ce984a1bd7ad678">&#9670;&#160;</a></span>configurePowerStageProtection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -563,7 +563,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configurePowerStageProtection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configurePowerStageProtection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html">PowerStageProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
           <td></td>
@@ -704,16 +704,11 @@ Phase selection (3-phase vs 4-phase) is determined by boot configuration and MOT
 <dl class="section note"><dt>Note</dt><dd>All protection features are enabled by default. The method configures timing parameters only - protection enables are set to safe defaults.</dd>
 <dd>
 If motor inductance is not provided (NaN), conservative di/dt estimates are used based on typical motor sizes. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1GateDriver_ac6f8ddc1dc83b220c21ccd4c2da178b6_cgraph.svg" width="514" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
-<a id="a39842bd519860422a6837210d4776f48" name="a39842bd519860422a6837210d4776f48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39842bd519860422a6837210d4776f48">&#9670;&#160;</a></span>configureUndervoltageProtection()</h2>
+<a id="ad23dc6b64e93cd3f1926dd0dc6ef8319" name="ad23dc6b64e93cd3f1926dd0dc6ef8319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad23dc6b64e93cd3f1926dd0dc6ef8319">&#9670;&#160;</a></span>configureUndervoltageProtection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -724,7 +719,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureUndervoltageProtection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureUndervoltageProtection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63">tmc9660::tmcl::UndervoltageLevel</a></td>          <td class="paramname"><span class="paramname"><em>supplyLevel</em>, </span></td>
         </tr>
@@ -765,8 +760,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ae1bc3df2b903317f035c3cca1f75b26b" name="ae1bc3df2b903317f035c3cca1f75b26b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1bc3df2b903317f035c3cca1f75b26b">&#9670;&#160;</a></span>configureVgsShortProtectionUVW()</h2>
+<a id="ab7da8388125c25e37a1e01226a70b778" name="ab7da8388125c25e37a1e01226a70b778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7da8388125c25e37a1e01226a70b778">&#9670;&#160;</a></span>configureVgsShortProtectionUVW()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -777,7 +772,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureVgsShortProtectionUVW </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureVgsShortProtectionUVW </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a></td>          <td class="paramname"><span class="paramname"><em>enable_low_side_on</em>, </span></td>
         </tr>
@@ -818,8 +813,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a61652a179a80188fef376c4bebb7abd5" name="a61652a179a80188fef376c4bebb7abd5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61652a179a80188fef376c4bebb7abd5">&#9670;&#160;</a></span>configureVgsShortProtectionY2()</h2>
+<a id="a5a26924a803a0ec028be6e11345c4696" name="a5a26924a803a0ec028be6e11345c4696"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a26924a803a0ec028be6e11345c4696">&#9670;&#160;</a></span>configureVgsShortProtectionY2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -830,7 +825,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::configureVgsShortProtectionY2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::configureVgsShortProtectionY2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060">tmc9660::tmcl::VgsShortEnable</a></td>          <td class="paramname"><span class="paramname"><em>enable_low_side_on</em>, </span></td>
         </tr>
@@ -871,8 +866,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a231e42ae24721aa65322b70f555a2cca" name="a231e42ae24721aa65322b70f555a2cca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a231e42ae24721aa65322b70f555a2cca">&#9670;&#160;</a></span>enableAdaptiveDriveTime()</h2>
+<a id="a37d6e222cc621ad21b025363911240d6" name="a37d6e222cc621ad21b025363911240d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d6e222cc621ad21b025363911240d6">&#9670;&#160;</a></span>enableAdaptiveDriveTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -883,7 +878,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::enableAdaptiveDriveTime </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::enableAdaptiveDriveTime </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>enable_uvw</em>, </span></td>
         </tr>
@@ -912,8 +907,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a17f53b9bb8549f686241ae1e06404b28" name="a17f53b9bb8549f686241ae1e06404b28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17f53b9bb8549f686241ae1e06404b28">&#9670;&#160;</a></span>enableOvercurrentProtection()</h2>
+<a id="ac07e5e714ad1baa607054a82868c1323" name="ac07e5e714ad1baa607054a82868c1323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac07e5e714ad1baa607054a82868c1323">&#9670;&#160;</a></span>enableOvercurrentProtection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -924,7 +919,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::enableOvercurrentProtection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::enableOvercurrentProtection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#aaccfa328f57da57ed4b129a9d38f32da">tmc9660::tmcl::OvercurrentEnable</a></td>          <td class="paramname"><span class="paramname"><em>enable_uvw_low_side</em>, </span></td>
         </tr>
@@ -965,8 +960,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9383526246cec88d5d8036c302b3d2e8" name="a9383526246cec88d5d8036c302b3d2e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9383526246cec88d5d8036c302b3d2e8">&#9670;&#160;</a></span>enableVdsMonitoringLow()</h2>
+<a id="a21cd4174a8e20d79e6114bbc855b205d" name="a21cd4174a8e20d79e6114bbc855b205d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21cd4174a8e20d79e6114bbc855b205d">&#9670;&#160;</a></span>enableVdsMonitoringLow()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -977,7 +972,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::enableVdsMonitoringLow </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::enableVdsMonitoringLow </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5df4ec48db6bb2fa6d9c8c7d0eddbec0">tmc9660::tmcl::VdsUsage</a></td>          <td class="paramname"><span class="paramname"><em>uvw_enable</em>, </span></td>
         </tr>
@@ -1006,8 +1001,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9bde923d6d412cd1a5af1dce00096965" name="a9bde923d6d412cd1a5af1dce00096965"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bde923d6d412cd1a5af1dce00096965">&#9670;&#160;</a></span>setDriveFaultBehavior()</h2>
+<a id="a22dc11843baf81a14b602493e77651e3" name="a22dc11843baf81a14b602493e77651e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22dc11843baf81a14b602493e77651e3">&#9670;&#160;</a></span>setDriveFaultBehavior()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1018,7 +1013,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setDriveFaultBehavior </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setDriveFaultBehavior </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4c38f46f78a7410c4355e1d0891d2f6d">tmc9660::tmcl::DriveFaultBehaviour</a></td>          <td class="paramname"><span class="paramname"><em>fault_behavior</em></span></td><td>)</td>
           <td></td>
@@ -1042,8 +1037,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a27b2e7d9d2e21bcc094c4c5983bfeab9" name="a27b2e7d9d2e21bcc094c4c5983bfeab9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27b2e7d9d2e21bcc094c4c5983bfeab9">&#9670;&#160;</a></span>setFaultHandlerRetries()</h2>
+<a id="a152006d2bf35c18ea3899cd8679a11bd" name="a152006d2bf35c18ea3899cd8679a11bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a152006d2bf35c18ea3899cd8679a11bd">&#9670;&#160;</a></span>setFaultHandlerRetries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1054,7 +1049,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setFaultHandlerRetries </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setFaultHandlerRetries </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>retries</em></span></td><td>)</td>
           <td></td>
@@ -1078,8 +1073,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a05fd83ea4c4d97bb99346cfc0737f8b8" name="a05fd83ea4c4d97bb99346cfc0737f8b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05fd83ea4c4d97bb99346cfc0737f8b8">&#9670;&#160;</a></span>setOutputPolarity()</h2>
+<a id="aeab4c8e626482f5906d1b719f376993e" name="aeab4c8e626482f5906d1b719f376993e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab4c8e626482f5906d1b719f376993e">&#9670;&#160;</a></span>setOutputPolarity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1090,7 +1085,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setOutputPolarity </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setOutputPolarity </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a89375da66c4c0f273db1c0ccb9d29951">tmc9660::tmcl::PwmOutputPolarity</a></td>          <td class="paramname"><span class="paramname"><em>low_side</em>, </span></td>
         </tr>
@@ -1119,8 +1114,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="abad1d732df4c412bc896aff370502b03" name="abad1d732df4c412bc896aff370502b03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abad1d732df4c412bc896aff370502b03">&#9670;&#160;</a></span>setOvercurrentBlanking()</h2>
+<a id="a77519d8c0ed638e3a2fc4252a0a02009" name="a77519d8c0ed638e3a2fc4252a0a02009"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77519d8c0ed638e3a2fc4252a0a02009">&#9670;&#160;</a></span>setOvercurrentBlanking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1131,7 +1126,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setOvercurrentBlanking </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setOvercurrentBlanking </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a></td>          <td class="paramname"><span class="paramname"><em>uvw_low_side_time</em>, </span></td>
         </tr>
@@ -1172,8 +1167,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a3d72c4df3b636b73085292ee375f84ca" name="a3d72c4df3b636b73085292ee375f84ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d72c4df3b636b73085292ee375f84ca">&#9670;&#160;</a></span>setOvercurrentDeglitch()</h2>
+<a id="a5aa5797070b573868bcfa34e79a02783" name="a5aa5797070b573868bcfa34e79a02783"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aa5797070b573868bcfa34e79a02783">&#9670;&#160;</a></span>setOvercurrentDeglitch()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1184,7 +1179,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setOvercurrentDeglitch </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setOvercurrentDeglitch </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a1f2c2b9676f3ab8d0d326a1ab079d6f3">tmc9660::tmcl::OvercurrentTiming</a></td>          <td class="paramname"><span class="paramname"><em>uvw_low_side_time</em>, </span></td>
         </tr>
@@ -1225,8 +1220,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="abb01965e14393b403b4e96cd7ffb3f77" name="abb01965e14393b403b4e96cd7ffb3f77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb01965e14393b403b4e96cd7ffb3f77">&#9670;&#160;</a></span>setOvercurrentThresholds()</h2>
+<a id="acd30949f690ef76d4e826754423e09da" name="acd30949f690ef76d4e826754423e09da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd30949f690ef76d4e826754423e09da">&#9670;&#160;</a></span>setOvercurrentThresholds()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1237,7 +1232,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setOvercurrentThresholds </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setOvercurrentThresholds </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a></td>          <td class="paramname"><span class="paramname"><em>uvw_low_side_threshold</em>, </span></td>
         </tr>
@@ -1273,7 +1268,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </ul>
 </li>
 </ul>
-<p>The enum values encode both thresholds (e.g., V_250_OR_187_MILLIVOLT means 250mV for RSHUNT or 187mV for VDS). The hardware automatically applies the correct value based on the sensing method configured via <a class="el" href="#a9383526246cec88d5d8036c302b3d2e8" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a>.</p>
+<p>The enum values encode both thresholds (e.g., V_250_OR_187_MILLIVOLT means 250mV for RSHUNT or 187mV for VDS). The hardware automatically applies the correct value based on the sensing method configured via <a class="el" href="#a21cd4174a8e20d79e6114bbc855b205d" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uvw_low_side_threshold</td><td>Threshold for UVW low side (auto-selected based on VDS/RSHUNT config) (<a class="el" href="namespacetmc9660_1_1tmcl.html#a31f78d4cc5bde2bb3d521c551ad3c08f">tmc9660::tmcl::OvercurrentThreshold</a> enum). </td></tr>
@@ -1284,12 +1279,12 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successfully configured.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Configure the sensing method (VDS vs RSHUNT) via <a class="el" href="#a9383526246cec88d5d8036c302b3d2e8" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a> before calling this function to ensure the correct threshold is applied. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Configure the sensing method (VDS vs RSHUNT) via <a class="el" href="#a21cd4174a8e20d79e6114bbc855b205d" title="Enable or disable VDS monitoring for overcurrent protection on UVW and Y2 low sides.">enableVdsMonitoringLow()</a> before calling this function to ensure the correct threshold is applied. </dd></dl>
 
 </div>
 </div>
-<a id="a4e1c0bd3b8b0b65afdd2d9c665ce9d02" name="a4e1c0bd3b8b0b65afdd2d9c665ce9d02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e1c0bd3b8b0b65afdd2d9c665ce9d02">&#9670;&#160;</a></span>setRetryBehavior()</h2>
+<a id="aff90ab5ea3ae16890458cf2eaa514f96" name="aff90ab5ea3ae16890458cf2eaa514f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff90ab5ea3ae16890458cf2eaa514f96">&#9670;&#160;</a></span>setRetryBehavior()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1300,7 +1295,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setRetryBehavior </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setRetryBehavior </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a5dfc76ef33c89a50d45de6cc345c9e6c">tmc9660::tmcl::GdrvRetryBehaviour</a></td>          <td class="paramname"><span class="paramname"><em>retry_behavior</em></span></td><td>)</td>
           <td></td>
@@ -1324,8 +1319,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a7005542cec735aa8404adcb4488c9be0" name="a7005542cec735aa8404adcb4488c9be0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7005542cec735aa8404adcb4488c9be0">&#9670;&#160;</a></span>setVgsShortBlankingTime()</h2>
+<a id="a9eafe4ca9c1faf58fd28d4e8e66f9103" name="a9eafe4ca9c1faf58fd28d4e8e66f9103"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eafe4ca9c1faf58fd28d4e8e66f9103">&#9670;&#160;</a></span>setVgsShortBlankingTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1336,7 +1331,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setVgsShortBlankingTime </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setVgsShortBlankingTime </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a490f80445862d3b02f54dfc29b109e8b">tmc9660::tmcl::VgsBlankingTime</a></td>          <td class="paramname"><span class="paramname"><em>uvw_time</em>, </span></td>
         </tr>
@@ -1365,8 +1360,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aa328ea18b83beb982166b024d1e223cd" name="aa328ea18b83beb982166b024d1e223cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa328ea18b83beb982166b024d1e223cd">&#9670;&#160;</a></span>setVgsShortDeglitchTime()</h2>
+<a id="aa74ba9a64783cc7b4fa55aedbbbd7e0a" name="aa74ba9a64783cc7b4fa55aedbbbd7e0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74ba9a64783cc7b4fa55aedbbbd7e0a">&#9670;&#160;</a></span>setVgsShortDeglitchTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1377,7 +1372,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::GateDriver::setVgsShortDeglitchTime </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::GateDriver::setVgsShortDeglitchTime </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9">tmc9660::tmcl::VgsDeglitchTime</a></td>          <td class="paramname"><span class="paramname"><em>uvw_time</em>, </span></td>
         </tr>
@@ -1456,9 +1451,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
-<li><a class="el" href="tmc9660_8cpp_source.html">tmc9660.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

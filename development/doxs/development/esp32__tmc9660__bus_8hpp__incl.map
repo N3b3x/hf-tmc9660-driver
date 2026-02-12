@@ -1,6 +1,6 @@
 <map id="esp32_tmc9660_bus.hpp" name="esp32_tmc9660_bus.hpp">
 <area shape="rect" id="Node000001" title="ESP32&#45;specific communication interfaces for TMC9660 using SPI and UART." alt="" coords="565,5,747,31"/>
-<area shape="rect" id="Node000002" href="$tmc9660__comm__interface_8hpp.html" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="236,79,399,119"/>
+<area shape="rect" id="Node000002" href="$tmc9660__comm__interface_8hpp.html" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI." alt="" coords="236,79,399,119"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="607,33,413,78,411,73,606,28"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,167,61,192"/>
 <area shape="poly" id="edge17_Node000001_Node000003" title=" " alt="" coords="564,27,340,45,232,61,188,70,156,81,126,97,98,117,55,158,51,154,95,113,123,93,154,76,187,65,231,56,340,40,564,21"/>

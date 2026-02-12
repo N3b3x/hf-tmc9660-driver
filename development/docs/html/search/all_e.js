@@ -6,7 +6,7 @@ var searchData=
   ['nchanneloffset_3',['nChannelOffset',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html#aa197d34cd989ffa68f42a9a7b370f85b',1,'tmc9660::TMC9660::FeedbackSense::AbnConfig']]],
   ['no_5fchange_4',['NO_CHANGE',['../structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a6ea5caafc76be589b864a601773dc9e3a1b7e0a590f9d0878bcc4b725e2998cb1',1,'tmc9660::register_mode::ADC::SRC_CONFIG']]],
   ['no_5fmore_5fburns_5',['NO_MORE_BURNS',['../namespacetmc9660.html#a0957dd1bf437919e2b822331c9cdcb43afd3ae08faff278e5dbbae9ca8586cfdf',1,'tmc9660']]],
-  ['no_5fop_6',['NO_OP',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0a14b52fa379dea9171c3eb958d7fa5795',1,'tmc9660']]],
+  ['no_5fop_6',['NO_OP',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a14b52fa379dea9171c3eb958d7fa5795',1,'tmc9660']]],
   ['noconfig_7',['NoConfig',['../classtmc9660_1_1TMC9660.html#a08f6d00384458a6833df71c1f856f48ca6a0fed8678de5ff8c7dbd469e3173155',1,'tmc9660::TMC9660']]],
   ['none_8',['None',['../namespacetmc9660_1_1bootcfg.html#ae85e58d8436fa28e598307e080f1a1ada6adf97f83acf6453d4a6a4b1070f3754',1,'tmc9660::bootcfg']]],
   ['noop_9',['noOp',['../classtmc9660_1_1TMC9660Bootloader.html#a32fe26c3adaecf82cd5a1798c13cc077',1,'tmc9660::TMC9660Bootloader']]],

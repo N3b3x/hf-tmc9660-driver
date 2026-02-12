@@ -104,7 +104,7 @@ $(function(){initNavTree('tmc9660__comm__interface_8hpp.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 
-<p>Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART.  
+<p>Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cstdarg&gt;</code><br />
@@ -122,7 +122,7 @@ Include dependency graph for tmc9660_comm_interface.hpp:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__comm__interface_8hpp__dep__incl.svg" width="1168" height="344"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__comm__interface_8hpp__dep__incl.svg" width="1038" height="344"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="tmc9660__comm__interface_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -190,17 +190,8 @@ Functions</h2></td></tr>
 <tr class="separator:a2fc16e5feffbef089c5c9660c62615d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART. </p>
-<p>This file provides comprehensive communication interfaces for the TMC9660 motor driver, supporting both SPI and UART protocols with TMCL command/reply structures. It includes GPIO control interfaces and board-agnostic pin management for different hardware implementations.</p>
-<h2><a class="anchor" id="autotoc_md26"></a>
-Compile-Time Configuration</h2>
-<p><b>TMC9660_DISABLE_DEBUG_LOGGING</b>: Define this macro to completely disable all debug logging throughout the TMC9660 library (including TX/RX hex dumps, bootloader logs, and initialization messages). This removes all logging code from the binary at compile time, saving code size and improving performance. When disabled, all TMC9660_LOG_DEBUG macro calls are optimized out completely, including argument evaluation.</p>
-<p>Example usage: </p><div class="fragment"><div class="line"><span class="comment">// In your build system or before including this header:</span></div>
-<div class="line"><span class="preprocessor">#define TMC9660_DISABLE_DEBUG_LOGGING</span></div>
-<div class="line"><span class="preprocessor">#include &quot;TMC9660CommInterface.hpp&quot;</span></div>
-</div><!-- fragment --><p>Or via compiler flags: </p><div class="fragment"><div class="line">-DTMC9660_DISABLE_DEBUG_LOGGING</div>
-</div><!-- fragment --><p>Or in CMake: </p><div class="fragment"><div class="line">target_compile_definitions(your_target PRIVATE TMC9660_DISABLE_DEBUG_LOGGING)</div>
-</div><!-- fragment --> </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<div class="textblock"><p>Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI. </p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a362c0b121b0e91437836f3b91a0a0a92" name="a362c0b121b0e91437836f3b91a0a0a92"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a362c0b121b0e91437836f3b91a0a0a92">&#9670;&#160;</a></span>TMC9660_LOG_DEBUG</h2>
 
