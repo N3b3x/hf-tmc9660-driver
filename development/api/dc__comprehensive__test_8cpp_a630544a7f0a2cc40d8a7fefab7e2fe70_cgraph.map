@@ -34,8 +34,8 @@
 <area shape="poly" id="edge48_Node000001_Node000026" title=" " alt="" coords="52,452,54,505,64,583,75,626,91,667,113,706,142,739,156,750,153,754,138,743,109,709,87,670,70,627,59,584,48,506,47,452"/>
 <area shape="rect" id="Node000004" href="$TestFramework_8h.html#a57a48f91a141d98e45f82937581e1a97" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="421,106,609,131"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="327,95,408,104,407,109,326,100"/>
-<area shape="rect" id="Node000005" href="$TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="659,99,797,139"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="609,116,645,116,645,121,609,121"/>
+<area shape="rect" id="Node000005" href="$TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="692,99,831,139"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="609,116,678,116,678,121,609,121"/>
 <area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="333,136,407,128,408,133,334,141"/>
 <area shape="rect" id="Node000008" href="$bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671" title=" " alt="" coords="445,535,585,561"/>
 <area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="331,208,355,218,375,234,399,271,408,308,406,344,400,380,394,415,392,451,400,486,423,521,435,530,431,535,419,524,395,488,387,451,388,415,395,379,401,343,402,308,394,273,371,238,352,223,329,213"/>
@@ -43,8 +43,8 @@
 <area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="332,212,354,221,375,234,403,260,428,291,467,357,494,422,510,472,505,474,489,424,462,360,424,294,399,264,372,238,352,226,330,217"/>
 <area shape="rect" id="Node000011" href="$dc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" title=" " alt="" coords="455,191,576,217"/>
 <area shape="poly" id="edge11_Node000007_Node000011" title=" " alt="" coords="330,201,441,201,441,207,330,207"/>
-<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" title="Create and initialize SPI communication interface." alt="" coords="657,535,799,561"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="585,545,643,545,643,551,585,551"/>
+<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#adeea40d44b312d8739348358e618c1a8" title="Create and initialize SPI communication interface." alt="" coords="657,535,865,561"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="586,545,643,545,643,551,586,551"/>
 <area shape="poly" id="edge13_Node000012_Node000008" title=" " alt="" coords="346,265,361,273,375,283,397,313,405,343,405,373,401,404,397,433,396,463,404,492,423,521,435,530,431,534,419,524,399,494,391,463,391,433,396,403,400,373,400,344,392,315,371,287,358,277,343,270"/>
 <area shape="poly" id="edge14_Node000012_Node000010" title=" " alt="" coords="345,269,375,283,400,303,423,326,461,378,489,429,507,471,502,474,484,432,456,381,419,330,396,307,372,288,343,274"/>
 <area shape="rect" id="Node000013" href="$dc__comprehensive__test_8cpp.html#a7e12788582df425a2388bddf1124e8d3" title=" " alt="" coords="437,249,593,274"/>

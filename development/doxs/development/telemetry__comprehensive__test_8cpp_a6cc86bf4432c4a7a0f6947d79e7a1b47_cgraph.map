@@ -6,6 +6,6 @@
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="183,65,234,65,234,70,183,70"/>
 <area shape="rect" id="Node000005" href="$telemetry__comprehensive__test_8cpp.html#a067ecd726a6c9d9d803a8c714838234d" title=" " alt="" coords="231,104,380,129"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="181,85,238,98,236,103,180,90"/>
-<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" title="Create and initialize SPI communication interface." alt="" coords="428,5,569,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,15,415,15,415,21,376,21"/>
+<area shape="rect" id="Node000003" href="$esp32__tmc9660__bus_8hpp.html#adeea40d44b312d8739348358e618c1a8" title="Create and initialize SPI communication interface." alt="" coords="428,5,636,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,15,414,15,414,21,376,21"/>
 </map>

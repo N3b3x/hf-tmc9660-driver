@@ -274,9 +274,9 @@
 <!-- Node14 -->
 <g id="Node000014" class="node">
 <title>Node14</title>
-<g id="a_Node000014"><a xlink:href="esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" target="_top" xlink:title="Create and initialize SPI communication interface.">
-<polygon fill="white" stroke="#666666" points="516.5,-19 410.5,-19 410.5,0 516.5,0 516.5,-19"/>
-<text text-anchor="middle" x="463.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">createSPIInterface</text>
+<g id="a_Node000014"><a xlink:href="esp32__tmc9660__bus_8hpp.html#adeea40d44b312d8739348358e618c1a8" target="_top" xlink:title="Create and initialize SPI communication interface.">
+<polygon fill="white" stroke="#666666" points="541.5,-19 385.5,-19 385.5,0 541.5,0 541.5,-19"/>
+<text text-anchor="middle" x="463.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">CreateEsp32Tmc9660SpiBus</text>
 </a>
 </g>
 </g>
@@ -284,8 +284,8 @@
 <g id="edge13_Node000013_Node000014" class="edge">
 <title>Node13&#45;&gt;Node14</title>
 <g id="a_edge13_Node000013_Node000014"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M309.55,-80.16C319.76,-77.52 330.07,-73.78 339,-68.5 359.87,-56.15 354.04,-39.69 375,-27.5 382.7,-23.03 391.34,-19.65 400.12,-17.11"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="401.22,-20.45 410.05,-14.58 399.49,-13.66 401.22,-20.45"/>
+<path fill="none" stroke="#63b8ff" d="M309.55,-80.16C319.76,-77.52 330.07,-73.78 339,-68.5 359.87,-56.15 354.04,-39.69 375,-27.5 378.04,-25.73 381.23,-24.14 384.52,-22.69"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="385.94,-25.9 394,-19.03 383.41,-19.37 385.94,-25.9"/>
 </a>
 </g>
 </g>

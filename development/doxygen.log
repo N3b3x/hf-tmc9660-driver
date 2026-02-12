@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.Xk7DO6
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.Xk7DO6' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.Ap3564
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.Ap3564' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1780: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4824: warning: unbalanced grouping commands
@@ -277,8 +277,8 @@ Generating caller graph for function test_dc_velocity_control
 Generating caller graph for function verify_current_limits
 Generating caller graph for function verify_dc_configuration
 Generating docs for file esp32_tmc9660_bus.hpp...
-Generating caller graph for function createSPIInterface
-Generating caller graph for function createUARTInterface
+Generating caller graph for function CreateEsp32Tmc9660SpiBus
+Generating caller graph for function CreateEsp32Tmc9660UartBus
 Generating docs for file esp32_tmc9660_test_config.hpp...
 Generating docs for file stepper_comprehensive_test.cpp...
 Generating call graph for function app_main
@@ -288,14 +288,14 @@ Generating caller graph for function get_uart_driver
 Generating caller graph for function log_stepper_telemetry_data
 Generating call graph for function test_stepper_bootloader_initialization
 Generating caller graph for function test_stepper_bootloader_initialization
-Generating call graph for function test_stepper_curren/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
+Generating call graph for function test_st/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:383: warning: The following parameter of print_test_section_footer(const char *tag, const char *section_name, bool enabled=true) is not documented:
   parameter 'tag'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:357: warning: The following parameter of print_test_section_header(const char *tag, const char *section_name, bool enabled=true) is not documented:
   parameter 'tag'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: argument 'test_results' of command @param is not found in the argument list of print_test_section_status(const char *tag, const char *test_suite_name)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:341: warning: The following parameter of print_test_section_status(const char *tag, const char *test_suite_name) is not documented:
   parameter 'tag'
-t_control
+epper_current_control
 Generating caller graph for function test_stepper_current_control
 Generating call graph for function test_stepper_edge_cases
 Generating caller graph for function test_stepper_edge_cases
@@ -357,7 +357,7 @@ Generating call graph for function ensure_gpio14_initialized
 Generating caller graph for function ensure_gpio14_initialized
 Generating caller graph for function flip_test_progress_indicator
 Generating caller graph for function init_test_progress_indicator
-Generating call gr/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:321: warning: The following parameter of print_test_summary(const TestResults &test_results, const char *test_suite_name, const char *tag) is not documented:
+Genera/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/TestFramework.h:321: warning: The following parameter of print_test_summary(const TestResults &test_results, const char *test_suite_name, const char *tag) is not documented:
   parameter 'tag'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:399: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:399: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
@@ -374,7 +374,7 @@ Generating call gr/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/esp32_tmc9660_bus.hpp:683: warning: The following parameter of Esp32Tmc9660UartBus::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) is not documented:
   parameter 'signal'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/bootloader_utils.hpp:23: warning: explicit link request to 'BootloaderCommandUART' could not be resolved
-aph for function print_test_section_status
+ting call graph for function print_test_section_status
 Generating caller graph for function print_test_section_status
 Generating call graph for function print_test_summary
 Generating caller graph for function print_test_summary
@@ -445,8 +445,7 @@ Generating docs for compound tmc9660::BootloaderVersion...
 Generating caller graph for function tmc9660::BootloaderVersion::fromValue
 Generating docs for compound tmc9660::BrakeChopperConfig...
 Generating docs for compound tmc9660::ClockConfig...
-Generating docs for compound tmc9660::CommInterface...
-Generating/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:131: warning: The following parameter of tmc9660::TMC9660::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr) is not documented:
+Generating docs for compound tmc9660::CommInterface../home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:131: warning: The following parameter of tmc9660::TMC9660::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr) is not documented:
   parameter 'bootCfg'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:166: warning: argument 'perform_reset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:166: warning: The following parameter of tmc9660::TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true) is not documented:
@@ -506,7 +505,8 @@ Generating/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1895: warning: argument 'shift_factor' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1895: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0) is not documented:
   parameter 'shiftFactor'
- caller graph for function tmc9660::CommInterface::CommInterface
+.
+Generating caller graph for function tmc9660::CommInterface::CommInterface
 Generating call graph for function tmc9660::CommInterface::debugLog
 Generating caller graph for function tmc9660::CommInterface::debugLog
 Generating call graph for function tmc9660::CommInterface::delayMs
@@ -567,7 +567,7 @@ Generating docs for nested compound tmc9660::TMC9660::CurrentSensing...
 Generating docs for nested compound tmc9660::TMC9660::CurrentSensing::AutoConfig...
 Generating docs for nested compound tmc9660::TMC9660::FeedbackSense...
 Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::Abn2Config...
-Generating docs for ne/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4591: warning: argument 'pull_enable' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
+Generating/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4591: warning: argument 'pull_enable' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4591: warning: argument 'pull_up' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4591: warning: The following parameters of tmc9660::TMC9660::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true) are not documented:
   parameter 'pullEnable'
@@ -614,7 +614,7 @@ Generating docs for ne/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2178: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read16 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2203: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read32 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2153: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::read8 has multiple @param documentation sections
-sted compound tmc9660::TMC9660::FeedbackSense::AbnConfig...
+ docs for nested compound tmc9660::TMC9660::FeedbackSense::AbnConfig...
 Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::HallConfig...
 Generating docs for nested compound tmc9660::TMC9660::FeedbackSense::SpiEncoderConfig...
 Generating docs for nested compound tmc9660::TMC9660::GateDriver...
@@ -668,7 +668,7 @@ Generating call graph for function tmc9660::TMC9660Bootloader::otpBurn
 Generating call graph for function tmc9660::TMC9660Bootloader::otpBurnWithWorkaround
 Generating call graph for function tmc9660::TMC9660Bootloader::otpLoad
 Generating call graph for function tmc9660::TMC9660Bootloader::sendCommandSPI
-Generating call graph for function/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:271: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
+Generating call graph /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:271: warning: argument 'addr' from the argument list of tmc9660::TMC9660Bootloader::setAddress has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:255: warning: argument 'bank' from the argument list of tmc9660::TMC9660Bootloader::setBank has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:2066: warning: argument 'boot_mode' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::startMotorControl(bootcfg::BootMode bootMode=bootcfg::BootMode::Parameter)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:299: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write16 has multiple @param documentation sections
@@ -693,7 +693,7 @@ Generating call graph for function/home/runner/work/hf-tmc9660-driver/hf-tmc9660
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:101: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/examples.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:105: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:109: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/special_feature_bootloader.md' for \ref command
- tmc9660::TMC9660Bootloader::sendCommandUART
+for function tmc9660::TMC9660Bootloader::sendCommandUART
 Generating call graph for function tmc9660::TMC9660Bootloader::setBank
 Generating caller graph for function tmc9660::TMC9660Bootloader::setBank
 Generating docs for compound tmc9660::TMCLFrame...
@@ -779,382 +779,165 @@ writing tag file...
 Running plantuml with JAVA...
 Running dot...
 Generating dot graphs using 5 parallel threads...
-Running dot for graph 1/173
-Running dot for graph 2/173
-Running dot for graph 3/173
-Running dot for graph 4/173
-Running dot for graph 5/173
-Running dot for graph 6/173
-Running dot for graph 7/173
-Running dot for graph 8/173
-Running dot for graph 9/173
-Running dot for graph 10/173
-Running dot for graph 11/173
-Running dot for graph 12/173
-Running dot for graph 13/173
-Running dot for graph 14/173
-Running dot for graph 15/173
-Running dot for graph 16/173
-Running dot for graph 17/173
-Running dot for graph 18/173
-Running dot for graph 19/173
-Running dot for graph 20/173
-Running dot for graph 21/173
-Running dot for graph 22/173
-Running dot for graph 23/173
-Running dot for graph 24/173
-Running dot for graph 25/173
-Running dot for graph 26/173
-Running dot for graph 27/173
-Running dot for graph 28/173
-Running dot for graph 29/173
-Running dot for graph 30/173
-Running dot for graph 31/173
-Running dot for graph 32/173
-Running dot for graph 33/173
-Running dot for graph 34/173
-Running dot for graph 35/173
-Running dot for graph 36/173
-Running dot for graph 37/173
-Running dot for graph 38/173
-Running dot for graph 39/173
-Running dot for graph 40/173
-Running dot for graph 41/173
-Running dot for graph 42/173
-Running dot for graph 43/173
-Running dot for graph 44/173
-Running dot for graph 45/173
-Running dot for graph 46/173
-Running dot for graph 47/173
-Running dot for graph 48/173
-Running dot for graph 49/173
-Running dot for graph 50/173
-Running dot for graph 51/173
-Running dot for graph 52/173
-Running dot for graph 53/173
-Running dot for graph 54/173
-Running dot for graph 55/173
-Running dot for graph 56/173
-Running dot for graph 57/173
-Running dot for graph 58/173
-Running dot for graph 59/173
-Running dot for graph 60/173
-Running dot for graph 61/173
-Running dot for graph 62/173
-Running dot for graph 63/173
-Running dot for graph 64/173
-Running dot for graph 65/173
-Running dot for graph 66/173
-Running dot for graph 67/173
-Running dot for graph 68/173
-Running dot for graph 69/173
-Running dot for graph 70/173
-Running dot for graph 71/173
-Running dot for graph 72/173
-Running dot for graph 73/173
-Running dot for graph 74/173
-Running dot for graph 75/173
-Running dot for graph 76/173
-Running dot for graph 77/173
-Running dot for graph 78/173
-Running dot for graph 79/173
-Running dot for graph 80/173
-Running dot for graph 81/173
-Running dot for graph 82/173
-Running dot for graph 83/173
-Running dot for graph 84/173
-Running dot for graph 85/173
-Running dot for graph 86/173
-Running dot for graph 87/173
-Running dot for graph 88/173
-Running dot for graph 89/173
-Running dot for graph 90/173
-Running dot for graph 91/173
-Running dot for graph 92/173
-Running dot for graph 93/173
-Running dot for graph 94/173
-Running dot for graph 95/173
-Running dot for graph 96/173
-Running dot for graph 97/173
-Running dot for graph 98/173
-Running dot for graph 99/173
-Running dot for graph 100/173
-Running dot for graph 101/173
-Running dot for graph 102/173
-Running dot for graph 103/173
-Running dot for graph 104/173
-Running dot for graph 105/173
-Running dot for graph 106/173
-Running dot for graph 107/173
-Running dot for graph 108/173
-Running dot for graph 109/173
-Running dot for graph 110/173
-Running dot for graph 111/173
-Running dot for graph 112/173
-Running dot for graph 113/173
-Running dot for graph 114/173
-Running dot for graph 115/173
-Running dot for graph 116/173
-Running dot for graph 117/173
-Running dot for graph 118/173
-Running dot for graph 119/173
-Running dot for graph 120/173
-Running dot for graph 121/173
-Running dot for graph 122/173
-Running dot for graph 123/173
-Running dot for graph 124/173
-Running dot for graph 125/173
-Running dot for graph 126/173
-Running dot for graph 127/173
-Running dot for graph 128/173
-Running dot for graph 129/173
-Running dot for graph 130/173
-Running dot for graph 131/173
-Running dot for graph 132/173
-Running dot for graph 133/173
-Running dot for graph 134/173
-Running dot for graph 135/173
-Running dot for graph 136/173
-Running dot for graph 137/173
-Running dot for graph 138/173
-Running dot for graph 139/173
-Running dot for graph 140/173
-Running dot for graph 141/173
-Running dot for graph 142/173
-Running dot for graph 143/173
-Running dot for graph 144/173
-Running dot for graph 145/173
-Running dot for graph 146/173
-Running dot for graph 147/173
-Running dot for graph 148/173
-Running dot for graph 149/173
-Running dot for graph 150/173
-Running dot for graph 151/173
-Running dot for graph 152/173
-Running dot for graph 153/173
-Running dot for graph 154/173
-Running dot for graph 155/173
-Running dot for graph 156/173
-Running dot for graph 157/173
-Running dot for graph 158/173
-Running dot for graph 159/173
-Running dot for graph 160/173
-Running dot for graph 161/173
-Running dot for graph 162/173
-Running dot for graph 163/173
-Running dot for graph 164/173
-Running dot for graph 165/173
-Running dot for graph 166/173
-Running dot for graph 167/173
-Running dot for graph 168/173
-Running dot for graph 169/173
-Running dot for graph 170/173
-Running dot for graph 171/173
-Running dot for graph 172/173
-Running dot for graph 173/173
-Patching output file 1/203
-Patching output file 2/203
-Patching output file 3/203
-Patching output file 4/203
-Patching output file 5/203
-Patching output file 6/203
-Patching output file 7/203
-Patching output file 8/203
-Patching output file 9/203
-Patching output file 10/203
-Patching output file 11/203
-Patching output file 12/203
-Patching output file 13/203
-Patching output file 14/203
-Patching output file 15/203
-Patching output file 16/203
-Patching output file 17/203
-Patching output file 18/203
-Patching output file 19/203
-Patching output file 20/203
-Patching output file 21/203
-Patching output file 22/203
-Patching output file 23/203
-Patching output file 24/203
-Patching output file 25/203
-Patching output file 26/203
-Patching output file 27/203
-Patching output file 28/203
-Patching output file 29/203
-Patching output file 30/203
-Patching output file 31/203
-Patching output file 32/203
-Patching output file 33/203
-Patching output file 34/203
-Patching output file 35/203
-Patching output file 36/203
-Patching output file 37/203
-Patching output file 38/203
-Patching output file 39/203
-Patching output file 40/203
-Patching output file 41/203
-Patching output file 42/203
-Patching output file 43/203
-Patching output file 44/203
-Patching output file 45/203
-Patching output file 46/203
-Patching output file 47/203
-Patching output file 48/203
-Patching output file 49/203
-Patching output file 50/203
-Patching output file 51/203
-Patching output file 52/203
-Patching output file 53/203
-Patching output file 54/203
-Patching output file 55/203
-Patching output file 56/203
-Patching output file 57/203
-Patching output file 58/203
-Patching output file 59/203
-Patching output file 60/203
-Patching output file 61/203
-Patching output file 62/203
-Patching output file 63/203
-Patching output file 64/203
-Patching output file 65/203
-Patching output file 66/203
-Patching output file 67/203
-Patching output file 68/203
-Patching output file 69/203
-Patching output file 70/203
-Patching output file 71/203
-Patching output file 72/203
-Patching output file 73/203
-Patching output file 74/203
-Patching output file 75/203
-Patching output file 76/203
-Patching output file 77/203
-Patching output file 78/203
-Patching output file 79/203
-Patching output file 80/203
-Patching output file 81/203
-Patching output file 82/203
-Patching output file 83/203
-Patching output file 84/203
-Patching output file 85/203
-Patching output file 86/203
-Patching output file 87/203
-Patching output file 88/203
-Patching output file 89/203
-Patching output file 90/203
-Patching output file 91/203
-Patching output file 92/203
-Patching output file 93/203
-Patching output file 94/203
-Patching output file 95/203
-Patching output file 96/203
-Patching output file 97/203
-Patching output file 98/203
-Patching output file 99/203
-Patching output file 100/203
-Patching output file 101/203
-Patching output file 102/203
-Patching output file 103/203
-Patching output file 104/203
-Patching output file 105/203
-Patching output file 106/203
-Patching output file 107/203
-Patching output file 108/203
-Patching output file 109/203
-Patching output file 110/203
-Patching output file 111/203
-Patching output file 112/203
-Patching output file 113/203
-Patching output file 114/203
-Patching output file 115/203
-Patching output file 116/203
-Patching output file 117/203
-Patching output file 118/203
-Patching output file 119/203
-Patching output file 120/203
-Patching output file 121/203
-Patching output file 122/203
-Patching output file 123/203
-Patching output file 124/203
-Patching output file 125/203
-Patching output file 126/203
-Patching output file 127/203
-Patching output file 128/203
-Patching output file 129/203
-Patching output file 130/203
-Patching output file 131/203
-Patching output file 132/203
-Patching output file 133/203
-Patching output file 134/203
-Patching output file 135/203
-Patching output file 136/203
-Patching output file 137/203
-Patching output file 138/203
-Patching output file 139/203
-Patching output file 140/203
-Patching output file 141/203
-Patching output file 142/203
-Patching output file 143/203
-Patching output file 144/203
-Patching output file 145/203
-Patching output file 146/203
-Patching output file 147/203
-Patching output file 148/203
-Patching output file 149/203
-Patching output file 150/203
-Patching output file 151/203
-Patching output file 152/203
-Patching output file 153/203
-Patching output file 154/203
-Patching output file 155/203
-Patching output file 156/203
-Patching output file 157/203
-Patching output file 158/203
-Patching output file 159/203
-Patching output file 160/203
-Patching output file 161/203
-Patching output file 162/203
-Patching output file 163/203
-Patching output file 164/203
-Patching output file 165/203
-Patching output file 166/203
-Patching output file 167/203
-Patching output file 168/203
-Patching output file 169/203
-Patching output file 170/203
-Patching output file 171/203
-Patching output file 172/203
-Patching output file 173/203
-Patching output file 174/203
-Patching output file 175/203
-Patching output file 176/203
-Patching output file 177/203
-Patching output file 178/203
-Patching output file 179/203
-Patching output file 180/203
-Patching output file 181/203
-Patching output file 182/203
-Patching output file 183/203
-Patching output file 184/203
-Patching output file 185/203
-Patching output file 186/203
-Patching output file 187/203
-Patching output file 188/203
-Patching output file 189/203
-Patching output file 190/203
-Patching output file 191/203
-Patching output file 192/203
-Patching output file 193/203
-Patching output file 194/203
-Patching output file 195/203
-Patching output file 196/203
-Patching output file 197/203
-Patching output file 198/203
-Patching output file 199/203
-Patching output file 200/203
-Patching output file 201/203
-Patching output file 202/203
-Patching output file 203/203
+Running dot for graph 1/76
+Running dot for graph 2/76
+Running dot for graph 3/76
+Running dot for graph 4/76
+Running dot for graph 5/76
+Running dot for graph 6/76
+Running dot for graph 7/76
+Running dot for graph 8/76
+Running dot for graph 9/76
+Running dot for graph 10/76
+Running dot for graph 11/76
+Running dot for graph 12/76
+Running dot for graph 13/76
+Running dot for graph 14/76
+Running dot for graph 15/76
+Running dot for graph 16/76
+Running dot for graph 17/76
+Running dot for graph 18/76
+Running dot for graph 19/76
+Running dot for graph 20/76
+Running dot for graph 21/76
+Running dot for graph 22/76
+Running dot for graph 23/76
+Running dot for graph 24/76
+Running dot for graph 25/76
+Running dot for graph 26/76
+Running dot for graph 27/76
+Running dot for graph 28/76
+Running dot for graph 29/76
+Running dot for graph 30/76
+Running dot for graph 31/76
+Running dot for graph 32/76
+Running dot for graph 33/76
+Running dot for graph 34/76
+Running dot for graph 35/76
+Running dot for graph 36/76
+Running dot for graph 37/76
+Running dot for graph 38/76
+Running dot for graph 39/76
+Running dot for graph 40/76
+Running dot for graph 41/76
+Running dot for graph 42/76
+Running dot for graph 43/76
+Running dot for graph 44/76
+Running dot for graph 45/76
+Running dot for graph 46/76
+Running dot for graph 47/76
+Running dot for graph 48/76
+Running dot for graph 49/76
+Running dot for graph 50/76
+Running dot for graph 51/76
+Running dot for graph 52/76
+Running dot for graph 53/76
+Running dot for graph 54/76
+Running dot for graph 55/76
+Running dot for graph 56/76
+Running dot for graph 57/76
+Running dot for graph 58/76
+Running dot for graph 59/76
+Running dot for graph 60/76
+Running dot for graph 61/76
+Running dot for graph 62/76
+Running dot for graph 63/76
+Running dot for graph 64/76
+Running dot for graph 65/76
+Running dot for graph 66/76
+Running dot for graph 67/76
+Running dot for graph 68/76
+Running dot for graph 69/76
+Running dot for graph 70/76
+Running dot for graph 71/76
+Running dot for graph 72/76
+Running dot for graph 73/76
+Running dot for graph 74/76
+Running dot for graph 75/76
+Running dot for graph 76/76
+Patching output file 1/83
+Patching output file 2/83
+Patching output file 3/83
+Patching output file 4/83
+Patching output file 5/83
+Patching output file 6/83
+Patching output file 7/83
+Patching output file 8/83
+Patching output file 9/83
+Patching output file 10/83
+Patching output file 11/83
+Patching output file 12/83
+Patching output file 13/83
+Patching output file 14/83
+Patching output file 15/83
+Patching output file 16/83
+Patching output file 17/83
+Patching output file 18/83
+Patching output file 19/83
+Patching output file 20/83
+Patching output file 21/83
+Patching output file 22/83
+Patching output file 23/83
+Patching output file 24/83
+Patching output file 25/83
+Patching output file 26/83
+Patching output file 27/83
+Patching output file 28/83
+Patching output file 29/83
+Patching output file 30/83
+Patching output file 31/83
+Patching output file 32/83
+Patching output file 33/83
+Patching output file 34/83
+Patching output file 35/83
+Patching output file 36/83
+Patching output file 37/83
+Patching output file 38/83
+Patching output file 39/83
+Patching output file 40/83
+Patching output file 41/83
+Patching output file 42/83
+Patching output file 43/83
+Patching output file 44/83
+Patching output file 45/83
+Patching output file 46/83
+Patching output file 47/83
+Patching output file 48/83
+Patching output file 49/83
+Patching output file 50/83
+Patching output file 51/83
+Patching output file 52/83
+Patching output file 53/83
+Patching output file 54/83
+Patching output file 55/83
+Patching output file 56/83
+Patching output file 57/83
+Patching output file 58/83
+Patching output file 59/83
+Patching output file 60/83
+Patching output file 61/83
+Patching output file 62/83
+Patching output file 63/83
+Patching output file 64/83
+Patching output file 65/83
+Patching output file 66/83
+Patching output file 67/83
+Patching output file 68/83
+Patching output file 69/83
+Patching output file 70/83
+Patching output file 71/83
+Patching output file 72/83
+Patching output file 73/83
+Patching output file 74/83
+Patching output file 75/83
+Patching output file 76/83
+Patching output file 77/83
+Patching output file 78/83
+Patching output file 79/83
+Patching output file 80/83
+Patching output file 81/83
+Patching output file 82/83
+Patching output file 83/83
 type lookup cache used 6968/65536 hits=28725 misses=7307
 symbol lookup cache used 5078/65536 hits=20337 misses=5078
 finished...

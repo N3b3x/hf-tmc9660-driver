@@ -380,7 +380,7 @@ bool test_bootloader_multi_device() noexcept {
         return false;
     }
 
-    auto uart_driver = std::make_unique<TMC9660<Esp32Tmc9660UartBus>>(*createUARTInterface());
+    auto uart_driver = std::make_unique<TMC9660<Esp32Tmc9660UartBus>>(*CreateEsp32Tmc9660UartBus());
     if (!uart_driver) {
         ESP_LOGW(TAG, "Failed to create UART driver, testing SPI only");
         ESP_LOGI(TAG, "[SUCCESS] Multi-device bootloader tests passed (SPI only)");
@@ -467,7 +467,7 @@ bool test_bootloader_edge_cases() noexcept {
 
 // Helper function implementations
 std::unique_ptr<TMC9660<Esp32Tmc9660SpiBus>> create_test_driver() noexcept {
-    auto spi_interface = createSPIInterface();
+    auto spi_interface = CreateEsp32Tmc9660SpiBus();
     if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
         return nullptr;
@@ -544,7 +544,7 @@ bool perform_bootloader_reset_sequence(std::unique_ptr<InterfaceType>& interface
 
 bool test_bootloader_config(const BootloaderConfig& config, const char* test_name) noexcept {
     // Create SPI interface
-    auto spi_interface = createSPIInterface();
+    auto spi_interface = CreateEsp32Tmc9660SpiBus();
     if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface for %s", test_name);
         return false;

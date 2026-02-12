@@ -1641,7 +1641,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         uart_config.uart.tx_pin = GPIO_NUM_5;
         uart_config.uart.rx_pin = GPIO_NUM_4;
         
-        auto uart_interface = createUARTInterface(uart_config);
+        auto uart_interface = CreateEsp32Tmc9660UartBus(uart_config);
         if (!uart_interface) {
             ESP_LOGE(TAG, "Failed to create UART interface");
             return nullptr;
@@ -1653,7 +1653,7 @@ std::unique_ptr<TestDriverHandle> create_test_driver(bool use_uart, bool use_fla
         auto* uart_iface = std::get<std::unique_ptr<Esp32Tmc9660UartBus>>(handle->interface).get();
         handle->driver = std::make_unique<TMC9660<Esp32Tmc9660UartBus>>(*uart_iface, 1);
     } else {
-        auto spi_interface = createSPIInterface();
+        auto spi_interface = CreateEsp32Tmc9660SpiBus();
         if (!spi_interface) {
         ESP_LOGE(TAG, "Failed to create SPI interface");
         return nullptr;

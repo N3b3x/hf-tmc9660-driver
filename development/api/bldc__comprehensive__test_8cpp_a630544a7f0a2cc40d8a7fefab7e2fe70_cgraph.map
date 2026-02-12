@@ -45,8 +45,8 @@
 <area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="327,286,346,298,375,326,402,357,445,426,476,492,495,544,490,546,471,494,440,429,398,361,372,329,342,302,324,290"/>
 <area shape="rect" id="Node000010" href="$bldc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" title=" " alt="" coords="444,607,559,633"/>
 <area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="329,284,346,298,370,337,378,375,376,412,369,449,363,486,361,522,370,557,394,593,411,606,431,614,429,619,408,610,390,596,365,559,356,522,357,485,364,448,371,411,373,375,365,339,342,302,326,288"/>
-<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" title="Create and initialize SPI communication interface." alt="" coords="706,558,847,583"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="571,568,692,568,692,573,571,573"/>
+<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#adeea40d44b312d8739348358e618c1a8" title="Create and initialize SPI communication interface." alt="" coords="673,558,881,583"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="571,568,659,568,659,573,571,573"/>
 <area shape="poly" id="edge12_Node000011_Node000008" title=" " alt="" coords="323,219,346,234,380,270,409,310,434,354,454,398,483,481,498,544,493,545,477,483,449,400,429,356,405,313,376,273,342,238,320,224"/>
 <area shape="poly" id="edge13_Node000011_Node000010" title=" " alt="" coords="323,217,346,234,363,258,374,281,380,304,383,327,379,373,369,417,359,462,356,506,359,527,366,549,377,571,394,593,411,606,431,614,429,619,408,610,390,597,373,574,361,551,354,528,351,506,354,461,364,416,373,372,377,327,375,305,369,283,358,260,342,238,320,221"/>
 <area shape="rect" id="Node000012" href="$bldc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" title=" " alt="" coords="441,191,562,217"/>

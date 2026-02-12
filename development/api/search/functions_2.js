@@ -52,8 +52,8 @@ var searchData=
   ['crc8bootloader_49',['crc8Bootloader',['../namespacetmc9660.html#a295ced7b08314df2db8e4d01c1c59562',1,'tmc9660']]],
   ['create_5ftest_5fdriver_50',['create_test_driver',['../bldc__comprehensive__test_8cpp.html#a70effab5ba3fdfc70e3855b679378371',1,'create_test_driver(bool use_uart=false, bool use_flash=false) noexcept:&#160;bldc_comprehensive_test.cpp'],['../bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671',1,'create_test_driver() noexcept:&#160;bootloader_comprehensive_test.cpp'],['../dc__comprehensive__test_8cpp.html#a70effab5ba3fdfc70e3855b679378371',1,'create_test_driver(bool use_uart=false, bool use_flash=false) noexcept:&#160;dc_comprehensive_test.cpp'],['../stepper__comprehensive__test_8cpp.html#a70effab5ba3fdfc70e3855b679378371',1,'create_test_driver(bool use_uart=false, bool use_flash=false) noexcept:&#160;stepper_comprehensive_test.cpp'],['../telemetry__comprehensive__test_8cpp.html#a70effab5ba3fdfc70e3855b679378371',1,'create_test_driver(bool use_uart=false, bool use_flash=false) noexcept:&#160;telemetry_comprehensive_test.cpp']]],
   ['createerror_51',['createError',['../structtmc9660_1_1OtpBurnResult.html#acfc3682f3c890f30be311f171cb3fc95',1,'tmc9660::OtpBurnResult']]],
-  ['createspiinterface_52',['createSPIInterface',['../esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8',1,'esp32_tmc9660_bus.hpp']]],
-  ['createsuccess_53',['createSuccess',['../structtmc9660_1_1OtpBurnResult.html#a1b26653373a291782709c24af59d87a0',1,'tmc9660::OtpBurnResult']]],
-  ['createuartinterface_54',['createUARTInterface',['../esp32__tmc9660__bus_8hpp.html#ab5bf1d1f33ae209c1079e8df4a7ce5fd',1,'esp32_tmc9660_bus.hpp']]],
+  ['createesp32tmc9660spibus_52',['CreateEsp32Tmc9660SpiBus',['../esp32__tmc9660__bus_8hpp.html#adeea40d44b312d8739348358e618c1a8',1,'esp32_tmc9660_bus.hpp']]],
+  ['createesp32tmc9660uartbus_53',['CreateEsp32Tmc9660UartBus',['../esp32__tmc9660__bus_8hpp.html#ade8e3d2259fc87ef0bcbc9c730b74e34',1,'esp32_tmc9660_bus.hpp']]],
+  ['createsuccess_54',['createSuccess',['../structtmc9660_1_1OtpBurnResult.html#a1b26653373a291782709c24af59d87a0',1,'tmc9660::OtpBurnResult']]],
   ['currentsensing_55',['CurrentSensing',['../structtmc9660_1_1TMC9660_1_1CurrentSensing.html#ae34ecf4f2d2c9100f662df5c22edb932',1,'tmc9660::TMC9660::CurrentSensing']]]
 ];
