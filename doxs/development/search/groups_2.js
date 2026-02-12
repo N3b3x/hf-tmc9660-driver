@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['definitions_0',['Definitions',['../group__TMC9660__RAMDebugTypes.html',1,'RAMDebug Type Definitions'],['../group__TMC9660__Types.html',1,'Type Definitions'],['../group__TMC9660__CommTypes.html',1,'Type Definitions']]],
-  ['driver_1',['Core TMC9660 Driver',['../group__TMC9660__Core.html',1,'']]]
+  ['functions_0',['Utility Functions',['../group__TMC9660__Utilities.html',1,'']]]
 ];

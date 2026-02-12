@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" target="_top" xlink:title="Create and initialize SPI communication interface.">
+<g id="a_Node000002"><a xlink:href="esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" target="_top" xlink:title="Create and initialize SPI communication interface.">
 <polygon fill="white" stroke="#666666" points="252.5,-130 146.5,-130 146.5,-111 252.5,-111 252.5,-130"/>
 <text text-anchor="middle" x="199.5" y="-118" font-family="Helvetica,sans-Serif" font-size="10.00">createSPIInterface</text>
 </a>
@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="esp32__tmc9660__bus_8hpp.html#a9139fa0d0c10a85938e971186348ca9c" target="_top" xlink:title="Create and initialize UART communication interface.">
+<g id="a_Node000003"><a xlink:href="esp32__tmc9660__bus_8hpp.html#ab5bf1d1f33ae209c1079e8df4a7ce5fd" target="_top" xlink:title="Create and initialize UART communication interface.">
 <polygon fill="white" stroke="#666666" points="258,-93 141,-93 141,-74 258,-74 258,-93"/>
 <text text-anchor="middle" x="199.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">createUARTInterface</text>
 </a>
@@ -56,7 +56,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="dc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="dc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="242.5,-56 156.5,-56 156.5,-37 242.5,-37 242.5,-56"/>
 <text text-anchor="middle" x="199.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">get_spi_driver</text>
 </a>
@@ -74,7 +74,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="dc__comprehensive__test_8cpp.html#afa338fde626ac80593a1c71ddc803ec9" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="dc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="245,-19 154,-19 154,0 245,0 245,-19"/>
 <text text-anchor="middle" x="199.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">get_uart_driver</text>
 </a>

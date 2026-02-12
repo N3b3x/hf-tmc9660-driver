@@ -1,8 +1,8 @@
 <map id="tmc9660::CommInterface::debugLog" name="tmc9660::CommInterface::debugLog">
-<area shape="rect" id="Node000001" title="Debug logging function for detailed debugging information." alt="" coords="548,29,736,69"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="682,18,668,11,642,8,619,10,606,15,601,21,603,28,598,30,596,20,603,10,618,5,642,3,669,6,684,13"/>
-<area shape="rect" id="Node000002" href="$classtmc9660_1_1CommInterface.html#a19353276e3e4543d826a15cd6a714947" title="Public debug logging wrapper for external classes." alt="" coords="312,29,500,69"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="534,52,500,52,500,47,534,47"/>
-<area shape="rect" id="Node000003" href="$classEsp32UARTTMC9660CommInterface.html#a3e280f979b6cabcd9e3f4022a9442761" title="Transfer TMCL frame over UART for parameter mode communication." alt="" coords="5,29,264,69"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="298,52,264,52,264,47,298,47"/>
+<area shape="rect" id="Node000001" title="Debug logging function for detailed debugging information." alt="" coords="463,29,651,69"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="597,18,583,11,557,8,534,10,520,15,515,21,518,28,513,30,510,20,517,10,533,5,557,3,584,6,599,13"/>
+<area shape="rect" id="Node000002" href="$classtmc9660_1_1CommInterface.html#a19353276e3e4543d826a15cd6a714947" title="Public debug logging wrapper for external classes." alt="" coords="227,29,415,69"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="449,52,415,52,415,47,449,47"/>
+<area shape="rect" id="Node000003" href="$classEsp32Tmc9660UartBus.html#a6d0539e4b61dc91a1c314fbdac8b9699" title="Transfer TMCL frame over UART for parameter mode communication." alt="" coords="5,29,179,69"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="212,52,179,52,179,47,212,47"/>
 </map>

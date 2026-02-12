@@ -41,15 +41,15 @@
 <area shape="rect" id="Node000005" href="$TestFramework_8h.html#a3967179ac699a5b02ef9787b549409fe" title="Initialize the test progression indicator on GPIO14." alt="" coords="707,99,846,139"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="595,116,694,116,694,121,595,121"/>
 <area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="319,136,393,128,394,133,319,141"/>
-<area shape="rect" id="Node000008" href="$bootloader__comprehensive__test_8cpp.html#aa4b964f2e72243853c2158a57d229994" title=" " alt="" coords="431,558,571,583"/>
+<area shape="rect" id="Node000008" href="$bootloader__comprehensive__test_8cpp.html#a17c70b1902c13ec11ca1410da2842671" title=" " alt="" coords="431,558,571,583"/>
 <area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="327,286,346,298,375,326,402,357,445,426,476,492,495,544,490,546,471,494,440,429,398,361,372,329,342,302,324,290"/>
-<area shape="rect" id="Node000010" href="$bldc__comprehensive__test_8cpp.html#aebf799c67d25511553f77937723a4c57" title=" " alt="" coords="444,607,559,633"/>
+<area shape="rect" id="Node000010" href="$bldc__comprehensive__test_8cpp.html#af43032e01db4534397e54f650f60cde0" title=" " alt="" coords="444,607,559,633"/>
 <area shape="poly" id="edge10_Node000007_Node000010" title=" " alt="" coords="329,284,346,298,370,337,378,375,376,412,369,449,363,486,361,522,370,557,394,593,411,606,431,614,429,619,408,610,390,596,365,559,356,522,357,485,364,448,371,411,373,375,365,339,342,302,326,288"/>
-<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#a6a65828a097e44c42edb1c62d89ee262" title="Create and initialize SPI communication interface." alt="" coords="706,558,847,583"/>
+<area shape="rect" id="Node000009" href="$esp32__tmc9660__bus_8hpp.html#aac17f4cb878146d2d72c9cae900edbe8" title="Create and initialize SPI communication interface." alt="" coords="706,558,847,583"/>
 <area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="571,568,692,568,692,573,571,573"/>
 <area shape="poly" id="edge12_Node000011_Node000008" title=" " alt="" coords="323,219,346,234,380,270,409,310,434,354,454,398,483,481,498,544,493,545,477,483,449,400,429,356,405,313,376,273,342,238,320,224"/>
 <area shape="poly" id="edge13_Node000011_Node000010" title=" " alt="" coords="323,217,346,234,363,258,374,281,380,304,383,327,379,373,369,417,359,462,356,506,359,527,366,549,377,571,394,593,411,606,431,614,429,619,408,610,390,597,373,574,361,551,354,528,351,506,354,461,364,416,373,372,377,327,375,305,369,283,358,260,342,238,320,221"/>
-<area shape="rect" id="Node000012" href="$bldc__comprehensive__test_8cpp.html#afa338fde626ac80593a1c71ddc803ec9" title=" " alt="" coords="441,191,562,217"/>
+<area shape="rect" id="Node000012" href="$bldc__comprehensive__test_8cpp.html#a4e5557519d0ca035224023a89b1f4a43" title=" " alt="" coords="441,191,562,217"/>
 <area shape="poly" id="edge14_Node000011_Node000012" title=" " alt="" coords="321,201,427,201,427,207,321,207"/>
 <area shape="poly" id="edge16_Node000013_Node000008" title=" " alt="" coords="324,350,346,362,394,405,435,455,468,504,490,544,485,547,463,507,431,458,391,409,342,366,322,354"/>
 <area shape="poly" id="edge17_Node000013_Node000010" title=" " alt="" coords="331,350,346,362,366,392,373,422,373,452,370,481,366,509,366,538,374,565,394,593,411,605,431,613,429,618,408,610,390,597,369,568,361,538,361,509,364,480,368,451,368,423,361,394,342,366,328,354"/>
@@ -69,7 +69,7 @@
 <area shape="poly" id="edge49_Node000020_Node000010" title=" " alt="" coords="326,1020,342,1009,380,967,411,919,436,868,456,815,482,718,495,646,500,647,488,719,461,817,441,870,416,921,384,970,346,1013,329,1025"/>
 <area shape="rect" id="Node000021" href="$bldc__comprehensive__test_8cpp.html#ac01721d900f937652abff17ca8d2c5d9" title=" " alt="" coords="392,1030,611,1055"/>
 <area shape="poly" id="edge37_Node000020_Node000021" title=" " alt="" coords="335,1040,378,1040,378,1045,335,1045"/>
-<area shape="rect" id="Node000032" href="$bldc__comprehensive__test_8cpp.html#a962a06830f4a0826596f8482a0532679" title=" " alt="" coords="427,973,576,998"/>
+<area shape="rect" id="Node000032" href="$bldc__comprehensive__test_8cpp.html#a067ecd726a6c9d9d803a8c714838234d" title=" " alt="" coords="427,973,576,998"/>
 <area shape="poly" id="edge50_Node000020_Node000032" title=" " alt="" coords="333,1020,429,998,430,1004,334,1025"/>
 <area shape="rect" id="Node000022" href="$bldc__comprehensive__test_8cpp.html#a6892c0ec537f2a3cf1a43f1d1d33feef" title=" " alt="" coords="689,1103,864,1129"/>
 <area shape="poly" id="edge38_Node000021_Node000022" title=" " alt="" coords="540,1053,659,1089,695,1098,693,1103,658,1095,539,1058"/>

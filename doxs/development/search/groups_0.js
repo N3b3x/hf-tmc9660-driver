@@ -1,9 +1,6 @@
 var searchData=
 [
-  ['adc_20and_20analog_20measurement_0',['ADC and Analog Measurement',['../group__TMC9660__ADC.html',1,'']]],
-  ['adc_20status_20and_20monitoring_1',['ADC Status and Monitoring',['../group__TMC9660__ADCStatus.html',1,'']]],
-  ['amplifiers_2',['Current Sense Amplifiers',['../group__TMC9660__CSA.html',1,'']]],
-  ['analog_20measurement_3',['ADC and Analog Measurement',['../group__TMC9660__ADC.html',1,'']]],
-  ['and_20analog_20measurement_4',['ADC and Analog Measurement',['../group__TMC9660__ADC.html',1,'']]],
-  ['and_20monitoring_5',['ADC Status and Monitoring',['../group__TMC9660__ADCStatus.html',1,'']]]
+  ['communication_20interfaces_0',['Communication Interfaces',['../group__TMC9660__CommInterface.html',1,'']]],
+  ['control_20interface_1',['GPIO Control Interface',['../group__TMC9660__GPIOControl.html',1,'']]],
+  ['core_20tmc9660_20driver_2',['Core TMC9660 Driver',['../group__TMC9660__Core.html',1,'']]]
 ];

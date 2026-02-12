@@ -1,5 +1,5 @@
 <map id="tmc9660_comm_interface.hpp" name="tmc9660_comm_interface.hpp">
-<area shape="rect" id="Node000001" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI and UART." alt="" coords="237,5,457,31"/>
+<area shape="rect" id="Node000001" title="Communication interfaces for TMC9660 Parameter Mode devices using TMCL protocol over SPI." alt="" coords="237,5,457,31"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,79,61,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="290,33,75,81,74,76,289,28"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="86,79,157,104"/>

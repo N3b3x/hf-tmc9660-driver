@@ -133,135 +133,135 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab14d2ff0a88825c927c41121d8856f70" id="r_ab14d2ff0a88825c927c41121d8856f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab14d2ff0a88825c927c41121d8856f70">configureHall</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad2fad5904e2f621761e9c33dfa2f0169">tmc9660::tmcl::HallSectorOffset</a> sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> filterLength=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab14d2ff0a88825c927c41121d8856f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure digital Hall sensors for BLDC commutation.  <br /></td></tr>
-<tr class="separator:ab14d2ff0a88825c927c41121d8856f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62273c0a0b2a1098656d9e641a343275" id="r_a62273c0a0b2a1098656d9e641a343275"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62273c0a0b2a1098656d9e641a343275">setHallPositionOffsets</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset0</a>=0, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset60</a>=10922, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset120</a>=21845, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset180</a>=-32768, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset240</a>=-21846, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset300</a>=-10923, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">globalOffset</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a62273c0a0b2a1098656d9e641a343275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets for improved accuracy.  <br /></td></tr>
-<tr class="separator:a62273c0a0b2a1098656d9e641a343275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f57a6b8d05ee232e2e6c2a2ed0096b3" id="r_a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f57a6b8d05ee232e2e6c2a2ed0096b3">setHallPositionOffsetsDegrees</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset0Deg=0.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset60Deg=60.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset120Deg=120.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset180Deg=180.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset240Deg=240.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset300Deg=300.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> globalOffsetDeg=0.0f) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using degrees.  <br /></td></tr>
-<tr class="separator:a9f57a6b8d05ee232e2e6c2a2ed0096b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd513b5d93b65c4971f310c71b8739a7" id="r_afd513b5d93b65c4971f310c71b8739a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd513b5d93b65c4971f310c71b8739a7">setHallPositionOffsetsRadians</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset0Rad</a>=0.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset60Rad</a>=1.04719755<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset120Rad</a>=2.09439510f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset180Rad</a>=3.14159265<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset240Rad</a>=4.18879020f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset300Rad</a>=5.23598775<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">globalOffsetRad</a>=0.0f) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:afd513b5d93b65c4971f310c71b8739a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using radians.  <br /></td></tr>
-<tr class="separator:afd513b5d93b65c4971f310c71b8739a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2af611d0fc578ad5bbceeb49a9e4702" id="r_ac2af611d0fc578ad5bbceeb49a9e4702"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2af611d0fc578ad5bbceeb49a9e4702">getHallPhiE</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">phi_e</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ac2af611d0fc578ad5bbceeb49a9e4702"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the electrical angle (phi_e) calculated from Hall feedback.  <br /></td></tr>
-<tr class="separator:ac2af611d0fc578ad5bbceeb49a9e4702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a508cc48d5ef4bb08f72edf4a68cdce91" id="r_a508cc48d5ef4bb08f72edf4a68cdce91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a508cc48d5ef4bb08f72edf4a68cdce91">configureABNEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">counts_per_rev</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a508cc48d5ef4bb08f72edf4a68cdce91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure an ABN incremental encoder for feedback.  <br /></td></tr>
-<tr class="separator:a508cc48d5ef4bb08f72edf4a68cdce91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a0ceedb91bcb42b4b16c8b1fad4972d" id="r_a1a0ceedb91bcb42b4b16c8b1fad4972d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a0ceedb91bcb42b4b16c8b1fad4972d">configureABNInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#add6e015f26fa726f4b8d63afb20df81e">tmc9660::tmcl::AbnInitMethod</a> initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> initDelay=1000, <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> initVelocity=5, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> nChannelOffset=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a1a0ceedb91bcb42b4b16c8b1fad4972d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure ABN encoder initialization method.  <br /></td></tr>
-<tr class="separator:a1a0ceedb91bcb42b4b16c8b1fad4972d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0af2ee0796fb0be0566bddad5b2ad2b4" id="r_a0af2ee0796fb0be0566bddad5b2ad2b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0af2ee0796fb0be0566bddad5b2ad2b4">getABNInitializationState</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a0a38860cf429b932d73f6190f2a8b16e">tmc9660::tmcl::AbnInitState</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">state</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0af2ee0796fb0be0566bddad5b2ad2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current state of ABN encoder initialization.  <br /></td></tr>
-<tr class="separator:a0af2ee0796fb0be0566bddad5b2ad2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43851ed0779ae5f15dcb7d31417423d3" id="r_a43851ed0779ae5f15dcb7d31417423d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43851ed0779ae5f15dcb7d31417423d3">getABNPhiE</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">phi_e</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a43851ed0779ae5f15dcb7d31417423d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the electrical angle (phi_e) calculated from ABN feedback.  <br /></td></tr>
-<tr class="separator:a43851ed0779ae5f15dcb7d31417423d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f8c29c78e0535d68d3259ce40255029" id="r_a8f8c29c78e0535d68d3259ce40255029"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f8c29c78e0535d68d3259ce40255029">getABNRawValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a8f8c29c78e0535d68d3259ce40255029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the raw ABN encoder internal counter value.  <br /></td></tr>
-<tr class="separator:a8f8c29c78e0535d68d3259ce40255029"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afadbb01591b683a4b4c33f364be45d8a" id="r_afadbb01591b683a4b4c33f364be45d8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afadbb01591b683a4b4c33f364be45d8a">configureABNNChannel</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad07a0226af64408039d5c5bcb69a973f">tmc9660::tmcl::AbnNChannelFiltering</a> <a class="el" href="classtmc9660_1_1CommInterface.html">filterMode</a>=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:afadbb01591b683a4b4c33f364be45d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure N-channel filtering for ABN encoder.  <br /></td></tr>
-<tr class="separator:afadbb01591b683a4b4c33f364be45d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c4e92630602d7baca400efe11b96042" id="r_a0c4e92630602d7baca400efe11b96042"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c4e92630602d7baca400efe11b96042">configureSecondaryABNEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">counts_per_rev</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> gearRatio=1) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0c4e92630602d7baca400efe11b96042"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the secondary ABN encoder input.  <br /></td></tr>
-<tr class="separator:a0c4e92630602d7baca400efe11b96042"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d18e005d8c1b5adacfb0e64fc251efe" id="r_a8d18e005d8c1b5adacfb0e64fc251efe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d18e005d8c1b5adacfb0e64fc251efe">getSecondaryABNCountsPerRev</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">counts</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a8d18e005d8c1b5adacfb0e64fc251efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).  <br /></td></tr>
-<tr class="separator:a8d18e005d8c1b5adacfb0e64fc251efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a916577822d7f6da006db0b715ebaf0d4" id="r_a916577822d7f6da006db0b715ebaf0d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a916577822d7f6da006db0b715ebaf0d4">getSecondaryABNDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">dir</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a916577822d7f6da006db0b715ebaf0d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_DIRECTION (normal/inverted).  <br /></td></tr>
-<tr class="separator:a916577822d7f6da006db0b715ebaf0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab21e0bcbaf75e6d01875595c2e6e3801" id="r_ab21e0bcbaf75e6d01875595c2e6e3801"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab21e0bcbaf75e6d01875595c2e6e3801">getSecondaryABNGearRatio</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ratio</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab21e0bcbaf75e6d01875595c2e6e3801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_GEAR_RATIO (1…255).  <br /></td></tr>
-<tr class="separator:ab21e0bcbaf75e6d01875595c2e6e3801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b17187076af9df1f881b79fc1cb4030" id="r_a3b17187076af9df1f881b79fc1cb4030"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b17187076af9df1f881b79fc1cb4030">setSecondaryABNEncoderEnabled</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> enable) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3b17187076af9df1f881b79fc1cb4030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable the secondary ABN encoder.  <br /></td></tr>
-<tr class="separator:a3b17187076af9df1f881b79fc1cb4030"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36bb30e3c0eedf8cae1a73c1c2a13ca6" id="r_a36bb30e3c0eedf8cae1a73c1c2a13ca6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36bb30e3c0eedf8cae1a73c1c2a13ca6">getSecondaryABNEncoderValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a36bb30e3c0eedf8cae1a73c1c2a13ca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the raw ABN2 encoder internal counter value.  <br /></td></tr>
-<tr class="separator:a36bb30e3c0eedf8cae1a73c1c2a13ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ac09710fd25095839dc44b2e5e43563" id="r_a2ac09710fd25095839dc44b2e5e43563"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ac09710fd25095839dc44b2e5e43563">configureSPIEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cmd_size</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cs_settle_time_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cs_idle_time_us</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a2ac09710fd25095839dc44b2e5e43563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure a SPI-based encoder for feedback.  <br /></td></tr>
-<tr class="separator:a2ac09710fd25095839dc44b2e5e43563"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10304a218990f2fc1a5f7b86abfba003" id="r_a10304a218990f2fc1a5f7b86abfba003"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10304a218990f2fc1a5f7b86abfba003">configureSPIEncoderDataFormat</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">position_mask</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> positionShift=0, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">invertDirection</a>=tmc9660::tmcl::Direction::NOT_INVERTED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a10304a218990f2fc1a5f7b86abfba003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI encoder data format and processing.  <br /></td></tr>
-<tr class="separator:a10304a218990f2fc1a5f7b86abfba003"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbea915882d2ef38ca06d5443bda0bd4" id="r_acbea915882d2ef38ca06d5443bda0bd4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbea915882d2ef38ca06d5443bda0bd4">setSPIEncoderRequestData</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> *requestData, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:acbea915882d2ef38ca06d5443bda0bd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set up SPI encoder request data for continuous transfer mode.  <br /></td></tr>
-<tr class="separator:acbea915882d2ef38ca06d5443bda0bd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91e3c03fc0e0065d6fda2137e035dad8" id="r_a91e3c03fc0e0065d6fda2137e035dad8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91e3c03fc0e0065d6fda2137e035dad8">configureSPIEncoderInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> <a class="el" href="classtmc9660_1_1CommInterface.html">init_method</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> offset=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a91e3c03fc0e0065d6fda2137e035dad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI encoder initialization method.  <br /></td></tr>
-<tr class="separator:a91e3c03fc0e0065d6fda2137e035dad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d66961d0ff27dc0436dd4dc5c96f2ac" id="r_a5d66961d0ff27dc0436dd4dc5c96f2ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d66961d0ff27dc0436dd4dc5c96f2ac">setSPIEncoderLUTCorrection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> enable, <a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">shiftFactor</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a5d66961d0ff27dc0436dd4dc5c96f2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable SPI encoder lookup table correction.  <br /></td></tr>
-<tr class="separator:a5d66961d0ff27dc0436dd4dc5c96f2ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d20cacb1465f972244ab762d349e164" id="r_a9d20cacb1465f972244ab762d349e164"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d20cacb1465f972244ab762d349e164">uploadSPIEncoderLUTEntry</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> index, <a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9d20cacb1465f972244ab762d349e164"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upload a single entry to the SPI encoder correction lookup table.  <br /></td></tr>
-<tr class="separator:a9d20cacb1465f972244ab762d349e164"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a655a536da41ee09f82605edae750de28" id="r_a655a536da41ee09f82605edae750de28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a655a536da41ee09f82605edae750de28">getSPIEncoderCSSettleDelay</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">timeNs</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a655a536da41ee09f82605edae750de28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).  <br /></td></tr>
-<tr class="separator:a655a536da41ee09f82605edae750de28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fc6bd5fbcc33d5ad5e12dcf2b402c32" id="r_a5fc6bd5fbcc33d5ad5e12dcf2b402c32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fc6bd5fbcc33d5ad5e12dcf2b402c32">getSPIEncoderCSIdleDelay</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">timeUs</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a5fc6bd5fbcc33d5ad5e12dcf2b402c32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).  <br /></td></tr>
-<tr class="separator:a5fc6bd5fbcc33d5ad5e12dcf2b402c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab469bca6213fbafb86db88eb8badeaa5" id="r_ab469bca6213fbafb86db88eb8badeaa5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab469bca6213fbafb86db88eb8badeaa5">getSPIEncoderMainCmdSize</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab469bca6213fbafb86db88eb8badeaa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).  <br /></td></tr>
-<tr class="separator:ab469bca6213fbafb86db88eb8badeaa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8facb1ec8db2e49c48ac302be8f6937" id="r_ab8facb1ec8db2e49c48ac302be8f6937"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8facb1ec8db2e49c48ac302be8f6937">getSPIEncoderSecondaryCmdSize</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab8facb1ec8db2e49c48ac302be8f6937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).  <br /></td></tr>
-<tr class="separator:ab8facb1ec8db2e49c48ac302be8f6937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affc9072c6de3c716672604fce64956e8" id="r_affc9072c6de3c716672604fce64956e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affc9072c6de3c716672604fce64956e8">getSPIEncoderPositionMask</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:affc9072c6de3c716672604fce64956e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_MASK.  <br /></td></tr>
-<tr class="separator:affc9072c6de3c716672604fce64956e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa84722e819e91134a950c5a0af724544" id="r_aa84722e819e91134a950c5a0af724544"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa84722e819e91134a950c5a0af724544">getSPIEncoderPositionShift</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">shift</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aa84722e819e91134a950c5a0af724544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_SHIFT.  <br /></td></tr>
-<tr class="separator:aa84722e819e91134a950c5a0af724544"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fc29df589ac5745b0258046b7fe7b56" id="r_a3fc29df589ac5745b0258046b7fe7b56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fc29df589ac5745b0258046b7fe7b56">getSPIEncoderPositionValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3fc29df589ac5745b0258046b7fe7b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_VALUE.  <br /></td></tr>
-<tr class="separator:a3fc29df589ac5745b0258046b7fe7b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a98d714f9f1329e2af83393f9729276" id="r_a9a98d714f9f1329e2af83393f9729276"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a98d714f9f1329e2af83393f9729276">getSPIEncoderCommutationAngle</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">angle</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9a98d714f9f1329e2af83393f9729276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).  <br /></td></tr>
-<tr class="separator:a9a98d714f9f1329e2af83393f9729276"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a4bb0cd0512d6f174be64096b31b801" id="r_a5a4bb0cd0512d6f174be64096b31b801"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a4bb0cd0512d6f174be64096b31b801">getSPIEncoderInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">method</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;offset) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a5a4bb0cd0512d6f174be64096b31b801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.  <br /></td></tr>
-<tr class="separator:a5a4bb0cd0512d6f174be64096b31b801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50b6acb38d63b7a2338ce4ad91c34acc" id="r_a50b6acb38d63b7a2338ce4ad91c34acc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50b6acb38d63b7a2338ce4ad91c34acc">getSPIEncoderDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">dir</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a50b6acb38d63b7a2338ce4ad91c34acc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_DIRECTION.  <br /></td></tr>
-<tr class="separator:a50b6acb38d63b7a2338ce4ad91c34acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8185c5030628bafb518d6ec4d3925f18" id="r_a8185c5030628bafb518d6ec4d3925f18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8185c5030628bafb518d6ec4d3925f18">getSPIEncoderLUTAddress</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a8185c5030628bafb518d6ec4d3925f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_ADDRESS_SELECT.  <br /></td></tr>
-<tr class="separator:a8185c5030628bafb518d6ec4d3925f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2267e47297e109a98d97a7352febcc2" id="r_ad2267e47297e109a98d97a7352febcc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2267e47297e109a98d97a7352febcc2">getSPIEncoderLUTData</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">data</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ad2267e47297e109a98d97a7352febcc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_DATA.  <br /></td></tr>
-<tr class="separator:ad2267e47297e109a98d97a7352febcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cf7c1e08d8fe373eb999b2f969d870b" id="r_a6cf7c1e08d8fe373eb999b2f969d870b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6cf7c1e08d8fe373eb999b2f969d870b">getSPIEncoderLUTShiftFactor</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">shift_factor</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6cf7c1e08d8fe373eb999b2f969d870b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_COMMON_SHIFT_FACTOR.  <br /></td></tr>
-<tr class="separator:a6cf7c1e08d8fe373eb999b2f969d870b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1fc81f5c0643263e4dde2f1d03a8709" id="r_ad1fc81f5c0643263e4dde2f1d03a8709"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1fc81f5c0643263e4dde2f1d03a8709">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ad1fc81f5c0643263e4dde2f1d03a8709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure Hall sensor feedback.  <br /></td></tr>
-<tr class="separator:ad1fc81f5c0643263e4dde2f1d03a8709"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79850cd6b9cb7fe686940e4ca0e00679" id="r_a79850cd6b9cb7fe686940e4ca0e00679"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79850cd6b9cb7fe686940e4ca0e00679">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a79850cd6b9cb7fe686940e4ca0e00679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN encoder feedback.  <br /></td></tr>
-<tr class="separator:a79850cd6b9cb7fe686940e4ca0e00679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9a98b150855960f6e890d5d06068419" id="r_af9a98b150855960f6e890d5d06068419"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9a98b150855960f6e890d5d06068419">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:af9a98b150855960f6e890d5d06068419"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN2 (secondary) encoder feedback.  <br /></td></tr>
-<tr class="separator:af9a98b150855960f6e890d5d06068419"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd2f2e12904ac4251406a350bf49dbbf" id="r_acd2f2e12904ac4251406a350bf49dbbf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd2f2e12904ac4251406a350bf49dbbf">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:acd2f2e12904ac4251406a350bf49dbbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure SPI encoder feedback.  <br /></td></tr>
-<tr class="separator:acd2f2e12904ac4251406a350bf49dbbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a542fefb1e4396f68013f33e184870b57" id="r_a542fefb1e4396f68013f33e184870b57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a542fefb1e4396f68013f33e184870b57">configureHall</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad2fad5904e2f621761e9c33dfa2f0169">tmc9660::tmcl::HallSectorOffset</a> sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> filterLength=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a542fefb1e4396f68013f33e184870b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure digital Hall sensors for BLDC commutation.  <br /></td></tr>
+<tr class="separator:a542fefb1e4396f68013f33e184870b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbbf05f6d8d233d48f962f4ba6c65169" id="r_acbbf05f6d8d233d48f962f4ba6c65169"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbbf05f6d8d233d48f962f4ba6c65169">setHallPositionOffsets</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset0</a>=0, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset60</a>=10922, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset120</a>=21845, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset180</a>=-32768, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset240</a>=-21846, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset300</a>=-10923, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">globalOffset</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:acbbf05f6d8d233d48f962f4ba6c65169"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets for improved accuracy.  <br /></td></tr>
+<tr class="separator:acbbf05f6d8d233d48f962f4ba6c65169"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a7ca68dcd6fa474a2aea26939891bfd" id="r_a6a7ca68dcd6fa474a2aea26939891bfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a7ca68dcd6fa474a2aea26939891bfd">setHallPositionOffsetsDegrees</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset0Deg=0.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset60Deg=60.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset120Deg=120.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset180Deg=180.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset240Deg=240.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> offset300Deg=300.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> globalOffsetDeg=0.0f) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a6a7ca68dcd6fa474a2aea26939891bfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using degrees.  <br /></td></tr>
+<tr class="separator:a6a7ca68dcd6fa474a2aea26939891bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47acdf5359e6142de64bbf3bb34ea502" id="r_a47acdf5359e6142de64bbf3bb34ea502"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47acdf5359e6142de64bbf3bb34ea502">setHallPositionOffsetsRadians</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset0Rad</a>=0.0f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset60Rad</a>=1.04719755<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset120Rad</a>=2.09439510f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset180Rad</a>=3.14159265<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset240Rad</a>=4.18879020f, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset300Rad</a>=5.23598775<a class="el" href="classtmc9660_1_1CommInterface.html">f</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">globalOffsetRad</a>=0.0f) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a47acdf5359e6142de64bbf3bb34ea502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Hall sensor position offsets using radians.  <br /></td></tr>
+<tr class="separator:a47acdf5359e6142de64bbf3bb34ea502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a616b7f41ee507d2cd03eac0e612a8847" id="r_a616b7f41ee507d2cd03eac0e612a8847"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a616b7f41ee507d2cd03eac0e612a8847">getHallPhiE</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">phi_e</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a616b7f41ee507d2cd03eac0e612a8847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the electrical angle (phi_e) calculated from Hall feedback.  <br /></td></tr>
+<tr class="separator:a616b7f41ee507d2cd03eac0e612a8847"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad716b09b0edb92ff80101355ebb48d54" id="r_ad716b09b0edb92ff80101355ebb48d54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad716b09b0edb92ff80101355ebb48d54">configureABNEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">counts_per_rev</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad716b09b0edb92ff80101355ebb48d54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure an ABN incremental encoder for feedback.  <br /></td></tr>
+<tr class="separator:ad716b09b0edb92ff80101355ebb48d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc840d40b05071a7d131d10697428c9a" id="r_abc840d40b05071a7d131d10697428c9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc840d40b05071a7d131d10697428c9a">configureABNInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#add6e015f26fa726f4b8d63afb20df81e">tmc9660::tmcl::AbnInitMethod</a> initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> initDelay=1000, <a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> initVelocity=5, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> nChannelOffset=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:abc840d40b05071a7d131d10697428c9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure ABN encoder initialization method.  <br /></td></tr>
+<tr class="separator:abc840d40b05071a7d131d10697428c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd538c34f3e6ba31231cd10832624c29" id="r_acd538c34f3e6ba31231cd10832624c29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd538c34f3e6ba31231cd10832624c29">getABNInitializationState</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a0a38860cf429b932d73f6190f2a8b16e">tmc9660::tmcl::AbnInitState</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">state</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:acd538c34f3e6ba31231cd10832624c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current state of ABN encoder initialization.  <br /></td></tr>
+<tr class="separator:acd538c34f3e6ba31231cd10832624c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bcff542140037d9ff6a706e69c3afad" id="r_a3bcff542140037d9ff6a706e69c3afad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bcff542140037d9ff6a706e69c3afad">getABNPhiE</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">phi_e</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3bcff542140037d9ff6a706e69c3afad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the electrical angle (phi_e) calculated from ABN feedback.  <br /></td></tr>
+<tr class="separator:a3bcff542140037d9ff6a706e69c3afad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87779b4dd85cc1a4b41142f0db3ec0ab" id="r_a87779b4dd85cc1a4b41142f0db3ec0ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87779b4dd85cc1a4b41142f0db3ec0ab">getABNRawValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a87779b4dd85cc1a4b41142f0db3ec0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the raw ABN encoder internal counter value.  <br /></td></tr>
+<tr class="separator:a87779b4dd85cc1a4b41142f0db3ec0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55813ef9580ad946910eb9036e1ca319" id="r_a55813ef9580ad946910eb9036e1ca319"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55813ef9580ad946910eb9036e1ca319">configureABNNChannel</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad07a0226af64408039d5c5bcb69a973f">tmc9660::tmcl::AbnNChannelFiltering</a> <a class="el" href="classtmc9660_1_1CommInterface.html">filterMode</a>=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a55813ef9580ad946910eb9036e1ca319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure N-channel filtering for ABN encoder.  <br /></td></tr>
+<tr class="separator:a55813ef9580ad946910eb9036e1ca319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20534b5cfa2671c576bd49fc3af29bd5" id="r_a20534b5cfa2671c576bd49fc3af29bd5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20534b5cfa2671c576bd49fc3af29bd5">configureSecondaryABNEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">counts_per_rev</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">inverted</a>=tmc9660::tmcl::Direction::NOT_INVERTED, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> gearRatio=1) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a20534b5cfa2671c576bd49fc3af29bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the secondary ABN encoder input.  <br /></td></tr>
+<tr class="separator:a20534b5cfa2671c576bd49fc3af29bd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be66aa26e05d506488c4273ebc64b59" id="r_a4be66aa26e05d506488c4273ebc64b59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4be66aa26e05d506488c4273ebc64b59">getSecondaryABNCountsPerRev</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">counts</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4be66aa26e05d506488c4273ebc64b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_STEPS (encoder steps per rotation, 0…16777215).  <br /></td></tr>
+<tr class="separator:a4be66aa26e05d506488c4273ebc64b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaec36e5299b37ef238b48ff4a2af474" id="r_aaaec36e5299b37ef238b48ff4a2af474"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaaec36e5299b37ef238b48ff4a2af474">getSecondaryABNDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">dir</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aaaec36e5299b37ef238b48ff4a2af474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_DIRECTION (normal/inverted).  <br /></td></tr>
+<tr class="separator:aaaec36e5299b37ef238b48ff4a2af474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48f7f152103c293cb7960ada0a51f54" id="r_ab48f7f152103c293cb7960ada0a51f54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab48f7f152103c293cb7960ada0a51f54">getSecondaryABNGearRatio</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ratio</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab48f7f152103c293cb7960ada0a51f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read ABN_2_GEAR_RATIO (1…255).  <br /></td></tr>
+<tr class="separator:ab48f7f152103c293cb7960ada0a51f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa3d9cee485aa217fb984330468c5dbc" id="r_afa3d9cee485aa217fb984330468c5dbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa3d9cee485aa217fb984330468c5dbc">setSecondaryABNEncoderEnabled</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> enable) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:afa3d9cee485aa217fb984330468c5dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable the secondary ABN encoder.  <br /></td></tr>
+<tr class="separator:afa3d9cee485aa217fb984330468c5dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05997e96b93700d4389a9b489833370a" id="r_a05997e96b93700d4389a9b489833370a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05997e96b93700d4389a9b489833370a">getSecondaryABNEncoderValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a05997e96b93700d4389a9b489833370a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the raw ABN2 encoder internal counter value.  <br /></td></tr>
+<tr class="separator:a05997e96b93700d4389a9b489833370a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa86ebbaf3aca97fdb14a975440bbaedf" id="r_aa86ebbaf3aca97fdb14a975440bbaedf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa86ebbaf3aca97fdb14a975440bbaedf">configureSPIEncoder</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cmd_size</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cs_settle_time_ns</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">cs_idle_time_us</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aa86ebbaf3aca97fdb14a975440bbaedf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure a SPI-based encoder for feedback.  <br /></td></tr>
+<tr class="separator:aa86ebbaf3aca97fdb14a975440bbaedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c8b40e7f6c6ebf6478d91c5d0b27b91" id="r_a9c8b40e7f6c6ebf6478d91c5d0b27b91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c8b40e7f6c6ebf6478d91c5d0b27b91">configureSPIEncoderDataFormat</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">position_mask</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> positionShift=0, <a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> <a class="el" href="classtmc9660_1_1CommInterface.html">invertDirection</a>=tmc9660::tmcl::Direction::NOT_INVERTED) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9c8b40e7f6c6ebf6478d91c5d0b27b91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI encoder data format and processing.  <br /></td></tr>
+<tr class="separator:a9c8b40e7f6c6ebf6478d91c5d0b27b91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad005611d76a2f9e92a59eeda63ef69d2" id="r_ad005611d76a2f9e92a59eeda63ef69d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad005611d76a2f9e92a59eeda63ef69d2">setSPIEncoderRequestData</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> *requestData, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad005611d76a2f9e92a59eeda63ef69d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set up SPI encoder request data for continuous transfer mode.  <br /></td></tr>
+<tr class="separator:ad005611d76a2f9e92a59eeda63ef69d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84bd1f74ceb202b4050fc74123e6ddd1" id="r_a84bd1f74ceb202b4050fc74123e6ddd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84bd1f74ceb202b4050fc74123e6ddd1">configureSPIEncoderInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> <a class="el" href="classtmc9660_1_1CommInterface.html">init_method</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> offset=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a84bd1f74ceb202b4050fc74123e6ddd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI encoder initialization method.  <br /></td></tr>
+<tr class="separator:a84bd1f74ceb202b4050fc74123e6ddd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ff91461c5260b141fb1d9ab2b35c9fa" id="r_a4ff91461c5260b141fb1d9ab2b35c9fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ff91461c5260b141fb1d9ab2b35c9fa">setSPIEncoderLUTCorrection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a> enable, <a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">shiftFactor</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4ff91461c5260b141fb1d9ab2b35c9fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable SPI encoder lookup table correction.  <br /></td></tr>
+<tr class="separator:a4ff91461c5260b141fb1d9ab2b35c9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a4b3dbd97ae0a450c671f67f4652c5" id="r_a65a4b3dbd97ae0a450c671f67f4652c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a65a4b3dbd97ae0a450c671f67f4652c5">uploadSPIEncoderLUTEntry</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> index, <a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a65a4b3dbd97ae0a450c671f67f4652c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upload a single entry to the SPI encoder correction lookup table.  <br /></td></tr>
+<tr class="separator:a65a4b3dbd97ae0a450c671f67f4652c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a727d0a78511b5382fd44ae6ff4e7a283" id="r_a727d0a78511b5382fd44ae6ff4e7a283"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a727d0a78511b5382fd44ae6ff4e7a283">getSPIEncoderCSSettleDelay</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">timeNs</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a727d0a78511b5382fd44ae6ff4e7a283"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODE_CS_SETTLE_DELAY_TIME (0…6375 ns).  <br /></td></tr>
+<tr class="separator:a727d0a78511b5382fd44ae6ff4e7a283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a907aa89aec4316808caa7ad74ecbfebb" id="r_a907aa89aec4316808caa7ad74ecbfebb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a907aa89aec4316808caa7ad74ecbfebb">getSPIEncoderCSIdleDelay</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">timeUs</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a907aa89aec4316808caa7ad74ecbfebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_CS_IDLE_DELAY_TIME (0…102 µs).  <br /></td></tr>
+<tr class="separator:a907aa89aec4316808caa7ad74ecbfebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60e1b812ce7da8d6e33784098ad1d637" id="r_a60e1b812ce7da8d6e33784098ad1d637"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60e1b812ce7da8d6e33784098ad1d637">getSPIEncoderMainCmdSize</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a60e1b812ce7da8d6e33784098ad1d637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_MAIN_TRANSFER_CMD_SIZE (1…16 bytes).  <br /></td></tr>
+<tr class="separator:a60e1b812ce7da8d6e33784098ad1d637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15bce6533aec61729024066398bf296c" id="r_a15bce6533aec61729024066398bf296c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15bce6533aec61729024066398bf296c">getSPIEncoderSecondaryCmdSize</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">size</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a15bce6533aec61729024066398bf296c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_SECONDARY_TRANSFER_CMD_SIZE (0…15 bytes).  <br /></td></tr>
+<tr class="separator:a15bce6533aec61729024066398bf296c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa22ff261e6e31550d80e7cb4ad9e42c4" id="r_aa22ff261e6e31550d80e7cb4ad9e42c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa22ff261e6e31550d80e7cb4ad9e42c4">getSPIEncoderPositionMask</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">mask</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aa22ff261e6e31550d80e7cb4ad9e42c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_MASK.  <br /></td></tr>
+<tr class="separator:aa22ff261e6e31550d80e7cb4ad9e42c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b0910a6be52229ed36d7627af4811d7" id="r_a1b0910a6be52229ed36d7627af4811d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b0910a6be52229ed36d7627af4811d7">getSPIEncoderPositionShift</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">shift</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a1b0910a6be52229ed36d7627af4811d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_SHIFT.  <br /></td></tr>
+<tr class="separator:a1b0910a6be52229ed36d7627af4811d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15c5ef52103e29aa1ffb5918b73b5937" id="r_a15c5ef52103e29aa1ffb5918b73b5937"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15c5ef52103e29aa1ffb5918b73b5937">getSPIEncoderPositionValue</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a15c5ef52103e29aa1ffb5918b73b5937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_POSITION_COUNTER_VALUE.  <br /></td></tr>
+<tr class="separator:a15c5ef52103e29aa1ffb5918b73b5937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b5404a45105667b8caaf6c3955bfa4a" id="r_a8b5404a45105667b8caaf6c3955bfa4a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b5404a45105667b8caaf6c3955bfa4a">getSPIEncoderCommutationAngle</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">angle</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a8b5404a45105667b8caaf6c3955bfa4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_COMMUTATION_ANGLE (-32768…32767).  <br /></td></tr>
+<tr class="separator:a8b5404a45105667b8caaf6c3955bfa4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4186358bc3123babcca580bc79b8b10d" id="r_a4186358bc3123babcca580bc79b8b10d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4186358bc3123babcca580bc79b8b10d">getSPIEncoderInitialization</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">method</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;offset) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4186358bc3123babcca580bc79b8b10d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_INITIALIZATION_METHOD and SPI_ENCODER_OFFSET.  <br /></td></tr>
+<tr class="separator:a4186358bc3123babcca580bc79b8b10d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca759c9e7870a0b4c2480cbf9d714d58" id="r_aca759c9e7870a0b4c2480cbf9d714d58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca759c9e7870a0b4c2480cbf9d714d58">getSPIEncoderDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">dir</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aca759c9e7870a0b4c2480cbf9d714d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_ENCODER_DIRECTION.  <br /></td></tr>
+<tr class="separator:aca759c9e7870a0b4c2480cbf9d714d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61bac69524768035b0bd59451d9ec953" id="r_a61bac69524768035b0bd59451d9ec953"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61bac69524768035b0bd59451d9ec953">getSPIEncoderLUTAddress</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a61bac69524768035b0bd59451d9ec953"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_ADDRESS_SELECT.  <br /></td></tr>
+<tr class="separator:a61bac69524768035b0bd59451d9ec953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6d6988e88419347c937444b4602c01" id="r_a6b6d6988e88419347c937444b4602c01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b6d6988e88419347c937444b4602c01">getSPIEncoderLUTData</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">data</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a6b6d6988e88419347c937444b4602c01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_DATA.  <br /></td></tr>
+<tr class="separator:a6b6d6988e88419347c937444b4602c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1745c82c8e80906da5a6e60f5ebcd450" id="r_a1745c82c8e80906da5a6e60f5ebcd450"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1745c82c8e80906da5a6e60f5ebcd450">getSPIEncoderLUTShiftFactor</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">shift_factor</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a1745c82c8e80906da5a6e60f5ebcd450"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read SPI_LUT_COMMON_SHIFT_FACTOR.  <br /></td></tr>
+<tr class="separator:a1745c82c8e80906da5a6e60f5ebcd450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ba2faf01e01cbeca34441a0667c31a" id="r_aa3ba2faf01e01cbeca34441a0667c31a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3ba2faf01e01cbeca34441a0667c31a">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aa3ba2faf01e01cbeca34441a0667c31a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure Hall sensor feedback.  <br /></td></tr>
+<tr class="separator:aa3ba2faf01e01cbeca34441a0667c31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99cec82338e7ae54a0ece0955b1cf22b" id="r_a99cec82338e7ae54a0ece0955b1cf22b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99cec82338e7ae54a0ece0955b1cf22b">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a99cec82338e7ae54a0ece0955b1cf22b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN encoder feedback.  <br /></td></tr>
+<tr class="separator:a99cec82338e7ae54a0ece0955b1cf22b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0046720eee6dd50da0a753c0088c3802" id="r_a0046720eee6dd50da0a753c0088c3802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0046720eee6dd50da0a753c0088c3802">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a0046720eee6dd50da0a753c0088c3802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ABN2 (secondary) encoder feedback.  <br /></td></tr>
+<tr class="separator:a0046720eee6dd50da0a753c0088c3802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade64e5819dc1aaf65065a33efdfca92e" id="r_ade64e5819dc1aaf65065a33efdfca92e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade64e5819dc1aaf65065a33efdfca92e">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ade64e5819dc1aaf65065a33efdfca92e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure SPI encoder feedback.  <br /></td></tr>
+<tr class="separator:ade64e5819dc1aaf65065a33efdfca92e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0492717ba661659d50ca72a8fe3526c2" id="r_a0492717ba661659d50ca72a8fe3526c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0492717ba661659d50ca72a8fe3526c2">degreesToHallOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">degrees</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0492717ba661659d50ca72a8fe3526c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from degrees to 16-bit format.  <br /></td></tr>
-<tr class="separator:a0492717ba661659d50ca72a8fe3526c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0af6d5c24ead5a95967dfd73514a1e03" id="r_a0af6d5c24ead5a95967dfd73514a1e03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0af6d5c24ead5a95967dfd73514a1e03">radiansToHallOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">radians</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0af6d5c24ead5a95967dfd73514a1e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from radians to 16-bit format.  <br /></td></tr>
-<tr class="separator:a0af6d5c24ead5a95967dfd73514a1e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b07b703a11f7cedb2aa4e2ce5688226" id="r_a9b07b703a11f7cedb2aa4e2ce5688226"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b07b703a11f7cedb2aa4e2ce5688226">degreesToHallOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">degrees</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9b07b703a11f7cedb2aa4e2ce5688226"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from degrees to 16-bit format.  <br /></td></tr>
+<tr class="separator:a9b07b703a11f7cedb2aa4e2ce5688226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ca41a8fac2608fb2227c190db5f9398" id="r_a7ca41a8fac2608fb2227c190db5f9398"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ca41a8fac2608fb2227c190db5f9398">radiansToHallOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">radians</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a7ca41a8fac2608fb2227c190db5f9398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert electrical angle from radians to 16-bit format.  <br /></td></tr>
+<tr class="separator:a7ca41a8fac2608fb2227c190db5f9398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -310,8 +310,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a508cc48d5ef4bb08f72edf4a68cdce91" name="a508cc48d5ef4bb08f72edf4a68cdce91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a508cc48d5ef4bb08f72edf4a68cdce91">&#9670;&#160;</a></span>configureABNEncoder()</h2>
+<a id="ad716b09b0edb92ff80101355ebb48d54" name="ad716b09b0edb92ff80101355ebb48d54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad716b09b0edb92ff80101355ebb48d54">&#9670;&#160;</a></span>configureABNEncoder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -322,7 +322,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureABNEncoder </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureABNEncoder </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>counts_per_rev</em>, </span></td>
         </tr>
@@ -357,8 +357,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a1a0ceedb91bcb42b4b16c8b1fad4972d" name="a1a0ceedb91bcb42b4b16c8b1fad4972d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a0ceedb91bcb42b4b16c8b1fad4972d">&#9670;&#160;</a></span>configureABNInitialization()</h2>
+<a id="abc840d40b05071a7d131d10697428c9a" name="abc840d40b05071a7d131d10697428c9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc840d40b05071a7d131d10697428c9a">&#9670;&#160;</a></span>configureABNInitialization()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,7 +369,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureABNInitialization </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureABNInitialization </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#add6e015f26fa726f4b8d63afb20df81e">tmc9660::tmcl::AbnInitMethod</a></td>          <td class="paramname"><span class="paramname"><em>initMethod</em><span class="paramdefsep"> = </span><span class="paramdefval">tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING</span>, </span></td>
         </tr>
@@ -411,8 +411,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="afadbb01591b683a4b4c33f364be45d8a" name="afadbb01591b683a4b4c33f364be45d8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afadbb01591b683a4b4c33f364be45d8a">&#9670;&#160;</a></span>configureABNNChannel()</h2>
+<a id="a55813ef9580ad946910eb9036e1ca319" name="a55813ef9580ad946910eb9036e1ca319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55813ef9580ad946910eb9036e1ca319">&#9670;&#160;</a></span>configureABNNChannel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -423,7 +423,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureABNNChannel </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureABNNChannel </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad07a0226af64408039d5c5bcb69a973f">tmc9660::tmcl::AbnNChannelFiltering</a></td>          <td class="paramname"><span class="paramname"><em>filterMode</em><span class="paramdefsep"> = </span><span class="paramdefval">tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF</span>, </span></td>
         </tr>
@@ -453,8 +453,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="af9a98b150855960f6e890d5d06068419" name="af9a98b150855960f6e890d5d06068419"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9a98b150855960f6e890d5d06068419">&#9670;&#160;</a></span>configureAuto() <span class="overload">[1/4]</span></h2>
+<a id="a0046720eee6dd50da0a753c0088c3802" name="a0046720eee6dd50da0a753c0088c3802"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0046720eee6dd50da0a753c0088c3802">&#9670;&#160;</a></span>configureAuto() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,7 +465,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1Abn2Config.html">Abn2Config</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
@@ -490,8 +490,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a79850cd6b9cb7fe686940e4ca0e00679" name="a79850cd6b9cb7fe686940e4ca0e00679"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79850cd6b9cb7fe686940e4ca0e00679">&#9670;&#160;</a></span>configureAuto() <span class="overload">[2/4]</span></h2>
+<a id="a99cec82338e7ae54a0ece0955b1cf22b" name="a99cec82338e7ae54a0ece0955b1cf22b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99cec82338e7ae54a0ece0955b1cf22b">&#9670;&#160;</a></span>configureAuto() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -502,7 +502,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html">AbnConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
@@ -527,8 +527,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ad1fc81f5c0643263e4dde2f1d03a8709" name="ad1fc81f5c0643263e4dde2f1d03a8709"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1fc81f5c0643263e4dde2f1d03a8709">&#9670;&#160;</a></span>configureAuto() <span class="overload">[3/4]</span></h2>
+<a id="aa3ba2faf01e01cbeca34441a0667c31a" name="aa3ba2faf01e01cbeca34441a0667c31a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ba2faf01e01cbeca34441a0667c31a">&#9670;&#160;</a></span>configureAuto() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -539,7 +539,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html">HallConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
@@ -564,8 +564,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="acd2f2e12904ac4251406a350bf49dbbf" name="acd2f2e12904ac4251406a350bf49dbbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd2f2e12904ac4251406a350bf49dbbf">&#9670;&#160;</a></span>configureAuto() <span class="overload">[4/4]</span></h2>
+<a id="ade64e5819dc1aaf65065a33efdfca92e" name="ade64e5819dc1aaf65065a33efdfca92e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade64e5819dc1aaf65065a33efdfca92e">&#9670;&#160;</a></span>configureAuto() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +576,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html">SpiEncoderConfig</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
           <td></td>
@@ -601,8 +601,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ab14d2ff0a88825c927c41121d8856f70" name="ab14d2ff0a88825c927c41121d8856f70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab14d2ff0a88825c927c41121d8856f70">&#9670;&#160;</a></span>configureHall()</h2>
+<a id="a542fefb1e4396f68013f33e184870b57" name="a542fefb1e4396f68013f33e184870b57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a542fefb1e4396f68013f33e184870b57">&#9670;&#160;</a></span>configureHall()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -613,7 +613,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureHall </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureHall </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad2fad5904e2f621761e9c33dfa2f0169">tmc9660::tmcl::HallSectorOffset</a></td>          <td class="paramname"><span class="paramname"><em>sectorOffset</em><span class="paramdefsep"> = </span><span class="paramdefval">tmc9660::tmcl::HallSectorOffset::DEG_0</span>, </span></td>
         </tr>
@@ -654,8 +654,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0c4e92630602d7baca400efe11b96042" name="a0c4e92630602d7baca400efe11b96042"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c4e92630602d7baca400efe11b96042">&#9670;&#160;</a></span>configureSecondaryABNEncoder()</h2>
+<a id="a20534b5cfa2671c576bd49fc3af29bd5" name="a20534b5cfa2671c576bd49fc3af29bd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20534b5cfa2671c576bd49fc3af29bd5">&#9670;&#160;</a></span>configureSecondaryABNEncoder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -666,7 +666,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureSecondaryABNEncoder </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureSecondaryABNEncoder </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>counts_per_rev</em>, </span></td>
         </tr>
@@ -702,8 +702,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a2ac09710fd25095839dc44b2e5e43563" name="a2ac09710fd25095839dc44b2e5e43563"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ac09710fd25095839dc44b2e5e43563">&#9670;&#160;</a></span>configureSPIEncoder()</h2>
+<a id="aa86ebbaf3aca97fdb14a975440bbaedf" name="aa86ebbaf3aca97fdb14a975440bbaedf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa86ebbaf3aca97fdb14a975440bbaedf">&#9670;&#160;</a></span>configureSPIEncoder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -714,7 +714,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureSPIEncoder </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureSPIEncoder </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>cmd_size</em>, </span></td>
         </tr>
@@ -750,8 +750,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a10304a218990f2fc1a5f7b86abfba003" name="a10304a218990f2fc1a5f7b86abfba003"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10304a218990f2fc1a5f7b86abfba003">&#9670;&#160;</a></span>configureSPIEncoderDataFormat()</h2>
+<a id="a9c8b40e7f6c6ebf6478d91c5d0b27b91" name="a9c8b40e7f6c6ebf6478d91c5d0b27b91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c8b40e7f6c6ebf6478d91c5d0b27b91">&#9670;&#160;</a></span>configureSPIEncoderDataFormat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -762,7 +762,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureSPIEncoderDataFormat </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureSPIEncoderDataFormat </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>position_mask</em>, </span></td>
         </tr>
@@ -798,8 +798,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a91e3c03fc0e0065d6fda2137e035dad8" name="a91e3c03fc0e0065d6fda2137e035dad8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91e3c03fc0e0065d6fda2137e035dad8">&#9670;&#160;</a></span>configureSPIEncoderInitialization()</h2>
+<a id="a84bd1f74ceb202b4050fc74123e6ddd1" name="a84bd1f74ceb202b4050fc74123e6ddd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84bd1f74ceb202b4050fc74123e6ddd1">&#9670;&#160;</a></span>configureSPIEncoderInitialization()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -810,7 +810,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::configureSPIEncoderInitialization </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::configureSPIEncoderInitialization </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a></td>          <td class="paramname"><span class="paramname"><em>init_method</em>, </span></td>
         </tr>
@@ -840,8 +840,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0492717ba661659d50ca72a8fe3526c2" name="a0492717ba661659d50ca72a8fe3526c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0492717ba661659d50ca72a8fe3526c2">&#9670;&#160;</a></span>degreesToHallOffset()</h2>
+<a id="a9b07b703a11f7cedb2aa4e2ce5688226" name="a9b07b703a11f7cedb2aa4e2ce5688226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b07b703a11f7cedb2aa4e2ce5688226">&#9670;&#160;</a></span>degreesToHallOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -852,7 +852,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> TMC9660::FeedbackSense::degreesToHallOffset </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::degreesToHallOffset </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>degrees</em></span></td><td>)</td>
           <td></td>
@@ -877,8 +877,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0af2ee0796fb0be0566bddad5b2ad2b4" name="a0af2ee0796fb0be0566bddad5b2ad2b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0af2ee0796fb0be0566bddad5b2ad2b4">&#9670;&#160;</a></span>getABNInitializationState()</h2>
+<a id="acd538c34f3e6ba31231cd10832624c29" name="acd538c34f3e6ba31231cd10832624c29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd538c34f3e6ba31231cd10832624c29">&#9670;&#160;</a></span>getABNInitializationState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -889,7 +889,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getABNInitializationState </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getABNInitializationState </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a0a38860cf429b932d73f6190f2a8b16e">tmc9660::tmcl::AbnInitState</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>state</em></span></td><td>)</td>
           <td></td>
@@ -913,8 +913,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a43851ed0779ae5f15dcb7d31417423d3" name="a43851ed0779ae5f15dcb7d31417423d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43851ed0779ae5f15dcb7d31417423d3">&#9670;&#160;</a></span>getABNPhiE()</h2>
+<a id="a3bcff542140037d9ff6a706e69c3afad" name="a3bcff542140037d9ff6a706e69c3afad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bcff542140037d9ff6a706e69c3afad">&#9670;&#160;</a></span>getABNPhiE()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -925,7 +925,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getABNPhiE </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getABNPhiE </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>phi_e</em></span></td><td>)</td>
           <td></td>
@@ -949,8 +949,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a8f8c29c78e0535d68d3259ce40255029" name="a8f8c29c78e0535d68d3259ce40255029"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f8c29c78e0535d68d3259ce40255029">&#9670;&#160;</a></span>getABNRawValue()</h2>
+<a id="a87779b4dd85cc1a4b41142f0db3ec0ab" name="a87779b4dd85cc1a4b41142f0db3ec0ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87779b4dd85cc1a4b41142f0db3ec0ab">&#9670;&#160;</a></span>getABNRawValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -961,7 +961,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getABNRawValue </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getABNRawValue </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
@@ -985,8 +985,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ac2af611d0fc578ad5bbceeb49a9e4702" name="ac2af611d0fc578ad5bbceeb49a9e4702"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2af611d0fc578ad5bbceeb49a9e4702">&#9670;&#160;</a></span>getHallPhiE()</h2>
+<a id="a616b7f41ee507d2cd03eac0e612a8847" name="a616b7f41ee507d2cd03eac0e612a8847"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a616b7f41ee507d2cd03eac0e612a8847">&#9670;&#160;</a></span>getHallPhiE()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -997,7 +997,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getHallPhiE </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getHallPhiE </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>phi_e</em></span></td><td>)</td>
           <td></td>
@@ -1021,8 +1021,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a8d18e005d8c1b5adacfb0e64fc251efe" name="a8d18e005d8c1b5adacfb0e64fc251efe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d18e005d8c1b5adacfb0e64fc251efe">&#9670;&#160;</a></span>getSecondaryABNCountsPerRev()</h2>
+<a id="a4be66aa26e05d506488c4273ebc64b59" name="a4be66aa26e05d506488c4273ebc64b59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4be66aa26e05d506488c4273ebc64b59">&#9670;&#160;</a></span>getSecondaryABNCountsPerRev()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1033,7 +1033,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSecondaryABNCountsPerRev </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSecondaryABNCountsPerRev </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>counts</em></span></td><td>)</td>
           <td></td>
@@ -1057,8 +1057,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a916577822d7f6da006db0b715ebaf0d4" name="a916577822d7f6da006db0b715ebaf0d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a916577822d7f6da006db0b715ebaf0d4">&#9670;&#160;</a></span>getSecondaryABNDirection()</h2>
+<a id="aaaec36e5299b37ef238b48ff4a2af474" name="aaaec36e5299b37ef238b48ff4a2af474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaaec36e5299b37ef238b48ff4a2af474">&#9670;&#160;</a></span>getSecondaryABNDirection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1069,7 +1069,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSecondaryABNDirection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSecondaryABNDirection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dir</em></span></td><td>)</td>
           <td></td>
@@ -1093,8 +1093,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a36bb30e3c0eedf8cae1a73c1c2a13ca6" name="a36bb30e3c0eedf8cae1a73c1c2a13ca6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36bb30e3c0eedf8cae1a73c1c2a13ca6">&#9670;&#160;</a></span>getSecondaryABNEncoderValue()</h2>
+<a id="a05997e96b93700d4389a9b489833370a" name="a05997e96b93700d4389a9b489833370a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05997e96b93700d4389a9b489833370a">&#9670;&#160;</a></span>getSecondaryABNEncoderValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1105,7 +1105,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSecondaryABNEncoderValue </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSecondaryABNEncoderValue </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
@@ -1129,8 +1129,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ab21e0bcbaf75e6d01875595c2e6e3801" name="ab21e0bcbaf75e6d01875595c2e6e3801"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab21e0bcbaf75e6d01875595c2e6e3801">&#9670;&#160;</a></span>getSecondaryABNGearRatio()</h2>
+<a id="ab48f7f152103c293cb7960ada0a51f54" name="ab48f7f152103c293cb7960ada0a51f54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48f7f152103c293cb7960ada0a51f54">&#9670;&#160;</a></span>getSecondaryABNGearRatio()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1141,7 +1141,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSecondaryABNGearRatio </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSecondaryABNGearRatio </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ratio</em></span></td><td>)</td>
           <td></td>
@@ -1165,8 +1165,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9a98d714f9f1329e2af83393f9729276" name="a9a98d714f9f1329e2af83393f9729276"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a98d714f9f1329e2af83393f9729276">&#9670;&#160;</a></span>getSPIEncoderCommutationAngle()</h2>
+<a id="a8b5404a45105667b8caaf6c3955bfa4a" name="a8b5404a45105667b8caaf6c3955bfa4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b5404a45105667b8caaf6c3955bfa4a">&#9670;&#160;</a></span>getSPIEncoderCommutationAngle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1177,7 +1177,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderCommutationAngle </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderCommutationAngle </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>angle</em></span></td><td>)</td>
           <td></td>
@@ -1194,8 +1194,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a5fc6bd5fbcc33d5ad5e12dcf2b402c32" name="a5fc6bd5fbcc33d5ad5e12dcf2b402c32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fc6bd5fbcc33d5ad5e12dcf2b402c32">&#9670;&#160;</a></span>getSPIEncoderCSIdleDelay()</h2>
+<a id="a907aa89aec4316808caa7ad74ecbfebb" name="a907aa89aec4316808caa7ad74ecbfebb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a907aa89aec4316808caa7ad74ecbfebb">&#9670;&#160;</a></span>getSPIEncoderCSIdleDelay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1206,7 +1206,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderCSIdleDelay </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderCSIdleDelay </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>timeUs</em></span></td><td>)</td>
           <td></td>
@@ -1223,8 +1223,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a655a536da41ee09f82605edae750de28" name="a655a536da41ee09f82605edae750de28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a655a536da41ee09f82605edae750de28">&#9670;&#160;</a></span>getSPIEncoderCSSettleDelay()</h2>
+<a id="a727d0a78511b5382fd44ae6ff4e7a283" name="a727d0a78511b5382fd44ae6ff4e7a283"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a727d0a78511b5382fd44ae6ff4e7a283">&#9670;&#160;</a></span>getSPIEncoderCSSettleDelay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1235,7 +1235,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderCSSettleDelay </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderCSSettleDelay </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>timeNs</em></span></td><td>)</td>
           <td></td>
@@ -1252,8 +1252,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a50b6acb38d63b7a2338ce4ad91c34acc" name="a50b6acb38d63b7a2338ce4ad91c34acc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50b6acb38d63b7a2338ce4ad91c34acc">&#9670;&#160;</a></span>getSPIEncoderDirection()</h2>
+<a id="aca759c9e7870a0b4c2480cbf9d714d58" name="aca759c9e7870a0b4c2480cbf9d714d58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca759c9e7870a0b4c2480cbf9d714d58">&#9670;&#160;</a></span>getSPIEncoderDirection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1264,7 +1264,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderDirection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderDirection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a4ea4e21a0bb5bc14e3e23f55fea8db41">tmc9660::tmcl::Direction</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>dir</em></span></td><td>)</td>
           <td></td>
@@ -1281,8 +1281,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a5a4bb0cd0512d6f174be64096b31b801" name="a5a4bb0cd0512d6f174be64096b31b801"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a4bb0cd0512d6f174be64096b31b801">&#9670;&#160;</a></span>getSPIEncoderInitialization()</h2>
+<a id="a4186358bc3123babcca580bc79b8b10d" name="a4186358bc3123babcca580bc79b8b10d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4186358bc3123babcca580bc79b8b10d">&#9670;&#160;</a></span>getSPIEncoderInitialization()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1293,7 +1293,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderInitialization </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderInitialization </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a958d39a783c0678ea11e3a37e67904f6">tmc9660::tmcl::SpiInitMethod</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>method</em>, </span></td>
         </tr>
@@ -1314,8 +1314,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a8185c5030628bafb518d6ec4d3925f18" name="a8185c5030628bafb518d6ec4d3925f18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8185c5030628bafb518d6ec4d3925f18">&#9670;&#160;</a></span>getSPIEncoderLUTAddress()</h2>
+<a id="a61bac69524768035b0bd59451d9ec953" name="a61bac69524768035b0bd59451d9ec953"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61bac69524768035b0bd59451d9ec953">&#9670;&#160;</a></span>getSPIEncoderLUTAddress()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1326,7 +1326,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderLUTAddress </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderLUTAddress </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
           <td></td>
@@ -1343,8 +1343,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ad2267e47297e109a98d97a7352febcc2" name="ad2267e47297e109a98d97a7352febcc2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2267e47297e109a98d97a7352febcc2">&#9670;&#160;</a></span>getSPIEncoderLUTData()</h2>
+<a id="a6b6d6988e88419347c937444b4602c01" name="a6b6d6988e88419347c937444b4602c01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6d6988e88419347c937444b4602c01">&#9670;&#160;</a></span>getSPIEncoderLUTData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1355,7 +1355,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderLUTData </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderLUTData </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
           <td></td>
@@ -1372,8 +1372,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a6cf7c1e08d8fe373eb999b2f969d870b" name="a6cf7c1e08d8fe373eb999b2f969d870b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cf7c1e08d8fe373eb999b2f969d870b">&#9670;&#160;</a></span>getSPIEncoderLUTShiftFactor()</h2>
+<a id="a1745c82c8e80906da5a6e60f5ebcd450" name="a1745c82c8e80906da5a6e60f5ebcd450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1745c82c8e80906da5a6e60f5ebcd450">&#9670;&#160;</a></span>getSPIEncoderLUTShiftFactor()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1384,7 +1384,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderLUTShiftFactor </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderLUTShiftFactor </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shift_factor</em></span></td><td>)</td>
           <td></td>
@@ -1401,8 +1401,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ab469bca6213fbafb86db88eb8badeaa5" name="ab469bca6213fbafb86db88eb8badeaa5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab469bca6213fbafb86db88eb8badeaa5">&#9670;&#160;</a></span>getSPIEncoderMainCmdSize()</h2>
+<a id="a60e1b812ce7da8d6e33784098ad1d637" name="a60e1b812ce7da8d6e33784098ad1d637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60e1b812ce7da8d6e33784098ad1d637">&#9670;&#160;</a></span>getSPIEncoderMainCmdSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1413,7 +1413,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderMainCmdSize </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderMainCmdSize </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
           <td></td>
@@ -1430,8 +1430,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="affc9072c6de3c716672604fce64956e8" name="affc9072c6de3c716672604fce64956e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affc9072c6de3c716672604fce64956e8">&#9670;&#160;</a></span>getSPIEncoderPositionMask()</h2>
+<a id="aa22ff261e6e31550d80e7cb4ad9e42c4" name="aa22ff261e6e31550d80e7cb4ad9e42c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa22ff261e6e31550d80e7cb4ad9e42c4">&#9670;&#160;</a></span>getSPIEncoderPositionMask()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1442,7 +1442,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderPositionMask </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderPositionMask </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>mask</em></span></td><td>)</td>
           <td></td>
@@ -1459,8 +1459,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aa84722e819e91134a950c5a0af724544" name="aa84722e819e91134a950c5a0af724544"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa84722e819e91134a950c5a0af724544">&#9670;&#160;</a></span>getSPIEncoderPositionShift()</h2>
+<a id="a1b0910a6be52229ed36d7627af4811d7" name="a1b0910a6be52229ed36d7627af4811d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b0910a6be52229ed36d7627af4811d7">&#9670;&#160;</a></span>getSPIEncoderPositionShift()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1471,7 +1471,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderPositionShift </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderPositionShift </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>shift</em></span></td><td>)</td>
           <td></td>
@@ -1488,8 +1488,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a3fc29df589ac5745b0258046b7fe7b56" name="a3fc29df589ac5745b0258046b7fe7b56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fc29df589ac5745b0258046b7fe7b56">&#9670;&#160;</a></span>getSPIEncoderPositionValue()</h2>
+<a id="a15c5ef52103e29aa1ffb5918b73b5937" name="a15c5ef52103e29aa1ffb5918b73b5937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15c5ef52103e29aa1ffb5918b73b5937">&#9670;&#160;</a></span>getSPIEncoderPositionValue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1500,7 +1500,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderPositionValue </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderPositionValue </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
@@ -1517,8 +1517,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ab8facb1ec8db2e49c48ac302be8f6937" name="ab8facb1ec8db2e49c48ac302be8f6937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8facb1ec8db2e49c48ac302be8f6937">&#9670;&#160;</a></span>getSPIEncoderSecondaryCmdSize()</h2>
+<a id="a15bce6533aec61729024066398bf296c" name="a15bce6533aec61729024066398bf296c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15bce6533aec61729024066398bf296c">&#9670;&#160;</a></span>getSPIEncoderSecondaryCmdSize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1529,7 +1529,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::getSPIEncoderSecondaryCmdSize </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::getSPIEncoderSecondaryCmdSize </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>size</em></span></td><td>)</td>
           <td></td>
@@ -1546,8 +1546,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0af6d5c24ead5a95967dfd73514a1e03" name="a0af6d5c24ead5a95967dfd73514a1e03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0af6d5c24ead5a95967dfd73514a1e03">&#9670;&#160;</a></span>radiansToHallOffset()</h2>
+<a id="a7ca41a8fac2608fb2227c190db5f9398" name="a7ca41a8fac2608fb2227c190db5f9398"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ca41a8fac2608fb2227c190db5f9398">&#9670;&#160;</a></span>radiansToHallOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1558,7 +1558,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> TMC9660::FeedbackSense::radiansToHallOffset </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::radiansToHallOffset </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>radians</em></span></td><td>)</td>
           <td></td>
@@ -1583,8 +1583,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a62273c0a0b2a1098656d9e641a343275" name="a62273c0a0b2a1098656d9e641a343275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62273c0a0b2a1098656d9e641a343275">&#9670;&#160;</a></span>setHallPositionOffsets()</h2>
+<a id="acbbf05f6d8d233d48f962f4ba6c65169" name="acbbf05f6d8d233d48f962f4ba6c65169"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbbf05f6d8d233d48f962f4ba6c65169">&#9670;&#160;</a></span>setHallPositionOffsets()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1595,7 +1595,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setHallPositionOffsets </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setHallPositionOffsets </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a></td>          <td class="paramname"><span class="paramname"><em>offset0</em><span class="paramdefsep"> = </span><span class="paramdefval">0</span>, </span></td>
         </tr>
@@ -1655,8 +1655,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9f57a6b8d05ee232e2e6c2a2ed0096b3" name="a9f57a6b8d05ee232e2e6c2a2ed0096b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f57a6b8d05ee232e2e6c2a2ed0096b3">&#9670;&#160;</a></span>setHallPositionOffsetsDegrees()</h2>
+<a id="a6a7ca68dcd6fa474a2aea26939891bfd" name="a6a7ca68dcd6fa474a2aea26939891bfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a7ca68dcd6fa474a2aea26939891bfd">&#9670;&#160;</a></span>setHallPositionOffsetsDegrees()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1667,7 +1667,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setHallPositionOffsetsDegrees </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setHallPositionOffsetsDegrees </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>offset0Deg</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </span></td>
         </tr>
@@ -1727,8 +1727,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="afd513b5d93b65c4971f310c71b8739a7" name="afd513b5d93b65c4971f310c71b8739a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd513b5d93b65c4971f310c71b8739a7">&#9670;&#160;</a></span>setHallPositionOffsetsRadians()</h2>
+<a id="a47acdf5359e6142de64bbf3bb34ea502" name="a47acdf5359e6142de64bbf3bb34ea502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47acdf5359e6142de64bbf3bb34ea502">&#9670;&#160;</a></span>setHallPositionOffsetsRadians()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1739,7 +1739,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setHallPositionOffsetsRadians </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setHallPositionOffsetsRadians </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">float</a></td>          <td class="paramname"><span class="paramname"><em>offset0Rad</em><span class="paramdefsep"> = </span><span class="paramdefval">0.0f</span>, </span></td>
         </tr>
@@ -1799,8 +1799,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a3b17187076af9df1f881b79fc1cb4030" name="a3b17187076af9df1f881b79fc1cb4030"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b17187076af9df1f881b79fc1cb4030">&#9670;&#160;</a></span>setSecondaryABNEncoderEnabled()</h2>
+<a id="afa3d9cee485aa217fb984330468c5dbc" name="afa3d9cee485aa217fb984330468c5dbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa3d9cee485aa217fb984330468c5dbc">&#9670;&#160;</a></span>setSecondaryABNEncoderEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1811,7 +1811,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setSecondaryABNEncoderEnabled </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setSecondaryABNEncoderEnabled </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a></td>          <td class="paramname"><span class="paramname"><em>enable</em></span></td><td>)</td>
           <td></td>
@@ -1835,8 +1835,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a5d66961d0ff27dc0436dd4dc5c96f2ac" name="a5d66961d0ff27dc0436dd4dc5c96f2ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d66961d0ff27dc0436dd4dc5c96f2ac">&#9670;&#160;</a></span>setSPIEncoderLUTCorrection()</h2>
+<a id="a4ff91461c5260b141fb1d9ab2b35c9fa" name="a4ff91461c5260b141fb1d9ab2b35c9fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ff91461c5260b141fb1d9ab2b35c9fa">&#9670;&#160;</a></span>setSPIEncoderLUTCorrection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1847,7 +1847,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setSPIEncoderLUTCorrection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setSPIEncoderLUTCorrection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a></td>          <td class="paramname"><span class="paramname"><em>enable</em>, </span></td>
         </tr>
@@ -1877,8 +1877,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="acbea915882d2ef38ca06d5443bda0bd4" name="acbea915882d2ef38ca06d5443bda0bd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbea915882d2ef38ca06d5443bda0bd4">&#9670;&#160;</a></span>setSPIEncoderRequestData()</h2>
+<a id="ad005611d76a2f9e92a59eeda63ef69d2" name="ad005611d76a2f9e92a59eeda63ef69d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad005611d76a2f9e92a59eeda63ef69d2">&#9670;&#160;</a></span>setSPIEncoderRequestData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1889,7 +1889,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::setSPIEncoderRequestData </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::setSPIEncoderRequestData </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> *</td>          <td class="paramname"><span class="paramname"><em>requestData</em>, </span></td>
         </tr>
@@ -1919,8 +1919,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9d20cacb1465f972244ab762d349e164" name="a9d20cacb1465f972244ab762d349e164"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d20cacb1465f972244ab762d349e164">&#9670;&#160;</a></span>uploadSPIEncoderLUTEntry()</h2>
+<a id="a65a4b3dbd97ae0a450c671f67f4652c5" name="a65a4b3dbd97ae0a450c671f67f4652c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a4b3dbd97ae0a450c671f67f4652c5">&#9670;&#160;</a></span>uploadSPIEncoderLUTEntry()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1931,7 +1931,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::FeedbackSense::uploadSPIEncoderLUTEntry </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::uploadSPIEncoderLUTEntry </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a></td>          <td class="paramname"><span class="paramname"><em>index</em>, </span></td>
         </tr>
@@ -2010,9 +2010,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
-<li><a class="el" href="tmc9660_8cpp_source.html">tmc9660.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

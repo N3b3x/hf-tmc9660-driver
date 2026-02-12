@@ -1,9 +1,9 @@
 var searchData=
 [
   ['second_0',['SECOND',['../structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a778c9f7b3e6db16e43408534cc820552a2200becb80f0019c4a2ccecec350d0db',1,'tmc9660::register_mode::ADC::SRC_CONFIG']]],
-  ['session_5fstart_1',['SESSION_START',['../group__TMC9660__BootloaderProtocol.html#gga9cbaf21724b4f9793c31bb96da5a98d7a20159b7454cb5cdaaefeb02195a99043',1,'tmc9660']]],
-  ['set_5faddress_2',['SET_ADDRESS',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0a4df54c1cb770ad7727befd34b054d61d',1,'tmc9660']]],
-  ['set_5fbank_3',['SET_BANK',['../group__TMC9660__BootloaderProtocol.html#gga941a785fa3d0a467511111f27ddfdcb0aef2bd38714d063b9727ecb5f5a2aa3cc',1,'tmc9660']]],
+  ['session_5fstart_1',['SESSION_START',['../namespacetmc9660.html#a9cbaf21724b4f9793c31bb96da5a98d7a20159b7454cb5cdaaefeb02195a99043',1,'tmc9660']]],
+  ['set_5faddress_2',['SET_ADDRESS',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a4df54c1cb770ad7727befd34b054d61d',1,'tmc9660']]],
+  ['set_5fbank_3',['SET_BANK',['../namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0aef2bd38714d063b9727ecb5f5a2aa3cc',1,'tmc9660']]],
   ['setchannel_4',['SetChannel',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314adca0cbbec633f61b6f6506ccfda1f8cc',1,'tmc9660::register_mode::RAMDebug']]],
   ['setprescaler_5',['SetPrescaler',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a551d592f48c50710cf5f4be3a8476f94',1,'tmc9660::register_mode::RAMDebug']]],
   ['setpretriggercount_6',['SetPreTriggerCount',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a8bba031d1fb09590fb8bde9a0de61cc9',1,'tmc9660::register_mode::RAMDebug']]],
@@ -33,9 +33,9 @@ var searchData=
   ['spi_30',['SPI',['../namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8',1,'tmc9660']]],
   ['spi0_31',['SPI0',['../namespacetmc9660_1_1bootcfg.html#aea005d9b7d531dc75ed6137f0ebfe036adcce0fed4cbfd7922734e4644998452f',1,'tmc9660::bootcfg::SPI0'],['../namespacetmc9660_1_1bootcfg.html#a30f24a5d03e26ba70bfaa8e090bc013eadcce0fed4cbfd7922734e4644998452f',1,'tmc9660::bootcfg::SPI0']]],
   ['spi1_32',['SPI1',['../namespacetmc9660_1_1bootcfg.html#aea005d9b7d531dc75ed6137f0ebfe036a0aeb3f1cc667aeca09e9c41164c231e1',1,'tmc9660::bootcfg::SPI1'],['../namespacetmc9660_1_1bootcfg.html#a30f24a5d03e26ba70bfaa8e090bc013ea0aeb3f1cc667aeca09e9c41164c231e1',1,'tmc9660::bootcfg::SPI1']]],
-  ['spi_5fflash_33',['SPI_FLASH',['../group__TMC9660__BootloaderProtocol.html#gga59bad2e9f988290ca3c01c8b3b535caea424eafe560b4e1cf1739bd96f6a5bda9',1,'tmc9660']]],
-  ['spi_5fmem_5fpartitions_34',['SPI_MEM_PARTITIONS',['../group__TMC9660__BootloaderProtocol.html#ggaf4e8a4c74acf7f0c687427b7fc2698f2a9069906fe5830eeb949e95fd3ed8a0ec',1,'tmc9660']]],
-  ['spi_5fmem_5fsize_35',['SPI_MEM_SIZE',['../group__TMC9660__BootloaderProtocol.html#ggaf4e8a4c74acf7f0c687427b7fc2698f2a7ff94d3b9aca70d727bfbc9956fcc4c0',1,'tmc9660']]],
+  ['spi_5fflash_33',['SPI_FLASH',['../namespacetmc9660.html#a59bad2e9f988290ca3c01c8b3b535caea424eafe560b4e1cf1739bd96f6a5bda9',1,'tmc9660']]],
+  ['spi_5fmem_5fpartitions_34',['SPI_MEM_PARTITIONS',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a9069906fe5830eeb949e95fd3ed8a0ec',1,'tmc9660']]],
+  ['spi_5fmem_5fsize_35',['SPI_MEM_SIZE',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a7ff94d3b9aca70d727bfbc9956fcc4c0',1,'tmc9660']]],
   ['spiflash_36',['SPIFlash',['../namespacetmc9660_1_1bootcfg.html#af33448052f9be0f1a91cdf623057f19fa8a09478d4bdbc078c110e47a0ae8b3dc',1,'tmc9660::bootcfg']]],
   ['success_37',['Success',['../classtmc9660_1_1TMC9660.html#a08f6d00384458a6833df71c1f856f48ca505a83f220c02df2f85c3810cd9ceb38',1,'tmc9660::TMC9660']]]
 ];

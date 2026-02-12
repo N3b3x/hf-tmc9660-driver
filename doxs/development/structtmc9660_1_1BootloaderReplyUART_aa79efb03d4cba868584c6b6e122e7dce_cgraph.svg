@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="group__TMC9660__BootloaderUtils.html#ga295ced7b08314df2db8e4d01c1c59562" target="_top" xlink:title="CRC&#45;8 calculation for UART protocol (TMC9660 datasheet method).">
+<g id="a_Node000002"><a xlink:href="namespacetmc9660.html#a295ced7b08314df2db8e4d01c1c59562" target="_top" xlink:title="CRC&#45;8 calculation for UART protocol (TMC9660 datasheet method).">
 <polygon fill="white" stroke="#666666" points="321,-24.5 182,-24.5 182,-5.5 321,-5.5 321,-24.5"/>
 <text text-anchor="middle" x="251.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::crc8Bootloader</text>
 </a>
@@ -39,7 +39,7 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="group__TMC9660__BootloaderUtils.html#gab78e7fde92e67e58a4dd1f442833e0f9" target="_top" xlink:title="Helper function for CRC&#45;8 calculation (UART only).">
+<g id="a_Node000003"><a xlink:href="namespacetmc9660.html#ab78e7fde92e67e58a4dd1f442833e0f9" target="_top" xlink:title="Helper function for CRC&#45;8 calculation (UART only).">
 <polygon fill="white" stroke="#666666" points="482,-24.5 357,-24.5 357,-5.5 482,-5.5 482,-24.5"/>
 <text text-anchor="middle" x="419.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::reverseByte</text>
 </a>
