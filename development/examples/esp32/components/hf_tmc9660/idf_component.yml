@@ -14,9 +14,9 @@ repository: "https://github.com/N3b3x/hf-tmc9660-driver.git"
 documentation: "https://github.com/N3b3x/hf-tmc9660-driver/blob/main/README.md"
 issues: "https://github.com/N3b3x/hf-tmc9660-driver/issues"
 
-license: "MIT"
+license: "GPL-3.0"
 maintainers:
-  - "Nebiyu Tadesse <nebysma@gmail.com>"
+  - "HardFOC"
 
 targets:
   - esp32
