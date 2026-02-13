@@ -1,5 +1,9 @@
 var NAVTREEINDEX15 =
 {
+"tmc9660__ramDebug_8hpp.html#a13467b9db915c2a8730fc89db14b8aeb":[13,0,1,2,2,6],
+"tmc9660__ramDebug_8hpp.html#a186deb13d7466d6fe5d60106a7cc8e3f":[13,0,1,2,2,4],
+"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314":[13,0,1,2,2,2],
+"tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a03e37a437fe6331821438dee41036d9a":[13,0,1,2,2,2,13],
 "tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a2ae05249e15e8c6bf7f6ab2a4306faca":[13,0,1,2,2,2,6],
 "tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a34c9f9761ef4905e1a265a39bf1b0108":[13,0,1,2,2,2,1],
 "tmc9660__ramDebug_8hpp.html#a3b604a638af4a71aff2dac76d827b314a542ea6a35de8d0018d42310a25f3bdff":[13,0,1,2,2,2,4],
