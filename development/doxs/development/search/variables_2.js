@@ -2,8 +2,8 @@ var searchData=
 [
   ['b_5fpin_0',['b_pin',['../structtmc9660_1_1ABN1Config.html#a1e18cde8e28f58bcef9a134d860a0c5b',1,'tmc9660::ABN1Config::b_pin'],['../structtmc9660_1_1ABN2Config.html#a735662204257f8a75f939d0093d2df00',1,'tmc9660::ABN2Config::b_pin']]],
   ['base_1',['BASE',['../namespacetmc9660_1_1bootaddr.html#a0f9b021a3b041a4bd0f21c0b3dfc04b3',1,'tmc9660::bootaddr']]],
-  ['baud_5frate_2',['baud_rate',['../structtmc9660_1_1UARTConfig.html#a5c1fa2c611b638ee1739ecd4c0b45f7e',1,'tmc9660::UARTConfig::baud_rate'],['../structEsp32Tmc9660BusConfig.html#abea80b35402ce0598faf788d46f23999',1,'Esp32Tmc9660BusConfig::baud_rate']]],
-  ['baud_5frate_3',['BAUD_RATE',['../structTMC9660__TestConfig_1_1UARTParams.html#ae59c8d9c191a207c5ceecd3e73d6821b',1,'TMC9660_TestConfig::UARTParams']]],
+  ['baud_5frate_2',['BAUD_RATE',['../structTMC9660__TestConfig_1_1UARTParams.html#ae59c8d9c191a207c5ceecd3e73d6821b',1,'TMC9660_TestConfig::UARTParams']]],
+  ['baud_5frate_3',['baud_rate',['../structtmc9660_1_1UARTConfig.html#a5c1fa2c611b638ee1739ecd4c0b45f7e',1,'tmc9660::UARTConfig::baud_rate'],['../structEsp32Tmc9660BusConfig.html#abea80b35402ce0598faf788d46f23999',1,'Esp32Tmc9660BusConfig::baud_rate']]],
   ['baud_5frate_5f_4',['baud_rate_',['../classEsp32Tmc9660UartBus.html#a18176f48d9573f911a8d319842730c2d',1,'Esp32Tmc9660UartBus']]],
   ['bck_5fshort_5',['BCK_SHORT',['../structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html#a16b5475d619231910723525ffe56971a',1,'tmc9660::register_mode::SYS_CTRL::FAULT_STATUS']]],
   ['bck_5fshort_5fena_5ff_6',['BCK_SHORT_ENA_F',['../structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__INT__ENABLE.html#aeaa78e7374dafaa0ff6a6ab9e4b8d56e',1,'tmc9660::register_mode::SYS_CTRL::FAULT_INT_ENABLE']]],
