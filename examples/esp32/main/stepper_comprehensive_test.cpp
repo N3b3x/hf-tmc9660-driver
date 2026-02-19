@@ -1166,6 +1166,7 @@ extern "C" void app_main(void) {
     ESP_LOGI(TAG, "║                   ESP32-C6 STEPPER COMPREHENSIVE TEST SUITE                ║");
     ESP_LOGI(TAG, "║                         HardFOC TMC9660 Driver Tests                        ║");
     ESP_LOGI(TAG, "╚══════════════════════════════════════════════════════════════════════════════╝");
+    ESP_LOGI(TAG, "Driver version: %s", tmc9660::GetDriverVersion());
     ESP_LOGI(TAG, "Debug logging enabled for TMCL communication traces");
 
     vTaskDelay(pdMS_TO_TICKS(1000));
