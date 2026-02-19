@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "tmc9660_comm_interface.hpp"
+#include "tmc9660_version.h"
 #include "bootloader/tmc9660_bootloader.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
 
@@ -4705,6 +4706,30 @@ public:
     TMC9660& driver;
   } power{*this};
 
+  // ===========================================================================
+  // Driver Version
+  // ===========================================================================
+
+  /** @brief Get the compiled driver version string. */
+  static constexpr const char* GetDriverVersion() noexcept {
+    return HF_TMC9660_VERSION_STRING;
+  }
+
+  /** @brief Get the compiled driver major version number. */
+  static constexpr uint8_t GetDriverVersionMajor() noexcept {
+    return HF_TMC9660_VERSION_MAJOR;
+  }
+
+  /** @brief Get the compiled driver minor version number. */
+  static constexpr uint8_t GetDriverVersionMinor() noexcept {
+    return HF_TMC9660_VERSION_MINOR;
+  }
+
+  /** @brief Get the compiled driver patch version number. */
+  static constexpr uint8_t GetDriverVersionPatch() noexcept {
+    return HF_TMC9660_VERSION_PATCH;
+  }
+
   //==================================================
   // PRIVATE MEMBERS
   //==================================================
@@ -4747,5 +4772,10 @@ private:
 // NOLINTNEXTLINE(bugprone-suspicious-include) - Intentional: template implementation file
 #include "../src/tmc9660.ipp"
 #undef TMC9660_HEADER_INCLUDED
+
+/** @brief Get the TMC9660 driver version string (namespace-level). */
+inline const char* GetDriverVersion() noexcept {
+  return HF_TMC9660_VERSION_STRING;
+}
 
 } // namespace tmc9660
