@@ -1,5 +1,10 @@
 var NAVTREEINDEX9 =
 {
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html":[10,0,0,2,3],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a0e26d4fce8483969011a84c0329fe948":[10,0,0,2,3,8],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a0f3bf53146b409a3e74b59bde28c04d4":[10,0,0,2,3,9],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a2c44260e6cab21061f38e89e602996fc":[10,0,0,2,3,1],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a31fb19150685c2ba9db8282308c10fa5":[10,0,0,2,3,0],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a42a7fca2ef011ef7096f1e3d0f9fdc2e":[10,0,0,2,3,6],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a42db9c797563b56d50bc38af6de2ddfc":[10,0,0,2,3,7],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a704ce3e074f651a767314b4c0916d33d":[10,0,0,2,3,5],
@@ -244,10 +249,5 @@ var NAVTREEINDEX9 =
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#a52cbe2e88fedbe6b3022f2944fd508e5":[10,0,0,12,3],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#a620a70b2a9f24c62ed7181263c821a46":[10,0,0,12,6],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#a7a162b5b230edf1d03327269e36ce893":[10,0,0,12,5],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#aa9ed2b575572b34c8b6bb92e4d7d289f":[10,0,0,12,0],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#af0393b83214cb8b27491fd7cf7de136d":[10,0,0,12,1],
-"structtmc9660_1_1TMC9660_1_1Ramp.html":[10,0,0,13],
-"structtmc9660_1_1TMC9660_1_1Ramp.html#a069eea5d66857cc98e90d860a50c7cad":[10,0,0,13,10],
-"structtmc9660_1_1TMC9660_1_1Ramp.html#a07ca34bdaea9c51dd708c07860cdc25f":[10,0,0,13,9],
-"structtmc9660_1_1TMC9660_1_1Ramp.html#a453df7c439d295c8c2d856e6ad5a980e":[10,0,0,13,6]
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#aa9ed2b575572b34c8b6bb92e4d7d289f":[10,0,0,12,0]
 };

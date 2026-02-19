@@ -1,73 +1,29 @@
 # =============================================================================
-# TMC9660 Driver Component - CMakeLists.txt
+# hf_tmc9660 — ESP-IDF component wrapper
 # =============================================================================
-# This component wraps the hardware-agnostic TMC9660 driver for ESP-IDF.
-# The TMC9660 has compiled source files (bootloader, core driver).
+# This thin wrapper imports the shared build-settings file and registers the
+# component for ESP-IDF.  All sources, includes, and version info are defined
+# in cmake/hf_tmc9660_build_settings.cmake (single source of truth).
 # =============================================================================
 
-cmake_minimum_required(VERSION 3.16)
+# ── Locate driver root ───────────────────────────────────────────────────────
+set(HF_TMC9660_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." CACHE PATH
+    "Root of the hf-tmc9660-driver repository")
 
-# =============================================================================
-# Path Configuration
-# =============================================================================
-# Set the source root path relative to this component directory
-set(SRC_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../src")
-set(INC_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../../inc")
+if(NOT EXISTS "${HF_TMC9660_ROOT}/cmake/hf_tmc9660_build_settings.cmake")
+  message(FATAL_ERROR
+    "Cannot find hf_tmc9660_build_settings.cmake.\n"
+    "  HF_TMC9660_ROOT = ${HF_TMC9660_ROOT}")
+endif()
 
-message(STATUS "TMC9660 Driver - ESP32 Component Configuration")
-message(STATUS "Source Root: ${SRC_ROOT}")
+# ── Import build settings ────────────────────────────────────────────────────
+include("${HF_TMC9660_ROOT}/cmake/hf_tmc9660_build_settings.cmake")
 
-# =============================================================================
-# Source File Discovery and Validation
-# =============================================================================
-# TMC9660 has compiled source files
-set(DRIVER_SRCS
-    "${SRC_ROOT}/tmc9660.cpp"
-    "${SRC_ROOT}/bootloader/tmc9660_bootloader.cpp"
-)
-
-# Check which source files actually exist and add them
-set(EXISTING_SRCS "")
-foreach(src_file ${DRIVER_SRCS})
-    if(EXISTS "${src_file}")
-        list(APPEND EXISTING_SRCS "${src_file}")
-        message(STATUS "Found source: ${src_file}")
-    else()
-        message(WARNING "Source file not found: ${src_file}")
-    endif()
-endforeach()
-
-# =============================================================================
-# Include Directories Configuration
-# =============================================================================
-# Define include directories for the driver component
-set(DRIVER_INCLUDE_DIRS
-    "${INC_ROOT}"                           # Main driver headers
-    "${INC_ROOT}/register_mode"             # Register mode specific headers
-    "${INC_ROOT}/parameter_mode"            # Parameter mode specific headers
-)
-
-# =============================================================================
-# Component Dependencies
-# =============================================================================
-# Define required ESP-IDF components for the driver
-set(DRIVER_REQUIRES
-    driver              # ESP-IDF driver framework
-    freertos            # FreeRTOS support
-)
-
-# =============================================================================
-# Component Registration
-# =============================================================================
-# Register the driver component with ESP-IDF build system
+# ── Register ESP-IDF component ───────────────────────────────────────────────
 idf_component_register(
-    SRCS ${EXISTING_SRCS}                 # Source files (validated above)
-    INCLUDE_DIRS ${DRIVER_INCLUDE_DIRS}   # Include directories defined above
-    REQUIRES ${DRIVER_REQUIRES}           # Component dependencies defined above
+    SRCS        ${HF_TMC9660_SOURCES}
+    INCLUDE_DIRS ${HF_TMC9660_INCLUDE_DIRS}
+    REQUIRES     ${HF_TMC9660_IDF_REQUIRES}
 )
 
-# =============================================================================
-# Compiler Configuration
-# =============================================================================
-# Set C++ standard to C++20 (required for std::span and modern C++ features)
 target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_20)

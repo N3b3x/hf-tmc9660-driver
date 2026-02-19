@@ -1,65 +1,46 @@
+# =============================================================================
+# hf-tmc9660-driver — Root CMakeLists.txt
+# =============================================================================
+# Platform-agnostic build for the HardFOC TMC9660 driver.
+# For ESP-IDF builds use the component wrapper instead.
+# =============================================================================
 cmake_minimum_required(VERSION 3.16)
 
-# TMC9660 Driver Component
-# This component provides a hardware-agnostic driver for the TMC9660 motor controller IC
-# Supports both parameter mode (TMCL) and register mode operations
-
-set(COMPONENT_SRCDIR "src")
-set(COMPONENT_INCLUDE_DIRS "inc" "inc/register_mode" "inc/parameter_mode")
-
-# Source files
-# Note: Both src/tmc9660.cpp and src/bootloader/tmc9660_bootloader.cpp are included at the end
-# of their respective headers as header-only template implementations
-set(COMPONENT_SRCS
+project(hf_tmc9660
+  VERSION   1.0.0
+  LANGUAGES CXX
 )
 
-# Component dependencies
-set(COMPONENT_REQUIRES
-    freertos
-    esp_common
-    esp_hw_support
-    esp_system
-    log
-    soc
-    hal
-    esp_driver_gpio
-    esp_driver_i2c
-    esp_driver_spi
-    esp_driver_uart
-    bootloader_support
-    app_update
-    spi_flash
-    partition_table
+# ── Import shared build settings ─────────────────────────────────────────────
+set(HF_TMC9660_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH
+    "Root of the TMC9660 driver repository")
+
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/hf_tmc9660_build_settings.cmake")
+
+# ── Library target ───────────────────────────────────────────────────────────
+add_library(hf_tmc9660 STATIC ${HF_TMC9660_SOURCES})
+
+target_include_directories(hf_tmc9660 PUBLIC ${HF_TMC9660_INCLUDE_DIRS})
+
+target_compile_features(hf_tmc9660 PUBLIC cxx_std_20)
+
+# ── Optional warnings (off by default, enable with -DHF_TMC9660_ENABLE_WARNINGS=ON)
+option(HF_TMC9660_ENABLE_WARNINGS "Enable compiler warnings" OFF)
+if(HF_TMC9660_ENABLE_WARNINGS)
+  target_compile_options(hf_tmc9660 PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+# ── CMake package export ─────────────────────────────────────────────────────
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+  "${CMAKE_CURRENT_BINARY_DIR}/hf_tmc9660ConfigVersion.cmake"
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY SameMajorVersion
 )
 
-# Optional dependencies
-set(COMPONENT_PRIV_REQUIRES
-    esp_netif
-    esp_event
-    esp_timer
-    lwip
+configure_package_config_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/hf_tmc9660Config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/hf_tmc9660Config.cmake"
+  INSTALL_DESTINATION lib/cmake/hf_tmc9660
 )
-
-# Register the component
-idf_component_register(
-    SRCS ${COMPONENT_SRCS}
-    INCLUDE_DIRS ${COMPONENT_INCLUDE_DIRS}
-    REQUIRES ${COMPONENT_REQUIRES}
-    PRIV_REQUIRES ${COMPONENT_PRIV_REQUIRES}
-)
-
-# Set C++ standard (TMC9660 driver uses C++20 for std::span)
-target_compile_features(${COMPONENT_LIB} PRIVATE cxx_std_20)
-
-# Add compiler flags for better C++ support
-target_compile_options(${COMPONENT_LIB} PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
-    $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
-    $<$<COMPILE_LANGUAGE:CXX>:-std=gnu++20>
-    # Suppress ESP-IDF specific warnings in C++ builds
-    $<$<COMPILE_LANGUAGE:CXX>:-Wno-pedantic>
-)
-
-# Define component version (optional)
-set_property(TARGET ${COMPONENT_LIB} PROPERTY VERSION "1.0.0")
-

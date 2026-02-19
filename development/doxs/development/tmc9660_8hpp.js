@@ -37,5 +37,6 @@ var tmc9660_8hpp =
     [ "tmc9660::TMC9660< CommType >::GPIO", "structtmc9660_1_1TMC9660_1_1GPIO.html", "structtmc9660_1_1TMC9660_1_1GPIO" ],
     [ "tmc9660::TMC9660< CommType >::Power", "structtmc9660_1_1TMC9660_1_1Power.html", "structtmc9660_1_1TMC9660_1_1Power" ],
     [ "tmc9660::TMC9660< CommType >::Power::PowerConfig", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig.html", "structtmc9660_1_1TMC9660_1_1Power_1_1PowerConfig" ],
-    [ "TMC9660_HEADER_INCLUDED", "tmc9660_8hpp.html#a10b4495a25bf5b385f7e838170ca02f3", null ]
+    [ "TMC9660_HEADER_INCLUDED", "tmc9660_8hpp.html#a10b4495a25bf5b385f7e838170ca02f3", null ],
+    [ "GetDriverVersion", "tmc9660_8hpp.html#afe6288498ba889316abc4d5262cfb30d", null ]
 ];

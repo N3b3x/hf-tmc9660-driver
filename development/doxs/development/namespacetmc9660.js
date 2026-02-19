@@ -764,6 +764,7 @@ var namespacetmc9660 =
       [ "WAKE", "namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7ab275d6bfcd179f9ffb5011008e30cb48", null ]
     ] ],
     [ "crc8Bootloader", "namespacetmc9660.html#a295ced7b08314df2db8e4d01c1c59562", null ],
+    [ "GetDriverVersion", "namespacetmc9660.html#afe6288498ba889316abc4d5262cfb30d", null ],
     [ "reverseByte", "namespacetmc9660.html#ab78e7fde92e67e58a4dd1f442833e0f9", null ],
     [ "tmclChecksum", "namespacetmc9660.html#a2fc16e5feffbef089c5c9660c62615d5", null ]
 ];
