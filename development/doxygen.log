@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.G1esE4
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.G1esE4' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.ehFp1E
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.ehFp1E' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1780: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4824: warning: unbalanced grouping commands
@@ -779,39 +779,7 @@ finalizing index lists...
 writing tag file...
 Running plantuml with JAVA...
 Running dot...
-Generating dot graphs using 5 parallel threads...
-Running dot for graph 1/12
-Running dot for graph 2/12
-Running dot for graph 3/12
-Running dot for graph 4/12
-Running dot for graph 5/12
-Running dot for graph 6/12
-Running dot for graph 7/12
-Running dot for graph 8/12
-Running dot for graph 9/12
-Running dot for graph 10/12
-Running dot for graph 11/12
-Running dot for graph 12/12
-Patching output file 1/20
-Patching output file 2/20
-Patching output file 3/20
-Patching output file 4/20
-Patching output file 5/20
-Patching output file 6/20
-Patching output file 7/20
-Patching output file 8/20
-Patching output file 9/20
-Patching output file 10/20
-Patching output file 11/20
-Patching output file 12/20
-Patching output file 13/20
-Patching output file 14/20
-Patching output file 15/20
-Patching output file 16/20
-Patching output file 17/20
-Patching output file 18/20
-Patching output file 19/20
-Patching output file 20/20
+Patching output file 1/1
 type lookup cache used 6997/65536 hits=28839 misses=7336
 symbol lookup cache used 5093/65536 hits=20403 misses=5093
 finished...
