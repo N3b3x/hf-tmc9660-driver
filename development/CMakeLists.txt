@@ -12,22 +12,19 @@ project(hf_tmc9660
 )
 
 # ── Import shared build settings ─────────────────────────────────────────────
-set(HF_TMC9660_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH
-    "Root of the TMC9660 driver repository")
-
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/hf_tmc9660_build_settings.cmake")
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/hf_tmc9660_build_settings.cmake)
 
 # ── Library target ───────────────────────────────────────────────────────────
-add_library(hf_tmc9660 STATIC ${HF_TMC9660_SOURCES})
+add_library(${HF_TMC9660_TARGET_NAME} STATIC ${HF_TMC9660_SOURCE_FILES})
 
-target_include_directories(hf_tmc9660 PUBLIC ${HF_TMC9660_INCLUDE_DIRS})
+target_include_directories(${HF_TMC9660_TARGET_NAME} PUBLIC ${HF_TMC9660_PUBLIC_INCLUDE_DIRS})
 
-target_compile_features(hf_tmc9660 PUBLIC cxx_std_20)
+target_compile_features(${HF_TMC9660_TARGET_NAME} PUBLIC cxx_std_20)
 
 # ── Optional warnings (off by default, enable with -DHF_TMC9660_ENABLE_WARNINGS=ON)
 option(HF_TMC9660_ENABLE_WARNINGS "Enable compiler warnings" OFF)
 if(HF_TMC9660_ENABLE_WARNINGS)
-  target_compile_options(hf_tmc9660 PRIVATE -Wall -Wextra -Wpedantic)
+  target_compile_options(${HF_TMC9660_TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 # ── CMake package export ─────────────────────────────────────────────────────
