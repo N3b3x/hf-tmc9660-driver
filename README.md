@@ -22,8 +22,9 @@ permalink: /
 5. [API Reference](#-api-reference)
 6. [Examples](#-examples)
 7. [Documentation](#-documentation)
-8. [Contributing](#-contributing)
-9. [License](#-license)
+8. [References](#-references)
+9. [Contributing](#-contributing)
+10. [License](#-license)
 
 ## 📦 Overview
 
@@ -113,7 +114,18 @@ For complete documentation, see the [docs directory](docs/index.md).
 
 ### Special Features
 
-- **[Bootloader Initialization](docs/special_feature_bootloader.md)** - Critical bootloader setup guide
+- **[Bootloader Initialization](docs/special_feature_bootloader.md)** - Critical bootloader setup guide (must be called before motor control)
+
+## 🔗 References
+
+| Resource | Link |
+|----------|------|
+| Trinamic TMC9660 product page | <https://www.analog.com/en/products/tmc9660.html> |
+| TMC9660 datasheet (ADI/Trinamic) | <https://www.analog.com/media/en/technical-documentation/data-sheets/tmc9660_datasheet.pdf> |
+| TMC9660 parameter mode reference | <https://www.analog.com/media/en/technical-documentation/user-guides/tmc9660_parameter_mode.pdf> |
+| TMCL-IDE & docs | <https://www.analog.com/en/resources/technical-articles/trinamic-motion-control-language-tmcl.html> |
+| ESP-IDF SPI / UART | <https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/index.html> |
+| C++20 language reference | <https://en.cppreference.com/w/cpp/20> |
 
 ## 🤝 Contributing
 
