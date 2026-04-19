@@ -106,7 +106,7 @@ var searchData=
   ['configurevgsshortprotectiony2_103',['configureVgsShortProtectionY2',['../structtmc9660_1_1TMC9660_1_1GateDriver.html#a5a26924a803a0ec028be6e11345c4696',1,'tmc9660::TMC9660::GateDriver']]],
   ['configurevoltage_104',['configureVoltage',['../structtmc9660_1_1TMC9660_1_1Protection.html#a1ec1b9aaf2bd14cfec36ed7e36329938',1,'tmc9660::TMC9660::Protection']]],
   ['contents_105',['📚 Table of Contents',['../index.html#autotoc_md34',1,'']]],
-  ['contributing_106',['🤝 Contributing',['../index.html#autotoc_md43',1,'']]],
+  ['contributing_106',['🤝 Contributing',['../index.html#autotoc_md44',1,'']]],
   ['control_20interface_107',['Control Interface',['../group__TMC9660__GPIOControl.html',1,'GPIO Control Interface'],['../group__TMC9660__CommTypes.html#autotoc_md30',1,'GPIO Control Interface']]],
   ['control_20pins_20output_20from_20host_108',['Control Pins (Output from Host)',['../group__TMC9660__CommTypes.html#autotoc_md31',1,'']]],
   ['controllerspecs_109',['ControllerSpecs',['../structTMC9660__TestConfig_1_1ControllerSpecs.html',1,'TMC9660_TestConfig']]],

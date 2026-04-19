@@ -35,8 +35,9 @@ var NAVTREE =
     [ "📚 Documentation", "index.html#autotoc_md41", [
       [ "Special Features", "index.html#autotoc_md42", null ]
     ] ],
-    [ "🤝 Contributing", "index.html#autotoc_md43", null ],
-    [ "📄 License", "index.html#autotoc_md44", null ],
+    [ "🔗 References", "index.html#autotoc_md43", null ],
+    [ "🤝 Contributing", "index.html#autotoc_md44", null ],
+    [ "📄 License", "index.html#autotoc_md45", null ],
     [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -78,18 +79,18 @@ var NAVTREEINDEX =
 "bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77abd346ce96cc25c92024a8b2a5c401c18",
 "classtmc9660_1_1CommInterface.html#af4bc9c5c9fb503a452300b96dc5585e8",
 "dc__comprehensive__test_8cpp.html#a567401f818dce0001032d15d0bf2bcf8",
-"namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a63bd429758b357e222510ed896c29be5",
-"namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8a3234e4bc004e6cf6c208f769cf597379",
-"namespacetmc9660_1_1tmcl.html#aa8e23397e3e5353ffad3cbad2d8f5314",
-"structTMC9660__TestConfig_1_1Timing.html#ac3839a248392ba8c2925585c9ed65067",
+"namespacetmc9660.html#a941a785fa3d0a467511111f27ddfdcb0a52c0478386ff2c235bf03c5882b95159",
+"namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8a313677ceab546a36b6a7da1431ee145a",
+"namespacetmc9660_1_1tmcl.html#aa8b5ef4adf4d0f6146882fd197263be8",
+"structTMC9660__TestConfig_1_1Timing.html#a73a1593eb8256157ea9a54034c2b972f",
 "structtmc9660_1_1LDOConfig.html#a12b0b1cbc1dc1858c9504584fab6d4f0",
-"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html",
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#af0393b83214cb8b27491fd7cf7de136d",
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#af2b7588cb77363f58b4359f995a8687f",
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#aa9ed2b575572b34c8b6bb92e4d7d289f",
 "structtmc9660_1_1TMCLFrame.html#a59014467417c8e1d57d3bd3054c66a10",
 "structtmc9660_1_1register__mode_1_1ADC_1_1STATUS__FLAGS.html#aa188905cc6134cead339d4735a4cc68f",
-"tmc9660__param__mode__tmcl_8hpp.html#a28a70c999e5ff2b797e6ded366f5c8c6",
+"tmc9660__param__mode__tmcl_8hpp.html#a26b05e4bf0a611aaf1c867f65393afa5a756045a8d37de34ca27188466b2c0c8b",
 "tmc9660__param__mode__tmcl_8hpp.html#a68d3e9033492bc347004797cbfd1f7d8",
-"tmc9660__param__mode__tmcl_8hpp.html#afbb6ccb2bde6246c23cf382ca7da0d3d"
+"tmc9660__param__mode__tmcl_8hpp.html#afb19af18b8737ec2e3408cdc00a3dc9a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
