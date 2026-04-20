@@ -118,6 +118,8 @@ GND              ───────> GND (Common ground)
 
 ## Typical Application Circuit
 
+![TMC9660 wiring](assets/tmc9660-wiring.svg)
+
 ```
 ┌─────────────────────┐         ┌─────────────────────┐
 │  MCU (ESP32/STM32) │         │   TMC9660 Board    │

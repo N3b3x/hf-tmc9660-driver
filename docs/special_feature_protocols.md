@@ -23,6 +23,8 @@ Each interface has two protocols:
 
 ## Bootloader Protocol
 
+![TMC9660 protocol frames](assets/tmc9660-protocol-frames.svg)
+
 ### SPI Bootloader Protocol (40-bit / 5-byte)
 
 ```
