@@ -757,7 +757,7 @@
   },"108": {
     "doc": "🔌 Hardware Setup",
     "title": "Hardware Setup",
-    "content": "This guide covers the hardware connections and requirements for the TMC9660 motor controller. ",
+    "content": ". This guide covers the hardware connections and requirements for the TMC9660 motor controller. ",
     "url": "/hf-tmc9660-driver/development/docs/hardware_setup/#hardware-setup",
     
     "relUrl": "/docs/hardware_setup/#hardware-setup"
