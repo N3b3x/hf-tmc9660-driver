@@ -869,7 +869,7 @@
   },"124": {
     "doc": "🔌 Hardware Setup",
     "title": "Typical Application Circuit",
-    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 . | ┌─────────────────────┐ ┌─────────────────────┐ │ MCU (ESP32/STM32) │ │ TMC9660 Board │ │ │ │ │ │ SPI Interface: │ │ │ │ • MOSI ──────┼─────────┼─&gt; SPI MOSI │ │ • MISO &lt;──────┼─────────┼─&lt; SPI MISO │ │ • SCLK ───────┼─────────┼─&gt; SPI SCLK │ │ • CS ───────┼─────────┼─&gt; SPI CS │ │ │ │ │ │ Control Pins: │ │ │ │ • RST ───────┼─────────┼─&gt; RST │ │ • DRV_EN ───────┼─────────┼─&gt; DRV_EN │ │ • FAULTN &lt;───────┼─────────┼─&lt; FAULTN │ │ • WAKE ───────┼─────────┼─&gt; WAKE │ │ │ │ │ │ GND ───────┼─────────┼─&gt; GND │ │ │ │ │ │ │ │ Motor: │ │ │ │ • U, V, W (BLDC) │ │ │ │ • Step/Dir (Stepper)│ └─────────────────────┘ └─────────────────────┘ . | . ",
+    "content": ". | 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 . | ┌─────────────────────┐ ┌─────────────────────┐ │ MCU (ESP32/STM32) │ │ TMC9660 Board │ │ │ │ │ │ SPI Interface: │ │ │ │ • MOSI ──────┼─────────┼─&gt; SPI MOSI │ │ • MISO &lt;──────┼─────────┼─&lt; SPI MISO │ │ • SCLK ───────┼─────────┼─&gt; SPI SCLK │ │ • CS ───────┼─────────┼─&gt; SPI CS │ │ │ │ │ │ Control Pins: │ │ │ │ • RST ───────┼─────────┼─&gt; RST │ │ • DRV_EN ───────┼─────────┼─&gt; DRV_EN │ │ • FAULTN &lt;───────┼─────────┼─&lt; FAULTN │ │ • WAKE ───────┼─────────┼─&gt; WAKE │ │ │ │ │ │ GND ───────┼─────────┼─&gt; GND │ │ │ │ │ │ │ │ Motor: │ │ │ │ • U, V, W (BLDC) │ │ │ │ • Step/Dir (Stepper)│ └─────────────────────┘ └─────────────────────┘ . | . ",
     "url": "/hf-tmc9660-driver/development/docs/hardware_setup/#typical-application-circuit",
     
     "relUrl": "/docs/hardware_setup/#typical-application-circuit"
@@ -1436,7 +1436,7 @@
   },"205": {
     "doc": "📡 Communication Protocols",
     "title": "Bootloader Protocol",
-    "content": " ",
+    "content": ". ",
     "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/#bootloader-protocol",
     
     "relUrl": "/docs/special_feature_protocols/#bootloader-protocol"
