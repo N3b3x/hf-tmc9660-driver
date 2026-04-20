@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="920" height="620"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 660" width="920" height="660"
      role="img" aria-labelledby="t-proto d-proto">
   <title id="t-proto">TMC9660 &#8212; protocol frame formats</title>
   <desc id="d-proto">Four protocol frame diagrams for the TMC9660 motor controller: SPI bootloader (40-bit), UART bootloader (64-bit), SPI TMCL (64-bit), and UART TMCL (72-bit).</desc>
@@ -18,12 +18,13 @@
       .small    { font-family: system-ui, sans-serif; font-size: 10px; fill: #4a5568; text-anchor: middle; }
       .smallL   { font-family: system-ui, sans-serif; font-size: 10px; fill: #4a5568; text-anchor: start; }
       .bit      { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 10px; fill: #1a202c; text-anchor: middle; }
+      .bit-off  { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 8px;  fill: #718096; text-anchor: middle; }
       .legend   { font-family: system-ui, sans-serif; font-size: 11px; fill: #4a5568; }
     ]]></style>
   </defs>
 
   <!-- Background -->
-  <rect class="panel" width="920" height="620" rx="6"/>
+  <rect class="panel" width="920" height="660" rx="6"/>
 
   <!-- Main heading -->
   <text class="head" x="460" y="24">TMC9660 Protocol Frame Formats</text>
@@ -105,7 +106,7 @@
     <text class="bit" x="340" y="43">VALUE (32)</text>
     <text class="small" x="340" y="66">32 bits</text>
     <text class="bit" x="220" y="18">3</text>
-    <text class="bit" x="460" y="18">6</text>
+    <text class="bit-off" x="460" y="11">6</text>
 
     <!-- CRC8 (1 byte) -->
     <rect class="field-crc" x="460" y="24" width="60" height="30" rx="2"/>
@@ -140,7 +141,7 @@
     <text class="bit" x="340" y="97">VALUE (32)</text>
     <text class="small" x="340" y="120">32 bits</text>
     <text class="bit" x="220" y="72">3</text>
-    <text class="bit" x="460" y="72">6</text>
+    <text class="bit-off" x="460" y="65">6</text>
 
     <!-- CRC8 (1 byte) -->
     <rect class="field-crc" x="460" y="78" width="60" height="30" rx="2"/>
@@ -172,7 +173,7 @@
     <rect class="field-cmd" x="100" y="24" width="90" height="30" rx="2"/>
     <text class="bit" x="145" y="43">Type</text>
     <text class="small" x="145" y="66">12 bits</text>
-    <text class="bit" x="100" y="18">1</text>
+    <text class="bit-off" x="100" y="11">1</text>
 
     <!-- Motor/Bank (4 bits = 0.5 bytes ~ 30px) -->
     <rect class="field-addr" x="190" y="24" width="30" height="30" rx="2"/>
@@ -184,7 +185,7 @@
     <text class="bit" x="340" y="43">Data (32)</text>
     <text class="small" x="340" y="66">32 bits</text>
     <text class="bit" x="220" y="18">3</text>
-    <text class="bit" x="460" y="18">6</text>
+    <text class="bit-off" x="460" y="11">6</text>
 
     <!-- Checksum (1 byte) -->
     <rect class="field-crc" x="460" y="24" width="60" height="30" rx="2"/>
@@ -218,8 +219,8 @@
     <rect class="field-data" x="220" y="78" width="240" height="30" rx="2"/>
     <text class="bit" x="340" y="97">Data (32)</text>
     <text class="small" x="340" y="120">32 bits</text>
-    <text class="bit" x="220" y="72">3</text>
-    <text class="bit" x="460" y="72">6</text>
+    <text class="bit-off" x="220" y="65">3</text>
+    <text class="bit-off" x="460" y="65">6</text>
 
     <!-- Checksum (1 byte) -->
     <rect class="field-crc" x="460" y="78" width="60" height="30" rx="2"/>
@@ -258,14 +259,14 @@
     <text class="bit" x="220" y="43">Type+Motor</text>
     <text class="small" x="220" y="66">16 bits</text>
     <text class="bit" x="160" y="18">2</text>
-    <text class="bit" x="280" y="18">3</text>
+    <text class="bit-off" x="272" y="11">3</text>
 
     <!-- Data (4 bytes) -->
     <rect class="field-data" x="280" y="24" width="240" height="30" rx="2"/>
     <text class="bit" x="400" y="43">Data (32)</text>
     <text class="small" x="400" y="66">32 bits</text>
-    <text class="bit" x="280" y="18">4</text>
-    <text class="bit" x="520" y="18">7</text>
+    <text class="bit-off" x="288" y="18">4</text>
+    <text class="bit-off" x="520" y="11">7</text>
 
     <!-- Checksum (1 byte) -->
     <rect class="field-crc" x="520" y="24" width="60" height="30" rx="2"/>
@@ -305,8 +306,8 @@
     <rect class="field-data" x="280" y="78" width="240" height="30" rx="2"/>
     <text class="bit" x="400" y="97">Data (32)</text>
     <text class="small" x="400" y="120">32 bits</text>
-    <text class="bit" x="280" y="72">4</text>
-    <text class="bit" x="520" y="72">7</text>
+    <text class="bit-off" x="280" y="65">4</text>
+    <text class="bit-off" x="520" y="65">7</text>
 
     <!-- Checksum (1 byte) -->
     <rect class="field-crc" x="520" y="78" width="60" height="30" rx="2"/>
