@@ -9,6 +9,8 @@ permalink: /docs/hardware_setup/
 
 # Hardware Setup
 
+![TMC9660 Field-Oriented Control (FOC) signal flow](assets/tmc9660-foc.svg)
+
 This guide covers the hardware connections and requirements for the TMC9660 motor controller.
 
 ## Pin Connections

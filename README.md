@@ -35,6 +35,8 @@ permalink: /
 
 The driver exposes the full parameter mode interface, providing access to all 300+ TMC9660 parameters through an intuitive C++ API. It supports bootloader initialization, motor configuration, sensor integration (Hall sensors, encoders), FOC control loops, real-time telemetry, and protection systems.
 
+![TMC9660 Field-Oriented Control (FOC) signal flow](docs/assets/tmc9660-foc.svg)
+
 ## ✨ Features
 
 - ✅ **Multiple Motor Types**: BLDC/PMSM, Stepper, and DC motor support
