@@ -64,6 +64,7 @@ exclude = [
   
   # Documentation site URLs (may not be published yet)
   '^https://n3b3x\.github\.io/hf-tmc9660-driver/.*',
-  # Manufacturer / IC vendor documentation URLs (frequently block automated crawlers)
-  '^https?://(www\\.)?analog\\.com/',
+
+  # Analog Devices / Trinamic (datasheets, TMCL) — unreliable in CI (HTTP/2 with lychee); links kept for humans
+  '^https?://(www\.)?analog\.com/',
 ]
