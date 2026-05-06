@@ -1,5 +1,8 @@
 var NAVTREEINDEX10 =
 {
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#a52cbe2e88fedbe6b3022f2944fd508e5":[11,0,0,12,3],
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#a620a70b2a9f24c62ed7181263c821a46":[11,0,0,12,6],
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#a7a162b5b230edf1d03327269e36ce893":[11,0,0,12,5],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#aa9ed2b575572b34c8b6bb92e4d7d289f":[11,0,0,12,0],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#af0393b83214cb8b27491fd7cf7de136d":[11,0,0,12,1],
 "structtmc9660_1_1TMC9660_1_1Ramp.html":[11,0,0,13],
@@ -238,16 +241,13 @@ var NAVTREEINDEX10 =
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ada674b92d6b8c5f683778f3b678057d4":[11,0,0,20,0,11],
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ae0a06e0e014c7d48a7049b5ee54295a1":[11,0,0,20,0,0],
 "structtmc9660_1_1TMC9660_1_1VelocityControl_1_1VelocityConfig.html#ae9cafbbb8e25bc4161fa647bc610316c":[11,0,0,20,0,6],
-"structtmc9660_1_1TMCLFrame.html":[12,0,0,36],
+"structtmc9660_1_1TMCLFrame.html":[12,0,1,36],
 "structtmc9660_1_1TMCLFrame.html":[13,0,0,33],
+"structtmc9660_1_1TMCLFrame.html#a05167773f6efe7c1a58b677e3a7470d5":[12,0,1,36,1],
 "structtmc9660_1_1TMCLFrame.html#a05167773f6efe7c1a58b677e3a7470d5":[13,0,0,33,1],
-"structtmc9660_1_1TMCLFrame.html#a05167773f6efe7c1a58b677e3a7470d5":[12,0,0,36,1],
+"structtmc9660_1_1TMCLFrame.html#a1bc52b61724f2e81249e0c125ff36860":[12,0,1,36,6],
 "structtmc9660_1_1TMCLFrame.html#a1bc52b61724f2e81249e0c125ff36860":[13,0,0,33,6],
-"structtmc9660_1_1TMCLFrame.html#a1bc52b61724f2e81249e0c125ff36860":[12,0,0,36,6],
 "structtmc9660_1_1TMCLFrame.html#a29047b0896f1ae81df65e456f9ebb33e":[13,0,0,33,2],
-"structtmc9660_1_1TMCLFrame.html#a29047b0896f1ae81df65e456f9ebb33e":[12,0,0,36,2],
-"structtmc9660_1_1TMCLFrame.html#a35caac4f744db2f8cff9c761a562823c":[13,0,0,33,3],
-"structtmc9660_1_1TMCLFrame.html#a35caac4f744db2f8cff9c761a562823c":[12,0,0,36,3],
-"structtmc9660_1_1TMCLFrame.html#a4ac9ade7d8aa09f70c3ff008b4fdf970":[13,0,0,33,9],
-"structtmc9660_1_1TMCLFrame.html#a4ac9ade7d8aa09f70c3ff008b4fdf970":[12,0,0,36,9]
+"structtmc9660_1_1TMCLFrame.html#a29047b0896f1ae81df65e456f9ebb33e":[12,0,1,36,2],
+"structtmc9660_1_1TMCLFrame.html#a35caac4f744db2f8cff9c761a562823c":[12,0,1,36,3]
 };

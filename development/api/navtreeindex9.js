@@ -1,5 +1,8 @@
 var NAVTREEINDEX9 =
 {
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#aa2e38268aea182a24952e006a738f67d":[11,0,0,2,2,10],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#ac74689db0fc2b7bb8d8e3fa9214f84f3":[11,0,0,2,2,6],
+"structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#adcc9eeb561ac2c008e83dced48fea228":[11,0,0,2,2,5],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#af2b7588cb77363f58b4359f995a8687f":[11,0,0,2,2,3],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html":[11,0,0,2,3],
 "structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1SpiEncoderConfig.html#a0e26d4fce8483969011a84c0329fe948":[11,0,0,2,3,8],
@@ -246,8 +249,5 @@ var NAVTREEINDEX9 =
 "structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html#af95953ae5b9bea50313f1c886a371552":[11,0,0,11,0,0],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html":[11,0,0,12],
 "structtmc9660_1_1TMC9660_1_1RamDebug.html#a2005f9ba9488f5e41b421c270378ed71":[11,0,0,12,2],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#a4a3a21c9c3ccc534556c67eb8a058da6":[11,0,0,12,4],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#a52cbe2e88fedbe6b3022f2944fd508e5":[11,0,0,12,3],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#a620a70b2a9f24c62ed7181263c821a46":[11,0,0,12,6],
-"structtmc9660_1_1TMC9660_1_1RamDebug.html#a7a162b5b230edf1d03327269e36ce893":[11,0,0,12,5]
+"structtmc9660_1_1TMC9660_1_1RamDebug.html#a4a3a21c9c3ccc534556c67eb8a058da6":[11,0,0,12,4]
 };

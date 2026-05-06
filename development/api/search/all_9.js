@@ -56,6 +56,8 @@ var searchData=
   ['invertrightswitch_53',['invertRightSwitch',['../structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html#abe7ac20a8b33d544f590fdfa4a810aaf',1,'tmc9660::TMC9660::StopEvents::StopEventsConfig']]],
   ['is_5fspi_5finterface_54',['is_spi_interface',['../structis__spi__interface.html',1,'']]],
   ['is_5fuart_5finterface_55',['is_uart_interface',['../structis__uart__interface.html',1,'']]],
-  ['isok_56',['isOK',['../structtmc9660_1_1BootloaderReplySPI.html#a5d45d31ab6dc388d128d22de23f225c4',1,'tmc9660::BootloaderReplySPI::isOK()'],['../structtmc9660_1_1BootloaderReplyUART.html#af6daf9b09ed59438b866b36b9abdf5b6',1,'tmc9660::BootloaderReplyUART::isOK()'],['../structtmc9660_1_1TMCLReply.html#a1cd846b235016be8ecb3105a100b332a',1,'tmc9660::TMCLReply::isOK()']]],
-  ['issuccess_57',['isSuccess',['../structtmc9660_1_1OtpBurnResult.html#aadbd564e6b295d073c656deebd81f4a6',1,'tmc9660::OtpBurnResult']]]
+  ['isexpectedoptionalinfofailure_56',['IsExpectedOptionalInfoFailure',['../namespaceanonymous__namespace_02tmc9660__bootloader_8cpp_03.html#accc7680b75ec6edd00c57c97f94e50f8',1,'anonymous_namespace{tmc9660_bootloader.cpp}']]],
+  ['isok_57',['isOK',['../structtmc9660_1_1BootloaderReplySPI.html#a5d45d31ab6dc388d128d22de23f225c4',1,'tmc9660::BootloaderReplySPI::isOK()'],['../structtmc9660_1_1BootloaderReplyUART.html#af6daf9b09ed59438b866b36b9abdf5b6',1,'tmc9660::BootloaderReplyUART::isOK()'],['../structtmc9660_1_1TMCLReply.html#a1cd846b235016be8ecb3105a100b332a',1,'tmc9660::TMCLReply::isOK()']]],
+  ['isoptionalinfoquery_58',['IsOptionalInfoQuery',['../namespaceanonymous__namespace_02tmc9660__bootloader_8cpp_03.html#a4d923adc25f307e7a31fdd6e7eaca3ac',1,'anonymous_namespace{tmc9660_bootloader.cpp}']]],
+  ['issuccess_59',['isSuccess',['../structtmc9660_1_1OtpBurnResult.html#aadbd564e6b295d073c656deebd81f4a6',1,'tmc9660::OtpBurnResult']]]
 ];
