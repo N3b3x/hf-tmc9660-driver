@@ -24,6 +24,46 @@ struct is_spi_interface : std::is_base_of<SpiCommInterface<T>, T> {};
 template<typename T>
 struct is_uart_interface : std::is_base_of<UartCommInterface<T>, T> {};
 
+namespace {
+
+inline bool IsOptionalInfoQuery(uint32_t query_value) noexcept {
+  const auto query = static_cast<InfoQuery>(query_value);
+  switch (query) {
+    case InfoQuery::PARTITION_VERSION:
+    case InfoQuery::SPI_MEM_SIZE:
+    case InfoQuery::I2C_MEM_SIZE:
+    case InfoQuery::SPI_MEM_PARTITIONS:
+    case InfoQuery::I2C_MEM_PARTITIONS:
+      return true;
+    default:
+      return false;
+  }
+}
+
+inline bool IsExpectedOptionalInfoFailure(uint8_t cmd, uint32_t value, uint8_t status) noexcept {
+  const auto st = static_cast<BootloaderStatus>(status);
+  const bool is_expected_status = (st == BootloaderStatus::INVALID_VALUE) ||
+                                  (st == BootloaderStatus::INVALID_BANK) ||
+                                  (st == BootloaderStatus::MEM_UNCONFIGURED) ||
+                                  (st == BootloaderStatus::CMD_NOT_AVAILABLE);
+  if (!is_expected_status) {
+    return false;
+  }
+
+  if (cmd == static_cast<uint8_t>(BootloaderCommand::GET_INFO)) {
+    return IsOptionalInfoQuery(value);
+  }
+
+  if (cmd == static_cast<uint8_t>(BootloaderCommand::SET_BANK)) {
+    const auto bank = static_cast<MemoryBank>(value);
+    return (bank == MemoryBank::SPI_FLASH) || (bank == MemoryBank::I2C_EEPROM);
+  }
+
+  return false;
+}
+
+} // namespace
+
 // tmc9660_bootloader.cpp - Template implementation of TMC9660Bootloader
 // This file is included at the end of tmc9660_bootloader.hpp
 // DO NOT include this file directly - include tmc9660_bootloader.hpp instead
@@ -117,8 +157,9 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
   std::array<uint8_t, 5> txBuf, rxBuf;
   tx.toBuffer(txBuf);
 
-  // TMC9660_LOG_DEBUG(comm_,2, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
-  //                txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
+  // Same verbosity as [BL TX NOOP]: raw 5-byte command frame (host→device) for SPI bring-up.
+  TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader", "[BL TX CMD ] %02X %02X %02X %02X %02X",
+                    txBuf[0], txBuf[1], txBuf[2], txBuf[3], txBuf[4]);
 
   // Call the method directly on comm_ - since CommType inherits from SpiCommInterface<CommType>,
   // it has spiTransferBootloader() available through inheritance. The CRTP base class method
@@ -144,7 +185,7 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
   };
   std::array<uint8_t, 5> replyBuf;
 
-  TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
+  TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader", "[BL TX NOOP] %02X %02X %02X %02X %02X",
                     dummyTx[0], dummyTx[1], dummyTx[2], dummyTx[3], dummyTx[4]);
 
   // Step 2: Send NO_OP to receive the reply to our command
@@ -154,15 +195,21 @@ bool TMC9660Bootloader<CommType>::sendCommandSPI(uint8_t cmd, uint32_t value, ui
     return false;
   }
 
-  TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader", "[BL RX RPLY] %02X %02X %02X %02X %02X",
+  TMC9660_LOG_DEBUG(comm_, 4, "TMC9660Bootloader", "[BL RX RPLY] %02X %02X %02X %02X %02X",
                     replyBuf[0], replyBuf[1], replyBuf[2], replyBuf[3], replyBuf[4]);
 
   // Parse reply from the second transaction
   BootloaderReplySPI rep = BootloaderReplySPI::fromBuffer(replyBuf);
 
   if (!rep.isOK()) {
-    TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
-                      "SPI command failed: status=0x%02X (cmd=0x%02X)", rep.status, cmd);
+    if (IsExpectedOptionalInfoFailure(cmd, value, rep.status)) {
+      TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader",
+                        "Optional bootloader info unavailable: status=0x%02X (cmd=0x%02X, query=0x%08X)",
+                        rep.status, cmd, value);
+    } else {
+      TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
+                        "SPI command failed: status=0x%02X (cmd=0x%02X)", rep.status, cmd);
+    }
     return false;
   }
 
@@ -233,8 +280,14 @@ bool TMC9660Bootloader<CommType>::sendCommandUART(uint8_t cmd, uint32_t value, u
   }
 
   if (!rep.isOK()) {
-    TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
-                      "UART command failed: status=0x%02X (cmd=0x%02X)", rep.status, cmd);
+    if (IsExpectedOptionalInfoFailure(cmd, value, rep.status)) {
+      TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader",
+                        "Optional bootloader info unavailable: status=0x%02X (cmd=0x%02X, query=0x%08X)",
+                        rep.status, cmd, value);
+    } else {
+      TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
+                        "UART command failed: status=0x%02X (cmd=0x%02X)", rep.status, cmd);
+    }
     return false;
   }
 
@@ -1320,6 +1373,13 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
                       "Failed to write communication config (0x%04X)", comm);
     return false;
   }
+  // COMM_CONFIG can drive internal SPI0 pin mux (BL_SPI0_SCK bit 10). Allow a short settle
+  // and re-arm the address pointer before readback — avoids spurious 0x0000 verify on some boards.
+  if (!setAddress(bootaddr::COMM_CONFIG)) {
+    TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader",
+                      "⚠️  Failed to re-set COMM_CONFIG address before verify (continuing)");
+  }
+  comm_.delayMs(2);
   TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader", "Communication config written (0x%04X):", comm);
   TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader",
                     "  UART: disabled=%s, RX=GPIO%d, TX=GPIO%d, TXEN=%s, baud=%d",
@@ -1421,16 +1481,13 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader", "  - FREQ_DIV (bits 8-11): Div%d",
                     1 << static_cast<int>(cfg.spiFlash.freq_div));
 
-  // Verify SPI flash config was written correctly
-  // UART mode: has an issue if address not reset
-  if (comm_.mode() == CommMode::UART) {
-    if (!setAddress(bootaddr::SPI_FLASH)) {
-      TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
-                        "Failed to reset SPI flash register address for verification");
-      if (failOnVerifyError)
-        return false;
-    }
+  // Verify SPI flash config — re-arm address after write (UART historically needed this; SPI
+  // benefits when COMM_CONFIG and flash share mux-related fields).
+  if (!setAddress(bootaddr::SPI_FLASH)) {
+    TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader",
+                      "⚠️  Failed to set SPI_FLASH address before verify (continuing)");
   }
+  comm_.delayMs(1);
 
   if (!readAndVerify16(flash, "SPI flash config")) {
     if (failOnVerifyError) {
@@ -2311,6 +2368,13 @@ bool TMC9660Bootloader<CommType>::readAndVerify16(uint16_t expected, const char*
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
                       "❌ %s verification failed: expected=0x%04X, actual=0x%04X", configName,
                       expected, actual);
+    if (actual == 0 && expected != 0) {
+      TMC9660_LOG_DEBUG(
+          comm_, 1, "TMC9660Bootloader",
+          "   Hint: readback 0x0000 with OK status is often a timing/address-pointer issue, or "
+          "COMM_CONFIG BL_SPI0_SCK (bit 10) / OTP not matching bootcfg SPI0SckPin (GPIO6 vs GPIO11) "
+          "vs PCB routing.");
+    }
     return false;
   }
 

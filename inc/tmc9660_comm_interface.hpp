@@ -781,7 +781,8 @@ public:
    * @brief Public debug logging wrapper for external classes.
    *
    * This function allows external classes like TMC9660Bootloader to output debug information
-   * through the communication interface. Automatically ensures newlines are present.
+   * through the communication interface. Does not append a trailing newline; the platform
+   * debugLog() implementation should format one line per call.
    *
    * @param level Log level (0=Error, 1=Warning, 2=Info, 3=Debug, 4=Verbose)
    * @param tag Log tag for categorization
@@ -795,26 +796,9 @@ public:
   void logDebug(int level, const char* tag, const char* format, ...) noexcept {
     va_list args;
     va_start(args, format);
-
-    // Check if format string already ends with newline
-    size_t format_len = strlen(format);
-    const char* final_format = format;
-    char* modified_format = nullptr;
-
-    if (format_len == 0 || format[format_len - 1] != '\n') {
-      // Allocate buffer for format + "\n"
-      modified_format = new char[format_len + 2];
-      strcpy(modified_format, format);
-      strcat(modified_format, "\n");
-      final_format = modified_format;
-    }
-
-    debugLog(level, tag, final_format, args);
-
-    if (modified_format) {
-      delete[] modified_format;
-    }
-
+    // Pass @p format through unchanged. Backends (e.g. HardFOC Logger → ESP_LOG) already emit
+    // one line per call; appending '\n' here produced a visible blank line after every message.
+    debugLog(level, tag, format, args);
     va_end(args);
   }
 #else
