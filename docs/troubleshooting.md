@@ -50,6 +50,7 @@ Communication timeouts, no response to commands
    - Check CS pin polarity (active LOW)
    - Confirm SPI mode (Mode 0 or 3)
    - Reduce clock speed
+   - For TMCL, add a deterministic post-transfer delay (~150 µs is enough on a 1 MHz SPI link) inside `spiTransferTMCL`. Back-to-back SPI transfers without pacing make the chip return `SPI_STATUS=OK` (0xFF) but `TMCL_STATUS=REPLY_INVALID_CMD` (0x02) on the second of the two TMCL transactions; see [Communication Protocols](special_feature_protocols.md).
 
 2. **UART Issues**
    - Verify TX/RX pins not swapped

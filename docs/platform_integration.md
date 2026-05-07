@@ -379,6 +379,8 @@ public:
 
 **TMCL UART receive contract:** `uartReceiveTMCL` must return `true` only after the buffer contains a **complete 9-byte** TMCL reply. Returning early with fewer bytes leaves the driver parsing stale or garbage data (wrong TMCL status, checksum failures, or intermittent faults). Block until nine bytes arrive (extend timeouts if the link is slow), and flush the RX FIFO before a bootloader or TMCL sequence when your firmware might leave stray bytes in the UART.
 
+**SPI TMCL inter-frame pacing:** the chip uses a two-transaction protocol — TX1 carries the new TMCL command and TX2 (NO_OP) drains its reply. At typical SPI clocks (>=1 MHz) two back-to-back transfers leave the chip ~80 µs to load the parameter-mode command into its TMCL parser, which is **shorter** than the parser actually needs on parameter-mode firmware. The chip then returns `SPI_STATUS=OK` (0xFF) but `TMCL_STATUS=REPLY_INVALID_CMD` (0x02) on the second SPI transaction — a race that disappears as soon as the host inserts even a few hundred microseconds of pacing (e.g. an `ESP_LOGI` between `spiTransferTMCL` calls is enough to mask it during debugging). Implementations should add a short, deterministic post-transfer delay inside `spiTransferTMCL` (~150 µs is sufficient on the Vortex V1 reference, well below the natural pacing of a 9-byte UART frame at 115200 baud, ~780 µs / frame). UART implementations do **not** need this delay because the wire-time of a 9-byte frame already paces the chip.
+
 ### ESP32 UART Example
 
 ```cpp

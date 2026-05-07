@@ -216,6 +216,13 @@ while (received < 9) {
 - Confirm `uartReceiveTMCL` only returns success after **exactly nine** reply bytes (see [Platform Integration](platform_integration.md)).
 - Flush or drain stale RX data before starting bootloader or TMCL traffic if other code shares the same UART.
 
+### SPI TMCL `REPLY_INVALID_CMD` on back-to-back transfers
+
+**Issue**: SPI returns `SPI_STATUS=OK` (0xFF) but `TMCL_STATUS=REPLY_INVALID_CMD` (0x02) on the second of two SPI TMCL transactions, often only when verbose logging is *off*. The retry loop for `SPI_STATUS_NOT_READY` does not catch it because the chip already considers the SPI byte-level transfer complete.
+
+**Solution**:
+- Add a deterministic post-transfer delay in `spiTransferTMCL` (~150 µs is enough on a Vortex V1 / ESP32-C6 reference). The two-transaction TMCL pattern (TX1 = command, TX2 = NO_OP) needs the chip enough time between transactions to load the previous parameter-mode command into its TMCL parser; back-to-back SPI bursts at >=1 MHz starve it. UART TMCL (9 bytes / 115200 = ~780 µs / frame) already paces the chip at the wire level and does not need this delay (see [Platform Integration](platform_integration.md)).
+
 ## Optional SPI wire-level TMCL logging
 
 For bench bring-up, the driver can log each SPI TMCL transaction as hex TX/RX 8-byte frames. Define `TMC9660_LOG_TMCL_RAW_FRAMES` to `1` before including `tmc9660_comm_interface.hpp`, or add `-DTMC9660_LOG_TMCL_RAW_FRAMES=1` to your compile flags. Default is **0** (off) so normal runs are not flooded. Logging uses the comm adapter’s `debugLog` implementation.
