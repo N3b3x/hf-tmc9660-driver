@@ -6,6 +6,8 @@ var tmc9660__comm__interface_8hpp =
     [ "tmc9660::SpiCommInterface< Derived >", "classtmc9660_1_1SpiCommInterface.html", "classtmc9660_1_1SpiCommInterface" ],
     [ "tmc9660::UartCommInterface< Derived >", "classtmc9660_1_1UartCommInterface.html", "classtmc9660_1_1UartCommInterface" ],
     [ "TMC9660_LOG_DEBUG", "tmc9660__comm__interface_8hpp.html#a362c0b121b0e91437836f3b91a0a0a92", null ],
+    [ "TMC9660_LOG_TMCL_RAW_FRAME", "tmc9660__comm__interface_8hpp.html#af8681ee7f1380419b74d570c781c6bc8", null ],
+    [ "TMC9660_LOG_TMCL_RAW_FRAMES", "tmc9660__comm__interface_8hpp.html#a80290f7b1e32d6e443f1613c38e19ae0", null ],
     [ "CommMode", "tmc9660__comm__interface_8hpp.html#a8b383411946ce7705569a4708d8bac14", [
       [ "SPI", "tmc9660__comm__interface_8hpp.html#a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8", null ],
       [ "UART", "tmc9660__comm__interface_8hpp.html#a8b383411946ce7705569a4708d8bac14acec5769b01fb096efaf0d6186823c78f", null ]

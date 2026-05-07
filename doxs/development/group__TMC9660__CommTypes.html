@@ -122,6 +122,7 @@ SPI Reply Format</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Desc   </td><td class="markdownTableBodyNone">SPI Status   </td><td class="markdownTableBodyNone">TMCL Status   </td><td class="markdownTableBodyNone">Operation   </td><td class="markdownTableBodyNone">Data   </td><td class="markdownTableBodyNone">Checksum   </td></tr>
 </table>
+<p>Datasheet bit rows show bits 8–19 / 20–23 across bytes 1–2 (like Table 3’s 12+4 layout). Observed parameter-mode replies are <b>octet-aligned</b>: byte 1 = TMCL status, byte 2 = echoed opcode (e.g. <code>FF 64 03…</code> = SPI OK, TMCL 100, echo MST=3). Do <b>not</b> fold byte 2’s low nibble into TMCL status — that would turn 100 into <code>0x364</code> and break <code>isOK()</code>.</p>
 <h2><a class="anchor" id="autotoc_md28"></a>
 UART Command Format</h2>
 <table class="markdownTable">

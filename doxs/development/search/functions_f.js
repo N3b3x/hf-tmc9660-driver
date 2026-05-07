@@ -1,7 +1,7 @@
 var searchData=
 [
   ['script_0',['Script',['../structtmc9660_1_1TMC9660_1_1Script.html#a6246473ed732d076da75ce07c11b914a',1,'tmc9660::TMC9660::Script']]],
-  ['sendcommand_1',['sendCommand',['../classtmc9660_1_1TMC9660Bootloader.html#a150a1af8cee48af2a82a79beb78cda74',1,'tmc9660::TMC9660Bootloader::sendCommand()'],['../classtmc9660_1_1TMC9660.html#af391d3323fc537927741b0ee3631aaf3',1,'tmc9660::TMC9660::sendCommand()']]],
+  ['sendcommand_1',['sendCommand',['../classtmc9660_1_1TMC9660Bootloader.html#a150a1af8cee48af2a82a79beb78cda74',1,'tmc9660::TMC9660Bootloader::sendCommand()'],['../classtmc9660_1_1TMC9660.html#ab912878979c2bc07d74f657236619b73',1,'tmc9660::TMC9660::sendCommand()']]],
   ['sendcommandspi_2',['sendCommandSPI',['../classtmc9660_1_1TMC9660Bootloader.html#a12bcd2a1e612b73384619c0e9a3ae8c8',1,'tmc9660::TMC9660Bootloader']]],
   ['sendcommanduart_3',['sendCommandUART',['../classtmc9660_1_1TMC9660Bootloader.html#a3678b71422769916e93850c26c1c696c',1,'tmc9660::TMC9660Bootloader']]],
   ['set_5fpin_5factive_5flevel_4',['set_pin_active_level',['../classtmc9660_1_1CommInterface.html#a0b30d35bf9b154dda748fbf963e85ab9',1,'tmc9660::CommInterface']]],

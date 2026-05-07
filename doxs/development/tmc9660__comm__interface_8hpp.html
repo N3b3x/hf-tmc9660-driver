@@ -155,6 +155,11 @@ Macros</h2></td></tr>
 <tr class="memitem:a362c0b121b0e91437836f3b91a0a0a92" id="r_a362c0b121b0e91437836f3b91a0a0a92"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a362c0b121b0e91437836f3b91a0a0a92">TMC9660_LOG_DEBUG</a>(comm_obj,  level,  tag, ...)&#160;&#160;&#160;(comm_obj).logDebug(level, tag, __VA_ARGS__)</td></tr>
 <tr class="memdesc:a362c0b121b0e91437836f3b91a0a0a92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time debug logging control for TMC9660 library.  <br /></td></tr>
 <tr class="separator:a362c0b121b0e91437836f3b91a0a0a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80290f7b1e32d6e443f1613c38e19ae0" id="r_a80290f7b1e32d6e443f1613c38e19ae0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80290f7b1e32d6e443f1613c38e19ae0">TMC9660_LOG_TMCL_RAW_FRAMES</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:a80290f7b1e32d6e443f1613c38e19ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log raw SPI TMCL 8-byte TX/RX frames (<code>[TMCL TX n]</code>, <code>[TMCL RX n]</code>).  <br /></td></tr>
+<tr class="separator:a80290f7b1e32d6e443f1613c38e19ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8681ee7f1380419b74d570c781c6bc8" id="r_af8681ee7f1380419b74d570c781c6bc8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8681ee7f1380419b74d570c781c6bc8">TMC9660_LOG_TMCL_RAW_FRAME</a>(comm_obj,  level,  tag, ...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:af8681ee7f1380419b74d570c781c6bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -225,6 +230,54 @@ Functions</h2></td></tr>
 <p>Define TMC9660_DISABLE_DEBUG_LOGGING before including this header to completely disable all debug logging. When disabled, all logDebug() calls are optimized out at compile time, including argument evaluation (via macro replacement).</p>
 <p>Example usage: #define TMC9660_DISABLE_DEBUG_LOGGING #include "TMC9660CommInterface.hpp"</p>
 <p>Or via compiler flags: -DTMC9660_DISABLE_DEBUG_LOGGING </p>
+
+</div>
+</div>
+<a id="af8681ee7f1380419b74d570c781c6bc8" name="af8681ee7f1380419b74d570c781c6bc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8681ee7f1380419b74d570c781c6bc8">&#9670;&#160;</a></span>TMC9660_LOG_TMCL_RAW_FRAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TMC9660_LOG_TMCL_RAW_FRAME</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">comm_obj, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">level, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname">tag, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>...</em></span>&#160;)&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a80290f7b1e32d6e443f1613c38e19ae0" name="a80290f7b1e32d6e443f1613c38e19ae0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80290f7b1e32d6e443f1613c38e19ae0">&#9670;&#160;</a></span>TMC9660_LOG_TMCL_RAW_FRAMES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TMC9660_LOG_TMCL_RAW_FRAMES&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Log raw SPI TMCL 8-byte TX/RX frames (<code>[TMCL TX n]</code>, <code>[TMCL RX n]</code>). </p>
+<p>Default <b>0</b> (off): keeps serial usable for bench results. Set to <b>1</b> locally or via <code>-DTMC9660_LOG_TMCL_RAW_FRAMES=1</code> when you need wire-level bring-up traces again. </p>
 
 </div>
 </div>
