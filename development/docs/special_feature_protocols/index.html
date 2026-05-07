@@ -443,6 +443,7 @@ Reply Format:
   <li>Reply Delay: Reply to command N is received when sending command N+1</li>
   <li>Checksum: 8-bit checksum over first 7 bytes</li>
   <li>Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK)</li>
+  <li><strong>Reply field alignment:</strong> Byte 1 is the TMCL status; byte 2 echoes the TMCL opcode. Keep those as separate bytes—do not fold part of byte 2 into the TMCL status word, or host-side <code class="language-plaintext highlighter-rouge">isOK()</code> checks will mis-parse good replies.</li>
 </ul>
 <h3 id="uart-tmcl-protocol-72-bit--9-byte">
   
@@ -649,6 +650,32 @@ Reply Format:
   <li>Check byte order (big-endian vs little-endian)</li>
   <li>Ensure all bytes are included in calculation</li>
 </ul>
+<h3 id="uart-tmcl-framing-partial-reads">
+  
+  
+    <a href="#uart-tmcl-framing-partial-reads" class="anchor-heading" aria-labelledby="uart-tmcl-framing-partial-reads"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> UART TMCL framing (partial reads)
+  
+  
+</h3>
+    
+
+<p><strong>Issue</strong>: TMCL checksum errors, bogus status codes, or flaky reads on UART</p>
+
+<p><strong>Solution</strong>:</p>
+<ul>
+  <li>Confirm <code class="language-plaintext highlighter-rouge">uartReceiveTMCL</code> only returns success after <strong>exactly nine</strong> reply bytes (see <a href="/hf-tmc9660-driver/development/docs/platform_integration/">Platform Integration</a>).</li>
+  <li>Flush or drain stale RX data before starting bootloader or TMCL traffic if other code shares the same UART.</li>
+</ul>
+<h2 id="optional-spi-wire-level-tmcl-logging">
+  
+  
+    <a href="#optional-spi-wire-level-tmcl-logging" class="anchor-heading" aria-labelledby="optional-spi-wire-level-tmcl-logging"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Optional SPI wire-level TMCL logging
+  
+  
+</h2>
+    
+
+<p>For bench bring-up, the driver can log each SPI TMCL transaction as hex TX/RX 8-byte frames. Define <code class="language-plaintext highlighter-rouge">TMC9660_LOG_TMCL_RAW_FRAMES</code> to <code class="language-plaintext highlighter-rouge">1</code> before including <code class="language-plaintext highlighter-rouge">tmc9660_comm_interface.hpp</code>, or add <code class="language-plaintext highlighter-rouge">-DTMC9660_LOG_TMCL_RAW_FRAMES=1</code> to your compile flags. Default is <strong>0</strong> (off) so normal runs are not flooded. Logging uses the comm adapter’s <code class="language-plaintext highlighter-rouge">debugLog</code> implementation.</p>
 <h2 id="next-steps">
   
   

@@ -1012,6 +1012,8 @@
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
+
+<p><strong>TMCL UART receive contract:</strong> <code class="language-plaintext highlighter-rouge">uartReceiveTMCL</code> must return <code class="language-plaintext highlighter-rouge">true</code> only after the buffer contains a <strong>complete 9-byte</strong> TMCL reply. Returning early with fewer bytes leaves the driver parsing stale or garbage data (wrong TMCL status, checksum failures, or intermittent faults). Block until nine bytes arrive (extend timeouts if the link is slow), and flush the RX FIFO before a bootloader or TMCL sequence when your firmware might leave stray bytes in the UART.</p>
 <h3 id="esp32-uart-example">
   
   

@@ -369,6 +369,7 @@
       <li>Check baud rate matches configuration</li>
       <li>Ensure GPIO pins match bootloader config</li>
       <li>Try autobaud mode</li>
+      <li>For TMCL, confirm the UART adapter reads a <strong>full 9-byte reply</strong> per transaction; partial reads produce checksum and status errors (see <a href="/hf-tmc9660-driver/development/docs/platform_integration/">Platform Integration</a>)</li>
     </ul>
   </li>
   <li><strong>Check Connections</strong>

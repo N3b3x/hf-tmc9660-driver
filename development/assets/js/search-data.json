@@ -316,7 +316,7 @@
   },"45": {
     "doc": "HardFOC TMC9660 Driver",
     "title": "✨ Features",
-    "content": ". | ✅ Multiple Motor Types: BLDC/PMSM, Stepper, and DC motor support | ✅ FOC Control: Advanced Field-Oriented Control with torque, velocity, and position loops | ✅ Sensor Integration: Hall sensors, incremental encoders, SPI encoders | ✅ Comprehensive Telemetry: Real-time temperature, current, voltage, and position monitoring | ✅ Protection Systems: Overcurrent, overtemperature, overvoltage protection | ✅ TMCL Scripting: Execute custom scripts on device microcontroller | ✅ Hardware Agnostic: SPI or UART interface for platform independence | ✅ Modern C++20: Type-safe API with RAII principles | ✅ Parameter Mode: Full access to 300+ TMC9660 parameters | . ",
+    "content": ". | ✅ Multiple Motor Types: BLDC/PMSM, Stepper, and DC motor support | ✅ FOC Control: Advanced Field-Oriented Control with torque, velocity, and position loops | ✅ Sensor Integration: Hall sensors, incremental encoders, SPI encoders | ✅ Comprehensive Telemetry: Real-time temperature, current, voltage, and position monitoring | ✅ Protection Systems: Overcurrent, overtemperature, overvoltage protection | ✅ TMCL Scripting: Execute custom scripts on device microcontroller | ✅ Hardware Agnostic: SPI or UART interface for platform independence | ✅ Modern C++20: Type-safe API with RAII principles | ✅ Parameter Mode: Full access to 300+ TMC9660 parameters | ✅ Bring-up diagnostics: Optional compile-time raw SPI TMCL frame logging (TMC9660_LOG_TMCL_RAW_FRAMES, off by default) | . ",
     "url": "/hf-tmc9660-driver/development/#-features",
     
     "relUrl": "/#-features"
@@ -1149,7 +1149,7 @@
   },"164": {
     "doc": "🔧 Platform Integration",
     "title": "Base Interface",
-    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 . | #include \"inc/tmc9660_comm_interface.hpp\" class MyUART : public tmc9660::UartCommInterface&lt;MyUART&gt; { public: CommMode mode() const noexcept { return CommMode::UART; } bool uartSendTMCL(const std::array&lt;uint8_t,9&gt;&amp; data) noexcept { // Your UART send implementation // Send 9-byte frame return true; // Return false on error } bool uartReceiveTMCL(std::array&lt;uint8_t,9&gt;&amp; data) noexcept { // Your UART receive implementation // Receive 9-byte reply return true; // Return false on error } bool uartTransferBootloader(const std::array&lt;uint8_t,8&gt;&amp; tx, std::array&lt;uint8_t,8&gt;&amp; rx) noexcept { // Your UART bootloader transfer implementation return true; } bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept { // Your GPIO set implementation return true; } bool gpioRead(TMC9660CtrlPin pin, GpioSignal&amp; signal) noexcept { // Your GPIO read implementation return true; } void debugLog(int level, const char* tag, const char* format, va_list args) noexcept { // Your debug logging implementation (optional) } void delayMs(uint32_t ms) noexcept { // Your millisecond delay implementation } void delayUs(uint32_t us) noexcept { // Your microsecond delay implementation } }; . | . ",
+    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 . | #include \"inc/tmc9660_comm_interface.hpp\" class MyUART : public tmc9660::UartCommInterface&lt;MyUART&gt; { public: CommMode mode() const noexcept { return CommMode::UART; } bool uartSendTMCL(const std::array&lt;uint8_t,9&gt;&amp; data) noexcept { // Your UART send implementation // Send 9-byte frame return true; // Return false on error } bool uartReceiveTMCL(std::array&lt;uint8_t,9&gt;&amp; data) noexcept { // Your UART receive implementation // Receive 9-byte reply return true; // Return false on error } bool uartTransferBootloader(const std::array&lt;uint8_t,8&gt;&amp; tx, std::array&lt;uint8_t,8&gt;&amp; rx) noexcept { // Your UART bootloader transfer implementation return true; } bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept { // Your GPIO set implementation return true; } bool gpioRead(TMC9660CtrlPin pin, GpioSignal&amp; signal) noexcept { // Your GPIO read implementation return true; } void debugLog(int level, const char* tag, const char* format, va_list args) noexcept { // Your debug logging implementation (optional) } void delayMs(uint32_t ms) noexcept { // Your millisecond delay implementation } void delayUs(uint32_t us) noexcept { // Your microsecond delay implementation } }; . | . TMCL UART receive contract: uartReceiveTMCL must return true only after the buffer contains a complete 9-byte TMCL reply. Returning early with fewer bytes leaves the driver parsing stale or garbage data (wrong TMCL status, checksum failures, or intermittent faults). Block until nine bytes arrive (extend timeouts if the link is slow), and flush the RX FIFO before a bootloader or TMCL sequence when your firmware might leave stray bytes in the UART. ",
     "url": "/hf-tmc9660-driver/development/docs/platform_integration/#base-interface-1",
     
     "relUrl": "/docs/platform_integration/#base-interface-1"
@@ -1464,7 +1464,7 @@
   },"209": {
     "doc": "📡 Communication Protocols",
     "title": "SPI TMCL Protocol (64-bit / 8-byte)",
-    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 . | Command Format: ┌──────┬──────────┬──────────┬──────────────┬──────────┐ │ Byte │ 0 │ 1-2 │ 3 │ 4-6 │ 7 │ ├──────┼──────────┼──────────┼──────────────┼──────────┼──────────┤ │ Bits │ 0-7 │ 8-19 │ 20-23 │ 24-55 │ 56-63 │ │ Desc │ Operation│ Type │ Motor/Bank │ Data │ Checksum │ └──────┴──────────┴──────────┴──────────────┴──────────┴──────────┘ Reply Format: ┌──────┬──────────┬──────────┬──────────┬──────────────┬──────────┐ │ Byte │ 0 │ 1 │ 2 │ 3-6 │ 7 │ ├──────┼──────────┼──────────┼──────────┼──────────────┼──────────┤ │ Bits │ 0-7 │ 8-15 │ 16-23 │ 24-55 │ 56-63 │ │ Desc │ SPI Status│ TMCL Status│ Operation│ Data │ Checksum │ └──────┴──────────┴──────────┴──────────┴──────────────┴──────────┘ . | . Key Features: . | Frame Size: 8 bytes (64 bits) | Reply Delay: Reply to command N is received when sending command N+1 | Checksum: 8-bit checksum over first 7 bytes | Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK) | . ",
+    "content": "| 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 . | Command Format: ┌──────┬──────────┬──────────┬──────────────┬──────────┐ │ Byte │ 0 │ 1-2 │ 3 │ 4-6 │ 7 │ ├──────┼──────────┼──────────┼──────────────┼──────────┼──────────┤ │ Bits │ 0-7 │ 8-19 │ 20-23 │ 24-55 │ 56-63 │ │ Desc │ Operation│ Type │ Motor/Bank │ Data │ Checksum │ └──────┴──────────┴──────────┴──────────────┴──────────┴──────────┘ Reply Format: ┌──────┬──────────┬──────────┬──────────┬──────────────┬──────────┐ │ Byte │ 0 │ 1 │ 2 │ 3-6 │ 7 │ ├──────┼──────────┼──────────┼──────────┼──────────────┼──────────┤ │ Bits │ 0-7 │ 8-15 │ 16-23 │ 24-55 │ 56-63 │ │ Desc │ SPI Status│ TMCL Status│ Operation│ Data │ Checksum │ └──────┴──────────┴──────────┴──────────┴──────────────┴──────────┘ . | . Key Features: . | Frame Size: 8 bytes (64 bits) | Reply Delay: Reply to command N is received when sending command N+1 | Checksum: 8-bit checksum over first 7 bytes | Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK) | Reply field alignment: Byte 1 is the TMCL status; byte 2 echoes the TMCL opcode. Keep those as separate bytes—do not fold part of byte 2 into the TMCL status word, or host-side isOK() checks will mis-parse good replies. | . ",
     "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/#spi-tmcl-protocol-64-bit--8-byte",
     
     "relUrl": "/docs/special_feature_protocols/#spi-tmcl-protocol-64-bit--8-byte"
@@ -1526,173 +1526,187 @@
     "relUrl": "/docs/special_feature_protocols/#checksum-errors"
   },"218": {
     "doc": "📡 Communication Protocols",
+    "title": "UART TMCL framing (partial reads)",
+    "content": "Issue: TMCL checksum errors, bogus status codes, or flaky reads on UART . Solution: . | Confirm uartReceiveTMCL only returns success after exactly nine reply bytes (see Platform Integration). | Flush or drain stale RX data before starting bootloader or TMCL traffic if other code shares the same UART. | . ",
+    "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/#uart-tmcl-framing-partial-reads",
+    
+    "relUrl": "/docs/special_feature_protocols/#uart-tmcl-framing-partial-reads"
+  },"219": {
+    "doc": "📡 Communication Protocols",
+    "title": "Optional SPI wire-level TMCL logging",
+    "content": "For bench bring-up, the driver can log each SPI TMCL transaction as hex TX/RX 8-byte frames. Define TMC9660_LOG_TMCL_RAW_FRAMES to 1 before including tmc9660_comm_interface.hpp, or add -DTMC9660_LOG_TMCL_RAW_FRAMES=1 to your compile flags. Default is 0 (off) so normal runs are not flooded. Logging uses the comm adapter’s debugLog implementation. ",
+    "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/#optional-spi-wire-level-tmcl-logging",
+    
+    "relUrl": "/docs/special_feature_protocols/#optional-spi-wire-level-tmcl-logging"
+  },"220": {
+    "doc": "📡 Communication Protocols",
     "title": "Next Steps",
     "content": ". | Platform Integration - Implement communication interface | Bootloader Initialization - Bootloader setup | Troubleshooting - Common issues and solutions | . ",
     "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/#next-steps",
     
     "relUrl": "/docs/special_feature_protocols/#next-steps"
-  },"219": {
+  },"221": {
     "doc": "📡 Communication Protocols",
     "title": "📡 Communication Protocols",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/special_feature_protocols/",
     
     "relUrl": "/docs/special_feature_protocols/"
-  },"220": {
+  },"222": {
     "doc": "🐛 Troubleshooting",
     "title": "Troubleshooting",
     "content": "Common issues and solutions for the TMC9660 driver. ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#troubleshooting",
     
     "relUrl": "/docs/troubleshooting/#troubleshooting"
-  },"221": {
+  },"223": {
     "doc": "🐛 Troubleshooting",
     "title": "Bootloader Initialization Fails",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#bootloader-initialization-fails",
     
     "relUrl": "/docs/troubleshooting/#bootloader-initialization-fails"
-  },"222": {
+  },"224": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "bootloaderInit() returns BootloaderInitResult::Failure . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom",
     
     "relUrl": "/docs/troubleshooting/#symptom"
-  },"223": {
+  },"225": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
     "content": ". | Check Hardware Reset . | Ensure RST pin is properly toggled | Verify FAULTN pin monitoring during reset | Wait at least 100ms after reset | . | Verify Communication Interface . | Check SPI/UART wiring | Verify CS pin (SPI) or TX/RX pins (UART) | Confirm clock speed ≤ 4 MHz (SPI) | . | Check Bootloader Configuration | 1 2 . | // CRITICAL: Must set boot mode to Parameter cfg.boot.boot_mode = tmc9660::bootcfg::BootMode::Parameter; . | . | Verify Power Supply . | Ensure stable power to TMC9660 | Check voltage levels (12V-48V for motor supply) | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions",
     
     "relUrl": "/docs/troubleshooting/#solutions"
-  },"224": {
+  },"226": {
     "doc": "🐛 Troubleshooting",
     "title": "No Reply from Device",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#no-reply-from-device",
     
     "relUrl": "/docs/troubleshooting/#no-reply-from-device"
-  },"225": {
+  },"227": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "Communication timeouts, no response to commands . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom-1",
     
     "relUrl": "/docs/troubleshooting/#symptom-1"
-  },"226": {
+  },"228": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
-    "content": ". | SPI Issues . | Verify MOSI/MISO not swapped | Check CS pin polarity (active LOW) | Confirm SPI mode (Mode 0 or 3) | Reduce clock speed | . | UART Issues . | Verify TX/RX pins not swapped | Check baud rate matches configuration | Ensure GPIO pins match bootloader config | Try autobaud mode | . | Check Connections . | Verify all connections are secure | Check for loose wires | Verify common ground | . | . ",
+    "content": ". | SPI Issues . | Verify MOSI/MISO not swapped | Check CS pin polarity (active LOW) | Confirm SPI mode (Mode 0 or 3) | Reduce clock speed | . | UART Issues . | Verify TX/RX pins not swapped | Check baud rate matches configuration | Ensure GPIO pins match bootloader config | Try autobaud mode | For TMCL, confirm the UART adapter reads a full 9-byte reply per transaction; partial reads produce checksum and status errors (see Platform Integration) | . | Check Connections . | Verify all connections are secure | Check for loose wires | Verify common ground | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions-1",
     
     "relUrl": "/docs/troubleshooting/#solutions-1"
-  },"227": {
+  },"229": {
     "doc": "🐛 Troubleshooting",
     "title": "Motor Not Starting",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#motor-not-starting",
     
     "relUrl": "/docs/troubleshooting/#motor-not-starting"
-  },"228": {
+  },"230": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "Motor configured but not rotating . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom-2",
     
     "relUrl": "/docs/troubleshooting/#symptom-2"
-  },"229": {
+  },"231": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
     "content": ". | Verify Bootloader Initialization | 1 2 3 . | // Must initialize bootloader first cfg.boot.start_motor_control = true; auto result = driver.bootloaderInit(&amp;cfg); . | . | Check Motor Configuration | 1 2 3 4 5 6 . | // Verify motor type is set driver.motorConfig.setType(tmc9660::tmcl::MotorType::BLDC_MOTOR, 7); // Verify commutation mode driver.motorConfig.setCommutationMode( tmc9660::tmcl::CommutationMode::FOC_HALL); . | . | Check Current Limits | 1 2 . | // Ensure current limits are set driver.motorConfig.setMaxTorqueCurrent(2000); . | . | Verify Target Values | 1 2 . | // Set target velocity or torque driver.focControl.setTargetVelocity(1000); . | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions-2",
     
     "relUrl": "/docs/troubleshooting/#solutions-2"
-  },"230": {
+  },"232": {
     "doc": "🐛 Troubleshooting",
     "title": "Communication Errors",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#communication-errors",
     
     "relUrl": "/docs/troubleshooting/#communication-errors"
-  },"231": {
+  },"233": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "CRC errors, checksum failures, invalid replies . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom-3",
     
     "relUrl": "/docs/troubleshooting/#symptom-3"
-  },"232": {
+  },"234": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
     "content": ". | Check Timing . | Add delays between commands | Respect SPI delayed reply timing | Wait for UART reply before next command | . | Verify Protocol . | Check CRC/checksum calculation | Verify frame format (8 bytes SPI, 9 bytes UART) | Confirm address encoding | . | Reduce Noise . | Use shorter cables | Add pull-up/pull-down resistors | Check for ground loops | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions-3",
     
     "relUrl": "/docs/troubleshooting/#solutions-3"
-  },"233": {
+  },"235": {
     "doc": "🐛 Troubleshooting",
     "title": "Sensor Issues",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#sensor-issues",
     
     "relUrl": "/docs/troubleshooting/#sensor-issues"
-  },"234": {
+  },"236": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "Hall sensors or encoder not working . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom-4",
     
     "relUrl": "/docs/troubleshooting/#symptom-4"
-  },"235": {
+  },"237": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
     "content": ". | Check Sensor Wiring . | Verify Hall sensor connections | Check encoder A/B signals | Confirm sensor power supply | . | Verify Sensor Configuration | 1 2 3 4 5 . | // For Hall sensors driver.feedbackSense.configureHall(); // For encoder driver.feedbackSense.configureABNEncoder(2048); . | . | Check Commutation Mode | 1 2 3 . | // Must match sensor type driver.motorConfig.setCommutationMode( tmc9660::tmcl::CommutationMode::FOC_HALL); // or FOC_ENCODER . | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions-4",
     
     "relUrl": "/docs/troubleshooting/#solutions-4"
-  },"236": {
+  },"238": {
     "doc": "🐛 Troubleshooting",
     "title": "Protection Faults",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#protection-faults",
     
     "relUrl": "/docs/troubleshooting/#protection-faults"
-  },"237": {
+  },"239": {
     "doc": "🐛 Troubleshooting",
     "title": "Symptom",
     "content": "Overcurrent, undervoltage, or overtemperature faults . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#symptom-5",
     
     "relUrl": "/docs/troubleshooting/#symptom-5"
-  },"238": {
+  },"240": {
     "doc": "🐛 Troubleshooting",
     "title": "Solutions",
     "content": ". | Check Current Limits | 1 2 . | // Reduce current limits if overcurrent driver.motorConfig.setMaxTorqueCurrent(1500); . | . | Verify Power Supply . | Check voltage levels | Ensure adequate current capacity | Check for voltage drops | . | Check Temperature . | Ensure adequate cooling | Monitor temperature via telemetry | Reduce load if overheating | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#solutions-5",
     
     "relUrl": "/docs/troubleshooting/#solutions-5"
-  },"239": {
+  },"241": {
     "doc": "🐛 Troubleshooting",
     "title": "Debugging Tips",
     "content": ". | Enable Debug Logging . | Remove TMC9660_DISABLE_DEBUG_LOGGING define | Check serial output for detailed logs | . | Verify Communication | 1 2 3 4 5 . | // Test basic communication auto version = driver.bootloaderGetVersion(); if (version.has_value()) { printf(\"Communication OK\\n\"); } . | . | Check Telemetry | 1 2 3 4 . | // Monitor device status int16_t temp; driver.telemetry.getTemperature(temp); printf(\"Temperature: %d\\n\", temp); . | . | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#debugging-tips",
     
     "relUrl": "/docs/troubleshooting/#debugging-tips"
-  },"240": {
+  },"242": {
     "doc": "🐛 Troubleshooting",
     "title": "Getting Help",
     "content": ". | Check the Bootloader Initialization guide | Review Platform Integration for interface issues | See Examples for working code | Consult the API Reference for method details | . ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/#getting-help",
     
     "relUrl": "/docs/troubleshooting/#getting-help"
-  },"241": {
+  },"243": {
     "doc": "🐛 Troubleshooting",
     "title": "🐛 Troubleshooting",
     "content": " ",
     "url": "/hf-tmc9660-driver/development/docs/troubleshooting/",
     
     "relUrl": "/docs/troubleshooting/"
-  },"242": {
+  },"244": {
     "doc": "CMake Integration — TMC9660 Driver",
     "title": "CMake Integration — TMC9660 Driver",
     "content": "# CMake Integration — TMC9660 Driver ## Quick start (ESP-IDF) The ESP-IDF component wrapper lives at: ``` examples/esp32/components/hf_tmc9660/CMakeLists.txt ``` It imports `cmake/hf_tmc9660_build_settings.cmake`, which is the single source of truth for sources, includes, and version information. ## Layer overview | Layer | File | Role |-------|------|------| 1 — Settings | `cmake/hf_tmc9660_build_settings.cmake` | Sources, includes, version | 2 — Root | `CMakeLists.txt` | Desktop / CI static library | 3 — ESP-IDF | `examples/esp32/components/…/CMakeLists.txt` | IDF wrapper | ## Version The version is defined once in `hf_tmc9660_build_settings.cmake` and stamped into `inc/tmc9660_version.h.in` → `tmc9660_version.h` via `configure_file()`. Access at runtime: ```cpp using namespace tmc9660; TMC9660::GetDriverVersion(); // \"1.0.0\" TMC9660::GetDriverVersionMajor(); // 1 tmc9660::GetDriverVersion(); // \"1.0.0\" (namespace-level) ``` ",
