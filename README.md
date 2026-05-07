@@ -48,6 +48,7 @@ The driver exposes the full parameter mode interface, providing access to all 30
 - ✅ **Hardware Agnostic**: SPI or UART interface for platform independence
 - ✅ **Modern C++20**: Type-safe API with RAII principles
 - ✅ **Parameter Mode**: Full access to 300+ TMC9660 parameters
+- ✅ **Bring-up diagnostics**: Optional compile-time raw SPI TMCL frame logging (`TMC9660_LOG_TMCL_RAW_FRAMES`, off by default)
 
 ## 🚀 Quick Start
 

@@ -99,6 +99,7 @@ Reply Format:
 - Reply Delay: Reply to command N is received when sending command N+1
 - Checksum: 8-bit checksum over first 7 bytes
 - Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK)
+- **Reply field alignment:** Byte 1 is the TMCL status; byte 2 echoes the TMCL opcode. Keep those as separate bytes—do not fold part of byte 2 into the TMCL status word, or host-side `isOK()` checks will mis-parse good replies.
 
 ### UART TMCL Protocol (72-bit / 9-byte)
 
@@ -206,6 +207,18 @@ while (received < 9) {
 - Verify checksum algorithm matches specification
 - Check byte order (big-endian vs little-endian)
 - Ensure all bytes are included in calculation
+
+### UART TMCL framing (partial reads)
+
+**Issue**: TMCL checksum errors, bogus status codes, or flaky reads on UART
+
+**Solution**:
+- Confirm `uartReceiveTMCL` only returns success after **exactly nine** reply bytes (see [Platform Integration](platform_integration.md)).
+- Flush or drain stale RX data before starting bootloader or TMCL traffic if other code shares the same UART.
+
+## Optional SPI wire-level TMCL logging
+
+For bench bring-up, the driver can log each SPI TMCL transaction as hex TX/RX 8-byte frames. Define `TMC9660_LOG_TMCL_RAW_FRAMES` to `1` before including `tmc9660_comm_interface.hpp`, or add `-DTMC9660_LOG_TMCL_RAW_FRAMES=1` to your compile flags. Default is **0** (off) so normal runs are not flooded. Logging uses the comm adapter’s `debugLog` implementation.
 
 ## Next Steps
 

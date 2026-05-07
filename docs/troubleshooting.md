@@ -56,6 +56,7 @@ Communication timeouts, no response to commands
    - Check baud rate matches configuration
    - Ensure GPIO pins match bootloader config
    - Try autobaud mode
+   - For TMCL, confirm the UART adapter reads a **full 9-byte reply** per transaction; partial reads produce checksum and status errors (see [Platform Integration](platform_integration.md))
 
 3. **Check Connections**
    - Verify all connections are secure
