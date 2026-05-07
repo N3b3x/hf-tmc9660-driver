@@ -100,6 +100,7 @@ Reply Format:
 - Checksum: 8-bit checksum over first 7 bytes
 - Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK)
 - **Reply field alignment:** Byte 1 is the TMCL status; byte 2 echoes the TMCL opcode. Keep those as separate bytes—do not fold part of byte 2 into the TMCL status word, or host-side `isOK()` checks will mis-parse good replies.
+- **Host pacing:** At high SPI clock rates, leave enough time between the first 8-byte TMCL transfer (command) and the second (dummy / NO_OP) so the IC can accept the command before the reply is clocked. The reference `SpiCommInterface::transferTMCL` implementation inserts a short `delayUs` between those transfers; HAL adapters may add a small post-CS delay as well.
 
 ### UART TMCL Protocol (72-bit / 9-byte)
 

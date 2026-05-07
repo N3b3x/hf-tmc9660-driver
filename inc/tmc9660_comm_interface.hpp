@@ -968,6 +968,12 @@ public:
       // The caller can check rawBytes[0] for SESSION_START status codes
     }
 
+    // Give the TMCL parser time to latch the command from transaction 1 before transaction 2
+    // clocks out its reply. Without this gap, some boards at >=1 MHz SPI return
+    // REPLY_INVALID_CMD / REPLY_INVALID_VALUE on the *second* transfer even though the
+    // wire bytes look valid (see HalSpiTmc9660Comm notes in hf-core).
+    static_cast<Derived*>(this)->delayUs(300);
+
     // Transaction 2: Send second command (or NO_OP), receive final reply
     // This transaction is wrapped in retry logic for SPI_STATUS_NOT_READY
     TMCLFrame cmd2 = second_command ? *second_command : TMCLFrame{}; // NO_OP if not provided
