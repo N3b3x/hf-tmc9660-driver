@@ -491,6 +491,16 @@ bool TMC9660<CommType>::readGlobalParameter(GlobalParamBankVariant id, uint8_t b
   return this->sendCommand(tmc9660::tmcl::Op::GGP, paramId, bank, 0, &value);
 }
 
+template <typename CommType>
+bool TMC9660<CommType>::readGlobal(uint16_t parameterId, uint8_t bank, uint32_t& value) noexcept {
+  return this->sendCommand(tmc9660::tmcl::Op::GGP, parameterId, bank, 0, &value);
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::writeGlobal(uint16_t parameterId, uint8_t bank, uint32_t value) noexcept {
+  return this->sendCommand(tmc9660::tmcl::Op::SGP, parameterId, bank, value, nullptr);
+}
+
 /**
  * @brief Send a raw TMCL command and optionally receive a reply.
  *
@@ -514,7 +524,7 @@ bool TMC9660<CommType>::readGlobalParameter(GlobalParamBankVariant id, uint8_t b
  */
 template <typename CommType>
 bool TMC9660<CommType>::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uint8_t motor, uint32_t value,
-                          uint32_t* reply) noexcept {
+                          uint32_t* reply, tmc9660::tmcl::ReplyCode* out_tmcl_status) noexcept {
   TMCLFrame tx{};
   tx.opcode = static_cast<uint8_t>(opcode);
   tx.type = type;
@@ -552,8 +562,12 @@ bool TMC9660<CommType>::sendCommand(tmc9660::tmcl::Op opcode, uint16_t type, uin
   TMCLReply rep{};
   if (!comm_.transferTMCL(tx, rep, address_, nullptr, nullptr)) {
     TMC9660_LOG_DEBUG(comm_, 1, "TMC9660", "[TMCL] Transfer failed");
+    if (out_tmcl_status)
+      *out_tmcl_status = tmc9660::tmcl::ReplyCode::REPLY_CHKERR;
     return false;
   }
+  if (out_tmcl_status)
+    *out_tmcl_status = static_cast<tmc9660::tmcl::ReplyCode>(rep.status);
 
   // Debug logging for TMCL reply with decoded status and opcode
   // Note: SPI response format: byte0=SPI_STATUS, byte1=TMCL_STATUS, byte2=OPCODE, byte3-6=VALUE,
@@ -1017,8 +1031,9 @@ bool TMC9660<CommType>::CurrentSensing::calibrateOffsets(bool waitForCompletion,
   using tmc9660::tmcl::GeneralStatusFlags;
   using tmc9660::tmcl::Parameters;
   // Clear the calibrated flag to trigger a new calibration cycle
-  if (!driver.writeParameter(Parameters::GENERAL_STATUS_FLAGS,
-                             static_cast<uint32_t>(GeneralStatusFlags::ADC_OFFSET_CALIBRATED)))
+  if (!driver.writeParameter(
+          Parameters::GENERAL_STATUS_FLAGS,
+          static_cast<uint32_t>(GeneralStatusFlags::ADC_OFFSET_CALIBRATED)))
     return false;
 
   if (!waitForCompletion)
@@ -1387,14 +1402,14 @@ bool TMC9660<CommType>::GateDriver::enableOvercurrentProtection(
     tmc9660::tmcl::OvercurrentEnable enableY2LowSide,
     tmc9660::tmcl::OvercurrentEnable enableY2HighSide) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ENABLE,
-                              static_cast<uint32_t>(enableUVWLowSide));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ENABLE,
-                              static_cast<uint32_t>(enableUVWHighSide));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_ENABLE,
-                              static_cast<uint32_t>(enableY2LowSide));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_ENABLE,
-                              static_cast<uint32_t>(enableY2HighSide));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ENABLE,
+                             static_cast<uint32_t>(enableUVWLowSide));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ENABLE,
+                             static_cast<uint32_t>(enableUVWHighSide));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_ENABLE,
+                             static_cast<uint32_t>(enableY2LowSide));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_ENABLE,
+                             static_cast<uint32_t>(enableY2HighSide));
   return ok;
 }
 
@@ -1405,14 +1420,14 @@ bool TMC9660<CommType>::GateDriver::setOvercurrentThresholds(
     tmc9660::tmcl::OvercurrentThreshold y2LowSideThreshold,
     tmc9660::tmcl::OvercurrentThreshold y2HighSideThreshold) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_THRESHOLD,
-                              static_cast<uint32_t>(uvwLowSideThreshold));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_THRESHOLD,
-                              static_cast<uint32_t>(uvwHighSideThreshold));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_THRESHOLD,
-                              static_cast<uint32_t>(y2LowSideThreshold));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_THRESHOLD,
-                              static_cast<uint32_t>(y2HighSideThreshold));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_THRESHOLD,
+                             static_cast<uint32_t>(uvwLowSideThreshold));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_THRESHOLD,
+                             static_cast<uint32_t>(uvwHighSideThreshold));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_THRESHOLD,
+                             static_cast<uint32_t>(y2LowSideThreshold));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_THRESHOLD,
+                             static_cast<uint32_t>(y2HighSideThreshold));
   return ok;
 }
 
@@ -1423,14 +1438,14 @@ bool TMC9660<CommType>::GateDriver::setOvercurrentBlanking(
     tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
     tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_BLANKING,
-                              static_cast<uint32_t>(uvwLowSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_BLANKING,
-                              static_cast<uint32_t>(uvwHighSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_BLANKING,
-                              static_cast<uint32_t>(y2LowSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_BLANKING,
-                              static_cast<uint32_t>(y2HighSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_BLANKING,
+                             static_cast<uint32_t>(uvwLowSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_BLANKING,
+                             static_cast<uint32_t>(uvwHighSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_BLANKING,
+                             static_cast<uint32_t>(y2LowSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_BLANKING,
+                             static_cast<uint32_t>(y2HighSideTime));
   return ok;
 }
 
@@ -1441,14 +1456,14 @@ bool TMC9660<CommType>::GateDriver::setOvercurrentDeglitch(
     tmc9660::tmcl::OvercurrentTiming y2LowSideTime,
     tmc9660::tmcl::OvercurrentTiming y2HighSideTime) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_DEGLITCH,
-                              static_cast<uint32_t>(uvwLowSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_DEGLITCH,
-                              static_cast<uint32_t>(uvwHighSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_DEGLITCH,
-                              static_cast<uint32_t>(y2LowSideTime));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_DEGLITCH,
-                              static_cast<uint32_t>(y2HighSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_DEGLITCH,
+                             static_cast<uint32_t>(uvwLowSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_DEGLITCH,
+                             static_cast<uint32_t>(uvwHighSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_DEGLITCH,
+                             static_cast<uint32_t>(y2LowSideTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_DEGLITCH,
+                             static_cast<uint32_t>(y2HighSideTime));
   return ok;
 }
 
@@ -1456,10 +1471,10 @@ template <typename CommType>
 bool TMC9660<CommType>::GateDriver::enableVdsMonitoringLow(tmc9660::tmcl::VdsUsage uvwEnable,
                                                  tmc9660::tmcl::VdsUsage y2Enable) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_USE_VDS,
-                              static_cast<uint32_t>(uvwEnable));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_USE_VDS,
-                              static_cast<uint32_t>(y2Enable));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_USE_VDS,
+                             static_cast<uint32_t>(uvwEnable));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_USE_VDS,
+                             static_cast<uint32_t>(y2Enable));
   return ok;
 }
 
@@ -1469,14 +1484,14 @@ bool TMC9660<CommType>::GateDriver::configureVgsShortProtectionUVW(
     tmc9660::tmcl::VgsShortEnable enableHighSideOn,
     tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ON_ENABLE,
-                              static_cast<uint32_t>(enableLowSideOn));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_LOW_SIDE_OFF_ENABLE,
-                              static_cast<uint32_t>(enableLowSideOff));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ON_ENABLE,
-                              static_cast<uint32_t>(enableHighSideOn));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_OFF_ENABLE,
-                              static_cast<uint32_t>(enableHighSideOff));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ON_ENABLE,
+                             static_cast<uint32_t>(enableLowSideOn));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_OFF_ENABLE,
+                             static_cast<uint32_t>(enableLowSideOff));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ON_ENABLE,
+                             static_cast<uint32_t>(enableHighSideOn));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_OFF_ENABLE,
+                             static_cast<uint32_t>(enableHighSideOff));
   return ok;
 }
 
@@ -1486,14 +1501,14 @@ bool TMC9660<CommType>::GateDriver::configureVgsShortProtectionY2(
     tmc9660::tmcl::VgsShortEnable enableHighSideOn,
     tmc9660::tmcl::VgsShortEnable enableHighSideOff) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_ON_ENABLE,
-                              static_cast<uint32_t>(enableLowSideOn));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_LOW_SIDE_OFF_ENABLE,
-                              static_cast<uint32_t>(enableLowSideOff));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_ON_ENABLE,
-                              static_cast<uint32_t>(enableHighSideOn));
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_OFF_ENABLE,
-                              static_cast<uint32_t>(enableHighSideOff));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_ON_ENABLE,
+                             static_cast<uint32_t>(enableLowSideOn));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_LOW_SIDE_OFF_ENABLE,
+                             static_cast<uint32_t>(enableLowSideOff));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_ON_ENABLE,
+                             static_cast<uint32_t>(enableHighSideOn));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_HIGH_SIDE_OFF_ENABLE,
+                             static_cast<uint32_t>(enableHighSideOff));
   return ok;
 }
 
@@ -1501,10 +1516,9 @@ template <typename CommType>
 bool TMC9660<CommType>::GateDriver::setVgsShortBlankingTime(tmc9660::tmcl::VgsBlankingTime uvwTime,
                                                   tmc9660::tmcl::VgsBlankingTime y2Time) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_BLANKING,
-                              static_cast<uint32_t>(uvwTime));
-  ok &=
-      driver.writeParameter(tmc9660::tmcl::Parameters::Y2_BLANKING, static_cast<uint32_t>(y2Time));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_BLANKING,
+                             static_cast<uint32_t>(uvwTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_BLANKING, static_cast<uint32_t>(y2Time));
   return ok;
 }
 
@@ -1512,30 +1526,30 @@ template <typename CommType>
 bool TMC9660<CommType>::GateDriver::setVgsShortDeglitchTime(tmc9660::tmcl::VgsDeglitchTime uvwTime,
                                                   tmc9660::tmcl::VgsDeglitchTime y2Time) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_DEGLITCH,
-                              static_cast<uint32_t>(uvwTime));
-  ok &=
-      driver.writeParameter(tmc9660::tmcl::Parameters::Y2_DEGLITCH, static_cast<uint32_t>(y2Time));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_DEGLITCH,
+                             static_cast<uint32_t>(uvwTime));
+  ok &= driver.writeParameter( tmc9660::tmcl::Parameters::Y2_DEGLITCH, static_cast<uint32_t>(y2Time));
   return ok;
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::GateDriver::setRetryBehavior(
     tmc9660::tmcl::GdrvRetryBehaviour retryBehavior) noexcept {
-  return driver.writeParameter(tmc9660::tmcl::Parameters::GDRV_RETRY_BEHAVIOUR,
-                               static_cast<uint32_t>(retryBehavior));
+  return driver.writeParameter( tmc9660::tmcl::Parameters::GDRV_RETRY_BEHAVIOUR,
+                             static_cast<uint32_t>(retryBehavior));
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::GateDriver::setDriveFaultBehavior(
     tmc9660::tmcl::DriveFaultBehaviour faultBehavior) noexcept {
-  return driver.writeParameter(tmc9660::tmcl::Parameters::DRIVE_FAULT_BEHAVIOUR,
-                               static_cast<uint32_t>(faultBehavior));
+  return driver.writeParameter( tmc9660::tmcl::Parameters::DRIVE_FAULT_BEHAVIOUR,
+                             static_cast<uint32_t>(faultBehavior));
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::GateDriver::setFaultHandlerRetries(uint8_t retries) noexcept {
-  return driver.writeParameter(tmc9660::tmcl::Parameters::FAULT_HANDLER_NUMBER_OF_RETRIES, retries);
+  return driver.writeParameter( tmc9660::tmcl::Parameters::FAULT_HANDLER_NUMBER_OF_RETRIES,
+                             retries);
 }
 
 // Helper function to calculate required bootstrap current based on gate charge and PWM frequency
@@ -1556,6 +1570,7 @@ static float calculateBootstrapCurrent_mA(float gateCharge_nC, float pwmFreq_Hz)
 template <typename CommType>
 bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerStageProfile& profile) noexcept {
   bool ok = true;
+  const bool cfgY2 = profile.configure_y2_phase;
 
   // --- Safety Check: Ensure critical parameters are valid ---
   if (profile.busVoltage_V <= 0.0f || profile.pwmFrequency_Hz <= 0.0f ||
@@ -1674,18 +1689,43 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
 
   tmc9660::tmcl::GateCurrentSource sourceCurrent = selectSourceCurrent(requiredSourceCurrent_mA);
   tmc9660::tmcl::GateCurrentSink sinkCurrent = selectSinkCurrent(requiredSinkCurrent_mA);
-
-  // Configure gate current limits
-  ok &= configureCurrentLimits(sinkCurrent, sourceCurrent, sinkCurrent, sourceCurrent);
+  if (profile.uvw_gate_current_source) {
+    sourceCurrent = *profile.uvw_gate_current_source;
+  }
+  if (profile.uvw_gate_current_sink) {
+    sinkCurrent = *profile.uvw_gate_current_sink;
+  }
 
   // Step 1.2: Configure drive times (maximum times with adaptive mode)
   // Adaptive drive time will shorten these based on actual gate voltage monitoring
-  ok &=
-      configureDriveTimes_ns(targetTurnOff_ns, targetTurnOn_ns, targetTurnOff_ns, targetTurnOn_ns);
+  if (cfgY2) {
+    ok &= configureDriveTimes_ns(targetTurnOff_ns, targetTurnOn_ns, targetTurnOff_ns,
+                                 targetTurnOn_ns);
+  } else {
+    constexpr float ns_per_step = 8.33f; // 1s / 120MHz
+    auto convertDriveTimeReg = [](float time_ns) -> uint8_t {
+      float value = ((time_ns / ns_per_step) - 3.0f) / 2.0f;
+      if (value < 0.0f) {
+        return 0;
+      }
+      if (value > 255.0f) {
+        return 255;
+      }
+      return static_cast<uint8_t>(value + 0.5f);
+    };
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::DRIVE_TIME_SINK_UVW,
+                                 convertDriveTimeReg(targetTurnOff_ns));
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::DRIVE_TIME_SOURCE_UVW,
+                                 convertDriveTimeReg(targetTurnOn_ns));
+  }
 
   // Step 1.3: Enable adaptive drive time for efficiency
   // Adaptive mode monitors gate voltage and shortens drive times automatically
-  ok &= enableAdaptiveDriveTime(true, true); // Enable for UVW and Y2
+  if (cfgY2) {
+    ok &= enableAdaptiveDriveTime(true, true);
+  } else {
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::USE_ADAPTIVE_DRIVE_TIME_UVW, 1u);
+  }
 
   // Step 1.4: Configure break-before-make timing (dead time)
   // Documentation recommends 0 to let driver use internal optimized timing
@@ -1694,7 +1734,36 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
   // Note: If overrideDeadTime_ns is added to PowerStageProfile in future, use:
   //   float dead_time_ns = profile.overrideDeadTime_ns.value_or(0.0f);
   constexpr float dead_time_ns = 0.0f;
-  ok &= configureBreakBeforeMakeTiming_ns(dead_time_ns, dead_time_ns, dead_time_ns, dead_time_ns);
+  if (cfgY2) {
+    ok &= configureBreakBeforeMakeTiming_ns(dead_time_ns, dead_time_ns, dead_time_ns, dead_time_ns);
+  } else {
+    constexpr float ns_per_step_bbm = 8.33f;
+    auto convertBbmReg = [](float time_ns) -> uint8_t {
+      float value = time_ns / ns_per_step_bbm;
+      if (value < 0.0f) {
+        return 0;
+      }
+      if (value > 255.0f) {
+        return 255;
+      }
+      return static_cast<uint8_t>(value + 0.5f);
+    };
+    const uint8_t bbm = convertBbmReg(dead_time_ns);
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::BREAK_BEFORE_MAKE_TIME_LOW_UVW, bbm);
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::BREAK_BEFORE_MAKE_TIME_HIGH_UVW, bbm);
+  }
+
+  // Gate currents (SAP 245–246): program after drive times / BBM per TMC9660 gate-driver ordering.
+  if (profile.program_gate_current_limits) {
+    if (cfgY2) {
+      ok &= configureCurrentLimits(sinkCurrent, sourceCurrent, sinkCurrent, sourceCurrent);
+    } else {
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SINK_CURRENT,
+                                  static_cast<uint32_t>(sinkCurrent));
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SOURCE_CURRENT,
+                                  static_cast<uint32_t>(sourceCurrent));
+    }
+  }
 
   // Step 1.5: Configure bootstrap current limit
   // Bootstrap must supply gate charge for high-side FETs at PWM switching rate
@@ -1728,15 +1797,26 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
   // VDRV protection: Enabled by default for safety
   // Bootstrap UVP: Enabled by default for safety (prevents gate drive failure from insufficient
   // bootstrap voltage)
-  ok &= configureUndervoltageProtection(
-      profile.supplyLevel,                         // Supply level from profile
-      tmc9660::tmcl::UndervoltageEnable::ENABLED,  // VDRV protection (keep enabled)
-      tmc9660::tmcl::UndervoltageEnable::ENABLED,  // Bootstrap UVW (keep enabled for safety)
-      tmc9660::tmcl::UndervoltageEnable::ENABLED); // Bootstrap Y2 (keep enabled for safety)
+  if (cfgY2) {
+    ok &= configureUndervoltageProtection(
+        profile.supplyLevel,                         // Supply level from profile
+        tmc9660::tmcl::UndervoltageEnable::ENABLED,  // VDRV protection (keep enabled)
+        tmc9660::tmcl::UndervoltageEnable::ENABLED,  // Bootstrap UVW (keep enabled for safety)
+        tmc9660::tmcl::UndervoltageEnable::ENABLED); // Bootstrap Y2 (keep enabled for safety)
+  } else {
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_LEVEL,
+                                static_cast<uint32_t>(profile.supplyLevel));
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::VDRV_ENABLE,
+                                static_cast<uint32_t>(tmc9660::tmcl::UndervoltageEnable::ENABLED));
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::BST_UVW_ENABLE,
+                                static_cast<uint32_t>(tmc9660::tmcl::UndervoltageEnable::ENABLED));
+  }
 
   // ============================================================================
   // PART 2: PROTECTION PARAMETER CONFIGURATION
   // ============================================================================
+
+  if (profile.configure_gate_oc_vgs_protection) {
 
   // Step 2.1: Estimate di/dt (current rise rate during switching)
   // di/dt ≈ V_bus / L_motor
@@ -1959,35 +2039,70 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
       selectThreshold(vdsThreshold_mV, true); // Always VDS
 
   // Step 2.7: Configure all protection parameters
-  // 2.7.1: Enable overcurrent protection (all phases, both sides)
-  ok &= enableOvercurrentProtection(tmc9660::tmcl::OvercurrentEnable::ENABLED,  // UVW low side
-                                    tmc9660::tmcl::OvercurrentEnable::ENABLED,  // UVW high side
-                                    tmc9660::tmcl::OvercurrentEnable::ENABLED,  // Y2 low side
-                                    tmc9660::tmcl::OvercurrentEnable::ENABLED); // Y2 high side
+  // 2.7.1: Enable overcurrent protection
+  if (cfgY2) {
+    ok &= enableOvercurrentProtection(tmc9660::tmcl::OvercurrentEnable::ENABLED,  // UVW low side
+                                      tmc9660::tmcl::OvercurrentEnable::ENABLED,  // UVW high side
+                                      tmc9660::tmcl::OvercurrentEnable::ENABLED,    // Y2 low side
+                                      tmc9660::tmcl::OvercurrentEnable::ENABLED);   // Y2 high side
+  } else {
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_ENABLE,
+                              static_cast<uint32_t>(tmc9660::tmcl::OvercurrentEnable::ENABLED));
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_ENABLE,
+                              static_cast<uint32_t>(tmc9660::tmcl::OvercurrentEnable::ENABLED));
+  }
 
   // 2.7.2: Set overcurrent thresholds (separate for low-side and high-side)
-  ok &= setOvercurrentThresholds(
-      ocThresholdLowSide,   // UVW low side (RSHUNT or VDS based on useVdsLowSide)
-      ocThresholdHighSide,  // UVW high side (always VDS)
-      ocThresholdLowSide,   // Y2 low side (RSHUNT or VDS based on useVdsLowSide)
-      ocThresholdHighSide); // Y2 high side (always VDS)
+  if (cfgY2) {
+    ok &= setOvercurrentThresholds(
+        ocThresholdLowSide,   // UVW low side (RSHUNT or VDS based on useVdsLowSide)
+        ocThresholdHighSide,  // UVW high side (always VDS)
+        ocThresholdLowSide,   // Y2 low side (RSHUNT or VDS based on useVdsLowSide)
+        ocThresholdHighSide); // Y2 high side (always VDS)
+  } else {
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_THRESHOLD,
+                              static_cast<uint32_t>(ocThresholdLowSide));
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_THRESHOLD,
+                              static_cast<uint32_t>(ocThresholdHighSide));
+  }
 
   // 2.7.3: Set overcurrent blanking times
-  ok &= setOvercurrentBlanking(ocBlanking,  // UVW low side
-                               ocBlanking,  // UVW high side
-                               ocBlanking,  // Y2 low side
-                               ocBlanking); // Y2 high side
+  if (cfgY2) {
+    ok &= setOvercurrentBlanking(ocBlanking,  // UVW low side
+                                 ocBlanking,  // UVW high side
+                                 ocBlanking,  // Y2 low side
+                                 ocBlanking); // Y2 high side
+  } else {
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_BLANKING,
+                              static_cast<uint32_t>(ocBlanking));
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_BLANKING,
+                              static_cast<uint32_t>(ocBlanking));
+  }
 
   // 2.7.4: Set overcurrent deglitch times
-  ok &= setOvercurrentDeglitch(ocDeglitch,  // UVW low side
-                               ocDeglitch,  // UVW high side
-                               ocDeglitch,  // Y2 low side
-                               ocDeglitch); // Y2 high side
+  if (cfgY2) {
+    ok &= setOvercurrentDeglitch(ocDeglitch,  // UVW low side
+                                 ocDeglitch,  // UVW high side
+                                 ocDeglitch,  // Y2 low side
+                                 ocDeglitch); // Y2 high side
+  } else {
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_LOW_SIDE_DEGLITCH,
+                              static_cast<uint32_t>(ocDeglitch));
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_HIGH_SIDE_DEGLITCH,
+                              static_cast<uint32_t>(ocDeglitch));
+  }
 
   // 2.7.5: Enable/disable VDS monitoring for low-side
-  ok &= enableVdsMonitoringLow(
-      useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED,  // UVW
-      useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED); // Y2
+  if (cfgY2) {
+    ok &= enableVdsMonitoringLow(
+        useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED,  // UVW
+        useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED : tmc9660::tmcl::VdsUsage::DISABLED); // Y2
+  } else {
+    ok &= driver.writeParameter(
+        tmc9660::tmcl::Parameters::UVW_LOW_SIDE_USE_VDS,
+        static_cast<uint32_t>(useVdsLowSide ? tmc9660::tmcl::VdsUsage::ENABLED
+                                            : tmc9660::tmcl::VdsUsage::DISABLED));
+  }
 
   // 2.7.6: Enable VGS short protection (all transitions)
   ok &= configureVgsShortProtectionUVW(tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side ON
@@ -1995,14 +2110,23 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
                                        tmc9660::tmcl::VgsShortEnable::ENABLED,  // High side ON
                                        tmc9660::tmcl::VgsShortEnable::ENABLED); // High side OFF
 
-  ok &= configureVgsShortProtectionY2(tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side ON
-                                      tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side OFF
-                                      tmc9660::tmcl::VgsShortEnable::ENABLED,  // High side ON
-                                      tmc9660::tmcl::VgsShortEnable::ENABLED); // High side OFF
+  if (cfgY2) {
+    ok &= configureVgsShortProtectionY2(tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side ON
+                                        tmc9660::tmcl::VgsShortEnable::ENABLED,  // Low side OFF
+                                        tmc9660::tmcl::VgsShortEnable::ENABLED,  // High side ON
+                                        tmc9660::tmcl::VgsShortEnable::ENABLED); // High side OFF
+  }
 
   // 2.7.7: Set VGS short blanking and deglitch times
-  ok &= setVgsShortBlankingTime(vgsBlanking, vgsBlanking); // UVW, Y2
-  ok &= setVgsShortDeglitchTime(vgsDeglitch, vgsDeglitch); // UVW, Y2
+  if (cfgY2) {
+    ok &= setVgsShortBlankingTime(vgsBlanking, vgsBlanking);   // UVW, Y2
+    ok &= setVgsShortDeglitchTime(vgsDeglitch, vgsDeglitch); // UVW, Y2
+  } else {
+    ok &= driver.writeParameter( tmc9660::tmcl::Parameters::UVW_BLANKING,
+                              static_cast<uint32_t>(vgsBlanking));
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_DEGLITCH,
+                              static_cast<uint32_t>(vgsDeglitch));
+  }
 
   // ============================================================================
   // PART 3: FAULT HANDLING CONFIGURATION
@@ -2016,6 +2140,8 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
 
   // Step 3.3: Set maximum number of fault handler retries
   ok &= setFaultHandlerRetries(profile.faultHandlerRetries);
+
+  } // configure_gate_oc_vgs_protection
 
   return ok;
 }
@@ -4619,10 +4745,10 @@ template <typename CommType>
 bool TMC9660<CommType>::Protection::configureVoltage(uint16_t overVoltThreshold,
                                            uint16_t underVoltThreshold) noexcept {
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD, 0,
-                              overVoltThreshold);
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD, 0,
-                              underVoltThreshold);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_OVERVOLTAGE_WARNING_THRESHOLD,
+                              static_cast<uint32_t>(overVoltThreshold));
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::SUPPLY_UNDERVOLTAGE_WARNING_THRESHOLD,
+                              static_cast<uint32_t>(underVoltThreshold));
   return ok;
 }
 
@@ -4642,18 +4768,28 @@ bool TMC9660<CommType>::Protection::configureTemperature(float warningDegC, floa
   uint16_t warnRaw = static_cast<uint16_t>(std::lround(warnVal));
   uint16_t shutRaw = static_cast<uint16_t>(std::lround(shutVal));
   bool ok = true;
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_WARNING_THRESHOLD, 0,
-                              warnRaw);
-  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD, 0,
-                              shutRaw);
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_WARNING_THRESHOLD,
+                              static_cast<uint32_t>(warnRaw));
+  ok &= driver.writeParameter(tmc9660::tmcl::Parameters::CHIP_TEMPERATURE_SHUTDOWN_THRESHOLD,
+                              static_cast<uint32_t>(shutRaw));
   return ok;
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::Protection::setOvercurrentEnabled(bool enabled) noexcept {
-  tmc9660::tmcl::OvercurrentEnable temp = enabled ? tmc9660::tmcl::OvercurrentEnable::ENABLED
-                                                  : tmc9660::tmcl::OvercurrentEnable::DISABLED;
-  return driver.gateDriver.enableOvercurrentProtection(temp, temp, temp, temp);
+  using tmc9660::tmcl::OvercurrentEnable;
+  using tmc9660::tmcl::Parameters;
+  const OvercurrentEnable temp =
+      enabled ? OvercurrentEnable::ENABLED : OvercurrentEnable::DISABLED;
+  const uint32_t v = static_cast<uint32_t>(temp);
+  // All SAP (axis parameters). Full 4-phase path programs Y2; 3-phase BLDC stacks often omit Y2
+  // and some firmware returns REPLY_WRONG_TYPE for Y2_* — UVW enables still apply.
+  if (driver.gateDriver.enableOvercurrentProtection(temp, temp, temp, temp))
+    return true;
+  bool ok = true;
+  ok &= driver.writeParameter(Parameters::UVW_LOW_SIDE_ENABLE, v);
+  ok &= driver.writeParameter(Parameters::UVW_HIGH_SIDE_ENABLE, v);
+  return ok;
 }
 
 template <typename CommType>
@@ -4698,7 +4834,9 @@ bool TMC9660<CommType>::Protection::configureAuto(const ProtectionConfig& config
   uint16_t overVoltThreshold = static_cast<uint16_t>(overVolt * 10.0f + 0.5f);
   uint16_t underVoltThreshold = static_cast<uint16_t>(underVolt * 10.0f + 0.5f);
 
-  ok &= configureVoltage(overVoltThreshold, underVoltThreshold);
+  if (config.program_supply_voltage_warnings) {
+    ok &= configureVoltage(overVoltThreshold, underVoltThreshold);
+  }
 
   // Step 2: Configure temperature protection
   constexpr float DEFAULT_TEMP_WARNING_C = 80.0f;
@@ -4707,26 +4845,31 @@ bool TMC9660<CommType>::Protection::configureAuto(const ProtectionConfig& config
   float tempWarning = config.temperatureWarning_C.value_or(DEFAULT_TEMP_WARNING_C);
   float tempShutdown = config.temperatureShutdown_C.value_or(DEFAULT_TEMP_SHUTDOWN_C);
 
-  ok &= configureTemperature(tempWarning, tempShutdown);
+  if (config.program_chip_temperature_warnings) {
+    ok &= configureTemperature(tempWarning, tempShutdown);
+  }
 
-  // Step 3: Configure overcurrent protection
-  constexpr bool DEFAULT_OVERCURRENT_ENABLED = true;
-  bool enableOC = config.enableOvercurrent.value_or(DEFAULT_OVERCURRENT_ENABLED);
-
-  ok &= setOvercurrentEnabled(enableOC);
+  // Step 3: Configure overcurrent protection (gate-driver OC enable SAPs)
+  if (config.program_gate_driver_overcurrent_enable) {
+    constexpr bool DEFAULT_OVERCURRENT_ENABLED = true;
+    bool enableOC = config.enableOvercurrent.value_or(DEFAULT_OVERCURRENT_ENABLED);
+    ok &= setOvercurrentEnabled(enableOC);
+  }
 
   // Step 4: Configure I²t thermal protection
-  constexpr uint16_t DEFAULT_I2T_TIME1_MS = 100;
-  constexpr float DEFAULT_I2T_CURRENT1_A = 1.5f;
-  constexpr uint16_t DEFAULT_I2T_TIME2_MS = 1000;
-  constexpr float DEFAULT_I2T_CURRENT2_A = 1.25f;
+  if (config.program_i2t_limits) {
+    constexpr uint16_t DEFAULT_I2T_TIME1_MS = 100;
+    constexpr float DEFAULT_I2T_CURRENT1_A = 1.5f;
+    constexpr uint16_t DEFAULT_I2T_TIME2_MS = 1000;
+    constexpr float DEFAULT_I2T_CURRENT2_A = 1.25f;
 
-  uint16_t time1 = config.i2tTimeConstant1_ms.value_or(DEFAULT_I2T_TIME1_MS);
-  float current1 = config.i2tContinuousCurrent1_A.value_or(DEFAULT_I2T_CURRENT1_A);
-  uint16_t time2 = config.i2tTimeConstant2_ms.value_or(DEFAULT_I2T_TIME2_MS);
-  float current2 = config.i2tContinuousCurrent2_A.value_or(DEFAULT_I2T_CURRENT2_A);
+    uint16_t time1 = config.i2tTimeConstant1_ms.value_or(DEFAULT_I2T_TIME1_MS);
+    float current1 = config.i2tContinuousCurrent1_A.value_or(DEFAULT_I2T_CURRENT1_A);
+    uint16_t time2 = config.i2tTimeConstant2_ms.value_or(DEFAULT_I2T_TIME2_MS);
+    float current2 = config.i2tContinuousCurrent2_A.value_or(DEFAULT_I2T_CURRENT2_A);
 
-  ok &= configureI2t(time1, current1, time2, current2);
+    ok &= configureI2t(time1, current1, time2, current2);
+  }
 
   return ok;
 }

@@ -147,6 +147,9 @@ public:
     return comm_;
   }
 
+  /** @brief TMCL module address used on the transport (SPI typically 0). */
+  [[nodiscard]] uint8_t tmclAddress() const noexcept { return address_; }
+
   //============================================================================
   // @name GPIO Helpers (driver-owned control)
   // @{
@@ -325,6 +328,23 @@ public:
   [[nodiscard]] bool readParameter(tmc9660::tmcl::Parameters id, uint32_t& value,
                                    uint8_t motorIndex = 0) noexcept;
 
+  /** @brief Read a global parameter via TMCL GGP (TYPE = parameter number, MOTOR/BANK = bank 0/2/3).
+   */
+  [[nodiscard]] bool readGlobal(uint16_t parameterId, uint8_t bank, uint32_t& value) noexcept;
+
+  /** @brief Same as readGlobal(uint16_t, …) using an axis parameter ID as the GGP TYPE field. */
+  [[nodiscard]] bool readGlobal(tmc9660::tmcl::Parameters id, uint8_t bank, uint32_t& value) noexcept {
+    return readGlobal(static_cast<uint16_t>(id), bank, value);
+  }
+
+  /** @brief Write a global parameter via TMCL SGP. */
+  [[nodiscard]] bool writeGlobal(uint16_t parameterId, uint8_t bank, uint32_t value) noexcept;
+
+  /** @brief Same as writeGlobal(uint16_t, …) using an axis parameter ID as the SGP TYPE field. */
+  [[nodiscard]] bool writeGlobal(tmc9660::tmcl::Parameters id, uint8_t bank, uint32_t value) noexcept {
+    return writeGlobal(static_cast<uint16_t>(id), bank, value);
+  }
+
   // Variant type for global parameter banks (can be index or any bank enum)
   using GlobalParamBankVariant =
       std::variant<uint8_t, tmc9660::tmcl::GlobalParamBank0, tmc9660::tmcl::GlobalParamBank2,
@@ -350,8 +370,11 @@ public:
                                          uint32_t& value) noexcept;
 
   /// Send a TMCL command. Optionally return the 32-bit reply value.
+  /// When @p out_tmcl_status is non-null: set from the TMCL status byte after a successful
+  /// transfer; on transport failure set to `REPLY_CHKERR`. (Does not change legacy return.)
   bool sendCommand(tmc9660::tmcl::Op opcode, uint16_t type = 0, uint8_t motor = 0,
-                   uint32_t value = 0, uint32_t* reply = nullptr) noexcept;
+                   uint32_t value = 0, uint32_t* reply = nullptr,
+                   tmc9660::tmcl::ReplyCode* out_tmcl_status = nullptr) noexcept;
 
   // @}
 
@@ -1471,6 +1494,24 @@ public:
           tmc9660::tmcl::UndervoltageLevel::DISABLED; //!< Supply voltage (VS) undervoltage
                                                       //!< protection level (default: DISABLED).
                                                       //!< 0=disabled, 1-16 map to HW levels 0-15.
+
+      /** When false, configurePowerStageProtection() programs only UVW (3-phase); all Y2 gate
+       *  driver and Y2 overcurrent SAP writes are skipped. Use for 3-phase BLDC hardware or
+       *  firmware builds where Y2 parameters are absent or return TMCL errors. Default true. */
+      bool configure_y2_phase = true;
+
+      /** When set, UVW gate sink current uses this enum instead of the Qg-derived selection. */
+      std::optional<tmc9660::tmcl::GateCurrentSink> uvw_gate_current_sink;
+      /** When set, UVW gate source current uses this enum instead of the Qg-derived selection. */
+      std::optional<tmc9660::tmcl::GateCurrentSource> uvw_gate_current_source;
+      /** When false, UVW_SINK_CURRENT / UVW_SOURCE_CURRENT (and Y2 pair when configure_y2_phase)
+       *  are not written. Some firmware builds reject all values until a different init state. */
+      bool program_gate_current_limits = true;
+
+      /** When false, configurePowerStageProtection skips Part 2 (OC/VGS) and Part 3 (GDRV retry /
+       *  drive fault / fault handler TMCL parameters 286–288). Use when firmware rejects those SAP
+       *  writes; timing, bootstrap, and UV from Part 1 still run. Default true. */
+      bool configure_gate_oc_vgs_protection = true;
     };
 
     /** @brief Auto-configure complete power stage based on physical properties.
@@ -1491,6 +1532,8 @@ public:
      *
      * @note Phase selection (3-phase vs 4-phase) is determined by boot configuration and
      * MOTOR_TYPE. This function configures all phases that are enabled by the system.
+     * @note Set PowerStageProfile::configure_y2_phase to false to omit Y2 programming (pure
+     *       3-phase stacks / firmware without Y2 SAP support).
      *
      * **Automatic Derivation Logic:**
      *
@@ -4227,6 +4270,20 @@ public:
        */
       std::optional<float> i2tContinuousCurrent2_A; //!< I²t window 2 continuous current limit [A]
                                                     //!< (optional, default: 1.25A)
+
+      /** When false, configureAuto skips gateDriver.enableOvercurrentProtection (UVW/Y2 OC SAPs).
+       *  When true, uses SAP on all four enables; if the full cluster fails (e.g. Y2 unsupported),
+       *  `setOvercurrentEnabled` retries UVW-only. */
+      bool program_gate_driver_overcurrent_enable = true;
+
+      /** When false, configureAuto skips I²t time/limit SAP writes. */
+      bool program_i2t_limits = true;
+
+      /** When false, configureAuto skips configureVoltage (supply OV/UV warning SAPs). */
+      bool program_supply_voltage_warnings = true;
+
+      /** When false, configureAuto skips configureTemperature (chip temperature threshold SAPs). */
+      bool program_chip_temperature_warnings = true;
     };
 
     /** @brief Auto-configure protection parameters.

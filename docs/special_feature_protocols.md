@@ -98,7 +98,7 @@ Reply Format:
 - Frame Size: 8 bytes (64 bits)
 - Reply Delay: Reply to command N is received when sending command N+1
 - Checksum: 8-bit checksum over first 7 bytes
-- Status: SPI status byte (0xFF = OK, 0x64 = error, 0xF0 = busy)
+- Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK)
 
 ### UART TMCL Protocol (72-bit / 9-byte)
 

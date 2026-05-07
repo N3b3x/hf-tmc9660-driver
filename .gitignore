@@ -137,3 +137,5 @@ Thumbs.db
 # Backup files
 **/*.bak*
 *.bak
+
+examples/TMC9660/**

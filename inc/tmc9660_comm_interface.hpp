@@ -31,6 +31,11 @@
  * | Bits | 0-7        | 8-15       | 16-23      | 24-55     | 56-63    |
  * | Desc | SPI Status | TMCL Status| Operation  | Data      | Checksum |
  *
+ * Datasheet bit rows show bits 8–19 / 20–23 across bytes 1–2 (like Table 3’s 12+4 layout). Observed
+ * parameter-mode replies are **octet-aligned**: byte 1 = TMCL status, byte 2 = echoed opcode
+ * (e.g. `FF 64 03…` = SPI OK, TMCL 100, echo MST=3). Do **not** fold byte 2’s low nibble into TMCL
+ * status — that would turn 100 into `0x364` and break `isOK()`.
+ *
  * ## UART Command Format
  * | BYTE | 0               | 1        | 2-3       | 4          | 5-8       | 9        |
  * |------|----------------|----------|-----------|------------|-----------|----------|
@@ -102,6 +107,22 @@ namespace tmc9660 {
 #else
 // Debug logging disabled - optimize out completely (arguments not evaluated)
 #define TMC9660_LOG_DEBUG(comm_obj, level, tag, ...) ((void)0)
+#endif
+
+/**
+ * @brief Log raw SPI TMCL 8-byte TX/RX frames (`[TMCL TX n]`, `[TMCL RX n]`).
+ *
+ * Default **0** (off): keeps serial usable for bench results. Set to **1** locally or via
+ * `-DTMC9660_LOG_TMCL_RAW_FRAMES=1` when you need wire-level bring-up traces again.
+ */
+#ifndef TMC9660_LOG_TMCL_RAW_FRAMES
+#define TMC9660_LOG_TMCL_RAW_FRAMES 0
+#endif
+
+#if TMC9660_LOG_TMCL_RAW_FRAMES
+#define TMC9660_LOG_TMCL_RAW_FRAME(comm_obj, level, tag, ...) TMC9660_LOG_DEBUG(comm_obj, level, tag, __VA_ARGS__)
+#else
+#define TMC9660_LOG_TMCL_RAW_FRAME(comm_obj, level, tag, ...) ((void)0)
 #endif
 
 /**
@@ -368,19 +389,25 @@ struct TMCLReply {
  */
 struct TMCLFrame {
   uint8_t opcode = 0; ///< Operation code field (BYTE 0, bits 0-7).
-  uint16_t type = 0;  ///< Parameter or command type (BYTE 1-2, bits 8-19).
-  uint8_t motor = 0;  ///< Motor or bank identifier (BYTE 2, bits 20-23).
-  uint32_t value = 0; ///< 32-bit data value (BYTE 3-6, bits 24-55).
+  uint16_t type = 0;  ///< 12-bit parameter / command type (see `toSpi` / `toUart`).
+  uint8_t motor = 0;  ///< 4-bit motor or bank index (packed with `type[11:8]` per transport).
+  uint32_t value = 0; ///< 32-bit data value (big-endian in bytes 3-6 on SPI, 4-7 on UART).
 
   /**
    * @brief Serialize frame into 8-byte SPI buffer.
-   * @param out Span of 8 bytes to fill: opcode, type (2), motor, value (4).
+   * @param out Span of 8 bytes: opcode, type[7:0], merged type[11:8]|motor, value[31:0], checksum.
+   *
+   * @note Bytes 1–2 use the **same 12-bit TYPE + 4-bit MOTOR nibble packing** as UART bytes 2–3
+   *       (`TMC9660.c::sendRequestUART` / `toUart`): `type[11:8]` in the **high** nibble of the
+   *       third frame byte, `motor[3:0]` in the **low** nibble. A legacy implementation swapped
+   *       those nibbles for SPI only; that made every axis GAP/SAP with NR ≥ 256 return
+   *       `REPLY_WRONG_TYPE` on SPI while UART succeeded (bench: 72 extra SPI failures in the
+   *       Table 57 sweep for `motor == 0`).
    */
   void toSpi(std::span<uint8_t, 8> out) const noexcept {
     out[0] = opcode;
-    out[1] = static_cast<uint8_t>(type & 0xFF); // Type lower 8 bits (bits 0-7)
-    // BYTE2: bits 20-23 (high nibble) = Motor/Bank, bits 16-19 (upper nibble) = Type upper 4 bits
-    out[2] = static_cast<uint8_t>(((motor & 0x0F) << 4) | ((type & 0xF00) >> 8));
+    out[1] = static_cast<uint8_t>(type & 0xFF);
+    out[2] = static_cast<uint8_t>(((type & 0xF00u) >> 4) | (motor & 0x0Fu));
     out[3] = static_cast<uint8_t>(value >> 24);
     out[4] = static_cast<uint8_t>(value >> 16);
     out[5] = static_cast<uint8_t>(value >> 8);
@@ -400,8 +427,17 @@ struct TMCLFrame {
     // Then set bit 0 (sync bit) to 1
     out[0] = (addr & 0xFE) | 0x01; // Keep upper 7 bits of address, set sync bit
     out[1] = opcode;
-    out[2] = static_cast<uint8_t>(type & 0xFF);  // Type field (8 bits)
-    out[3] = static_cast<uint8_t>(motor & 0x0F); // Motor/Bank field (4 bits)
+    // Bytes 2-3: 12-bit TYPE field + 4-bit MOTOR/BANK field, packed exactly like the
+    // Trinamic reference (`examples/TMC9660/TMC9660.c::sendRequestUART`):
+    //   data[2] = type & 0xFF;                          // type[7:0]
+    //   data[3] = (type >> 8) << 4 | (index & 0x0F);    // type[11:8] hi-nibble | motor lo-nibble
+    // The previous packing dropped type[11:8] entirely and put motor in the low
+    // nibble, which silently aliased every parameter NR >= 256 down into the
+    // 0..255 range. That made the gate-driver overcurrent / VGS / supply / temp
+    // SAPs (NR 254..299) write the wrong target on the chip, and made the read
+    // scan return totally bogus values for NRs 256..334.
+    out[2] = static_cast<uint8_t>(type & 0xFFu);
+    out[3] = static_cast<uint8_t>(((type & 0xF00u) >> 4) | (motor & 0x0Fu));
     out[4] = static_cast<uint8_t>(value >> 24);
     out[5] = static_cast<uint8_t>(value >> 16);
     out[6] = static_cast<uint8_t>(value >> 8);
@@ -417,10 +453,8 @@ struct TMCLFrame {
   static TMCLFrame fromSpi(std::span<const uint8_t, 8> in) noexcept {
     TMCLFrame f;
     f.opcode = in[0];
-    // BYTE1: Type lower 8 bits (bits 0-7)
-    // BYTE2: bits 20-23 (high nibble) = Motor/Bank, bits 16-19 (low nibble) = Type upper 4 bits
-    f.type = static_cast<uint16_t>(in[1] | ((in[2] & 0x0F) << 8));
-    f.motor = (in[2] >> 4) & 0x0F;
+    f.type = static_cast<uint16_t>(in[1] | ((static_cast<uint16_t>(in[2]) & 0xF0u) << 4));
+    f.motor = in[2] & 0x0Fu;
     f.value = (static_cast<uint32_t>(in[3]) << 24) | (static_cast<uint32_t>(in[4]) << 16) |
               (static_cast<uint32_t>(in[5]) << 8) | static_cast<uint32_t>(in[6]);
     return f;
@@ -910,8 +944,7 @@ public:
     std::array<uint8_t, 8> tx_buf, rx_buf;
     tx.toSpi(tx_buf);
 
-    // Log raw SPI bytes being transmitted
-    TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+    TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                       tx_buf[0], tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5], tx_buf[6],
                       tx_buf[7]);
 
@@ -919,14 +952,14 @@ public:
     if (!spiTransferTMCL(tx_buf, rx_buf))
       return false;
 
-    TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+    TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                       rx_buf[0], rx_buf[1], rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5], rx_buf[6],
                       rx_buf[7]);
 
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (first_reply) {
       bool first_parse_ok = TMCLReply::fromSpi(rx_buf, *first_reply);
-      TMC9660_LOG_DEBUG(
+      TMC9660_LOG_TMCL_RAW_FRAME(
           *static_cast<Derived*>(this), 2, "SPI_TMCL",
           "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
           static_cast<uint8_t>(first_reply->spi_status), first_reply->status, first_reply->value,
@@ -943,7 +976,7 @@ public:
       // Retry loop for SPI_STATUS_NOT_READY responses
     uint8_t retry_count = 0;
     while (true) {
-      TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 2, "SPI_TMCL",
+      TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
                         "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X%s", tx_buf[0],
                         tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5], tx_buf[6], tx_buf[7],
                         retry_count > 0 ? " (retry)" : "");
@@ -951,7 +984,7 @@ public:
       if (!spiTransferTMCL(tx_buf, rx_buf))
         return false;
 
-      TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 2, "SPI_TMCL",
+      TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
                         "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X", rx_buf[0], rx_buf[1],
                         rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5], rx_buf[6], rx_buf[7]);
 
@@ -962,7 +995,7 @@ public:
         // System not ready - retry if we haven't exceeded max retries
         if (retry_count < this->spiRetryMaxCount_) {
           retry_count++;
-          TMC9660_LOG_DEBUG(
+          TMC9660_LOG_TMCL_RAW_FRAME(
               *static_cast<Derived*>(this), 2, "SPI_TMCL",
               "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us", retry_count,
               this->spiRetryMaxCount_ + 1, this->spiRetryIntervalUs_);
@@ -981,8 +1014,8 @@ public:
           // Manually populate reply structure for NOT_READY response
           std::copy(rx_buf.begin(), rx_buf.end(), reply.rawBytes.begin());
           reply.spi_status = SPIStatus::NOT_READY;
-          reply.status = rx_buf[1]; // TMCL status
-          reply.opcode = rx_buf[2]; // Operation code
+          reply.status = rx_buf[1];
+          reply.opcode = rx_buf[2];
           reply.value = (static_cast<uint32_t>(rx_buf[3]) << 24) |
                         (static_cast<uint32_t>(rx_buf[4]) << 16) |
                         (static_cast<uint32_t>(rx_buf[5]) << 8) | static_cast<uint32_t>(rx_buf[6]);
