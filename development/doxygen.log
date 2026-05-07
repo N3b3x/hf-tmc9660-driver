@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.tIWe9P
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.tIWe9P' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.P3nh1Y
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.P3nh1Y' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1780: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4824: warning: unbalanced grouping commands
@@ -789,6 +789,6 @@ writing tag file...
 Running plantuml with JAVA...
 Running dot...
 Patching output file 1/1
-type lookup cache used 7061/65536 hits=29128 misses=7400
-symbol lookup cache used 5139/65536 hits=20533 misses=5139
+type lookup cache used 7061/65536 hits=29131 misses=7400
+symbol lookup cache used 5139/65536 hits=20535 misses=5139
 finished...
