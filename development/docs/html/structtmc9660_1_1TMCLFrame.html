@@ -138,13 +138,13 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ab0d05fe06919f7ff63c616d535a676e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operation code field (BYTE 0, bits 0-7).  <br /></td></tr>
 <tr class="separator:ab0d05fe06919f7ff63c616d535a676e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79c94c6f7f629fa2c8f95988c5ece547" id="r_a79c94c6f7f629fa2c8f95988c5ece547"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79c94c6f7f629fa2c8f95988c5ece547">type</a> = 0</td></tr>
-<tr class="memdesc:a79c94c6f7f629fa2c8f95988c5ece547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameter or command type (BYTE 1-2, bits 8-19).  <br /></td></tr>
+<tr class="memdesc:a79c94c6f7f629fa2c8f95988c5ece547"><td class="mdescLeft">&#160;</td><td class="mdescRight">12-bit parameter / command type (see <code>toSpi</code> / <code>toUart</code>).  <br /></td></tr>
 <tr class="separator:a79c94c6f7f629fa2c8f95988c5ece547"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc52b61724f2e81249e0c125ff36860" id="r_a1bc52b61724f2e81249e0c125ff36860"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bc52b61724f2e81249e0c125ff36860">motor</a> = 0</td></tr>
-<tr class="memdesc:a1bc52b61724f2e81249e0c125ff36860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor or bank identifier (BYTE 2, bits 20-23).  <br /></td></tr>
+<tr class="memdesc:a1bc52b61724f2e81249e0c125ff36860"><td class="mdescLeft">&#160;</td><td class="mdescRight">4-bit motor or bank index (packed with <code>type[11:8]</code> per transport).  <br /></td></tr>
 <tr class="separator:a1bc52b61724f2e81249e0c125ff36860"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ac9ade7d8aa09f70c3ff008b4fdf970" id="r_a4ac9ade7d8aa09f70c3ff008b4fdf970"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ac9ade7d8aa09f70c3ff008b4fdf970">value</a> = 0</td></tr>
-<tr class="memdesc:a4ac9ade7d8aa09f70c3ff008b4fdf970"><td class="mdescLeft">&#160;</td><td class="mdescRight">32-bit data value (BYTE 3-6, bits 24-55).  <br /></td></tr>
+<tr class="memdesc:a4ac9ade7d8aa09f70c3ff008b4fdf970"><td class="mdescLeft">&#160;</td><td class="mdescRight">32-bit data value (big-endian in bytes 3-6 on SPI, 4-7 on UART).  <br /></td></tr>
 <tr class="separator:a4ac9ade7d8aa09f70c3ff008b4fdf970"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -344,10 +344,11 @@ Here is the call graph for this function:</div>
 <p>Serialize frame into 8-byte SPI buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">out</td><td>Span of 8 bytes to fill: opcode, type (2), motor, value (4). </td></tr>
+    <tr><td class="paramname">out</td><td>Span of 8 bytes: opcode, type[7:0], merged type[11:8]|motor, value[31:0], checksum.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Bytes 1–2 use the <b>same 12-bit TYPE + 4-bit MOTOR nibble packing</b> as UART bytes 2–3 (<code>TMC9660.c::sendRequestUART</code> / <code>toUart</code>): <code>type[11:8]</code> in the <b>high</b> nibble of the third frame byte, <code>motor[3:0]</code> in the <b>low</b> nibble. A legacy implementation swapped those nibbles for SPI only; that made every axis GAP/SAP with NR ≥ 256 return <code>REPLY_WRONG_TYPE</code> on SPI while UART succeeded (bench: 72 extra SPI failures in the Table 57 sweep for <code>motor == 0</code>). </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -412,7 +413,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Motor or bank identifier (BYTE 2, bits 20-23). </p>
+<p>4-bit motor or bank index (packed with <code>type[11:8]</code> per transport). </p>
 
 </div>
 </div>
@@ -444,7 +445,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Parameter or command type (BYTE 1-2, bits 8-19). </p>
+<p>12-bit parameter / command type (see <code>toSpi</code> / <code>toUart</code>). </p>
 
 </div>
 </div>
@@ -460,7 +461,7 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>32-bit data value (BYTE 3-6, bits 24-55). </p>
+<p>32-bit data value (big-endian in bytes 3-6 on SPI, 4-7 on UART). </p>
 
 </div>
 </div>

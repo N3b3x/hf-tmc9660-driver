@@ -9,5 +9,7 @@ var searchData=
   ['uc_5ffault_6',['UC_FAULT',['../structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html#a0a9b6ac1aabb0baee0b47fb708e8222b',1,'tmc9660::register_mode::SYS_CTRL::FAULT_STATUS_LATCHED']]],
   ['undervoltagethreshold_5fv_7',['undervoltageThreshold_V',['../structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html#a2b70a30a25bc83a96e25ee485caf0a5c',1,'tmc9660::TMC9660::Protection::ProtectionConfig']]],
   ['use_5fexternal_8',['use_external',['../structtmc9660_1_1ClockConfig.html#ac2b25421d49dc32f86573b2568370911',1,'tmc9660::ClockConfig']]],
-  ['usepeakscaling_9',['usePeakScaling',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#a7debd575dbe6dd84c7dc9197c5373f30',1,'tmc9660::TMC9660::CurrentSensing::AutoConfig']]]
+  ['usepeakscaling_9',['usePeakScaling',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#a7debd575dbe6dd84c7dc9197c5373f30',1,'tmc9660::TMC9660::CurrentSensing::AutoConfig']]],
+  ['uvw_5fgate_5fcurrent_5fsink_10',['uvw_gate_current_sink',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8a9ccca3011c4083e429c828a297da02',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
+  ['uvw_5fgate_5fcurrent_5fsource_11',['uvw_gate_current_source',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8bcb2b829a8b355e439b1985e8316ddf',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]]
 ];

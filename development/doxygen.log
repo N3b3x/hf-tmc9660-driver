@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.FrBjlY
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.FrBjlY' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.EQovxi
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.EQovxi' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1780: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4824: warning: unbalanced grouping commands
@@ -361,8 +361,8 @@ Genera/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/
   parameter 'tag'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:399: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:399: warning: explicit link request to 'RamDebugType::GET_STATE' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660_comm_interface.hpp:93: warning: explicit link request to 'define' could not be resolved
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660_comm_interface.hpp:94: warning: explicit link request to 'include' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660_comm_interface.hpp:98: warning: explicit link request to 'define' could not be resolved
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660_comm_interface.hpp:99: warning: explicit link request to 'include' could not be resolved
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/esp32_tmc9660_bus.hpp:265: warning: The following parameter of Esp32Tmc9660SpiBus::debugLog(int level, const char *tag, const char *format, va_list args) is not documented:
   parameter 'args'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main/esp32_tmc9660_bus.hpp:242: warning: argument 'level' of command @param is not found in the argument list of Esp32Tmc9660SpiBus::gpioRead(TMC9660CtrlPin pin, GpioSignal &signal)
@@ -445,12 +445,9 @@ Generating docs for compound tmc9660::BootloaderReplySPI...
 Generating caller graph for function tmc9660::BootloaderReplySPI::fromBuffer
 Generating docs for compound tmc9660::BootloaderReply/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:132: warning: The following parameter of tmc9660::TMC9660::TMC9660(CommType &comm, uint8_t address=0, const tmc9660::BootloaderConfig *bootCfg=nullptr) is not documented:
   parameter 'bootCfg'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:179: warning: argument 'perform_reset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:179: warning: The following parameter of tmc9660::TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:182: warning: argument 'perform_reset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:182: warning: The following parameter of tmc9660::TMC9660::bootloaderInit(const tmc9660::BootloaderConfig *cfg=nullptr, bool performReset=true, bool retrieveBootloaderInfo=false, bool failOnVerifyError=true) is not documented:
   parameter 'performReset'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:319: warning: argument 'motor_index' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value, uint8_t motorIndex=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:319: warning: The following parameter of tmc9660::TMC9660::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value, uint8_t motorIndex=0) is not documented:
-  parameter 'motorIndex'
 UART...
 Generating caller graph for function tmc9660::BootloaderReplyUART::fromBuffer
 Generating call graph for function tmc9660::BootloaderReplyUART::verifyCRC
@@ -513,84 +510,88 @@ Generating docs for compound tmc9660::SPIFlashConfig...
 Generating docs for compound tmc9660::StepDirConfig...
 Generating docs for compound tmc9660::TMC9660...
 Generating call graph for function tmc9660::TMC9660::enterBootloaderMode
-Generating caller graph for function tmc9660::TMC9660::sendComman/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:307: warning: argument 'motor_index' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:307: warning: The following parameter of tmc9660::TMC9660::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex=0) is not documented:
+Generating call graph for function tmc9660::TMC9660::readGlobal
+G/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:322: warning: argument 'motor_index' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value, uint8_t motorIndex=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:322: warning: The following parameter of tmc9660::TMC9660::readParameter(tmc9660::tmcl::Parameters id, uint32_t &value, uint8_t motorIndex=0) is not documented:
   parameter 'motorIndex'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:841: warning: argument 'wait_for_completion' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:841: warning: argument 'timeout_ms' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:841: warning: The following parameters of tmc9660::TMC9660::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:310: warning: argument 'motor_index' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:310: warning: The following parameter of tmc9660::TMC9660::writeParameter(tmc9660::tmcl::Parameters id, uint32_t value, uint8_t motorIndex=0) is not documented:
+  parameter 'motorIndex'
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:864: warning: argument 'wait_for_completion' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:864: warning: argument 'timeout_ms' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:864: warning: The following parameters of tmc9660::TMC9660::CurrentSensing::calibrateOffsets(bool waitForCompletion=false, uint32_t timeoutMs=1000) are not documented:
   parameter 'waitForCompletion'
   parameter 'timeoutMs'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1725: warning: argument 'n_channel_inverted' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1725: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1768: warning: argument 'n_channel_inverted' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1768: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::configureABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable nChannelInverted=tmc9660::tmcl::EnableDisable::DISABLED) is not documented:
   parameter 'nChannelInverted'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1743: warning: argument 'init_method' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1743: warning: argument 'init_delay' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1743: warning: argument 'init_velocity' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1743: warning: argument 'n_channel_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1743: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1786: warning: argument 'init_method' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1786: warning: argument 'init_delay' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1786: warning: argument 'init_velocity' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1786: warning: argument 'n_channel_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1786: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureABNInitialization(tmc9660::tmcl::AbnInitMethod initMethod=tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING, uint16_t initDelay=1000, int32_t initVelocity=5, int16_t nChannelOffset=0) are not documented:
   parameter 'initMethod'
   parameter 'initDelay'
   parameter 'initVelocity'
   parameter 'nChannelOffset'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1783: warning: argument 'filter_mode' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1783: warning: argument 'clear_on_next_null' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1783: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1826: warning: argument 'filter_mode' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1826: warning: argument 'clear_on_next_null' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1826: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureABNNChannel(tmc9660::tmcl::AbnNChannelFiltering filterMode=tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF, tmc9660::tmcl::EnableDisable clearOnNextNull=tmc9660::tmcl::EnableDisable::DISABLED) are not documented:
   parameter 'filterMode'
   parameter 'clearOnNextNull'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1613: warning: argument 'sector_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1613: warning: argument 'enable_extrapolation' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1613: warning: argument 'filter_length' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1613: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1656: warning: argument 'sector_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1656: warning: argument 'enable_extrapolation' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1656: warning: argument 'filter_length' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1656: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureHall(tmc9660::tmcl::HallSectorOffset sectorOffset=tmc9660::tmcl::HallSectorOffset::DEG_0, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, tmc9660::tmcl::EnableDisable enableExtrapolation=tmc9660::tmcl::EnableDisable::DISABLED, uint8_t filterLength=0) are not documented:
   parameter 'sectorOffset'
   parameter 'enableExtrapolation'
   parameter 'filterLength'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1803: warning: argument 'gear_ratio' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSecondaryABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, uint8_t gearRatio=1)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1803: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::configureSecondaryABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, uint8_t gearRatio=1) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1846: warning: argument 'gear_ratio' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSecondaryABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, uint8_t gearRatio=1)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1846: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::configureSecondaryABNEncoder(uint32_t counts_per_rev, tmc9660::tmcl::Direction inverted=tmc9660::tmcl::Direction::NOT_INVERTED, uint8_t gearRatio=1) is not documented:
   parameter 'gearRatio'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1871: warning: argument 'position_shift' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1871: warning: argument 'invert_direction' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1871: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1914: warning: argument 'position_shift' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1914: warning: argument 'invert_direction' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1914: warning: The following parameters of tmc9660::TMC9660::FeedbackSense::configureSPIEncoderDataFormat(uint32_t position_mask, uint8_t positionShift=0, tmc9660::tmcl::Direction invertDirection=tmc9660::tmcl::Direction::NOT_INVERTED) are not documented:
   parameter 'positionShift'
   parameter 'invertDirection'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1635: warning: argument 'global_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsets(int16_t offset0=0, int16_t offset60=10922, int16_t offset120=21845, int16_t offset180=-32768, int16_t offset240=-21846, int16_t offset300=-10923, int16_t globalOffset=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1635: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsets(int16_t offset0=0, int16_t offset60=10922, int16_t offset120=21845, int16_t offset180=-32768, int16_t offset240=-21846, int16_t offset300=-10923, int16_t globalOffset=0) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1678: warning: argument 'global_offset' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsets(int16_t offset0=0, int16_t offset60=10922, int16_t offset120=21845, int16_t offset180=-32768, int16_t offset240=-21846, int16_t offset300=-10923, int16_t globalOffset=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1678: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsets(int16_t offset0=0, int16_t offset60=10922, int16_t offset120=21845, int16_t offset180=-32768, int16_t offset240=-21846, int16_t offset300=-10923, int16_t globalOffset=0) is not documented:
   parameter 'globalOffset'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1655: warning: argument 'global_offset_deg' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsetsDegrees(float offset0Deg=0.0f, float offset60Deg=60.0f, float offset120Deg=120.0f, float offset180Deg=180.0f, float offset240Deg=240.0f, float offset300Deg=300.0f, float globalOffsetDeg=0.0f)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1655: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsetsDegrees(float offset0Deg=0.0f, float offset60Deg=60.0f, float offset120Deg=120.0f, float offset180Deg=180.0f, float offset240Deg=240.0f, float offset300Deg=300.0f, float globalOffsetDeg=0.0f) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1698: warning: argument 'global_offset_deg' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsetsDegrees(float offset0Deg=0.0f, float offset60Deg=60.0f, float offset120Deg=120.0f, float offset180Deg=180.0f, float offset240Deg=240.0f, float offset300Deg=300.0f, float globalOffsetDeg=0.0f)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1698: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsetsDegrees(float offset0Deg=0.0f, float offset60Deg=60.0f, float offset120Deg=120.0f, float offset180Deg=180.0f, float offset240Deg=240.0f, float offset300Deg=300.0f, float globalOffsetDeg=0.0f) is not documented:
   parameter 'globalOffsetDeg'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1674: warning: argument 'global_offset_rad' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsetsRadians(float offset0Rad=0.0f, float offset60Rad=1.04719755f, float offset120Rad=2.09439510f, float offset180Rad=3.14159265f, float offset240Rad=4.18879020f, float offset300Rad=5.23598775f, float globalOffsetRad=0.0f)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1674: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsetsRadians(float offset0Rad=0.0f, float offset60Rad=1.04719755f, float offset120Rad=2.09439510f, float offset180Rad=3.14159265f, float offset240Rad=4.18879020f, float offset300Rad=5.23598775f, float globalOffsetRad=0.0f) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1717: warning: argument 'global_offset_rad' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setHallPositionOffsetsRadians(float offset0Rad=0.0f, float offset60Rad=1.04719755f, float offset120Rad=2.09439510f, float offset180Rad=3.14159265f, float offset240Rad=4.18879020f, float offset300Rad=5.23598775f, float globalOffsetRad=0.0f)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1717: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setHallPositionOffsetsRadians(float offset0Rad=0.0f, float offset60Rad=1.04719755f, float offset120Rad=2.09439510f, float offset180Rad=3.14159265f, float offset240Rad=4.18879020f, float offset300Rad=5.23598775f, float globalOffsetRad=0.0f) is not documented:
   parameter 'globalOffsetRad'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1908: warning: argument 'shift_factor' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1908: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1951: warning: argument 'shift_factor' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:1951: warning: The following parameter of tmc9660::TMC9660::FeedbackSense::setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable, int8_t shiftFactor=0) is not documented:
   parameter 'shiftFactor'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4604: warning: argument 'pull_enable' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4604: warning: argument 'pull_up' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4604: warning: The following parameters of tmc9660::TMC9660::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4661: warning: argument 'pull_enable' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4661: warning: argument 'pull_up' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4661: warning: The following parameters of tmc9660::TMC9660::GPIO::setMode(uint8_t pin, bool output, bool pullEnable=false, bool pullUp=true) are not documented:
   parameter 'pullEnable'
   parameter 'pullUp'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:508: warning: argument 'pwm_off_when_idle' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::MotorConfig::setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:508: warning: The following parameter of tmc9660::TMC9660::MotorConfig::setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:531: warning: argument 'pwm_off_when_idle' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::MotorConfig::setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:531: warning: The following parameter of tmc9660::TMC9660::MotorConfig::setIdleMotorPWMBehavior(tmc9660::tmcl::IdleMotorPwmBehavior pwmOffWhenIdle=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) is not documented:
   parameter 'pwmOffWhenIdle'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3008: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::PositionControl::setStopOnPositionDeviation(uint32_t max_error, bool softStop=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3008: warning: The following parameter of tmc9660::TMC9660::PositionControl::setStopOnPositionDeviation(uint32_t max_error, bool softStop=true) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3051: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::PositionControl::setStopOnPositionDeviation(uint32_t max_error, bool softStop=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3051: warning: The following parameter of tmc9660::TMC9660::PositionControl::setStopOnPositionDeviation(uint32_t max_error, bool softStop=true) is not documented:
   parameter 'softStop'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3991: warning: argument 'R' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::configureReferenceSwitches(uint8_t mask, bool invert_l, bool invert_r, bool invert_h, bool swap_lr)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3991: warning: argument 'H' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::configureReferenceSwitches(uint8_t mask, bool invert_l, bool invert_r, bool invert_h, bool swap_lr)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3991: warning: argument 'mask' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3991: warning: argument 'invert_l' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3991: warning: argument 'swap_lr' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3970: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::enableDeviationStop(uint32_t max_vel_error, uint32_t max_pos_error, bool softStop=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:3970: warning: The following parameter of tmc9660::TMC9660::StopEvents::enableDeviationStop(uint32_t max_vel_error, uint32_t max_pos_error, bool softStop=true) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4034: warning: argument 'R' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::configureReferenceSwitches(uint8_t mask, bool invert_l, bool invert_r, bool invert_h, bool swap_lr)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4034: warning: argument 'H' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::configureReferenceSwitches(uint8_t mask, bool invert_l, bool invert_r, bool invert_h, bool swap_lr)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4034: warning: argument 'mask' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4034: warning: argument 'invert_l' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4034: warning: argument 'swap_lr' from the argument list of tmc9660::TMC9660::StopEvents::configureReferenceSwitches has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4013: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::StopEvents::enableDeviationStop(uint32_t max_vel_error, uint32_t max_pos_error, bool softStop=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:4013: warning: The following parameter of tmc9660::TMC9660::StopEvents::enableDeviationStop(uint32_t max_vel_error, uint32_t max_pos_error, bool softStop=true) is not documented:
   parameter 'softStop'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2212: warning: argument 'flux_p' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2212: warning: argument 'flux_i' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2212: warning: The following parameters of tmc9660::TMC9660::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0) are not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2255: warning: argument 'flux_p' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2255: warning: argument 'flux_i' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2255: warning: The following parameters of tmc9660::TMC9660::TorqueFluxControl::setCurrentLoopGains(uint16_t p, uint16_t i, bool separate=false, uint16_t fluxP=0, uint16_t fluxI=0) are not documented:
   parameter 'fluxP'
   parameter 'fluxI'
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2638: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true)
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2638: warning: The following parameter of tmc9660::TMC9660::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true) is not documented:
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2681: warning: argument 'soft_stop' of command @param is not found in the argument list of tmc9660::TMC9660< CommType >::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true)
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/tmc9660.hpp:2681: warning: The following parameter of tmc9660::TMC9660::VelocityControl::setStopOnVelocityDeviation(uint32_t max_error, bool softStop=true) is not documented:
   parameter 'softStop'
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:766: warning: explicit link request to 'BootloaderConfig' could not be resolved
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader/tmc9660_bootloader.hpp:766: warning: explicit link request to 'BootloaderConfig' could not be resolved
@@ -598,9 +599,10 @@ Generating caller graph for function tmc9660::TMC9660::sendComman/home/runner/wo
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:957: warning: argument 'cfg' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:957: warning: argument 'failOnVerifyError' from the argument list of tmc9660::TMC9660Bootloader::applyConfiguration has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:883: warning: argument 'version' from the argument list of tmc9660::TMC9660Bootloader::getBootloaderVersion has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:864: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:864: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
-d
+enerating caller graph for function tmc9660::TMC9660::readGlobal
+Generating caller graph for function tmc9660::TMC9660::sendCommand
+Generating call graph for function tmc9660::TMC9660::writeGlobal
+Generating caller graph for function tmc9660::TMC9660::writeGlobal
 Generating docs for nested compound tmc9660::TMC9660::Brake...
 Generating docs for nested compound tmc9660::TMC9660::Brake::BrakeConfig...
 Generating docs for nested compound tmc9660::TMC9660::CurrentSensing...
@@ -651,11 +653,9 @@ Generating call graph for function tmc9660::TMC9660Bootloader::getConfigMemStart
 Generating call graph for function tmc9660::TMC9660Bootloader::getFeatures
 Generating call graph for function tmc9660::TMC9660Bootloader::getGitInfo
 Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemPartitions
-Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemSize
-Generating caller graph for function tmc9660::TMC9660Bootloader::getInfo
-Generating call graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
-Generating call graph for function tmc9660::TMC9660Bootloader::getPartitionVersion
-Generating call graph for /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:470: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result)
+Generating call graph for function tmc9660::TMC9660Bootloader::getI2cMemSi/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:864: warning: argument 'query' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:864: warning: argument 'value' from the argument list of tmc9660::TMC9660Bootloader::getInfo has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:470: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult *result)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:470: warning: argument 'page' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:470: warning: argument 'result' from the argument list of tmc9660::TMC9660Bootloader::otpBurn has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:522: warning: argument 'page_addr' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult *result, uint32_t vdrvWaitMs=1000)
@@ -675,7 +675,11 @@ Generating call graph for /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:398: warning: argument 'values' of command @param is not found in the argument list of tmc9660::TMC9660Bootloader< CommType >::write32IncMultiple(const uint32_t *vals, size_t count)
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:398: warning: argument 'count' from the argument list of tmc9660::TMC9660Bootloader::write32IncMultiple has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader/tmc9660_bootloader.cpp:338: warning: argument 'v' from the argument list of tmc9660::TMC9660Bootloader::write8 has multiple @param documentation sections
-function tmc9660::TMC9660Bootloader::getSpiMemPartitions
+ze
+Generating caller graph for function tmc9660::TMC9660Bootloader::getInfo
+Generating call graph for function tmc9660::TMC9660Bootloader::getOtpMemSize
+Generating call graph for function tmc9660::TMC9660Bootloader::getPartitionVersion
+Generating call graph for function tmc9660::TMC9660Bootloader::getSpiMemPartitions
 Generating call graph for function tmc9660::TMC9660Bootloader::getSpiMemSize
 Generating call graph for function tmc9660::TMC9660Bootloader::otpBurn
 Generating call graph for function tmc9660::TMC9660Bootloader::otpBurnWithWorkaround
@@ -732,12 +736,7 @@ Generating docs for compound TMC9660_TestConfig::SupplyVoltage...
 Generating docs for compound TMC9660_TestConfig::Temperature...
 Generating docs for compound TMC9660_TestConfig::TestConfig...
 Generating docs for compound TMC9660_TestConfig::Timing...
-Generating docs for compound TMC9660_TestConfig::UARTParams...
-Generating docs for compound TMC9660_TestConfig::UARTPins...
-Generating graph info page...
-Generating directory documentation...
-Generating dependency graph for directory bootloader
-Generating depend/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:11: warning: unable to resolve reference to '-overview' for \ref command
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:11: warning: unable to resolve reference to '-overview' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:12: warning: unable to resolve reference to '-features' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:13: warning: unable to resolve reference to '-quick-start' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:14: warning: unable to resolve reference to '-installation' for \ref command
@@ -755,7 +754,12 @@ Generating depend/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:104: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/examples.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:108: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/index.md' for \ref command
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/README.md:112: warning: unable to resolve reference to '/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/docs/special_feature_bootloader.md' for \ref command
-ency graph for directory bootloader
+Generating docs for compound TMC9660_TestConfig::UARTParams...
+Generating docs for compound TMC9660_TestConfig::UARTPins...
+Generating graph info page...
+Generating directory documentation...
+Generating dependency graph for directory bootloader
+Generating dependency graph for directory bootloader
 Generating dependency graph for directory esp32
 Generating dependency graph for directory examples
 Generating dependency graph for directory inc
@@ -785,1017 +789,20 @@ writing tag file...
 Running plantuml with JAVA...
 Running dot...
 Generating dot graphs using 5 parallel threads...
-Running dot for graph 1/467
-Running dot for graph 2/467
-Running dot for graph 3/467
-Running dot for graph 4/467
-Running dot for graph 5/467
-Running dot for graph 6/467
-Running dot for graph 7/467
-Running dot for graph 8/467
-Running dot for graph 9/467
-Running dot for graph 10/467
-Running dot for graph 11/467
-Running dot for graph 12/467
-Running dot for graph 13/467
-Running dot for graph 14/467
-Running dot for graph 15/467
-Running dot for graph 16/467
-Running dot for graph 17/467
-Running dot for graph 18/467
-Running dot for graph 19/467
-Running dot for graph 20/467
-Running dot for graph 21/467
-Running dot for graph 22/467
-Running dot for graph 23/467
-Running dot for graph 24/467
-Running dot for graph 25/467
-Running dot for graph 26/467
-Running dot for graph 27/467
-Running dot for graph 28/467
-Running dot for graph 29/467
-Running dot for graph 30/467
-Running dot for graph 31/467
-Running dot for graph 32/467
-Running dot for graph 33/467
-Running dot for graph 34/467
-Running dot for graph 35/467
-Running dot for graph 36/467
-Running dot for graph 37/467
-Running dot for graph 38/467
-Running dot for graph 39/467
-Running dot for graph 40/467
-Running dot for graph 41/467
-Running dot for graph 42/467
-Running dot for graph 43/467
-Running dot for graph 44/467
-Running dot for graph 45/467
-Running dot for graph 46/467
-Running dot for graph 47/467
-Running dot for graph 48/467
-Running dot for graph 49/467
-Running dot for graph 50/467
-Running dot for graph 51/467
-Running dot for graph 52/467
-Running dot for graph 53/467
-Running dot for graph 54/467
-Running dot for graph 55/467
-Running dot for graph 56/467
-Running dot for graph 57/467
-Running dot for graph 58/467
-Running dot for graph 59/467
-Running dot for graph 60/467
-Running dot for graph 61/467
-Running dot for graph 62/467
-Running dot for graph 63/467
-Running dot for graph 64/467
-Running dot for graph 65/467
-Running dot for graph 66/467
-Running dot for graph 67/467
-Running dot for graph 68/467
-Running dot for graph 69/467
-Running dot for graph 70/467
-Running dot for graph 71/467
-Running dot for graph 72/467
-Running dot for graph 73/467
-Running dot for graph 74/467
-Running dot for graph 75/467
-Running dot for graph 76/467
-Running dot for graph 77/467
-Running dot for graph 78/467
-Running dot for graph 79/467
-Running dot for graph 80/467
-Running dot for graph 81/467
-Running dot for graph 82/467
-Running dot for graph 83/467
-Running dot for graph 84/467
-Running dot for graph 85/467
-Running dot for graph 86/467
-Running dot for graph 87/467
-Running dot for graph 88/467
-Running dot for graph 89/467
-Running dot for graph 90/467
-Running dot for graph 91/467
-Running dot for graph 92/467
-Running dot for graph 93/467
-Running dot for graph 94/467
-Running dot for graph 95/467
-Running dot for graph 96/467
-Running dot for graph 97/467
-Running dot for graph 98/467
-Running dot for graph 99/467
-Running dot for graph 100/467
-Running dot for graph 101/467
-Running dot for graph 102/467
-Running dot for graph 103/467
-Running dot for graph 104/467
-Running dot for graph 105/467
-Running dot for graph 106/467
-Running dot for graph 107/467
-Running dot for graph 108/467
-Running dot for graph 109/467
-Running dot for graph 110/467
-Running dot for graph 111/467
-Running dot for graph 112/467
-Running dot for graph 113/467
-Running dot for graph 114/467
-Running dot for graph 115/467
-Running dot for graph 116/467
-Running dot for graph 117/467
-Running dot for graph 118/467
-Running dot for graph 119/467
-Running dot for graph 120/467
-Running dot for graph 121/467
-Running dot for graph 122/467
-Running dot for graph 123/467
-Running dot for graph 124/467
-Running dot for graph 125/467
-Running dot for graph 126/467
-Running dot for graph 127/467
-Running dot for graph 128/467
-Running dot for graph 129/467
-Running dot for graph 130/467
-Running dot for graph 131/467
-Running dot for graph 132/467
-Running dot for graph 133/467
-Running dot for graph 134/467
-Running dot for graph 135/467
-Running dot for graph 136/467
-Running dot for graph 137/467
-Running dot for graph 138/467
-Running dot for graph 139/467
-Running dot for graph 140/467
-Running dot for graph 141/467
-Running dot for graph 142/467
-Running dot for graph 143/467
-Running dot for graph 144/467
-Running dot for graph 145/467
-Running dot for graph 146/467
-Running dot for graph 147/467
-Running dot for graph 148/467
-Running dot for graph 149/467
-Running dot for graph 150/467
-Running dot for graph 151/467
-Running dot for graph 152/467
-Running dot for graph 153/467
-Running dot for graph 154/467
-Running dot for graph 155/467
-Running dot for graph 156/467
-Running dot for graph 157/467
-Running dot for graph 158/467
-Running dot for graph 159/467
-Running dot for graph 160/467
-Running dot for graph 161/467
-Running dot for graph 162/467
-Running dot for graph 163/467
-Running dot for graph 164/467
-Running dot for graph 165/467
-Running dot for graph 166/467
-Running dot for graph 167/467
-Running dot for graph 168/467
-Running dot for graph 169/467
-Running dot for graph 170/467
-Running dot for graph 171/467
-Running dot for graph 172/467
-Running dot for graph 173/467
-Running dot for graph 174/467
-Running dot for graph 175/467
-Running dot for graph 176/467
-Running dot for graph 177/467
-Running dot for graph 178/467
-Running dot for graph 179/467
-Running dot for graph 180/467
-Running dot for graph 181/467
-Running dot for graph 182/467
-Running dot for graph 183/467
-Running dot for graph 184/467
-Running dot for graph 185/467
-Running dot for graph 186/467
-Running dot for graph 187/467
-Running dot for graph 188/467
-Running dot for graph 189/467
-Running dot for graph 190/467
-Running dot for graph 191/467
-Running dot for graph 192/467
-Running dot for graph 193/467
-Running dot for graph 194/467
-Running dot for graph 195/467
-Running dot for graph 196/467
-Running dot for graph 197/467
-Running dot for graph 198/467
-Running dot for graph 199/467
-Running dot for graph 200/467
-Running dot for graph 201/467
-Running dot for graph 202/467
-Running dot for graph 203/467
-Running dot for graph 204/467
-Running dot for graph 205/467
-Running dot for graph 206/467
-Running dot for graph 207/467
-Running dot for graph 208/467
-Running dot for graph 209/467
-Running dot for graph 210/467
-Running dot for graph 211/467
-Running dot for graph 212/467
-Running dot for graph 213/467
-Running dot for graph 214/467
-Running dot for graph 215/467
-Running dot for graph 216/467
-Running dot for graph 217/467
-Running dot for graph 218/467
-Running dot for graph 219/467
-Running dot for graph 220/467
-Running dot for graph 221/467
-Running dot for graph 222/467
-Running dot for graph 223/467
-Running dot for graph 224/467
-Running dot for graph 225/467
-Running dot for graph 226/467
-Running dot for graph 227/467
-Running dot for graph 228/467
-Running dot for graph 229/467
-Running dot for graph 230/467
-Running dot for graph 231/467
-Running dot for graph 232/467
-Running dot for graph 233/467
-Running dot for graph 234/467
-Running dot for graph 235/467
-Running dot for graph 236/467
-Running dot for graph 237/467
-Running dot for graph 238/467
-Running dot for graph 239/467
-Running dot for graph 240/467
-Running dot for graph 241/467
-Running dot for graph 242/467
-Running dot for graph 243/467
-Running dot for graph 244/467
-Running dot for graph 245/467
-Running dot for graph 246/467
-Running dot for graph 247/467
-Running dot for graph 248/467
-Running dot for graph 249/467
-Running dot for graph 250/467
-Running dot for graph 251/467
-Running dot for graph 252/467
-Running dot for graph 253/467
-Running dot for graph 254/467
-Running dot for graph 255/467
-Running dot for graph 256/467
-Running dot for graph 257/467
-Running dot for graph 258/467
-Running dot for graph 259/467
-Running dot for graph 260/467
-Running dot for graph 261/467
-Running dot for graph 262/467
-Running dot for graph 263/467
-Running dot for graph 264/467
-Running dot for graph 265/467
-Running dot for graph 266/467
-Running dot for graph 267/467
-Running dot for graph 268/467
-Running dot for graph 269/467
-Running dot for graph 270/467
-Running dot for graph 271/467
-Running dot for graph 272/467
-Running dot for graph 273/467
-Running dot for graph 274/467
-Running dot for graph 275/467
-Running dot for graph 276/467
-Running dot for graph 277/467
-Running dot for graph 278/467
-Running dot for graph 279/467
-Running dot for graph 280/467
-Running dot for graph 281/467
-Running dot for graph 282/467
-Running dot for graph 283/467
-Running dot for graph 284/467
-Running dot for graph 285/467
-Running dot for graph 286/467
-Running dot for graph 287/467
-Running dot for graph 288/467
-Running dot for graph 289/467
-Running dot for graph 290/467
-Running dot for graph 291/467
-Running dot for graph 292/467
-Running dot for graph 293/467
-Running dot for graph 294/467
-Running dot for graph 295/467
-Running dot for graph 296/467
-Running dot for graph 297/467
-Running dot for graph 298/467
-Running dot for graph 299/467
-Running dot for graph 300/467
-Running dot for graph 301/467
-Running dot for graph 302/467
-Running dot for graph 303/467
-Running dot for graph 304/467
-Running dot for graph 305/467
-Running dot for graph 306/467
-Running dot for graph 307/467
-Running dot for graph 308/467
-Running dot for graph 309/467
-Running dot for graph 310/467
-Running dot for graph 311/467
-Running dot for graph 312/467
-Running dot for graph 313/467
-Running dot for graph 314/467
-Running dot for graph 315/467
-Running dot for graph 316/467
-Running dot for graph 317/467
-Running dot for graph 318/467
-Running dot for graph 319/467
-Running dot for graph 320/467
-Running dot for graph 321/467
-Running dot for graph 322/467
-Running dot for graph 323/467
-Running dot for graph 324/467
-Running dot for graph 325/467
-Running dot for graph 326/467
-Running dot for graph 327/467
-Running dot for graph 328/467
-Running dot for graph 329/467
-Running dot for graph 330/467
-Running dot for graph 331/467
-Running dot for graph 332/467
-Running dot for graph 333/467
-Running dot for graph 334/467
-Running dot for graph 335/467
-Running dot for graph 336/467
-Running dot for graph 337/467
-Running dot for graph 338/467
-Running dot for graph 339/467
-Running dot for graph 340/467
-Running dot for graph 341/467
-Running dot for graph 342/467
-Running dot for graph 343/467
-Running dot for graph 344/467
-Running dot for graph 345/467
-Running dot for graph 346/467
-Running dot for graph 347/467
-Running dot for graph 348/467
-Running dot for graph 349/467
-Running dot for graph 350/467
-Running dot for graph 351/467
-Running dot for graph 352/467
-Running dot for graph 353/467
-Running dot for graph 354/467
-Running dot for graph 355/467
-Running dot for graph 356/467
-Running dot for graph 357/467
-Running dot for graph 358/467
-Running dot for graph 359/467
-Running dot for graph 360/467
-Running dot for graph 361/467
-Running dot for graph 362/467
-Running dot for graph 363/467
-Running dot for graph 364/467
-Running dot for graph 365/467
-Running dot for graph 366/467
-Running dot for graph 367/467
-Running dot for graph 368/467
-Running dot for graph 369/467
-Running dot for graph 370/467
-Running dot for graph 371/467
-Running dot for graph 372/467
-Running dot for graph 373/467
-Running dot for graph 374/467
-Running dot for graph 375/467
-Running dot for graph 376/467
-Running dot for graph 377/467
-Running dot for graph 378/467
-Running dot for graph 379/467
-Running dot for graph 380/467
-Running dot for graph 381/467
-Running dot for graph 382/467
-Running dot for graph 383/467
-Running dot for graph 384/467
-Running dot for graph 385/467
-Running dot for graph 386/467
-Running dot for graph 387/467
-Running dot for graph 388/467
-Running dot for graph 389/467
-Running dot for graph 390/467
-Running dot for graph 391/467
-Running dot for graph 392/467
-Running dot for graph 393/467
-Running dot for graph 394/467
-Running dot for graph 395/467
-Running dot for graph 396/467
-Running dot for graph 397/467
-Running dot for graph 398/467
-Running dot for graph 399/467
-Running dot for graph 400/467
-Running dot for graph 401/467
-Running dot for graph 402/467
-Running dot for graph 403/467
-Running dot for graph 404/467
-Running dot for graph 405/467
-Running dot for graph 406/467
-Running dot for graph 407/467
-Running dot for graph 408/467
-Running dot for graph 409/467
-Running dot for graph 410/467
-Running dot for graph 411/467
-Running dot for graph 412/467
-Running dot for graph 413/467
-Running dot for graph 414/467
-Running dot for graph 415/467
-Running dot for graph 416/467
-Running dot for graph 417/467
-Running dot for graph 418/467
-Running dot for graph 419/467
-Running dot for graph 420/467
-Running dot for graph 421/467
-Running dot for graph 422/467
-Running dot for graph 423/467
-Running dot for graph 424/467
-Running dot for graph 425/467
-Running dot for graph 426/467
-Running dot for graph 427/467
-Running dot for graph 428/467
-Running dot for graph 429/467
-Running dot for graph 430/467
-Running dot for graph 431/467
-Running dot for graph 432/467
-Running dot for graph 433/467
-Running dot for graph 434/467
-Running dot for graph 435/467
-Running dot for graph 436/467
-Running dot for graph 437/467
-Running dot for graph 438/467
-Running dot for graph 439/467
-Running dot for graph 440/467
-Running dot for graph 441/467
-Running dot for graph 442/467
-Running dot for graph 443/467
-Running dot for graph 444/467
-Running dot for graph 445/467
-Running dot for graph 446/467
-Running dot for graph 447/467
-Running dot for graph 448/467
-Running dot for graph 449/467
-Running dot for graph 450/467
-Running dot for graph 451/467
-Running dot for graph 452/467
-Running dot for graph 453/467
-Running dot for graph 454/467
-Running dot for graph 455/467
-Running dot for graph 456/467
-Running dot for graph 457/467
-Running dot for graph 458/467
-Running dot for graph 459/467
-Running dot for graph 460/467
-Running dot for graph 461/467
-Running dot for graph 462/467
-Running dot for graph 463/467
-Running dot for graph 464/467
-Running dot for graph 465/467
-Running dot for graph 466/467
-Running dot for graph 467/467
-Patching output file 1/544
-Patching output file 2/544
-Patching output file 3/544
-Patching output file 4/544
-Patching output file 5/544
-Patching output file 6/544
-Patching output file 7/544
-Patching output file 8/544
-Patching output file 9/544
-Patching output file 10/544
-Patching output file 11/544
-Patching output file 12/544
-Patching output file 13/544
-Patching output file 14/544
-Patching output file 15/544
-Patching output file 16/544
-Patching output file 17/544
-Patching output file 18/544
-Patching output file 19/544
-Patching output file 20/544
-Patching output file 21/544
-Patching output file 22/544
-Patching output file 23/544
-Patching output file 24/544
-Patching output file 25/544
-Patching output file 26/544
-Patching output file 27/544
-Patching output file 28/544
-Patching output file 29/544
-Patching output file 30/544
-Patching output file 31/544
-Patching output file 32/544
-Patching output file 33/544
-Patching output file 34/544
-Patching output file 35/544
-Patching output file 36/544
-Patching output file 37/544
-Patching output file 38/544
-Patching output file 39/544
-Patching output file 40/544
-Patching output file 41/544
-Patching output file 42/544
-Patching output file 43/544
-Patching output file 44/544
-Patching output file 45/544
-Patching output file 46/544
-Patching output file 47/544
-Patching output file 48/544
-Patching output file 49/544
-Patching output file 50/544
-Patching output file 51/544
-Patching output file 52/544
-Patching output file 53/544
-Patching output file 54/544
-Patching output file 55/544
-Patching output file 56/544
-Patching output file 57/544
-Patching output file 58/544
-Patching output file 59/544
-Patching output file 60/544
-Patching output file 61/544
-Patching output file 62/544
-Patching output file 63/544
-Patching output file 64/544
-Patching output file 65/544
-Patching output file 66/544
-Patching output file 67/544
-Patching output file 68/544
-Patching output file 69/544
-Patching output file 70/544
-Patching output file 71/544
-Patching output file 72/544
-Patching output file 73/544
-Patching output file 74/544
-Patching output file 75/544
-Patching output file 76/544
-Patching output file 77/544
-Patching output file 78/544
-Patching output file 79/544
-Patching output file 80/544
-Patching output file 81/544
-Patching output file 82/544
-Patching output file 83/544
-Patching output file 84/544
-Patching output file 85/544
-Patching output file 86/544
-Patching output file 87/544
-Patching output file 88/544
-Patching output file 89/544
-Patching output file 90/544
-Patching output file 91/544
-Patching output file 92/544
-Patching output file 93/544
-Patching output file 94/544
-Patching output file 95/544
-Patching output file 96/544
-Patching output file 97/544
-Patching output file 98/544
-Patching output file 99/544
-Patching output file 100/544
-Patching output file 101/544
-Patching output file 102/544
-Patching output file 103/544
-Patching output file 104/544
-Patching output file 105/544
-Patching output file 106/544
-Patching output file 107/544
-Patching output file 108/544
-Patching output file 109/544
-Patching output file 110/544
-Patching output file 111/544
-Patching output file 112/544
-Patching output file 113/544
-Patching output file 114/544
-Patching output file 115/544
-Patching output file 116/544
-Patching output file 117/544
-Patching output file 118/544
-Patching output file 119/544
-Patching output file 120/544
-Patching output file 121/544
-Patching output file 122/544
-Patching output file 123/544
-Patching output file 124/544
-Patching output file 125/544
-Patching output file 126/544
-Patching output file 127/544
-Patching output file 128/544
-Patching output file 129/544
-Patching output file 130/544
-Patching output file 131/544
-Patching output file 132/544
-Patching output file 133/544
-Patching output file 134/544
-Patching output file 135/544
-Patching output file 136/544
-Patching output file 137/544
-Patching output file 138/544
-Patching output file 139/544
-Patching output file 140/544
-Patching output file 141/544
-Patching output file 142/544
-Patching output file 143/544
-Patching output file 144/544
-Patching output file 145/544
-Patching output file 146/544
-Patching output file 147/544
-Patching output file 148/544
-Patching output file 149/544
-Patching output file 150/544
-Patching output file 151/544
-Patching output file 152/544
-Patching output file 153/544
-Patching output file 154/544
-Patching output file 155/544
-Patching output file 156/544
-Patching output file 157/544
-Patching output file 158/544
-Patching output file 159/544
-Patching output file 160/544
-Patching output file 161/544
-Patching output file 162/544
-Patching output file 163/544
-Patching output file 164/544
-Patching output file 165/544
-Patching output file 166/544
-Patching output file 167/544
-Patching output file 168/544
-Patching output file 169/544
-Patching output file 170/544
-Patching output file 171/544
-Patching output file 172/544
-Patching output file 173/544
-Patching output file 174/544
-Patching output file 175/544
-Patching output file 176/544
-Patching output file 177/544
-Patching output file 178/544
-Patching output file 179/544
-Patching output file 180/544
-Patching output file 181/544
-Patching output file 182/544
-Patching output file 183/544
-Patching output file 184/544
-Patching output file 185/544
-Patching output file 186/544
-Patching output file 187/544
-Patching output file 188/544
-Patching output file 189/544
-Patching output file 190/544
-Patching output file 191/544
-Patching output file 192/544
-Patching output file 193/544
-Patching output file 194/544
-Patching output file 195/544
-Patching output file 196/544
-Patching output file 197/544
-Patching output file 198/544
-Patching output file 199/544
-Patching output file 200/544
-Patching output file 201/544
-Patching output file 202/544
-Patching output file 203/544
-Patching output file 204/544
-Patching output file 205/544
-Patching output file 206/544
-Patching output file 207/544
-Patching output file 208/544
-Patching output file 209/544
-Patching output file 210/544
-Patching output file 211/544
-Patching output file 212/544
-Patching output file 213/544
-Patching output file 214/544
-Patching output file 215/544
-Patching output file 216/544
-Patching output file 217/544
-Patching output file 218/544
-Patching output file 219/544
-Patching output file 220/544
-Patching output file 221/544
-Patching output file 222/544
-Patching output file 223/544
-Patching output file 224/544
-Patching output file 225/544
-Patching output file 226/544
-Patching output file 227/544
-Patching output file 228/544
-Patching output file 229/544
-Patching output file 230/544
-Patching output file 231/544
-Patching output file 232/544
-Patching output file 233/544
-Patching output file 234/544
-Patching output file 235/544
-Patching output file 236/544
-Patching output file 237/544
-Patching output file 238/544
-Patching output file 239/544
-Patching output file 240/544
-Patching output file 241/544
-Patching output file 242/544
-Patching output file 243/544
-Patching output file 244/544
-Patching output file 245/544
-Patching output file 246/544
-Patching output file 247/544
-Patching output file 248/544
-Patching output file 249/544
-Patching output file 250/544
-Patching output file 251/544
-Patching output file 252/544
-Patching output file 253/544
-Patching output file 254/544
-Patching output file 255/544
-Patching output file 256/544
-Patching output file 257/544
-Patching output file 258/544
-Patching output file 259/544
-Patching output file 260/544
-Patching output file 261/544
-Patching output file 262/544
-Patching output file 263/544
-Patching output file 264/544
-Patching output file 265/544
-Patching output file 266/544
-Patching output file 267/544
-Patching output file 268/544
-Patching output file 269/544
-Patching output file 270/544
-Patching output file 271/544
-Patching output file 272/544
-Patching output file 273/544
-Patching output file 274/544
-Patching output file 275/544
-Patching output file 276/544
-Patching output file 277/544
-Patching output file 278/544
-Patching output file 279/544
-Patching output file 280/544
-Patching output file 281/544
-Patching output file 282/544
-Patching output file 283/544
-Patching output file 284/544
-Patching output file 285/544
-Patching output file 286/544
-Patching output file 287/544
-Patching output file 288/544
-Patching output file 289/544
-Patching output file 290/544
-Patching output file 291/544
-Patching output file 292/544
-Patching output file 293/544
-Patching output file 294/544
-Patching output file 295/544
-Patching output file 296/544
-Patching output file 297/544
-Patching output file 298/544
-Patching output file 299/544
-Patching output file 300/544
-Patching output file 301/544
-Patching output file 302/544
-Patching output file 303/544
-Patching output file 304/544
-Patching output file 305/544
-Patching output file 306/544
-Patching output file 307/544
-Patching output file 308/544
-Patching output file 309/544
-Patching output file 310/544
-Patching output file 311/544
-Patching output file 312/544
-Patching output file 313/544
-Patching output file 314/544
-Patching output file 315/544
-Patching output file 316/544
-Patching output file 317/544
-Patching output file 318/544
-Patching output file 319/544
-Patching output file 320/544
-Patching output file 321/544
-Patching output file 322/544
-Patching output file 323/544
-Patching output file 324/544
-Patching output file 325/544
-Patching output file 326/544
-Patching output file 327/544
-Patching output file 328/544
-Patching output file 329/544
-Patching output file 330/544
-Patching output file 331/544
-Patching output file 332/544
-Patching output file 333/544
-Patching output file 334/544
-Patching output file 335/544
-Patching output file 336/544
-Patching output file 337/544
-Patching output file 338/544
-Patching output file 339/544
-Patching output file 340/544
-Patching output file 341/544
-Patching output file 342/544
-Patching output file 343/544
-Patching output file 344/544
-Patching output file 345/544
-Patching output file 346/544
-Patching output file 347/544
-Patching output file 348/544
-Patching output file 349/544
-Patching output file 350/544
-Patching output file 351/544
-Patching output file 352/544
-Patching output file 353/544
-Patching output file 354/544
-Patching output file 355/544
-Patching output file 356/544
-Patching output file 357/544
-Patching output file 358/544
-Patching output file 359/544
-Patching output file 360/544
-Patching output file 361/544
-Patching output file 362/544
-Patching output file 363/544
-Patching output file 364/544
-Patching output file 365/544
-Patching output file 366/544
-Patching output file 367/544
-Patching output file 368/544
-Patching output file 369/544
-Patching output file 370/544
-Patching output file 371/544
-Patching output file 372/544
-Patching output file 373/544
-Patching output file 374/544
-Patching output file 375/544
-Patching output file 376/544
-Patching output file 377/544
-Patching output file 378/544
-Patching output file 379/544
-Patching output file 380/544
-Patching output file 381/544
-Patching output file 382/544
-Patching output file 383/544
-Patching output file 384/544
-Patching output file 385/544
-Patching output file 386/544
-Patching output file 387/544
-Patching output file 388/544
-Patching output file 389/544
-Patching output file 390/544
-Patching output file 391/544
-Patching output file 392/544
-Patching output file 393/544
-Patching output file 394/544
-Patching output file 395/544
-Patching output file 396/544
-Patching output file 397/544
-Patching output file 398/544
-Patching output file 399/544
-Patching output file 400/544
-Patching output file 401/544
-Patching output file 402/544
-Patching output file 403/544
-Patching output file 404/544
-Patching output file 405/544
-Patching output file 406/544
-Patching output file 407/544
-Patching output file 408/544
-Patching output file 409/544
-Patching output file 410/544
-Patching output file 411/544
-Patching output file 412/544
-Patching output file 413/544
-Patching output file 414/544
-Patching output file 415/544
-Patching output file 416/544
-Patching output file 417/544
-Patching output file 418/544
-Patching output file 419/544
-Patching output file 420/544
-Patching output file 421/544
-Patching output file 422/544
-Patching output file 423/544
-Patching output file 424/544
-Patching output file 425/544
-Patching output file 426/544
-Patching output file 427/544
-Patching output file 428/544
-Patching output file 429/544
-Patching output file 430/544
-Patching output file 431/544
-Patching output file 432/544
-Patching output file 433/544
-Patching output file 434/544
-Patching output file 435/544
-Patching output file 436/544
-Patching output file 437/544
-Patching output file 438/544
-Patching output file 439/544
-Patching output file 440/544
-Patching output file 441/544
-Patching output file 442/544
-Patching output file 443/544
-Patching output file 444/544
-Patching output file 445/544
-Patching output file 446/544
-Patching output file 447/544
-Patching output file 448/544
-Patching output file 449/544
-Patching output file 450/544
-Patching output file 451/544
-Patching output file 452/544
-Patching output file 453/544
-Patching output file 454/544
-Patching output file 455/544
-Patching output file 456/544
-Patching output file 457/544
-Patching output file 458/544
-Patching output file 459/544
-Patching output file 460/544
-Patching output file 461/544
-Patching output file 462/544
-Patching output file 463/544
-Patching output file 464/544
-Patching output file 465/544
-Patching output file 466/544
-Patching output file 467/544
-Patching output file 468/544
-Patching output file 469/544
-Patching output file 470/544
-Patching output file 471/544
-Patching output file 472/544
-Patching output file 473/544
-Patching output file 474/544
-Patching output file 475/544
-Patching output file 476/544
-Patching output file 477/544
-Patching output file 478/544
-Patching output file 479/544
-Patching output file 480/544
-Patching output file 481/544
-Patching output file 482/544
-Patching output file 483/544
-Patching output file 484/544
-Patching output file 485/544
-Patching output file 486/544
-Patching output file 487/544
-Patching output file 488/544
-Patching output file 489/544
-Patching output file 490/544
-Patching output file 491/544
-Patching output file 492/544
-Patching output file 493/544
-Patching output file 494/544
-Patching output file 495/544
-Patching output file 496/544
-Patching output file 497/544
-Patching output file 498/544
-Patching output file 499/544
-Patching output file 500/544
-Patching output file 501/544
-Patching output file 502/544
-Patching output file 503/544
-Patching output file 504/544
-Patching output file 505/544
-Patching output file 506/544
-Patching output file 507/544
-Patching output file 508/544
-Patching output file 509/544
-Patching output file 510/544
-Patching output file 511/544
-Patching output file 512/544
-Patching output file 513/544
-Patching output file 514/544
-Patching output file 515/544
-Patching output file 516/544
-Patching output file 517/544
-Patching output file 518/544
-Patching output file 519/544
-Patching output file 520/544
-Patching output file 521/544
-Patching output file 522/544
-Patching output file 523/544
-Patching output file 524/544
-Patching output file 525/544
-Patching output file 526/544
-Patching output file 527/544
-Patching output file 528/544
-Patching output file 529/544
-Patching output file 530/544
-Patching output file 531/544
-Patching output file 532/544
-Patching output file 533/544
-Patching output file 534/544
-Patching output file 535/544
-Patching output file 536/544
-Patching output file 537/544
-Patching output file 538/544
-Patching output file 539/544
-Patching output file 540/544
-Patching output file 541/544
-Patching output file 542/544
-Patching output file 543/544
-Patching output file 544/544
-type lookup cache used 7036/65536 hits=28961 misses=7375
-symbol lookup cache used 5110/65536 hits=20430 misses=5110
+Running dot for graph 1/6
+Running dot for graph 2/6
+Running dot for graph 3/6
+Running dot for graph 4/6
+Running dot for graph 5/6
+Running dot for graph 6/6
+Patching output file 1/8
+Patching output file 2/8
+Patching output file 3/8
+Patching output file 4/8
+Patching output file 5/8
+Patching output file 6/8
+Patching output file 7/8
+Patching output file 8/8
+type lookup cache used 7061/65536 hits=29128 misses=7400
+symbol lookup cache used 5139/65536 hits=20533 misses=5139
 finished...

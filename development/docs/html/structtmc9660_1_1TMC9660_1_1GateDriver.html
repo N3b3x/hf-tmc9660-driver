@@ -590,7 +590,9 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </ul>
 </dd>
 <dd>
-Phase selection (3-phase vs 4-phase) is determined by boot configuration and MOTOR_TYPE. This function configures all phases that are enabled by the system.</dd></dl>
+Phase selection (3-phase vs 4-phase) is determined by boot configuration and MOTOR_TYPE. This function configures all phases that are enabled by the system. </dd>
+<dd>
+Set <a class="el" href="structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#aa01e06746f2fe7f0859410644a3132e2">PowerStageProfile::configure_y2_phase</a> to false to omit Y2 programming (pure 3-phase stacks / firmware without Y2 SAP support).</dd></dl>
 <p><b>Automatic Derivation Logic:</b></p>
 <p><b>PART 0: Gate Driver Interface Configuration</b></p>
 <p>0. <b>PWM Output Polarity</b>: Configurable via profile (default: ACTIVE_HIGH/ACTIVE_HIGH)</p><ul>

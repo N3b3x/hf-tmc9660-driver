@@ -442,7 +442,7 @@ Reply Format:
   <li>Frame Size: 8 bytes (64 bits)</li>
   <li>Reply Delay: Reply to command N is received when sending command N+1</li>
   <li>Checksum: 8-bit checksum over first 7 bytes</li>
-  <li>Status: SPI status byte (0xFF = OK, 0x64 = error, 0xF0 = busy)</li>
+  <li>Status: SPI status byte (0xFF = OK, 0xF0 = busy); TMCL status in byte 1 (e.g. 0x64 = decimal 100 = OK)</li>
 </ul>
 <h3 id="uart-tmcl-protocol-72-bit--9-byte">
   

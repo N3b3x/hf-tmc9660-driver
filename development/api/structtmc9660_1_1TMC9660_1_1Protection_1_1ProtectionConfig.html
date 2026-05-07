@@ -135,6 +135,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a9cc67119ba46d33e8c537f5526db1f19" id="r_a9cc67119ba46d33e8c537f5526db1f19"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cc67119ba46d33e8c537f5526db1f19">i2tContinuousCurrent2_A</a></td></tr>
 <tr class="memdesc:a9cc67119ba46d33e8c537f5526db1f19"><td class="mdescLeft">&#160;</td><td class="mdescRight">I²t window 2 continuous current limit in Amps (optional, default: 1.25A).  <br /></td></tr>
 <tr class="separator:a9cc67119ba46d33e8c537f5526db1f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5d00fd23686fa558491be2ca8e2e4fd" id="r_ad5d00fd23686fa558491be2ca8e2e4fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5d00fd23686fa558491be2ca8e2e4fd">program_gate_driver_overcurrent_enable</a> = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td></tr>
+<tr class="separator:ad5d00fd23686fa558491be2ca8e2e4fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a022de1e8f07a083aed046070e878b10c" id="r_a022de1e8f07a083aed046070e878b10c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a022de1e8f07a083aed046070e878b10c">program_i2t_limits</a> = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td></tr>
+<tr class="separator:a022de1e8f07a083aed046070e878b10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a7856ec6d88a508e797a16290a12937" id="r_a7a7856ec6d88a508e797a16290a12937"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a7856ec6d88a508e797a16290a12937">program_supply_voltage_warnings</a> = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td></tr>
+<tr class="separator:a7a7856ec6d88a508e797a16290a12937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04d4fd2e32b62263de810ad0a613613a" id="r_a04d4fd2e32b62263de810ad0a613613a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a04d4fd2e32b62263de810ad0a613613a">program_chip_temperature_warnings</a> = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td></tr>
+<tr class="separator:a04d4fd2e32b62263de810ad0a613613a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a>&gt;<br />
@@ -255,6 +263,74 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <li>48V systems: 56-60V</li>
 <li>12V systems: 14-15V Overvoltage threshold in volts (optional, default: 28.0V) </li>
 </ul>
+
+</div>
+</div>
+<a id="a04d4fd2e32b62263de810ad0a613613a" name="a04d4fd2e32b62263de810ad0a613613a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04d4fd2e32b62263de810ad0a613613a">&#9670;&#160;</a></span>program_chip_temperature_warnings</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::ProtectionConfig::program_chip_temperature_warnings = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>When false, configureAuto skips configureTemperature (chip temperature threshold SAPs). </p>
+
+</div>
+</div>
+<a id="ad5d00fd23686fa558491be2ca8e2e4fd" name="ad5d00fd23686fa558491be2ca8e2e4fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5d00fd23686fa558491be2ca8e2e4fd">&#9670;&#160;</a></span>program_gate_driver_overcurrent_enable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::ProtectionConfig::program_gate_driver_overcurrent_enable = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>When false, configureAuto skips gateDriver.enableOvercurrentProtection (UVW/Y2 OC SAPs). When true, uses SAP on all four enables; if the full cluster fails (e.g. Y2 unsupported), <code>setOvercurrentEnabled</code> retries UVW-only. </p>
+
+</div>
+</div>
+<a id="a022de1e8f07a083aed046070e878b10c" name="a022de1e8f07a083aed046070e878b10c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a022de1e8f07a083aed046070e878b10c">&#9670;&#160;</a></span>program_i2t_limits</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::ProtectionConfig::program_i2t_limits = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>When false, configureAuto skips I²t time/limit SAP writes. </p>
+
+</div>
+</div>
+<a id="a7a7856ec6d88a508e797a16290a12937" name="a7a7856ec6d88a508e797a16290a12937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a7856ec6d88a508e797a16290a12937">&#9670;&#160;</a></span>program_supply_voltage_warnings</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Protection::ProtectionConfig::program_supply_voltage_warnings = <a class="el" href="classtmc9660_1_1CommInterface.html">true</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>When false, configureAuto skips configureVoltage (supply OV/UV warning SAPs). </p>
 
 </div>
 </div>

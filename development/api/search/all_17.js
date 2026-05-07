@@ -23,7 +23,8 @@ var searchData=
   ['writebank0_20',['writeBank0',['../structtmc9660_1_1TMC9660_1_1Globals.html#a535470731554799a65ab498dd8655ccd',1,'tmc9660::TMC9660::Globals']]],
   ['writebank2_21',['writeBank2',['../structtmc9660_1_1TMC9660_1_1Globals.html#a0dd669ceee82186441488ca2b7a0c7d5',1,'tmc9660::TMC9660::Globals']]],
   ['writebank3_22',['writeBank3',['../structtmc9660_1_1TMC9660_1_1Globals.html#acb2a2bb4611f0f74b71a092621a983cc',1,'tmc9660::TMC9660::Globals']]],
-  ['writeglobalparameter_23',['writeGlobalParameter',['../classtmc9660_1_1TMC9660.html#af01e35c1268f54323a22e5d3e105a082',1,'tmc9660::TMC9660']]],
-  ['writeparameter_24',['writeParameter',['../classtmc9660_1_1TMC9660.html#a127c977fa6bc579aa76d118102c8bc94',1,'tmc9660::TMC9660']]],
-  ['writepin_25',['writePin',['../structtmc9660_1_1TMC9660_1_1GPIO.html#af477393631ad7adf5926eafb83e760f6',1,'tmc9660::TMC9660::GPIO']]]
+  ['writeglobal_23',['writeGlobal',['../classtmc9660_1_1TMC9660.html#a36b6a5c31005e21f85feb9202a9fb3d4',1,'tmc9660::TMC9660::writeGlobal(uint16_t parameterId, uint8_t bank, uint32_t value) noexcept'],['../classtmc9660_1_1TMC9660.html#a04ac29956aad5bb868d2cafb5cf29ccc',1,'tmc9660::TMC9660::writeGlobal(tmc9660::tmcl::Parameters id, uint8_t bank, uint32_t value) noexcept']]],
+  ['writeglobalparameter_24',['writeGlobalParameter',['../classtmc9660_1_1TMC9660.html#af01e35c1268f54323a22e5d3e105a082',1,'tmc9660::TMC9660']]],
+  ['writeparameter_25',['writeParameter',['../classtmc9660_1_1TMC9660.html#a127c977fa6bc579aa76d118102c8bc94',1,'tmc9660::TMC9660']]],
+  ['writepin_26',['writePin',['../structtmc9660_1_1TMC9660_1_1GPIO.html#af477393631ad7adf5926eafb83e760f6',1,'tmc9660::TMC9660::GPIO']]]
 ];

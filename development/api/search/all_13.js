@@ -9,7 +9,7 @@ var searchData=
   ['sda_5fpin_6',['sda_pin',['../structtmc9660_1_1I2CConfig.html#a7485d37b7cddb5a76bcb54ef048b1f54',1,'tmc9660::I2CConfig']]],
   ['second_7',['SECOND',['../structtmc9660_1_1register__mode_1_1ADC_1_1SRC__CONFIG.html#a778c9f7b3e6db16e43408534cc820552a2200becb80f0019c4a2ccecec350d0db',1,'tmc9660::register_mode::ADC::SRC_CONFIG']]],
   ['sectoroffset_8',['sectorOffset',['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html#aa2e38268aea182a24952e006a738f67d',1,'tmc9660::TMC9660::FeedbackSense::HallConfig']]],
-  ['sendcommand_9',['sendCommand',['../classtmc9660_1_1TMC9660Bootloader.html#a150a1af8cee48af2a82a79beb78cda74',1,'tmc9660::TMC9660Bootloader::sendCommand()'],['../classtmc9660_1_1TMC9660.html#af391d3323fc537927741b0ee3631aaf3',1,'tmc9660::TMC9660::sendCommand()']]],
+  ['sendcommand_9',['sendCommand',['../classtmc9660_1_1TMC9660Bootloader.html#a150a1af8cee48af2a82a79beb78cda74',1,'tmc9660::TMC9660Bootloader::sendCommand()'],['../classtmc9660_1_1TMC9660.html#ab912878979c2bc07d74f657236619b73',1,'tmc9660::TMC9660::sendCommand()']]],
   ['sendcommandspi_10',['sendCommandSPI',['../classtmc9660_1_1TMC9660Bootloader.html#a12bcd2a1e612b73384619c0e9a3ae8c8',1,'tmc9660::TMC9660Bootloader']]],
   ['sendcommanduart_11',['sendCommandUART',['../classtmc9660_1_1TMC9660Bootloader.html#a3678b71422769916e93850c26c1c696c',1,'tmc9660::TMC9660Bootloader']]],
   ['sensor_20foc_20spi_20encoder_12',['FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md8',1,'']]],
