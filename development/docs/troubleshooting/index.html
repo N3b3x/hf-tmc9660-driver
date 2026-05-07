@@ -361,6 +361,7 @@
       <li>Check CS pin polarity (active LOW)</li>
       <li>Confirm SPI mode (Mode 0 or 3)</li>
       <li>Reduce clock speed</li>
+      <li>For TMCL, add a deterministic post-transfer delay (~150 µs is enough on a 1 MHz SPI link) inside <code class="language-plaintext highlighter-rouge">spiTransferTMCL</code>. Back-to-back SPI transfers without pacing make the chip return <code class="language-plaintext highlighter-rouge">SPI_STATUS=OK</code> (0xFF) but <code class="language-plaintext highlighter-rouge">TMCL_STATUS=REPLY_INVALID_CMD</code> (0x02) on the second of the two TMCL transactions; see <a href="/hf-tmc9660-driver/development/docs/special_feature_protocols/">Communication Protocols</a>.</li>
     </ul>
   </li>
   <li><strong>UART Issues</strong>

@@ -666,6 +666,21 @@ Reply Format:
   <li>Confirm <code class="language-plaintext highlighter-rouge">uartReceiveTMCL</code> only returns success after <strong>exactly nine</strong> reply bytes (see <a href="/hf-tmc9660-driver/development/docs/platform_integration/">Platform Integration</a>).</li>
   <li>Flush or drain stale RX data before starting bootloader or TMCL traffic if other code shares the same UART.</li>
 </ul>
+<h3 id="spi-tmcl-reply_invalid_cmd-on-back-to-back-transfers">
+  
+  
+    <a href="#spi-tmcl-reply_invalid_cmd-on-back-to-back-transfers" class="anchor-heading" aria-labelledby="spi-tmcl-reply_invalid_cmd-on-back-to-back-transfers"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> SPI TMCL <code class="language-plaintext highlighter-rouge">REPLY_INVALID_CMD</code> on back-to-back transfers
+  
+  
+</h3>
+    
+
+<p><strong>Issue</strong>: SPI returns <code class="language-plaintext highlighter-rouge">SPI_STATUS=OK</code> (0xFF) but <code class="language-plaintext highlighter-rouge">TMCL_STATUS=REPLY_INVALID_CMD</code> (0x02) on the second of two SPI TMCL transactions, often only when verbose logging is <em>off</em>. The retry loop for <code class="language-plaintext highlighter-rouge">SPI_STATUS_NOT_READY</code> does not catch it because the chip already considers the SPI byte-level transfer complete.</p>
+
+<p><strong>Solution</strong>:</p>
+<ul>
+  <li>Add a deterministic post-transfer delay in <code class="language-plaintext highlighter-rouge">spiTransferTMCL</code> (~150 µs is enough on a Vortex V1 / ESP32-C6 reference). The two-transaction TMCL pattern (TX1 = command, TX2 = NO_OP) needs the chip enough time between transactions to load the previous parameter-mode command into its TMCL parser; back-to-back SPI bursts at &gt;=1 MHz starve it. UART TMCL (9 bytes / 115200 = ~780 µs / frame) already paces the chip at the wire level and does not need this delay (see <a href="/hf-tmc9660-driver/development/docs/platform_integration/">Platform Integration</a>).</li>
+</ul>
 <h2 id="optional-spi-wire-level-tmcl-logging">
   
   
