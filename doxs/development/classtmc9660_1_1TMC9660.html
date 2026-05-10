@@ -113,7 +113,7 @@ $(function(){initNavTree('classtmc9660_1_1TMC9660.html',''); initResizable(); })
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1TMC9660__coll__graph.svg" width="1644" height="1956"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1TMC9660__coll__graph.svg" width="1644" height="2559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -123,6 +123,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1CurrentSensing.html">CurrentSensing</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for configuring ADC-based current measurement.  <a href="structtmc9660_1_1TMC9660_1_1CurrentSensing.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device feature topology — declares which optional subsystems are physically wired and bootloader-enabled on <b>this</b> <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> instance.  <a href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1Diagnostics.html">Diagnostics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-shot diagnostic snapshots for upstream health reporting.  <a href="structtmc9660_1_1TMC9660_1_1Diagnostics.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense.html">FeedbackSense</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for feedback sensor configuration.  <a href="structtmc9660_1_1TMC9660_1_1FeedbackSense.html#details">More...</a><br /></td></tr>
@@ -210,6 +216,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:addf93b1debce71807a2f8b818b6138db" id="r_addf93b1debce71807a2f8b818b6138db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#addf93b1debce71807a2f8b818b6138db">tmclAddress</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:addf93b1debce71807a2f8b818b6138db"><td class="mdescLeft">&#160;</td><td class="mdescRight">TMCL module address used on the transport (SPI typically 0).  <br /></td></tr>
 <tr class="separator:addf93b1debce71807a2f8b818b6138db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d8ff1f8c04fd4535608759791e68632" id="r_a9d8ff1f8c04fd4535608759791e68632"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d8ff1f8c04fd4535608759791e68632">setCapabilities</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">caps</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9d8ff1f8c04fd4535608759791e68632"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override the capability flags (e.g. set y2Phase=false on 3-phase-only boards).  <br /></td></tr>
+<tr class="separator:a9d8ff1f8c04fd4535608759791e68632"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab80d3c8c28243c4f3982bcd805415919" id="r_ab80d3c8c28243c4f3982bcd805415919"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab80d3c8c28243c4f3982bcd805415919">capabilities</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab80d3c8c28243c4f3982bcd805415919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the active capability flags (auto-derived from bootCfg + any subsequent overrides).  <br /></td></tr>
+<tr class="separator:ab80d3c8c28243c4f3982bcd805415919"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3af9ab3b1836283b67d8f7a1cd26dd35" id="r_a3af9ab3b1836283b67d8f7a1cd26dd35"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3af9ab3b1836283b67d8f7a1cd26dd35">GpioSet</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> <a class="el" href="classtmc9660_1_1CommInterface.html">pin</a>, <a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> <a class="el" href="classtmc9660_1_1CommInterface.html">signal</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="separator:a3af9ab3b1836283b67d8f7a1cd26dd35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5dc3fb88fe87d3a2a4a481849625f3c8" id="r_a5dc3fb88fe87d3a2a4a481849625f3c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dc3fb88fe87d3a2a4a481849625f3c8">GpioRead</a> (<a class="el" href="namespacetmc9660.html#a6c99d37edc8b04530ba5fb2c40923ed7">TMC9660CtrlPin</a> <a class="el" href="classtmc9660_1_1CommInterface.html">pin</a>, <a class="el" href="namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9">GpioSignal</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">signal</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
@@ -253,6 +265,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac21fb786cdc34468da9166b1975d1280"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab912878979c2bc07d74f657236619b73" id="r_ab912878979c2bc07d74f657236619b73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab912878979c2bc07d74f657236619b73">sendCommand</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a9d80aca6e1f3b40c4f7e947dd9e0fc24">tmc9660::tmcl::Op</a> opcode, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> type=0, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> motor=0, <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> value=0, <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> *<a class="el" href="classtmc9660_1_1CommInterface.html">reply</a>=<a class="el" href="classtmc9660_1_1CommInterface.html">nullptr</a>, <a class="el" href="namespacetmc9660_1_1tmcl.html#a6e6b2b9ac4f7edefb9606ff4d08d137e">tmc9660::tmcl::ReplyCode</a> *<a class="el" href="classtmc9660_1_1CommInterface.html">out_tmcl_status</a>=<a class="el" href="classtmc9660_1_1CommInterface.html">nullptr</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="separator:ab912878979c2bc07d74f657236619b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03c364d2c8977cf3ecd7faa6872644a8" id="r_a03c364d2c8977cf3ecd7faa6872644a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03c364d2c8977cf3ecd7faa6872644a8">getMotorContext</a> (<a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a03c364d2c8977cf3ecd7faa6872644a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a <code>MotorContext</code> (pole pairs, sensor selection, encoder CPR) live from the chip.  <br /></td></tr>
+<tr class="separator:a03c364d2c8977cf3ecd7faa6872644a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8ddf22adb37a356e83dd1d51e105e83" id="r_ad8ddf22adb37a356e83dd1d51e105e83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8ddf22adb37a356e83dd1d51e105e83">getMotorContext</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad8ddf22adb37a356e83dd1d51e105e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload returning the context by value.  <br /></td></tr>
+<tr class="separator:ad8ddf22adb37a356e83dd1d51e105e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -297,6 +315,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a04d95b7ce24e89b2113c42feebd7cbc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a88036934bd24af87c60e41245a8160ab" id="r_a88036934bd24af87c60e41245a8160ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">struct</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Telemetry.html">tmc9660::TMC9660::Telemetry</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a88036934bd24af87c60e41245a8160ab">this</a></td></tr>
 <tr class="separator:a88036934bd24af87c60e41245a8160ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aa4b4d991eab74d35d63b82d9784ba7" id="r_a6aa4b4d991eab74d35d63b82d9784ba7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">struct</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Diagnostics.html">tmc9660::TMC9660::Diagnostics</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6aa4b4d991eab74d35d63b82d9784ba7">this</a></td></tr>
+<tr class="separator:a6aa4b4d991eab74d35d63b82d9784ba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f13af36d4848b3de2860145150707ef" id="r_a0f13af36d4848b3de2860145150707ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">struct</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents.html">tmc9660::TMC9660::StopEvents</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f13af36d4848b3de2860145150707ef">this</a></td></tr>
 <tr class="separator:a0f13af36d4848b3de2860145150707ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4321a0c29d5ca35e7c68c05e32091659" id="r_a4321a0c29d5ca35e7c68c05e32091659"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">struct</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Protection.html">tmc9660::TMC9660::Protection</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4321a0c29d5ca35e7c68c05e32091659">this</a></td></tr>
@@ -328,6 +348,9 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a580d0691b35067dc25b1c30c76741d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a265e5aee5860fe3865c1dab7801f9ff6" id="r_a265e5aee5860fe3865c1dab7801f9ff6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1BootloaderConfig.html">tmc9660::BootloaderConfig</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a265e5aee5860fe3865c1dab7801f9ff6">bootCfg_</a></td></tr>
 <tr class="separator:a265e5aee5860fe3865c1dab7801f9ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5e83c39c2a269818246db71b4521af" id="r_a6d5e83c39c2a269818246db71b4521af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d5e83c39c2a269818246db71b4521af">caps_</a> {}</td></tr>
+<tr class="memdesc:a6d5e83c39c2a269818246db71b4521af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Feature topology — auto-derived from bootCfg_ in ctor; mutable via <a class="el" href="#a9d8ff1f8c04fd4535608759791e68632" title="Override the capability flags (e.g. set y2Phase=false on 3-phase-only boards).">setCapabilities()</a>.  <br /></td></tr>
+<tr class="separator:a6d5e83c39c2a269818246db71b4521af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f766edf63fe7c195b37a5ef9d9dff03" id="r_a2f766edf63fe7c195b37a5ef9d9dff03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f766edf63fe7c195b37a5ef9d9dff03">tmcCRCTable_Poly7Reflected</a> [256]</td></tr>
 <tr class="separator:a2f766edf63fe7c195b37a5ef9d9dff03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -622,6 +645,35 @@ Typical usage: <div class="fragment"><div class="line"><a class="code hl_struct"
 
 </div>
 </div>
+<a id="ab80d3c8c28243c4f3982bcd805415919" name="ab80d3c8c28243c4f3982bcd805415919"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab80d3c8c28243c4f3982bcd805415919">&#9670;&#160;</a></span>capabilities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a> &amp; <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::capabilities </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read the active capability flags (auto-derived from bootCfg + any subsequent overrides). </p>
+
+</div>
+</div>
 <a id="acd4dd96b7541f1c21b54c6e14f8811e0" name="acd4dd96b7541f1c21b54c6e14f8811e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd4dd96b7541f1c21b54c6e14f8811e0">&#9670;&#160;</a></span>comm()</h2>
 
@@ -865,6 +917,88 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div><div class="memdoc">
 
 <p>Get the compiled driver patch version number. </p>
+
+</div>
+</div>
+<a id="ad8ddf22adb37a356e83dd1d51e105e83" name="ad8ddf22adb37a356e83dd1d51e105e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8ddf22adb37a356e83dd1d51e105e83">&#9670;&#160;</a></span>getMotorContext() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::getMotorContext </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience overload returning the context by value. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1TMC9660_ad8ddf22adb37a356e83dd1d51e105e83_cgraph.svg" width="226" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1TMC9660_ad8ddf22adb37a356e83dd1d51e105e83_icgraph.svg" width="226" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a03c364d2c8977cf3ecd7faa6872644a8" name="a03c364d2c8977cf3ecd7faa6872644a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03c364d2c8977cf3ecd7faa6872644a8">&#9670;&#160;</a></span>getMotorContext() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::getMotorContext </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read a <code>MotorContext</code> (pole pairs, sensor selection, encoder CPR) live from the chip. </p>
+<p>Reads the bootloader-set/parameter-mode authoritative values:</p><ul>
+<li>NR 8 MOTOR_TYPE</li>
+<li>NR 9 MOTOR_POLE_PAIRS (for steppers, this is <code>full_steps_per_rev/4</code>)</li>
+<li>NR 132 VELOCITY_SENSOR_SELECTION</li>
+<li>For ABN encoder feedback: ABN_1_STEPS / ABN_2_STEPS</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ctx</td><td>The populated context. Fields default-init to safe values if the corresponding read fails (caller should check <code>ctx.valid()</code> for unit-conversion correctness). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if every required parameter read succeeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>After changing the motor type, pole pairs, sensor selection or encoder CPR via the bootloader or parameter-mode SAPs, call this again to refresh any cached <code>MotorContext</code> you keep host-side. </dd></dl>
 
 </div>
 </div>
@@ -1221,6 +1355,35 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a9d8ff1f8c04fd4535608759791e68632" name="a9d8ff1f8c04fd4535608759791e68632"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d8ff1f8c04fd4535608759791e68632">&#9670;&#160;</a></span>setCapabilities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">void</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::setCapabilities </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>caps</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Override the capability flags (e.g. set y2Phase=false on 3-phase-only boards). </p>
+
+</div>
+</div>
 <a id="addf93b1debce71807a2f8b818b6138db" name="addf93b1debce71807a2f8b818b6138db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#addf93b1debce71807a2f8b818b6138db">&#9670;&#160;</a></span>tmclAddress()</h2>
 
@@ -1506,6 +1669,32 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
+<a id="a6d5e83c39c2a269818246db71b4521af" name="a6d5e83c39c2a269818246db71b4521af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d5e83c39c2a269818246db71b4521af">&#9670;&#160;</a></span>caps_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">DeviceCapabilities</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::caps_ {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Feature topology — auto-derived from bootCfg_ in ctor; mutable via <a class="el" href="#a9d8ff1f8c04fd4535608759791e68632" title="Override the capability flags (e.g. set y2Phase=false on 3-phase-only boards).">setCapabilities()</a>. </p>
+
+</div>
+</div>
 <a id="a1a9babfa2226733a086cf03a8ef69c9d" name="a1a9babfa2226733a086cf03a8ef69c9d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a9babfa2226733a086cf03a8ef69c9d">&#9670;&#160;</a></span>comm_</h2>
 
@@ -1534,7 +1723,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="af835ee74bb88d40ac9186f644a4e5c3d" name="af835ee74bb88d40ac9186f644a4e5c3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af835ee74bb88d40ac9186f644a4e5c3d">&#9670;&#160;</a></span>this <span class="overload">[1/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af835ee74bb88d40ac9186f644a4e5c3d">&#9670;&#160;</a></span>this <span class="overload">[1/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1550,7 +1739,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="aaf1a3d43d4b97fdd56cd8bd4015133bb" name="aaf1a3d43d4b97fdd56cd8bd4015133bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf1a3d43d4b97fdd56cd8bd4015133bb">&#9670;&#160;</a></span>this <span class="overload">[2/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf1a3d43d4b97fdd56cd8bd4015133bb">&#9670;&#160;</a></span>this <span class="overload">[2/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1566,7 +1755,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="ab574c4d5d176e18fa25715e67d369f84" name="ab574c4d5d176e18fa25715e67d369f84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab574c4d5d176e18fa25715e67d369f84">&#9670;&#160;</a></span>this <span class="overload">[3/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab574c4d5d176e18fa25715e67d369f84">&#9670;&#160;</a></span>this <span class="overload">[3/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1582,7 +1771,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a312f96fd36ed54dbd4e65ff52570145c" name="a312f96fd36ed54dbd4e65ff52570145c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a312f96fd36ed54dbd4e65ff52570145c">&#9670;&#160;</a></span>this <span class="overload">[4/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a312f96fd36ed54dbd4e65ff52570145c">&#9670;&#160;</a></span>this <span class="overload">[4/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1598,7 +1787,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="accc419fc7aa1996e373f9efcb9587845" name="accc419fc7aa1996e373f9efcb9587845"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#accc419fc7aa1996e373f9efcb9587845">&#9670;&#160;</a></span>this <span class="overload">[5/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#accc419fc7aa1996e373f9efcb9587845">&#9670;&#160;</a></span>this <span class="overload">[5/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1614,7 +1803,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a1ef3dd080214e5271448135b5d7dd0a4" name="a1ef3dd080214e5271448135b5d7dd0a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ef3dd080214e5271448135b5d7dd0a4">&#9670;&#160;</a></span>this <span class="overload">[6/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef3dd080214e5271448135b5d7dd0a4">&#9670;&#160;</a></span>this <span class="overload">[6/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1630,7 +1819,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a6d5cc7b5d445f86d1bb96ea2bcac2c92" name="a6d5cc7b5d445f86d1bb96ea2bcac2c92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d5cc7b5d445f86d1bb96ea2bcac2c92">&#9670;&#160;</a></span>this <span class="overload">[7/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d5cc7b5d445f86d1bb96ea2bcac2c92">&#9670;&#160;</a></span>this <span class="overload">[7/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1646,7 +1835,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a0234c434d81d5a4dffdd9c9d32deaf06" name="a0234c434d81d5a4dffdd9c9d32deaf06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0234c434d81d5a4dffdd9c9d32deaf06">&#9670;&#160;</a></span>this <span class="overload">[8/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0234c434d81d5a4dffdd9c9d32deaf06">&#9670;&#160;</a></span>this <span class="overload">[8/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1662,7 +1851,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a6feae71bcab30b6748727b591a9687a8" name="a6feae71bcab30b6748727b591a9687a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6feae71bcab30b6748727b591a9687a8">&#9670;&#160;</a></span>this <span class="overload">[9/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6feae71bcab30b6748727b591a9687a8">&#9670;&#160;</a></span>this <span class="overload">[9/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1678,7 +1867,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a915dc6f97e14157216c20a4bd8a43030" name="a915dc6f97e14157216c20a4bd8a43030"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a915dc6f97e14157216c20a4bd8a43030">&#9670;&#160;</a></span>this <span class="overload">[10/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a915dc6f97e14157216c20a4bd8a43030">&#9670;&#160;</a></span>this <span class="overload">[10/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1694,7 +1883,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a04d95b7ce24e89b2113c42feebd7cbc6" name="a04d95b7ce24e89b2113c42feebd7cbc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04d95b7ce24e89b2113c42feebd7cbc6">&#9670;&#160;</a></span>this <span class="overload">[11/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a04d95b7ce24e89b2113c42feebd7cbc6">&#9670;&#160;</a></span>this <span class="overload">[11/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1710,7 +1899,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a88036934bd24af87c60e41245a8160ab" name="a88036934bd24af87c60e41245a8160ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88036934bd24af87c60e41245a8160ab">&#9670;&#160;</a></span>this <span class="overload">[12/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a88036934bd24af87c60e41245a8160ab">&#9670;&#160;</a></span>this <span class="overload">[12/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1725,8 +1914,24 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
+<a id="a6aa4b4d991eab74d35d63b82d9784ba7" name="a6aa4b4d991eab74d35d63b82d9784ba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6aa4b4d991eab74d35d63b82d9784ba7">&#9670;&#160;</a></span>this <span class="overload">[13/22]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">struct</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Diagnostics.html">tmc9660::TMC9660::Diagnostics</a>* <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::this</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0f13af36d4848b3de2860145150707ef" name="a0f13af36d4848b3de2860145150707ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f13af36d4848b3de2860145150707ef">&#9670;&#160;</a></span>this <span class="overload">[13/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f13af36d4848b3de2860145150707ef">&#9670;&#160;</a></span>this <span class="overload">[14/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1742,7 +1947,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a4321a0c29d5ca35e7c68c05e32091659" name="a4321a0c29d5ca35e7c68c05e32091659"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4321a0c29d5ca35e7c68c05e32091659">&#9670;&#160;</a></span>this <span class="overload">[14/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4321a0c29d5ca35e7c68c05e32091659">&#9670;&#160;</a></span>this <span class="overload">[15/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1758,7 +1963,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="ac248d0e85cf23308222ca32fbf622afe" name="ac248d0e85cf23308222ca32fbf622afe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac248d0e85cf23308222ca32fbf622afe">&#9670;&#160;</a></span>this <span class="overload">[15/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac248d0e85cf23308222ca32fbf622afe">&#9670;&#160;</a></span>this <span class="overload">[16/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1774,7 +1979,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a5de7b40a6e6cfd734e3c7c8fe8a7a772" name="a5de7b40a6e6cfd734e3c7c8fe8a7a772"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5de7b40a6e6cfd734e3c7c8fe8a7a772">&#9670;&#160;</a></span>this <span class="overload">[16/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5de7b40a6e6cfd734e3c7c8fe8a7a772">&#9670;&#160;</a></span>this <span class="overload">[17/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1790,7 +1995,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="ab562bf92ac9e4b66ed8e65bf16da4e3f" name="ab562bf92ac9e4b66ed8e65bf16da4e3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab562bf92ac9e4b66ed8e65bf16da4e3f">&#9670;&#160;</a></span>this <span class="overload">[17/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab562bf92ac9e4b66ed8e65bf16da4e3f">&#9670;&#160;</a></span>this <span class="overload">[18/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1806,7 +2011,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a55a68b3af4091bc106a7fa114b713b78" name="a55a68b3af4091bc106a7fa114b713b78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55a68b3af4091bc106a7fa114b713b78">&#9670;&#160;</a></span>this <span class="overload">[18/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a55a68b3af4091bc106a7fa114b713b78">&#9670;&#160;</a></span>this <span class="overload">[19/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1822,7 +2027,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="ac2226cbd2a721bab52eb550dc58c1e48" name="ac2226cbd2a721bab52eb550dc58c1e48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2226cbd2a721bab52eb550dc58c1e48">&#9670;&#160;</a></span>this <span class="overload">[19/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2226cbd2a721bab52eb550dc58c1e48">&#9670;&#160;</a></span>this <span class="overload">[20/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1838,7 +2043,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a521c71ae22b25e26ab2809d6e1d06a6e" name="a521c71ae22b25e26ab2809d6e1d06a6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a521c71ae22b25e26ab2809d6e1d06a6e">&#9670;&#160;</a></span>this <span class="overload">[20/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a521c71ae22b25e26ab2809d6e1d06a6e">&#9670;&#160;</a></span>this <span class="overload">[21/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1854,7 +2059,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <a id="a921b53d5906d998855a7bf81e81fe269" name="a921b53d5906d998855a7bf81e81fe269"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a921b53d5906d998855a7bf81e81fe269">&#9670;&#160;</a></span>this <span class="overload">[21/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a921b53d5906d998855a7bf81e81fe269">&#9670;&#160;</a></span>this <span class="overload">[22/22]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -112,7 +112,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1PositionControl.html','');
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::PositionControl:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl__coll__graph.svg" width="1296" height="2135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -132,12 +132,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae128fcc10e275d2217ef86afaeac12f" id="r_aae128fcc10e275d2217ef86afaeac12f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae128fcc10e275d2217ef86afaeac12f">getPositionSensor</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ad76e747d0db321a75ff34b1ca1830dc6">tmc9660::tmcl::PositionSensorSelection</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sel</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:aae128fcc10e275d2217ef86afaeac12f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read position feedback sensor.  <br /></td></tr>
 <tr class="separator:aae128fcc10e275d2217ef86afaeac12f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8d218066391c6a5c2cc122de324d4f2" id="r_ae8d218066391c6a5c2cc122de324d4f2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8d218066391c6a5c2cc122de324d4f2">setTargetPosition</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">position</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ae8d218066391c6a5c2cc122de324d4f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target position.  <br /></td></tr>
-<tr class="separator:ae8d218066391c6a5c2cc122de324d4f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bcdaebcca3c83e51a8a39d946e1cde1" id="r_a4bcdaebcca3c83e51a8a39d946e1cde1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bcdaebcca3c83e51a8a39d946e1cde1">setTargetPosition</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> value, <a class="el" href="namespacetmc9660_1_1units.html#a7a72248939e9a696d29cb3aa11af2a09">::tmc9660::units::PositionUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4bcdaebcca3c83e51a8a39d946e1cde1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target position in any engineering unit (canonical API).  <br /></td></tr>
+<tr class="separator:a4bcdaebcca3c83e51a8a39d946e1cde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53be18e4dec6e8558c68ad7276672c0a" id="r_a53be18e4dec6e8558c68ad7276672c0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53be18e4dec6e8558c68ad7276672c0a">setTargetPositionDegMech</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">deg</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a53be18e4dec6e8558c68ad7276672c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: set target position in mechanical degrees.  <br /></td></tr>
+<tr class="separator:a53be18e4dec6e8558c68ad7276672c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd191804c8707b0037aec93bb5eddd30" id="r_afd191804c8707b0037aec93bb5eddd30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd191804c8707b0037aec93bb5eddd30">setTargetPositionMechRevs</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">revs</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:afd191804c8707b0037aec93bb5eddd30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: set target position in mechanical revolutions.  <br /></td></tr>
+<tr class="separator:afd191804c8707b0037aec93bb5eddd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a753bbc2e359b3673298ea3bf6dc85e01" id="r_a753bbc2e359b3673298ea3bf6dc85e01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a753bbc2e359b3673298ea3bf6dc85e01">setTargetPositionRaw</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">position_counts</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a753bbc2e359b3673298ea3bf6dc85e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target position in raw chip counts (escape hatch).  <br /></td></tr>
+<tr class="separator:a753bbc2e359b3673298ea3bf6dc85e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a332011fad07a5da522d4e7f8ca39e541" id="r_a332011fad07a5da522d4e7f8ca39e541"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a332011fad07a5da522d4e7f8ca39e541">getActualPosition</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">position</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a332011fad07a5da522d4e7f8ca39e541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual position.  <br /></td></tr>
+<tr class="memdesc:a332011fad07a5da522d4e7f8ca39e541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual position in raw chip counts.  <br /></td></tr>
 <tr class="separator:a332011fad07a5da522d4e7f8ca39e541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5086ae0c2a8341eace203c4aba201966" id="r_a5086ae0c2a8341eace203c4aba201966"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5086ae0c2a8341eace203c4aba201966">getActualPosition</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;value, <a class="el" href="namespacetmc9660_1_1units.html#a7a72248939e9a696d29cb3aa11af2a09">::tmc9660::units::PositionUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5086ae0c2a8341eace203c4aba201966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual position in any engineering unit.  <br /></td></tr>
+<tr class="separator:a5086ae0c2a8341eace203c4aba201966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4894ddcb0bcfb4dc8c94186e70679e1" id="r_aa4894ddcb0bcfb4dc8c94186e70679e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4894ddcb0bcfb4dc8c94186e70679e1">getActualPositionDegMech</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">deg</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aa4894ddcb0bcfb4dc8c94186e70679e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: read actual position in mechanical degrees.  <br /></td></tr>
+<tr class="separator:aa4894ddcb0bcfb4dc8c94186e70679e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5530827f7e09e72515a977000bff29d7" id="r_a5530827f7e09e72515a977000bff29d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5530827f7e09e72515a977000bff29d7">setPositionScalingFactor</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">factor</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a5530827f7e09e72515a977000bff29d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set position scaling factor.  <br /></td></tr>
 <tr class="separator:a5530827f7e09e72515a977000bff29d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -330,8 +345,55 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
+<a id="a5086ae0c2a8341eace203c4aba201966" name="a5086ae0c2a8341eace203c4aba201966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5086ae0c2a8341eace203c4aba201966">&#9670;&#160;</a></span>getActualPosition() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::getActualPosition </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a7a72248939e9a696d29cb3aa11af2a09">::tmc9660::units::PositionUnit</a></td>          <td class="paramname"><span class="paramname"><em>unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read actual position in any engineering unit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Measured position expressed in <code>unit</code>. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">unit</td><td>Engineering unit to convert into. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">ctx</td><td>Motor context (provides CPR for Counts ↔ rev mapping). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the underlying SAP succeeded. </dd></dl>
+
+</div>
+</div>
 <a id="a332011fad07a5da522d4e7f8ca39e541" name="a332011fad07a5da522d4e7f8ca39e541"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a332011fad07a5da522d4e7f8ca39e541">&#9670;&#160;</a></span>getActualPosition()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a332011fad07a5da522d4e7f8ca39e541">&#9670;&#160;</a></span>getActualPosition() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -355,14 +417,57 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Read actual position. </p>
+<p>Read actual position in raw chip counts. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">position</td><td>Measured position. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">position</td><td>Measured position in counts. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if read. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl_a332011fad07a5da522d4e7f8ca39e541_icgraph.svg" width="519" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa4894ddcb0bcfb4dc8c94186e70679e1" name="aa4894ddcb0bcfb4dc8c94186e70679e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4894ddcb0bcfb4dc8c94186e70679e1">&#9670;&#160;</a></span>getActualPositionDegMech()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::getActualPositionDegMech </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>deg</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: read actual position in mechanical degrees. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl_aa4894ddcb0bcfb4dc8c94186e70679e1_cgraph.svg" width="519" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -1673,8 +1778,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ae8d218066391c6a5c2cc122de324d4f2" name="ae8d218066391c6a5c2cc122de324d4f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8d218066391c6a5c2cc122de324d4f2">&#9670;&#160;</a></span>setTargetPosition()</h2>
+<a id="a4bcdaebcca3c83e51a8a39d946e1cde1" name="a4bcdaebcca3c83e51a8a39d946e1cde1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bcdaebcca3c83e51a8a39d946e1cde1">&#9670;&#160;</a></span>setTargetPosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1687,7 +1792,135 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
         <tr>
           <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::setTargetPosition </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>value</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a7a72248939e9a696d29cb3aa11af2a09">::tmc9660::units::PositionUnit</a></td>          <td class="paramname"><span class="paramname"><em>unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set target position in any engineering unit (canonical API). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Target position expressed in <code>unit</code>. </td></tr>
+    <tr><td class="paramname">unit</td><td>Engineering unit of <code>value</code> (mech revs / deg-mech / rad-mech / Counts). </td></tr>
+    <tr><td class="paramname">ctx</td><td>Motor context (provides CPR for Counts ↔ rev mapping). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the SAP succeeded. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl_a4bcdaebcca3c83e51a8a39d946e1cde1_icgraph.svg" width="523" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a53be18e4dec6e8558c68ad7276672c0a" name="a53be18e4dec6e8558c68ad7276672c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53be18e4dec6e8558c68ad7276672c0a">&#9670;&#160;</a></span>setTargetPositionDegMech()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::setTargetPositionDegMech </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>deg</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: set target position in mechanical degrees. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl_a53be18e4dec6e8558c68ad7276672c0a_cgraph.svg" width="518" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="afd191804c8707b0037aec93bb5eddd30" name="afd191804c8707b0037aec93bb5eddd30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd191804c8707b0037aec93bb5eddd30">&#9670;&#160;</a></span>setTargetPositionMechRevs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::setTargetPositionMechRevs </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>revs</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: set target position in mechanical revolutions. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1PositionControl_afd191804c8707b0037aec93bb5eddd30_cgraph.svg" width="523" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a753bbc2e359b3673298ea3bf6dc85e01" name="a753bbc2e359b3673298ea3bf6dc85e01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a753bbc2e359b3673298ea3bf6dc85e01">&#9670;&#160;</a></span>setTargetPositionRaw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::PositionControl::setTargetPositionRaw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>position_counts</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1698,14 +1931,13 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Set target position. </p>
+<p>Set target position in raw chip counts (escape hatch). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">position</td><td>Desired position (internal units). </td></tr>
+    <tr><td class="paramname">position_counts</td><td>Desired position in raw counts. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if written. </dd></dl>
 
 </div>
 </div>
