@@ -72,19 +72,93 @@ Motor configuration and control subsystem.
 | `setIdleMotorPWMBehavior()` | `bool setIdleMotorPWMBehavior(tmcl::IdleMotorPwmBehavior pwmOffWhenIdle)` | [`inc/tmc9660.hpp#L575`](../inc/tmc9660.hpp#L575) |
 | `configureAuto()` | `bool configureAuto(const MotorProfile& profile)` | [`inc/tmc9660.hpp#L639`](../inc/tmc9660.hpp#L639) |
 
-## FOCControl Subsystem
+## FOC Control Subsystems
 
-Field-Oriented Control subsystem.
+The TMC9660's FOC stack is split into three cooperating subsystems on
+`TMC9660`. There is **no** monolithic `focControl` member.
 
-**Location**: [`inc/parameter_mode/tmc9660_param_mode_tmcl.hpp`](../inc/parameter_mode/tmc9660_param_mode_tmcl.hpp)
+| Member                   | Class             | Responsibility                                               |
+|--------------------------|-------------------|--------------------------------------------------------------|
+| `driver.torqueFluxControl` | `TorqueFluxControl` | Torque/flux PI gains, target torque/flux, open-loop magnitude (`setOpenloopCurrent`, `setOpenloopVoltage`) |
+| `driver.velocityControl` | `VelocityControl` | Velocity PI gains, target velocity, velocity offset/feedforward, **unit-aware** setters |
+| `driver.positionControl` | `PositionControl` | Position P gain, target position, **unit-aware** setters    |
+| `driver.ramp`            | `Ramp`            | Trapezoidal ramper (VMAX/AMAX/DMAX/V1/V2/VSTART/VSTOP/...)   |
 
-### Methods
+Each subsystem exposes:
 
-| Method | Signature | Location |
-|--------|-----------|----------|
-| `setTargetVelocity()` | `bool setTargetVelocity(int32_t velocity)` | See source |
-| `setTargetTorque()` | `bool setTargetTorque(int32_t torque)` | See source |
-| `setTargetPosition()` | `bool setTargetPosition(int32_t position)` | See source |
+- low-level raw integer setters/getters that map 1:1 to TMCL parameters,
+- unit-aware setters that take a `MotorContext` (see [Units &
+  Diagnostics](units_and_diagnostics.md)),
+- `configureAuto(...)` for batch configuration from a profile struct.
+
+### `VelocityControl` — selected methods
+
+| Method | Notes |
+|--------|-------|
+| `setTargetVelocity(double, VelocityUnit, MotorContext const&)` | Generic unit-aware setter |
+| `setTargetVelocityRpm(double, MotorContext const&)`            | RPM convenience wrapper |
+| `setTargetVelocityRadPerSec(double, MotorContext const&)`      | rad/s convenience wrapper |
+| `setTargetVelocityRaw(int32_t)`                                | Direct internal-units write |
+| `getActualVelocityRpm(double&, MotorContext const&)`           | Read NR `ACTUAL_VELOCITY` and convert |
+| `setVelocityP/I/...`                                           | PI gain plumbing |
+
+### `PositionControl` — selected methods
+
+| Method | Notes |
+|--------|-------|
+| `setTargetPosition(double, PositionUnit, MotorContext const&)` | Generic unit-aware setter |
+| `setTargetPositionDegMech(double, MotorContext const&)`        | Mechanical-degree wrapper |
+| `setTargetPositionRaw(int32_t)`                                | Direct counts write |
+
+### `TorqueFluxControl` — selected methods
+
+| Method | Notes |
+|--------|-------|
+| `setOpenloopCurrent(uint16_t milliamps)` | Id-only injection used by `FOC_OPENLOOP_CURRENT_MODE` |
+| `setOpenloopVoltage(uint16_t units)`     | `|U|` injection used by `FOC_OPENLOOP_VOLTAGE_MODE` (preferred for unloaded startup) |
+| `setTargetTorque(int16_t mA)`            | Closed-loop Iq target |
+| `setTargetFlux(int16_t mA)`              | Closed-loop Id target |
+
+### `Ramp::buildRampConfig` (static)
+
+Produces a fully-populated single-segment trapezoidal `RampConfig` from
+engineering units; pass to `ramp.configureAuto()`. See [Units &
+Diagnostics §3](units_and_diagnostics.md#3-unit-aware-chip-api).
+
+```cpp
+auto rc = TMC9660<MyComm>::Ramp::buildRampConfig(
+    600.0, units::VelocityUnit::Rpm,
+    50.0,  units::AccelerationUnit::RpmPerSec,
+    ctx);
+```
+
+## Diagnostics Subsystem
+
+**Location**: [`inc/tmc9660.hpp`](../inc/tmc9660.hpp), POD types in
+[`inc/tmc9660_diagnostics.hpp`](../inc/tmc9660_diagnostics.hpp).
+
+| Method | Signature |
+|--------|-----------|
+| `summary()`  | `bool summary (diagnostics::MotorSummary&,  units::MotorContext const&)` |
+| `snapshot()` | `bool snapshot(diagnostics::MotorSnapshot&, units::MotorContext const&)` |
+
+`MotorSummary` is ~64 B (high-rate health gauge); `MotorSnapshot` is the full
+read-only state dump including raw + engineering-unit velocity/position,
+electrical angle, FOC currents/voltages, and the four chip status/error
+registers. Both echo the input `MotorContext` so consumers can reproduce
+conversions later. See [Units & Diagnostics §4](units_and_diagnostics.md#4-diagnostics).
+
+## MotorContext (live)
+
+```cpp
+units::MotorContext ctx;
+driver.getMotorContext(ctx);          // out-param overload
+const auto ctx2 = driver.getMotorContext();   // value-returning overload
+```
+
+Reads `MOTOR_TYPE`, `MOTOR_POLE_PAIRS`, `VELOCITY_SENSOR_SELECTION`, and
+`ABN_*_STEPS` (for ABN selections). Refresh after any of those parameters
+change.
 
 ## Telemetry Subsystem
 

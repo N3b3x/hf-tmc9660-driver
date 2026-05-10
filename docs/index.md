@@ -29,6 +29,7 @@ Welcome! This directory contains step-by-step guides for installing, building, a
 
 6. **[📖 API Reference](api_reference.md)** – Complete API documentation
 7. **[💡 Examples](examples.md)** – Detailed example walkthroughs
+8. **[📐 Units & Diagnostics](units_and_diagnostics.md)** – Engineering-unit conversions, `MotorContext`, `MotorSummary` / `MotorSnapshot`
 
 ### **Advanced Features**
 

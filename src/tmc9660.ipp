@@ -31,6 +31,16 @@ template <typename CommType>
 TMC9660<CommType>::TMC9660(CommType& comm, uint8_t address,
                  const BootloaderConfig* boot_cfg) noexcept
     : comm_(comm), address_(address & 0x7F), bootCfg_(boot_cfg) {
+  // Auto-derive feature topology from the bootloader configuration when one was
+  // provided. This converts later "REPLY_CMD_NOT_AVAILABLE" silicon errors on
+  // SPI-encoder / Step-Dir paths into clear host-side ERROR logs at the API
+  // boundary. Y2 phase has no bootloader switch (it's a board topology fact),
+  // so it stays at the default true — boards without Y2 wired should call
+  // setCapabilities({.y2Phase=false, ...}) immediately after construction.
+  if (boot_cfg != nullptr) {
+    caps_.spiEncoder = boot_cfg->spiEnc.enable;
+    caps_.stepDir    = boot_cfg->stepDir.enable;
+  }
   // Initialize bootloader for SPI and UART interfaces
   if (comm.mode() == CommMode::SPI || comm.mode() == CommMode::UART) {
     bootloader_ = std::make_unique<TMC9660Bootloader<CommType>>(comm);
@@ -1075,11 +1085,17 @@ bool TMC9660<CommType>::CurrentSensing::configureAuto(const AutoConfig& config) 
     float numericGain;
   };
 
+  // Search HIGHEST→LOWEST gain so we pick the largest gain that still has
+  // sufficient full-scale headroom. Higher gain ⇒ lower I_FS but proportionally
+  // better ADC resolution per ampere (CURRENT_SCALING_FACTOR scales 1/G).
+  // For low-current motors (e.g. 30 W BLDC drawing tens of mA in steady state)
+  // this can be 8× better resolution than the legacy "lowest qualifying gain"
+  // strategy and is standard practice for shunt-based sensorless drives.
   const CsaGainOption availableGains[] = {
-      {tmc9660::tmcl::CsaGain::GAIN_5X, 5.0f},
-      {tmc9660::tmcl::CsaGain::GAIN_10X, 10.0f},
-      {tmc9660::tmcl::CsaGain::GAIN_20X, 20.0f},
       {tmc9660::tmcl::CsaGain::GAIN_40X, 40.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_20X, 20.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_10X, 10.0f},
+      {tmc9660::tmcl::CsaGain::GAIN_5X, 5.0f},
   };
 
   // Calculate full-scale current for each gain: I_FS = 2.5V / (G_CSA * R_shunt)
@@ -1087,9 +1103,12 @@ bool TMC9660<CommType>::CurrentSensing::configureAuto(const AutoConfig& config) 
   const float minHeadroom = 1.5f;
   const float targetIFS = config.expectedPeakCurrent_A * minHeadroom;
 
-  // Find the best CSA gain (smallest gain that provides sufficient headroom)
-  tmc9660::tmcl::CsaGain selectedGain = tmc9660::tmcl::CsaGain::GAIN_40X;
-  float selectedGainValue = 40.0f;
+  // Find the best CSA gain — the HIGHEST gain whose full-scale current still
+  // exceeds the headroom target (best resolution without saturating).
+  // Fallback: if none qualify (e.g. very high peak current), keep GAIN_5X
+  // which has the largest I_FS.
+  tmc9660::tmcl::CsaGain selectedGain = tmc9660::tmcl::CsaGain::GAIN_5X;
+  float selectedGainValue = 5.0f;
   bool foundSuitableGain = false;
 
   for (const auto& option : availableGains) {
@@ -1570,7 +1589,11 @@ static float calculateBootstrapCurrent_mA(float gateCharge_nC, float pwmFreq_Hz)
 template <typename CommType>
 bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerStageProfile& profile) noexcept {
   bool ok = true;
-  const bool cfgY2 = profile.configure_y2_phase;
+  // Y2 SAPs are gated by *both* the per-call profile flag and the per-device capability flag.
+  // The per-device flag (caps_.y2Phase) is the topology-level "is Y2 wired on this board" answer
+  // that lets a host-side caller force-skip Y2 once at boot — useful so subsequent careless
+  // callers can't accidentally re-enable Y2 SAPs on a 3-phase-only board.
+  const bool cfgY2 = profile.configure_y2_phase && driver.capabilities().y2Phase;
 
   // --- Safety Check: Ensure critical parameters are valid ---
   if (profile.busVoltage_V <= 0.0f || profile.pwmFrequency_Hz <= 0.0f ||
@@ -1754,14 +1777,44 @@ bool TMC9660<CommType>::GateDriver::configurePowerStageProtection(const PowerSta
   }
 
   // Gate currents (SAP 245–246): program after drive times / BBM per TMC9660 gate-driver ordering.
+  //
+  // FW051V100 silicon-rev-1/var-2 quirk: NR 245 (UVW_SINK_CURRENT) and NR 246
+  // (UVW_SOURCE_CURRENT) reject every plain enum value (0..15) with REPLY_INVALID_VALUE —
+  // both the auto-derived index AND the chip's own reset-default index — unless the host
+  // writes the nibble-replicated form 0x111 * enum_idx, i.e. the same 4-bit code placed in
+  // each of the three low nibbles (bits [11:8], [7:4], [3:0]). 0x111 = 0b_0001_0001_0001,
+  // so multiplying by enum_idx ∈ [0,15] gives 0x000, 0x111, 0x222, …, 0xFFF — the full
+  // 16-value range fits losslessly in 12 bits because each nibble independently carries
+  // the 4-bit code. The firmware appears to decode the 12-bit word as three independent
+  // 4-bit fields (likely one per gate-driver leg) and only accepts writes where all three
+  // fields agree. Empirically: writing 0x444 stores 4 and GAP echoes back 4; writing plain
+  // 4 (= 0x004, three disagreeing nibbles) returns INVALID_VALUE. Other gate-current-
+  // related NRs (239 USE_ADAPTIVE_DRIVE_TIME_UVW, 241/242 DRIVE_TIME_*_UVW) accept the
+  // plain form, so this is specifically a 245/246 (and by extension 247/248 Y2)
+  // marshalling quirk on this firmware revision.
+  //
+  // The transform is applied unconditionally on the assumption it's harmless on
+  // future/other firmware revisions (the chip would still see enum_idx in the low nibble).
+  // If a future silicon rev rejects the replicated form, this can be gated via a runtime
+  // capability flag without touching call sites.
+  auto encodeGateCurrent = [](uint32_t enum_idx) noexcept -> uint32_t {
+    return 0x111u * (enum_idx & 0xFu);
+  };
   if (profile.program_gate_current_limits) {
     if (cfgY2) {
-      ok &= configureCurrentLimits(sinkCurrent, sourceCurrent, sinkCurrent, sourceCurrent);
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SINK_CURRENT,
+                                  encodeGateCurrent(static_cast<uint32_t>(sinkCurrent)));
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SOURCE_CURRENT,
+                                  encodeGateCurrent(static_cast<uint32_t>(sourceCurrent)));
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_SINK_CURRENT,
+                                  encodeGateCurrent(static_cast<uint32_t>(sinkCurrent)));
+      ok &= driver.writeParameter(tmc9660::tmcl::Parameters::Y2_SOURCE_CURRENT,
+                                  encodeGateCurrent(static_cast<uint32_t>(sourceCurrent)));
     } else {
       ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SINK_CURRENT,
-                                  static_cast<uint32_t>(sinkCurrent));
+                                  encodeGateCurrent(static_cast<uint32_t>(sinkCurrent)));
       ok &= driver.writeParameter(tmc9660::tmcl::Parameters::UVW_SOURCE_CURRENT,
-                                  static_cast<uint32_t>(sourceCurrent));
+                                  encodeGateCurrent(static_cast<uint32_t>(sourceCurrent)));
     }
   }
 
@@ -2652,6 +2705,22 @@ bool TMC9660<CommType>::FeedbackSense::configureAuto(const AbnConfig& config) no
   // Step 3: Configure N-channel filtering
   ok &= configureABNNChannel(config.nChannelFiltering, config.clearOnNextNull);
 
+  // Step 4: For FORCED_PHI_E_* init methods, optionally set OPENLOOP_CURRENT
+  // (param 46, mA). The datasheet (param-mode line 2411-2422) specifies that
+  // this current — not OPENLOOP_VOLTAGE — is what physically drives the rotor
+  // to a known electrical angle during alignment. We only write it when the
+  // caller explicitly opts in (initOpenloopCurrent_mA != 0) so that callers
+  // using USE_HALL / USE_N_CHANNEL_OFFSET / USE_OFFSET (no alignment current
+  // needed) and callers who already set OPENLOOP_CURRENT elsewhere are
+  // unaffected.
+  const bool needsAlignmentCurrent =
+      (config.initMethod == tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING) ||
+      (config.initMethod == tmc9660::tmcl::AbnInitMethod::FORCED_PHI_E_90_ZERO);
+  if (needsAlignmentCurrent && config.initOpenloopCurrent_mA != 0) {
+    ok &= driver.writeParameter(tmc9660::tmcl::Parameters::OPENLOOP_CURRENT,
+                                static_cast<uint32_t>(config.initOpenloopCurrent_mA));
+  }
+
   return ok;
 }
 
@@ -2670,6 +2739,18 @@ bool TMC9660<CommType>::FeedbackSense::configureAuto(const Abn2Config& config) n
 
 template <typename CommType>
 bool TMC9660<CommType>::FeedbackSense::configureAuto(const SpiEncoderConfig& config) noexcept {
+  // Capability gate: SPI encoder must be enabled in the bootloader (so the chip muxes the
+  // CS / SCK / MISO pins to the SPI-encoder block). When disabled, every SPI-encoder NR
+  // (181..201) returns REPLY_CMD_NOT_AVAILABLE — surface that as a single clear host-side
+  // ERROR before issuing 5+ doomed SAPs.
+  if (!driver.capabilities().spiEncoder) {
+    driver.comm().logDebug(
+        0, "TMC9660",
+        "FeedbackSense::configureAuto(SpiEncoder): subsystem disabled — set "
+        "BootloaderConfig.spiEnc.enable=true (and re-run bootloader) to use SPI encoder.");
+    return false;
+  }
+
   bool ok = true;
 
   // Step 1: Configure SPI encoder timing and frame size
@@ -2990,9 +3071,16 @@ bool TMC9660<CommType>::VelocityControl::getVelocitySensor(
   return true;
 }
 template <typename CommType>
-bool TMC9660<CommType>::VelocityControl::setTargetVelocity(int32_t velocity) noexcept {
+bool TMC9660<CommType>::VelocityControl::setTargetVelocityRaw(int32_t velocity_internal) noexcept {
   return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_VELOCITY,
-                               static_cast<uint32_t>(velocity));
+                               static_cast<uint32_t>(velocity_internal));
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::VelocityControl::setTargetVelocity(
+    double value, ::tmc9660::units::VelocityUnit unit,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  return setTargetVelocityRaw(::tmc9660::units::velocityToInternal(value, unit, ctx));
 }
 
 template <typename CommType>
@@ -3005,10 +3093,30 @@ bool TMC9660<CommType>::VelocityControl::getActualVelocity(int32_t& velocity) no
 }
 
 template <typename CommType>
-bool TMC9660<CommType>::VelocityControl::setVelocityOffset(int32_t offset) noexcept {
-  return driver.writeParameter(tmc9660::tmcl::Parameters::VELOCITY_OFFSET,
-                               static_cast<uint32_t>(offset));
+bool TMC9660<CommType>::VelocityControl::getActualVelocity(
+    double& value, ::tmc9660::units::VelocityUnit unit,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  int32_t raw = 0;
+  if (!getActualVelocity(raw)) return false;
+  value = ::tmc9660::units::convertVelocity(static_cast<double>(raw),
+                                            ::tmc9660::units::VelocityUnit::Internal,
+                                            unit, ctx);
+  return true;
 }
+
+template <typename CommType>
+bool TMC9660<CommType>::VelocityControl::setVelocityOffsetRaw(int32_t offset_internal) noexcept {
+  return driver.writeParameter(tmc9660::tmcl::Parameters::VELOCITY_OFFSET,
+                               static_cast<uint32_t>(offset_internal));
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::VelocityControl::setVelocityOffset(
+    double value, ::tmc9660::units::VelocityUnit unit,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  return setVelocityOffsetRaw(::tmc9660::units::velocityToInternal(value, unit, ctx));
+}
+
 template <typename CommType>
 bool TMC9660<CommType>::VelocityControl::getVelocityOffset(int32_t& offset) noexcept {
   uint32_t v;
@@ -3315,8 +3423,10 @@ bool TMC9660<CommType>::VelocityControl::configureAuto(const VelocityConfig& con
   ok &= setVelocityMeterSwitchThreshold(meterThreshold);
   ok &= setVelocityMeterSwitchHysteresis(config.meterHysteresis);
 
-  // Step 9: Configure velocity offset
-  ok &= setVelocityOffset(config.velocityOffset);
+  // Step 9: Configure velocity offset (raw internal units; this autoconfig
+  // path bypasses the engineering-units API by design — the offset is set
+  // alongside the velocity-scaling factor in raw form for consistency).
+  ok &= setVelocityOffsetRaw(config.velocityOffset);
 
   // Step 10: Configure velocity biquad filter
   // Note: Velocity biquad filter is enabled by default in hardware for noise reduction
@@ -3378,9 +3488,16 @@ bool TMC9660<CommType>::PositionControl::getPositionSensor(
 }
 
 template <typename CommType>
-bool TMC9660<CommType>::PositionControl::setTargetPosition(int32_t position) noexcept {
+bool TMC9660<CommType>::PositionControl::setTargetPositionRaw(int32_t position_counts) noexcept {
   return driver.writeParameter(tmc9660::tmcl::Parameters::TARGET_POSITION,
-                               static_cast<uint32_t>(position));
+                               static_cast<uint32_t>(position_counts));
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::PositionControl::setTargetPosition(
+    double value, ::tmc9660::units::PositionUnit unit,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  return setTargetPositionRaw(::tmc9660::units::positionToCounts(value, unit, ctx));
 }
 
 template <typename CommType>
@@ -3389,6 +3506,18 @@ bool TMC9660<CommType>::PositionControl::getActualPosition(int32_t& position) no
   if (!driver.readParameter(tmc9660::tmcl::Parameters::ACTUAL_POSITION, v))
     return false;
   position = static_cast<int32_t>(v);
+  return true;
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::PositionControl::getActualPosition(
+    double& value, ::tmc9660::units::PositionUnit unit,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  int32_t raw = 0;
+  if (!getActualPosition(raw)) return false;
+  value = ::tmc9660::units::convertPosition(static_cast<double>(raw),
+                                            ::tmc9660::units::PositionUnit::Counts,
+                                            unit, ctx);
   return true;
 }
 
@@ -4275,38 +4404,62 @@ bool TMC9660<CommType>::Ramp::configureAuto(const RampConfig& config) noexcept {
 //**              SUBSYSTEM: Step/Dir Input Extrapolation                **//
 //***************************************************************************
 
+namespace detail {
+// Capability gate for Step/Dir methods: NR 205..209 + VELOCITY_FEEDFORWARD_ENABLE all return
+// REPLY_CMD_NOT_AVAILABLE when the bootloader has stepDir.enable=false. This helper logs once
+// per blocked call and returns false so callers can short-circuit cleanly.
+template <typename Driver>
+inline bool tmc9660_require_step_dir(Driver& driver, const char* where) noexcept {
+  if (driver.capabilities().stepDir) {
+    return true;
+  }
+  driver.comm().logDebug(
+      0, "TMC9660",
+      "StepDir::%s: subsystem disabled — set BootloaderConfig.stepDir.enable=true "
+      "(and re-run bootloader) to use Step/Dir input.",
+      where);
+  return false;
+}
+} // namespace detail
+
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::setMicrostepResolution(
     tmc9660::tmcl::StepDirStepDividerShift µSteps) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "setMicrostepResolution")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_STEP_DIVIDER_SHIFT,
                                static_cast<uint32_t>(µSteps));
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::enableInterface(bool on) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "enableInterface")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_ENABLE, on ? 1u : 0u);
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::enableExtrapolation(bool enable) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "enableExtrapolation")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_EXTRAPOLATION_ENABLE,
                                enable ? 1u : 0u);
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::setSignalTimeout(uint16_t timeout_ms) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "setSignalTimeout")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_STEP_SIGNAL_TIMEOUT_LIMIT,
                                timeout_ms);
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::setMaxExtrapolationVelocity(uint32_t eRPM) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "setMaxExtrapolationVelocity")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::STEP_DIR_MAXIMUM_EXTRAPOLATION_VELOCITY,
                                eRPM);
 }
 
 template <typename CommType>
 bool TMC9660<CommType>::StepDir::enableVelocityFeedForward(bool enableVelFF) noexcept {
+  if (!detail::tmc9660_require_step_dir(driver, "enableVelocityFeedForward")) return false;
   return driver.writeParameter(tmc9660::tmcl::Parameters::VELOCITY_FEEDFORWARD_ENABLE,
                                enableVelFF ? 1u : 0u);
 }
@@ -4640,6 +4793,235 @@ uint16_t TMC9660<CommType>::Telemetry::getExternalTemperature() noexcept {
   if (!driver.readParameter(tmc9660::tmcl::Parameters::EXTERNAL_TEMPERATURE, v))
     return 0;
   return static_cast<uint16_t>(v);
+}
+
+//***************************************************************************
+//**                  Motor context (chip-side facts)                    **//
+//***************************************************************************
+
+template <typename CommType>
+bool TMC9660<CommType>::getMotorContext(::tmc9660::units::MotorContext& ctx) noexcept {
+  // Defaults — leave a usable context if any read fails.
+  ctx = ::tmc9660::units::MotorContext{};
+
+  bool all_ok = true;
+
+  // Motor type (NR 8). Step/Dir-only firmware may NACK; not fatal.
+  uint32_t mt = static_cast<uint32_t>(tmc9660::tmcl::MotorType::BLDC_MOTOR);
+  if (this->readParameter(tmc9660::tmcl::Parameters::MOTOR_TYPE, mt)) {
+    ctx.motor_type = static_cast<tmc9660::tmcl::MotorType>(mt);
+  } else {
+    all_ok = false;
+  }
+
+  // Pole pairs (NR 9). For steppers the bootloader writes
+  // full_steps_per_rev/4 here, so the same field works for both motor types.
+  uint32_t pp = 1;
+  if (this->readParameter(tmc9660::tmcl::Parameters::MOTOR_POLE_PAIRS, pp)) {
+    ctx.pole_pairs = static_cast<uint8_t>(pp == 0 ? 1u : pp);
+  } else {
+    all_ok = false;
+  }
+
+  // Velocity sensor selection (NR 132).
+  uint32_t vsel = static_cast<uint32_t>(
+      tmc9660::tmcl::VelocitySensorSelection::SAME_AS_COMMUTATION);
+  if (this->readParameter(tmc9660::tmcl::Parameters::VELOCITY_SENSOR_SELECTION, vsel)) {
+    ctx.velocity_sensor = static_cast<tmc9660::tmcl::VelocitySensorSelection>(vsel);
+  } else {
+    all_ok = false;
+  }
+
+  // Encoder CPR — only relevant when an encoder is selected for velocity.
+  // NR 175 = ABN_1_STEPS, NR 178 = ABN_2_STEPS. SPI encoders' CPR is
+  // configured at bootloader time; expose it via setMotorContextHint() if
+  // the chip cannot self-report it.
+  switch (ctx.velocity_sensor) {
+    case tmc9660::tmcl::VelocitySensorSelection::ABN1_ENCODER: {
+      uint32_t steps = 0;
+      if (this->readParameter(tmc9660::tmcl::Parameters::ABN_1_STEPS, steps)) {
+        ctx.encoder_cpr = steps;
+      } else {
+        all_ok = false;
+      }
+      break;
+    }
+    case tmc9660::tmcl::VelocitySensorSelection::ABN2_ENCODER: {
+      uint32_t steps = 0;
+      if (this->readParameter(tmc9660::tmcl::Parameters::ABN_2_STEPS, steps)) {
+        ctx.encoder_cpr = steps;
+      } else {
+        all_ok = false;
+      }
+      break;
+    }
+    default:
+      // SAME_AS_COMMUTATION / DIGITAL_HALL: CPR derived from pole pairs;
+      // SPI_ENCODER: bootloader-side, leave at default unless caller hints.
+      break;
+  }
+
+  return all_ok;
+}
+
+//***************************************************************************
+//**                  SUBSYSTEM: Diagnostics                             **//
+//***************************************************************************
+
+template <typename CommType>
+bool TMC9660<CommType>::Diagnostics::summary(
+    ::tmc9660::diagnostics::MotorSummary& out,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  out = ::tmc9660::diagnostics::MotorSummary{};
+
+  // Bus / thermal — convenience getters always return a value (negative on error).
+  out.vbus_volts  = driver.telemetry.getSupplyVoltage();
+  out.chip_temp_c = driver.telemetry.getChipTemperature();
+
+  // Mode
+  uint32_t cm = 0;
+  if (driver.readParameter(tmc9660::tmcl::Parameters::COMMUTATION_MODE, cm)) {
+    out.commutation_mode       = static_cast<tmc9660::tmcl::CommutationMode>(cm);
+    out.valid_commutation_mode = true;
+  }
+
+  // Velocity (target + actual)
+  bool vel_ok = true;
+  uint32_t tv = 0;
+  if (driver.readParameter(tmc9660::tmcl::Parameters::TARGET_VELOCITY, tv)) {
+    out.target_velocity_rpm = ::tmc9660::units::convertVelocity(
+        static_cast<double>(static_cast<int32_t>(tv)),
+        ::tmc9660::units::VelocityUnit::Internal,
+        ::tmc9660::units::VelocityUnit::Rpm, ctx);
+  } else {
+    vel_ok = false;
+  }
+  int32_t av = 0;
+  if (driver.velocityControl.getActualVelocity(av)) {
+    out.actual_velocity_rpm = ::tmc9660::units::convertVelocity(
+        static_cast<double>(av),
+        ::tmc9660::units::VelocityUnit::Internal,
+        ::tmc9660::units::VelocityUnit::Rpm, ctx);
+  } else {
+    vel_ok = false;
+  }
+  out.valid_velocity = vel_ok;
+
+  // Status / error registers
+  uint32_t gen_status = 0, gen_err = 0, gd_err = 0, adc_err = 0;
+  (void)driver.telemetry.getGeneralStatusFlags(gen_status);
+  if (driver.telemetry.getGeneralErrorFlags(gen_err)) {
+    out.general_error_flags = gen_err;
+    out.has_general_error   = (gen_err != 0u);
+  }
+  if (driver.telemetry.getGateDriverErrorFlags(gd_err)) {
+    out.gate_driver_error_flags = gd_err;
+    out.has_gate_driver_error   = (gd_err != 0u);
+  }
+  if (driver.telemetry.getADCStatusFlags(adc_err)) {
+    out.adc_status_flags = adc_err;
+    out.has_adc_clipping = (adc_err != 0u);
+  }
+
+  // Decode headline regulating bits (see GeneralStatusFlags FLAG layout).
+  constexpr uint32_t kRegulationVelocityBit = 1u << 2;
+  constexpr uint32_t kVelocityReachedBit    = 1u << 10;
+  out.regulating_velocity = (gen_status & kRegulationVelocityBit) != 0u;
+  out.velocity_reached    = (gen_status & kVelocityReachedBit)    != 0u;
+
+  return true;
+}
+
+template <typename CommType>
+bool TMC9660<CommType>::Diagnostics::snapshot(
+    ::tmc9660::diagnostics::MotorSnapshot& out,
+    ::tmc9660::units::MotorContext const& ctx) noexcept {
+  out = ::tmc9660::diagnostics::MotorSnapshot{};
+  out.context = ctx;
+
+  // Bus / thermal
+  out.vbus_volts        = driver.telemetry.getSupplyVoltage();
+  out.chip_temp_c       = driver.telemetry.getChipTemperature();
+  out.external_temp_raw = driver.telemetry.getExternalTemperature();
+
+  // Mode
+  uint32_t cm = 0;
+  if (driver.readParameter(tmc9660::tmcl::Parameters::COMMUTATION_MODE, cm)) {
+    out.commutation_mode       = static_cast<tmc9660::tmcl::CommutationMode>(cm);
+    out.valid_commutation_mode = true;
+  }
+
+  // Velocity (target / actual / ramp), in raw + RPM
+  uint32_t tv = 0;
+  if (driver.readParameter(tmc9660::tmcl::Parameters::TARGET_VELOCITY, tv)) {
+    out.target_velocity_internal = static_cast<int32_t>(tv);
+  }
+  int32_t av = 0;
+  (void)driver.velocityControl.getActualVelocity(av);
+  out.actual_velocity_internal = av;
+  int32_t rv = 0;
+  (void)driver.ramp.getRampVelocity(rv);
+  out.ramp_velocity_internal = rv;
+  out.target_velocity_rpm = ::tmc9660::units::convertVelocity(
+      static_cast<double>(out.target_velocity_internal),
+      ::tmc9660::units::VelocityUnit::Internal,
+      ::tmc9660::units::VelocityUnit::Rpm, ctx);
+  out.actual_velocity_rpm = ::tmc9660::units::convertVelocity(
+      static_cast<double>(out.actual_velocity_internal),
+      ::tmc9660::units::VelocityUnit::Internal,
+      ::tmc9660::units::VelocityUnit::Rpm, ctx);
+  out.ramp_velocity_rpm = ::tmc9660::units::convertVelocity(
+      static_cast<double>(out.ramp_velocity_internal),
+      ::tmc9660::units::VelocityUnit::Internal,
+      ::tmc9660::units::VelocityUnit::Rpm, ctx);
+
+  // Position
+  int32_t p = 0;
+  (void)driver.positionControl.getActualPosition(p);
+  out.actual_position_counts = p;
+  out.actual_position_revs = ::tmc9660::units::convertPosition(
+      static_cast<double>(p), ::tmc9660::units::PositionUnit::Counts,
+      ::tmc9660::units::PositionUnit::MechRevs, ctx);
+  out.actual_position_deg_mech = out.actual_position_revs * 360.0;
+
+  // Electrical angle (PHI_E). Open-loop angle is the safest source while in
+  // FOC_OPENLOOP_*; in sensored modes the chip mirrors active feedback there.
+  int16_t phi = 0;
+  (void)driver.torqueFluxControl.getOpenloopAngle(phi);
+  out.phi_e_internal = phi;
+  out.phi_e_deg_elec = ::tmc9660::units::convertAngle(
+      static_cast<double>(phi), ::tmc9660::units::AngleUnit::PhiERaw,
+      ::tmc9660::units::AngleUnit::DegElec, ctx);
+  out.phi_e_deg_mech = ::tmc9660::units::convertAngle(
+      static_cast<double>(phi), ::tmc9660::units::AngleUnit::PhiERaw,
+      ::tmc9660::units::AngleUnit::DegMech, ctx);
+
+  // FOC currents / voltages (best-effort)
+  out.motor_current_ma = driver.telemetry.getMotorCurrent();
+  (void)driver.torqueFluxControl.getFocCurrentIq(out.iq_ma);
+  (void)driver.torqueFluxControl.getFocCurrentUx(out.i_ux);
+  (void)driver.torqueFluxControl.getFocCurrentV (out.i_v);
+  (void)driver.torqueFluxControl.getFocCurrentWy(out.i_wy);
+  (void)driver.torqueFluxControl.getFocVoltageUq(out.uq);
+  (void)driver.torqueFluxControl.getFocVoltageUx(out.u_ux);
+  (void)driver.torqueFluxControl.getFocVoltageV (out.u_v);
+  (void)driver.torqueFluxControl.getFocVoltageWy(out.u_wy);
+
+  // Status / error registers
+  (void)driver.telemetry.getGeneralStatusFlags  (out.general_status_flags);
+  (void)driver.telemetry.getGeneralErrorFlags   (out.general_error_flags);
+  (void)driver.telemetry.getGateDriverErrorFlags(out.gate_driver_error_flags);
+  (void)driver.telemetry.getADCStatusFlags      (out.adc_status_flags);
+
+  // Decode convenience bits (see GeneralStatusFlags FLAG layout).
+  constexpr uint32_t kRegulationTorqueBit   = 1u << 1;
+  constexpr uint32_t kRegulationVelocityBit = 1u << 2;
+  constexpr uint32_t kVelocityReachedBit    = 1u << 10;
+  out.regulating_torque   = (out.general_status_flags & kRegulationTorqueBit)   != 0u;
+  out.regulating_velocity = (out.general_status_flags & kRegulationVelocityBit) != 0u;
+  out.velocity_reached    = (out.general_status_flags & kVelocityReachedBit)    != 0u;
+
+  return true;
 }
 
 //***************************************************************************

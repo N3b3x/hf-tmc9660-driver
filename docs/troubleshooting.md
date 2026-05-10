@@ -11,6 +11,76 @@ permalink: /docs/troubleshooting/
 
 Common issues and solutions for the TMC9660 driver.
 
+## Datasheet-vs-driver math errata
+
+The driver's unit conversions were audited against the TMC9660 Parameter
+Mode and Register Mode reference manuals (May 2026). One bug was found
+and fixed:
+
+- **Ramp acceleration scaling** — earlier driver versions wrote
+  `(rpm/s × k_RPM)` directly to the `RAMP_AMAX/A1/A2/DMAX/D1/D2`
+  registers (NR 54..59). The chip's actual scaling is
+  `RAMP_A_register = (dV_internal/dt) × 2^17 / fCLK` (Parameter Mode
+  manual p. 72; Register Mode manual p. 44). With the default
+  `fCLK = 40 MHz` the missing factor is `2^17 / 40e6 ≈ 0.0032768`, so a
+  request of *N* RPM/s was previously executing at roughly *N × 305*
+  RPM/s. `accelerationToInternal()` now applies the correct factor and
+  `AccelerationUnit::Internal` is the raw `RAMP_A` register integer.
+
+- **`COMMUTATION_MODE` enum values** — the actual chip values are
+  `FOC_OPENLOOP_VOLTAGE_MODE = 3` and `FOC_OPENLOOP_CURRENT_MODE = 4`
+  (NR 4 in the Parameter Mode manual). Older internal notes had these
+  swapped/offset; the C++ `enum class CommutationMode` is and has been
+  correct.
+
+- **`OPENLOOP_VOLTAGE` range** — NR 47 is **0..16383** (14-bit duty
+  cycle, 16383 = 100 %). Older driver doc-comments listed 0..32767.
+  The chip does **not** current-limit voltage mode, so use a low value
+  (≈ 5 % = 800) for unloaded startup.
+
+## Open-loop spin: rotor moves slowly while `ACTUAL_VELOCITY` reads correct
+
+### Symptom
+The chip is in `FOC_OPENLOOP_CURRENT_MODE`, the ramp is configured and
+running, `ACTUAL_VELOCITY` reads back the commanded RPM, but the rotor
+visibly turns at a small fraction of that — sometimes 5–20% — and the
+shaft feels "notchy" or "stutter-y".
+
+### Cause
+In `FOC_OPENLOOP_CURRENT_MODE` the chip injects a pure d-axis current at
+the commanded electrical angle. Pull-out torque on a PM rotor is bounded
+by `T_max = K_t · Id` at 90° elec lag. When inertia + cogging + bearing
+friction exceed that ceiling, the rotor falls behind, slips a pole pair,
+and recovers — average mechanical speed collapses.
+
+`ACTUAL_VELOCITY` does **not** measure the rotor in this mode. With
+`VELOCITY_SENSOR_SELECTION = SAME_AS_COMMUTATION` it is derived from the
+integrated `phi_e` ramp, so it always echoes whatever the chip is
+*commanding* — not what the rotor is doing. Confirming rotor speed
+requires Hall, ABN, or SPI-encoder feedback (or an external tachometer).
+
+### Fix
+Use **`FOC_OPENLOOP_VOLTAGE_MODE`** for unloaded / lightly-loaded startup.
+Voltage mode applies a fixed `|U|` at the rotating phi_e angle; `Iq`
+emerges naturally from `V − back_EMF` as the rotor lags, so both d- and
+q-axis current flow and pull-out torque is much higher at low speed.
+
+```cpp
+namespace tmcl = tmc9660::tmcl;
+
+driver.torqueFluxControl.setOpenloopVoltage(800);   // ≈5 % modulation
+driver.motorConfig.setCommutationMode(tmcl::CommutationMode::FOC_OPENLOOP_VOLTAGE_MODE);
+```
+
+Other mitigations:
+
+- Lower the ramp slope (`AMAX`) so torque demand stays inside the
+  pull-out limit.
+- Raise `OPENLOOP_CURRENT` (current mode) within `MAX_FLUX` headroom.
+- Add real feedback (Hall / ABN / SPI encoder) and switch to closed-loop
+  FOC, where stator current is locked at 90° to rotor flux for maximum
+  torque per amp.
+
 ## Bootloader Initialization Fails
 
 ### Symptom

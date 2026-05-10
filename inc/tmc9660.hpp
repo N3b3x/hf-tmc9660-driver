@@ -31,6 +31,8 @@
 #include "tmc9660_version.h"
 #include "bootloader/tmc9660_bootloader.hpp"
 #include "parameter_mode/tmc9660_param_mode_tmcl.hpp"
+#include "tmc9660_units.hpp"
+#include "tmc9660_diagnostics.hpp"
 
 namespace tmc9660 {
 
@@ -149,6 +151,44 @@ public:
 
   /** @brief TMCL module address used on the transport (SPI typically 0). */
   [[nodiscard]] uint8_t tmclAddress() const noexcept { return address_; }
+
+  //============================================================================
+  // @name Device Capabilities (board / bootloader topology)
+  // @{
+  //============================================================================
+
+  /**
+   * @brief Per-device feature topology — declares which optional subsystems are
+   *        physically wired and bootloader-enabled on **this** TMC9660 instance.
+   *
+   * Two of the three flags are auto-populated from `BootloaderConfig` if one was
+   * passed to the constructor: `spiEncoder` mirrors `bootCfg.spiEnc.enable`, and
+   * `stepDir` mirrors `bootCfg.stepDir.enable`. The third flag (`y2Phase`) is
+   * **board topology** — there's no bootloader switch for it; the caller must
+   * set it (default = true for backward compatibility).
+   *
+   * When a feature is `false`, the corresponding API surface (e.g. all
+   * `StepDir::*` methods, `FeedbackSense::configureAuto(SpiEncoderConfig)`,
+   * Y2 arms inside `GateDriver::configurePowerStageProtection`) returns
+   * `false` early and emits a single ERROR-level log line via the CRTP
+   * `comm.logDebug()` hook. This converts otherwise-confusing chip-level
+   * `REPLY_CMD_NOT_AVAILABLE` (0x06) responses into actionable host-side
+   * diagnostics that point at the bootloader / board cause.
+   *
+   * Pass nullptr for `bootCfg` (or use `setCapabilities(...)`) to opt out
+   * of all gating — the driver then trusts the caller to know what's wired.
+   */
+  struct DeviceCapabilities {
+    bool spiEncoder = true; ///< SPI encoder feedback subsystem (NRs 181–201). Auto = bootCfg.spiEnc.enable.
+    bool stepDir    = true; ///< Step/Dir input subsystem (NRs 205–209). Auto = bootCfg.stepDir.enable.
+    bool y2Phase    = true; ///< Y2 power-stage half-bridge wired on board. Caller-set; not bootloader-derived.
+  };
+
+  /** @brief Override the capability flags (e.g. set y2Phase=false on 3-phase-only boards). */
+  void setCapabilities(const DeviceCapabilities& caps) noexcept { caps_ = caps; }
+
+  /** @brief Read the active capability flags (auto-derived from bootCfg + any subsequent overrides). */
+  [[nodiscard]] const DeviceCapabilities& capabilities() const noexcept { return caps_; }
 
   //============================================================================
   // @name GPIO Helpers (driver-owned control)
@@ -2084,6 +2124,18 @@ public:
       int32_t initVelocity = 5;   //!< Initialization velocity [-200000 to 200000] (default: 5)
       int16_t nChannelOffset = 0; //!< N-channel offset [-32768 to 32767] (default: 0)
 
+      // Open-loop current used during FORCED_PHI_E_* alignment (param 46, mA).
+      // The chip-level OPENLOOP_CURRENT parameter is what physically drives the
+      // rotor to a known electrical angle during ABN init — NOT
+      // OPENLOOP_VOLTAGE. Default chip value is 1000 mA which can be too low
+      // for gearboxed or high-stiction motors and silently leave the rotor
+      // static; init then "completes" with a bogus phi_e offset and FOC_ABN
+      // produces vibration with near-zero net torque. Set this explicitly when
+      // using FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING or FORCED_PHI_E_90_ZERO.
+      // 0 = leave OPENLOOP_CURRENT untouched (use whatever was previously set).
+      uint16_t initOpenloopCurrent_mA =
+          0; //!< OPENLOOP_CURRENT for FORCED_PHI_E_* init [0-65535 mA]; 0 = do not modify (default: 0)
+
       // N-channel filtering (optional)
       tmc9660::tmcl::AbnNChannelFiltering nChannelFiltering =
           tmc9660::tmcl::AbnNChannelFiltering::FILTERING_OFF; //!< N-channel filtering mode
@@ -2151,6 +2203,17 @@ public:
     /** @brief Auto-configure ABN encoder feedback.
      *
      * Configures ABN encoder including initialization method, N-channel settings, and filtering.
+     *
+     * @warning When `config.initMethod` is `FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING`
+     *          or `FORCED_PHI_E_90_ZERO`, the chip aligns the rotor by driving
+     *          a constant current set by parameter `OPENLOOP_CURRENT` (param 46, mA),
+     *          NOT by `OPENLOOP_VOLTAGE`. The chip default is 1000 mA which can
+     *          be insufficient for gearboxed / high-stiction motors and will
+     *          silently leave the rotor static while reporting init "DONE" with
+     *          a bogus phi_e offset — FOC_ABN will then produce vibration only.
+     *          Set `config.initOpenloopCurrent_mA` to the alignment current you
+     *          need (must be ≤ MAX_TORQUE), or write OPENLOOP_CURRENT yourself
+     *          before engaging FOC_ABN.
      *
      * @param config ABN encoder configuration (see AbnConfig)
      * @return true if all configurations succeeded, false otherwise
@@ -2317,8 +2380,11 @@ public:
      */
     bool getOpenloopCurrent(uint16_t& milliamps) noexcept;
 
-    /** @brief Set open-loop voltage.
-     * @param voltage Voltage unit (0…32767).
+    /** @brief Set open-loop voltage (PWM duty cycle, relative to V_BUS).
+     * @param voltage Voltage register value (0..16383, 14-bit; per parameter
+     *                NR 47 OPENLOOP_VOLTAGE). 16383 = 100% duty. The chip does
+     *                **not** current-limit voltage mode, so use a low value
+     *                (≈5% = 800) for unloaded startup.
      * @return true if written.
      */
     bool setOpenloopVoltage(uint16_t voltage) noexcept;
@@ -2619,27 +2685,77 @@ public:
      */
     bool getVelocitySensor(tmc9660::tmcl::VelocitySensorSelection& sel) noexcept;
 
-    /** @brief Set target velocity.
-     * @param velocity Target velocity (internal units).
-     * @return true if written.
+    /** @brief Set target velocity in any engineering unit (canonical API).
+     *
+     * Canonical motor-shaft velocity setter. The `(value, unit, ctx)` form
+     * forces the caller to be explicit about which unit the number is in;
+     * thanks to the dedicated `VelocityUnit` enum class, mixing positions
+     * or accelerations here is a compile error.
+     *
+     * @param value Target velocity expressed in `unit`.
+     * @param unit  Engineering unit of `value` (RPM / RPS / rad·s⁻¹ / deg·s⁻¹ / Internal).
+     * @param ctx   Motor context (pole pairs, sensor selection, encoder CPR)
+     *              used to derive `k_RPM`. Acquire once via `getMotorContext()`.
+     * @return true if the SAP succeeded.
      */
-    bool setTargetVelocity(int32_t velocity) noexcept;
-    /** @brief Read actual velocity.
-     * @param[out] velocity Measured velocity.
+    bool setTargetVelocity(double value,
+                           ::tmc9660::units::VelocityUnit unit,
+                           ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /// Convenience: set target velocity in mechanical RPM.
+    bool setTargetVelocityRpm(double rpm, ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return setTargetVelocity(rpm, ::tmc9660::units::VelocityUnit::Rpm, ctx);
+    }
+    /// Convenience: set target velocity in rad/s (mechanical).
+    bool setTargetVelocityRadPerSec(double rad_per_s,
+                                    ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return setTargetVelocity(rad_per_s, ::tmc9660::units::VelocityUnit::RadPerSec, ctx);
+    }
+
+    /** @brief Set target velocity in raw chip internal units (escape hatch).
+     *
+     * Prefer the unit-aware overload above. Use this only when integrating
+     * with code that already speaks internal units or when bypassing the
+     * `MotorContext`-based scaling.
+     */
+    bool setTargetVelocityRaw(int32_t velocity_internal) noexcept;
+
+    /** @brief Read actual velocity in raw chip internal units.
+     * @param[out] velocity Measured velocity (signed internal units).
      * @return true if read.
      */
     bool getActualVelocity(int32_t& velocity) noexcept;
 
-    /** @brief Set velocity offset.
-     * @param offset Offset in RPM.
-     * @return true if written.
+    /** @brief Read actual velocity in any engineering unit.
+     * @param[out] value Measured velocity expressed in `unit`.
+     * @param unit       Engineering unit to convert into.
+     * @param ctx        Motor context (must be valid for unit ≠ `Internal`).
+     * @return true if the underlying SAP succeeded.
      */
-    bool setVelocityOffset(int32_t offset) noexcept;
-    /** @brief Read velocity offset.
-     * @param[out] offset Offset in RPM.
-     * @return true if read.
+    bool getActualVelocity(double& value,
+                           ::tmc9660::units::VelocityUnit unit,
+                           ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /// Convenience: read actual velocity in mechanical RPM.
+    bool getActualVelocityRpm(double& rpm,
+                              ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return getActualVelocity(rpm, ::tmc9660::units::VelocityUnit::Rpm, ctx);
+    }
+
+    /** @brief Set velocity offset (feed-forward bias) in any engineering unit.
+     * @note  The previous implementation's docstring claimed "RPM" but in
+     *        fact wrote raw internal units to the chip. This canonical
+     *        overload removes that ambiguity by requiring an explicit unit.
      */
-    bool getVelocityOffset(int32_t& offset) noexcept;
+    bool setVelocityOffset(double value,
+                           ::tmc9660::units::VelocityUnit unit,
+                           ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /// Set velocity offset in raw chip internal units (escape hatch).
+    bool setVelocityOffsetRaw(int32_t offset_internal) noexcept;
+
+    /// Read velocity offset in raw chip internal units.
+    bool getVelocityOffset(int32_t& offset_internal) noexcept;
 
     /** @brief Configure velocity PI gains.
      * @param p P gain.
@@ -3000,16 +3116,54 @@ public:
      */
     bool getPositionSensor(tmc9660::tmcl::PositionSensorSelection& sel) noexcept;
 
-    /** @brief Set target position.
-     * @param position Desired position (internal units).
-     * @return true if written.
+    /** @brief Set target position in any engineering unit (canonical API).
+     *
+     * @param value Target position expressed in `unit`.
+     * @param unit  Engineering unit of `value` (mech revs / deg-mech / rad-mech / Counts).
+     * @param ctx   Motor context (provides CPR for Counts ↔ rev mapping).
+     * @return true if the SAP succeeded.
      */
-    bool setTargetPosition(int32_t position) noexcept;
-    /** @brief Read actual position.
-     * @param[out] position Measured position.
+    bool setTargetPosition(double value,
+                           ::tmc9660::units::PositionUnit unit,
+                           ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /// Convenience: set target position in mechanical degrees.
+    bool setTargetPositionDegMech(double deg,
+                                  ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return setTargetPosition(deg, ::tmc9660::units::PositionUnit::DegMech, ctx);
+    }
+    /// Convenience: set target position in mechanical revolutions.
+    bool setTargetPositionMechRevs(double revs,
+                                   ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return setTargetPosition(revs, ::tmc9660::units::PositionUnit::MechRevs, ctx);
+    }
+
+    /** @brief Set target position in raw chip counts (escape hatch).
+     * @param position_counts Desired position in raw counts.
+     */
+    bool setTargetPositionRaw(int32_t position_counts) noexcept;
+
+    /** @brief Read actual position in raw chip counts.
+     * @param[out] position Measured position in counts.
      * @return true if read.
      */
     bool getActualPosition(int32_t& position) noexcept;
+
+    /** @brief Read actual position in any engineering unit.
+     * @param[out] value Measured position expressed in `unit`.
+     * @param unit       Engineering unit to convert into.
+     * @param ctx        Motor context (provides CPR for Counts ↔ rev mapping).
+     * @return true if the underlying SAP succeeded.
+     */
+    bool getActualPosition(double& value,
+                           ::tmc9660::units::PositionUnit unit,
+                           ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /// Convenience: read actual position in mechanical degrees.
+    bool getActualPositionDegMech(double& deg,
+                                  ::tmc9660::units::MotorContext const& ctx) noexcept {
+        return getActualPosition(deg, ::tmc9660::units::PositionUnit::DegMech, ctx);
+    }
 
     /** @brief Set position scaling factor.
      * @param factor Scale factor.
@@ -3562,6 +3716,54 @@ public:
      */
     bool configureAuto(const RampConfig& config) noexcept;
 
+    /** @brief Build a `RampConfig` from engineering units.
+     *
+     * Convenience builder that converts a max velocity (any `VelocityUnit`)
+     * and a max acceleration (any `AccelerationUnit`) into the chip's raw
+     * internal units, populating the principal `RampConfig` fields. The
+     * `enableRamp` / `enableDirectVelocityMode` / advanced segment fields
+     * are left at default; tweak them on the returned struct before
+     * passing to `configureAuto()`.
+     *
+     * The result is a fully-populated single-segment trapezoidal profile:
+     *  - `maxAcceleration` (AMAX), `acceleration1` (A1), `acceleration2` (A2)
+     *    are all set to the same value derived from `max_acceleration`.
+     *  - `maxDeceleration` (DMAX), `deceleration1` (D1), `deceleration2` (D2)
+     *    mirror the acceleration value (symmetric ramp).
+     *  - `velocityThreshold1` / `velocityThreshold2` are pinned to 0, which
+     *    selects single-segment AMAX/DMAX commutation (A1/A2/D1/D2 unused).
+     *  - `startVelocity` = 0, `stopVelocity` = 1 (lowest non-zero raw value;
+     *    motion is considered stopped at <= 1 internal unit ≈ 0.0003 RPM).
+     *  - `timeAtVmax` = 0, `timeZeroWait` = 0.
+     *
+     * Callers wanting an asymmetric, segmented, or jerk-shaped profile should
+     * override the relevant fields on the returned struct before calling
+     * `configureAuto()`. Callers wanting feedforward should set
+     * `enableVelocityFeedForward` / `enableAccelerationFeedForward` separately.
+     */
+    [[nodiscard]] static RampConfig buildRampConfig(
+        double max_velocity, ::tmc9660::units::VelocityUnit vel_unit,
+        double max_acceleration, ::tmc9660::units::AccelerationUnit accel_unit,
+        ::tmc9660::units::MotorContext const& ctx) noexcept {
+        RampConfig rc{};
+        const int32_t v = ::tmc9660::units::velocityToInternal(max_velocity, vel_unit, ctx);
+        rc.maxVelocity = static_cast<uint32_t>(v < 0 ? -v : v);
+        const uint32_t a = ::tmc9660::units::accelerationToInternal(max_acceleration, accel_unit, ctx);
+        rc.maxAcceleration = a;
+        rc.acceleration1   = a;
+        rc.acceleration2   = a;
+        rc.maxDeceleration = a;
+        rc.deceleration1   = a;
+        rc.deceleration2   = a;
+        rc.velocityThreshold1 = 0u;  // single-segment: AMAX/DMAX active across full velocity range
+        rc.velocityThreshold2 = 0u;
+        rc.startVelocity      = 0u;
+        rc.stopVelocity       = 1u;  // chip default; lowest non-zero "stopped" threshold
+        rc.timeAtVmax         = uint16_t{0};
+        rc.timeZeroWait       = uint16_t{0};
+        return rc;
+    }
+
   private:
     friend class TMC9660;
     explicit Ramp(TMC9660& parent) noexcept : driver(parent) {}
@@ -3988,6 +4190,83 @@ public:
     explicit Telemetry(TMC9660& parent) noexcept;
     TMC9660& driver;
   } telemetry{*this};
+
+  //***************************************************************************
+  //**                  SUBSYSTEM: Diagnostics                             **//
+  //***************************************************************************
+
+  /** @brief One-shot diagnostic snapshots for upstream health reporting.
+   *
+   * Two flavours:
+   *   - `summary(MotorSummary&)` — small, single-screen health (vbus, temp,
+   *     mode, target/actual RPM, regulating flag, fault summary). Cheap.
+   *   - `snapshot(MotorSnapshot&, MotorContext const&)` — full chip state
+   *     in both raw and engineering-unit form. Use for logging,
+   *     bench expectation-checking, or upstream telemetry packets.
+   *
+   * Both methods are best-effort: a failed individual SAP leaves the
+   * corresponding field at its struct default. The methods themselves
+   * always succeed (return value is reserved for future use).
+   */
+  struct Diagnostics {
+    /** @brief Populate a compact motor health summary.
+     *
+     * @param[out] out Summary struct to fill. All fields are zero-initialised
+     *                 first; per-field `valid_*` bits flip true on success.
+     * @param ctx      Motor context used to report velocity in RPM.
+     * @return true (always — included for API symmetry / future error paths).
+     */
+    bool summary(::tmc9660::diagnostics::MotorSummary& out,
+                 ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+    /** @brief Populate a full motor state snapshot.
+     *
+     * @param[out] out Snapshot struct to fill. All fields are zero-initialised
+     *                 first.
+     * @param ctx      Motor context used to convert raw fields to engineering
+     *                 units. Stored on `out.context` so the consumer can
+     *                 reproduce conversions later.
+     * @return true (always — included for API symmetry / future error paths).
+     */
+    bool snapshot(::tmc9660::diagnostics::MotorSnapshot& out,
+                  ::tmc9660::units::MotorContext const& ctx) noexcept;
+
+  private:
+    friend class TMC9660;
+    explicit Diagnostics(TMC9660& parent) noexcept : driver(parent) {}
+    TMC9660& driver;
+  } diagnostics{*this};
+
+  //***************************************************************************
+  //**                  Motor context (chip-side facts)                    **//
+  //***************************************************************************
+
+  /** @brief Read a `MotorContext` (pole pairs, sensor selection, encoder CPR)
+   *         live from the chip.
+   *
+   * Reads the bootloader-set/parameter-mode authoritative values:
+   *   - NR  8 MOTOR_TYPE
+   *   - NR  9 MOTOR_POLE_PAIRS  (for steppers, this is `full_steps_per_rev/4`)
+   *   - NR 132 VELOCITY_SENSOR_SELECTION
+   *   - For ABN encoder feedback: ABN_1_STEPS / ABN_2_STEPS
+   *
+   * @param[out] ctx The populated context. Fields default-init to safe values
+   *                 if the corresponding read fails (caller should check
+   *                 `ctx.valid()` for unit-conversion correctness).
+   * @return true if every required parameter read succeeded.
+   *
+   * @note  After changing the motor type, pole pairs, sensor selection or
+   *        encoder CPR via the bootloader or parameter-mode SAPs, call this
+   *        again to refresh any cached `MotorContext` you keep host-side.
+   */
+  bool getMotorContext(::tmc9660::units::MotorContext& ctx) noexcept;
+
+  /** @brief Convenience overload returning the context by value. */
+  [[nodiscard]] ::tmc9660::units::MotorContext getMotorContext() noexcept {
+    ::tmc9660::units::MotorContext c{};
+    (void)getMotorContext(c);
+    return c;
+  }
 
   //***************************************************************************
   //**                  SUBSYSTEM: Stop / Event                            **//
@@ -4797,6 +5076,7 @@ private:
                                ///< multi-drop addressing.
   std::unique_ptr<tmc9660::TMC9660Bootloader<CommType>> bootloader_; ///< Bootloader helper
   const tmc9660::BootloaderConfig* bootCfg_;
+  DeviceCapabilities caps_{}; ///< Feature topology — auto-derived from bootCfg_ in ctor; mutable via setCapabilities().
 
 #ifdef TMC_API_EXTERNAL_CRC_TABLE
   extern const uint8_t tmcCRCTable_Poly7Reflected[256];

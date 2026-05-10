@@ -99,11 +99,18 @@ For detailed installation instructions, see [docs/installation.md](docs/installa
 |--------|-------------|
 | `bootloaderInit()` | Initialize bootloader for Parameter Mode (CRITICAL) |
 | `motorConfig.setType()` | Set motor type and pole pairs |
-| `focControl.setTargetVelocity()` | Set target velocity for FOC control |
+| `getMotorContext()` | Read live `MotorContext` (motor type, PP, sensor, CPR) |
+| `velocityControl.setTargetVelocityRpm(rpm, ctx)` | Unit-aware velocity command |
+| `positionControl.setTargetPositionDegMech(deg, ctx)` | Unit-aware position command |
+| `torqueFluxControl.setOpenloopVoltage()` | Open-loop voltage magnitude (preferred for unloaded startup) |
+| `torqueFluxControl.setOpenloopCurrent()` | Open-loop d-axis current magnitude |
+| `ramp.configureAuto(Ramp::buildRampConfig(...))` | Trapezoidal profile from engineering units |
+| `diagnostics.summary()` / `diagnostics.snapshot()` | POD health/state dumps |
 | `telemetry.getTemperature()` | Read motor temperature |
 | `telemetry.getCurrent()` | Read motor current |
 
-For complete API documentation, see [docs/api_reference.md](docs/api_reference.md).
+For complete API documentation, see [docs/api_reference.md](docs/api_reference.md)
+and [docs/units_and_diagnostics.md](docs/units_and_diagnostics.md).
 
 ## 📊 Examples
 

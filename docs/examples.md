@@ -11,6 +11,27 @@ permalink: /docs/examples/
 
 This guide provides detailed examples for various TMC9660 use cases.
 
+> ## ⚠️ API note (2026-05)
+>
+> Older snippets below reference a single `driver.focControl.*` subsystem.
+> **`focControl` does not exist on the current driver.** The FOC stack is
+> split into cooperating subsystems and the recommended setters take a
+> [`MotorContext`](units_and_diagnostics.md#1-motorcontext):
+>
+> | Old (deprecated)                                 | New (current)                                                                 |
+> |--------------------------------------------------|-------------------------------------------------------------------------------|
+> | `driver.focControl.setTargetVelocity(rpm_int)`   | `driver.velocityControl.setTargetVelocityRpm(rpm, ctx)`                       |
+> | `driver.focControl.setTargetTorque(mA)`          | `driver.torqueFluxControl.setTargetTorque(mA)`                                |
+> | `driver.focControl.setTargetPosition(counts)`    | `driver.positionControl.setTargetPositionRaw(counts)` &mdash; or use `setTargetPositionDegMech` |
+> | `driver.focControl.setVelocityLoopGains(P, I)`   | `driver.velocityControl.configureAuto(VelocityConfig{...})`                   |
+> | `driver.focControl.setCurrentLoopGains(P, I)`    | `driver.torqueFluxControl.configureAuto(TorqueFluxConfig{...})`               |
+> | `driver.focControl.setPositionLoopGains(P, I)`   | `driver.positionControl.configureAuto(PositionConfig{...})`                   |
+> | `driver.focControl.setVelocitySensor(...)`       | `driver.feedbackSense.configureAuto(FeedbackSenseConfig{...})`                |
+> | `driver.focControl.setPositionLimitLow/High(...)`| `driver.positionControl.setPositionLimitLow/High(...)`                        |
+>
+> Diagnostics now live on `driver.diagnostics` (`MotorSummary` / `MotorSnapshot`).
+> See **[Units & Diagnostics](units_and_diagnostics.md)** for the full surface.
+
 ## Basic BLDC Motor Control
 
 ```cpp
@@ -44,8 +65,9 @@ int main() {
     driver.motorConfig.setCommutationMode(
         tmc9660::tmcl::CommutationMode::FOC_HALL);
     
-    // 4. Start motor
-    driver.focControl.setTargetVelocity(1000); // 1000 RPM
+    // 4. Start motor (unit-aware API).
+    const auto ctx = driver.getMotorContext();
+    driver.velocityControl.setTargetVelocityRpm(1000.0, ctx); // 1000 RPM
     
     return 0;
 }
