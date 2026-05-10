@@ -176,7 +176,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
       </button><a href="/hf-tmc9660-driver/development/" class="nav-list-link">HardFOC TMC9660 Driver</a><ul class="nav-list"><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="📚 Documentation submenu" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/installation/" class="nav-list-link">🛠️ Installation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/quickstart/" class="nav-list-link">⚡ Quick Start</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/hardware_setup/" class="nav-list-link">🔌 Hardware Setup</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/platform_integration/" class="nav-list-link">🔧 Platform Integration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/configuration/" class="nav-list-link">⚙️ Configuration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/api_reference/" class="nav-list-link">📖 API Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/examples/" class="nav-list-link">💡 Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader/" class="nav-list-link">🚀 Bootloader Initialization</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols/" class="nav-list-link">📡 Communication Protocols</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/troubleshooting/" class="nav-list-link">🐛 Troubleshooting</a></li></ul></li></ul></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/cmake_integration.html" class="nav-list-link">CMake Integration — TMC9660 Driver</a></li></ul>
+      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/installation/" class="nav-list-link">🛠️ Installation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/quickstart/" class="nav-list-link">⚡ Quick Start</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/hardware_setup/" class="nav-list-link">🔌 Hardware Setup</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/platform_integration/" class="nav-list-link">🔧 Platform Integration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/configuration/" class="nav-list-link">⚙️ Configuration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/api_reference/" class="nav-list-link">📖 API Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/examples/" class="nav-list-link">💡 Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader/" class="nav-list-link">🚀 Bootloader Initialization</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/units_and_diagnostics/" class="nav-list-link">📐 Units & Diagnostics</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols/" class="nav-list-link">📡 Communication Protocols</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/troubleshooting/" class="nav-list-link">🐛 Troubleshooting</a></li></ul></li></ul></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/cmake_integration.html" class="nav-list-link">CMake Integration — TMC9660 Driver</a></li></ul>
   
 </nav>
 
@@ -502,22 +502,62 @@
     </tr>
   </tbody>
 </table></div>
-<h2 id="foccontrol-subsystem">
+<h2 id="foc-control-subsystems">
   
   
-    <a href="#foccontrol-subsystem" class="anchor-heading" aria-labelledby="foccontrol-subsystem"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> FOCControl Subsystem
+    <a href="#foc-control-subsystems" class="anchor-heading" aria-labelledby="foc-control-subsystems"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> FOC Control Subsystems
   
   
 </h2>
     
 
-<p>Field-Oriented Control subsystem.</p>
+<p>The TMC9660’s FOC stack is split into three cooperating subsystems on
+<code class="language-plaintext highlighter-rouge">TMC9660</code>. There is <strong>no</strong> monolithic <code class="language-plaintext highlighter-rouge">focControl</code> member.</p>
 
-<p><strong>Location</strong>: <a href="../inc/parameter_mode/tmc9660_param_mode_tmcl.hpp"><code class="language-plaintext highlighter-rouge">inc/parameter_mode/tmc9660_param_mode_tmcl.hpp</code></a></p>
-<h3 id="methods-1">
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Member</th>
+      <th>Class</th>
+      <th>Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">driver.torqueFluxControl</code></td>
+      <td><code class="language-plaintext highlighter-rouge">TorqueFluxControl</code></td>
+      <td>Torque/flux PI gains, target torque/flux, open-loop magnitude (<code class="language-plaintext highlighter-rouge">setOpenloopCurrent</code>, <code class="language-plaintext highlighter-rouge">setOpenloopVoltage</code>)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">driver.velocityControl</code></td>
+      <td><code class="language-plaintext highlighter-rouge">VelocityControl</code></td>
+      <td>Velocity PI gains, target velocity, velocity offset/feedforward, <strong>unit-aware</strong> setters</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">driver.positionControl</code></td>
+      <td><code class="language-plaintext highlighter-rouge">PositionControl</code></td>
+      <td>Position P gain, target position, <strong>unit-aware</strong> setters</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">driver.ramp</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Ramp</code></td>
+      <td>Trapezoidal ramper (VMAX/AMAX/DMAX/V1/V2/VSTART/VSTOP/…)</td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p>Each subsystem exposes:</p>
+
+<ul>
+  <li>low-level raw integer setters/getters that map 1:1 to TMCL parameters,</li>
+  <li>unit-aware setters that take a <code class="language-plaintext highlighter-rouge">MotorContext</code> (see <a href="units_and_diagnostics.md">Units &amp;
+Diagnostics</a>),</li>
+  <li><code class="language-plaintext highlighter-rouge">configureAuto(...)</code> for batch configuration from a profile struct.</li>
+</ul>
+<h3 id="velocitycontrol--selected-methods">
   
   
-    <a href="#methods-1" class="anchor-heading" aria-labelledby="methods-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Methods
+    <a href="#velocitycontrol--selected-methods" class="anchor-heading" aria-labelledby="velocitycontrol--selected-methods"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <code class="language-plaintext highlighter-rouge">VelocityControl</code> — selected methods
   
   
 </h3>
@@ -527,28 +567,180 @@
   <thead>
     <tr>
       <th>Method</th>
-      <th>Signature</th>
-      <th>Location</th>
+      <th>Notes</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><code class="language-plaintext highlighter-rouge">setTargetVelocity()</code></td>
-      <td><code class="language-plaintext highlighter-rouge">bool setTargetVelocity(int32_t velocity)</code></td>
-      <td>See source</td>
+      <td><code class="language-plaintext highlighter-rouge">setTargetVelocity(double, VelocityUnit, MotorContext const&amp;)</code></td>
+      <td>Generic unit-aware setter</td>
     </tr>
     <tr>
-      <td><code class="language-plaintext highlighter-rouge">setTargetTorque()</code></td>
-      <td><code class="language-plaintext highlighter-rouge">bool setTargetTorque(int32_t torque)</code></td>
-      <td>See source</td>
+      <td><code class="language-plaintext highlighter-rouge">setTargetVelocityRpm(double, MotorContext const&amp;)</code></td>
+      <td>RPM convenience wrapper</td>
     </tr>
     <tr>
-      <td><code class="language-plaintext highlighter-rouge">setTargetPosition()</code></td>
-      <td><code class="language-plaintext highlighter-rouge">bool setTargetPosition(int32_t position)</code></td>
-      <td>See source</td>
+      <td><code class="language-plaintext highlighter-rouge">setTargetVelocityRadPerSec(double, MotorContext const&amp;)</code></td>
+      <td>rad/s convenience wrapper</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetVelocityRaw(int32_t)</code></td>
+      <td>Direct internal-units write</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">getActualVelocityRpm(double&amp;, MotorContext const&amp;)</code></td>
+      <td>Read NR <code class="language-plaintext highlighter-rouge">ACTUAL_VELOCITY</code> and convert</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setVelocityP/I/...</code></td>
+      <td>PI gain plumbing</td>
     </tr>
   </tbody>
 </table></div>
+<h3 id="positioncontrol--selected-methods">
+  
+  
+    <a href="#positioncontrol--selected-methods" class="anchor-heading" aria-labelledby="positioncontrol--selected-methods"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <code class="language-plaintext highlighter-rouge">PositionControl</code> — selected methods
+  
+  
+</h3>
+    
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetPosition(double, PositionUnit, MotorContext const&amp;)</code></td>
+      <td>Generic unit-aware setter</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetPositionDegMech(double, MotorContext const&amp;)</code></td>
+      <td>Mechanical-degree wrapper</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetPositionRaw(int32_t)</code></td>
+      <td>Direct counts write</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="torquefluxcontrol--selected-methods">
+  
+  
+    <a href="#torquefluxcontrol--selected-methods" class="anchor-heading" aria-labelledby="torquefluxcontrol--selected-methods"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <code class="language-plaintext highlighter-rouge">TorqueFluxControl</code> — selected methods
+  
+  
+</h3>
+    
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setOpenloopCurrent(uint16_t milliamps)</code></td>
+      <td>Id-only injection used by <code class="language-plaintext highlighter-rouge">FOC_OPENLOOP_CURRENT_MODE</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setOpenloopVoltage(uint16_t units)</code></td>
+      <td><code class="language-plaintext highlighter-rouge">|U|</code> injection used by <code class="language-plaintext highlighter-rouge">FOC_OPENLOOP_VOLTAGE_MODE</code> (preferred for unloaded startup)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetTorque(int16_t mA)</code></td>
+      <td>Closed-loop Iq target</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">setTargetFlux(int16_t mA)</code></td>
+      <td>Closed-loop Id target</td>
+    </tr>
+  </tbody>
+</table></div>
+<h3 id="rampbuildrampconfig-static">
+  
+  
+    <a href="#rampbuildrampconfig-static" class="anchor-heading" aria-labelledby="rampbuildrampconfig-static"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> <code class="language-plaintext highlighter-rouge">Ramp::buildRampConfig</code> (static)
+  
+  
+</h3>
+    
+
+<p>Produces a fully-populated single-segment trapezoidal <code class="language-plaintext highlighter-rouge">RampConfig</code> from
+engineering units; pass to <code class="language-plaintext highlighter-rouge">ramp.configureAuto()</code>. See <a href="units_and_diagnostics.md#3-unit-aware-chip-api">Units &amp;
+Diagnostics §3</a>.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><div class="table-wrapper"><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre><span class="k">auto</span> <span class="n">rc</span> <span class="o">=</span> <span class="n">TMC9660</span><span class="o">&lt;</span><span class="n">MyComm</span><span class="o">&gt;::</span><span class="n">Ramp</span><span class="o">::</span><span class="n">buildRampConfig</span><span class="p">(</span>
+    <span class="mf">600.0</span><span class="p">,</span> <span class="n">units</span><span class="o">::</span><span class="n">VelocityUnit</span><span class="o">::</span><span class="n">Rpm</span><span class="p">,</span>
+    <span class="mf">50.0</span><span class="p">,</span>  <span class="n">units</span><span class="o">::</span><span class="n">AccelerationUnit</span><span class="o">::</span><span class="n">RpmPerSec</span><span class="p">,</span>
+    <span class="n">ctx</span><span class="p">);</span>
+</pre></td></tr></tbody></table></div></code></pre></div></div>
+<h2 id="diagnostics-subsystem">
+  
+  
+    <a href="#diagnostics-subsystem" class="anchor-heading" aria-labelledby="diagnostics-subsystem"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Diagnostics Subsystem
+  
+  
+</h2>
+    
+
+<p><strong>Location</strong>: <a href="../inc/tmc9660.hpp"><code class="language-plaintext highlighter-rouge">inc/tmc9660.hpp</code></a>, POD types in
+<a href="../inc/tmc9660_diagnostics.hpp"><code class="language-plaintext highlighter-rouge">inc/tmc9660_diagnostics.hpp</code></a>.</p>
+
+<div class="table-wrapper"><table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Signature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">summary()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">bool summary (diagnostics::MotorSummary&amp;,  units::MotorContext const&amp;)</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">snapshot()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">bool snapshot(diagnostics::MotorSnapshot&amp;, units::MotorContext const&amp;)</code></td>
+    </tr>
+  </tbody>
+</table></div>
+
+<p><code class="language-plaintext highlighter-rouge">MotorSummary</code> is ~64 B (high-rate health gauge); <code class="language-plaintext highlighter-rouge">MotorSnapshot</code> is the full
+read-only state dump including raw + engineering-unit velocity/position,
+electrical angle, FOC currents/voltages, and the four chip status/error
+registers. Both echo the input <code class="language-plaintext highlighter-rouge">MotorContext</code> so consumers can reproduce
+conversions later. See <a href="/hf-tmc9660-driver/development/docs/units_and_diagnostics/#4-diagnostics">Units &amp; Diagnostics §4</a>.</p>
+<h2 id="motorcontext-live">
+  
+  
+    <a href="#motorcontext-live" class="anchor-heading" aria-labelledby="motorcontext-live"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> MotorContext (live)
+  
+  
+</h2>
+    
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><div class="table-wrapper"><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="n">units</span><span class="o">::</span><span class="n">MotorContext</span> <span class="n">ctx</span><span class="p">;</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">getMotorContext</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>          <span class="c1">// out-param overload</span>
+<span class="k">const</span> <span class="k">auto</span> <span class="n">ctx2</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">getMotorContext</span><span class="p">();</span>   <span class="c1">// value-returning overload</span>
+</pre></td></tr></tbody></table></div></code></pre></div></div>
+
+<p>Reads <code class="language-plaintext highlighter-rouge">MOTOR_TYPE</code>, <code class="language-plaintext highlighter-rouge">MOTOR_POLE_PAIRS</code>, <code class="language-plaintext highlighter-rouge">VELOCITY_SENSOR_SELECTION</code>, and
+<code class="language-plaintext highlighter-rouge">ABN_*_STEPS</code> (for ABN selections). Refresh after any of those parameters
+change.</p>
 <h2 id="telemetry-subsystem">
   
   
@@ -561,10 +753,10 @@
 <p>Telemetry and monitoring subsystem.</p>
 
 <p><strong>Location</strong>: <a href="../inc/parameter_mode/tmc9660_param_mode_tmcl.hpp"><code class="language-plaintext highlighter-rouge">inc/parameter_mode/tmc9660_param_mode_tmcl.hpp</code></a></p>
-<h3 id="methods-2">
+<h3 id="methods-1">
   
   
-    <a href="#methods-2" class="anchor-heading" aria-labelledby="methods-2"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Methods
+    <a href="#methods-1" class="anchor-heading" aria-labelledby="methods-1"><svg viewBox="0 0 16 16" aria-hidden="true"><use xlink:href="#svg-link"></use></svg></a> Methods
   
   
 </h3>

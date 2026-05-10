@@ -16,5 +16,6 @@ var searchData=
   ['complete_13',['Complete',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#aa66fbc01a39f2b424a65fc4fd7dea260aae94f80b3ce82062a5dd7815daa04f9d',1,'tmc9660::register_mode::RAMDebug']]],
   ['config_14',['CONFIG',['../namespacetmc9660.html#a59bad2e9f988290ca3c01c8b3b535caea73e99d350a4aa6f1a5af04ec29173f73',1,'tmc9660']]],
   ['config_5fmem_5fsize_15',['CONFIG_MEM_SIZE',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a1c10d8b2f69deab6114fc3aa188c581f',1,'tmc9660']]],
-  ['config_5fmem_5fstart_16',['CONFIG_MEM_START',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a682953ed3025ca930f537ff520acea38',1,'tmc9660']]]
+  ['config_5fmem_5fstart_16',['CONFIG_MEM_START',['../namespacetmc9660.html#af4e8a4c74acf7f0c687427b7fc2698f2a682953ed3025ca930f537ff520acea38',1,'tmc9660']]],
+  ['counts_17',['Counts',['../namespacetmc9660_1_1units.html#a7a72248939e9a696d29cb3aa11af2a09afbc82f77563b61ff6ee1a8202837307d',1,'tmc9660::units']]]
 ];

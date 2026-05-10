@@ -112,7 +112,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1VelocityControl.html','');
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::VelocityControl:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl__coll__graph.svg" width="1296" height="2135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -132,18 +132,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa76938f9bd6936a9c4fd94266be7f3c0" id="r_aa76938f9bd6936a9c4fd94266be7f3c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa76938f9bd6936a9c4fd94266be7f3c0">getVelocitySensor</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#ac86d27120f6d1ddde749ceb3451f4957">tmc9660::tmcl::VelocitySensorSelection</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sel</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:aa76938f9bd6936a9c4fd94266be7f3c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read velocity feedback sensor.  <br /></td></tr>
 <tr class="separator:aa76938f9bd6936a9c4fd94266be7f3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b4ec17458831e9bfb6ec63958e7c969" id="r_a7b4ec17458831e9bfb6ec63958e7c969"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b4ec17458831e9bfb6ec63958e7c969">setTargetVelocity</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">velocity</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a7b4ec17458831e9bfb6ec63958e7c969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target velocity.  <br /></td></tr>
-<tr class="separator:a7b4ec17458831e9bfb6ec63958e7c969"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883a2a77eae73c97bdd71f48be89cf55" id="r_a883a2a77eae73c97bdd71f48be89cf55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a883a2a77eae73c97bdd71f48be89cf55">setTargetVelocity</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> value, <a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a883a2a77eae73c97bdd71f48be89cf55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target velocity in any engineering unit (canonical API).  <br /></td></tr>
+<tr class="separator:a883a2a77eae73c97bdd71f48be89cf55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ee2c1dd6e3503803ce7a17a68bc6fe" id="r_a68ee2c1dd6e3503803ce7a17a68bc6fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68ee2c1dd6e3503803ce7a17a68bc6fe">setTargetVelocityRpm</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">rpm</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a68ee2c1dd6e3503803ce7a17a68bc6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: set target velocity in mechanical RPM.  <br /></td></tr>
+<tr class="separator:a68ee2c1dd6e3503803ce7a17a68bc6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ab47443d6678a5045a4ddfd15817a94" id="r_a6ab47443d6678a5045a4ddfd15817a94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ab47443d6678a5045a4ddfd15817a94">setTargetVelocityRadPerSec</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">rad_per_s</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a6ab47443d6678a5045a4ddfd15817a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: set target velocity in rad/s (mechanical).  <br /></td></tr>
+<tr class="separator:a6ab47443d6678a5045a4ddfd15817a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a373800afd181b1428cc518da0e17b2c5" id="r_a373800afd181b1428cc518da0e17b2c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a373800afd181b1428cc518da0e17b2c5">setTargetVelocityRaw</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">velocity_internal</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a373800afd181b1428cc518da0e17b2c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set target velocity in raw chip internal units (escape hatch).  <br /></td></tr>
+<tr class="separator:a373800afd181b1428cc518da0e17b2c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab12d90883cd7e915f623f78d50995906" id="r_ab12d90883cd7e915f623f78d50995906"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab12d90883cd7e915f623f78d50995906">getActualVelocity</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">velocity</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab12d90883cd7e915f623f78d50995906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual velocity.  <br /></td></tr>
+<tr class="memdesc:ab12d90883cd7e915f623f78d50995906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual velocity in raw chip internal units.  <br /></td></tr>
 <tr class="separator:ab12d90883cd7e915f623f78d50995906"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8e1a203da148b390fa86d5855b19c81" id="r_af8e1a203da148b390fa86d5855b19c81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8e1a203da148b390fa86d5855b19c81">setVelocityOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> offset) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:af8e1a203da148b390fa86d5855b19c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set velocity offset.  <br /></td></tr>
-<tr class="separator:af8e1a203da148b390fa86d5855b19c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0966808690108ff4d082a564f46ed0e" id="r_ae0966808690108ff4d082a564f46ed0e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0966808690108ff4d082a564f46ed0e">getVelocityOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;offset) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ae0966808690108ff4d082a564f46ed0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read velocity offset.  <br /></td></tr>
-<tr class="separator:ae0966808690108ff4d082a564f46ed0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fdaa7901d10baa18d70229a8d3aaa96" id="r_a5fdaa7901d10baa18d70229a8d3aaa96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fdaa7901d10baa18d70229a8d3aaa96">getActualVelocity</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;value, <a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5fdaa7901d10baa18d70229a8d3aaa96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read actual velocity in any engineering unit.  <br /></td></tr>
+<tr class="separator:a5fdaa7901d10baa18d70229a8d3aaa96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46434aa7f958263fd04c5d39b488a104" id="r_a46434aa7f958263fd04c5d39b488a104"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46434aa7f958263fd04c5d39b488a104">getActualVelocityRpm</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">rpm</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a46434aa7f958263fd04c5d39b488a104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience: read actual velocity in mechanical RPM.  <br /></td></tr>
+<tr class="separator:a46434aa7f958263fd04c5d39b488a104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4f7dba7f7b656c748410a6de366100" id="r_a2d4f7dba7f7b656c748410a6de366100"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d4f7dba7f7b656c748410a6de366100">setVelocityOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> value, <a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a2d4f7dba7f7b656c748410a6de366100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set velocity offset (feed-forward bias) in any engineering unit.  <br /></td></tr>
+<tr class="separator:a2d4f7dba7f7b656c748410a6de366100"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92cfd2b9cac8c5a2c7928370b2ba4371" id="r_a92cfd2b9cac8c5a2c7928370b2ba4371"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92cfd2b9cac8c5a2c7928370b2ba4371">setVelocityOffsetRaw</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">offset_internal</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a92cfd2b9cac8c5a2c7928370b2ba4371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set velocity offset in raw chip internal units (escape hatch).  <br /></td></tr>
+<tr class="separator:a92cfd2b9cac8c5a2c7928370b2ba4371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4938349351f2db69469cc172bf7d3948" id="r_a4938349351f2db69469cc172bf7d3948"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4938349351f2db69469cc172bf7d3948">getVelocityOffset</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">offset_internal</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4938349351f2db69469cc172bf7d3948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read velocity offset in raw chip internal units.  <br /></td></tr>
+<tr class="separator:a4938349351f2db69469cc172bf7d3948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a900e1b44915824349feffa9db087b8e8" id="r_a900e1b44915824349feffa9db087b8e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a900e1b44915824349feffa9db087b8e8">setVelocityLoopGains</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">p</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">i</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a900e1b44915824349feffa9db087b8e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure velocity PI gains.  <br /></td></tr>
 <tr class="separator:a900e1b44915824349feffa9db087b8e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -307,8 +325,55 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
+<a id="a5fdaa7901d10baa18d70229a8d3aaa96" name="a5fdaa7901d10baa18d70229a8d3aaa96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fdaa7901d10baa18d70229a8d3aaa96">&#9670;&#160;</a></span>getActualVelocity() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::getActualVelocity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a></td>          <td class="paramname"><span class="paramname"><em>unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read actual velocity in any engineering unit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">value</td><td>Measured velocity expressed in <code>unit</code>. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">unit</td><td>Engineering unit to convert into. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">ctx</td><td>Motor context (must be valid for unit ≠ <code>Internal</code>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the underlying SAP succeeded. </dd></dl>
+
+</div>
+</div>
 <a id="ab12d90883cd7e915f623f78d50995906" name="ab12d90883cd7e915f623f78d50995906"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab12d90883cd7e915f623f78d50995906">&#9670;&#160;</a></span>getActualVelocity()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab12d90883cd7e915f623f78d50995906">&#9670;&#160;</a></span>getActualVelocity() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -332,14 +397,19 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Read actual velocity. </p>
+<p>Read actual velocity in raw chip internal units. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">velocity</td><td>Measured velocity. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">velocity</td><td>Measured velocity (signed internal units). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if read. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl_ab12d90883cd7e915f623f78d50995906_icgraph.svg" width="488" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -502,6 +572,44 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a46434aa7f958263fd04c5d39b488a104" name="a46434aa7f958263fd04c5d39b488a104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46434aa7f958263fd04c5d39b488a104">&#9670;&#160;</a></span>getActualVelocityRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::getActualVelocityRpm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rpm</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: read actual velocity in mechanical RPM. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl_a46434aa7f958263fd04c5d39b488a104_cgraph.svg" width="488" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -717,8 +825,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ae0966808690108ff4d082a564f46ed0e" name="ae0966808690108ff4d082a564f46ed0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0966808690108ff4d082a564f46ed0e">&#9670;&#160;</a></span>getVelocityOffset()</h2>
+<a id="a4938349351f2db69469cc172bf7d3948" name="a4938349351f2db69469cc172bf7d3948"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4938349351f2db69469cc172bf7d3948">&#9670;&#160;</a></span>getVelocityOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -731,7 +839,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
         <tr>
           <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::getVelocityOffset </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>offset</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>offset_internal</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -742,14 +850,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Read velocity offset. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">offset</td><td>Offset in RPM. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if read. </dd></dl>
+<p>Read velocity offset in raw chip internal units. </p>
 
 </div>
 </div>
@@ -1100,8 +1201,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a7b4ec17458831e9bfb6ec63958e7c969" name="a7b4ec17458831e9bfb6ec63958e7c969"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b4ec17458831e9bfb6ec63958e7c969">&#9670;&#160;</a></span>setTargetVelocity()</h2>
+<a id="a883a2a77eae73c97bdd71f48be89cf55" name="a883a2a77eae73c97bdd71f48be89cf55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883a2a77eae73c97bdd71f48be89cf55">&#9670;&#160;</a></span>setTargetVelocity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1114,7 +1215,98 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
         <tr>
           <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setTargetVelocity </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>velocity</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>value</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a></td>          <td class="paramname"><span class="paramname"><em>unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set target velocity in any engineering unit (canonical API). </p>
+<p>Canonical motor-shaft velocity setter. The <code>(value, unit, ctx)</code> form forces the caller to be explicit about which unit the number is in; thanks to the dedicated <code>VelocityUnit</code> enum class, mixing positions or accelerations here is a compile error.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Target velocity expressed in <code>unit</code>. </td></tr>
+    <tr><td class="paramname">unit</td><td>Engineering unit of <code>value</code> (RPM / RPS / rad·s⁻¹ / deg·s⁻¹ / Internal). </td></tr>
+    <tr><td class="paramname">ctx</td><td>Motor context (pole pairs, sensor selection, encoder CPR) used to derive <code>k_RPM</code>. Acquire once via <code><a class="el" href="classtmc9660_1_1TMC9660.html#ad8ddf22adb37a356e83dd1d51e105e83" title="Convenience overload returning the context by value.">getMotorContext()</a></code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the SAP succeeded. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl_a883a2a77eae73c97bdd71f48be89cf55_icgraph.svg" width="526" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a6ab47443d6678a5045a4ddfd15817a94" name="a6ab47443d6678a5045a4ddfd15817a94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab47443d6678a5045a4ddfd15817a94">&#9670;&#160;</a></span>setTargetVelocityRadPerSec()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setTargetVelocityRadPerSec </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>rad_per_s</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: set target velocity in rad/s (mechanical). </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl_a6ab47443d6678a5045a4ddfd15817a94_cgraph.svg" width="526" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a373800afd181b1428cc518da0e17b2c5" name="a373800afd181b1428cc518da0e17b2c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a373800afd181b1428cc518da0e17b2c5">&#9670;&#160;</a></span>setTargetVelocityRaw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setTargetVelocityRaw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>velocity_internal</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1125,14 +1317,46 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Set target velocity. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">velocity</td><td>Target velocity (internal units). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if written. </dd></dl>
+<p>Set target velocity in raw chip internal units (escape hatch). </p>
+<p>Prefer the unit-aware overload above. Use this only when integrating with code that already speaks internal units or when bypassing the <code>MotorContext</code>-based scaling. </p>
+
+</div>
+</div>
+<a id="a68ee2c1dd6e3503803ce7a17a68bc6fe" name="a68ee2c1dd6e3503803ce7a17a68bc6fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68ee2c1dd6e3503803ce7a17a68bc6fe">&#9670;&#160;</a></span>setTargetVelocityRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setTargetVelocityRpm </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>rpm</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience: set target velocity in mechanical RPM. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1VelocityControl_a68ee2c1dd6e3503803ce7a17a68bc6fe_cgraph.svg" width="486" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -1326,8 +1550,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="af8e1a203da148b390fa86d5855b19c81" name="af8e1a203da148b390fa86d5855b19c81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8e1a203da148b390fa86d5855b19c81">&#9670;&#160;</a></span>setVelocityOffset()</h2>
+<a id="a2d4f7dba7f7b656c748410a6de366100" name="a2d4f7dba7f7b656c748410a6de366100"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4f7dba7f7b656c748410a6de366100">&#9670;&#160;</a></span>setVelocityOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1340,7 +1564,46 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
         <tr>
           <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setVelocityOffset </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>offset</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>value</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a></td>          <td class="paramname"><span class="paramname"><em>unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set velocity offset (feed-forward bias) in any engineering unit. </p>
+<dl class="section note"><dt>Note</dt><dd>The previous implementation's docstring claimed "RPM" but in fact wrote raw internal units to the chip. This canonical overload removes that ambiguity by requiring an explicit unit. </dd></dl>
+
+</div>
+</div>
+<a id="a92cfd2b9cac8c5a2c7928370b2ba4371" name="a92cfd2b9cac8c5a2c7928370b2ba4371"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92cfd2b9cac8c5a2c7928370b2ba4371">&#9670;&#160;</a></span>setVelocityOffsetRaw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::VelocityControl::setVelocityOffsetRaw </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a></td>          <td class="paramname"><span class="paramname"><em>offset_internal</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1351,14 +1614,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Set velocity offset. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">offset</td><td>Offset in RPM. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if written. </dd></dl>
+<p>Set velocity offset in raw chip internal units (escape hatch). </p>
 
 </div>
 </div>

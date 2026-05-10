@@ -7,7 +7,7 @@ var searchData=
   ['idle_4',['Idle',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#aa66fbc01a39f2b424a65fc4fd7dea260ae599161956d626eda4cb0a5ffb85271c',1,'tmc9660::register_mode::RAMDebug']]],
   ['inactive_5',['INACTIVE',['../namespacetmc9660.html#a9b1b51512d1c9277255dbdc89eff53c9a6b273343c454f9c53dcfc9c4ccf171d2',1,'tmc9660']]],
   ['init_6',['Init',['../namespacetmc9660_1_1register__mode_1_1RAMDebug.html#a3b604a638af4a71aff2dac76d827b314a95b19f7739b0b7ea7d6b07586be54f36',1,'tmc9660::register_mode::RAMDebug']]],
-  ['internal_7',['Internal',['../namespacetmc9660_1_1bootcfg.html#a28e9360ed643f136c14abdc71c49a5e6aafbf0897a5a83fdd873dfb032ec695d3',1,'tmc9660::bootcfg']]],
+  ['internal_7',['Internal',['../namespacetmc9660_1_1bootcfg.html#a28e9360ed643f136c14abdc71c49a5e6aafbf0897a5a83fdd873dfb032ec695d3',1,'tmc9660::bootcfg::Internal'],['../namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7caafbf0897a5a83fdd873dfb032ec695d3',1,'tmc9660::units::Internal'],['../namespacetmc9660_1_1units.html#a4e078185cb5bf4ed41eddf2e0082d9d6aafbf0897a5a83fdd873dfb032ec695d3',1,'tmc9660::units::Internal']]],
   ['intosc_8',['IntOsc',['../namespacetmc9660_1_1bootcfg.html#a0beec81cc4e1b992be11c2a3e562bac2a252a8ec2ca1e9f1b1e2bb6e9a9838635',1,'tmc9660::bootcfg']]],
   ['invalid_5faddr_9',['INVALID_ADDR',['../namespacetmc9660.html#a9cbaf21724b4f9793c31bb96da5a98d7a4bdcab0129348e511a0f7dea0cbcda5f',1,'tmc9660']]],
   ['invalid_5fbank_10',['INVALID_BANK',['../namespacetmc9660.html#a9cbaf21724b4f9793c31bb96da5a98d7a4166ef107996f39e4e246960cb2a9d5f',1,'tmc9660']]],

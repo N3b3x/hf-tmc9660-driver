@@ -119,11 +119,13 @@ $(function(){initNavTree('tmc9660_8hpp.html',''); initResizable(); });
 <code>#include &quot;tmc9660_version.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="tmc9660__bootloader_8hpp_source.html">bootloader/tmc9660_bootloader.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tmc9660__param__mode__tmcl_8hpp_source.html">parameter_mode/tmc9660_param_mode_tmcl.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tmc9660__units_8hpp_source.html">tmc9660_units.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tmc9660__diagnostics_8hpp_source.html">tmc9660_diagnostics.hpp</a>&quot;</code><br />
 <code>#include &quot;../src/tmc9660.ipp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for tmc9660.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660_8hpp__incl.svg" width="1779" height="359"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660_8hpp__incl.svg" width="1755" height="374"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -137,6 +139,9 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660&lt; CommType &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main class representing a <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> motor driver in Parameter Mode.  <a href="classtmc9660_1_1TMC9660.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html">tmc9660::TMC9660&lt; CommType &gt;::DeviceCapabilities</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-device feature topology — declares which optional subsystems are physically wired and bootloader-enabled on <b>this</b> <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a> instance.  <a href="structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1MotorConfig.html">tmc9660::TMC9660&lt; CommType &gt;::MotorConfig</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Motor configuration and control subsystem.  <a href="structtmc9660_1_1TMC9660_1_1MotorConfig.html#details">More...</a><br /></td></tr>
@@ -212,6 +217,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1Telemetry.html">tmc9660::TMC9660&lt; CommType &gt;::Telemetry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subsystem for reading various telemetry and status information from the driver.  <a href="structtmc9660_1_1TMC9660_1_1Telemetry.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1Diagnostics.html">tmc9660::TMC9660&lt; CommType &gt;::Diagnostics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One-shot diagnostic snapshots for upstream health reporting.  <a href="structtmc9660_1_1TMC9660_1_1Diagnostics.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtmc9660_1_1TMC9660_1_1StopEvents.html">tmc9660::TMC9660&lt; CommType &gt;::StopEvents</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure automatic stop/latch behaviour for deviation, switches.  <a href="structtmc9660_1_1TMC9660_1_1StopEvents.html#details">More...</a><br /></td></tr>

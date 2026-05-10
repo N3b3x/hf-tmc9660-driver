@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['velocitycontrol_0',['VelocityControl',['../structtmc9660_1_1TMC9660_1_1VelocityControl.html#a0fe34708b15bfbf10c8d8f27b6511d9a',1,'tmc9660::TMC9660::VelocityControl']]],
-  ['verify_5fcurrent_5flimits_1',['verify_current_limits',['../dc__comprehensive__test_8cpp.html#a7e12788582df425a2388bddf1124e8d3',1,'dc_comprehensive_test.cpp']]],
-  ['verify_5fdc_5fconfiguration_2',['verify_dc_configuration',['../dc__comprehensive__test_8cpp.html#a13a67cf6fc006319ab8f3a5fdf355785',1,'dc_comprehensive_test.cpp']]],
-  ['verify_5fposition_5fcontrol_3',['verify_position_control',['../stepper__comprehensive__test_8cpp.html#ac8561dacc8ae361d0dd3e7d7cc61f591',1,'stepper_comprehensive_test.cpp']]],
-  ['verify_5fstepper_5fconfiguration_4',['verify_stepper_configuration',['../stepper__comprehensive__test_8cpp.html#a61d83853660e0ae7aeff9a8d8aed8dc9',1,'stepper_comprehensive_test.cpp']]],
-  ['verify_5ftelemetry_5franges_5',['verify_telemetry_ranges',['../telemetry__comprehensive__test_8cpp.html#a32825c0e238425582c938e89af74f282',1,'verify_telemetry_ranges(TMC9660&lt; Esp32Tmc9660SpiBus &gt; &amp;driver) noexcept:&#160;telemetry_comprehensive_test.cpp'],['../telemetry__comprehensive__test_8cpp.html#a0e15fbdacc6f91181246cc65006738ee',1,'verify_telemetry_ranges(TMC9660&lt; Esp32Tmc9660UartBus &gt; &amp;driver) noexcept:&#160;telemetry_comprehensive_test.cpp']]],
-  ['verifycrc_6',['verifyCRC',['../structtmc9660_1_1BootloaderReplyUART.html#aa79efb03d4cba868584c6b6e122e7dce',1,'tmc9660::BootloaderReplyUART']]]
+  ['uartcomminterface_0',['UartCommInterface',['../classtmc9660_1_1UartCommInterface.html#ae236f248d4e382f9b70a3e53745623b9',1,'tmc9660::UartCommInterface::UartCommInterface(bool rst_active_level, bool drv_en_active_level, bool wake_active_level, bool faultn_active_level) noexcept'],['../classtmc9660_1_1UartCommInterface.html#a453f2fe34af3b5e45011713dc44fa006',1,'tmc9660::UartCommInterface::UartCommInterface(const UartCommInterface &amp;)=delete'],['../classtmc9660_1_1UartCommInterface.html#a533098ba7648cf22a59128d429e89f1c',1,'tmc9660::UartCommInterface::UartCommInterface(UartCommInterface &amp;&amp;)=default']]],
+  ['uartreceivetmcl_1',['uartReceiveTMCL',['../classtmc9660_1_1UartCommInterface.html#a1c2915ad272a273c8f6870fcc409294f',1,'tmc9660::UartCommInterface::uartReceiveTMCL()'],['../classEsp32Tmc9660UartBus.html#ac9eb0f7033c90d1cef221156b2f3cf7c',1,'Esp32Tmc9660UartBus::uartReceiveTMCL()']]],
+  ['uartsendtmcl_2',['uartSendTMCL',['../classtmc9660_1_1UartCommInterface.html#a99ce29a16432eac75ccc237f534a5310',1,'tmc9660::UartCommInterface::uartSendTMCL()'],['../classEsp32Tmc9660UartBus.html#a7f55a9540a8003d1f8915d50ece93ac7',1,'Esp32Tmc9660UartBus::uartSendTMCL()']]],
+  ['uarttransferbootloader_3',['uartTransferBootloader',['../classtmc9660_1_1UartCommInterface.html#adeb490a7000386f9c3dd3ff73bc9f6b1',1,'tmc9660::UartCommInterface::uartTransferBootloader()'],['../classEsp32Tmc9660UartBus.html#af03944aedf52aa408ce5be7434e25221',1,'Esp32Tmc9660UartBus::uartTransferBootloader()']]],
+  ['upload_4',['upload',['../structtmc9660_1_1TMC9660_1_1Script.html#a1a8ef345751eb64e7f34f49d8cb2e1c0',1,'tmc9660::TMC9660::Script']]],
+  ['uploadspiencoderlutentry_5',['uploadSPIEncoderLUTEntry',['../structtmc9660_1_1TMC9660_1_1FeedbackSense.html#a65a4b3dbd97ae0a450c671f67f4652c5',1,'tmc9660::TMC9660::FeedbackSense']]]
 ];

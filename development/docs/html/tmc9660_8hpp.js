@@ -1,5 +1,6 @@
 var tmc9660_8hpp =
 [
+    [ "tmc9660::TMC9660< CommType >::DeviceCapabilities", "structtmc9660_1_1TMC9660_1_1DeviceCapabilities.html", "structtmc9660_1_1TMC9660_1_1DeviceCapabilities" ],
     [ "tmc9660::TMC9660< CommType >::MotorConfig::MotorProfile", "structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html", "structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile" ],
     [ "tmc9660::TMC9660< CommType >::CurrentSensing", "structtmc9660_1_1TMC9660_1_1CurrentSensing.html", "structtmc9660_1_1TMC9660_1_1CurrentSensing" ],
     [ "tmc9660::TMC9660< CommType >::CurrentSensing::AutoConfig", "structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html", "structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig" ],
@@ -24,6 +25,7 @@ var tmc9660_8hpp =
     [ "tmc9660::TMC9660< CommType >::Brake::BrakeConfig", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html", "structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig" ],
     [ "tmc9660::TMC9660< CommType >::IIT", "structtmc9660_1_1TMC9660_1_1IIT.html", "structtmc9660_1_1TMC9660_1_1IIT" ],
     [ "tmc9660::TMC9660< CommType >::Telemetry", "structtmc9660_1_1TMC9660_1_1Telemetry.html", "structtmc9660_1_1TMC9660_1_1Telemetry" ],
+    [ "tmc9660::TMC9660< CommType >::Diagnostics", "structtmc9660_1_1TMC9660_1_1Diagnostics.html", "structtmc9660_1_1TMC9660_1_1Diagnostics" ],
     [ "tmc9660::TMC9660< CommType >::StopEvents", "structtmc9660_1_1TMC9660_1_1StopEvents.html", "structtmc9660_1_1TMC9660_1_1StopEvents" ],
     [ "tmc9660::TMC9660< CommType >::StopEvents::StopEventsConfig", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig.html", "structtmc9660_1_1TMC9660_1_1StopEvents_1_1StopEventsConfig" ],
     [ "tmc9660::TMC9660< CommType >::Protection", "structtmc9660_1_1TMC9660_1_1Protection.html", "structtmc9660_1_1TMC9660_1_1Protection" ],

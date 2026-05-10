@@ -113,7 +113,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1FeedbackSense.html',''); i
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::FeedbackSense:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1FeedbackSense__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1FeedbackSense__coll__graph.svg" width="1296" height="2135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -517,6 +517,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 <p>Auto-configure ABN encoder feedback. </p>
 <p>Configures ABN encoder including initialization method, N-channel settings, and filtering.</p>
+<dl class="section warning"><dt>Warning</dt><dd>When <code>config.initMethod</code> is <code>FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING</code> or <code>FORCED_PHI_E_90_ZERO</code>, the chip aligns the rotor by driving a constant current set by parameter <code>OPENLOOP_CURRENT</code> (param 46, mA), NOT by <code>OPENLOOP_VOLTAGE</code>. The chip default is 1000 mA which can be insufficient for gearboxed / high-stiction motors and will silently leave the rotor static while reporting init "DONE" with a bogus phi_e offset — FOC_ABN will then produce vibration only. Set <code>config.initOpenloopCurrent_mA</code> to the alignment current you need (must be ≤ MAX_TORQUE), or write OPENLOOP_CURRENT yourself before engaging FOC_ABN.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">config</td><td>ABN encoder configuration (see <a class="el" href="structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1AbnConfig.html" title="Configuration structure for ABN encoder auto-configuration.">AbnConfig</a>) </td></tr>

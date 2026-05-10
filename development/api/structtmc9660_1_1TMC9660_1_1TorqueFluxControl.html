@@ -112,7 +112,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1TorqueFluxControl.html',''
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::TorqueFluxControl:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1TorqueFluxControl__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1TorqueFluxControl__coll__graph.svg" width="1296" height="2135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -181,7 +181,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aaa921d2177a2fb3633afc2f38fa82e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read open-loop current.  <br /></td></tr>
 <tr class="separator:aaa921d2177a2fb3633afc2f38fa82e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6937fccebf262d7009c89de1a8877ec1" id="r_a6937fccebf262d7009c89de1a8877ec1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6937fccebf262d7009c89de1a8877ec1">setOpenloopVoltage</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">voltage</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6937fccebf262d7009c89de1a8877ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set open-loop voltage.  <br /></td></tr>
+<tr class="memdesc:a6937fccebf262d7009c89de1a8877ec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set open-loop voltage (PWM duty cycle, relative to V_BUS).  <br /></td></tr>
 <tr class="separator:a6937fccebf262d7009c89de1a8877ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a771992dbbe825d9f7b5137efb17c4cc1" id="r_a771992dbbe825d9f7b5137efb17c4cc1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a771992dbbe825d9f7b5137efb17c4cc1">getOpenloopVoltage</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">voltage</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a771992dbbe825d9f7b5137efb17c4cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read open-loop voltage.  <br /></td></tr>
@@ -1524,10 +1524,10 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Set open-loop voltage. </p>
+<p>Set open-loop voltage (PWM duty cycle, relative to V_BUS). </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">voltage</td><td>Voltage unit (0…32767). </td></tr>
+    <tr><td class="paramname">voltage</td><td>Voltage register value (0..16383, 14-bit; per parameter NR 47 OPENLOOP_VOLTAGE). 16383 = 100% duty. The chip does <b>not</b> current-limit voltage mode, so use a low value (≈5% = 800) for unloaded startup. </td></tr>
   </table>
   </dd>
 </dl>

@@ -97,6 +97,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Ramp.html',''); initResiza
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -112,7 +113,7 @@ $(function(){initNavTree('structtmc9660_1_1TMC9660_1_1Ramp.html',''); initResiza
 <div class="dynheader">
 Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::Ramp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1Ramp__coll__graph.svg" width="1259" height="2044"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1Ramp__coll__graph.svg" width="1296" height="2135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -153,6 +154,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeaf3edd2f39a67825bc839f685519662" id="r_aeaf3edd2f39a67825bc839f685519662"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeaf3edd2f39a67825bc839f685519662">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html">RampConfig</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">config</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:aeaf3edd2f39a67825bc839f685519662"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure ramp parameters.  <br /></td></tr>
 <tr class="separator:aeaf3edd2f39a67825bc839f685519662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4bc3e08c925ca6a46cb80f3ad4727055" id="r_a4bc3e08c925ca6a46cb80f3ad4727055"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html">RampConfig</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bc3e08c925ca6a46cb80f3ad4727055">buildRampConfig</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">max_velocity</a>, <a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">vel_unit</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">double</a> <a class="el" href="classtmc9660_1_1CommInterface.html">max_acceleration</a>, <a class="el" href="namespacetmc9660_1_1units.html#a4e078185cb5bf4ed41eddf2e0082d9d6">::tmc9660::units::AccelerationUnit</a> <a class="el" href="classtmc9660_1_1CommInterface.html">accel_unit</a>, <a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ctx</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4bc3e08c925ca6a46cb80f3ad4727055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a <code><a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html" title="Configuration structure for ramp auto-configuration.">RampConfig</a></code> from engineering units.  <br /></td></tr>
+<tr class="separator:a4bc3e08c925ca6a46cb80f3ad4727055"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -215,6 +222,68 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4bc3e08c925ca6a46cb80f3ad4727055" name="a4bc3e08c925ca6a46cb80f3ad4727055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bc3e08c925ca6a46cb80f3ad4727055">&#9670;&#160;</a></span>buildRampConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">static</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html">RampConfig</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Ramp::buildRampConfig </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>max_velocity</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a6183950de91726fe0899c2feba83ca7c">::tmc9660::units::VelocityUnit</a></td>          <td class="paramname"><span class="paramname"><em>vel_unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">double</a></td>          <td class="paramname"><span class="paramname"><em>max_acceleration</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacetmc9660_1_1units.html#a4e078185cb5bf4ed41eddf2e0082d9d6">::tmc9660::units::AccelerationUnit</a></td>          <td class="paramname"><span class="paramname"><em>accel_unit</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structtmc9660_1_1units_1_1MotorContext.html">::tmc9660::units::MotorContext</a> <a class="el" href="classtmc9660_1_1CommInterface.html">const</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ctx</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Build a <code><a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html" title="Configuration structure for ramp auto-configuration.">RampConfig</a></code> from engineering units. </p>
+<p>Convenience builder that converts a max velocity (any <code>VelocityUnit</code>) and a max acceleration (any <code>AccelerationUnit</code>) into the chip's raw internal units, populating the principal <code><a class="el" href="structtmc9660_1_1TMC9660_1_1Ramp_1_1RampConfig.html" title="Configuration structure for ramp auto-configuration.">RampConfig</a></code> fields. The <code>enableRamp</code> / <code>enableDirectVelocityMode</code> / advanced segment fields are left at default; tweak them on the returned struct before passing to <code><a class="el" href="#aeaf3edd2f39a67825bc839f685519662" title="Auto-configure ramp parameters.">configureAuto()</a></code>.</p>
+<p>The result is a fully-populated single-segment trapezoidal profile:</p><ul>
+<li><code>maxAcceleration</code> (AMAX), <code>acceleration1</code> (A1), <code>acceleration2</code> (A2) are all set to the same value derived from <code>max_acceleration</code>.</li>
+<li><code>maxDeceleration</code> (DMAX), <code>deceleration1</code> (D1), <code>deceleration2</code> (D2) mirror the acceleration value (symmetric ramp).</li>
+<li><code>velocityThreshold1</code> / <code>velocityThreshold2</code> are pinned to 0, which selects single-segment AMAX/DMAX commutation (A1/A2/D1/D2 unused).</li>
+<li><code>startVelocity</code> = 0, <code>stopVelocity</code> = 1 (lowest non-zero raw value; motion is considered stopped at &lt;= 1 internal unit ≈ 0.0003 RPM).</li>
+<li><code>timeAtVmax</code> = 0, <code>timeZeroWait</code> = 0.</li>
+</ul>
+<p>Callers wanting an asymmetric, segmented, or jerk-shaped profile should override the relevant fields on the returned struct before calling <code><a class="el" href="#aeaf3edd2f39a67825bc839f685519662" title="Auto-configure ramp parameters.">configureAuto()</a></code>. Callers wanting feedforward should set <code>enableVelocityFeedForward</code> / <code>enableAccelerationFeedForward</code> separately. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMC9660_1_1Ramp_a4bc3e08c925ca6a46cb80f3ad4727055_cgraph.svg" width="715" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="aeaf3edd2f39a67825bc839f685519662" name="aeaf3edd2f39a67825bc839f685519662"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeaf3edd2f39a67825bc839f685519662">&#9670;&#160;</a></span>configureAuto()</h2>
 

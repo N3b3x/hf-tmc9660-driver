@@ -72,12 +72,13 @@ var searchData=
   ['brakechopperconfig_69',['BrakeChopperConfig',['../structtmc9660_1_1BrakeChopperConfig.html',1,'tmc9660']]],
   ['brakechopperoutput_70',['BrakeChopperOutput',['../namespacetmc9660_1_1bootcfg.html#afd15245f278745f5e02114b18f32d4c8',1,'tmc9660::bootcfg']]],
   ['brakeconfig_71',['BrakeConfig',['../structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html',1,'tmc9660::TMC9660::Brake']]],
-  ['burn_5fprocedure_5ffailed_72',['BURN_PROCEDURE_FAILED',['../namespacetmc9660.html#a0957dd1bf437919e2b822331c9cdcb43a3bde6cdf2c72aff8bc01ad6d7291a56a',1,'tmc9660']]],
-  ['bus_5ftag_73',['BUS_TAG',['../esp32__tmc9660__bus_8hpp.html#a73a911be261c628a3ee57cedbafb89a1',1,'esp32_tmc9660_bus.hpp']]],
-  ['busvoltage_5fv_74',['busVoltage_V',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#ad0bce397cdf8727d6b0e0a3548951b1e',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
-  ['busy_75',['BUSY',['../namespacetmc9660.html#a9cbaf21724b4f9793c31bb96da5a98d7a802706a9238e2928077f97736854bad4',1,'tmc9660']]],
-  ['bw_5f0u55_76',['BW_0U55',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974ac889919671036bede4a376928bddf217',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
-  ['bw_5f0u75_77',['BW_0U75',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a7e78221f4a0380b314353799b654c510',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
-  ['bw_5f1u00_78',['BW_1U00',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a42b5c424131ca1a3a017a56149723a18',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
-  ['bw_5f1u35_79',['BW_1U35',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a6ece41dad47dde1c44044e4bfadcb16c',1,'tmc9660::register_mode::ADC::CSA_SETUP']]]
+  ['buildrampconfig_72',['buildRampConfig',['../structtmc9660_1_1TMC9660_1_1Ramp.html#a4bc3e08c925ca6a46cb80f3ad4727055',1,'tmc9660::TMC9660::Ramp']]],
+  ['burn_5fprocedure_5ffailed_73',['BURN_PROCEDURE_FAILED',['../namespacetmc9660.html#a0957dd1bf437919e2b822331c9cdcb43a3bde6cdf2c72aff8bc01ad6d7291a56a',1,'tmc9660']]],
+  ['bus_5ftag_74',['BUS_TAG',['../esp32__tmc9660__bus_8hpp.html#a73a911be261c628a3ee57cedbafb89a1',1,'esp32_tmc9660_bus.hpp']]],
+  ['busvoltage_5fv_75',['busVoltage_V',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#ad0bce397cdf8727d6b0e0a3548951b1e',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
+  ['busy_76',['BUSY',['../namespacetmc9660.html#a9cbaf21724b4f9793c31bb96da5a98d7a802706a9238e2928077f97736854bad4',1,'tmc9660']]],
+  ['bw_5f0u55_77',['BW_0U55',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974ac889919671036bede4a376928bddf217',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
+  ['bw_5f0u75_78',['BW_0U75',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a7e78221f4a0380b314353799b654c510',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
+  ['bw_5f1u00_79',['BW_1U00',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a42b5c424131ca1a3a017a56149723a18',1,'tmc9660::register_mode::ADC::CSA_SETUP']]],
+  ['bw_5f1u35_80',['BW_1U35',['../structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html#a1d7c06c5a33dce6fe053005fa8e8b974a6ece41dad47dde1c44044e4bfadcb16c',1,'tmc9660::register_mode::ADC::CSA_SETUP']]]
 ];

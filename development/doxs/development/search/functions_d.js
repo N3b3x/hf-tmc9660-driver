@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['perform_5fbootloader_5freset_5fsequence_0',['perform_bootloader_reset_sequence',['../bootloader__comprehensive__test_8cpp.html#a13f15c809fc3e139373dd0350226f8cb',1,'bootloader_comprehensive_test.cpp']]],
-  ['positioncontrol_1',['PositionControl',['../structtmc9660_1_1TMC9660_1_1PositionControl.html#a25da87e1f836ddb9486a133f6e0dbd05',1,'tmc9660::TMC9660::PositionControl']]],
-  ['power_2',['Power',['../structtmc9660_1_1TMC9660_1_1Power.html#a7e0d17516b7d42382fb6170eaff836dd',1,'tmc9660::TMC9660::Power']]],
-  ['print_5ftest_5fsection_5ffooter_3',['print_test_section_footer',['../TestFramework_8h.html#a5fe4d7658c49a1f3999cd09c0db952c0',1,'TestFramework.h']]],
-  ['print_5ftest_5fsection_5fheader_4',['print_test_section_header',['../TestFramework_8h.html#a5c46ab8dc59b071f0843bc287145d5f1',1,'TestFramework.h']]],
-  ['print_5ftest_5fsection_5fstatus_5',['print_test_section_status',['../TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87',1,'TestFramework.h']]],
-  ['print_5ftest_5fsummary_6',['print_test_summary',['../TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab',1,'TestFramework.h']]],
-  ['protection_7',['Protection',['../structtmc9660_1_1TMC9660_1_1Protection.html#a453cee1ccc522e1e9dac4badce46a35b',1,'tmc9660::TMC9660::Protection']]]
+  ['operator_3d_0',['operator=',['../classtmc9660_1_1CommInterface.html#ad169b586f91b77ed8653f78fb2db2615',1,'tmc9660::CommInterface::operator=(const CommInterface &amp;)=delete'],['../classtmc9660_1_1CommInterface.html#a87ecfdf46af01674e6931cadacb4955c',1,'tmc9660::CommInterface::operator=(CommInterface &amp;&amp;)=default'],['../classtmc9660_1_1SpiCommInterface.html#a170072e9d0e424a25a0f96d76332c201',1,'tmc9660::SpiCommInterface::operator=(const SpiCommInterface &amp;)=delete'],['../classtmc9660_1_1SpiCommInterface.html#a9664652d430ba1aeb1ad5e269f133e81',1,'tmc9660::SpiCommInterface::operator=(SpiCommInterface &amp;&amp;)=default'],['../classtmc9660_1_1UartCommInterface.html#a7db5e19745946daebeca72110d209ba8',1,'tmc9660::UartCommInterface::operator=(const UartCommInterface &amp;)=delete'],['../classtmc9660_1_1UartCommInterface.html#ac5b4fc8513f3861c567c344536dd7abf',1,'tmc9660::UartCommInterface::operator=(UartCommInterface &amp;&amp;)=default']]],
+  ['otpburn_1',['otpBurn',['../classtmc9660_1_1TMC9660Bootloader.html#af2d575426b3fb528764fd009567a698a',1,'tmc9660::TMC9660Bootloader::otpBurn(uint8_t page, uint8_t page_addr, OtpBurnResult *result) noexcept'],['../classtmc9660_1_1TMC9660Bootloader.html#a0bfb2c5d6c9df672723ca4001e4a8bfe',1,'tmc9660::TMC9660Bootloader::otpBurn(uint8_t page, uint8_t page_addr=0) noexcept']]],
+  ['otpburnwithworkaround_2',['otpBurnWithWorkaround',['../classtmc9660_1_1TMC9660Bootloader.html#a3a99e88cef7762a0681422d89f52a9a7',1,'tmc9660::TMC9660Bootloader']]],
+  ['otpload_3',['otpLoad',['../classtmc9660_1_1TMC9660Bootloader.html#a92e9f2a5f7bb9afb24fbfb6075458d59',1,'tmc9660::TMC9660Bootloader::otpLoad(uint8_t page, OtpLoadResult *result) noexcept'],['../classtmc9660_1_1TMC9660Bootloader.html#aafb9bc288dda9a4b0966143c2163377b',1,'tmc9660::TMC9660Bootloader::otpLoad(uint8_t page, uint8_t *error_count=nullptr, uint8_t *page_tag=nullptr) noexcept']]],
+  ['output_5fsection_5findicator_4',['output_section_indicator',['../TestFramework_8h.html#a0b263a245b65a247ab95a28992b8cc4c',1,'TestFramework.h']]]
 ];

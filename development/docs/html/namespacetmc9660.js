@@ -254,6 +254,7 @@ var namespacetmc9660 =
         [ "Freq32MHz", "namespacetmc9660_1_1bootcfg.html#ac8e0bc08ac8c1dedd2dc23d41ed255f5a47836d31cd1bac70202ea45a75b1db9b", null ]
       ] ]
     ] ],
+    [ "diagnostics", "namespacetmc9660_1_1diagnostics.html", "namespacetmc9660_1_1diagnostics" ],
     [ "register_mode", "namespacetmc9660_1_1register__mode.html", "namespacetmc9660_1_1register__mode" ],
     [ "tmcl", "namespacetmc9660_1_1tmcl.html", [
       [ "AbnInitMethod", "namespacetmc9660_1_1tmcl.html#add6e015f26fa726f4b8d63afb20df81e", [
@@ -633,6 +634,7 @@ var namespacetmc9660 =
       [ "to_string", "namespacetmc9660_1_1tmcl.html#aa8e23397e3e5353ffad3cbad2d8f5314", null ],
       [ "to_string", "namespacetmc9660_1_1tmcl.html#a78527cf131f93f229d4a0de9aa9522a8", null ]
     ] ],
+    [ "units", "namespacetmc9660_1_1units.html", "namespacetmc9660_1_1units" ],
     [ "ABN1Config", "structtmc9660_1_1ABN1Config.html", "structtmc9660_1_1ABN1Config" ],
     [ "ABN2Config", "structtmc9660_1_1ABN2Config.html", "structtmc9660_1_1ABN2Config" ],
     [ "BootConfig", "structtmc9660_1_1BootConfig.html", "structtmc9660_1_1BootConfig" ],

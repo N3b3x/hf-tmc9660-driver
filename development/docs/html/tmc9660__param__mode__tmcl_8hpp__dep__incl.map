@@ -1,15 +1,22 @@
 <map id="tmc9660_param_mode_tmcl.hpp" name="tmc9660_param_mode_tmcl.hpp">
-<area shape="rect" id="Node000001" title="TMCL operation and reply code enumerations for TMC9660 parameter mode." alt="" coords="424,5,596,45"/>
-<area shape="rect" id="Node000002" href="$tmc9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="457,93,563,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="513,59,513,93,507,93,507,59"/>
-<area shape="rect" id="Node000003" href="$bldc__comprehensive__test_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,167,161,207"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="443,121,173,169,162,171,161,166,172,164,442,116"/>
-<area shape="rect" id="Node000004" href="$bootloader__comprehensive__test_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="185,167,384,207"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="465,126,340,169,338,164,464,121"/>
-<area shape="rect" id="Node000005" href="$dc__comprehensive__test_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="409,174,611,199"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="513,132,513,174,507,174,507,132"/>
-<area shape="rect" id="Node000006" href="$stepper__comprehensive__test_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="635,167,814,207"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="555,121,674,164,672,169,553,126"/>
-<area shape="rect" id="Node000007" href="$telemetry__comprehensive__test_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="839,167,1032,207"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="577,117,839,165,838,170,576,122"/>
+<area shape="rect" id="Node000001" title="TMCL operation and reply code enumerations for TMC9660 parameter mode." alt="" coords="383,5,555,45"/>
+<area shape="rect" id="Node000002" href="$tmc9660_8hpp.html" title="Main TMC9660 motor driver interface and subsystem classes." alt="" coords="457,240,563,265"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="444,57,423,86,405,121,397,157,399,174,406,191,418,206,434,219,470,237,467,242,431,224,414,210,401,193,394,175,392,156,400,119,418,83,440,54"/>
+<area shape="rect" id="Node000008" href="$tmc9660__diagnostics_8hpp.html" title="Compact and full diagnostic snapshots for the TMC9660." alt="" coords="416,167,604,192"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="480,58,509,166,504,167,475,60"/>
+<area shape="rect" id="Node000009" href="$tmc9660__units_8hpp.html" title="Strongly&#45;typed engineering&#45;unit conversions for the TMC9660." alt="" coords="506,93,653,119"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="508,51,564,91,561,95,505,56"/>
+<area shape="rect" id="Node000003" href="$bldc__comprehensive__test_8cpp.html" title="Comprehensive BLDC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="5,313,161,353"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="443,268,173,316,162,318,161,313,172,311,442,263"/>
+<area shape="rect" id="Node000004" href="$bootloader__comprehensive__test_8cpp.html" title="Comprehensive Bootloader testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="185,313,384,353"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="465,272,340,316,338,311,464,267"/>
+<area shape="rect" id="Node000005" href="$dc__comprehensive__test_8cpp.html" title="Comprehensive DC motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="409,321,611,346"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="513,279,513,320,507,320,507,279"/>
+<area shape="rect" id="Node000006" href="$stepper__comprehensive__test_8cpp.html" title="Comprehensive Stepper motor testing suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="635,313,814,353"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="555,268,674,311,672,316,553,273"/>
+<area shape="rect" id="Node000007" href="$telemetry__comprehensive__test_8cpp.html" title="Comprehensive Telemetry monitoring test suite for ESP32&#45;C6 DevKit&#45;M&#45;1 (noexcept)" alt="" coords="839,313,1032,353"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="577,264,839,312,838,317,576,269"/>
+<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="513,206,513,240,507,240,507,206"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="602,128,620,159,623,176,618,193,604,210,588,224,552,242,549,238,585,219,601,206,613,191,617,176,615,160,597,130"/>
+<area shape="poly" id="edge11_Node000009_Node000008" title=" " alt="" coords="560,131,523,168,519,165,557,127"/>
 </map>

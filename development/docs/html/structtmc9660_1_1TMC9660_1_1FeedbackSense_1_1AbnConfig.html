@@ -127,6 +127,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa197d34cd989ffa68f42a9a7b370f85b" id="r_aa197d34cd989ffa68f42a9a7b370f85b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">int16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa197d34cd989ffa68f42a9a7b370f85b">nChannelOffset</a> = 0</td></tr>
 <tr class="memdesc:aa197d34cd989ffa68f42a9a7b370f85b"><td class="mdescLeft">&#160;</td><td class="mdescRight">N-channel offset [-32768 to 32767] (default: 0)  <br /></td></tr>
 <tr class="separator:aa197d34cd989ffa68f42a9a7b370f85b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33911131c075615c7d3f88252c886199" id="r_a33911131c075615c7d3f88252c886199"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33911131c075615c7d3f88252c886199">initOpenloopCurrent_mA</a></td></tr>
+<tr class="memdesc:a33911131c075615c7d3f88252c886199"><td class="mdescLeft">&#160;</td><td class="mdescRight">OPENLOOP_CURRENT for FORCED_PHI_E_* init [0-65535 mA]; 0 = do not modify (default: 0)  <br /></td></tr>
+<tr class="separator:a33911131c075615c7d3f88252c886199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c901cdeb09bf02a217264199d4e4055" id="r_a7c901cdeb09bf02a217264199d4e4055"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad07a0226af64408039d5c5bcb69a973f">tmc9660::tmcl::AbnNChannelFiltering</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c901cdeb09bf02a217264199d4e4055">nChannelFiltering</a></td></tr>
 <tr class="separator:a7c901cdeb09bf02a217264199d4e4055"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a651886cd5c5eb19a0bb35dd91cff55e8" id="r_a651886cd5c5eb19a0bb35dd91cff55e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6bd07be8c08b5d1b4222a1fd301bd104">tmc9660::tmcl::EnableDisable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a651886cd5c5eb19a0bb35dd91cff55e8">clearOnNextNull</a></td></tr>
@@ -227,6 +230,26 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <b>Initial value:</b><div class="fragment"><div class="line">= tmc9660::tmcl::AbnInitMethod::</div>
 <div class="line">          FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING</div>
 </div><!-- fragment --><p>Initialization method (default: FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING) </p>
+
+</div>
+</div>
+<a id="a33911131c075615c7d3f88252c886199" name="a33911131c075615c7d3f88252c886199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33911131c075615c7d3f88252c886199">&#9670;&#160;</a></span>initOpenloopCurrent_mA</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a> <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::FeedbackSense::AbnConfig::initOpenloopCurrent_mA</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">          0</div>
+</div><!-- fragment -->
+<p>OPENLOOP_CURRENT for FORCED_PHI_E_* init [0-65535 mA]; 0 = do not modify (default: 0) </p>
 
 </div>
 </div>

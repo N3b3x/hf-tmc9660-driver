@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="Node000000" class="node">
 <title>Node0</title>
-<g id="a_Node000000"><a xlink:href="structTMC9660__TestConfig_1_1UARTParams.html" target="_top" xlink:title="UART Communication Parameters.">
+<g id="a_Node000000"><a xlink:href="structTMC9660__TestConfig_1_1SPIPins.html" target="_top" xlink:title="SPI Pin Configuration for ESP32&#45;C6.">
 <polygon fill="white" stroke="#666666" points="118,-30 0,-30 0,0 118,0 118,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">TMC9660_TestConfig</text>
-<text text-anchor="middle" x="59" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::UARTParams</text>
+<text text-anchor="middle" x="59" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::SPIPins</text>
 </a>
 </g>
 </g>

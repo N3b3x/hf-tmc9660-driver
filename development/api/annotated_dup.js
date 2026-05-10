@@ -1,6 +1,10 @@
 var annotated_dup =
 [
     [ "tmc9660", "namespacetmc9660.html", [
+      [ "diagnostics", "namespacetmc9660_1_1diagnostics.html", [
+        [ "MotorSnapshot", "structtmc9660_1_1diagnostics_1_1MotorSnapshot.html", "structtmc9660_1_1diagnostics_1_1MotorSnapshot" ],
+        [ "MotorSummary", "structtmc9660_1_1diagnostics_1_1MotorSummary.html", "structtmc9660_1_1diagnostics_1_1MotorSummary" ]
+      ] ],
       [ "register_mode", "namespacetmc9660_1_1register__mode.html", [
         [ "ADC", "namespacetmc9660_1_1register__mode_1_1ADC.html", [
           [ "CSA_SETUP", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP.html", "structtmc9660_1_1register__mode_1_1ADC_1_1CSA__SETUP" ],
@@ -13,6 +17,9 @@ var annotated_dup =
           [ "FAULT_STATUS", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS.html", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS" ],
           [ "FAULT_STATUS_LATCHED", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED.html", "structtmc9660_1_1register__mode_1_1SYS__CTRL_1_1FAULT__STATUS__LATCHED" ]
         ] ]
+      ] ],
+      [ "units", "namespacetmc9660_1_1units.html", [
+        [ "MotorContext", "structtmc9660_1_1units_1_1MotorContext.html", "structtmc9660_1_1units_1_1MotorContext" ]
       ] ],
       [ "ABN1Config", "structtmc9660_1_1ABN1Config.html", "structtmc9660_1_1ABN1Config" ],
       [ "ABN2Config", "structtmc9660_1_1ABN2Config.html", "structtmc9660_1_1ABN2Config" ],

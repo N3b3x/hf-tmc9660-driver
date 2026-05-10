@@ -176,7 +176,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
       </button><a href="/hf-tmc9660-driver/development/" class="nav-list-link">HardFOC TMC9660 Driver</a><ul class="nav-list"><li class="nav-list-item"><button class="nav-list-expander btn-reset" aria-label="📚 Documentation submenu" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/installation/" class="nav-list-link">🛠️ Installation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/quickstart/" class="nav-list-link">⚡ Quick Start</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/hardware_setup/" class="nav-list-link">🔌 Hardware Setup</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/platform_integration/" class="nav-list-link">🔧 Platform Integration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/configuration/" class="nav-list-link">⚙️ Configuration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/api_reference/" class="nav-list-link">📖 API Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/examples/" class="nav-list-link">💡 Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader/" class="nav-list-link">🚀 Bootloader Initialization</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols/" class="nav-list-link">📡 Communication Protocols</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/troubleshooting/" class="nav-list-link">🐛 Troubleshooting</a></li></ul></li></ul></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/cmake_integration.html" class="nav-list-link">CMake Integration — TMC9660 Driver</a></li></ul>
+      </button><a href="/hf-tmc9660-driver/development/docs/" class="nav-list-link">📚 Documentation</a><ul class="nav-list"><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/installation/" class="nav-list-link">🛠️ Installation</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/quickstart/" class="nav-list-link">⚡ Quick Start</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/hardware_setup/" class="nav-list-link">🔌 Hardware Setup</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/platform_integration/" class="nav-list-link">🔧 Platform Integration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/configuration/" class="nav-list-link">⚙️ Configuration</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/api_reference/" class="nav-list-link">📖 API Reference</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/examples/" class="nav-list-link">💡 Examples</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_bootloader/" class="nav-list-link">🚀 Bootloader Initialization</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/units_and_diagnostics/" class="nav-list-link">📐 Units & Diagnostics</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/special_feature_protocols/" class="nav-list-link">📡 Communication Protocols</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/examples/esp32/" class="nav-list-link">🔧 ESP32-C6 TMC9660 Comprehensive Test Suite</a></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/troubleshooting/" class="nav-list-link">🐛 Troubleshooting</a></li></ul></li></ul></li><li class="nav-list-item"><a href="/hf-tmc9660-driver/development/docs/cmake_integration.html" class="nav-list-link">CMake Integration — TMC9660 Driver</a></li></ul>
   
 </nav>
 
@@ -296,7 +296,7 @@
 </h2>
     
 
-<p>Here’s a complete working example:</p>
+<p>Here’s a complete working example using the unit-aware API:</p>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><div class="table-wrapper"><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
@@ -331,40 +331,56 @@
 31
 32
 33
+34
+35
+36
+37
+38
 </pre></td><td class="rouge-code"><pre><span class="cp">#include</span> <span class="cpf">"inc/tmc9660.hpp"</span><span class="cp">
 </span>
 <span class="c1">// 1. Implement your communication interface (see platform_integration.md)</span>
-<span class="k">class</span> <span class="nc">MySPI</span> <span class="o">:</span> <span class="k">public</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">SpiCommInterface</span> <span class="p">{</span>
-    <span class="c1">// ... implement spiTransfer() method</span>
+<span class="k">class</span> <span class="nc">MySPI</span> <span class="o">:</span> <span class="k">public</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">SpiCommInterface</span><span class="o">&lt;</span><span class="n">MySPI</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="c1">// ... implement spiTransferTMCL(), gpioSet() ...</span>
 <span class="p">};</span>
 
 <span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// 2. Create communication interface</span>
+    <span class="k">namespace</span> <span class="n">tmcl</span>  <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="p">;</span>
+    <span class="k">namespace</span> <span class="n">units</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">units</span><span class="p">;</span>
+
     <span class="n">MySPI</span> <span class="n">spi</span><span class="p">;</span>
-    
-    <span class="c1">// 3. Create driver instance</span>
-    <span class="n">tmc9660</span><span class="o">::</span><span class="n">TMC9660</span> <span class="n">driver</span><span class="p">(</span><span class="n">spi</span><span class="p">);</span>
-    
-    <span class="c1">// 4. CRITICAL: Initialize bootloader for Parameter Mode</span>
+    <span class="n">tmc9660</span><span class="o">::</span><span class="n">TMC9660</span><span class="o">&lt;</span><span class="n">MySPI</span><span class="o">&gt;</span> <span class="n">driver</span><span class="p">(</span><span class="n">spi</span><span class="p">);</span>
+
+    <span class="c1">// 2. CRITICAL: Initialize bootloader for Parameter Mode.</span>
     <span class="n">tmc9660</span><span class="o">::</span><span class="n">BootloaderConfig</span> <span class="n">cfg</span><span class="p">{};</span>
-    <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span> <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>
+    <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">boot_mode</span>           <span class="o">=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">bootcfg</span><span class="o">::</span><span class="n">BootMode</span><span class="o">::</span><span class="n">Parameter</span><span class="p">;</span>
     <span class="n">cfg</span><span class="p">.</span><span class="n">boot</span><span class="p">.</span><span class="n">start_motor_control</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-    
-    <span class="k">auto</span> <span class="n">result</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">tmc9660</span><span class="o">::</span><span class="n">TMC9660</span><span class="o">::</span><span class="n">BootloaderInitResult</span><span class="o">::</span><span class="n">Success</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Handle initialization failure</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">driver</span><span class="p">.</span><span class="n">bootloaderInit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cfg</span><span class="p">)</span> <span class="o">!=</span>
+        <span class="n">tmc9660</span><span class="o">::</span><span class="n">TMC9660</span><span class="o">&lt;</span><span class="n">MySPI</span><span class="o">&gt;::</span><span class="n">BootloaderInitResult</span><span class="o">::</span><span class="n">Success</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
     <span class="p">}</span>
-    
-    <span class="c1">// 5. Configure motor type</span>
-    <span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmc9660</span><span class="o">::</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span> <span class="c1">// 7 pole pairs</span>
-    
-    <span class="c1">// 6. Start motor control</span>
-    <span class="n">driver</span><span class="p">.</span><span class="n">focControl</span><span class="p">.</span><span class="n">setTargetVelocity</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span> <span class="c1">// 1000 RPM</span>
-    
+
+    <span class="c1">// 3. Configure motor (type, pole pairs, PWM).</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">tmcl</span><span class="o">::</span><span class="n">MotorType</span><span class="o">::</span><span class="n">BLDC_MOTOR</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">motorConfig</span><span class="p">.</span><span class="n">setPWMFrequency</span><span class="p">(</span><span class="mi">25000</span><span class="p">);</span>
+
+    <span class="c1">// 4. Acquire a MotorContext live from the chip; reuse for all unit work.</span>
+    <span class="k">const</span> <span class="n">units</span><span class="o">::</span><span class="n">MotorContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">getMotorContext</span><span class="p">();</span>
+
+    <span class="c1">// 5. Command 1000 RPM in engineering units.</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">velocityControl</span><span class="p">.</span><span class="n">setTargetVelocityRpm</span><span class="p">(</span><span class="mf">1000.0</span><span class="p">,</span> <span class="n">ctx</span><span class="p">);</span>
+
+    <span class="c1">// 6. Periodic diagnostic.</span>
+    <span class="n">tmc9660</span><span class="o">::</span><span class="n">diagnostics</span><span class="o">::</span><span class="n">MotorSummary</span> <span class="n">s</span><span class="p">;</span>
+    <span class="n">driver</span><span class="p">.</span><span class="n">diagnostics</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">ctx</span><span class="p">);</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
+
+<blockquote>
+  <p>See <a href="/hf-tmc9660-driver/development/docs/units_and_diagnostics/">Units &amp; Diagnostics</a> for the full type-safe
+conversion surface (<code class="language-plaintext highlighter-rouge">VelocityUnit</code>, <code class="language-plaintext highlighter-rouge">PositionUnit</code>, <code class="language-plaintext highlighter-rouge">AccelerationUnit</code>,
+<code class="language-plaintext highlighter-rouge">AngleUnit</code>) and the <code class="language-plaintext highlighter-rouge">MotorSummary</code> / <code class="language-plaintext highlighter-rouge">MotorSnapshot</code> structures.</p>
+</blockquote>
 <h2 id="step-by-step-explanation">
   
   
