@@ -215,6 +215,14 @@ typename TMC9660<CommType>::BootloaderInitResult TMC9660<CommType>::bootloaderIn
     // For SPI: 0x00 can indicate bootloader OK status
     in_bootloader_mode = true;
     TMC9660_LOG_DEBUG(comm_, 2, "TMC9660", "Chip in BOOTLOADER mode (SPI: OK status 0x00)");
+  } else if (comm_.mode() == CommMode::SPI) {
+    /* Undriven / pull-up MISO often reads 0xFF. UART already treats “no TMCL”
+     * as a bootloader probe; do the same on SPI so applyConfiguration / NO_OP
+     * can continue instead of hard-failing mode detect. */
+    in_bootloader_mode = true;
+    TMC9660_LOG_DEBUG(comm_, 1, "TMC9660",
+                      "SPI mode unknown (status 0x%02X, TMCL %s) — trying bootloader path",
+                      raw_status, tmclSuccess ? "succeeded" : "failed");
   } else {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660",
                       "Unable to detect chip mode (unknown status: 0x%02X, TMCL %s)", raw_status,
