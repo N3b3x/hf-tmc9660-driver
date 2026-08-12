@@ -745,10 +745,10 @@ protected:
    * automatically retry the command up to this many times.
    * Default: 3 retries
    */
-  /* Parameter-mode SPI is serviced by chip firmware; with the FOC engine
-   * running it can answer NOT_READY (0x00) for several ms. 3×100 µs starved
-   * the reply on the GIM4305 bench once frames were delivered intact —
-   * budget 50×200 µs = 10 ms bounded worst case (thread context only). */
+  /* Parameter-mode SPI is serviced by chip firmware; with the FOC engine running it can
+   * withhold a reply for several ms. The stock 3×100 µs budget starved the reply on the
+   * GIM4305 bench even once frames were delivered intact, so budget 50×200 µs = 10 ms
+   * bounded worst case. Only safe from thread context, never from an ISR. */
   uint8_t spiRetryMaxCount_ = 50;
 
   /**
@@ -943,8 +943,46 @@ public:
     return static_cast<Derived*>(this)->gpioRead(pin, signal);
   }
 
-  bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t, TMCLReply* first_reply,
-                    const TMCLFrame* second_command) noexcept {
+  /**
+   * @brief Exchange one TMCL datagram over SPI using the two-transaction reply protocol.
+   *
+   * @details Parameter-mode SPI is pipelined: the reply to a command is not clocked out
+   * during that command's own transaction, but during the *next* one. A single logical
+   * request therefore costs two 8-byte transactions:
+   *
+   * 1. **Transaction 1** clocks out @p tx. The bytes received back belong to whatever
+   *    command preceded it, and are surfaced through @p first_reply.
+   * 2. **Transaction 2** clocks a *reply-request* frame to shift out the reply to @p tx.
+   *    Unless @p second_command is supplied this is opcode `0xFF` with all other fields
+   *    zero (wire bytes `FF 00 .. 00 FF`), matching ADI's `tmc9660_param_sendCommand_SPI`.
+   *
+   * The two transactions are separated by a fixed gap so the on-chip TMCL parser can latch
+   * transaction 1 before transaction 2 begins shifting. When @c Derived exposes
+   * @c hostSpiTransferTMCLPair() that primitive is used so the gap is honoured inside a
+   * single bus reservation (required on shared buses); otherwise the gap is a plain delay
+   * between two independent transfers.
+   *
+   * Transaction 2 is retried while the slave reports a not-yet-ready reply — see
+   * @ref setSpiRetryMaxCount() and @ref setSpiRetryInterval() for the bound. Only the
+   * reply-request frame is re-sent, never @p tx, so retries cannot duplicate a write.
+   *
+   * @param tx           TMCL command frame to transmit.
+   * @param reply        Receives the reply to @p tx (parsed with @p tx opcode/type context,
+   *                     so multi-frame replies such as GetVersion decode correctly).
+   * @param first_reply  Optional out-param capturing the reply carried by transaction 1,
+   *                     i.e. the answer to the *previous* command. Pass @c nullptr to drop it.
+   * @param second_command Optional frame to use in place of the `0xFF` reply-request, letting
+   *                     a caller pipeline the next command into transaction 2.
+   * @return true if a well-formed reply to @p tx was parsed; false on bus error, on checksum
+   *         failure, or when the reply was still not ready after the retry budget.
+   *
+   * @warning Do not substitute an all-zero frame for the `0xFF` reply-request. The chip parses
+   *          opcode 0 as a real (invalid) command and queues a checksum-error reply while the
+   *          requested reply is being shifted out, which corrupts the value bytes.
+   * @note The @c address parameter is UART-only and is ignored here.
+   */
+  bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t /*address*/,
+                    TMCLReply* first_reply, const TMCLFrame* second_command) noexcept {
     std::array<uint8_t, 8> tx_buf, rx_buf;
     std::array<uint8_t, 8> tx2_buf, rx1_buf;
     tx.toSpi(tx_buf);
@@ -953,11 +991,7 @@ public:
                       tx_buf[0], tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5], tx_buf[6],
                       tx_buf[7]);
 
-    /* Reply-request frame per ADI TMC-API (tmc9660_param_sendCommand_SPI):
-     * opcode 0xFF, all other fields zero → wire bytes FF 00 .. 00 FF. An
-     * all-zero op-0 frame is parsed by the chip as a (bad) command — it
-     * queues a CHKERR reply while the requested reply is being clocked out,
-     * which corrupted reply value bytes (HIL: GAP 46/60 byte-3 staleness). */
+    /* Opcode 0xFF, not 0x00 — see the @warning on this method. */
     TMCLFrame cmd2{};
     cmd2.opcode = 0xFFu;
     if (second_command != nullptr) {
@@ -998,7 +1032,8 @@ public:
 
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (first_reply) {
-      bool first_parse_ok = TMCLReply::fromSpi(rx1_buf, *first_reply);
+      const bool first_parse_ok = TMCLReply::fromSpi(rx1_buf, *first_reply);
+      (void)first_parse_ok; // Only consumed by raw-frame logging, which is compiled out by default.
       TMC9660_LOG_TMCL_RAW_FRAME(
           *static_cast<Derived*>(this), 2, "SPI_TMCL",
           "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
@@ -1006,10 +1041,12 @@ public:
           first_parse_ok ? "OK" : "failed");
     }
 
-    // Transaction 2 reply may be SPI_STATUS_NOT_READY — retry NO_OP only.
-    // An all-zero frame (status 0x00) is also retryable: the firmware-serviced
-    // SPI slave streams zeros while the FOC engine has not queued the reply
-    // yet (GIM4305 bench: zeros under motor load, valid reply after ~ms).
+    // Two SPI statuses mean "reply not available yet" and are retryable by re-sending the
+    // reply-request frame only (never the command, so a write cannot be duplicated):
+    //   0xF0 NOT_READY      — slave explicitly reports busy.
+    //   0x00 CHECKSUM_ERROR — also the value seen for an all-zero read, which is what the
+    //                         firmware-serviced slave streams while the FOC engine has not
+    //                         queued the reply (GIM4305 bench: zeros under load, then valid).
     tx_buf = tx2_buf;
     uint8_t retry_count = 0;
     while (true) {
@@ -1021,8 +1058,9 @@ public:
           retry_count++;
           TMC9660_LOG_TMCL_RAW_FRAME(
               *static_cast<Derived*>(this), 2, "SPI_TMCL",
-              "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us", retry_count,
-              this->spiRetryMaxCount_ + 1, this->spiRetryIntervalUs_);
+              "⚠️  Reply not ready (SPI status 0x%02X), retrying (attempt %u/%u) after %u us",
+              static_cast<unsigned>(rx_buf[0]), retry_count, this->spiRetryMaxCount_ + 1,
+              this->spiRetryIntervalUs_);
           this->delayUs(this->spiRetryIntervalUs_);
           TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
                             "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X (retry)",
@@ -1188,11 +1226,25 @@ public:
     return static_cast<Derived*>(this)->gpioRead(pin, signal);
   }
 
+  /**
+   * @brief Exchange one TMCL datagram over UART as a single request/response pair.
+   *
+   * @details Unlike the SPI path, UART is not pipelined: the reply to @p tx arrives in its
+   * own 9-byte frame, so one logical request costs one transaction and no reply-request
+   * frame is needed. UART frames carry the module @p address that SPI omits.
+   *
+   * @param tx      TMCL command frame to transmit.
+   * @param reply   Receives the reply to @p tx (parsed with @p tx opcode/type context, so
+   *                multi-frame replies such as GetVersion decode correctly).
+   * @param address TMC9660 module address to address the frame to.
+   * @param first_reply Ignored — exists only to match the SPI signature.
+   * @param second_command Ignored — exists only to match the SPI signature.
+   * @return true if a well-formed reply for @p address was received and parsed.
+   */
   bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t address, TMCLReply* first_reply,
                     const TMCLFrame* second_command) noexcept {
-    // UART doesn't use the two-transaction pattern, so first_reply and second_command are ignored
-    (void)first_reply;    // Suppress unused parameter warning
-    (void)second_command; // Suppress unused parameter warning
+    (void)first_reply;    // SPI-only: UART is not pipelined.
+    (void)second_command; // SPI-only: UART is not pipelined.
 
     std::array<uint8_t, 9> frame;
     tx.toUart(address, frame);

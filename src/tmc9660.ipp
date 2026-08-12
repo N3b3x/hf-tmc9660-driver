@@ -1579,9 +1579,24 @@ bool TMC9660<CommType>::GateDriver::setFaultHandlerRetries(uint8_t retries) noex
                              retries);
 }
 
-// Helper function to calculate required bootstrap current based on gate charge and PWM frequency
-// Physics-based calculation: I_avg = (Qg × N_phases × f_PWM) / duty_cycle × safety_margin
-static float calculateBootstrapCurrent_mA(float gateCharge_nC, float pwmFreq_Hz) noexcept {
+/**
+ * @brief Estimate the bootstrap supply current a three-phase power stage needs.
+ *
+ * @details Each high-side turn-on transfers the FET gate charge @p gateCharge_nC out of the
+ * bootstrap capacitor, so the average current scales with switching rate:
+ * `I = (Qg × N_phases × f_PWM) / duty × margin`. The result is used to pick the smallest
+ * ::tmc9660::tmcl::BootstrapCurrentLimit setting that still covers the stage.
+ *
+ * @param gateCharge_nC Total gate charge of one high-side FET, in nanocoulombs.
+ * @param pwmFreq_Hz    PWM switching frequency, in hertz.
+ * @return Required bootstrap current in milliamps, including safety margin.
+ *
+ * @note Assumes three high-side FETs and 50% average duty, then applies a 2.5x margin to
+ *       cover duty peaks and gate-loop losses. Marked @c inline rather than @c static because
+ *       it is defined in a header and only referenced from templates, which would otherwise
+ *       warn as unused in translation units that never instantiate them.
+ */
+inline float calculateBootstrapCurrent_mA(float gateCharge_nC, float pwmFreq_Hz) noexcept {
   constexpr float N_HIGH_SIDE_PHASES = 3.0f; // UVW phases (3 high-side FETs)
   constexpr float AVG_DUTY_CYCLE = 0.5f;     // Average duty cycle assumption
   constexpr float SAFETY_MARGIN = 2.5f;      // 2.5x margin for duty peaks and losses
