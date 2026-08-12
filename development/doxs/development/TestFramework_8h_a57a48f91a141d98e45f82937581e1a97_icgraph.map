@@ -1,6 +1,6 @@
 <map id="ensure_gpio14_initialized" name="ensure_gpio14_initialized">
 <area shape="rect" id="Node000001" title="Automatically initialize GPIO14 test indicator if not already done." alt="" coords="341,42,529,67"/>
-<area shape="rect" id="Node000002" href="$TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="147,5,286,45"/>
+<area shape="rect" id="Node000002" href="$TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print a standardized pass/fail banner for a test section." alt="" coords="147,5,286,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="327,43,286,37,287,32,328,38"/>
 <area shape="rect" id="Node000004" href="$TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="140,70,293,95"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="328,71,294,75,294,70,327,66"/>

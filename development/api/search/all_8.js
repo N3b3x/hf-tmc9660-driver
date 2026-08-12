@@ -1,7 +1,7 @@
 var searchData=
 [
   ['hall_0',['hall',['../structtmc9660_1_1BootloaderConfig.html#a1fda66043219c30a76f4376b6219ca4d',1,'tmc9660::BootloaderConfig']]],
-  ['hall_20sensor_20foc_20spi_20encoder_1',['FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md8',1,'']]],
+  ['hall_20sensor_20foc_20spi_20encoder_1',['FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)',['../namespacetmc9660_1_1tmcl.html#autotoc_md8',1,'']]],
   ['hall_5fconfig_2',['HALL_CONFIG',['../namespacetmc9660_1_1bootaddr.html#a4a2272f25b553d36473b69d91b86af98',1,'tmc9660::bootaddr']]],
   ['hall_5fsector_5foffset_5flist_3',['HALL_SECTOR_OFFSET_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a00fedca8e2ea349b26dbbece70b383c7',1,'tmc9660_param_mode_tmcl.hpp']]],
   ['hallconfig_4',['HallConfig',['../structtmc9660_1_1HallConfig.html',1,'tmc9660::HallConfig'],['../structtmc9660_1_1TMC9660_1_1FeedbackSense_1_1HallConfig.html',1,'tmc9660::TMC9660&lt; CommType &gt;::FeedbackSense::HallConfig']]],
@@ -21,7 +21,7 @@ var searchData=
   ['hf_20tmc9660_20driver_18',['HF-TMC9660 Driver',['../index.html',1,'']]],
   ['hibernation_5fwakeup_5flist_19',['HIBERNATION_WAKEUP_LIST',['../tmc9660__param__mode__tmcl_8hpp.html#a6d775c936a69a73b8594e3168abb3845',1,'tmc9660_param_mode_tmcl.hpp']]],
   ['hibernationwakeup_20',['HibernationWakeup',['../namespacetmc9660_1_1tmcl.html#a72453cd23d3177386a50a10798725cc2',1,'tmc9660::tmcl']]],
-  ['high_20side_20fets_20on_21',['System Off, High-Side FETs On',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md5',1,'']]],
+  ['high_20side_20fets_20on_21',['System Off, High-Side FETs On',['../namespacetmc9660_1_1tmcl.html#autotoc_md5',1,'']]],
   ['holdingdutycycle_22',['holdingDutyCycle',['../structtmc9660_1_1TMC9660_1_1Brake_1_1BrakeConfig.html#a288bb7cef6b57fbbddeea5b7346df279',1,'tmc9660::TMC9660::Brake::BrakeConfig']]],
   ['host_23',['Control Pins (Output from Host)',['../group__TMC9660__CommTypes.html#autotoc_md31',1,'']]],
   ['host_24',['host',['../structEsp32Tmc9660BusConfig.html#ad8deaaf50baa1c78b902b242cf6d4b3d',1,'Esp32Tmc9660BusConfig']]],

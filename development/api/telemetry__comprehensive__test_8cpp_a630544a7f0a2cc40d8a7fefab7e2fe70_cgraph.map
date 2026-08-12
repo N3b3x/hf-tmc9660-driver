@@ -4,7 +4,7 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,401,59,330,77,227,104,124,120,83,138,55,161,39,164,43,142,59,125,86,109,126,83,228,64,331,54,402"/>
 <area shape="rect" id="Node000003" href="$namespacetmc9660.html#afe6288498ba889316abc4d5262cfb30d" title="Get the TMC9660 driver version string (namespace&#45;level)." alt="" coords="145,70,343,95"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="47,402,48,348,59,268,70,225,86,182,109,141,138,106,145,101,148,105,142,110,113,144,91,184,75,226,64,269,54,348,52,402"/>
-<area shape="rect" id="Node000004" href="$TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print standardized test summary." alt="" coords="175,120,313,160"/>
+<area shape="rect" id="Node000004" href="$TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" title="Print a standardized pass/fail banner for a test section." alt="" coords="175,120,313,160"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="48,401,54,357,68,295,95,229,114,197,138,170,160,155,163,159,142,174,119,201,100,231,73,297,59,358,54,402"/>
 <area shape="rect" id="Node000007" href="$TestFramework_8h.html#ab7e4c076755ecdf2ad6212cb8f6578ab" title="Print standardized test summary." alt="" coords="167,185,321,210"/>
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="50,401,58,365,74,316,100,265,118,241,138,221,153,211,156,215,142,225,122,245,105,268,79,318,63,366,55,402"/>

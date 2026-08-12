@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Exchange one TMCL datagram over UART as a single request/response pair.">
 <polygon fill="#999999" stroke="#666666" points="162,-129 0,-129 0,-99 162,-99 162,-129"/>
 <text text-anchor="start" x="8" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::UartCommInterface</text>
 <text text-anchor="middle" x="81" y="-106" font-family="Helvetica,sans-Serif" font-size="10.00">::transferTMCL</text>

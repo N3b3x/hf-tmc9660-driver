@@ -103,7 +103,7 @@ $(function(){initNavTree('tmc9660__param__mode__tmcl_8hpp.html',''); initResizab
 </div><!--header-->
 <div class="contents">
 
-<p>TMCL operation and reply code enumerations for TMC9660 parameter mode.  
+<p>Enumerations and helpers for <b>TMCL® operation &amp; reply codes</b> when the TMC9660 is used in <em>Parameter Mode</em>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -114,7 +114,7 @@ Include dependency graph for tmc9660_param_mode_tmcl.hpp:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__param__mode__tmcl_8hpp__dep__incl.svg" width="1038" height="359"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="tmc9660__param__mode__tmcl_8hpp__dep__incl.svg" width="1164" height="359"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <p><a href="tmc9660__param__mode__tmcl_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -347,9 +347,6 @@ Macros</h2></td></tr>
 <tr class="separator:a68d3e9033492bc347004797cbfd1f7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68d3e9033492bc347004797cbfd1f7d8" id="r_a68d3e9033492bc347004797cbfd1f7d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>(NAME,  VALUE,  DOC)&#160;&#160;&#160;case PwmSwitchingScheme::NAME: return #NAME;</td></tr>
 <tr class="separator:a68d3e9033492bc347004797cbfd1f7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03fa76ea500694934719fb69a1bfcc6f" id="r_a03fa76ea500694934719fb69a1bfcc6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03fa76ea500694934719fb69a1bfcc6f">COMMUTATION_MODE_LIST</a>(<a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>)</td></tr>
-<tr class="memdesc:a03fa76ea500694934719fb69a1bfcc6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commutation modes define how the motor shaft angle is determined and the system's state.  <br /></td></tr>
-<tr class="separator:a03fa76ea500694934719fb69a1bfcc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68d3e9033492bc347004797cbfd1f7d8" id="r_a68d3e9033492bc347004797cbfd1f7d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>(NAME,  VALUE,  DOC)&#160;&#160;&#160;NAME = VALUE DOC,</td></tr>
 <tr class="separator:a68d3e9033492bc347004797cbfd1f7d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68d3e9033492bc347004797cbfd1f7d8" id="r_a68d3e9033492bc347004797cbfd1f7d8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>(NAME,  VALUE,  DOC)&#160;&#160;&#160;case CommutationMode::NAME: return #NAME;</td></tr>
@@ -744,9 +741,6 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a6af7e8f037f953f7f5ffb31acc4edeac" id="r_a6af7e8f037f953f7f5ffb31acc4edeac"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeac">tmc9660::tmcl::PwmSwitchingScheme</a> : uint8_t { <a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeaca756045a8d37de34ca27188466b2c0c8b">tmc9660::tmcl::X</a>
  }</td></tr>
 <tr class="separator:a6af7e8f037f953f7f5ffb31acc4edeac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f8b426b1305a1c7b4e0b12cbc011665" id="r_a3f8b426b1305a1c7b4e0b12cbc011665"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">tmc9660::tmcl::CommutationMode</a> : std::uint8_t { <a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665a756045a8d37de34ca27188466b2c0c8b">tmc9660::tmcl::X</a>
- }</td></tr>
-<tr class="separator:a3f8b426b1305a1c7b4e0b12cbc011665"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebcd42d4151c2bd4a2bd3444a0cf0fec" id="r_aebcd42d4151c2bd4a2bd3444a0cf0fec"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#aebcd42d4151c2bd4a2bd3444a0cf0fec">tmc9660::tmcl::AdcConfig</a> : uint16_t { <a class="el" href="namespacetmc9660_1_1tmcl.html#aebcd42d4151c2bd4a2bd3444a0cf0feca756045a8d37de34ca27188466b2c0c8b">tmc9660::tmcl::X</a>
  }</td></tr>
 <tr class="separator:aebcd42d4151c2bd4a2bd3444a0cf0fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -863,8 +857,6 @@ Functions</h2></td></tr>
 <tr class="separator:ad6652f977c09d9aa92798533b36cc17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f16ff2929b400f2dc1547bda0cdd089" id="r_a3f16ff2929b400f2dc1547bda0cdd089"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3f16ff2929b400f2dc1547bda0cdd089">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeac">PwmSwitchingScheme</a> <a class="el" href="classtmc9660_1_1CommInterface.html">scheme</a>)</td></tr>
 <tr class="separator:a3f16ff2929b400f2dc1547bda0cdd089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacee70c8e55b9c676db536b8664a14ab" id="r_aacee70c8e55b9c676db536b8664a14ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#aacee70c8e55b9c676db536b8664a14ab">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">CommutationMode</a> mode)</td></tr>
-<tr class="separator:aacee70c8e55b9c676db536b8664a14ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4811032d35d2bfc2c3334fef85de3ec" id="r_ad4811032d35d2bfc2c3334fef85de3ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#ad4811032d35d2bfc2c3334fef85de3ec">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aebcd42d4151c2bd4a2bd3444a0cf0fec">AdcConfig</a> <a class="el" href="classtmc9660_1_1CommInterface.html">config</a>)</td></tr>
 <tr class="separator:ad4811032d35d2bfc2c3334fef85de3ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8b5ef4adf4d0f6146882fd197263be8" id="r_aa8b5ef4adf4d0f6146882fd197263be8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#aa8b5ef4adf4d0f6146882fd197263be8">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a7b10db10451330aa408e7ab86c47e0ef">AdcShuntType</a> <a class="el" href="classtmc9660_1_1CommInterface.html">t</a>)</td></tr>
@@ -910,6 +902,109 @@ Functions</h2></td></tr>
 <tr class="separator:adbe9fd6fd6aca6433a1ad3db047747ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6af2035a13d32c3e56eb984274e35ca1" id="r_a6af2035a13d32c3e56eb984274e35ca1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6af2035a13d32c3e56eb984274e35ca1">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#adbe9fd6fd6aca6433a1ad3db047747ab">TriggerTransition</a> <a class="el" href="classtmc9660_1_1CommInterface.html">e</a>)</td></tr>
 <tr class="separator:a6af2035a13d32c3e56eb984274e35ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader">Commutation Modes</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>Commutation modes define how the motor shaft angle is determined and the system's state.</p>
+<p>To turn a motor, the commutation mode must be selected using the parameter <code>COMMUTATION_MODE</code>. This specifies the feedback system used to determine the motor's shaft angle. It is also used to enable/disable the system or switch to a state with shorted motor coils.</p>
+<h3><a class="anchor" id="autotoc_md2"></a>
+Commutation Modes and Their Behavior:</h3>
+<h4><a class="anchor" id="autotoc_md3"></a>
+System Off</h4>
+<ul>
+<li>Default state after power-on and reset events.</li>
+<li>Certain operations like changing the motor type require this mode to be active.</li>
+<li>PWM behavior is determined by the <code>IDLE_MOTOR_PWM_BEHAVIOR</code> parameter:<ul>
+<li><code>1</code>: PWM signals are switched off, leaving the motor electrically floating (default).</li>
+<li><code>0</code>: PWM signals remain active.</li>
+</ul>
+</li>
+<li>Note: This mode must be manually selected when exiting from parameter mode to the bootloader.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md4"></a>
+System Off, Low-Side FETs On</h4>
+<ul>
+<li>Charges all low-side motor FETs, shorting the motor coils to ground.</li>
+<li>Not used during normal operation.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md5"></a>
+System Off, High-Side FETs On</h4>
+<ul>
+<li>Charges all high-side motor FETs, shorting the motor coils to the supply voltage.</li>
+<li>Not used during normal operation.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md6"></a>
+FOC (Openloop, Voltage Mode)</h4>
+<ul>
+<li>Applies a constant duty cycle to the motor.</li>
+<li>Voltage is defined by the <code>OPENLOOP_VOLTAGE</code> parameter (PWM duty cycle relative to supply voltage).</li>
+<li>Intended for initial setup purposes only.</li>
+<li>Current is not limited, so configure the <code>OPENLOOP_VOLTAGE</code> parameter with care.</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md7"></a>
+FOC (Openloop, Current Mode)</h4>
+<ul>
+<li>Applies a constant current to the motor.</li>
+<li>Current is defined by the <code>OPENLOOP_CURRENT</code> parameter and regulated by the flux control loop.</li>
+<li>For stepper/BLDC motors:<ul>
+<li>Commutation angle is calculated by the internal hardware ramper block.</li>
+<li>Maximum current is limited by the <code>MAX_FLUX</code> parameter.</li>
+<li>Requires setting a velocity target using the <code>TARGET_VELOCITY</code> parameter.</li>
+</ul>
+</li>
+<li>For DC motors:<ul>
+<li>No velocity input is needed.</li>
+<li>Maximum current is limited by the <code>MAX_TORQUE</code> parameter.</li>
+</ul>
+</li>
+</ul>
+<h4><a class="anchor" id="autotoc_md8"></a>
+FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)</h4>
+<ul>
+<li>Uses sensor feedback to calculate the motor shaft position.</li>
+<li>Feedback source must be configured before activating this mode.</li>
+<li>For stepper/BLDC motors:<ul>
+<li>Commutation angle is calculated from the selected feedback method.</li>
+<li>Supports torque, velocity, and position control.</li>
+<li>Torque is applied to the motor, and the flux value is assumed zero unless field weakening is active.</li>
+<li>Maximum torque is limited by the <code>MAX_TORQUE</code> parameter.</li>
+</ul>
+</li>
+<li>For DC motors:<ul>
+<li>Supports velocity or position control.</li>
+<li>Maximum torque is limited by the <code>MAX_TORQUE</code> parameter.</li>
+</ul>
+</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Parameters to Set Up Commutation Mode:</h3>
+<ul>
+<li><code>COMMUTATION_MODE</code> (Parameter ID: 4)<ul>
+<li>0: SYSTEM_OFF</li>
+<li>1: SYSTEM_OFF_LOW_SIDE_FETS_ON</li>
+<li>2: SYSTEM_OFF_HIGH_SIDE_FETS_ON</li>
+<li>3: FOC_OPENLOOP_VOLTAGE_MODE</li>
+<li>4: FOC_OPENLOOP_CURRENT_MODE</li>
+<li>5: FOC_ABN</li>
+<li>6: FOC_HALL_SENSOR</li>
+<li>7: RESERVED</li>
+<li>8: FOC_SPI_ENC</li>
+</ul>
+</li>
+<li><code>IDLE_MOTOR_PWM_BEHAVIOR</code> (Parameter ID: 9)<ul>
+<li>0: PWM_ON_WHEN_MOTOR_IDLE</li>
+<li>1: PWM_OFF_WHEN_MOTOR_IDLE (default) </li>
+</ul>
+</li>
+</ul>
+</td></tr>
+<tr class="memitem:a03fa76ea500694934719fb69a1bfcc6f" id="r_a03fa76ea500694934719fb69a1bfcc6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03fa76ea500694934719fb69a1bfcc6f">COMMUTATION_MODE_LIST</a>(<a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>)</td></tr>
+<tr class="memdesc:a03fa76ea500694934719fb69a1bfcc6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Commutation modes define how the motor shaft angle is determined and the system's state.  <br /></td></tr>
+<tr class="separator:a03fa76ea500694934719fb69a1bfcc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f8b426b1305a1c7b4e0b12cbc011665" id="r_a3f8b426b1305a1c7b4e0b12cbc011665"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">tmc9660::tmcl::CommutationMode</a> : std::uint8_t { <a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665a756045a8d37de34ca27188466b2c0c8b">tmc9660::tmcl::X</a>
+ }</td></tr>
+<tr class="separator:a3f8b426b1305a1c7b4e0b12cbc011665"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacee70c8e55b9c676db536b8664a14ab" id="r_aacee70c8e55b9c676db536b8664a14ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="classtmc9660_1_1CommInterface.html">char</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetmc9660_1_1tmcl.html#aacee70c8e55b9c676db536b8664a14ab">tmc9660::tmcl::to_string</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">CommutationMode</a> mode)</td></tr>
+<tr class="separator:aacee70c8e55b9c676db536b8664a14ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">Idle Motor PWM Behavior</h2></td></tr>
 <tr class="memitem:a53e2be01c4ecf5604fc8020643891645" id="r_a53e2be01c4ecf5604fc8020643891645"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53e2be01c4ecf5604fc8020643891645">IDLE_MOTOR_PWM_BEHAVIOR_LIST</a>(<a class="el" href="#a68d3e9033492bc347004797cbfd1f7d8">X</a>)</td></tr>
@@ -1370,8 +1465,8 @@ Combined Diagnostic Values</h2>
 <tr class="separator:ab7349b6572359c258a1e2949eb8e6d4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>TMCL operation and reply code enumerations for TMC9660 parameter mode. </p>
-<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2024-2025 HardFOC. All rights reserved. </dd></dl>
+<div class="textblock"><p>Enumerations and helpers for <b>TMCL® operation &amp; reply codes</b> when the TMC9660 is used in <em>Parameter Mode</em>. </p>
+<p>Provides the TMCL command definitions, parameter enumerations, and helper structures needed for complete motor control functionality: all operation codes, parameter definitions, and reply structures. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0d8b13473f477600506aa4e44c54fe30" name="a0d8b13473f477600506aa4e44c54fe30"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d8b13473f477600506aa4e44c54fe30">&#9670;&#160;</a></span>ABN_INIT_METHOD_LIST</h2>
@@ -1391,7 +1486,7 @@ Combined Diagnostic Values</h2>
 <div class="line">    X(FORCED_PHI_E_90_ZERO,               1, ) \</div>
 <div class="line">    X(USE_HALL,                           2, ) \</div>
 <div class="line">    X(USE_N_CHANNEL_OFFSET,               3, )</div>
-<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_a68d3e9033492bc347004797cbfd1f7d8"><div class="ttname"><a href="#a68d3e9033492bc347004797cbfd1f7d8">X</a></div><div class="ttdeci">#define X(NAME, VALUE, DOC)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:184</div></div>
+<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_a68d3e9033492bc347004797cbfd1f7d8"><div class="ttname"><a href="#a68d3e9033492bc347004797cbfd1f7d8">X</a></div><div class="ttdeci">#define X(NAME, VALUE, DOC)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:178</div></div>
 </div><!-- fragment -->
 <p>Enumerates ABN encoder initialization methods. </p>
 <p>Table — ABN Initialization Methods: </p><table class="markdownTable">
@@ -2077,98 +2172,6 @@ Combined Diagnostic Values</h2>
 <div class="line">    X(FOC_SPI_ENC,                 8, )</div>
 </div><!-- fragment -->
 <p>Commutation modes define how the motor shaft angle is determined and the system's state. </p>
-<p>To turn a motor, the commutation mode must be selected using the parameter <code>COMMUTATION_MODE</code>. This specifies the feedback system used to determine the motor's shaft angle. It is also used to enable/disable the system or switch to a state with shorted motor coils.</p>
-<h3><a class="anchor" id="autotoc_md2"></a>
-Commutation Modes and Their Behavior:</h3>
-<h4><a class="anchor" id="autotoc_md3"></a>
-System Off</h4>
-<ul>
-<li>Default state after power-on and reset events.</li>
-<li>Certain operations like changing the motor type require this mode to be active.</li>
-<li>PWM behavior is determined by the <code>IDLE_MOTOR_PWM_BEHAVIOR</code> parameter:<ul>
-<li><code>1</code>: PWM signals are switched off, leaving the motor electrically floating (default).</li>
-<li><code>0</code>: PWM signals remain active.</li>
-</ul>
-</li>
-<li>Note: This mode must be manually selected when exiting from parameter mode to the bootloader.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md4"></a>
-System Off, Low-Side FETs On</h4>
-<ul>
-<li>Charges all low-side motor FETs, shorting the motor coils to ground.</li>
-<li>Not used during normal operation.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md5"></a>
-System Off, High-Side FETs On</h4>
-<ul>
-<li>Charges all high-side motor FETs, shorting the motor coils to the supply voltage.</li>
-<li>Not used during normal operation.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md6"></a>
-FOC (Openloop, Voltage Mode)</h4>
-<ul>
-<li>Applies a constant duty cycle to the motor.</li>
-<li>Voltage is defined by the <code>OPENLOOP_VOLTAGE</code> parameter (PWM duty cycle relative to supply voltage).</li>
-<li>Intended for initial setup purposes only.</li>
-<li>Current is not limited, so configure the <code>OPENLOOP_VOLTAGE</code> parameter with care.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md7"></a>
-FOC (Openloop, Current Mode)</h4>
-<ul>
-<li>Applies a constant current to the motor.</li>
-<li>Current is defined by the <code>OPENLOOP_CURRENT</code> parameter and regulated by the flux control loop.</li>
-<li>For stepper/BLDC motors:<ul>
-<li>Commutation angle is calculated by the internal hardware ramper block.</li>
-<li>Maximum current is limited by the <code>MAX_FLUX</code> parameter.</li>
-<li>Requires setting a velocity target using the <code>TARGET_VELOCITY</code> parameter.</li>
-</ul>
-</li>
-<li>For DC motors:<ul>
-<li>No velocity input is needed.</li>
-<li>Maximum current is limited by the <code>MAX_TORQUE</code> parameter.</li>
-</ul>
-</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md8"></a>
-FOC (ABN), FOC (Hall Sensor), FOC (SPI Encoder)</h4>
-<ul>
-<li>Uses sensor feedback to calculate the motor shaft position.</li>
-<li>Feedback source must be configured before activating this mode.</li>
-<li>For stepper/BLDC motors:<ul>
-<li>Commutation angle is calculated from the selected feedback method.</li>
-<li>Supports torque, velocity, and position control.</li>
-<li>Torque is applied to the motor, and the flux value is assumed zero unless field weakening is active.</li>
-<li>Maximum torque is limited by the <code>MAX_TORQUE</code> parameter.</li>
-</ul>
-</li>
-<li>For DC motors:<ul>
-<li>Supports velocity or position control.</li>
-<li>Maximum torque is limited by the <code>MAX_TORQUE</code> parameter.</li>
-</ul>
-</li>
-</ul>
-<h3><a class="anchor" id="autotoc_md9"></a>
-Parameters to Set Up Commutation Mode:</h3>
-<ul>
-<li><code>COMMUTATION_MODE</code> (Parameter ID: 4)<ul>
-<li>0: SYSTEM_OFF</li>
-<li>1: SYSTEM_OFF_LOW_SIDE_FETS_ON</li>
-<li>2: SYSTEM_OFF_HIGH_SIDE_FETS_ON</li>
-<li>3: FOC_OPENLOOP_VOLTAGE_MODE</li>
-<li>4: FOC_OPENLOOP_CURRENT_MODE</li>
-<li>5: FOC_ABN</li>
-<li>6: FOC_HALL_SENSOR</li>
-<li>7: RESERVED</li>
-<li>8: FOC_SPI_ENC</li>
-</ul>
-</li>
-<li><code>IDLE_MOTOR_PWM_BEHAVIOR</code> (Parameter ID: 9)<ul>
-<li>0: PWM_ON_WHEN_MOTOR_IDLE</li>
-<li>1: PWM_OFF_WHEN_MOTOR_IDLE (default)</li>
-</ul>
-</li>
-</ul>
-<p>Commutation modes define how the motor shaft angle is determined and the system's state.</p>
 <p>Table — Commutation Modes: </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">NUMBER   </th><th class="markdownTableHeadNone">NAME   </th><th class="markdownTableHeadNone">DESCRIPTION    </th></tr>
@@ -3019,7 +3022,7 @@ Parameters to Set Up Commutation Mode:</h3>
 <div class="line">    X(FAULT_RETRIES_FAILED,         <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(23), ) \</div>
 <div class="line">    X(CHIP_TEMP_WARNING,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(24), ) \</div>
 <div class="line">    X(HEARTBEAT_STOPPED,            <a class="code hl_define" href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a>(26), )</div>
-<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4896</div></div>
+<div class="ttc" id="atmc9660__param__mode__tmcl_8hpp_html_ad4db5c8271a388e0f5d389482239a0a0"><div class="ttname"><a href="#ad4db5c8271a388e0f5d389482239a0a0">FLAG</a></div><div class="ttdeci">#define FLAG(bit)</div><div class="ttdef"><b>Definition</b> tmc9660_param_mode_tmcl.hpp:4895</div></div>
 </div><!-- fragment -->
 <p>Enumerates general error flags for GENERAL_ERROR_FLAGS. </p>
 <p>These flags indicate various error conditions in the system. Most of these flags are Read-Write-Clear (RWC), meaning they can be cleared by writing a 1 to the corresponding bit position.</p>

@@ -1,5 +1,5 @@
 <map id="tmc9660::SpiCommInterface::transferTMCL" name="tmc9660::SpiCommInterface::transferTMCL">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,157,213,197"/>
+<area shape="rect" id="Node000001" title="Exchange one TMCL datagram over SPI using the two&#45;transaction reply protocol." alt="" coords="5,157,213,197"/>
 <area shape="rect" id="Node000002" href="$classtmc9660_1_1CommInterface.html#a62df32975d1a83698253b196f305f3f2" title="Construct communication interface with pin active level configuration." alt="" coords="271,5,459,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,155,185,106,221,79,260,55,275,48,277,53,263,60,224,83,189,110,133,159"/>
 <area shape="rect" id="Node000003" href="$classtmc9660_1_1CommInterface.html#a9f128d65e0a2f25b7100781376a56e95" title="Delay execution for specified microseconds." alt="" coords="271,93,459,133"/>

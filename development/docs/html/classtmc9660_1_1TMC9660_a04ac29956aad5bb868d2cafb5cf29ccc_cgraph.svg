@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a36b6a5c31005e21f85feb9202a9fb3d4" target="_top" xlink:title="Write a global parameter via TMCL SGP.">
+<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#abf6ea1ef01a7a16eb88dbbd5574d0684" target="_top" xlink:title="Write a global parameter via TMCL SGP.">
 <polygon fill="white" stroke="#666666" points="382,-19 209,-19 209,0 382,0 382,-19"/>
 <text text-anchor="middle" x="295.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660::writeGlobal</text>
 </a>

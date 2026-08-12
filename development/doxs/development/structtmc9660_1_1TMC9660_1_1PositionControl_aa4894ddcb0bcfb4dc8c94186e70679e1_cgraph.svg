@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="structtmc9660_1_1TMC9660_1_1PositionControl.html#a332011fad07a5da522d4e7f8ca39e541" target="_top" xlink:title="Read actual position in raw chip counts.">
+<g id="a_Node000002"><a xlink:href="structtmc9660_1_1TMC9660_1_1PositionControl.html#a4733fbb303d6c6cfcb5d8eaa00079286" target="_top" xlink:title="Read actual position in raw chip counts.">
 <polygon fill="white" stroke="#666666" points="381,-30 225,-30 225,0 381,0 381,-30"/>
 <text text-anchor="start" x="233" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660::Position</text>
 <text text-anchor="middle" x="303" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">Control::getActualPosition</text>

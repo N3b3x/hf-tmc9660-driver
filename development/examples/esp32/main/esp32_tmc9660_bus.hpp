@@ -240,7 +240,7 @@ public:
     /**
      * @brief Read GPIO pin level for TMC9660 status pins
      * @param pin The TMC9660 control pin to read
-     * @param level Reference to store the current GPIO level
+     * @param signal Reference to store the current signal state
      * @return true if the GPIO was read successfully
      */
     bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept {
@@ -681,7 +681,7 @@ public:
     /**
      * @brief Read GPIO pin level for TMC9660 status pins
      * @param pin The TMC9660 control pin to read
-     * @param level Reference to store the current GPIO level
+     * @param signal Reference to store the current signal state
      * @return true if the GPIO was read successfully
      */
     bool gpioRead(TMC9660CtrlPin pin, GpioSignal &signal) noexcept {

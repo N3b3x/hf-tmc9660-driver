@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a3bffdf8a19eb7e0a1bac933c85df7d94" target="_top" xlink:title="Send a TMCL command. Optionally return the 32&#45;bit reply value.">
+<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a26a1790eb8bf3cd08e6542370fbdfd3b" target="_top" xlink:title="Send a raw TMCL command and optionally receive a reply.">
 <polygon fill="white" stroke="#666666" points="376,-24.5 185,-24.5 185,-5.5 376,-5.5 376,-24.5"/>
 <text text-anchor="middle" x="280.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660::sendCommand</text>
 </a>

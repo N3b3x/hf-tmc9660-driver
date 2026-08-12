@@ -116,45 +116,45 @@ Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::IIT:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a06504c935a5352720b4961f49372e6ed" id="r_a06504c935a5352720b4961f49372e6ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06504c935a5352720b4961f49372e6ed">configure</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant1_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent1_A</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant2_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent2_A</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a06504c935a5352720b4961f49372e6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the two I²t monitoring windows.  <br /></td></tr>
-<tr class="separator:a06504c935a5352720b4961f49372e6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90e232dded25cf7eb36791a17c9d3234" id="r_a90e232dded25cf7eb36791a17c9d3234"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90e232dded25cf7eb36791a17c9d3234">resetIntegralState</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a90e232dded25cf7eb36791a17c9d3234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset both I²t accumulators to zero.  <br /></td></tr>
-<tr class="separator:a90e232dded25cf7eb36791a17c9d3234"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7920676e43ff3f1af8f04caf7c4ba62a" id="r_a7920676e43ff3f1af8f04caf7c4ba62a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7920676e43ff3f1af8f04caf7c4ba62a">setThermalWindingTimeConstant1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a7920676e43ff3f1af8f04caf7c4ba62a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the winding time constant for window 1.  <br /></td></tr>
-<tr class="separator:a7920676e43ff3f1af8f04caf7c4ba62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafbb147a74cac4ad8ae7bacbdaf62cd9" id="r_aafbb147a74cac4ad8ae7bacbdaf62cd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafbb147a74cac4ad8ae7bacbdaf62cd9">getThermalWindingTimeConstant1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aafbb147a74cac4ad8ae7bacbdaf62cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the winding time constant for window 1.  <br /></td></tr>
-<tr class="separator:aafbb147a74cac4ad8ae7bacbdaf62cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bcb9782843d139a9479f6cd997d6275" id="r_a9bcb9782843d139a9479f6cd997d6275"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bcb9782843d139a9479f6cd997d6275">setLimit1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9bcb9782843d139a9479f6cd997d6275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the I²t limit for window 1.  <br /></td></tr>
-<tr class="separator:a9bcb9782843d139a9479f6cd997d6275"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ba5be268b3babeb53f6c890a4f7c367" id="r_a0ba5be268b3babeb53f6c890a4f7c367"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ba5be268b3babeb53f6c890a4f7c367">getLimit1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0ba5be268b3babeb53f6c890a4f7c367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the I²t limit for window 1.  <br /></td></tr>
-<tr class="separator:a0ba5be268b3babeb53f6c890a4f7c367"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07f6771baa7bd1db856bd6e37ce1fadf" id="r_a07f6771baa7bd1db856bd6e37ce1fadf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07f6771baa7bd1db856bd6e37ce1fadf">setThermalWindingTimeConstant2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a07f6771baa7bd1db856bd6e37ce1fadf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the winding time constant for window 2.  <br /></td></tr>
-<tr class="separator:a07f6771baa7bd1db856bd6e37ce1fadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ccd558b561133a8ad25df811e2b0600" id="r_a0ccd558b561133a8ad25df811e2b0600"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ccd558b561133a8ad25df811e2b0600">getThermalWindingTimeConstant2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a0ccd558b561133a8ad25df811e2b0600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the winding time constant for window 2.  <br /></td></tr>
-<tr class="separator:a0ccd558b561133a8ad25df811e2b0600"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62128771bb78afb224746637e20a3145" id="r_a62128771bb78afb224746637e20a3145"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62128771bb78afb224746637e20a3145">setLimit2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a62128771bb78afb224746637e20a3145"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the I²t limit for window 2.  <br /></td></tr>
-<tr class="separator:a62128771bb78afb224746637e20a3145"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53a68e8df8d270bbfcd9c3d6d97ad6a0" id="r_a53a68e8df8d270bbfcd9c3d6d97ad6a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53a68e8df8d270bbfcd9c3d6d97ad6a0">getLimit2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a53a68e8df8d270bbfcd9c3d6d97ad6a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the I²t limit for window 2.  <br /></td></tr>
-<tr class="separator:a53a68e8df8d270bbfcd9c3d6d97ad6a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a7bfafc73168bd879018ba65f8884c7" id="r_a6a7bfafc73168bd879018ba65f8884c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a7bfafc73168bd879018ba65f8884c7">getActualTotalMotorCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">current</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">motorIndex</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6a7bfafc73168bd879018ba65f8884c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the total motor current (torque+flux).  <br /></td></tr>
-<tr class="separator:a6a7bfafc73168bd879018ba65f8884c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92c1ff6ad0096a28a6d4bde1d6df8151" id="r_a92c1ff6ad0096a28a6d4bde1d6df8151"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92c1ff6ad0096a28a6d4bde1d6df8151">getSum1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sum</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a92c1ff6ad0096a28a6d4bde1d6df8151"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current integrated sum of window 1.  <br /></td></tr>
-<tr class="separator:a92c1ff6ad0096a28a6d4bde1d6df8151"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac20125099d2bf1a54585ec76735d0a79" id="r_ac20125099d2bf1a54585ec76735d0a79"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac20125099d2bf1a54585ec76735d0a79">getSum2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sum</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ac20125099d2bf1a54585ec76735d0a79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current integrated sum of window 2.  <br /></td></tr>
-<tr class="separator:ac20125099d2bf1a54585ec76735d0a79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad98b93f3c13abf695d41dbf419eeaa51" id="r_ad98b93f3c13abf695d41dbf419eeaa51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad98b93f3c13abf695d41dbf419eeaa51">configure</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant1_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent1_A</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">timeConstant2_ms</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">float</a> <a class="el" href="classtmc9660_1_1CommInterface.html">continuousCurrent2_A</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ad98b93f3c13abf695d41dbf419eeaa51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the two I²t monitoring windows.  <br /></td></tr>
+<tr class="separator:ad98b93f3c13abf695d41dbf419eeaa51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c26e574a5e3097f60d240959bc372f0" id="r_a4c26e574a5e3097f60d240959bc372f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c26e574a5e3097f60d240959bc372f0">resetIntegralState</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a4c26e574a5e3097f60d240959bc372f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset both I²t accumulators to zero.  <br /></td></tr>
+<tr class="separator:a4c26e574a5e3097f60d240959bc372f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3814c6d971d045338ce9f05e0896ad90" id="r_a3814c6d971d045338ce9f05e0896ad90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3814c6d971d045338ce9f05e0896ad90">setThermalWindingTimeConstant1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3814c6d971d045338ce9f05e0896ad90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the winding time constant for window 1.  <br /></td></tr>
+<tr class="separator:a3814c6d971d045338ce9f05e0896ad90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8741a8dfd68c59ea0342117cd4d946c" id="r_ab8741a8dfd68c59ea0342117cd4d946c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8741a8dfd68c59ea0342117cd4d946c">getThermalWindingTimeConstant1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab8741a8dfd68c59ea0342117cd4d946c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the winding time constant for window 1.  <br /></td></tr>
+<tr class="separator:ab8741a8dfd68c59ea0342117cd4d946c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a869b7a3599757e745d00ec3b985475ec" id="r_a869b7a3599757e745d00ec3b985475ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a869b7a3599757e745d00ec3b985475ec">setLimit1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a869b7a3599757e745d00ec3b985475ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the I²t limit for window 1.  <br /></td></tr>
+<tr class="separator:a869b7a3599757e745d00ec3b985475ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeab35b0bda8c62b236a546985db3cec0" id="r_aeab35b0bda8c62b236a546985db3cec0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeab35b0bda8c62b236a546985db3cec0">getLimit1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:aeab35b0bda8c62b236a546985db3cec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the I²t limit for window 1.  <br /></td></tr>
+<tr class="separator:aeab35b0bda8c62b236a546985db3cec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520f4664bcf1cdb91c05a011f13ed994" id="r_a520f4664bcf1cdb91c05a011f13ed994"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a520f4664bcf1cdb91c05a011f13ed994">setThermalWindingTimeConstant2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a520f4664bcf1cdb91c05a011f13ed994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the winding time constant for window 2.  <br /></td></tr>
+<tr class="separator:a520f4664bcf1cdb91c05a011f13ed994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a1071246d54afb13d867d5910f24f85" id="r_a1a1071246d54afb13d867d5910f24f85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a1071246d54afb13d867d5910f24f85">getThermalWindingTimeConstant2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">ms</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a1a1071246d54afb13d867d5910f24f85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the winding time constant for window 2.  <br /></td></tr>
+<tr class="separator:a1a1071246d54afb13d867d5910f24f85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0131a44620d746f1c472f2d63cc16ede" id="r_a0131a44620d746f1c472f2d63cc16ede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0131a44620d746f1c472f2d63cc16ede">setLimit2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a0131a44620d746f1c472f2d63cc16ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the I²t limit for window 2.  <br /></td></tr>
+<tr class="separator:a0131a44620d746f1c472f2d63cc16ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1c8bfdd7e932676424fa7329e4677fd" id="r_ae1c8bfdd7e932676424fa7329e4677fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1c8bfdd7e932676424fa7329e4677fd">getLimit2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ae1c8bfdd7e932676424fa7329e4677fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the I²t limit for window 2.  <br /></td></tr>
+<tr class="separator:ae1c8bfdd7e932676424fa7329e4677fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a005ce05824cf9132dc164ed7775cdff1" id="r_a005ce05824cf9132dc164ed7775cdff1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a005ce05824cf9132dc164ed7775cdff1">getActualTotalMotorCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">current</a>, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">motorIndex</a>=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a005ce05824cf9132dc164ed7775cdff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the total motor current (torque+flux).  <br /></td></tr>
+<tr class="separator:a005ce05824cf9132dc164ed7775cdff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d070815e180fb7442ac14c0b94f00b8" id="r_a0d070815e180fb7442ac14c0b94f00b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d070815e180fb7442ac14c0b94f00b8">getSum1</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sum</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a0d070815e180fb7442ac14c0b94f00b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current integrated sum of window 1.  <br /></td></tr>
+<tr class="separator:a0d070815e180fb7442ac14c0b94f00b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05e6804e52ab610a1136df73186ca45d" id="r_a05e6804e52ab610a1136df73186ca45d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05e6804e52ab610a1136df73186ca45d">getSum2</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">sum</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a05e6804e52ab610a1136df73186ca45d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current integrated sum of window 2.  <br /></td></tr>
+<tr class="separator:a05e6804e52ab610a1136df73186ca45d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -209,8 +209,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a06504c935a5352720b4961f49372e6ed" name="a06504c935a5352720b4961f49372e6ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06504c935a5352720b4961f49372e6ed">&#9670;&#160;</a></span>configure()</h2>
+<a id="ad98b93f3c13abf695d41dbf419eeaa51" name="ad98b93f3c13abf695d41dbf419eeaa51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad98b93f3c13abf695d41dbf419eeaa51">&#9670;&#160;</a></span>configure()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,7 +221,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::configure </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::configure </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>timeConstant1_ms</em>, </span></td>
         </tr>
@@ -266,8 +266,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a6a7bfafc73168bd879018ba65f8884c7" name="a6a7bfafc73168bd879018ba65f8884c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a7bfafc73168bd879018ba65f8884c7">&#9670;&#160;</a></span>getActualTotalMotorCurrent()</h2>
+<a id="a005ce05824cf9132dc164ed7775cdff1" name="a005ce05824cf9132dc164ed7775cdff1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a005ce05824cf9132dc164ed7775cdff1">&#9670;&#160;</a></span>getActualTotalMotorCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,7 +278,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getActualTotalMotorCurrent </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getActualTotalMotorCurrent </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em>, </span></td>
         </tr>
@@ -302,8 +302,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0ba5be268b3babeb53f6c890a4f7c367" name="a0ba5be268b3babeb53f6c890a4f7c367"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ba5be268b3babeb53f6c890a4f7c367">&#9670;&#160;</a></span>getLimit1()</h2>
+<a id="aeab35b0bda8c62b236a546985db3cec0" name="aeab35b0bda8c62b236a546985db3cec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab35b0bda8c62b236a546985db3cec0">&#9670;&#160;</a></span>getLimit1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,7 +314,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getLimit1 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getLimit1 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -331,8 +331,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a53a68e8df8d270bbfcd9c3d6d97ad6a0" name="a53a68e8df8d270bbfcd9c3d6d97ad6a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53a68e8df8d270bbfcd9c3d6d97ad6a0">&#9670;&#160;</a></span>getLimit2()</h2>
+<a id="ae1c8bfdd7e932676424fa7329e4677fd" name="ae1c8bfdd7e932676424fa7329e4677fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1c8bfdd7e932676424fa7329e4677fd">&#9670;&#160;</a></span>getLimit2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -343,7 +343,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getLimit2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getLimit2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -360,8 +360,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a92c1ff6ad0096a28a6d4bde1d6df8151" name="a92c1ff6ad0096a28a6d4bde1d6df8151"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92c1ff6ad0096a28a6d4bde1d6df8151">&#9670;&#160;</a></span>getSum1()</h2>
+<a id="a0d070815e180fb7442ac14c0b94f00b8" name="a0d070815e180fb7442ac14c0b94f00b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d070815e180fb7442ac14c0b94f00b8">&#9670;&#160;</a></span>getSum1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -372,7 +372,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getSum1 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getSum1 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sum</em></span></td><td>)</td>
           <td></td>
@@ -392,8 +392,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ac20125099d2bf1a54585ec76735d0a79" name="ac20125099d2bf1a54585ec76735d0a79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac20125099d2bf1a54585ec76735d0a79">&#9670;&#160;</a></span>getSum2()</h2>
+<a id="a05e6804e52ab610a1136df73186ca45d" name="a05e6804e52ab610a1136df73186ca45d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05e6804e52ab610a1136df73186ca45d">&#9670;&#160;</a></span>getSum2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +404,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getSum2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getSum2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sum</em></span></td><td>)</td>
           <td></td>
@@ -424,8 +424,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aafbb147a74cac4ad8ae7bacbdaf62cd9" name="aafbb147a74cac4ad8ae7bacbdaf62cd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafbb147a74cac4ad8ae7bacbdaf62cd9">&#9670;&#160;</a></span>getThermalWindingTimeConstant1()</h2>
+<a id="ab8741a8dfd68c59ea0342117cd4d946c" name="ab8741a8dfd68c59ea0342117cd4d946c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8741a8dfd68c59ea0342117cd4d946c">&#9670;&#160;</a></span>getThermalWindingTimeConstant1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -436,7 +436,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getThermalWindingTimeConstant1 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getThermalWindingTimeConstant1 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ms</em></span></td><td>)</td>
           <td></td>
@@ -453,8 +453,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a0ccd558b561133a8ad25df811e2b0600" name="a0ccd558b561133a8ad25df811e2b0600"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ccd558b561133a8ad25df811e2b0600">&#9670;&#160;</a></span>getThermalWindingTimeConstant2()</h2>
+<a id="a1a1071246d54afb13d867d5910f24f85" name="a1a1071246d54afb13d867d5910f24f85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a1071246d54afb13d867d5910f24f85">&#9670;&#160;</a></span>getThermalWindingTimeConstant2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,7 +465,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::getThermalWindingTimeConstant2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::getThermalWindingTimeConstant2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>ms</em></span></td><td>)</td>
           <td></td>
@@ -482,8 +482,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a90e232dded25cf7eb36791a17c9d3234" name="a90e232dded25cf7eb36791a17c9d3234"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90e232dded25cf7eb36791a17c9d3234">&#9670;&#160;</a></span>resetIntegralState()</h2>
+<a id="a4c26e574a5e3097f60d240959bc372f0" name="a4c26e574a5e3097f60d240959bc372f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c26e574a5e3097f60d240959bc372f0">&#9670;&#160;</a></span>resetIntegralState()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -494,7 +494,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::resetIntegralState </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::resetIntegralState </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -514,8 +514,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9bcb9782843d139a9479f6cd997d6275" name="a9bcb9782843d139a9479f6cd997d6275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bcb9782843d139a9479f6cd997d6275">&#9670;&#160;</a></span>setLimit1()</h2>
+<a id="a869b7a3599757e745d00ec3b985475ec" name="a869b7a3599757e745d00ec3b985475ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a869b7a3599757e745d00ec3b985475ec">&#9670;&#160;</a></span>setLimit1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,7 +526,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::setLimit1 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::setLimit1 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -546,8 +546,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a62128771bb78afb224746637e20a3145" name="a62128771bb78afb224746637e20a3145"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62128771bb78afb224746637e20a3145">&#9670;&#160;</a></span>setLimit2()</h2>
+<a id="a0131a44620d746f1c472f2d63cc16ede" name="a0131a44620d746f1c472f2d63cc16ede"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0131a44620d746f1c472f2d63cc16ede">&#9670;&#160;</a></span>setLimit2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,7 +558,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::setLimit2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::setLimit2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -578,8 +578,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a7920676e43ff3f1af8f04caf7c4ba62a" name="a7920676e43ff3f1af8f04caf7c4ba62a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7920676e43ff3f1af8f04caf7c4ba62a">&#9670;&#160;</a></span>setThermalWindingTimeConstant1()</h2>
+<a id="a3814c6d971d045338ce9f05e0896ad90" name="a3814c6d971d045338ce9f05e0896ad90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3814c6d971d045338ce9f05e0896ad90">&#9670;&#160;</a></span>setThermalWindingTimeConstant1()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -590,7 +590,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::setThermalWindingTimeConstant1 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::setThermalWindingTimeConstant1 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>ms</em></span></td><td>)</td>
           <td></td>
@@ -610,8 +610,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a07f6771baa7bd1db856bd6e37ce1fadf" name="a07f6771baa7bd1db856bd6e37ce1fadf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07f6771baa7bd1db856bd6e37ce1fadf">&#9670;&#160;</a></span>setThermalWindingTimeConstant2()</h2>
+<a id="a520f4664bcf1cdb91c05a011f13ed994" name="a520f4664bcf1cdb91c05a011f13ed994"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a520f4664bcf1cdb91c05a011f13ed994">&#9670;&#160;</a></span>setThermalWindingTimeConstant2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -622,7 +622,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::IIT::setThermalWindingTimeConstant2 </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::IIT::setThermalWindingTimeConstant2 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>ms</em></span></td><td>)</td>
           <td></td>
@@ -692,8 +692,9 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
+<li><a class="el" href="tmc9660_8ipp_source.html">tmc9660.ipp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

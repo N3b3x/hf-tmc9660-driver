@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title="Compact and full diagnostic snapshots for the TMC9660." alt="" coords="143,5,331,31"/>
 <area shape="rect" id="Node000002" href="$tmc9660__units_8hpp.html" title="Strongly&#45;typed engineering&#45;unit conversions for the TMC9660." alt="" coords="164,79,311,104"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="240,31,240,65,235,65,235,31"/>
-<area shape="rect" id="Node000003" href="$tmc9660__param__mode__tmcl_8hpp.html" title="TMCL operation and reply code enumerations for TMC9660 parameter mode." alt="" coords="5,152,200,192"/>
+<area shape="rect" id="Node000003" href="$tmc9660__param__mode__tmcl_8hpp.html" title="Enumerations and helpers for TMCL® operation &amp; reply codes when the TMC9660 is used in Parameter Mode..." alt="" coords="5,152,200,192"/>
 <area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="217,33,185,53,154,80,133,110,118,140,113,138,129,107,150,77,182,49,214,29"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="204,240,271,265"/>
 <area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="262,28,294,48,325,77,347,106,361,133,365,162,353,193,339,210,322,224,285,242,283,237,320,219,336,206,348,191,359,161,356,135,342,109,321,80,291,53,259,33"/>

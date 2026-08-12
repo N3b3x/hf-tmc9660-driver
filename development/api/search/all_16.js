@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['v2_5f5_0',['V2_5',['../namespacetmc9660_1_1bootcfg.html#a6ffcd57a7508cb78984f0167caff7496aedc540e50f10c618159275a791847834',1,'tmc9660::bootcfg']]],
-  ['v3_5f3_1',['V3_3',['../namespacetmc9660_1_1bootcfg.html#a6ffcd57a7508cb78984f0167caff7496af869fb390f575744d7e1a3845efec815',1,'tmc9660::bootcfg']]],
-  ['v5_5f0_2',['V5_0',['../namespacetmc9660_1_1bootcfg.html#a6ffcd57a7508cb78984f0167caff7496aa4ab6982e01b0554d528038974fc1cc3',1,'tmc9660::bootcfg']]],
+  ['v2_5f5_0',['V2_5',['../group__TMC9660__BootloaderConfig.html#gga6ffcd57a7508cb78984f0167caff7496aedc540e50f10c618159275a791847834',1,'tmc9660::bootcfg']]],
+  ['v3_5f3_1',['V3_3',['../group__TMC9660__BootloaderConfig.html#gga6ffcd57a7508cb78984f0167caff7496af869fb390f575744d7e1a3845efec815',1,'tmc9660::bootcfg']]],
+  ['v5_5f0_2',['V5_0',['../group__TMC9660__BootloaderConfig.html#gga6ffcd57a7508cb78984f0167caff7496aa4ab6982e01b0554d528038974fc1cc3',1,'tmc9660::bootcfg']]],
   ['v_5fpin_3',['v_pin',['../structtmc9660_1_1HallConfig.html#a9dde032d72ecc2b3dedd6c1b1dede7e2',1,'tmc9660::HallConfig']]],
   ['valid_4',['valid',['../structtmc9660_1_1units_1_1MotorContext.html#a8349cd5f34c2791c03edfece864d546a',1,'tmc9660::units::MotorContext']]],
   ['valid_5fcommutation_5fmode_5',['valid_commutation_mode',['../structtmc9660_1_1diagnostics_1_1MotorSummary.html#ad39a461c0d1c0ed3856882e946b60242',1,'tmc9660::diagnostics::MotorSummary::valid_commutation_mode'],['../structtmc9660_1_1diagnostics_1_1MotorSnapshot.html#ae9e500cd4c89ccdacb95c976899cf3f3',1,'tmc9660::diagnostics::MotorSnapshot::valid_commutation_mode']]],
@@ -65,7 +65,7 @@ var searchData=
   ['vgsdeglitchtime_62',['VgsDeglitchTime',['../namespacetmc9660_1_1tmcl.html#acb84b55fdc365cfbe79c1970e12d70f9',1,'tmc9660::tmcl']]],
   ['vgsshortenable_63',['VgsShortEnable',['../namespacetmc9660_1_1tmcl.html#a3260ec477704e03d19feaf38b85b8060',1,'tmc9660::tmcl']]],
   ['vgsshortprotection_64',['VgsShortProtection',['../namespacetmc9660_1_1tmcl.html#acbde0239ea902e863309d2a1ff0c43ec',1,'tmc9660::tmcl']]],
-  ['voltage_20mode_65',['FOC (Openloop, Voltage Mode)',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md6',1,'']]],
+  ['voltage_20mode_65',['FOC (Openloop, Voltage Mode)',['../namespacetmc9660_1_1tmcl.html#autotoc_md6',1,'']]],
   ['vs_5fmax_66',['VS_MAX',['../structTMC9660__TestConfig_1_1SupplyVoltage.html#a239b16065603d1838bbcdac657359578',1,'TMC9660_TestConfig::SupplyVoltage']]],
   ['vs_5fmin_67',['VS_MIN',['../structTMC9660__TestConfig_1_1SupplyVoltage.html#a8036a24811980e725422c63b4ca6793a',1,'TMC9660_TestConfig::SupplyVoltage']]],
   ['vs_5fnom_68',['VS_NOM',['../structTMC9660__TestConfig_1_1SupplyVoltage.html#a999c3412fe14e30b66251b48784d5357',1,'TMC9660_TestConfig::SupplyVoltage']]],

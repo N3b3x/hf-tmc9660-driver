@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#ac57cd0964737b5197113e03f946acd8d" target="_top" xlink:title="Read a global parameter via TMCL GGP (TYPE = parameter number, MOTOR/BANK = bank 0/2/3).">
+<g id="a_Node000002"><a xlink:href="classtmc9660_1_1TMC9660.html#a918fb3344573e7a1d9d1e69488fe489c" target="_top" xlink:title="Read a global parameter via TMCL GGP (TYPE = parameter number, MOTOR/BANK = bank 0/2/3).">
 <polygon fill="white" stroke="#666666" points="376,-19 206,-19 206,0 376,0 376,-19"/>
 <text text-anchor="middle" x="291" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::TMC9660::readGlobal</text>
 </a>

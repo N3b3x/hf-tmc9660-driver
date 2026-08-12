@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="tmc9660__param__mode__tmcl_8hpp.html" target="_top" xlink:title="TMCL operation and reply code enumerations for TMC9660 parameter mode.">
+<g id="a_Node000002"><a xlink:href="tmc9660__param__mode__tmcl_8hpp.html" target="_top" xlink:title="Enumerations and helpers for TMCL® operation &amp; reply codes when the TMC9660 is used in Parameter Mode...">
 <polygon fill="white" stroke="#666666" points="146,-85 0,-85 0,-55 146,-55 146,-85"/>
 <text text-anchor="start" x="8" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">parameter_mode/tmc9660</text>
 <text text-anchor="middle" x="73" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">_param_mode_tmcl.hpp</text>

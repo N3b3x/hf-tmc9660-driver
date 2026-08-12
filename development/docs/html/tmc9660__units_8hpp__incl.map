@@ -1,6 +1,6 @@
 <map id="tmc9660_units.hpp" name="tmc9660_units.hpp">
 <area shape="rect" id="Node000001" title="Strongly&#45;typed engineering&#45;unit conversions for the TMC9660." alt="" coords="164,5,311,31"/>
-<area shape="rect" id="Node000002" href="$tmc9660__param__mode__tmcl_8hpp.html" title="TMCL operation and reply code enumerations for TMC9660 parameter mode." alt="" coords="5,79,200,119"/>
+<area shape="rect" id="Node000002" href="$tmc9660__param__mode__tmcl_8hpp.html" title="Enumerations and helpers for TMCL® operation &amp; reply codes when the TMC9660 is used in Parameter Mode..." alt="" coords="5,79,200,119"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,33,148,74,146,69,216,29"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="136,167,203,192"/>
 <area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="238,31,231,71,214,120,190,158,186,155,210,118,226,70,233,30"/>

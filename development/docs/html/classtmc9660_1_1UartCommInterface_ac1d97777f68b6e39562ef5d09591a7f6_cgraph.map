@@ -1,5 +1,5 @@
 <map id="tmc9660::UartCommInterface::transferTMCL" name="tmc9660::UartCommInterface::transferTMCL">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,113,221,153"/>
+<area shape="rect" id="Node000001" title="Exchange one TMCL datagram over UART as a single request/response pair." alt="" coords="5,113,221,153"/>
 <area shape="rect" id="Node000002" href="$classtmc9660_1_1CommInterface.html#a62df32975d1a83698253b196f305f3f2" title="Construct communication interface with pin active level configuration." alt="" coords="283,5,471,45"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,111,205,83,268,55,289,47,291,52,270,60,208,88,153,116"/>
 <area shape="rect" id="Node000003" href="$structtmc9660_1_1TMCLReply.html#ad1fa0fa9bfb84c23095852c35975d51e" title="Decode and validate reply from UART TMCL datagram." alt="" coords="297,69,457,109"/>

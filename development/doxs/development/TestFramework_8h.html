@@ -180,7 +180,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ab7e4c076755ecdf2ad6212cb8f6578ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print standardized test summary.  <br /></td></tr>
 <tr class="separator:ab7e4c076755ecdf2ad6212cb8f6578ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a200bb35a3a48c625b9cb8d2511d6bd87" id="r_a200bb35a3a48c625b9cb8d2511d6bd87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a200bb35a3a48c625b9cb8d2511d6bd87">print_test_section_status</a> (const char *tag, const char *test_suite_name) noexcept</td></tr>
-<tr class="memdesc:a200bb35a3a48c625b9cb8d2511d6bd87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print standardized test summary.  <br /></td></tr>
+<tr class="memdesc:a200bb35a3a48c625b9cb8d2511d6bd87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a standardized pass/fail banner for a test section.  <br /></td></tr>
 <tr class="separator:a200bb35a3a48c625b9cb8d2511d6bd87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c46ab8dc59b071f0843bc287145d5f1" id="r_a5c46ab8dc59b071f0843bc287145d5f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c46ab8dc59b071f0843bc287145d5f1">print_test_section_header</a> (const char *tag, const char *section_name, bool enabled=true) noexcept</td></tr>
 <tr class="memdesc:a5c46ab8dc59b071f0843bc287145d5f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print test section header with consistent formatting.  <br /></td></tr>
@@ -819,10 +819,10 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Print standardized test summary. </p>
+<p>Print a standardized pass/fail banner for a test section. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">test_results</td><td>The <a class="el" href="structTestResults.html" title="Test execution tracking and results accumulation.">TestResults</a> instance to summarize </td></tr>
+    <tr><td class="paramname">tag</td><td>ESP log tag to emit under </td></tr>
     <tr><td class="paramname">test_suite_name</td><td>Name of the test suite for logging </td></tr>
   </table>
   </dd>

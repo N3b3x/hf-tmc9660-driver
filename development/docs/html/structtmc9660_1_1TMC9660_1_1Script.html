@@ -116,39 +116,39 @@ Collaboration diagram for tmc9660::TMC9660&lt; CommType &gt;::Script:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1a8ef345751eb64e7f34f49d8cb2e1c0" id="r_a1a8ef345751eb64e7f34f49d8cb2e1c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a8ef345751eb64e7f34f49d8cb2e1c0">upload</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> std::vector&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt; &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">script_data</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a1a8ef345751eb64e7f34f49d8cb2e1c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upload a TMCL script to the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>'s internal memory.  <br /></td></tr>
-<tr class="separator:a1a8ef345751eb64e7f34f49d8cb2e1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02a75e9aa7ada989538724482d1b2dc9" id="r_a02a75e9aa7ada989538724482d1b2dc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02a75e9aa7ada989538724482d1b2dc9">start</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a02a75e9aa7ada989538724482d1b2dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start or restart execution of the stored script.  <br /></td></tr>
-<tr class="separator:a02a75e9aa7ada989538724482d1b2dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d0b77226c7d5cf895a0b1a94bf7e8df" id="r_a4d0b77226c7d5cf895a0b1a94bf7e8df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d0b77226c7d5cf895a0b1a94bf7e8df">stop</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a4d0b77226c7d5cf895a0b1a94bf7e8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop execution of the running script.  <br /></td></tr>
-<tr class="separator:a4d0b77226c7d5cf895a0b1a94bf7e8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab900fdc54ee136827dc3eeaa1d996c8e" id="r_ab900fdc54ee136827dc3eeaa1d996c8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab900fdc54ee136827dc3eeaa1d996c8e">step</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab900fdc54ee136827dc3eeaa1d996c8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single TMCL instruction of the loaded script.  <br /></td></tr>
-<tr class="separator:ab900fdc54ee136827dc3eeaa1d996c8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2463b089bda36ab87f1db9d318024bdd" id="r_a2463b089bda36ab87f1db9d318024bdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2463b089bda36ab87f1db9d318024bdd">reset</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a2463b089bda36ab87f1db9d318024bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the TMCL program counter.  <br /></td></tr>
-<tr class="separator:a2463b089bda36ab87f1db9d318024bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8259dc54b7694e6cfa984a90fde75ecd" id="r_a8259dc54b7694e6cfa984a90fde75ecd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8259dc54b7694e6cfa984a90fde75ecd">getStatus</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;status) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a8259dc54b7694e6cfa984a90fde75ecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the execution state of the running script.  <br /></td></tr>
-<tr class="separator:a8259dc54b7694e6cfa984a90fde75ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64fb7cbc54021d50080bd877a4859a32" id="r_a64fb7cbc54021d50080bd877a4859a32"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64fb7cbc54021d50080bd877a4859a32">readMemory</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address, <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a64fb7cbc54021d50080bd877a4859a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a 32-bit instruction from script memory.  <br /></td></tr>
-<tr class="separator:a64fb7cbc54021d50080bd877a4859a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfc14288ca665001c5b938eba825e2bd" id="r_acfc14288ca665001c5b938eba825e2bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfc14288ca665001c5b938eba825e2bd">addBreakpoint</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:acfc14288ca665001c5b938eba825e2bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a breakpoint at the given address.  <br /></td></tr>
-<tr class="separator:acfc14288ca665001c5b938eba825e2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8d018e774aacb2639d69ec3cedcb14" id="r_aba8d018e774aacb2639d69ec3cedcb14"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba8d018e774aacb2639d69ec3cedcb14">removeBreakpoint</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aba8d018e774aacb2639d69ec3cedcb14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a previously set breakpoint.  <br /></td></tr>
-<tr class="separator:aba8d018e774aacb2639d69ec3cedcb14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa527d4ecc8aa63f77540a19a19f7c3c9" id="r_aa527d4ecc8aa63f77540a19a19f7c3c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa527d4ecc8aa63f77540a19a19f7c3c9">clearBreakpoints</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aa527d4ecc8aa63f77540a19a19f7c3c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all breakpoints from the script.  <br /></td></tr>
-<tr class="separator:aa527d4ecc8aa63f77540a19a19f7c3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e6d7a012308be11b5eda03dca1f3888" id="r_a9e6d7a012308be11b5eda03dca1f3888"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e6d7a012308be11b5eda03dca1f3888">getMaxBreakpointCount</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">count</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a9e6d7a012308be11b5eda03dca1f3888"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the maximum number of supported breakpoints.  <br /></td></tr>
-<tr class="separator:a9e6d7a012308be11b5eda03dca1f3888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6c6debb3d3a8b1143b13147352ce4a0" id="r_ab6c6debb3d3a8b1143b13147352ce4a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6c6debb3d3a8b1143b13147352ce4a0">upload</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> std::vector&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt; &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">script_data</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab6c6debb3d3a8b1143b13147352ce4a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Upload a TMCL script to the <a class="el" href="classtmc9660_1_1TMC9660.html" title="Main class representing a TMC9660 motor driver in Parameter Mode.">TMC9660</a>'s internal memory.  <br /></td></tr>
+<tr class="separator:ab6c6debb3d3a8b1143b13147352ce4a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f8ae8c6ad3566d6b36cc0052955948e" id="r_a3f8ae8c6ad3566d6b36cc0052955948e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f8ae8c6ad3566d6b36cc0052955948e">start</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address=0) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3f8ae8c6ad3566d6b36cc0052955948e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start or restart execution of the stored script.  <br /></td></tr>
+<tr class="separator:a3f8ae8c6ad3566d6b36cc0052955948e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a601a702c544615be324e44c580a20cf2" id="r_a601a702c544615be324e44c580a20cf2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a601a702c544615be324e44c580a20cf2">stop</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a601a702c544615be324e44c580a20cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop execution of the running script.  <br /></td></tr>
+<tr class="separator:a601a702c544615be324e44c580a20cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adda55f5b608b02098827a8a8360f252c" id="r_adda55f5b608b02098827a8a8360f252c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adda55f5b608b02098827a8a8360f252c">step</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:adda55f5b608b02098827a8a8360f252c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a single TMCL instruction of the loaded script.  <br /></td></tr>
+<tr class="separator:adda55f5b608b02098827a8a8360f252c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25e1060449e4d96f2a71bd21b01db201" id="r_a25e1060449e4d96f2a71bd21b01db201"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25e1060449e4d96f2a71bd21b01db201">reset</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a25e1060449e4d96f2a71bd21b01db201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the TMCL program counter.  <br /></td></tr>
+<tr class="separator:a25e1060449e4d96f2a71bd21b01db201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc59c3347b1878514152154347ff50d" id="r_a0cc59c3347b1878514152154347ff50d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cc59c3347b1878514152154347ff50d">getStatus</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;status) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a0cc59c3347b1878514152154347ff50d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the execution state of the running script.  <br /></td></tr>
+<tr class="separator:a0cc59c3347b1878514152154347ff50d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09be05acedd85d9552db858b88b9bf58" id="r_a09be05acedd85d9552db858b88b9bf58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09be05acedd85d9552db858b88b9bf58">readMemory</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address, <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;value) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a09be05acedd85d9552db858b88b9bf58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a 32-bit instruction from script memory.  <br /></td></tr>
+<tr class="separator:a09be05acedd85d9552db858b88b9bf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8c6e59f13b72029c4b739d4be5768ff" id="r_ab8c6e59f13b72029c4b739d4be5768ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8c6e59f13b72029c4b739d4be5768ff">addBreakpoint</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ab8c6e59f13b72029c4b739d4be5768ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a breakpoint at the given address.  <br /></td></tr>
+<tr class="separator:ab8c6e59f13b72029c4b739d4be5768ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623e1f21c0f9a69b0b990500912de90d" id="r_a623e1f21c0f9a69b0b990500912de90d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a623e1f21c0f9a69b0b990500912de90d">removeBreakpoint</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> address) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a623e1f21c0f9a69b0b990500912de90d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a previously set breakpoint.  <br /></td></tr>
+<tr class="separator:a623e1f21c0f9a69b0b990500912de90d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34479b87afa1308d28789b164a137540" id="r_a34479b87afa1308d28789b164a137540"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34479b87afa1308d28789b164a137540">clearBreakpoints</a> () <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a34479b87afa1308d28789b164a137540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all breakpoints from the script.  <br /></td></tr>
+<tr class="separator:a34479b87afa1308d28789b164a137540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3377e38d38c3176382f67c57f8adac9b" id="r_a3377e38d38c3176382f67c57f8adac9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3377e38d38c3176382f67c57f8adac9b">getMaxBreakpointCount</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">count</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3377e38d38c3176382f67c57f8adac9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query the maximum number of supported breakpoints.  <br /></td></tr>
+<tr class="separator:a3377e38d38c3176382f67c57f8adac9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -197,8 +197,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="acfc14288ca665001c5b938eba825e2bd" name="acfc14288ca665001c5b938eba825e2bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfc14288ca665001c5b938eba825e2bd">&#9670;&#160;</a></span>addBreakpoint()</h2>
+<a id="ab8c6e59f13b72029c4b739d4be5768ff" name="ab8c6e59f13b72029c4b739d4be5768ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8c6e59f13b72029c4b739d4be5768ff">&#9670;&#160;</a></span>addBreakpoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +209,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::addBreakpoint </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::addBreakpoint </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
           <td></td>
@@ -233,8 +233,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aa527d4ecc8aa63f77540a19a19f7c3c9" name="aa527d4ecc8aa63f77540a19a19f7c3c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa527d4ecc8aa63f77540a19a19f7c3c9">&#9670;&#160;</a></span>clearBreakpoints()</h2>
+<a id="a34479b87afa1308d28789b164a137540" name="a34479b87afa1308d28789b164a137540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34479b87afa1308d28789b164a137540">&#9670;&#160;</a></span>clearBreakpoints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,7 +245,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::clearBreakpoints </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::clearBreakpoints </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -263,8 +263,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a9e6d7a012308be11b5eda03dca1f3888" name="a9e6d7a012308be11b5eda03dca1f3888"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e6d7a012308be11b5eda03dca1f3888">&#9670;&#160;</a></span>getMaxBreakpointCount()</h2>
+<a id="a3377e38d38c3176382f67c57f8adac9b" name="a3377e38d38c3176382f67c57f8adac9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3377e38d38c3176382f67c57f8adac9b">&#9670;&#160;</a></span>getMaxBreakpointCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +275,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::getMaxBreakpointCount </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::getMaxBreakpointCount </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>count</em></span></td><td>)</td>
           <td></td>
@@ -299,8 +299,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a8259dc54b7694e6cfa984a90fde75ecd" name="a8259dc54b7694e6cfa984a90fde75ecd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8259dc54b7694e6cfa984a90fde75ecd">&#9670;&#160;</a></span>getStatus()</h2>
+<a id="a0cc59c3347b1878514152154347ff50d" name="a0cc59c3347b1878514152154347ff50d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cc59c3347b1878514152154347ff50d">&#9670;&#160;</a></span>getStatus()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +311,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::getStatus </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::getStatus </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>status</em></span></td><td>)</td>
           <td></td>
@@ -335,8 +335,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a64fb7cbc54021d50080bd877a4859a32" name="a64fb7cbc54021d50080bd877a4859a32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64fb7cbc54021d50080bd877a4859a32">&#9670;&#160;</a></span>readMemory()</h2>
+<a id="a09be05acedd85d9552db858b88b9bf58" name="a09be05acedd85d9552db858b88b9bf58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09be05acedd85d9552db858b88b9bf58">&#9670;&#160;</a></span>readMemory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -347,7 +347,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::readMemory </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::readMemory </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>address</em>, </span></td>
         </tr>
@@ -376,8 +376,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="aba8d018e774aacb2639d69ec3cedcb14" name="aba8d018e774aacb2639d69ec3cedcb14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba8d018e774aacb2639d69ec3cedcb14">&#9670;&#160;</a></span>removeBreakpoint()</h2>
+<a id="a623e1f21c0f9a69b0b990500912de90d" name="a623e1f21c0f9a69b0b990500912de90d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623e1f21c0f9a69b0b990500912de90d">&#9670;&#160;</a></span>removeBreakpoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,7 +388,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::removeBreakpoint </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::removeBreakpoint </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>address</em></span></td><td>)</td>
           <td></td>
@@ -412,8 +412,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a2463b089bda36ab87f1db9d318024bdd" name="a2463b089bda36ab87f1db9d318024bdd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2463b089bda36ab87f1db9d318024bdd">&#9670;&#160;</a></span>reset()</h2>
+<a id="a25e1060449e4d96f2a71bd21b01db201" name="a25e1060449e4d96f2a71bd21b01db201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25e1060449e4d96f2a71bd21b01db201">&#9670;&#160;</a></span>reset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -424,7 +424,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::reset </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::reset </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -442,8 +442,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a02a75e9aa7ada989538724482d1b2dc9" name="a02a75e9aa7ada989538724482d1b2dc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02a75e9aa7ada989538724482d1b2dc9">&#9670;&#160;</a></span>start()</h2>
+<a id="a3f8ae8c6ad3566d6b36cc0052955948e" name="a3f8ae8c6ad3566d6b36cc0052955948e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f8ae8c6ad3566d6b36cc0052955948e">&#9670;&#160;</a></span>start()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -454,7 +454,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::start </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::start </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>address</em><span class="paramdefsep"> = </span><span class="paramdefval">0</span></span></td><td>)</td>
           <td></td>
@@ -478,8 +478,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="ab900fdc54ee136827dc3eeaa1d996c8e" name="ab900fdc54ee136827dc3eeaa1d996c8e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab900fdc54ee136827dc3eeaa1d996c8e">&#9670;&#160;</a></span>step()</h2>
+<a id="adda55f5b608b02098827a8a8360f252c" name="adda55f5b608b02098827a8a8360f252c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adda55f5b608b02098827a8a8360f252c">&#9670;&#160;</a></span>step()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -490,7 +490,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::step </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::step </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -508,8 +508,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a4d0b77226c7d5cf895a0b1a94bf7e8df" name="a4d0b77226c7d5cf895a0b1a94bf7e8df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d0b77226c7d5cf895a0b1a94bf7e8df">&#9670;&#160;</a></span>stop()</h2>
+<a id="a601a702c544615be324e44c580a20cf2" name="a601a702c544615be324e44c580a20cf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a601a702c544615be324e44c580a20cf2">&#9670;&#160;</a></span>stop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,7 +520,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::stop </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::stop </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"></span></td><td>)</td>
           <td></td>
@@ -538,8 +538,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a1a8ef345751eb64e7f34f49d8cb2e1c0" name="a1a8ef345751eb64e7f34f49d8cb2e1c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a8ef345751eb64e7f34f49d8cb2e1c0">&#9670;&#160;</a></span>upload()</h2>
+<a id="ab6c6debb3d3a8b1143b13147352ce4a0" name="ab6c6debb3d3a8b1143b13147352ce4a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6c6debb3d3a8b1143b13147352ce4a0">&#9670;&#160;</a></span>upload()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -550,7 +550,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::Script::upload </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::Script::upload </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> std::vector&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>script_data</em></span></td><td>)</td>
           <td></td>
@@ -624,8 +624,9 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
+<li><a class="el" href="tmc9660_8ipp_source.html">tmc9660.ipp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

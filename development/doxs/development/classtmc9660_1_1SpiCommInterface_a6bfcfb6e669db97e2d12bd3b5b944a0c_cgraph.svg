@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
-<g id="a_Node000001"><a xlink:title=" ">
+<g id="a_Node000001"><a xlink:title="Exchange one TMCL datagram over SPI using the two&#45;transaction reply protocol.">
 <polygon fill="#999999" stroke="#666666" points="156,-134 0,-134 0,-104 156,-104 156,-134"/>
 <text text-anchor="start" x="8" y="-122" font-family="Helvetica,sans-Serif" font-size="10.00">tmc9660::SpiCommInterface</text>
 <text text-anchor="middle" x="78" y="-111" font-family="Helvetica,sans-Serif" font-size="10.00">::transferTMCL</text>

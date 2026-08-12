@@ -30,15 +30,16 @@ var searchData=
   ['undervoltagelevel_27',['UndervoltageLevel',['../namespacetmc9660_1_1tmcl.html#adba590d9f9c92f4b0db5bb72634bdc63',1,'tmc9660::tmcl']]],
   ['undervoltageprotection_28',['UndervoltageProtection',['../namespacetmc9660_1_1tmcl.html#a8cf1c7fac08c0f3777d0220b9dd0cb14',1,'tmc9660::tmcl']]],
   ['undervoltagethreshold_5fv_29',['undervoltageThreshold_V',['../structtmc9660_1_1TMC9660_1_1Protection_1_1ProtectionConfig.html#a2b70a30a25bc83a96e25ee485caf0a5c',1,'tmc9660::TMC9660::Protection::ProtectionConfig']]],
-  ['up_20commutation_20mode_3a_30',['Parameters to Set Up Commutation Mode:',['../tmc9660__param__mode__tmcl_8hpp.html#autotoc_md9',1,'']]],
-  ['upload_31',['upload',['../structtmc9660_1_1TMC9660_1_1Script.html#a1a8ef345751eb64e7f34f49d8cb2e1c0',1,'tmc9660::TMC9660::Script']]],
-  ['uploadspiencoderlutentry_32',['uploadSPIEncoderLUTEntry',['../structtmc9660_1_1TMC9660_1_1FeedbackSense.html#a65a4b3dbd97ae0a450c671f67f4652c5',1,'tmc9660::TMC9660::FeedbackSense']]],
+  ['up_20commutation_20mode_3a_30',['Parameters to Set Up Commutation Mode:',['../namespacetmc9660_1_1tmcl.html#autotoc_md9',1,'']]],
+  ['upload_31',['upload',['../structtmc9660_1_1TMC9660_1_1Script.html#ab6c6debb3d3a8b1143b13147352ce4a0',1,'tmc9660::TMC9660::Script']]],
+  ['uploadspiencoderlutentry_32',['uploadSPIEncoderLUTEntry',['../structtmc9660_1_1TMC9660_1_1FeedbackSense.html#a9d20cacb1465f972244ab762d349e164',1,'tmc9660::TMC9660::FeedbackSense']]],
   ['uq_33',['uq',['../structtmc9660_1_1diagnostics_1_1MotorSnapshot.html#afd8ce50df89a2ee07a4e1e3ad5d26ba7',1,'tmc9660::diagnostics::MotorSnapshot']]],
   ['usage_20example_34',['Usage Example',['../classtmc9660_1_1TMC9660.html#autotoc_md21',1,'']]],
   ['usage_20pattern_35',['Usage Pattern',['../classtmc9660_1_1TMC9660Bootloader.html#autotoc_md1',1,'']]],
   ['use_5fexternal_36',['use_external',['../structtmc9660_1_1ClockConfig.html#ac2b25421d49dc32f86573b2568370911',1,'tmc9660::ClockConfig']]],
   ['usepeakscaling_37',['usePeakScaling',['../structtmc9660_1_1TMC9660_1_1CurrentSensing_1_1AutoConfig.html#a7debd575dbe6dd84c7dc9197c5373f30',1,'tmc9660::TMC9660::CurrentSensing::AutoConfig']]],
-  ['utility_20functions_38',['Utility Functions',['../group__TMC9660__Utilities.html',1,'']]],
-  ['uvw_5fgate_5fcurrent_5fsink_39',['uvw_gate_current_sink',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8a9ccca3011c4083e429c828a297da02',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
-  ['uvw_5fgate_5fcurrent_5fsource_40',['uvw_gate_current_source',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8bcb2b829a8b355e439b1985e8316ddf',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]]
+  ['utilities_38',['Bootloader Utilities',['../group__TMC9660__BootloaderUtils.html',1,'']]],
+  ['utility_20functions_39',['Utility Functions',['../group__TMC9660__Utilities.html',1,'']]],
+  ['uvw_5fgate_5fcurrent_5fsink_40',['uvw_gate_current_sink',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8a9ccca3011c4083e429c828a297da02',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]],
+  ['uvw_5fgate_5fcurrent_5fsource_41',['uvw_gate_current_source',['../structtmc9660_1_1TMC9660_1_1GateDriver_1_1PowerStageProfile.html#a8bcb2b829a8b355e439b1985e8316ddf',1,'tmc9660::TMC9660::GateDriver::PowerStageProfile']]]
 ];

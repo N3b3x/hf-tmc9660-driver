@@ -57,7 +57,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" target="_top" xlink:title="Print standardized test summary.">
+<g id="a_Node000004"><a xlink:href="TestFramework_8h.html#a200bb35a3a48c625b9cb8d2511d6bd87" target="_top" xlink:title="Print a standardized pass/fail banner for a test section.">
 <polygon fill="white" stroke="#666666" points="240.5,-580.5 136.5,-580.5 136.5,-550.5 240.5,-550.5 240.5,-580.5"/>
 <text text-anchor="start" x="144.5" y="-568.5" font-family="Helvetica,sans-Serif" font-size="10.00">print_test_section</text>
 <text text-anchor="middle" x="188.5" y="-557.5" font-family="Helvetica,sans-Serif" font-size="10.00">_status</text>

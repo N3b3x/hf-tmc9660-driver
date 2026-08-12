@@ -337,8 +337,8 @@ inline void print_test_summary(const TestResults& test_results, const char* test
 }
 
 /**
- * @brief Print standardized test summary
- * @param test_results The TestResults instance to summarize
+ * @brief Print a standardized pass/fail banner for a test section.
+ * @param tag ESP log tag to emit under
  * @param test_suite_name Name of the test suite for logging
  */
 inline void print_test_section_status(const char* tag, const char* test_suite_name) noexcept {
