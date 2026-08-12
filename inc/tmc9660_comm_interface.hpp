@@ -745,7 +745,11 @@ protected:
    * automatically retry the command up to this many times.
    * Default: 3 retries
    */
-  uint8_t spiRetryMaxCount_ = 3;
+  /* Parameter-mode SPI is serviced by chip firmware; with the FOC engine
+   * running it can answer NOT_READY (0x00) for several ms. 3×100 µs starved
+   * the reply on the GIM4305 bench once frames were delivered intact —
+   * budget 50×200 µs = 10 ms bounded worst case (thread context only). */
+  uint8_t spiRetryMaxCount_ = 50;
 
   /**
    * @brief Delay interval in microseconds between retry attempts.
@@ -754,7 +758,7 @@ protected:
    * microseconds before retrying.
    * Default: 100us (0.1ms) - fine-grained for fast SPI communication
    */
-  uint32_t spiRetryIntervalUs_ = 100;
+  uint32_t spiRetryIntervalUs_ = 200;
 
   /**
    * @brief Debug logging function for detailed debugging information.
@@ -942,63 +946,77 @@ public:
   bool transferTMCL(const TMCLFrame& tx, TMCLReply& reply, uint8_t, TMCLReply* first_reply,
                     const TMCLFrame* second_command) noexcept {
     std::array<uint8_t, 8> tx_buf, rx_buf;
+    std::array<uint8_t, 8> tx2_buf, rx1_buf;
     tx.toSpi(tx_buf);
 
     TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL TX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                       tx_buf[0], tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5], tx_buf[6],
                       tx_buf[7]);
 
-    // Transaction 1: Send command, receive first reply
-    if (!spiTransferTMCL(tx_buf, rx_buf))
+    /* Reply-request frame per ADI TMC-API (tmc9660_param_sendCommand_SPI):
+     * opcode 0xFF, all other fields zero → wire bytes FF 00 .. 00 FF. An
+     * all-zero op-0 frame is parsed by the chip as a (bad) command — it
+     * queues a CHKERR reply while the requested reply is being clocked out,
+     * which corrupted reply value bytes (HIL: GAP 46/60 byte-3 staleness). */
+    TMCLFrame cmd2{};
+    cmd2.opcode = 0xFFu;
+    if (second_command != nullptr) {
+      cmd2 = *second_command;
+    }
+    cmd2.toSpi(tx2_buf);
+
+    /* Prefer hostSpiTransferTMCLPair when Derived provides it (STM32 shared-bus
+     * TransferChain). Gap must be long enough for the TMCL parser to latch cmd1
+     * before cmd2 clocks the reply — 300 µs was marginal at 1 MHz on Mid. */
+    constexpr uint32_t kTmclPairGapUs = 1000U;
+    bool pair_ok = false;
+    if constexpr (requires(Derived& d, std::array<uint8_t, 8>& a, uint32_t g) {
+                    d.hostSpiTransferTMCLPair(a, a, a, a, g);
+                  }) {
+      pair_ok = static_cast<Derived*>(this)->hostSpiTransferTMCLPair(
+          tx_buf, rx1_buf, tx2_buf, rx_buf, kTmclPairGapUs);
+    } else {
+      if (!spiTransferTMCL(tx_buf, rx1_buf)) {
+        return false;
+      }
+      static_cast<Derived*>(this)->delayUs(kTmclPairGapUs);
+      pair_ok = spiTransferTMCL(tx2_buf, rx_buf);
+    }
+    if (!pair_ok) {
       return false;
+    }
 
     TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL RX 1 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                      rx1_buf[0], rx1_buf[1], rx1_buf[2], rx1_buf[3], rx1_buf[4], rx1_buf[5],
+                      rx1_buf[6], rx1_buf[7]);
+    TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
+                      tx2_buf[0], tx2_buf[1], tx2_buf[2], tx2_buf[3], tx2_buf[4], tx2_buf[5],
+                      tx2_buf[6], tx2_buf[7]);
+    TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL", "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X",
                       rx_buf[0], rx_buf[1], rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5], rx_buf[6],
                       rx_buf[7]);
 
     // Optionally capture first reply (this is the reply to the PREVIOUS command due to SPI delay)
     if (first_reply) {
-      bool first_parse_ok = TMCLReply::fromSpi(rx_buf, *first_reply);
+      bool first_parse_ok = TMCLReply::fromSpi(rx1_buf, *first_reply);
       TMC9660_LOG_TMCL_RAW_FRAME(
           *static_cast<Derived*>(this), 2, "SPI_TMCL",
           "          └─> SPI_Status=0x%02X, TMCL_Status=0x%02X, Value=0x%08X (parse %s)",
           static_cast<uint8_t>(first_reply->spi_status), first_reply->status, first_reply->value,
           first_parse_ok ? "OK" : "failed");
-      // Note: We don't return false here because SESSION_START may have non-standard format
-      // The caller can check rawBytes[0] for SESSION_START status codes
     }
 
-    // Give the TMCL parser time to latch the command from transaction 1 before transaction 2
-    // clocks out its reply. Without this gap, some boards at >=1 MHz SPI return
-    // REPLY_INVALID_CMD / REPLY_INVALID_VALUE on the *second* transfer even though the
-    // wire bytes look valid (see HalSpiTmc9660Comm notes in hf-core).
-    static_cast<Derived*>(this)->delayUs(300);
-
-    // Transaction 2: Send second command (or NO_OP), receive final reply
-    // This transaction is wrapped in retry logic for SPI_STATUS_NOT_READY
-    TMCLFrame cmd2 = second_command ? *second_command : TMCLFrame{}; // NO_OP if not provided
-    cmd2.toSpi(tx_buf);
-
-      // Retry loop for SPI_STATUS_NOT_READY responses
+    // Transaction 2 reply may be SPI_STATUS_NOT_READY — retry NO_OP only.
+    // An all-zero frame (status 0x00) is also retryable: the firmware-serviced
+    // SPI slave streams zeros while the FOC engine has not queued the reply
+    // yet (GIM4305 bench: zeros under motor load, valid reply after ~ms).
+    tx_buf = tx2_buf;
     uint8_t retry_count = 0;
     while (true) {
-      TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
-                        "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X%s", tx_buf[0],
-                        tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5], tx_buf[6], tx_buf[7],
-                        retry_count > 0 ? " (retry)" : "");
-
-      if (!spiTransferTMCL(tx_buf, rx_buf))
-        return false;
-
-      TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
-                        "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X", rx_buf[0], rx_buf[1],
-                        rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5], rx_buf[6], rx_buf[7]);
-
-      // Check SPI status byte (first byte) for NOT_READY
       SPIStatus spi_status = static_cast<SPIStatus>(rx_buf[0]);
 
-      if (spi_status == SPIStatus::NOT_READY) {
-        // System not ready - retry if we haven't exceeded max retries
+      if (spi_status == SPIStatus::NOT_READY ||
+          spi_status == SPIStatus::CHECKSUM_ERROR) {
         if (retry_count < this->spiRetryMaxCount_) {
           retry_count++;
           TMC9660_LOG_TMCL_RAW_FRAME(
@@ -1006,18 +1024,25 @@ public:
               "⚠️  SPI_STATUS_NOT_READY received, retrying (attempt %u/%u) after %u us", retry_count,
               this->spiRetryMaxCount_ + 1, this->spiRetryIntervalUs_);
           this->delayUs(this->spiRetryIntervalUs_);
-          continue; // Retry the transaction
+          TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
+                            "[TMCL TX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X (retry)",
+                            tx_buf[0], tx_buf[1], tx_buf[2], tx_buf[3], tx_buf[4], tx_buf[5],
+                            tx_buf[6], tx_buf[7]);
+          if (!spiTransferTMCL(tx_buf, rx_buf))
+            return false;
+          TMC9660_LOG_TMCL_RAW_FRAME(*static_cast<Derived*>(this), 2, "SPI_TMCL",
+                            "[TMCL RX 2 ] %02X %02X %02X %02X %02X %02X %02X %02X", rx_buf[0],
+                            rx_buf[1], rx_buf[2], rx_buf[3], rx_buf[4], rx_buf[5], rx_buf[6],
+                            rx_buf[7]);
+          continue;
         } else {
-          // Max retries exceeded - parse reply manually since fromSpi returns false for NOT_READY
           TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 1, "SPI_TMCL",
                             "❌ SPI_STATUS_NOT_READY: Max retries (%u) exceeded",
                             this->spiRetryMaxCount_);
-          // Validate checksum before parsing
           if (tmclChecksum(rx_buf.data(), 7) != rx_buf[7]) {
             TMC9660_LOG_DEBUG(*static_cast<Derived*>(this), 1, "SPI_TMCL", "⚠️  Checksum error in NOT_READY response");
             return false;
           }
-          // Manually populate reply structure for NOT_READY response
           std::copy(rx_buf.begin(), rx_buf.end(), reply.rawBytes.begin());
           reply.spi_status = SPIStatus::NOT_READY;
           reply.status = rx_buf[1];
@@ -1025,11 +1050,10 @@ public:
           reply.value = (static_cast<uint32_t>(rx_buf[3]) << 24) |
                         (static_cast<uint32_t>(rx_buf[4]) << 16) |
                         (static_cast<uint32_t>(rx_buf[5]) << 8) | static_cast<uint32_t>(rx_buf[6]);
-          return false; // Return false to indicate failure
+          return false;
         }
       }
 
-      // Not NOT_READY - parse and return normally
       break;
     }
 
