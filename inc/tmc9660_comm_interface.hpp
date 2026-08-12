@@ -95,11 +95,15 @@ namespace tmc9660 {
  * at compile time, including argument evaluation (via macro replacement).
  *
  * Example usage:
- *   #define TMC9660_DISABLE_DEBUG_LOGGING
- *   #include "TMC9660CommInterface.hpp"
+ * @code
+ * #define TMC9660_DISABLE_DEBUG_LOGGING
+ * #include "TMC9660CommInterface.hpp"
+ * @endcode
  *
  * Or via compiler flags:
- *   -DTMC9660_DISABLE_DEBUG_LOGGING
+ * @code{.sh}
+ * -DTMC9660_DISABLE_DEBUG_LOGGING
+ * @endcode
  */
 #ifndef TMC9660_DISABLE_DEBUG_LOGGING
 // Debug logging enabled - use actual function call

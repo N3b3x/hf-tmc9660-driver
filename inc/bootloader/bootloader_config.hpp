@@ -1,6 +1,10 @@
 /**
  * @file bootloader_config.hpp
  * @brief TMC9660 bootloader configuration structures and enumerations
+ *
+ * @defgroup TMC9660_BootloaderConfig Bootloader Configuration
+ * @brief Configuration structures and enumerations applied during bootstrap
+ *
  * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
 #pragma once

@@ -233,9 +233,9 @@ public:
    * @param perform_reset If true (default), performs hardware reset sequence (RST pin toggle
    *                     + FAULTN monitoring) to ensure chip enters bootloader mode.
    *                     Set to false if you've already performed reset externally.
-   * @param retrieveBootloaderInfo If true, retrieves and logs all available bootloader
+   * @param retrieve_bootloader_info If true, retrieves and logs all available bootloader
    *                               information (version, features, git info, etc) for debugging.
-   * @param failOnVerifyError If true (default), initialization fails on read-back verification
+   * @param fail_on_verify_error If true (default), initialization fails on read-back verification
    *                          errors. If false, logs warnings but continues despite verification
    *                          failures (useful for debugging or when some configs are expected to
    * fail).
@@ -571,7 +571,7 @@ public:
      * Controls whether motor phases are driven or left floating (high-impedance) when commutation
      * is disabled.
      *
-     * @param pwm_off_when_idle
+     * @param pwmOffWhenIdle
      *        True  → high-Z / disconnected phases
      *        False → all phases driven equally (same PWM output)
      * @return true if the parameter was set successfully.
@@ -905,8 +905,8 @@ public:
      * 1. With the motor stationary
      * 2. With the commutation mode set to off
      *
-     * @param wait_for_completion If true, wait until calibration is completed
-     * @param timeout_ms Timeout in milliseconds if waiting for completion
+     * @param waitForCompletion If true, wait until calibration is completed
+     * @param timeoutMs Timeout in milliseconds if waiting for completion
      * @return true if calibration was started (and completed if
      * wait_for_completion is true)
      */
@@ -1695,16 +1695,16 @@ public:
      *
      * This enables Hall sensor inputs as the feedback for commutation.
      * Typically used with tmc9660::tmcl::CommutationMode::FOC_HALL.
-     * @param sector_offset Hall sensor 60-degree/sector offset
+     * @param sectorOffset Hall sensor 60-degree/sector offset
      * (tmc9660::tmcl::HallSectorOffset):
      *                     tmc9660::tmcl::HallSectorOffset::DEG_0, DEG_60,
      * DEG_120, DEG_180, DEG_240, DEG_300 This combines both the 120° order
      * offset and 180° polarity offset.
      * @param inverted If true, invert the interpretation of hall sensor signals
      * (tmc9660::tmcl::Direction).
-     * @param enable_extrapolation If true, enable hall extrapolation for higher
+     * @param enableExtrapolation If true, enable hall extrapolation for higher
      * resolution position signal (tmc9660::tmcl::EnableDisable).
-     * @param filter_length Digital filter length (0-255) for hall sensor inputs.
+     * @param filterLength Digital filter length (0-255) for hall sensor inputs.
      * @return true if Hall sensor feedback is configured successfully.
      */
     bool configureHall(
@@ -1724,7 +1724,7 @@ public:
      * @param offset180 Offset for 180° Hall position (-32768 to 32767)
      * @param offset240 Offset for 240° Hall position (-32768 to 32767)
      * @param offset300 Offset for 300° Hall position (-32768 to 32767)
-     * @param global_offset Additional global offset applied to all positions
+     * @param globalOffset Additional global offset applied to all positions
      * (-32768 to 32767)
      * @return true if Hall position offsets were set successfully.
      */
@@ -1744,7 +1744,7 @@ public:
      * @param offset180Deg Offset for 180° Hall position in degrees
      * @param offset240Deg Offset for 240° Hall position in degrees
      * @param offset300Deg Offset for 300° Hall position in degrees
-     * @param global_offset_deg Additional global offset in degrees
+     * @param globalOffsetDeg Additional global offset in degrees
      * @return true if Hall position offsets were set successfully.
      */
     bool setHallPositionOffsetsDegrees(float offset0Deg = 0.0f, float offset60Deg = 60.0f,
@@ -1763,7 +1763,7 @@ public:
      * @param offset180Rad Offset for 180° Hall position in radians
      * @param offset240Rad Offset for 240° Hall position in radians
      * @param offset300Rad Offset for 300° Hall position in radians
-     * @param global_offset_rad Additional global offset in radians
+     * @param globalOffsetRad Additional global offset in radians
      * @return true if Hall position offsets were set successfully.
      */
     bool setHallPositionOffsetsRadians(float offset0Rad = 0.0f, float offset60Rad = 1.04719755f,
@@ -1811,7 +1811,7 @@ public:
      * 0-16777215).
      * @param inverted If true, invert the encoder direction
      * (tmc9660::tmcl::Direction).
-     * @param n_channel_inverted If true, invert the N-channel signal (active low
+     * @param nChannelInverted If true, invert the N-channel signal (active low
      * instead of active high) (tmc9660::tmcl::EnableDisable).
      * @return true if encoder parameters were set successfully.
      */
@@ -1826,14 +1826,14 @@ public:
      * Sets the method used to align the ABN encoder with the rotor's absolute
      * position.
      *
-     * @param init_method Initialization method (tmc9660::tmcl::AbnInitMethod):
+     * @param initMethod Initialization method (tmc9660::tmcl::AbnInitMethod):
      *                   FORCED_PHI_E_ZERO_WITH_ACTIVE_SWING,
      * FORCED_PHI_E_90_ZERO, USE_HALL, USE_N_CHANNEL_OFFSET
-     * @param init_delay Delay in milliseconds to wait for mechanical
+     * @param initDelay Delay in milliseconds to wait for mechanical
      * oscillations to stop (1000-10000)
-     * @param init_velocity Velocity used during N-channel initialization
+     * @param initVelocity Velocity used during N-channel initialization
      * (-200000 to 200000)
-     * @param n_channel_offset Offset between phi_e zero and encoder index pulse
+     * @param nChannelOffset Offset between phi_e zero and encoder index pulse
      * position (-32768 to 32767)
      * @return true if ABN initialization parameters were set successfully.
      */
@@ -1866,11 +1866,11 @@ public:
      * Sets up filtering for the N-channel (index pulse) to handle imprecise
      * encoders.
      *
-     * @param filter_mode N-channel filtering mode
+     * @param filterMode N-channel filtering mode
      * (tmc9660::tmcl::AbnNChannelFiltering): FILTERING_OFF,
      * N_EVENT_ON_A_HIGH_B_HIGH, N_EVENT_ON_A_HIGH_B_LOW,
      * N_EVENT_ON_A_LOW_B_HIGH, N_EVENT_ON_A_LOW_B_LOW
-     * @param clear_on_next_null If true, clear position counter on next N-channel
+     * @param clearOnNextNull If true, clear position counter on next N-channel
      * event (tmc9660::tmcl::EnableDisable).
      * @return true if N-channel settings were applied successfully.
      */
@@ -1890,7 +1890,7 @@ public:
      * @param counts_per_rev Encoder resolution in counts per revolution.
      * @param inverted     True to invert the encoder direction
      * (tmc9660::tmcl::Direction).
-     * @param gear_ratio    Gear ratio between the second encoder and the
+     * @param gearRatio    Gear ratio between the second encoder and the
      *                     motor shaft. Use 1 if directly coupled.
      * @return true if all parameters were written successfully.
      */
@@ -1954,8 +1954,8 @@ public:
      * Sets up how the position data is extracted from the SPI encoder response.
      *
      * @param position_mask Bit mask to extract position from SPI response.
-     * @param position_shift Right shift value to apply to position counter.
-     * @param invert_direction If true, invert the direction of the SPI encoder
+     * @param positionShift Right shift value to apply to position counter.
+     * @param invertDirection If true, invert the direction of the SPI encoder
      * (tmc9660::tmcl::Direction).
      * @return true if configuration was successful.
      */
@@ -1992,7 +1992,7 @@ public:
      *
      * @param enable If true, enable LUT correction
      * (tmc9660::tmcl::EnableDisable).
-     * @param shift_factor Common shift factor for all LUT entries.
+     * @param shiftFactor Common shift factor for all LUT entries.
      * @return true if LUT settings were applied successfully.
      */
     bool setSPIEncoderLUTCorrection(tmc9660::tmcl::EnableDisable enable,
@@ -2319,8 +2319,8 @@ public:
      * separate).
      * @param i          Integral gain for torque (and flux if not separate).
      * @param separate   true to use separate flux gains.
-     * @param flux_p      Proportional gain for flux loop.
-     * @param flux_i      Integral gain for flux loop.
+     * @param fluxP      Proportional gain for flux loop.
+     * @param fluxI      Integral gain for flux loop.
      * @return true if written.
      */
     bool setCurrentLoopGains(uint16_t p, uint16_t i, bool separate = false, uint16_t fluxP = 0,
@@ -2795,7 +2795,7 @@ public:
 
     /** @brief Configure stop-on-velocity-deviation.
      * @param max_error Max allowed deviation.
-     * @param soft_stop true for ramp down, false for hard stop.
+     * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
     bool setStopOnVelocityDeviation(uint32_t max_error, bool softStop = true) noexcept;
@@ -3203,7 +3203,7 @@ public:
 
     /** @brief Configure stop-on-position-deviation.
      * @param max_error Max allowed deviation.
-     * @param soft_stop true for ramp down, false for hard stop.
+     * @param softStop true for ramp down, false for hard stop.
      * @return true if written.
      */
     bool setStopOnPositionDeviation(uint32_t max_error, bool softStop = true) noexcept;
@@ -4282,7 +4282,7 @@ public:
      *
      * @param max_vel_error Maximum allowed velocity error.
      * @param max_pos_error Maximum allowed position error.
-     * @param soft_stop Use soft stop instead of immediate stop when true.
+     * @param softStop Use soft stop instead of immediate stop when true.
      * @return true on success
      *
      * @see EVENT_STOP_SETTINGS and STOP_ON_*_DEVIATION in the datasheet.
@@ -4292,11 +4292,6 @@ public:
         bool softStop = true) noexcept; ///< STOP_ON_*_DEVIATION + EVENT_STOP_SETTINGS
                                         ///< @see Datasheet EVENT_STOP_SETTINGS
 
-    /** @brief Configure reference / limit-switch inputs.
-     * @param mask  Bit-mask 0…7 ; see REFERENCE_SWITCH_ENABLE.
-     * @param invert_l,R,H    invert individual polarities.
-     * @param swap_lr         swap left/right wiring.
-     */
     /** @brief Configure reference and limit switch inputs.
      *
      * @param mask    Bit mask of switches to enable (see REFERENCE_SWITCH_ENABLE).
@@ -4939,8 +4934,8 @@ public:
      *
      * @param pin GPIO index (e.g. GPIO0..GPIO18)
      * @param output Set to true to make the pin output, false = input
-     * @param pull_enable Enable pull resistor
-     * @param pull_up true = pull-up, false = pull-down
+     * @param pullEnable Enable pull resistor
+     * @param pullUp true = pull-up, false = pull-down
      * @return true if configuration applied successfully
      */
     bool setMode(uint8_t pin, bool output, bool pullEnable = false, bool pullUp = true) noexcept;

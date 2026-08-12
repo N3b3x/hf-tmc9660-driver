@@ -1,6 +1,10 @@
 /**
  * @file bootloader_utils.hpp
  * @brief TMC9660 bootloader utility functions and helpers
+ *
+ * @defgroup TMC9660_BootloaderUtils Bootloader Utilities
+ * @brief Checksum and framing helpers shared by the bootloader transports
+ *
  * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
 #pragma once

@@ -1,18 +1,17 @@
 /**
  * @file tmc9660_adc.hpp
- * @brief TMC9660 ADC and analog measurement registers (Register Mode)
- * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
- */
-#pragma once
-#include <cstdint>
-
-/**
- * @file tmc9660_adc.hpp
  * @brief TMC9660 ADC and analog measurement registers (Register Mode).
  *
  * Contains definitions for ADC readings (phase currents, voltages, temperature) and ADC/CSA
  * configuration registers.
+ *
+ * @defgroup TMC9660_ADC ADC and Analog Measurement
+ * @brief ADC readings and ADC/CSA configuration registers (Register Mode)
+ *
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
+#pragma once
+#include <cstdint>
 
 namespace tmc9660 {
 namespace register_mode {

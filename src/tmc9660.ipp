@@ -25,7 +25,7 @@ using namespace tmc9660;
  *
  * @param comm Reference to a user-implemented communication interface
  * @param address Module address for multi-device systems (0-127, masked to 7 bits)
- * @param boot_cfg Optional bootloader configuration (can be set later)
+ * @param bootCfg Optional bootloader configuration (can be set later)
  */
 template <typename CommType>
 TMC9660<CommType>::TMC9660(CommType& comm, uint8_t address,

@@ -1,6 +1,10 @@
 /**
  * @file tmc9660_bootloader.hpp
  * @brief Main TMC9660 bootloader interface class
+ *
+ * @defgroup TMC9660_Bootloader Bootloader Interface
+ * @brief Bootstrap, verification, and mode-transition entry points
+ *
  * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
 #pragma once

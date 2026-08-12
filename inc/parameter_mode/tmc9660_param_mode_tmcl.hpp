@@ -1,35 +1,29 @@
 /**
  * @file tmc9660_param_mode_tmcl.hpp
- * @brief TMCL operation and reply code enumerations for TMC9660 parameter mode
+ * @brief Enumerations and helpers for **TMCL® operation & reply codes** when the TMC9660 is
+ *        used in *Parameter Mode*.
+ *
+ * Provides the TMCL command definitions, parameter enumerations, and helper structures needed
+ * for complete motor control functionality: all operation codes, parameter definitions, and
+ * reply structures.
+ *
+ * @defgroup TMC9660_TMCL TMCL Command Interface
+ * @brief TMCL operation codes and command structures
+ *
+ * @defgroup TMC9660_TMCLParameters TMCL Parameters
+ * @brief Parameter definitions for motor control and system configuration
+ *
+ * @defgroup TMC9660_TMCLReplies TMCL Reply Structures
+ * @brief Reply structures and status codes for TMCL commands
+ *
+ * @defgroup TMC9660_TMCLTypes TMCL Type Definitions
+ * @brief Enums and type definitions for TMCL operations
+ *
  * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
+ * @copyright © 2025 Nebiyu Tadesse. Released under the GNU GPL V3 License.
  */
 
 // clang-format off
-//====================================================================================================================
-//  @file tmc9660_param_mode_tmcl.hpp
-//  @brief Enumerations and helpers for **TMCL® operation & reply codes** when the TMC9660 is used
-//  in *Parameter Mode*.
-//
-//  This file provides comprehensive TMCL command definitions, parameter enumerations,
-//  and helper structures for the TMC9660 motor driver in parameter mode operation.
-//  It includes all operation codes, parameter definitions, and reply structures
-//  needed for complete motor control functionality.
-//
-//  @defgroup TMC9660_TMCL TMCL Command Interface
-//  @brief TMCL operation codes and command structures
-//
-//  @defgroup TMC9660_TMCLParameters TMCL Parameters
-//  @brief Parameter definitions for motor control and system configuration
-//
-//  @defgroup TMC9660_TMCLReplies TMCL Reply Structures
-//  @brief Reply structures and status codes for TMCL commands
-//
-//  @defgroup TMC9660_TMCLTypes TMCL Type Definitions
-//  @brief Enums and type definitions for TMCL operations
-//
-//  --------------------------------------------------------------------------------------------------
-//  © 2025 <Nebiyu Tadesse>. Released under the GNU GPL V3 License.
-//====================================================================================================================
 #pragma once
 #include <cstdint>
 
@@ -1731,6 +1725,9 @@ inline const char* to_string(PwmSwitchingScheme scheme) {
  *   - 1: PWM_OFF_WHEN_MOTOR_IDLE (default)
  */
 /// @}
+
+/// @name Commutation Modes
+/// @{
 //--------------------------------------
 //  Commutation Modes
 //--------------------------------------
@@ -4600,6 +4597,7 @@ inline const char* to_string(HibernationWakeup e) {
         default: return "UNKNOWN";
     }
 }
+/// @}
 
 /////////////////////////////////////////////
 //    ╔═╗╔╗╔╦ ╦╔╦╗╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔╗╔╔═╗   //
@@ -4652,6 +4650,7 @@ inline const char* to_string(PowerDownTimeout e) {
     }
 }
 #undef POWER_DOWN_TIMEOUT_LIST
+/// @}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                  //

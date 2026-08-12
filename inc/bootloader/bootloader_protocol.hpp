@@ -1,6 +1,10 @@
 /**
  * @file bootloader_protocol.hpp
  * @brief TMC9660 bootloader communication protocol structures and enumerations
+ *
+ * @defgroup TMC9660_BootloaderProtocol Bootloader Protocol
+ * @brief Datagram structures and status codes for the 40-bit bootloader protocol
+ *
  * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
 #pragma once

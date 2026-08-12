@@ -399,14 +399,14 @@ bool TMC9660Bootloader<CommType>::write32Inc(uint32_t v) noexcept {
  * which automatically increments the address pointer after each write.
  * This is useful for writing configuration blocks or data arrays.
  *
- * @param vals Pointer to array of 32-bit values to write
+ * @param values Pointer to array of 32-bit values to write
  * @param count Number of 32-bit values to write
  * @return true if all writes were successful, false on error
  */
 template <typename CommType>
-bool TMC9660Bootloader<CommType>::write32IncMultiple(const uint32_t* vals, size_t count) noexcept {
+bool TMC9660Bootloader<CommType>::write32IncMultiple(const uint32_t* values, size_t count) noexcept {
   for (size_t i = 0; i < count; ++i) {
-    if (!write32Inc(vals[i]))
+    if (!write32Inc(values[i]))
       return false;
   }
   return true;
@@ -474,20 +474,20 @@ bool TMC9660Bootloader<CommType>::otpLoad(uint8_t page, uint8_t* errorCount, uin
  * The OTP memory is used for storing permanent configuration data.
  *
  * @param page OTP page number to burn (0-255)
- * @param pageAddr OTP page address to write (0-255)
+ * @param page_addr OTP page address to write (0-255)
  * @param result Pointer to store the detailed burn result with error information
  * @return true if command was sent successfully, false on communication error
  * @note Check result.isSuccess and result.error_code for burn operation status
  * @warning This operation is irreversible! Use with extreme caution.
  */
 template <typename CommType>
-bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t pageAddr, OtpBurnResult* result) noexcept {
+bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t page_addr, OtpBurnResult* result) noexcept {
   if (!result) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "otpBurn: null result pointer");
     return false;
   }
 
-  uint32_t value = (static_cast<uint32_t>(pageAddr) << 8) | page;
+  uint32_t value = (static_cast<uint32_t>(page_addr) << 8) | page;
   uint32_t reply = 0;
 
   if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value, &reply)) {
@@ -509,9 +509,9 @@ bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t pageAddr, OtpBur
 
 template <typename CommType>
 
-bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t pageAddr) noexcept {
+bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t page_addr) noexcept {
   OtpBurnResult result;
-  if (!otpBurn(page, pageAddr, &result)) {
+  if (!otpBurn(page, page_addr, &result)) {
     return false;
   }
 
@@ -540,16 +540,16 @@ bool TMC9660Bootloader<CommType>::otpBurn(uint8_t page, uint8_t pageAddr) noexce
  * silicon revisions.
  *
  * @param page OTP page number to burn
- * @param pageAddr Address within the OTP page
+ * @param page_addr Address within the OTP page
  * @param result Pointer to store burn operation result
- * @param vdrvWaitMs Milliseconds to wait for VDRV voltage drop (typically 100-200ms)
+ * @param vdrv_wait_ms Milliseconds to wait for VDRV voltage drop (typically 100-200ms)
  * @return true if workaround sequence completed successfully, false on error
  * @note This method implements TMC9660 Erratum 1 workaround - do not use standard OTP burn
  * @warning VDRV voltage timing is critical - incorrect timing may cause burn failure
  */
 template <typename CommType>
-bool TMC9660Bootloader<CommType>::otpBurnWithWorkaround(uint8_t page, uint8_t pageAddr, OtpBurnResult* result,
-                                              uint32_t vdrvWaitMs) noexcept {
+bool TMC9660Bootloader<CommType>::otpBurnWithWorkaround(uint8_t page, uint8_t page_addr, OtpBurnResult* result,
+                                              uint32_t vdrv_wait_ms) noexcept {
   if (!result) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "otpBurnWithWorkaround: null result pointer");
     return false;
@@ -557,7 +557,7 @@ bool TMC9660Bootloader<CommType>::otpBurnWithWorkaround(uint8_t page, uint8_t pa
 
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader",
                     "Starting OTP burn with Erratum 1 workaround (page=%d, addr=0x%02X)", page,
-                    pageAddr);
+                    page_addr);
 
   // Step 1: Send SET_BANK, value 0
   TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader", "Step 1: Setting bank to 0");
@@ -600,12 +600,12 @@ bool TMC9660Bootloader<CommType>::otpBurnWithWorkaround(uint8_t page, uint8_t pa
 
   // Step 6: Wait for VDRV voltage to drop below 8.4V
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader",
-                    "Step 6: Waiting %dms for VDRV voltage to drop below 8.4V", vdrvWaitMs);
-  comm_.delayMs(vdrvWaitMs);
+                    "Step 6: Waiting %dms for VDRV voltage to drop below 8.4V", vdrv_wait_ms);
+  comm_.delayMs(vdrv_wait_ms);
 
   // Step 7: Send OTP_BURN
   TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader", "Step 7: Sending OTP_BURN command");
-  uint32_t value = (static_cast<uint32_t>(pageAddr) << 8) | page;
+  uint32_t value = (static_cast<uint32_t>(page_addr) << 8) | page;
   uint32_t reply = 0;
 
   if (!sendCommand(static_cast<uint8_t>(BootloaderCommand::OTP_BURN), value, &reply)) {
@@ -973,7 +973,7 @@ bool TMC9660Bootloader<CommType>::getPartitionVersion(PartitionVersion* version)
  * 10. Boot configuration (FINAL - may exit bootloader)
  *
  * @param cfg Complete bootloader configuration to apply
- * @param failOnVerifyError If true, return false on read-back verification failure;
+ * @param fail_on_verify_error If true, return false on read-back verification failure;
  *                          if false, log warning but continue
  * @return true if configuration was applied successfully, false on error
  * @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
@@ -999,7 +999,7 @@ bool TMC9660Bootloader<CommType>::getPartitionVersion(PartitionVersion* version)
  * 10. Boot configuration - FINAL step (may exit bootloader mode)
  *
  * @param cfg Complete bootloader configuration structure to apply
- * @param failOnVerifyError If true, return false on read-back verification failure;
+ * @param fail_on_verify_error If true, return false on read-back verification failure;
  *                          if false, log warning but continue with configuration
  * @return true if configuration was applied successfully, false on error
  * @note If cfg.boot.start_motor_control is true, bootloader will exit after this call
@@ -1007,7 +1007,7 @@ bool TMC9660Bootloader<CommType>::getPartitionVersion(PartitionVersion* version)
  */
 template <typename CommType>
 bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg,
-                                           bool failOnVerifyError) noexcept {
+                                           bool fail_on_verify_error) noexcept {
   TMC9660_LOG_DEBUG(comm_, 3, "TMC9660Bootloader", "Starting bootloader configuration application");
 
   if (!setBank(5)) {
@@ -1037,7 +1037,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify LDO configuration was written correctly
   if (!readAndVerify16(ldo, "LDO config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "LDO configuration verification failed");
       return false;
     } else {
@@ -1101,7 +1101,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
   uint32_t actual_clock;
   if (!read32(&actual_clock)) {
     TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Failed to read back clock config");
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       return false;
     } else {
       TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader", "⚠️  Clock config read failed (continuing)");
@@ -1109,7 +1109,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
   } else {
     // First check: PLL_STATUS must be SET after clock reconfiguration
     if (!(actual_clock & (1u << 30))) {
-      if (failOnVerifyError) {
+      if (fail_on_verify_error) {
         TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
                           "❌ PLL_STATUS not set after clock reconfiguration: 0x%08X", actual_clock);
         TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
@@ -1130,7 +1130,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
     uint32_t actual_config = actual_clock & ~(1u << 30); // Mask out PLL_STATUS bit for comparison
 
     if (actual_config != expected_config) {
-      if (failOnVerifyError) {
+      if (fail_on_verify_error) {
         TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
                           "❌ Clock config verification failed: expected=0x%08X, actual=0x%08X",
                           expected_config, actual_config);
@@ -1170,7 +1170,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify UART addresses were written correctly
   if (!readAndVerify16(addr_word, "UART addresses")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "UART addresses verification failed");
       return false;
     } else {
@@ -1197,7 +1197,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify RS485 delays were written correctly
   if (!readAndVerify16(rs485, "RS485 delays")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "RS485 delays verification failed");
       return false;
     } else {
@@ -1403,7 +1403,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify communication config was written correctly
   if (!readAndVerify16(comm, "Communication config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Communication config verification failed");
       return false;
     } else {
@@ -1490,7 +1490,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
   comm_.delayMs(1);
 
   if (!readAndVerify16(flash, "SPI flash config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "SPI flash config verification failed");
       return false;
     } else {
@@ -1525,13 +1525,13 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
     if (!setAddress(bootaddr::I2C_CONFIG)) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
                         "Failed to reset I2C config register address for verification");
-      if (failOnVerifyError)
+      if (fail_on_verify_error)
         return false;
     }
   }
 
   if (!readAndVerify16(i2c, "I2C config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "I2C config verification failed");
       return false;
     } else {
@@ -1559,7 +1559,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify GPIO output levels were written correctly
   if (!readAndVerify16(cfg.gpio.outputMask_0_15, "GPIO output levels")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "GPIO output levels verification failed");
       return false;
     } else {
@@ -1584,7 +1584,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify GPIO direction was written correctly
   if (!readAndVerify16(cfg.gpio.directionMask_0_15, "GPIO direction")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "GPIO direction verification failed");
       return false;
     } else {
@@ -1609,7 +1609,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify GPIO pull-up was written correctly
   if (!readAndVerify16(cfg.gpio.pullUpMask_0_15, "GPIO pull-up")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "GPIO pull-up verification failed");
       return false;
     } else {
@@ -1634,7 +1634,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify GPIO pull-down was written correctly
   if (!readAndVerify16(cfg.gpio.pullDownMask_0_15, "GPIO pull-down")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "GPIO pull-down verification failed");
       return false;
     } else {
@@ -1670,7 +1670,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify GPIO extended config was written correctly
   if (!readAndVerify16(gpio_ext, "GPIO extended config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "GPIO extended config verification failed");
       return false;
     } else {
@@ -1714,7 +1714,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify Hall/ABN1 config was written correctly
   if (!readAndVerify16(hall_abn1, "Hall/ABN1 config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Hall/ABN1 config verification failed");
       return false;
     } else {
@@ -1759,7 +1759,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify ABN2/REF/StepDir config was written correctly
   if (!readAndVerify16(abn2_ref_stepdir, "ABN2/REF/StepDir config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader",
                         "ABN2/REF/StepDir config verification failed");
       return false;
@@ -1797,7 +1797,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify brake config was written correctly
   if (!readAndVerify16(brake, "Brake config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Brake config verification failed");
       return false;
     } else {
@@ -1830,7 +1830,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify SPI encoder config was written correctly
   if (!readAndVerify16(spiEnc, "SPI encoder config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "SPI encoder config verification failed");
       return false;
     } else {
@@ -1861,7 +1861,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
 
   // Verify memory storage config was written correctly
   if (!readAndVerify8(mem_storage, "Memory storage config")) {
-    if (failOnVerifyError) {
+    if (fail_on_verify_error) {
       TMC9660_LOG_DEBUG(comm_, 0, "TMC9660Bootloader", "Memory storage config verification failed");
       return false;
     } else {
@@ -2088,7 +2088,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
   // IS WRITTEN
   // // Verify boot config was written correctly
   // if (!readAndVerify16(boot, "Boot config")) {
-  //   if (failOnVerifyError) {
+  //   if (fail_on_verify_error) {
   //     TMC9660_LOG_DEBUG(comm_,0, "TMC9660Bootloader", "Boot config verification failed");
   //     return false;
   //   } else {
@@ -2128,7 +2128,7 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
  * respond to commands. All bootloader configuration must be completed BEFORE
  * calling this function.
  *
- * @param bootMode Motor control mode to start (Register or Parameter mode)
+ * @param boot_mode Motor control mode to start (Register or Parameter mode)
  * @return true if command sent successfully, false on error
  * @note The bootloader exits immediately after this command
  * @note Allow 100-150ms for motor control to fully initialize after calling
@@ -2148,9 +2148,9 @@ bool TMC9660Bootloader<CommType>::applyConfiguration(const BootloaderConfig& cfg
  * @endcode
  */
 template <typename CommType>
-bool TMC9660Bootloader<CommType>::startMotorControl(bootcfg::BootMode bootMode) noexcept {
+bool TMC9660Bootloader<CommType>::startMotorControl(bootcfg::BootMode boot_mode) noexcept {
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader", "Starting motor control system (mode: %d)...",
-                    static_cast<int>(bootMode));
+                    static_cast<int>(boot_mode));
 
   // Set bank to CONFIG (bank 5)
   if (!setBank(5)) {
@@ -2171,7 +2171,7 @@ bool TMC9660Bootloader<CommType>::startMotorControl(bootcfg::BootMode bootMode) 
 
   // Construct BOOT_CONFIG value with START_MOTOR_CTRL=1
   uint32_t boot_config = 0;
-  boot_config |= static_cast<uint32_t>(bootMode) & 0x3; // Bits 0-1: BOOT_MODE
+  boot_config |= static_cast<uint32_t>(boot_mode) & 0x3; // Bits 0-1: BOOT_MODE
   boot_config |= (1u << 12);                            // Bit 12: START_MOTOR_CTRL = 1
 
   // Optional: Set BL_EXIT_FAULT to get FAULTN signal when exiting (helps debugging)
@@ -2179,7 +2179,7 @@ bool TMC9660Bootloader<CommType>::startMotorControl(bootcfg::BootMode bootMode) 
 
   TMC9660_LOG_DEBUG(comm_, 2, "TMC9660Bootloader",
                     "Writing BOOT_CONFIG=0x%08X (mode=%d, START_MOTOR_CTRL=1)", boot_config,
-                    static_cast<int>(bootMode));
+                    static_cast<int>(boot_mode));
 
   // Write the boot configuration
   // ⚠️ CRITICAL: After this write completes, the bootloader will EXIT!
@@ -2191,7 +2191,7 @@ bool TMC9660Bootloader<CommType>::startMotorControl(bootcfg::BootMode bootMode) 
   TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader",
                     "⚠️  START_MOTOR_CTRL command sent - Bootloader is EXITING NOW!");
   TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader", "⚠️  Motor control system starting in %s mode",
-                    bootMode == bootcfg::BootMode::Parameter ? "PARAMETER" : "REGISTER");
+                    boot_mode == bootcfg::BootMode::Parameter ? "PARAMETER" : "REGISTER");
   TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader",
                     "⚠️  Allow 100-150ms for motor control to fully initialize");
   TMC9660_LOG_DEBUG(comm_, 1, "TMC9660Bootloader",

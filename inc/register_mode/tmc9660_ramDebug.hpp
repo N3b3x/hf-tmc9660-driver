@@ -1,19 +1,18 @@
 /**
  * @file tmc9660_ramDebug.hpp
- * @brief RAMDebug register definitions and utilities for TMC9660
- * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
- */
-#pragma once
-#include <cstdint>
-
-/**
- * @file tmc9660_ramdebug.hpp
  * @brief RAMDebug register definitions and utilities for TMC9660.
  *
  * The RAMDebug block uses a composite register offset where the upper 4 bits
  * encode the subcommand and the lower 6 bits encode the index. All offsets
  * are within block number 31 for SPI (command 142 for UART).
+ *
+ * @defgroup TMC9660_RAMDebug RAMDebug Capture
+ * @brief Real-time internal register and signal capture for debugging
+ *
+ * @copyright Copyright (c) 2024-2025 HardFOC. All rights reserved.
  */
+#pragma once
+#include <cstdint>
 
 namespace tmc9660 {
 namespace register_mode {
