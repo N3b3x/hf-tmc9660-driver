@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['protocol_20structures_0',['TMCL Protocol Structures',['../group__TMC9660__TMCLProtocol.html',1,'']]]
+  ['gpio_20control_20interface_0',['GPIO Control Interface',['../group__TMC9660__GPIOControl.html',1,'']]]
 ];

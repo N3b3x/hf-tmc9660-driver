@@ -123,39 +123,39 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7219f3d47bfb6881ff39ad2d4fc4d7fd" id="r_a7219f3d47bfb6881ff39ad2d4fc4d7fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7219f3d47bfb6881ff39ad2d4fc4d7fd">setType</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aca79bacc506c0e580e82d767c6be4ad5">tmc9660::tmcl::MotorType</a> type, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> polePairs=1) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a7219f3d47bfb6881ff39ad2d4fc4d7fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the motor type (DC, BLDC, or stepper) and basic motor settings.  <br /></td></tr>
-<tr class="separator:a7219f3d47bfb6881ff39ad2d4fc4d7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeae1045faaa0e352de419a86220d07f" id="r_abeae1045faaa0e352de419a86220d07f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeae1045faaa0e352de419a86220d07f">setDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a48efe0a04c5eb4a54a7cc13556b239e1">tmc9660::tmcl::MotorDirection</a> direction) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:abeae1045faaa0e352de419a86220d07f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the motor direction inversion.  <br /></td></tr>
-<tr class="separator:abeae1045faaa0e352de419a86220d07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a578971ce72e561188930a154a2d79d1f" id="r_a578971ce72e561188930a154a2d79d1f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a578971ce72e561188930a154a2d79d1f">setPWMFrequency</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">frequency_hz</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a578971ce72e561188930a154a2d79d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the PWM frequency for the motor driver.  <br /></td></tr>
-<tr class="separator:a578971ce72e561188930a154a2d79d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35cb9fcec859e314e4c5ef6558e1e524" id="r_a35cb9fcec859e314e4c5ef6558e1e524"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35cb9fcec859e314e4c5ef6558e1e524">setCommutationMode</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">tmc9660::tmcl::CommutationMode</a> mode) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a35cb9fcec859e314e4c5ef6558e1e524"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the commutation mode for the motor.  <br /></td></tr>
-<tr class="separator:a35cb9fcec859e314e4c5ef6558e1e524"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a916b124a7b976a9465be2adbf0c1db" id="r_a1a916b124a7b976a9465be2adbf0c1db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a916b124a7b976a9465be2adbf0c1db">setOutputVoltageLimit</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a1a916b124a7b976a9465be2adbf0c1db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the output voltage limit for the FOC controller.  <br /></td></tr>
-<tr class="separator:a1a916b124a7b976a9465be2adbf0c1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a821f4c3f8f74005dcbcd7e62c3c6755a" id="r_a821f4c3f8f74005dcbcd7e62c3c6755a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a821f4c3f8f74005dcbcd7e62c3c6755a">getOutputVoltageLimit</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a821f4c3f8f74005dcbcd7e62c3c6755a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the output voltage limit for the FOC controller.  <br /></td></tr>
-<tr class="separator:a821f4c3f8f74005dcbcd7e62c3c6755a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bc88166c3bc3df6cca1b551420547e0" id="r_a8bc88166c3bc3df6cca1b551420547e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bc88166c3bc3df6cca1b551420547e0">setMaxTorqueCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">milliamps</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a8bc88166c3bc3df6cca1b551420547e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum allowed motor current (torque limit).  <br /></td></tr>
-<tr class="separator:a8bc88166c3bc3df6cca1b551420547e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab679a116efe421c55dc5d7b6c2565364" id="r_ab679a116efe421c55dc5d7b6c2565364"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab679a116efe421c55dc5d7b6c2565364">setMaxFluxCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">milliamps</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:ab679a116efe421c55dc5d7b6c2565364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum allowed flux current for BLDC/stepper motors.  <br /></td></tr>
-<tr class="separator:ab679a116efe421c55dc5d7b6c2565364"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb7a0cca54b2828a75754051efe248fa" id="r_acb7a0cca54b2828a75754051efe248fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb7a0cca54b2828a75754051efe248fa">setPWMSwitchingScheme</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeac">tmc9660::tmcl::PwmSwitchingScheme</a> <a class="el" href="classtmc9660_1_1CommInterface.html">scheme</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:acb7a0cca54b2828a75754051efe248fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the PWM switching scheme for the motor driver.  <br /></td></tr>
-<tr class="separator:acb7a0cca54b2828a75754051efe248fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d6d8135766726d95b4f9a134268d488" id="r_a6d6d8135766726d95b4f9a134268d488"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d6d8135766726d95b4f9a134268d488">setIdleMotorPWMBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#af7e1fd1feddc59bbe6bef614cc311af3">tmc9660::tmcl::IdleMotorPwmBehavior</a> <a class="el" href="classtmc9660_1_1CommInterface.html">pwmOffWhenIdle</a>=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a6d6d8135766726d95b4f9a134268d488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure PWM behavior when the motor is idle (System Off mode).  <br /></td></tr>
-<tr class="separator:a6d6d8135766726d95b4f9a134268d488"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ab5182e3a8878a48efea5341800584a" id="r_a3ab5182e3a8878a48efea5341800584a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ab5182e3a8878a48efea5341800584a">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">profile</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:a3ab5182e3a8878a48efea5341800584a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure motor parameters based on high-level motor characteristics.  <br /></td></tr>
-<tr class="separator:a3ab5182e3a8878a48efea5341800584a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdaa36f29c5748f8a693894ca6d6c4ba" id="r_abdaa36f29c5748f8a693894ca6d6c4ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abdaa36f29c5748f8a693894ca6d6c4ba">setType</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#aca79bacc506c0e580e82d767c6be4ad5">tmc9660::tmcl::MotorType</a> type, <a class="el" href="classtmc9660_1_1CommInterface.html">uint8_t</a> polePairs=1) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:abdaa36f29c5748f8a693894ca6d6c4ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the motor type (DC, BLDC, or stepper) and basic motor settings.  <br /></td></tr>
+<tr class="separator:abdaa36f29c5748f8a693894ca6d6c4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae603113643bb8a7f110ee7982d1c048c" id="r_ae603113643bb8a7f110ee7982d1c048c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae603113643bb8a7f110ee7982d1c048c">setDirection</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a48efe0a04c5eb4a54a7cc13556b239e1">tmc9660::tmcl::MotorDirection</a> direction) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ae603113643bb8a7f110ee7982d1c048c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the motor direction inversion.  <br /></td></tr>
+<tr class="separator:ae603113643bb8a7f110ee7982d1c048c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6b7d6632052cd6f3a55dc6bb17858d5" id="r_ae6b7d6632052cd6f3a55dc6bb17858d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6b7d6632052cd6f3a55dc6bb17858d5">setPWMFrequency</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">frequency_hz</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:ae6b7d6632052cd6f3a55dc6bb17858d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the PWM frequency for the motor driver.  <br /></td></tr>
+<tr class="separator:ae6b7d6632052cd6f3a55dc6bb17858d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2eeb399684813ffd646a6bb508a6432" id="r_af2eeb399684813ffd646a6bb508a6432"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2eeb399684813ffd646a6bb508a6432">setCommutationMode</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">tmc9660::tmcl::CommutationMode</a> mode) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:af2eeb399684813ffd646a6bb508a6432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the commutation mode for the motor.  <br /></td></tr>
+<tr class="separator:af2eeb399684813ffd646a6bb508a6432"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ecc14021d49b70cbf635b4d608412f3" id="r_a6ecc14021d49b70cbf635b4d608412f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ecc14021d49b70cbf635b4d608412f3">setOutputVoltageLimit</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a6ecc14021d49b70cbf635b4d608412f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the output voltage limit for the FOC controller.  <br /></td></tr>
+<tr class="separator:a6ecc14021d49b70cbf635b4d608412f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7b059c12892b2e9cf1c395a72bc1b5" id="r_a9c7b059c12892b2e9cf1c395a72bc1b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c7b059c12892b2e9cf1c395a72bc1b5">getOutputVoltageLimit</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">limit</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a9c7b059c12892b2e9cf1c395a72bc1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the output voltage limit for the FOC controller.  <br /></td></tr>
+<tr class="separator:a9c7b059c12892b2e9cf1c395a72bc1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ace444e7da9de12385b145fa0a40030" id="r_a1ace444e7da9de12385b145fa0a40030"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ace444e7da9de12385b145fa0a40030">setMaxTorqueCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">milliamps</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a1ace444e7da9de12385b145fa0a40030"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum allowed motor current (torque limit).  <br /></td></tr>
+<tr class="separator:a1ace444e7da9de12385b145fa0a40030"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e821c82a5750126304b466234e91578" id="r_a3e821c82a5750126304b466234e91578"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e821c82a5750126304b466234e91578">setMaxFluxCurrent</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> <a class="el" href="classtmc9660_1_1CommInterface.html">milliamps</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a3e821c82a5750126304b466234e91578"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the maximum allowed flux current for BLDC/stepper motors.  <br /></td></tr>
+<tr class="separator:a3e821c82a5750126304b466234e91578"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7da0526bd58acc41f00f6186bb7e55cc" id="r_a7da0526bd58acc41f00f6186bb7e55cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7da0526bd58acc41f00f6186bb7e55cc">setPWMSwitchingScheme</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeac">tmc9660::tmcl::PwmSwitchingScheme</a> <a class="el" href="classtmc9660_1_1CommInterface.html">scheme</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a7da0526bd58acc41f00f6186bb7e55cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the PWM switching scheme for the motor driver.  <br /></td></tr>
+<tr class="separator:a7da0526bd58acc41f00f6186bb7e55cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592f2e050708ef280b21a7337f20c6d2" id="r_a592f2e050708ef280b21a7337f20c6d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a592f2e050708ef280b21a7337f20c6d2">setIdleMotorPWMBehavior</a> (<a class="el" href="namespacetmc9660_1_1tmcl.html#af7e1fd1feddc59bbe6bef614cc311af3">tmc9660::tmcl::IdleMotorPwmBehavior</a> <a class="el" href="classtmc9660_1_1CommInterface.html">pwmOffWhenIdle</a>=tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a592f2e050708ef280b21a7337f20c6d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure PWM behavior when the motor is idle (System Off mode).  <br /></td></tr>
+<tr class="separator:a592f2e050708ef280b21a7337f20c6d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dcb76e556e601113e0b442f5d3aebdd" id="r_a5dcb76e556e601113e0b442f5d3aebdd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dcb76e556e601113e0b442f5d3aebdd">configureAuto</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">profile</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
+<tr class="memdesc:a5dcb76e556e601113e0b442f5d3aebdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-configure motor parameters based on high-level motor characteristics.  <br /></td></tr>
+<tr class="separator:a5dcb76e556e601113e0b442f5d3aebdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -212,8 +212,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3ab5182e3a8878a48efea5341800584a" name="a3ab5182e3a8878a48efea5341800584a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ab5182e3a8878a48efea5341800584a">&#9670;&#160;</a></span>configureAuto()</h2>
+<a id="a5dcb76e556e601113e0b442f5d3aebdd" name="a5dcb76e556e601113e0b442f5d3aebdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dcb76e556e601113e0b442f5d3aebdd">&#9670;&#160;</a></span>configureAuto()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -224,7 +224,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::configureAuto </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::configureAuto </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">const</a> <a class="el" href="structtmc9660_1_1TMC9660_1_1MotorConfig_1_1MotorProfile.html">MotorProfile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>profile</em></span></td><td>)</td>
           <td></td>
@@ -247,7 +247,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <li>Output voltage limit</li>
 <li>Commutation mode (if specified, applied last after all configuration is complete)</li>
 </ul>
-<dl class="section note"><dt>Note</dt><dd>Current sensing configuration (CSA gain, current scaling factor) should be configured separately using <a class="el" href="structtmc9660_1_1TMC9660_1_1CurrentSensing.html#a3ec97f64b584f45984c01fbb197d9b8e" title="Auto-configure current sensing based on shunt resistance and expected current.">CurrentSensing::configureAuto()</a>.</dd>
+<dl class="section note"><dt>Note</dt><dd>Current sensing configuration (CSA gain, current scaling factor) should be configured separately using <a class="el" href="structtmc9660_1_1TMC9660_1_1CurrentSensing.html#a4218cb9e3c0924c273c902e998c29691" title="Auto-configure current sensing based on shunt resistance and expected current.">CurrentSensing::configureAuto()</a>.</dd>
 <dd>
 The function sets commutation mode to SYSTEM_OFF first (required for motor type changes), then configures all parameters, and finally applies the requested commutation mode if specified in the profile.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -260,8 +260,8 @@ The function sets commutation mode to SYSTEM_OFF first (required for motor type 
 
 </div>
 </div>
-<a id="a821f4c3f8f74005dcbcd7e62c3c6755a" name="a821f4c3f8f74005dcbcd7e62c3c6755a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a821f4c3f8f74005dcbcd7e62c3c6755a">&#9670;&#160;</a></span>getOutputVoltageLimit()</h2>
+<a id="a9c7b059c12892b2e9cf1c395a72bc1b5" name="a9c7b059c12892b2e9cf1c395a72bc1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c7b059c12892b2e9cf1c395a72bc1b5">&#9670;&#160;</a></span>getOutputVoltageLimit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +272,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::getOutputVoltageLimit </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::getOutputVoltageLimit </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -296,8 +296,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a35cb9fcec859e314e4c5ef6558e1e524" name="a35cb9fcec859e314e4c5ef6558e1e524"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35cb9fcec859e314e4c5ef6558e1e524">&#9670;&#160;</a></span>setCommutationMode()</h2>
+<a id="af2eeb399684813ffd646a6bb508a6432" name="af2eeb399684813ffd646a6bb508a6432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2eeb399684813ffd646a6bb508a6432">&#9670;&#160;</a></span>setCommutationMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +308,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setCommutationMode </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setCommutationMode </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a3f8b426b1305a1c7b4e0b12cbc011665">tmc9660::tmcl::CommutationMode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span></td><td>)</td>
           <td></td>
@@ -344,8 +344,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="abeae1045faaa0e352de419a86220d07f" name="abeae1045faaa0e352de419a86220d07f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abeae1045faaa0e352de419a86220d07f">&#9670;&#160;</a></span>setDirection()</h2>
+<a id="ae603113643bb8a7f110ee7982d1c048c" name="ae603113643bb8a7f110ee7982d1c048c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae603113643bb8a7f110ee7982d1c048c">&#9670;&#160;</a></span>setDirection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,7 +356,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setDirection </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setDirection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a48efe0a04c5eb4a54a7cc13556b239e1">tmc9660::tmcl::MotorDirection</a></td>          <td class="paramname"><span class="paramname"><em>direction</em></span></td><td>)</td>
           <td></td>
@@ -380,8 +380,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a6d6d8135766726d95b4f9a134268d488" name="a6d6d8135766726d95b4f9a134268d488"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d6d8135766726d95b4f9a134268d488">&#9670;&#160;</a></span>setIdleMotorPWMBehavior()</h2>
+<a id="a592f2e050708ef280b21a7337f20c6d2" name="a592f2e050708ef280b21a7337f20c6d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592f2e050708ef280b21a7337f20c6d2">&#9670;&#160;</a></span>setIdleMotorPWMBehavior()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -392,7 +392,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setIdleMotorPWMBehavior </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setIdleMotorPWMBehavior </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#af7e1fd1feddc59bbe6bef614cc311af3">tmc9660::tmcl::IdleMotorPwmBehavior</a></td>          <td class="paramname"><span class="paramname"><em>pwmOffWhenIdle</em><span class="paramdefsep"> = </span><span class="paramdefval">tmc9660::tmcl::IdleMotorPwmBehavior::PWM_OFF_WHEN_MOTOR_IDLE</span></span></td><td>)</td>
           <td></td>
@@ -409,7 +409,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <p>Controls whether motor phases are driven or left floating (high-impedance) when commutation is disabled.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pwm_off_when_idle</td><td>True → high-Z / disconnected phases False → all phases driven equally (same PWM output) </td></tr>
+    <tr><td class="paramname">pwmOffWhenIdle</td><td>True → high-Z / disconnected phases False → all phases driven equally (same PWM output) </td></tr>
   </table>
   </dd>
 </dl>
@@ -527,8 +527,8 @@ Rule of Thumb</h3>
 
 </div>
 </div>
-<a id="ab679a116efe421c55dc5d7b6c2565364" name="ab679a116efe421c55dc5d7b6c2565364"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab679a116efe421c55dc5d7b6c2565364">&#9670;&#160;</a></span>setMaxFluxCurrent()</h2>
+<a id="a3e821c82a5750126304b466234e91578" name="a3e821c82a5750126304b466234e91578"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e821c82a5750126304b466234e91578">&#9670;&#160;</a></span>setMaxFluxCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -539,7 +539,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setMaxFluxCurrent </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setMaxFluxCurrent </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>milliamps</em></span></td><td>)</td>
           <td></td>
@@ -564,8 +564,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a8bc88166c3bc3df6cca1b551420547e0" name="a8bc88166c3bc3df6cca1b551420547e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bc88166c3bc3df6cca1b551420547e0">&#9670;&#160;</a></span>setMaxTorqueCurrent()</h2>
+<a id="a1ace444e7da9de12385b145fa0a40030" name="a1ace444e7da9de12385b145fa0a40030"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ace444e7da9de12385b145fa0a40030">&#9670;&#160;</a></span>setMaxTorqueCurrent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +576,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setMaxTorqueCurrent </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setMaxTorqueCurrent </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>milliamps</em></span></td><td>)</td>
           <td></td>
@@ -601,8 +601,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a1a916b124a7b976a9465be2adbf0c1db" name="a1a916b124a7b976a9465be2adbf0c1db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a916b124a7b976a9465be2adbf0c1db">&#9670;&#160;</a></span>setOutputVoltageLimit()</h2>
+<a id="a6ecc14021d49b70cbf635b4d608412f3" name="a6ecc14021d49b70cbf635b4d608412f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ecc14021d49b70cbf635b4d608412f3">&#9670;&#160;</a></span>setOutputVoltageLimit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -613,7 +613,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setOutputVoltageLimit </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setOutputVoltageLimit </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint16_t</a></td>          <td class="paramname"><span class="paramname"><em>limit</em></span></td><td>)</td>
           <td></td>
@@ -638,8 +638,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a578971ce72e561188930a154a2d79d1f" name="a578971ce72e561188930a154a2d79d1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a578971ce72e561188930a154a2d79d1f">&#9670;&#160;</a></span>setPWMFrequency()</h2>
+<a id="ae6b7d6632052cd6f3a55dc6bb17858d5" name="ae6b7d6632052cd6f3a55dc6bb17858d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6b7d6632052cd6f3a55dc6bb17858d5">&#9670;&#160;</a></span>setPWMFrequency()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -650,7 +650,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setPWMFrequency </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setPWMFrequency </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classtmc9660_1_1CommInterface.html">uint32_t</a></td>          <td class="paramname"><span class="paramname"><em>frequency_hz</em></span></td><td>)</td>
           <td></td>
@@ -674,8 +674,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="acb7a0cca54b2828a75754051efe248fa" name="acb7a0cca54b2828a75754051efe248fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb7a0cca54b2828a75754051efe248fa">&#9670;&#160;</a></span>setPWMSwitchingScheme()</h2>
+<a id="a7da0526bd58acc41f00f6186bb7e55cc" name="a7da0526bd58acc41f00f6186bb7e55cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7da0526bd58acc41f00f6186bb7e55cc">&#9670;&#160;</a></span>setPWMSwitchingScheme()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -686,7 +686,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setPWMSwitchingScheme </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setPWMSwitchingScheme </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#a6af7e8f037f953f7f5ffb31acc4edeac">tmc9660::tmcl::PwmSwitchingScheme</a></td>          <td class="paramname"><span class="paramname"><em>scheme</em></span></td><td>)</td>
           <td></td>
@@ -712,8 +712,8 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<a id="a7219f3d47bfb6881ff39ad2d4fc4d7fd" name="a7219f3d47bfb6881ff39ad2d4fc4d7fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7219f3d47bfb6881ff39ad2d4fc4d7fd">&#9670;&#160;</a></span>setType()</h2>
+<a id="abdaa36f29c5748f8a693894ca6d6c4ba" name="abdaa36f29c5748f8a693894ca6d6c4ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdaa36f29c5748f8a693894ca6d6c4ba">&#9670;&#160;</a></span>setType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -724,7 +724,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="classtmc9660_1_1TMC9660.html">tmc9660::TMC9660</a>&lt; <a class="el" href="classtmc9660_1_1CommInterface.html">CommType</a> &gt;::MotorConfig::setType </td>
+          <td class="memname"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> TMC9660::MotorConfig::setType </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacetmc9660_1_1tmcl.html#aca79bacc506c0e580e82d767c6be4ad5">tmc9660::tmcl::MotorType</a></td>          <td class="paramname"><span class="paramname"><em>type</em>, </span></td>
         </tr>
@@ -803,8 +803,9 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<hr/>The documentation for this struct was generated from the following files:<ul>
 <li><a class="el" href="tmc9660_8hpp_source.html">tmc9660.hpp</a></li>
+<li><a class="el" href="tmc9660_8ipp_source.html">tmc9660.ipp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

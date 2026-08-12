@@ -221,11 +221,11 @@ class tmc9660::CommInterface&lt; Derived &gt;</div><p>SPI status codes as per <a
 <div class="line">  <span class="keywordtype">bool</span> <a class="code hl_function" href="#af4bc9c5c9fb503a452300b96dc5585e8">gpioSet</a>(...) { ... }</div>
 <div class="line">  <span class="comment">// ... implement other required methods</span></div>
 <div class="line">};</div>
-<div class="ttc" id="aclasstmc9660_1_1CommInterface_html"><div class="ttname"><a href="classtmc9660_1_1CommInterface.html">tmc9660::CommInterface</a></div><div class="ttdoc">SPI status codes as per TMC9660 Parameter Mode.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:548</div></div>
-<div class="ttc" id="aclasstmc9660_1_1CommInterface_html_aee31a2d12cd45cb76e99f19b301eef3e"><div class="ttname"><a href="#aee31a2d12cd45cb76e99f19b301eef3e">tmc9660::CommInterface::mode</a></div><div class="ttdeci">CommMode mode() const noexcept</div><div class="ttdoc">Get the underlying communication mode used by this interface.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:570</div></div>
-<div class="ttc" id="aclasstmc9660_1_1CommInterface_html_af4bc9c5c9fb503a452300b96dc5585e8"><div class="ttname"><a href="#af4bc9c5c9fb503a452300b96dc5585e8">tmc9660::CommInterface::gpioSet</a></div><div class="ttdeci">bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept</div><div class="ttdoc">Set GPIO pin signal state (output control).</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:607</div></div>
-<div class="ttc" id="aclasstmc9660_1_1SpiCommInterface_html"><div class="ttname"><a href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface</a></div><div class="ttdoc">CRTP-based SPI implementation of TMC9660CommInterface.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:877</div></div>
-<div class="ttc" id="anamespacetmc9660_html_a8b383411946ce7705569a4708d8bac14"><div class="ttname"><a href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14">tmc9660::CommMode</a></div><div class="ttdeci">CommMode</div><div class="ttdoc">Supported physical communication modes for TMC9660.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:134</div></div>
+<div class="ttc" id="aclasstmc9660_1_1CommInterface_html"><div class="ttname"><a href="classtmc9660_1_1CommInterface.html">tmc9660::CommInterface</a></div><div class="ttdoc">SPI status codes as per TMC9660 Parameter Mode.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:552</div></div>
+<div class="ttc" id="aclasstmc9660_1_1CommInterface_html_aee31a2d12cd45cb76e99f19b301eef3e"><div class="ttname"><a href="#aee31a2d12cd45cb76e99f19b301eef3e">tmc9660::CommInterface::mode</a></div><div class="ttdeci">CommMode mode() const noexcept</div><div class="ttdoc">Get the underlying communication mode used by this interface.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:574</div></div>
+<div class="ttc" id="aclasstmc9660_1_1CommInterface_html_af4bc9c5c9fb503a452300b96dc5585e8"><div class="ttname"><a href="#af4bc9c5c9fb503a452300b96dc5585e8">tmc9660::CommInterface::gpioSet</a></div><div class="ttdeci">bool gpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept</div><div class="ttdoc">Set GPIO pin signal state (output control).</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:611</div></div>
+<div class="ttc" id="aclasstmc9660_1_1SpiCommInterface_html"><div class="ttname"><a href="classtmc9660_1_1SpiCommInterface.html">tmc9660::SpiCommInterface</a></div><div class="ttdoc">CRTP-based SPI implementation of TMC9660CommInterface.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:881</div></div>
+<div class="ttc" id="anamespacetmc9660_html_a8b383411946ce7705569a4708d8bac14"><div class="ttname"><a href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14">tmc9660::CommMode</a></div><div class="ttdeci">CommMode</div><div class="ttdoc">Supported physical communication modes for TMC9660.</div><div class="ttdef"><b>Definition</b> tmc9660_comm_interface.hpp:138</div></div>
 <div class="ttc" id="anamespacetmc9660_html_a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8"><div class="ttname"><a href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8">tmc9660::CommMode::SPI</a></div><div class="ttdeci">@ SPI</div><div class="ttdoc">SPI (Serial Peripheral Interface) mode - 4-wire synchronous communication.</div></div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -286,7 +286,7 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a62df32975d1a83698253b196f305f3f2_icgraph.svg" width="466" height="179"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a62df32975d1a83698253b196f305f3f2_icgraph.svg" width="466" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -434,7 +434,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_ab4078bf95d362bc604c6541a9b2dc347_icgraph.svg" width="656" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_ab4078bf95d362bc604c6541a9b2dc347_icgraph.svg" width="967" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -482,7 +482,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aebd04981482ccfbd8f0ad8aef63cd063_icgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aebd04981482ccfbd8f0ad8aef63cd063_icgraph.svg" width="484" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -692,7 +692,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a921eeab4184268bc64fbf747b8afedcc_icgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a921eeab4184268bc64fbf747b8afedcc_icgraph.svg" width="466" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -744,7 +744,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_af4bc9c5c9fb503a452300b96dc5585e8_icgraph.svg" width="435" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_af4bc9c5c9fb503a452300b96dc5585e8_icgraph.svg" width="708" height="166"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -787,6 +787,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a58ad01e7757b9af0fe3c929bc5d577c7_cgraph.svg" width="435" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a58ad01e7757b9af0fe3c929bc5d577c7_icgraph.svg" width="454" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 
 </div>
 </div>
@@ -827,6 +832,11 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aa226476b93f630568efdfe1d25afbb97_cgraph.svg" width="435" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aa226476b93f630568efdfe1d25afbb97_icgraph.svg" width="454" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -890,7 +900,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a19353276e3e4543d826a15cd6a714947_icgraph.svg" width="420" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a19353276e3e4543d826a15cd6a714947_icgraph.svg" width="731" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -931,7 +941,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aee31a2d12cd45cb76e99f19b301eef3e_icgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aee31a2d12cd45cb76e99f19b301eef3e_icgraph.svg" width="494" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1219,7 +1229,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a8a4f28c5ca1491ca429bf737b16f5053_icgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a8a4f28c5ca1491ca429bf737b16f5053_icgraph.svg" width="494" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>

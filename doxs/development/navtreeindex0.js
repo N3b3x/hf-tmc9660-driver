@@ -179,11 +179,6 @@ var NAVTREEINDEX0 =
 "bootloader__config_8hpp.html#a67f48d50516278dc20eda615f30130bbacb448e6c8d5ac37e65e53b4a0870b571":[14,0,1,0,0,46,4],
 "bootloader__config_8hpp.html#a67f48d50516278dc20eda615f30130bbad7bb574e4b13309394003eb975228e00":[14,0,1,0,0,46,2],
 "bootloader__config_8hpp.html#a67f48d50516278dc20eda615f30130bbaf3a87e7c46ff169f089d05141890e90a":[14,0,1,0,0,46,3],
-"bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496":[14,0,1,0,0,37],
-"bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496aa4ab6982e01b0554d528038974fc1cc3":[14,0,1,0,0,37,3],
-"bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496ab9f5c797ebbf55adccdd8539a65a0241":[14,0,1,0,0,37,0],
-"bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496aedc540e50f10c618159275a791847834":[14,0,1,0,0,37,1],
-"bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496af869fb390f575744d7e1a3845efec815":[14,0,1,0,0,37,2],
 "bootloader__config_8hpp.html#a79cdbef9a8be225ddb1f672074df2c59":[14,0,1,0,0,69],
 "bootloader__config_8hpp.html#a8e0d2058cbe9f36cfde085f29e47e28e":[14,0,1,0,0,59],
 "bootloader__config_8hpp.html#a95a8a03c5b0539b58d647d9c88f50d71":[14,0,1,0,0,66],
@@ -249,5 +244,10 @@ var NAVTREEINDEX0 =
 "bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77a266ad87bbcf56684b2a5a34a111a338f":[14,0,1,0,0,24,5],
 "bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77a2e859c6a66de39b23145070c5f20e36c":[14,0,1,0,0,24,4],
 "bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77a53d70e960733fb3d4da8030c354c1244":[14,0,1,0,0,24,1],
-"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77a653049e4fae8f106a35422954515c84b":[14,0,1,0,0,24,3]
+"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77a653049e4fae8f106a35422954515c84b":[14,0,1,0,0,24,3],
+"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77abd346ce96cc25c92024a8b2a5c401c18":[14,0,1,0,0,24,6],
+"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77acc1842280307f6f542db62ea161eaac7":[14,0,1,0,0,24,7],
+"bootloader__config_8hpp.html#acc006f70a14856afce87fd4c75373c77ad8da8c47935c7b92d0fcfb3449ee8563":[14,0,1,0,0,24,0],
+"bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72e":[14,0,1,0,0,38],
+"bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72ea2430fa04885fbebae605aac07beb3883":[14,0,1,0,0,38,3]
 };

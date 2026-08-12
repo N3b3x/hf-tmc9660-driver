@@ -127,11 +127,11 @@ var bootloader__config_8hpp =
       [ "Slope0_75ms", "bootloader__config_8hpp.html#a3d4479ec4e42a329e77d017500120671af2828188ab8dcc6c090a171f5cbdb37f", null ],
       [ "Slope0_37ms", "bootloader__config_8hpp.html#a3d4479ec4e42a329e77d017500120671a8835e58ba8dd4d7b98e9fe66a7781c79", null ]
     ] ],
-    [ "LDOVoltage", "bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496", [
-      [ "Disabled", "bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496ab9f5c797ebbf55adccdd8539a65a0241", null ],
-      [ "V2_5", "bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496aedc540e50f10c618159275a791847834", null ],
-      [ "V3_3", "bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496af869fb390f575744d7e1a3845efec815", null ],
-      [ "V5_0", "bootloader__config_8hpp.html#a6ffcd57a7508cb78984f0167caff7496aa4ab6982e01b0554d528038974fc1cc3", null ]
+    [ "LDOVoltage", "bootloader__config_8hpp.html#ga6ffcd57a7508cb78984f0167caff7496", [
+      [ "Disabled", "bootloader__config_8hpp.html#gga6ffcd57a7508cb78984f0167caff7496ab9f5c797ebbf55adccdd8539a65a0241", null ],
+      [ "V2_5", "bootloader__config_8hpp.html#gga6ffcd57a7508cb78984f0167caff7496aedc540e50f10c618159275a791847834", null ],
+      [ "V3_3", "bootloader__config_8hpp.html#gga6ffcd57a7508cb78984f0167caff7496af869fb390f575744d7e1a3845efec815", null ],
+      [ "V5_0", "bootloader__config_8hpp.html#gga6ffcd57a7508cb78984f0167caff7496aa4ab6982e01b0554d528038974fc1cc3", null ]
     ] ],
     [ "MechBrakeOutput", "bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72e", [
       [ "GPIO8", "bootloader__config_8hpp.html#ad4c22ebdaf811c052a10a2e19efbe72ea6bc233e193382342ec5347a2e3982053", null ],
