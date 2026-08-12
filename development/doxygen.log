@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.DtUIoS
-warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.DtUIoS' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1719, file /tmp/doxyfile.wHVF44
+warning: Tag 'DOT_TRANSPARENT' at line 2742 of file '/tmp/doxyfile.wHVF44' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:1780: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4824: warning: unbalanced grouping commands
@@ -16,9 +16,9 @@ Searching INPUT for files to process...
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/bootloader
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc
+Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/bootloader
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode
-Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/register_mode
 Searching for files in directory /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/examples/esp32/main
 Reading and parsing tag files
 Parsing files
@@ -1955,6 +1955,6 @@ Patching output file 596/599
 Patching output file 597/599
 Patching output file 598/599
 Patching output file 599/599
-type lookup cache used 7435/65536 hits=30981 misses=7790
-symbol lookup cache used 5484/65536 hits=21363 misses=5484
+type lookup cache used 7445/65536 hits=31033 misses=7800
+symbol lookup cache used 5491/65536 hits=21384 misses=5491
 finished...
