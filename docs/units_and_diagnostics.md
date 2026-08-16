@@ -172,7 +172,7 @@ auto rc = TMC9660<MyComm>::Ramp::buildRampConfig(
     /* max_acceleration */ 50.0,  AccelerationUnit::RpmPerSec,
     ctx);
 rc.enableRamp               = true;     // optional override
-rc.enableDirectVelocityMode = false;    // required for OPENLOOP_*_MODE
+rc.enableDirectVelocityMode = false;    // OPENLOOP: ramper drives φe (Hall FOC wants true)
 driver.ramp.configureAuto(rc);
 ```
 

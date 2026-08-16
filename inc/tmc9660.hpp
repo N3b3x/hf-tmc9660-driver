@@ -3538,8 +3538,21 @@ public:
     bool enableFeedForward(bool enable_vel_ff, bool enable_accel_ff, uint16_t accel_ff_gain,
                            tmc9660::tmcl::AccelerationFFShift accel_ff_shift) noexcept;
 
-    /** @brief Direct-velocity mode instead of classic PI velocity loop.
-     * @param enable True to enable direct velocity mode (DIRECT_VELOCITY_MODE)
+    /** @brief Select what the velocity PI tracks (param 53 DIRECT_VELOCITY_MODE).
+     *
+     * @details This does **not** disable the velocity PI. Measured polarity:
+     *          - `true`  (1, chip default): PI tracks `TARGET_VELOCITY` (124).
+     *            The chip ramp is bypassed; acceleration is bounded by
+     *            `MAX_TORQUE`. Use this for closed-loop Hall / encoder FOC.
+     *          - `false` (0): PI tracks `RAMP_VELOCITY` (69). In
+     *            `FOC_OPENLOOP_*` the ramper also generates φe — required
+     *            there so the field angle follows the ramp, not a sensor.
+     *
+     *          Writing 0 under `FOC_HALL_SENSOR` makes the PI close on ramp
+     *          following error (near zero while the shaft is hundreds of RPM
+     *          behind). Do not infer polarity from the parameter name.
+     *
+     * @param enable True → write 1 (direct / TARGET_VELOCITY).
      */
     bool setDirectVelocityMode(bool enable) noexcept;
 
@@ -3668,10 +3681,11 @@ public:
        */
       std::optional<bool> enableRamp; //!< Enable ramp generator (optional, default: false)
 
-      /** @brief Enable direct velocity mode (optional, default: true).
+      /** @brief DIRECT_VELOCITY_MODE (optional, default: true = 1).
        *
-       * When enabled, ramp directly controls velocity without PI loop.
-       * When disabled, ramp output feeds into velocity PI controller.
+       * `true`  (1): velocity PI tracks TARGET_VELOCITY — closed-loop FOC.
+       * `false` (0): velocity PI tracks RAMP_VELOCITY; open-loop φe comes
+       * from the ramper. Required `false` for FOC_OPENLOOP_*_MODE.
        */
       std::optional<bool>
           enableDirectVelocityMode; //!< Enable direct velocity mode (optional, default: true)

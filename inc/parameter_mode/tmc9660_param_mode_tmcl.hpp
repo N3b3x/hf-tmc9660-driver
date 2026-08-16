@@ -2795,7 +2795,7 @@ inline const char* to_string(CurrentPiNormalization norm) {
  *    50   | ACCELERATION_FF_GAIN          | Gain for acceleration feedforward. 0...65535. Default: 8. RWE
  *    51   | ACCELERATION_FF_SHIFT         | Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE
  *    52   | RAMP_ENABLE                   | Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE
- *    53   | DIRECT_VELOCITY_MODE          | Direct velocity control mode. 0: DISABLED, 1: ENABLED. Default: 1. RWE
+ *    53   | DIRECT_VELOCITY_MODE          | What the velocity PI tracks. 0: RAMP_VELOCITY (open-loop ramper / φe). 1: TARGET_VELOCITY (closed-loop FOC). Default: 1. RWE
  *    54   | RAMP_AMAX                     | Max acceleration (top part of ramp). 1...8388607. Default: 1000. RWE
  *    55   | RAMP_A1                       | First acceleration in ramp. 1...8388607. Default: 8000. RWE
  *    56   | RAMP_A2                       | Second acceleration in ramp. 1...8388607. Default: 4000. RWE
@@ -2836,7 +2836,7 @@ inline const char* to_string(CurrentPiNormalization norm) {
     X(ACCELERATION_FF_GAIN,                50, /*!< Gain for acceleration feedforward. 0...65535. Default: 8. RWE */) \
     X(ACCELERATION_FF_SHIFT,               51, /*!< Shift for acceleration feedforward. See AccelerationFfShift. Default: 4. RWE */) \
     X(RAMP_ENABLE,                         52, /*!< Enable acceleration/deceleration ramps. 0: DISABLED, 1: ENABLED. Default: 0. RWE */) \
-    X(DIRECT_VELOCITY_MODE,                53, /*!< Direct velocity control mode. 0: DISABLED, 1: ENABLED. Default: 1. RWE */) \
+    X(DIRECT_VELOCITY_MODE,                53, /*!< 0: PI tracks RAMP_VELOCITY (open-loop ramper). 1: PI tracks TARGET_VELOCITY (closed-loop FOC). Default: 1. RWE */) \
     X(RAMP_AMAX,                           54, /*!< Max acceleration (top part of ramp). 1...8388607. Default: 1000. RWE */) \
     X(RAMP_A1,                             55, /*!< First acceleration in ramp. 1...8388607. Default: 8000. RWE */) \
     X(RAMP_A2,                             56, /*!< Second acceleration in ramp. 1...8388607. Default: 4000. RWE */) \

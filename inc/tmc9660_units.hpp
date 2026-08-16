@@ -173,6 +173,11 @@ struct MotorContext {
     }
 
     /// Internal velocity units per mechanical RPM (`k_RPM` in the datasheet).
+    ///
+    /// This is the chip *meter* scale, not always true shaft speed. Three
+    /// digital Halls that double-fire one edge per electrical revolution make
+    /// the period meter read high by 7/6; `ACTUAL_POSITION` stays exact.
+    /// Product firmware applies `hall_velocity_meter_scale` on top of this.
     /// Returns 0 for sensor selections lacking a derivable CPR.
     [[nodiscard]] double k_rpm() const noexcept {
         return static_cast<double>(cpr()) * detail::kVelScalePerCpr;
