@@ -143,7 +143,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab266c88de3149a946076dbc62ece10f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable hardware feed-forward terms and set gain/shift.  <br /></td></tr>
 <tr class="separator:ab266c88de3149a946076dbc62ece10f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4d91c7d668622776561bd065da8a585" id="r_aa4d91c7d668622776561bd065da8a585"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4d91c7d668622776561bd065da8a585">setDirectVelocityMode</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">bool</a> <a class="el" href="#a41c4f83f507355b1e4ffe5db9f07dfd2">enable</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
-<tr class="memdesc:aa4d91c7d668622776561bd065da8a585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direct-velocity mode instead of classic PI velocity loop.  <br /></td></tr>
+<tr class="memdesc:aa4d91c7d668622776561bd065da8a585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select what the velocity PI tracks (param 53 DIRECT_VELOCITY_MODE).  <br /></td></tr>
 <tr class="separator:aa4d91c7d668622776561bd065da8a585"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bf551452bf0dd331b49243f1bf05160" id="r_a7bf551452bf0dd331b49243f1bf05160"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classtmc9660_1_1CommInterface.html">bool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bf551452bf0dd331b49243f1bf05160">getRampVelocity</a> (<a class="el" href="classtmc9660_1_1CommInterface.html">int32_t</a> &amp;<a class="el" href="classtmc9660_1_1CommInterface.html">velocity</a>) <a class="el" href="classtmc9660_1_1CommInterface.html">noexcept</a></td></tr>
 <tr class="memdesc:a7bf551452bf0dd331b49243f1bf05160"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current target velocity calculated by the ramp controller.  <br /></td></tr>
@@ -597,10 +597,15 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </table>
 </div><div class="memdoc">
 
-<p>Direct-velocity mode instead of classic PI velocity loop. </p>
+<p>Select what the velocity PI tracks (param 53 DIRECT_VELOCITY_MODE). </p>
+<p>This does <b>not</b> disable the velocity PI. Measured polarity:</p><ul>
+<li><code>true</code> (1, chip default): PI tracks <code>TARGET_VELOCITY</code> (124). The chip ramp is bypassed; acceleration is bounded by <code>MAX_TORQUE</code>. Use this for closed-loop Hall / encoder FOC.</li>
+<li><code>false</code> (0): PI tracks <code>RAMP_VELOCITY</code> (69). In <code>FOC_OPENLOOP_*</code> the ramper also generates φe — required there so the field angle follows the ramp, not a sensor.</li>
+</ul>
+<p>Writing 0 under <code>FOC_HALL_SENSOR</code> makes the PI close on ramp following error (near zero while the shaft is hundreds of RPM behind). Do not infer polarity from the parameter name.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">enable</td><td>True to enable direct velocity mode (DIRECT_VELOCITY_MODE) </td></tr>
+    <tr><td class="paramname">enable</td><td>True → write 1 (direct / TARGET_VELOCITY). </td></tr>
   </table>
   </dd>
 </dl>
