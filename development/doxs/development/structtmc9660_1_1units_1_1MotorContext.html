@@ -187,7 +187,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Internal velocity units per mechanical RPM (<code>k_RPM</code> in the datasheet). Returns 0 for sensor selections lacking a derivable CPR. </p>
+<p>Internal velocity units per mechanical RPM (<code>k_RPM</code> in the datasheet).</p>
+<p>This is the chip <em>meter</em> scale, not always true shaft speed. Three digital Halls that double-fire one edge per electrical revolution make the period meter read high by 7/6; <code>ACTUAL_POSITION</code> stays exact. Product firmware applies <code>hall_velocity_meter_scale</code> on top of this. Returns 0 for sensor selections lacking a derivable CPR. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">

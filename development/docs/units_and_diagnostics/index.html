@@ -599,7 +599,7 @@ profile from engineering units; pass the result to <code class="language-plainte
     <span class="cm">/* max_acceleration */</span> <span class="mf">50.0</span><span class="p">,</span>  <span class="n">AccelerationUnit</span><span class="o">::</span><span class="n">RpmPerSec</span><span class="p">,</span>
     <span class="n">ctx</span><span class="p">);</span>
 <span class="n">rc</span><span class="p">.</span><span class="n">enableRamp</span>               <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>     <span class="c1">// optional override</span>
-<span class="n">rc</span><span class="p">.</span><span class="n">enableDirectVelocityMode</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    <span class="c1">// required for OPENLOOP_*_MODE</span>
+<span class="n">rc</span><span class="p">.</span><span class="n">enableDirectVelocityMode</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>    <span class="c1">// OPENLOOP: ramper drives φe (Hall FOC wants true)</span>
 <span class="n">driver</span><span class="p">.</span><span class="n">ramp</span><span class="p">.</span><span class="n">configureAuto</span><span class="p">(</span><span class="n">rc</span><span class="p">);</span>
 </pre></td></tr></tbody></table></div></code></pre></div></div>
 
