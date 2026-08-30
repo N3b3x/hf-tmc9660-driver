@@ -260,11 +260,6 @@ Public Attributes</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>false if NOT_READY or CHECKSUM_ERROR or invalid status; true otherwise. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMCLFrame_a29047b0896f1ae81df65e456f9ebb33e_cgraph.svg" width="615" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -310,11 +305,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if address and checksum match. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMCLFrame_a35caac4f744db2f8cff9c761a562823c_cgraph.svg" width="615" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -349,11 +339,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Bytes 1–2 use the <b>same 12-bit TYPE + 4-bit MOTOR nibble packing</b> as UART bytes 2–3 (<code>TMC9660.c::sendRequestUART</code> / <code>toUart</code>): <code>type[11:8]</code> in the <b>high</b> nibble of the third frame byte, <code>motor[3:0]</code> in the <b>low</b> nibble. A legacy implementation swapped those nibbles for SPI only; that made every axis GAP/SAP with NR ≥ 256 return <code>REPLY_WRONG_TYPE</code> on SPI while UART succeeded (bench: 72 extra SPI failures in the Table 57 sweep for <code>motor == 0</code>). </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMCLFrame_ac574431ff81107610e2c2a59c55627e7_cgraph.svg" width="407" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -392,11 +377,6 @@ Here is the call graph for this function:</div>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1TMCLFrame_ac3b084c1b9e7dbbd9636c9174783daea_cgraph.svg" width="407" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>

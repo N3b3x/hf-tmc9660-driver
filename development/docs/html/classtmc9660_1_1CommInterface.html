@@ -110,8 +110,17 @@ $(function(){initNavTree('classtmc9660_1_1CommInterface.html',''); initResizable
 <div class="dynheader">
 Inheritance diagram for tmc9660::CommInterface&lt; Derived &gt;:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface__inherit__graph.svg" width="684" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
+ <div class="center">
+  <img src="classtmc9660_1_1CommInterface.png" usemap="#tmc9660::CommInterface_3C_20Derived_20_3E_map" alt=""/>
+  <map id="tmc9660::CommInterface_3C_20Derived_20_3E_map" name="tmc9660::CommInterface_3C_20Derived_20_3E_map">
+<area href="classtmc9660_1_1SpiCommInterface.html" alt="tmc9660::SpiCommInterface&lt; Esp32Tmc9660SpiBus &gt;" shape="rect" coords="0,56,326,80"/>
+<area href="classtmc9660_1_1UartCommInterface.html" alt="tmc9660::UartCommInterface&lt; Esp32Tmc9660UartBus &gt;" shape="rect" coords="336,56,662,80"/>
+<area href="classtmc9660_1_1SpiCommInterface.html" title="CRTP-based SPI implementation of TMC9660CommInterface." alt="tmc9660::SpiCommInterface&lt; Derived &gt;" shape="rect" coords="672,56,998,80"/>
+<area href="classtmc9660_1_1UartCommInterface.html" title="CRTP-based UART implementation of TMC9660CommInterface." alt="tmc9660::UartCommInterface&lt; Derived &gt;" shape="rect" coords="1008,56,1334,80"/>
+<area href="classEsp32Tmc9660SpiBus.html" title="ESP32 SPI implementation of TMC9660CommInterface." alt="Esp32Tmc9660SpiBus" shape="rect" coords="0,112,326,136"/>
+<area href="classEsp32Tmc9660UartBus.html" title="ESP32 UART implementation of TMC9660CommInterface." alt="Esp32Tmc9660UartBus" shape="rect" coords="336,112,662,136"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -283,11 +292,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a62df32975d1a83698253b196f305f3f2_icgraph.svg" width="466" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -426,16 +430,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </table>
   </dd>
 </dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_ab4078bf95d362bc604c6541a9b2dc347_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_ab4078bf95d362bc604c6541a9b2dc347_icgraph.svg" width="967" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -474,16 +468,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <dl class="section note"><dt>Note</dt><dd>This function should be implemented by the user to provide platform-specific delay </dd>
 <dd>
 Used by bootloader operations that require timing (e.g., VDRV voltage drop wait) </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aebd04981482ccfbd8f0ad8aef63cd063_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aebd04981482ccfbd8f0ad8aef63cd063_icgraph.svg" width="484" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -526,16 +510,6 @@ Used for fine-grained retry timing in SPI communication </dd>
 Default implementation converts to milliseconds (may lose precision for &lt; 1ms) </dd>
 <dd>
 Platform implementations should provide accurate microsecond delays when possible </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a9f128d65e0a2f25b7100781376a56e95_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a9f128d65e0a2f25b7100781376a56e95_icgraph.svg" width="455" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -637,11 +611,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Signal state (ACTIVE or INACTIVE) </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a266532d1fd3ce59fedd9ba725983d303_icgraph.svg" width="420" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -684,16 +653,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was read successfully, false otherwise </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a921eeab4184268bc64fbf747b8afedcc_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a921eeab4184268bc64fbf747b8afedcc_icgraph.svg" width="466" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -736,16 +695,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was set successfully, false otherwise </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_af4bc9c5c9fb503a452300b96dc5585e8_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_af4bc9c5c9fb503a452300b96dc5585e8_icgraph.svg" width="708" height="166"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -782,16 +731,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was set successfully, false otherwise </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a58ad01e7757b9af0fe3c929bc5d577c7_cgraph.svg" width="435" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a58ad01e7757b9af0fe3c929bc5d577c7_icgraph.svg" width="454" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -828,16 +767,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the GPIO was set successfully, false otherwise </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aa226476b93f630568efdfe1d25afbb97_cgraph.svg" width="435" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aa226476b93f630568efdfe1d25afbb97_icgraph.svg" width="454" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -892,16 +821,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When TMC9660_DISABLE_DEBUG_LOGGING is defined, this function becomes a no-op and all logging code is optimized out at compile time. </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a19353276e3e4543d826a15cd6a714947_cgraph.svg" width="435" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a19353276e3e4543d826a15cd6a714947_icgraph.svg" width="731" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -933,16 +852,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 <p>Get the underlying communication mode used by this interface. </p>
 <p>Returns whether this interface uses SPI or UART for communication. This information is useful for protocol-specific optimizations or debugging purposes.</p>
 <dl class="section return"><dt>Returns</dt><dd>Communication mode (<a class="el" href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14a33dc5312b091968f5a120c2484d40df8" title="SPI (Serial Peripheral Interface) mode - 4-wire synchronous communication.">CommMode::SPI</a> or <a class="el" href="namespacetmc9660.html#a8b383411946ce7705569a4708d8bac14acec5769b01fb096efaf0d6186823c78f">CommMode::UART</a>) </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aee31a2d12cd45cb76e99f19b301eef3e_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_aee31a2d12cd45cb76e99f19b301eef3e_icgraph.svg" width="494" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -1154,11 +1063,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Physical GPIO level (true=HIGH, false=LOW) </dd></dl>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a21441dc2cf2945b0450bb7988ffd3284_icgraph.svg" width="420" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -1221,16 +1125,6 @@ template&lt;<a class="el" href="classtmc9660_1_1CommInterface.html">typename</a>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if transfer succeeded </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This is for TMCL parameter mode communication (8-byte SPI, 9-byte UART) </dd></dl>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a8a4f28c5ca1491ca429bf737b16f5053_cgraph.svg" width="199" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classtmc9660_1_1CommInterface_a8a4f28c5ca1491ca429bf737b16f5053_icgraph.svg" width="494" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>

@@ -157,11 +157,6 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Effective counts-per-mechanical-revolution used by the chip's velocity scaling. Returns 0 if the sensor selection is one we cannot derive a CPR for here (caller should treat unit conversions involving velocity as undefined and fall back to internal units). </p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1units_1_1MotorContext_a61b5973a3bfda2e3b1bc14d8d963f07b_icgraph.svg" width="519" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -189,11 +184,6 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 <p>Internal velocity units per mechanical RPM (<code>k_RPM</code> in the datasheet).</p>
 <p>This is the chip <em>meter</em> scale, not always true shaft speed. Three digital Halls that double-fire one edge per electrical revolution make the period meter read high by 7/6; <code>ACTUAL_POSITION</code> stays exact. Product firmware applies <code>hall_velocity_meter_scale</code> on top of this. Returns 0 for sensor selections lacking a derivable CPR. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1units_1_1MotorContext_a3dbdbce86f9f320e4083c09ea1f1b292_cgraph.svg" width="519" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
@@ -221,11 +211,6 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>True when the context can produce meaningful unit conversions. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structtmc9660_1_1units_1_1MotorContext_a8349cd5f34c2791c03edfece864d546a_cgraph.svg" width="519" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 
 </div>
 </div>
