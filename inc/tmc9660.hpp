@@ -135,6 +135,8 @@ public:
    * UART, etc).
    * @param address (Optional) Module address if multiple TMC9660 devices are on
    * one bus. For SPI, this is typically 0.
+   * @param bootCfg Optional bootloader configuration; nullptr skips bootloaderInit
+   * until the caller invokes it.
    */
   TMC9660(CommType& comm, uint8_t address = 0,
           const tmc9660::BootloaderConfig* bootCfg = nullptr) noexcept;
@@ -195,9 +197,29 @@ public:
   // @{
   //============================================================================
 
+  /**
+   * @brief Drive a host-side control pin.
+   * @param pin RST / DRV_EN / FAULTN / WAKE.
+   * @param signal Active or inactive level for that pin.
+   * @return true if the CRTP GPIO hook accepted the write.
+   */
   [[nodiscard]] bool GpioSet(TMC9660CtrlPin pin, GpioSignal signal) noexcept;
+  /**
+   * @brief Read a host-side control pin.
+   * @param pin RST / DRV_EN / FAULTN / WAKE.
+   * @param[out] signal Filled on success.
+   * @return true if the CRTP GPIO hook accepted the read.
+   */
   [[nodiscard]] bool GpioRead(TMC9660CtrlPin pin, GpioSignal& signal) noexcept;
+  /**
+   * @brief Drive @p pin to its active level.
+   * @param pin RST / DRV_EN / FAULTN / WAKE.
+   */
   [[nodiscard]] bool GpioSetActive(TMC9660CtrlPin pin) noexcept;
+  /**
+   * @brief Drive @p pin to its inactive level.
+   * @param pin RST / DRV_EN / FAULTN / WAKE.
+   */
   [[nodiscard]] bool GpioSetInactive(TMC9660CtrlPin pin) noexcept;
 
   // @}
