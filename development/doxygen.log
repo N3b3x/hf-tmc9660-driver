@@ -1,5 +1,5 @@
-warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1718, file /tmp/doxyfile.mMcP7U
-warning: Tag 'DOT_TRANSPARENT' at line 2741 of file '/tmp/doxyfile.mMcP7U' has become obsolete.
+warning: ignoring unsupported tag 'PAGE_OUTLINE_PANEL' at line 1718, file /tmp/doxyfile.03FEyY
+warning: Tag 'DOT_TRANSPARENT' at line 2741 of file '/tmp/doxyfile.03FEyY' has become obsolete.
          To avoid this warning please remove this line from your configuration file or upgrade it using "doxygen -u"
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4715: warning: unbalanced grouping commands
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/inc/parameter_mode/tmc9660_param_mode_tmcl.hpp:4774: warning: unbalanced grouping commands
@@ -230,6 +230,7 @@ Generating docs for compound tmc9660::GPIOConfig...
 Generating docs for compound tmc9660::HallConfig...
 Genera/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:22: warning: argument 'comm' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:22: warning: argument 'address' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
+/home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:22: warning: argument 'bootCfg' from the argument list of tmc9660::TMC9660::TMC9660 has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:83: warning: argument 'cfg' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:83: warning: argument 'perform_reset' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
 /home/runner/work/hf-tmc9660-driver/hf-tmc9660-driver/src/tmc9660.ipp:83: warning: argument 'retrieve_bootloader_info' from the argument list of tmc9660::TMC9660::bootloaderInit has multiple @param documentation sections
